@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="35.0dip"
+	    android:layout_gravity="center"
+	    android:orientation="horizontal" 
+	    android:background="@android:color/background_dark">
+	    <FrameLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:orientation="horizontal" >
+		    <TextView android:id="@+id/back_title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:text="@string/back"
+		        android:textSize="20.0sp"/>
+		 </FrameLayout>
+	    <TextView android:id="@+id/more_tap_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:layout_gravity="center"
+	        android:text="@string/more"
+	        android:textSize="25.0sp"
+	        android:textColor="@color/white"/>
+    </RelativeLayout>
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+	    <TableRow android:paddingLeft="10.0dip" android:paddingTop="20.0dip">
+	        <TextView android:id="@+id/more_open_city"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textSize="20.0sp"
+	            android:text="@string/more_open_city"/>
+	        <TextView android:id="@+id/open_city_choose"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textSize="20.0sp"
+	            android:visibility="gone"/>
+	    </TableRow>
+	    <TableRow android:padding="10.0dip">
+	        <TextView android:id="@+id/more_open_city"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textSize="20.0sp"
+	            android:text="@string/more_browser_history"/>      
+	    </TableRow>
+	    <TableRow android:padding="10.0dip">
+	        <TextView android:id="@+id/more_open_city"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textSize="20.0sp"
+	            android:text="@string/more_feedback"/>	      
+	    </TableRow>
+	    <TableRow android:padding="10.0dip">
+	        <TextView android:id="@+id/more_open_city"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textSize="20.0sp"
+	            android:text="@string/more_update_version"/>	      
+	    </TableRow>
+	    <TableRow android:padding="10.0dip">
+	        <TextView android:id="@+id/more_open_city"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textSize="20.0sp"
+	            android:text="@string/more_about_damuzhi"/>     
+	    </TableRow>
+	   <TableRow android:padding="10.0dip">
+	        <TextView android:id="@+id/more_open_city"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textSize="20.0sp"
+	            android:text="@string/more_positive_criticism"/>	      
+	    </TableRow>
+	    <TableRow android:padding="10.0dip">
+	        <TextView android:id="@+id/more_open_city"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textSize="20.0sp"
+	            android:text="@string/more_show_image"/>     
+	    </TableRow>
+	    <TableRow android:padding="10.0dip">
+	        <TextView android:id="@+id/more_open_city"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:textSize="20.0sp"
+	            android:text="@string/more_good_commend"/>      
+	    </TableRow>
+	</TableLayout>
+</LinearLayout>

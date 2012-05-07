@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello World, DaMuZhiActivity!</string>
+    <string name="app_name">大拇指旅行</string>
+	<string name="damuzhi">大拇指旅行</string>
+	<string name="scenery">景点</string>
+	<string name="hotel">酒店</string>
+	<string name="restaurant">餐馆</string>
+	<string name="shopping">购物</string>
+	<string name="fun">娱乐</string>
+	<string name="round">附近</string>
+	<string name="city_about">城市概况</string>
+	<string name="travel_ready">旅行准备</string>
+	<string name="useful_info">实用信息</string>
+	<string name="city_traffic">城市交通</string>
+	<string name="travel_note">游记攻略</string>
+	<string name="travel_commend">线路推荐</string>
+	<string name="help">帮助</string>
+	<string name="collection">收藏</string>
+	<string name="share">分享</string>
+	<string name="more">更多</string>
+	<string name="back">返回</string>
+	<string name="more_open_city">已开通服务城市</string>
+	<string name="more_browser_history">浏览记录</string>
+	<string name="more_feedback">意见反馈</string>
+	<string name="more_update_version">版本更新</string>
+	<string name="more_about_damuzhi">关于大拇指旅行</string>
+	<string name="more_positive_criticism">给我们一个好评吧</string>
+	<string name="more_show_image">列表中显示图片</string>
+	<string name="more_good_commend">精彩应用推荐</string>
+	<string name="open_city_tips1">提前下载离线城市数据，可以节省流量和提高打开速度</string>
+	<string name="open_city_tips2">更多城市指南即将开通</string>
+	<string name="success">下载完成</string>
+    <string name="error">下载失败</string>
+    <string name="sdcarderror">SDCard不存在或者写保护</string>
+    <string name="download">下载</string>
+    <string name="download_pause">暂停</string>
+    <string name="review_online">在线导览</string>
+    <!-- exception -->
+    <string name="main_fetch_fail">网络异常</string>
+	<string name="NoSignalException">无法连接到网络，请检查网络配置</string>
+	<string name="apn_is_wrong1_exit">退出</string>
+	<string name="apn_is_wrong1_setnet">网络设置</string>
+    <!-- placeListView -->
+    <string name="scenery_title">景点(0)</string>
+    <string name="sort">分类</string>
+    <string name="compositor">排序</string>
+    
+    <!-- placeInfo-->
+    <string name="sceneryIntro">景点介绍</string>
+    <string name="ticketsPrice">门票价格</string>
+    <string name="openingHour">开放时间</string>
+    <string name="trafficInfo">交通信息</string>
+    <string name="tourTips">游览贴士</string>
+    <string name="phoneNum">电话:</string>
+    <string name="website">网站:</string>
+    <string name="address">地址:</string>
+    <string name="refresh">刷新</string>
+    <string name="feedback">反馈</string>
+    <string name="about">关于</string>
+    <string name="exit">退出</string>
+    <string name="cancel">取消</string>
+    <string name="leave_alert_dilaog">退出大拇指旅行</string>
+    	<!-- 拖拽 -->
+	 <string name="pull_to_refresh_pull_label">下拉可以刷新...</string>
+    <string name="pull_to_refresh_release_label">松手可以刷新...</string>
+    <string name="pull_to_refresh_refreshing_label">刷新中...</string>
+    <string name="pull_to_refresh_tap_label">Tap to refresh...</string>
+</resources>

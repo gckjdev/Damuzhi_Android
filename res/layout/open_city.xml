@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/city_data_group"
+    android:orientation="vertical" >
+	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="35.0dip"
+	    android:layout_gravity="center"
+	    android:orientation="horizontal" 
+	    android:background="@android:color/darker_gray">
+	    <FrameLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_centerVertical="true"
+	        android:orientation="horizontal" >
+		    <ImageButton
+		        android:id="@+id/back_button"
+		        android:layout_width="68dp"
+		        android:layout_height="match_parent"
+		        android:background="@null"
+		        android:scaleType="fitCenter"
+		        android:src="@drawable/back_button" />
+		    <TextView android:id="@+id/back_title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:text="@string/back"
+		        android:textSize="20.0sp"/>
+		 </FrameLayout>
+	    <TextView android:id="@+id/more_tap_title"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:layout_gravity="center"
+	        android:text="@string/more"
+	        android:textSize="25.0sp"
+	        android:textColor="@color/white"/>
+    </RelativeLayout>
+   <TextView android:id="@+id/open_city_tips_download"
+       		 android:layout_width="fill_parent"
+       		 android:layout_height="wrap_content"
+       		 android:gravity="center"
+       		 android:singleLine="true"
+       		 android:textSize="15.0sp"
+       		 android:text="@string/open_city_tips1"/>
+   
+   <ListView android:id="@+id/open_city_download_data"
+       		 android:layout_width="fill_parent"
+       		 android:layout_height="wrap_content"
+       		 android:focusable="true"
+       		 android:scrollbars="none" >
+   </ListView> 
+   <TextView android:id="@+id/open_city_tips_update"
+       		 android:layout_width="fill_parent"
+       		 android:layout_height="wrap_content"
+       		 android:gravity="center"
+       		 android:textSize="15.0sp"
+       		 android:text="@string/open_city_tips2"/>
+</LinearLayout>
