@@ -45,18 +45,18 @@ public class PlaceMap extends MapActivity
 		// TODO Auto-generated method stub
 		super.onCreate(icicle);
 		setContentView(R.layout.map);
+		MainService.allActivity.add(this);
 		application = (TravelApplication) this.getApplication();		
 		mapView = (MapView) findViewById(R.id.placeMap);
 		mapView.setBuiltInZoomControls(true);
 		mapc = mapView.getController();
-		mapView.setOnTouchListener(onTouchListener);
 		Drawable marker = getResources().getDrawable(R.drawable.pin_jd);
 		//marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
 		places = application.getPlaceData(); 
 		PlaceLoaction placeLoaction = new PlaceLoaction( marker, places);
 		mapView.getOverlays().add(placeLoaction);
 		mapc.setCenter(placeLoaction.getCenter());
-		mapc.setZoom(10);
+		mapc.setZoom(13);
 		
 		popupView = LayoutInflater.from(this).inflate(R.layout.overlay_popup, null);
 		mapView.addView(popupView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.BOTTOM_CENTER));
@@ -79,21 +79,6 @@ public class PlaceMap extends MapActivity
 		return super.isLocationDisplayed();
 	}
 
-	private OnTouchListener onTouchListener = new OnTouchListener()
-	{
-		
-		@Override
-		public boolean onTouch(View v, MotionEvent event)
-		{if (event.getAction() == MotionEvent.ACTION_DOWN){
-
-            if(event.getEventTime()-lasttime<2000){
-                mapc.zoomInFixing((int)event.getX(),(int)event.getY());             
-            }
-        }       
-        lasttime=event.getEventTime();
-        return true;
-		}
-	};
 	
 	class PlaceLoaction extends ItemizedOverlay
 	{

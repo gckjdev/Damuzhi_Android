@@ -62,11 +62,7 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 	private static final int LOADING = 0;
 	private static final int LOAD_OK = 1;
 	private static final int SHOE_IMAGE = 3;
-	private int start_index =0;
-	private int end_index =0;
 	private SceneryAdapter adapter;
-	private Anseylodar anseylodar = new Anseylodar();
-	private ArrayList<ImageView> imageViewList = new ArrayList<ImageView>();;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -109,7 +105,7 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 				long arg3)
 		{
 			// TODO Auto-generated method stub
-			Place place = sceneryList.get(arg2);
+			Place place = sceneryList.get(arg2-1);
 			application.setPlace(place);
 			Intent intent = new Intent(SceneryActivity.this, SceneryDetailActivity.class);
 			startActivity(intent);

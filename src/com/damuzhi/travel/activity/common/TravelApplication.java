@@ -18,6 +18,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.protos.AppProtos.CityArea;
@@ -26,6 +27,7 @@ import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.AppProtos.PlaceMeta;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
+import com.damuzhi.travel.util.GetLocation;
 
 import android.R.integer;
 import android.app.Application;
@@ -68,6 +70,14 @@ public class TravelApplication extends Application
 		// TODO Auto-generated method stub
 		super.onCreate();
 		defaultHttpClient = createHttpClient();
+		GetLocation getLocation = new GetLocation(this);
+		location = getLocation.getLocationByGps();
+		if(location == null)
+		{
+			location = getLocation.getLocationByTower();
+		}
+		Log.d(TAG, "latitude = "+location.get(ConstantField.LATITUDE));
+		Log.d(TAG, "longitude = "+location.get(ConstantField.LONGITUDE));
 	}
 	
 	@Override
@@ -260,11 +270,6 @@ public class TravelApplication extends Application
 	public HashMap<String, Double> getLocation()
 	{
 		return location;
-	}
-
-	public void setLocation(HashMap<String, Double> location)
-	{
-		this.location = location;
 	}
 
 	public Place getPlace()

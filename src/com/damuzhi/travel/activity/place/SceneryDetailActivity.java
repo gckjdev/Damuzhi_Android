@@ -26,6 +26,7 @@ import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.service.MainService;
 
 public class SceneryDetailActivity extends MenuActivity
 {
@@ -55,6 +56,7 @@ public class SceneryDetailActivity extends MenuActivity
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		init();
+		MainService.allActivity.add(this);
 	}
 
 	private void init()
@@ -195,20 +197,21 @@ public class SceneryDetailActivity extends MenuActivity
 		}
 	};
 	
-	
+	/*
 	 @Override
 		public boolean onKeyDown(int keyCode, KeyEvent event)
 		{
 			if (  keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
 				 Intent intent = new Intent(this, SceneryActivity.class);
+				 //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				 startActivity(intent);
-		        return true;
+		         return true;
 		    }
 			else
 			{
 				  return super.onKeyDown(keyCode, event);	
 			}
 		  
-		}
+		}*/
 	
 }

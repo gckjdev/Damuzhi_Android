@@ -38,7 +38,7 @@
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
         </activity>  
-        <activity android:name=".activity.place.SceneryDetailActivity" android:screenOrientation="portrait">
+        <activity android:name=".activity.place.SceneryDetailActivity" android:screenOrientation="portrait" >
              <intent-filter >
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />

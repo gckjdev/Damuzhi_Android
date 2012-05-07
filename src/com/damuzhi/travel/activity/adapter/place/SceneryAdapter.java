@@ -69,6 +69,7 @@ public class SceneryAdapter extends BaseAdapter
 		this.dataFlag = dataFlag;
 		anseylodar = new Anseylodar();
 		inflater = LayoutInflater.from(context);
+
 	}
 
 	@Override
@@ -124,7 +125,6 @@ public class SceneryAdapter extends BaseAdapter
 		}else {
 			viewCache = (ViewCache) convertView.getTag();
 		}
-		
 		NameIdPair subCatName= subCatMap.get(place.getSubCategoryId());		
 		TextView sceneryName = viewCache.getSceneryName();
 		TextView sceneryPrice = viewCache.getSceneryPrice();

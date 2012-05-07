@@ -25,13 +25,16 @@ import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.constant.ConstantField;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.telephony.cdma.CdmaCellLocation;
 import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
+import android.widget.Toast;
 
 
 public class GetLocation
@@ -199,6 +202,8 @@ public class GetLocation
 		Double longitude = (Double) data.get("longitude");
 		location.put(ConstantField.LATITUDE, latitude);
 		location.put(ConstantField.LONGITUDE, longitude);
+		Log.d(TAG, " tower latitude = "+latitude);
+		Log.d(TAG, " tower longitude = "+longitude);
 		return location;
 	} catch (JSONException e) {
 	return null;
@@ -213,28 +218,42 @@ public class GetLocation
 	}
 	
 	
-	public void getLocationByGps()
+	public HashMap<String, Double> getLocationByGps()
 	{
 		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		if(!locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER))
+		{
+			Log.d(TAG, "请开启GPS");
+			Toast.makeText(context, "请开启GPS！", Toast.LENGTH_SHORT).show();
+	        /*Intent intent = new Intent(Settings.ACTION_SECURITY_SETTINGS);
+	        startActivityForResult(intent,0); //此为设置完成后返回到获取界面
+*/
+		}
 		Criteria criteria = new Criteria(); 
-		// 获得最好的定位效果 
+		/*// 获得最好的定位效果 
 		criteria.setAccuracy(Criteria.ACCURACY_FINE); 
 		criteria.setAltitudeRequired(false); 
 		criteria.setBearingRequired(false); 
-		criteria.setCostAllowed(false); 
+		criteria.setCostAllowed(true); 
 		// 使用省电模式 
-		criteria.setPowerRequirement(Criteria.POWER_LOW); 
+		criteria.setPowerRequirement(Criteria.POWER_LOW); */
 		// 获得当前的位置提供者 
-		String provider = locationManager.getBestProvider(criteria, true); 
+		String provider = locationManager.getBestProvider(criteria, false); 		
 		// 获得当前的位置 
 		Location gpsLocation = locationManager.getLastKnownLocation(provider); 
-		// 获得当前位置的纬度 
-		Double latitude = gpsLocation.getLatitude() * 1E6; 
-		// 获得当前位置的经度 
-		Double longitude = gpsLocation.getLongitude() * 1E6; 
-		location.put(ConstantField.LATITUDE, latitude);
-		location.put(ConstantField.LONGITUDE, longitude);
+		if(gpsLocation != null)
+			{
+			// 获得当前位置的纬度 
+			Double latitude = gpsLocation.getLatitude() * 1E6; 
+			
+			// 获得当前位置的经度 
+			Double longitude = gpsLocation.getLongitude() * 1E6; 
+			location.put(ConstantField.LATITUDE, latitude);
+			location.put(ConstantField.LONGITUDE, longitude);
+		}		
+		return location;
 	}
+	
 	
 	
 	
