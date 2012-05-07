@@ -244,9 +244,7 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 		{
 			if (  keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
 				 Intent intent = new Intent(this, IndexActivity.class);
-				 //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				 startActivity(intent);
-				 //moveTaskToBack(true);
 		        return true;
 		    }
 			else

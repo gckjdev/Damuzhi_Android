@@ -240,6 +240,7 @@ public class GetLocation
 	
 	//计算两点之间的距离
 	private static final double EARTH_RADIUS = 6378137;
+	
     private static double rad(double d)
     {
        return d * Math.PI / 180.0;

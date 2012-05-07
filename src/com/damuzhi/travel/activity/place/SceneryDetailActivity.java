@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +23,7 @@ import com.damuzhi.travel.activity.adapter.place.ScenecyImageAdapter;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 
@@ -192,14 +195,20 @@ public class SceneryDetailActivity extends MenuActivity
 		}
 	};
 	
-	private OnClickListener clickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
+	
+	 @Override
+		public boolean onKeyDown(int keyCode, KeyEvent event)
 		{
-			// TODO Auto-generated method stub
-			
+			if (  keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
+				 Intent intent = new Intent(this, SceneryActivity.class);
+				 startActivity(intent);
+		        return true;
+		    }
+			else
+			{
+				  return super.onKeyDown(keyCode, event);	
+			}
+		  
 		}
-	};
+	
 }

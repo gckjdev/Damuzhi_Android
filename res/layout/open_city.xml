@@ -20,7 +20,7 @@
 		    <ImageButton
 		        android:id="@+id/back_button"
 		        android:layout_width="68dp"
-		        android:layout_height="match_parent"
+		        android:layout_height="wrap_content"
 		        android:background="@null"
 		        android:scaleType="fitCenter"
 		        android:src="@drawable/back_button" />
