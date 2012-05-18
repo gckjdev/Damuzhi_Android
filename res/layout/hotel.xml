@@ -22,34 +22,112 @@
     android:layout_height="40.0dip"
     android:orientation="horizontal" 
     android:background="@drawable/menu2_bg2x">
-    	<Spinner android:id="@+id/hotel_price_sort"
+    	<LinearLayout
+   		     android:id="@+id/price_spinner"
+   		     android:layout_height="fill_parent"
    		     android:layout_width="wrap_content"
-   		     android:layout_height="wrap_content"
-   		     android:layout_alignParentLeft="true"
-   		     android:prompt="@string/sort"
-   		     android:background="@null"
-   		     android:padding="10.0dip"/>
-    	<Spinner android:id="@+id/hotel_area_sort"
+   		     android:orientation="horizontal"
+   		     android:gravity="center"
+   		     >
+   		     <TextView   
+				android:text="@string/price"
+			    android:singleLine="true"
+			    android:textSize="15.0sp"
+			    android:textColor="@color/place_sort_color"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:ellipsize="marquee"/>
+			<ImageButton 
+			    xmlns:android="http://schemas.android.com/apk/res/android"   
+				android:id="@+id/spinner_item_image1"   
+				android:layout_width="wrap_content"   
+				android:layout_height="wrap_content" 
+				android:layout_gravity="center"
+				android:src="@drawable/spinner_bg"
+				android:background="@null"
+				android:scaleType="fitCenter"/>
+   		   </LinearLayout>
+   		 <LinearLayout
+   		     android:id="@+id/area_spinner"
+   		     android:layout_height="fill_parent"
    		     android:layout_width="wrap_content"
-   		     android:layout_height="wrap_content"
-   		     android:layout_toRightOf="@id/hotel_price_sort"
-   		     android:prompt="@string/sort"
-   		     android:background="@null"
-   		     android:padding="10.0dip"/>
-   		 <Spinner android:id="@+id/hotel_service_sort"
+   		     android:layout_marginLeft="5.0dp"
+   		     android:layout_toRightOf="@id/price_spinner"
+   		     android:orientation="horizontal"
+   		     android:gravity="center"
+   		     >
+   		     <TextView   
+				android:text="@string/area"
+			    android:singleLine="true"
+			    android:textSize="15.0sp"
+			    android:textColor="@color/place_sort_color"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:ellipsize="marquee"/>
+			<ImageButton 
+			    xmlns:android="http://schemas.android.com/apk/res/android"   
+				android:id="@+id/spinner_item_image2"   
+				android:layout_width="wrap_content"   
+				android:layout_height="wrap_content" 
+				android:layout_gravity="center"
+				android:src="@drawable/spinner_bg"
+				android:background="@null"
+				android:scaleType="fitCenter"/>
+   		   </LinearLayout>
+   		   <LinearLayout
+   		     android:id="@+id/service_spinner"
+   		     android:layout_marginLeft="5.0dp"
+   		     android:layout_height="fill_parent"
    		     android:layout_width="wrap_content"
-   		     android:layout_height="wrap_content"
-   		     android:layout_alignParentLeft="true"
-   		     android:prompt="@string/sort"
-   		     android:background="@null"
-   		     android:padding="10.0dip"/>
-   		  <Spinner android:id="@+id/hotel_order"
+   		     android:layout_toRightOf="@id/area_spinner"
+   		     android:orientation="horizontal"
+   		     android:gravity="center"
+   		     >
+   		     <TextView   
+				android:text="@string/service"
+			    android:singleLine="true"
+			    android:textSize="15.0sp"
+			    android:textColor="@color/place_sort_color"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:ellipsize="marquee"/>
+			<ImageButton 
+			    xmlns:android="http://schemas.android.com/apk/res/android"   
+				android:id="@+id/spinner_item_image1"   
+				android:layout_width="wrap_content"   
+				android:layout_height="wrap_content" 
+				android:layout_gravity="center"
+				android:src="@drawable/spinner_bg"
+				android:background="@null"
+				android:scaleType="fitCenter"/>
+   		   </LinearLayout>
+   		 <LinearLayout
+   		     android:id="@+id/compos_spinner"
+   		     android:layout_height="fill_parent"
    		     android:layout_width="wrap_content"
-   		     android:padding="10.0dip"
-   		     android:layout_height="wrap_content"
-   		     android:prompt="@string/compositor"
-   		     android:background="@null"
-   		     android:layout_toRightOf="@+id/hotel_sort"/>
+   		     android:layout_toRightOf="@id/service_spinner"
+   		     android:layout_marginLeft="5.0dp"
+   		     android:orientation="horizontal"
+   		     android:gravity="center"
+   		     >
+   		     <TextView   
+				android:text="@string/compositor"
+			    android:singleLine="true"
+			    android:textSize="15.0sp"
+			    android:textColor="@color/place_sort_color"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:ellipsize="marquee"/>
+			<ImageButton 
+			    xmlns:android="http://schemas.android.com/apk/res/android"   
+				android:id="@+id/spinner_item_image2"   
+				android:layout_width="wrap_content"   
+				android:layout_height="wrap_content" 
+				android:layout_gravity="center"
+				android:src="@drawable/spinner_bg"
+				android:background="@null"
+				android:scaleType="fitCenter"/>
+   		   </LinearLayout>
    		  <ImageButton 
    		      android:id="@+id/map_view"
    		      android:layout_height="wrap_content"
@@ -69,6 +147,7 @@
     	    android:layout_width="fill_parent"
     	    android:layout_height="wrap_content"
     	    android:scrollbars="none"
+    	    android:cacheColorHint="@color/listview_bg"
     	    android:divider="#FFCC00"
     	    android:background="@color/white" />
     </LinearLayout> 

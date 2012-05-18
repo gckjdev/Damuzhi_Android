@@ -18,24 +18,62 @@
     	    android:text="@string/scenery_title"/>
     </LinearLayout>
      <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="40.0dip"
-    android:orientation="horizontal" 
-    android:background="@drawable/menu2_bg2x">
-   		 <Spinner android:id="@+id/scenery_sort"
+	    android:layout_width="fill_parent"
+	    android:layout_height="40.0dip"
+	    android:orientation="horizontal" 
+	    android:background="@drawable/menu2_bg2x">
+   		 <LinearLayout
+   		     android:id="@+id/sort_spinner"
+   		     android:layout_height="fill_parent"
    		     android:layout_width="wrap_content"
-   		     android:layout_height="wrap_content"
-   		     android:layout_alignParentLeft="true"
-   		     android:prompt="@string/sort"
-   		     android:background="@null"
-   		     android:padding="10.0dip"/>
-   		  <Spinner android:id="@+id/scenery_order"
+   		     android:orientation="horizontal"
+   		     android:gravity="center"
+   		     >
+   		     <TextView   
+				android:text="@string/sort"
+			    android:singleLine="true"
+			    android:textSize="20.0sp"
+			    android:textColor="@color/place_sort_color"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:ellipsize="marquee"/>
+			<ImageButton 
+			    xmlns:android="http://schemas.android.com/apk/res/android"   
+				android:id="@+id/spinner_item_image1"   
+				android:layout_width="wrap_content"   
+				android:layout_height="wrap_content" 
+				android:layout_gravity="center"
+				android:src="@drawable/spinner_bg"
+				android:background="@null"
+				android:scaleType="fitCenter"/>
+   		   </LinearLayout>
+   		 <LinearLayout
+   		     android:id="@+id/compos_spinner"
+   		     android:layout_height="fill_parent"
    		     android:layout_width="wrap_content"
-   		     android:padding="10.0dip"
-   		     android:layout_height="wrap_content"
-   		     android:prompt="@string/compositor"
-   		     android:background="@null"
-   		     android:layout_toRightOf="@+id/scenery_sort"/>
+   		     android:layout_toRightOf="@id/sort_spinner"
+   		     android:layout_marginLeft="10.0dp"
+   		     android:orientation="horizontal"
+   		     android:gravity="center"
+   		     >
+   		     <TextView   
+				android:text="@string/compositor"
+			    android:singleLine="true"
+			    android:textSize="20.0sp"
+			    android:textColor="@color/place_sort_color"
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content"
+			    android:ellipsize="marquee"/>
+			<ImageButton 
+			    xmlns:android="http://schemas.android.com/apk/res/android"   
+				android:id="@+id/spinner_item_image2"   
+				android:layout_width="wrap_content"   
+				android:layout_height="wrap_content" 
+				android:layout_gravity="center"
+				android:src="@drawable/spinner_bg"
+				android:background="@null"
+				android:scaleType="fitCenter"/>
+   		   </LinearLayout>
    		  <ImageButton 
    		      android:id="@+id/map_view"
    		      android:layout_height="wrap_content"
@@ -47,13 +85,14 @@
    		      android:src="@drawable/select_map_button"/>		  
     </RelativeLayout>
      <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
-    	<com.damuzhi.travel.util.PullToRefreshListView
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical" >
+    	<ListView
     	    android:id="@+id/scenery_list"
     	    android:layout_width="fill_parent"
     	    android:layout_height="fill_parent"
+    	    android:focusable="true"
     	    android:scrollbars="none"
     	    android:divider="#FFCC00"
     	    android:cacheColorHint="@color/listview_bg"

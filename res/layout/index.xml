@@ -18,7 +18,7 @@
 		    <Spinner 
 		        android:id="@+id/city_spinner"
 		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
+		        android:layout_height="fill_parent"
 		        android:background="@null"
 		        />
 		 </LinearLayout>   
@@ -118,7 +118,7 @@
 						    android:orientation="vertical"
 						    android:gravity="center">
 			         <ImageButton 
-			            android:id="@+id/fun"
+			            android:id="@+id/entertainment"
 			            android:layout_width="100.0dip"
 			           	android:layout_height="100.0dip"
 			            android:scaleType="fitCenter"
@@ -126,11 +126,11 @@
 			            android:src="@drawable/fun_button"
 			            />
 			          <TextView 
-				        android:id="@+id/fun_title"
+				        android:id="@+id/entertainment_title"
 				        android:layout_gravity="bottom|center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
-				        android:text="@string/fun"
+				        android:text="@string/entertainment"
 				        android:textSize="20.0sp"/>
 		          </FrameLayout>
 		         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -139,18 +139,18 @@
 						    android:orientation="vertical"
 						    android:gravity="center">   	
 		           <ImageButton
-		               android:id="@+id/round"
+		               android:id="@+id/nearby"
 		               android:layout_width="100.0dip"
 		               android:layout_height="100.0dip"
 		               android:background="@null"
 		               android:scaleType="fitCenter"
 		               android:src="@drawable/round_button" />	
 		            <TextView 
-				        android:id="@+id/round_title"
+				        android:id="@+id/nearby_title"
 				        android:layout_gravity="bottom|center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
-				        android:text="@string/round"
+				        android:text="@string/nearby"
 				        android:textSize="20.0sp"/>		
 		          </FrameLayout>
 		    </TableRow>

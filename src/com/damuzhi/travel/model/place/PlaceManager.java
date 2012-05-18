@@ -18,6 +18,8 @@ import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.util.FileUtil;
+import com.damuzhi.travel.util.TravelUtil;
+import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
 
 public class PlaceManager
 {
@@ -132,21 +134,21 @@ public class PlaceManager
 	
 	public ArrayList<Place> getSceneryListOrderByrank()
 	{		
-		ComparatorRank comparatorRank = new ComparatorRank();
+		ComparatorRank comparatorRank = TravelUtil.getComparatorRank();
 		Collections.sort(spotList, comparatorRank);	
 		return spotList;
 	}
 	
 	public ArrayList<Place> getHotelListOrderByrank()
 	{		
-		ComparatorRank comparatorRank = new ComparatorRank();
+		ComparatorRank comparatorRank = TravelUtil.getComparatorRank();
 		Collections.sort(hotelList, comparatorRank);	
 		return hotelList;
 	}
 	
 	public ArrayList<Place> getRestraurantListOrderByrank()
 	{		
-		ComparatorRank comparatorRank = new ComparatorRank();
+		ComparatorRank comparatorRank = TravelUtil.getComparatorRank();
 		Collections.sort(restraurantList, comparatorRank);	
 		return restraurantList;
 	}
@@ -154,35 +156,19 @@ public class PlaceManager
 	
 	public ArrayList<Place> getShoppingListOrderByrank()
 	{		
-		ComparatorRank comparatorRank = new ComparatorRank();
+		ComparatorRank comparatorRank = TravelUtil.getComparatorRank();
 		Collections.sort(shoppingList, comparatorRank);	
 		return shoppingList;
 	}
 	
 	public ArrayList<Place> getFunListOrderByrank()
 	{		
-		ComparatorRank comparatorRank = new ComparatorRank();
+		ComparatorRank comparatorRank = TravelUtil.getComparatorRank();
 		Collections.sort(entertrainList, comparatorRank);	
 		return entertrainList;
 	}
 	
-	private class ComparatorRank implements Comparator<Place>
-	{
 
-		@Override
-		public int compare(Place lhs, Place rhs)
-		{
-			// TODO Auto-generated method stub
-			int flag = -Integer.valueOf(lhs.getRank()).compareTo(Integer.valueOf(rhs.getRank()));
-			return flag;
-		}
-
-	
-	}
-	
-	
-	
-	
 	public PlaceList getPlaceList()
 	{
 		return placeList;

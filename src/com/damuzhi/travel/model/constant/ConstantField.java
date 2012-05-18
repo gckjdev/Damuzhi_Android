@@ -2,6 +2,10 @@ package com.damuzhi.travel.model.constant;
 
 public class ConstantField
 {
+	public static final String MAIN_SERVICE = "damuzhi.travel.service.MainService";
+	public static final String SCENERY_ACTION = "damuzhi.activity.place.SceneryActivity";
+	public static final String HOTEL_ACTION = "damuzhi.activity.place.HotelActivity";
+	public static final String RESTAURANT_ACTION = "damuzhi.activity.place.RestaurantActivity";
 	public static final String SAVE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/";
 	public static final String DATA_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/%s/";
 	public static final String IMAGE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/%s/data/";
@@ -9,6 +13,7 @@ public class ConstantField
 	public static final String PLACE_PATH ="/data/place/";
 	public static final int DATA_LOCAL = 0;
 	public static final int DATA_HTTP = 1;
+	public static final int DISTANCE = 10000;
 	public static final String APP_FILE = "app.dat";
 	public static final String PLACE_TAG = "place";
 	public static final String GUIDE_TAG = "guide";
@@ -45,16 +50,13 @@ public class ConstantField
 	public static final String HOTEL = "22";
 	public static final String RESTAURANT = "23";
 	public static final String SHOPPING = "24";
-	public static final String FUN = "25";
+	public static final String ENTERTAINMENT = "25";
 	public static final String ALL_PLACE_ORDER_BY_RANK = "40";
 	public static final String ALL_SCENERY_ORDER_BY_RANK = "41";
 	public static final String ALL_HOTEL_ORDER_BY_RANK = "42";
 	public static final String ALL_RESTAURANT_ORDER_BY_RANK = "43";
 	public static final String ALL_SHOPPING_ORDER_BY_RANK = "44";
 	public static final String ALL_FUN_ORDER_BY_RANK = "45";
-	public static final String MAIN_SERVICE = "damuzhi.travel.service.MainService";
-	public static final String SCENERY_ACTIVITY = "SceneryActivity";
-	public static final String HOTEL_ACTIVITY = "HotelActivity";
-	
+	public static final String ALL_PLACE = "È«²¿";
 	
 }

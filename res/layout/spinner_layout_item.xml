@@ -6,10 +6,10 @@
 	<TextView   
 	    android:id="@android:id/text1"
 		style="?android:attr/spinnerItemStyle"
+		android:text="@string/compositor"
 	    android:singleLine="true"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:textColor="@color/scenery_sort_color"
 	    android:ellipsize="marquee"
 	/>
 	<ImageButton 
@@ -17,6 +17,7 @@
 		android:id="@+id/spinner_item_image"   
 		android:layout_width="wrap_content"   
 		android:layout_height="wrap_content" 
+		android:layout_gravity="center"
 		android:src="@drawable/spinner_bg"
 		android:background="@null"
 		android:scaleType="fitCenter"/>

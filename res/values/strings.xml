@@ -3,19 +3,21 @@
 
     <string name="hello">Hello World, DaMuZhiActivity!</string>
     <string name="app_name">大拇指旅行</string>
-	<string name="damuzhi">大拇指旅行</string>
+    <!-- indexInfo-->
+	<string name="damuzhi">大拇指旅行 - </string>
 	<string name="scenery">景点</string>
 	<string name="hotel">酒店</string>
 	<string name="restaurant">餐馆</string>
 	<string name="shopping">购物</string>
-	<string name="fun">娱乐</string>
-	<string name="round">附近</string>
+	<string name="entertainment">娱乐</string>
+	<string name="nearby">附近</string>
 	<string name="city_about">城市概况</string>
 	<string name="travel_ready">旅行准备</string>
 	<string name="useful_info">实用信息</string>
 	<string name="city_traffic">城市交通</string>
 	<string name="travel_note">游记攻略</string>
 	<string name="travel_commend">线路推荐</string>
+	<!-- moreInfo-->
 	<string name="help">帮助</string>
 	<string name="collection">收藏</string>
 	<string name="share">分享</string>
@@ -29,6 +31,7 @@
 	<string name="more_positive_criticism">给我们一个好评吧</string>
 	<string name="more_show_image">列表中显示图片</string>
 	<string name="more_good_commend">精彩应用推荐</string>
+	<!-- download -->
 	<string name="open_city_tips1">提前下载离线城市数据，可以节省流量和提高打开速度</string>
 	<string name="open_city_tips2">更多城市指南即将开通</string>
 	<string name="success">下载完成</string>
@@ -37,6 +40,7 @@
     <string name="download">下载</string>
     <string name="download_pause">暂停</string>
     <string name="review_online">在线导览</string>
+    
     <!-- exception -->
     <string name="main_fetch_fail">网络异常</string>
 	<string name="NoSignalException">无法连接到网络，请检查网络配置</string>
@@ -44,16 +48,51 @@
 	<string name="apn_is_wrong1_setnet">网络设置</string>
     <!-- placeListView -->
     <string name="scenery_title">景点(0)</string>
+    <string name="loading">数据加载中...</string>
+    <string name="all_place">全部</string>
+ 	<!-- sort-->
     <string name="sort">分类</string>
+    <string name="price">价格</string>
     <string name="compositor">排序</string>
+    <string name="area">区域</string>
+    <string name="service">服务</string>
+    <string name="food">菜系</string>
+    <!-- hotelStart-->
+    <string name="start3">三星级</string>
+    <string name="start4">四星级</string>
+    <string name="start5">五星级</string>
+    <string name="start6">六星级</string>
+    <string name="start7">七星级</string>
+    <!-- hotelInfo -->
+    <string name="hotelIntro">酒店简介</string>
+    <string name="hotelStart">酒店星级</string>
+    <string name="appraisalKey">用户评价关键词</string>
+    <string name="hotelRoomPrice">房间价格</string>
+    <string name="trafficLocation">位置</string>
+    <string name="trafficDistance">距酒店</string>
+    
+    <!-- restaurant -->
+    <string name="restaurantIntro">餐馆简介</string>
+    <string name="foodType">菜式类型</string>
+    <string name="openTime">营业时间</string>
+    <string name="averageConsumption">人均消费</string>
+    <string name="specialFood">特色菜式</string>
+    <!--shopping -->
+    <string name="shopIntro">商家简介</string>
+    <string name="parkingInfo">停车指南</string>
+    <string name="shoppingTips">购物贴士</string>
+
+    <!--entertainment -->
+    <string name="entertainmentTips">玩乐贴士</string>
     
     <!-- placeInfo-->
     <string name="sceneryIntro">景点介绍</string>
     <string name="ticketsPrice">门票价格</string>
+    <string name="free">免费</string>
     <string name="openingHour">开放时间</string>
     <string name="trafficInfo">交通信息</string>
     <string name="tourTips">游览贴士</string>
-    <string name="phoneNum">电话:</string>
+    <string name="phone_number">电话:</string>
     <string name="website">网站:</string>
     <string name="address">地址:</string>
     <string name="refresh">刷新</string>
@@ -61,9 +100,13 @@
     <string name="about">关于</string>
     <string name="exit">退出</string>
     <string name="cancel">取消</string>
+    <string name="meter">米</string>
+    <string name="kilometer">公里</string>
+    <string name="make_phone_call">你确定要拨打此号码</string>
+    <string name="call">拨打</string>
     <string name="leave_alert_dilaog">退出大拇指旅行</string>
     	<!-- 拖拽 -->
-	 <string name="pull_to_refresh_pull_label">下拉可以刷新...</string>
+	<string name="pull_to_refresh_pull_label">下拉可以刷新...</string>
     <string name="pull_to_refresh_release_label">松手可以刷新...</string>
     <string name="pull_to_refresh_refreshing_label">刷新中...</string>
     <string name="pull_to_refresh_tap_label">Tap to refresh...</string>

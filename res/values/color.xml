@@ -2,13 +2,13 @@
 <resources >
     <color name="white">#ffffffff</color>
     <color name="title_bg_color">#0A64A4</color>
-    <color name="scenery_name_color">#333333</color>
-    <color name="scenery_price_color">#666666</color>
-    <color name="scenery_sort_color">#314A62</color>
+    <color name="place_name_color">#333333</color>
+    <color name="place_price_color">#666666</color>
+    <color name="place_sort_color">#314A62</color>
     <color name="title_name_color">#0A64A4</color>
-    <color name="scenery_title_color">#254250</color>
-    <color name="sceneryIntro_bg">#DEEFF7</color>
-    <color name="scenery_info_bg">#EBF1F1</color>
+    <color name="place_title_color">#254250</color>
+    <color name="placeIntro_bg">#DEEFF7</color>
+    <color name="place_info_bg">#EBF1F1</color>
     <color name="connect_info">#597081</color>
     <color name="dividing_lines">#407BB5</color>
     <color name="listview_bg">#00000000</color>

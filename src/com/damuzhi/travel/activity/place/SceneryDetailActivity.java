@@ -3,9 +3,12 @@ package com.damuzhi.travel.activity.place;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -19,7 +22,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.adapter.place.ScenecyImageAdapter;
+import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
+import com.damuzhi.travel.activity.common.CommendPlaceMap;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
@@ -39,16 +43,17 @@ public class SceneryDetailActivity extends MenuActivity
 	private TextView phoneNum;
 	private TextView address;
 	private TextView website;
-	private ImageView mapView;
+	private ImageView mapView1;
+	private ImageView mapView2;
 	private ImageView recommendImage1;
 	private ImageView recommendImage2;
 	private ImageView recommendImage3;
 	private ArrayList<View> imageViewlist;  
-	private ViewGroup main, group;  
+	private ViewGroup main, group,phoneGroup,websiteGroup,mapGroup;  
 	private ImageView imageView;  
-	private ImageView[] imageViews;  
-	
+	private ImageView[] imageViews;  	
 	private ViewPager sceneryImage;
+	private Place place;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -61,8 +66,8 @@ public class SceneryDetailActivity extends MenuActivity
 
 	private void init()
 	{
-		TravelApplication application = (TravelApplication) this.getApplication();
-		Place place = application.getPlace();
+		TravelApplication application = TravelApplication.getInstance();
+		place = application.getPlace();
 		List<String> imagePath = place.getImagesList();
 		LayoutInflater inflater = getLayoutInflater();
 		imageViewlist = new ArrayList<View>();
@@ -71,8 +76,8 @@ public class SceneryDetailActivity extends MenuActivity
 		for(int i=0;i<size;i++)
 		{
 			Anseylodar anseylodar = new Anseylodar();
-			View view = inflater.inflate(R.layout.scenery_detail_image, null);
-			ImageView imageView = (ImageView) view.findViewById(R.id.sceneryImageItem);
+			View view = inflater.inflate(R.layout.place_detail_image, null);
+			ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
 			String url ;
 			if(application.getDataFlag() == ConstantField.DATA_LOCAL)
 			{
@@ -86,7 +91,7 @@ public class SceneryDetailActivity extends MenuActivity
 		}
 		imageViews = new ImageView[size];
 		main = (ViewGroup) inflater.inflate(R.layout.scenery_detail, null);
-		group = (ViewGroup) main.findViewById(R.id.sceneryImagesGroup);
+		group = (ViewGroup) main.findViewById(R.id.scenery_images_group);
 		sceneryImage = (ViewPager) main.findViewById(R.id.scenery_images);
 		for (int i = 0; i < size; i++) {  
             imageView = new ImageView(SceneryDetailActivity.this);  
@@ -101,21 +106,31 @@ public class SceneryDetailActivity extends MenuActivity
             }  
             group.addView(imageView);  
         } 
-		ScenecyImageAdapter sceneryAdapter = new ScenecyImageAdapter(imageViewlist);
+		PlaceImageAdapter sceneryAdapter = new PlaceImageAdapter(imageViewlist);
 		setContentView(main);
 		sceneryImage.setAdapter(sceneryAdapter);
 		sceneryImage.setOnPageChangeListener(scenecyImageListener);
 		
 		sceneryDetailTitle = (TextView) findViewById(R.id.scenery_detail_title);
-		sceneryIntro = (TextView) findViewById(R.id.sceneryIntro);
-		ticketsPrice = (TextView) findViewById(R.id.ticketsPrice);
-		openingHour = (TextView) findViewById(R.id.openingHour);
-		trafficInfo = (TextView) findViewById(R.id.trafficInfo);
-		tourTips = (TextView) findViewById(R.id.tourTips);
-		phoneNum = (TextView) findViewById(R.id.phoneNum);
+		sceneryIntro = (TextView) findViewById(R.id.scenery_intro);
+		ticketsPrice = (TextView) findViewById(R.id.tickets_price);
+		openingHour = (TextView) findViewById(R.id.open_time);
+		trafficInfo = (TextView) findViewById(R.id.traffic_info);
+		tourTips = (TextView) findViewById(R.id.tour_tips);
+		phoneNum = (TextView) findViewById(R.id.phone_num);
 		address = (TextView) findViewById(R.id.address);
 		website = (TextView) findViewById(R.id.website);
-		mapView = (ImageView) findViewById(R.id.item_map_view);
+		
+		mapView1 = (ImageView) findViewById(R.id.item_map_view);
+		mapView2 = (ImageView)findViewById(R.id.scenery_detail_map_nearby);
+		mapView1.setOnClickListener(clickListener);
+		mapView2.setOnClickListener(clickListener);
+		
+		phoneGroup = (ViewGroup) findViewById(R.id.phone_group);
+		websiteGroup = (ViewGroup)findViewById(R.id.website_group);
+		mapGroup = (ViewGroup)findViewById(R.id.map_group);
+		phoneGroup.setOnClickListener(clickListener);
+		
 		recommendImage1 = (ImageView) findViewById(R.id.scenery_detail_recommend_image1);
 		recommendImage2 = (ImageView) findViewById(R.id.scenery_detail_recommend_image2);
 		recommendImage3 = (ImageView) findViewById(R.id.scenery_detail_recommend_image3);
@@ -159,7 +174,7 @@ public class SceneryDetailActivity extends MenuActivity
 		{
 			addressStr = add+" ";
 		}
-		phoneNum.setText(this.getResources().getString(R.string.phoneNum)+phoneNumber.trim());
+		phoneNum.setText(phoneNumber.trim());	
 		address.setText(this.getResources().getString(R.string.address)+addressStr.trim());
 		website.setText(this.getResources().getString(R.string.website)+place.getWebsite());
 		
@@ -172,11 +187,9 @@ public class SceneryDetailActivity extends MenuActivity
 		public void onPageSelected(int arg0)
 		{
 			for (int i = 0; i < imageViews.length; i++) {
-				imageViews[arg0]
-						.setBackgroundResource(R.drawable.guide_dot_white);
+				imageViews[arg0].setBackgroundResource(R.drawable.guide_dot_white);
 				if (arg0 != i) {
-					imageViews[i]
-							.setBackgroundResource(R.drawable.guide_dot_black);
+					imageViews[i].setBackgroundResource(R.drawable.guide_dot_black);
 				}
 			}
 			
@@ -197,15 +210,76 @@ public class SceneryDetailActivity extends MenuActivity
 		}
 	};
 	
-	/*
-	 @Override
+	private OnClickListener clickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			switch (v.getId())
+			{
+			case R.id.item_map_view:
+				
+				intent.setClass(SceneryDetailActivity.this, CommendPlaceMap.class);
+				startActivity(intent);
+				break;
+			case R.id.scenery_detail_map_nearby:	
+				intent.setClass(SceneryDetailActivity.this, CommendPlaceMap.class);
+				startActivity(intent);
+				break;
+			case R.id.phone_group:
+				String phoneNumber = (String) phoneNum.getText();
+				if(phoneNumber.trim()!=""||!phoneNumber.trim().equals(""))
+				{
+					makePhoneCall(phoneNumber);
+				}				
+				break;
+			default:
+				break;
+			}
+			
+		}
+	};
+	 
+	public void makePhoneCall( final String phoneNumber)
+	{
+		AlertDialog phoneCall = new AlertDialog.Builder(SceneryDetailActivity.this).create();
+		phoneCall.setMessage(getResources().getString(R.string.make_phone_call)+"\n"+phoneNumber);
+		phoneCall.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(R.string.call),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(Intent.ACTION_CALL);
+				intent.setData(Uri.parse("tel:"+phoneNumber));
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				SceneryDetailActivity.this.startActivity(intent);
+			}
+		} );
+		phoneCall.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				// TODO Auto-generated method stub
+				dialog.cancel();
+				
+			}
+		} );
+		phoneCall.show();
+	}
+	
+	  /*@Override
 		public boolean onKeyDown(int keyCode, KeyEvent event)
 		{
 			if (  keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
 				 Intent intent = new Intent(this, SceneryActivity.class);
-				 //intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				 startActivity(intent);
-		         return true;
+		        return true;
 		    }
 			else
 			{
@@ -213,5 +287,4 @@ public class SceneryDetailActivity extends MenuActivity
 			}
 		  
 		}*/
-	
 }

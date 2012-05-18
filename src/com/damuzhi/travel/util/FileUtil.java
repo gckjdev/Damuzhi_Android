@@ -20,6 +20,16 @@ public class FileUtil
 	private List<String> lstFile = new ArrayList<String>();  //结果 List
 	private ArrayList<FileInputStream> fileInput = new ArrayList<FileInputStream>();
 	
+	/**  
+	        * @param Path
+	        * @param Extension
+	        * @param IsIterative
+	        * @return  
+	        * @description   
+	        * @version 1.0  
+	        * @author liuxiaokun  
+	        * @update 2012-5-8 上午11:45:01  
+	        */
 	public List<String> GetFiles(String Path, String Extension, boolean IsIterative)  //搜索目录，扩展名，是否进入子文件夹
 	{
 	    File[] files = new File(Path).listFiles(); 
@@ -42,7 +52,7 @@ public class FileUtil
 	    }
 	    return lstFile;
 	}	
-	
+	/*
 	//获取placedata文件
 	public List<String> GetFiles(String Path, String type,String Extension, boolean IsIterative)  //搜索目录，扩展名，是否进入子文件夹
 	{
@@ -67,9 +77,21 @@ public class FileUtil
 	            }
 	    }
 	    return lstFile;
-	}
+	}*/
 	
-	//获取placedata文件数据输入流
+	
+	
+		/**  
+		        * @param Path
+		        * @param type
+		        * @param Extension
+		        * @param IsIterative
+		        * @return  
+		        * @description   
+		        * @version 1.0  
+		        * @author liuxiaokun  
+		        * @update 2012-5-8 上午11:47:12  
+		        */
 		public ArrayList<FileInputStream> getFileInputStreams(String Path, String type,String Extension, boolean IsIterative)  //搜索目录，扩展名，是否进入子文件夹
 		{
 			
@@ -109,6 +131,14 @@ public class FileUtil
 		}
 	
 	
+		/**  
+		        * @param fileName
+		        * @return  
+		        * @description   
+		        * @version 1.0  
+		        * @author liuxiaokun  
+		        * @update 2012-5-8 上午11:47:21  
+		        */
 		public static boolean checkFileIsExits(String fileName)
 		{
 			String filePath = ConstantField.SAVE_PATH+fileName;
@@ -122,6 +152,13 @@ public class FileUtil
 		
 	
      
+	    /**  
+	            * @return  
+	            * @description   
+	            * @version 1.0  
+	            * @author liuxiaokun  
+	            * @update 2012-5-8 上午11:47:24  
+	            */
 	    public static int freeSpaceOnSd() { 
 	    	StatFs stat = new StatFs(Environment.getExternalStorageDirectory() .getPath());
 	        double sdFreeMB = ((double)stat.getAvailableBlocks() * (double) stat.getBlockSize()) / 1024; 

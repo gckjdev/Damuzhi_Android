@@ -14,8 +14,7 @@
     	    android:layout_width="fill_parent"
     	    android:layout_height="wrap_content"
     	    android:gravity="center"
-    	    android:textSize="20.0sp"
-    	    android:text="@string/scenery_title"/>
+    	    android:textSize="20.0sp"/>
     </LinearLayout>
      <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -45,7 +44,7 @@
 	        android:layout_toRightOf="@id/scenery_detail_recommend_image2"				        
 	        android:scaleType="fitCenter"/>	
 	     <ImageView 
-	        android:id="@+id/scenery_detail_help"
+	        android:id="@+id/scenery_detail_map_nearby"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentRight="true"
@@ -65,7 +64,7 @@
         android:orientation="vertical">	
 	   	  <FrameLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android"
-	   	      android:id="@+id/imageGroup"
+	   	      android:id="@+id/image_group"
 	   	      android:layout_width="fill_parent"
 	   	      android:layout_height="250.0dip"
 	   	      android:orientation="vertical">
@@ -81,7 +80,7 @@
 	            android:orientation="vertical" >      
 		            <LinearLayout 
 		                xmlns:android="http://schemas.android.com/apk/res/android" 
-		                android:id="@+id/sceneryImagesGroup"  
+		                android:id="@+id/scenery_images_group"  
 		                android:layout_width="fill_parent"  
 		                android:layout_height="wrap_content"  
 		                android:layout_alignParentBottom="true"  
@@ -99,125 +98,126 @@
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	          android:layout_width="fill_parent"  
 	          android:layout_height="wrap_content"  
-	          android:background="@color/sceneryIntro_bg"
+	          android:background="@color/placeIntro_bg"
 	          android:orientation="vertical">
 	   	  		<TextView	
-	   	  		    android:id="@+id/sceneryIntroTitle"
+	   	  		    android:id="@+id/scenery_intro_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
-	   	  		    android:textColor="@color/scenery_title_color"
+	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/sceneryIntro"
 	   	  		    />  
 	   	  		 <TextView
-	   	  		    android:id="@+id/sceneryIntro"
+	   	  		    android:id="@+id/scenery_intro"
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="15.0sp"
-	   	  		    android:textColor="@color/scenery_price_color"/>
+	   	  		    android:textColor="@color/place_price_color"/>
 	   	  </LinearLayout>
 	   	  <LinearLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	          android:layout_width="fill_parent"  
 	          android:layout_height="wrap_content"
-	          android:background="@color/scenery_info_bg"
+	          android:background="@color/place_info_bg"
 	          android:orientation="vertical">
 	   	  		<TextView	
-	   	  		    android:id="@+id/ticketsPriceTitle"
+	   	  		    android:id="@+id/tickets_price_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
-	   	  		    android:textColor="@color/scenery_title_color"
+	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/ticketsPrice"
 	   	  		    />  
 	   	  		 <TextView
-	   	  		    android:id="@+id/ticketsPrice"
+	   	  		    android:id="@+id/tickets_price"
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="15.0sp"
-	   	  		    android:textColor="@color/scenery_price_color"/>
+	   	  		    android:textColor="@color/place_price_color"/>
 	   	  </LinearLayout>
 	   	  <LinearLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	          android:layout_width="fill_parent"  
 	          android:layout_height="wrap_content"
-	          android:background="@color/scenery_info_bg"
+	          android:background="@color/place_info_bg"
 	          android:orientation="vertical">
 	   	  		<TextView	
-	   	  		    android:id="@+id/openingHourTitle"
+	   	  		    android:id="@+id/opening_time_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
-	   	  		    android:textColor="@color/scenery_title_color"
+	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/openingHour"
 	   	  		    />  
 	   	  		 <TextView
-	   	  		    android:id="@+id/openingHour"
+	   	  		    android:id="@+id/opening_time"
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="15.0sp"
-	   	  		    android:textColor="@color/scenery_price_color"/>
+	   	  		    android:textColor="@color/place_price_color"/>
 	   	  </LinearLayout>
 	   	  <LinearLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	          android:layout_width="fill_parent"  
 	          android:layout_height="wrap_content"
-	          android:background="@color/scenery_info_bg"
+	          android:background="@color/place_info_bg"
 	          android:orientation="vertical">
 	   	  		<TextView	
-	   	  		    android:id="@+id/trafficInfoTitle"
+	   	  		    android:id="@+id/traffic_info_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
-	   	  		    android:textColor="@color/scenery_title_color"
+	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/trafficInfo"
 	   	  		    />  
 	   	  		 <TextView
-	   	  		    android:id="@+id/trafficInfo"
+	   	  		    android:id="@+id/traffic_info"
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="15.0sp"
-	   	  		    android:textColor="@color/scenery_price_color"/>
+	   	  		    android:textColor="@color/place_price_color"/>
 	   	  </LinearLayout>
 	   	  <LinearLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	          android:layout_width="fill_parent"  
 	          android:layout_height="wrap_content"
-	          android:background="@color/scenery_info_bg"
+	          android:background="@color/place_info_bg"
 	          android:orientation="vertical">
 	   	  		<TextView	
-	   	  		    android:id="@+id/tourTipsTitle"
+	   	  		    android:id="@+id/tour_tips_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
-	   	  		    android:textColor="@color/scenery_title_color"
+	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/tourTips"
 	   	  		    />  
 	   	  		 <TextView
-	   	  		    android:id="@+id/tourTips"
+	   	  		    android:id="@+id/tour_tips"
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="15.0sp"
-	   	  		    android:textColor="@color/scenery_price_color"/>
+	   	  		    android:textColor="@color/place_price_color"/>
 	   	  </LinearLayout>
 	   	  <RelativeLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
+	   	      android:id="@+id/phone_group"
 	          android:layout_width="fill_parent"  
 	          android:layout_height="40.0dp"
 	          android:gravity="center"
 	          android:background="@drawable/t_bg2x">
-	   	  		<TextView	
-	   	  		    android:id="@+id/phoneNum"
+	   	  		 <TextView	
+	   	  		    android:id="@+id/phone_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_alignParentLeft="true"
@@ -225,9 +225,21 @@
 	   	  		    android:layout_marginLeft="30.0dp"
 	   	  		    android:gravity="center_vertical"
 	   	  		    android:textSize="16.0sp"
+	   	  		    android:text="@string/phone_number"
+	   	  		    android:textColor="@color/connect_info"
+	   	  		    />
+	   	  		<TextView	
+	   	  		    android:id="@+id/phone_num"
+	   	  		    android:layout_width="wrap_content"
+	   	  		    android:layout_height="wrap_content"
+	   	  		    android:layout_toRightOf="@id/phone_title"
+	   	  		    android:layout_centerVertical="true"
+	   	  		    android:gravity="center_vertical"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/connect_info"
 	   	  		    />  
 	   	  		 <ImageView
+	   	  		    android:id="@+id/phone_call"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_alignParentRight="true"
@@ -237,6 +249,7 @@
 	   	  </RelativeLayout>
 	   	  <RelativeLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
+	   	      android:id="@+id/map_group"
 	          android:layout_width="fill_parent"  
 	          android:layout_height="40.0dp"
 	          android:gravity="center"
@@ -258,13 +271,13 @@
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_alignParentRight="true"
-	   	  		    android:layout_marginRight="10.0dp"
 	   	  		    android:src="@drawable/t_map2x"
 	   	  		    android:scaleType="fitXY"
 	   	  		    android:padding="10.0dip"/>
 	   	  </RelativeLayout>
 	   	   <RelativeLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
+	   	      android:id="@+id/website_group"
 	          android:layout_width="fill_parent"  
 	          android:layout_height="40.0dp"
 	          android:gravity="left|center"

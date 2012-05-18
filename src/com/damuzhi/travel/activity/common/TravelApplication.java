@@ -27,7 +27,7 @@ import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.AppProtos.PlaceMeta;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
-import com.damuzhi.travel.util.GetLocation;
+import com.damuzhi.travel.util.LocationUtil;
 
 import android.R.integer;
 import android.app.Application;
@@ -39,27 +39,28 @@ public class TravelApplication extends Application
 	private static final String TAG = "TravelApplication";
 	private DefaultHttpClient defaultHttpClient;
 	private int dataFlag;//0为local，1为HTTP
-	private App app;
-	private ArrayList<Place> placeData;
-	private PlaceList placeList; 
-	//城市列表
-	private HashMap<String, Integer> cityNameList = new HashMap<String,Integer>();
-	//分类ID
-	private HashMap<PlaceCategoryType, PlaceMeta> map = new HashMap<PlaceCategoryType, PlaceMeta>();
-	//子分类ID
-	private HashMap<Integer, NameIdPair> subCategoryMap = new HashMap<Integer, NameIdPair>();
-	private List<String> subCategoryList = new ArrayList<String>();
-	//地点分类下的可用的所有服务选项列表
-	private HashMap<Integer, NameIdPair> providedServiceMap = new HashMap<Integer, NameIdPair>();
-	private List<String> providedServiceList = new ArrayList<String>();
-	private HashMap<String, Double> location = new HashMap<String, Double>();
-	private HashMap<Integer, City> cityMap = new HashMap<Integer, City>();
-	private HashMap<Integer, CityArea> cityAreaMap = new HashMap<Integer, CityArea>();
-	private int cityID;
-	private Place place;
+	private int cityID;//城市ID
+	private HashMap<Integer, CityArea> cityAreaMap = new HashMap<Integer, CityArea>();//区域列表
+	private HashMap<Integer, List<CityArea>> cityAreaList = new HashMap<Integer, List<CityArea>>();
+	private HashMap<String, Integer> cityNameMap = new HashMap<String,Integer>();//城市列表	
+	private HashMap<Integer, String> symbolMap = new HashMap<Integer, String>();//货币显示符号
+	private HashMap<PlaceCategoryType, PlaceMeta> PlaceMetaMap = new HashMap<PlaceCategoryType, PlaceMeta>();//PLACE分类ID	
+	private HashMap<Integer, String> subCatNameMap = new HashMap<Integer, String>();
+	private HashMap<PlaceCategoryType, List<NameIdPair>> subCategoryMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();//地点分类下的所有子分类
+	private HashMap<PlaceCategoryType, List<NameIdPair>> providedServiceMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();//地点分类下的可用的所有服务选项列表
+	//private HashMap<PlaceCategoryType, HashMap<Integer, String>> providedServiceIconMap = new HashMap<PlaceCategoryType, HashMap<Integer,String>>();
+	private ArrayList<Place> placeData;//具体类别的PLACE
+	private HashMap<String, Double> location = new HashMap<String, Double>();//经纬度信息
+	private Place place;//一个具体的PLACE
 
 	
 	
+	private static TravelApplication travelApplication;
+	
+	public static TravelApplication getInstance()
+	{
+		return travelApplication;
+	}
 	
 	
 	
@@ -69,15 +70,9 @@ public class TravelApplication extends Application
 	{
 		// TODO Auto-generated method stub
 		super.onCreate();
+		travelApplication = this;
 		defaultHttpClient = createHttpClient();
-		GetLocation getLocation = new GetLocation(this);
-		location = getLocation.getLocationByGps();
-		if(location == null)
-		{
-			location = getLocation.getLocationByTower();
-		}
-		Log.d(TAG, "latitude = "+location.get(ConstantField.LATITUDE));
-		Log.d(TAG, "longitude = "+location.get(ConstantField.LONGITUDE));
+		
 	}
 	
 	@Override
@@ -126,151 +121,8 @@ public class TravelApplication extends Application
 		}
 	}
 	
-	public App getApp()
-	{
-		return app;
-	}
-	
-	public void setApp(App app)
-	{
-		this.app = app;
-	}
-	
-	public HashMap<String, Integer> getCityList()
-	{
-		if(app != null)
-		{
-			for (City city : app.getCitiesList())
-			{
-				cityNameList.put(city.getCityName(), city.getCityId());
-			}
-		}
-		return cityNameList;
-	}
 	
 	
-	public HashMap<PlaceCategoryType, PlaceMeta> getPlaceMeta()
-	{
-		if(app != null)
-		{
-			for(PlaceMeta placeMeta :app.getPlaceMetaDataListList())
-			{
-				map.put(placeMeta.getCategoryId(), placeMeta);
-			}
-		}
-		
-		return map;
-	}
-	
-	public HashMap<Integer, City> getCity()
-	{
-		
-		for(City city : app.getCitiesList())
-		{
-			cityMap.put(city.getCityId(), city);
-		}
-		return cityMap;
-	}
-	
-	//地点分类下的所有子分类
-	public HashMap<Integer, NameIdPair> getSubCatMap()
-	{
-		if(app != null)
-		{
-			for(PlaceMeta placeMeta:app.getPlaceMetaDataListList())
-			{
-				for(NameIdPair nameIdPair : placeMeta.getSubCategoryListList())
-				{
-					subCategoryMap.put(nameIdPair.getId(), nameIdPair);
-				}
-			}
-		}
-		return subCategoryMap;
-	}
-	
-	//地点分类下的所有子分类
-		public List<String> getSubCatList()
-		{
-			if(app != null)
-			{
-				for(PlaceMeta placeMeta:app.getPlaceMetaDataListList())
-				{
-					for(NameIdPair nameIdPair : placeMeta.getSubCategoryListList())
-					{
-						subCategoryList.add(nameIdPair.getName());
-					}
-				}
-			}
-			return subCategoryList;
-		}
-	
-	//地点分类下的可用的所有服务选项列表
-	public HashMap<Integer, NameIdPair> getProSerMap()
-	{
-		if(app != null)
-		{
-			for(PlaceMeta placeMeta:app.getPlaceMetaDataListList())
-			{
-				for(NameIdPair nameIdPair : placeMeta.getProvidedServiceListList())
-				{
-					providedServiceMap.put(nameIdPair.getId(), nameIdPair);
-				}
-			}
-		}
-		return subCategoryMap;
-	}
-	
-	
-	//地点分类下的可用的所有服务选项列表
-		public List<String> getProSerList()
-		{
-			if(app != null)
-			{
-				for(PlaceMeta placeMeta:app.getPlaceMetaDataListList())
-				{
-					for(NameIdPair nameIdPair : placeMeta.getProvidedServiceListList())
-					{
-						providedServiceList.add(nameIdPair.getName());
-					}
-				}
-			}
-			return providedServiceList;
-		}
-	
-	
-	public HashMap<Integer, CityArea> getCityAreaMap()
-	{
-		for(City city:app.getCitiesList())
-		{
-			for(CityArea cityArea :city.getAreaListList())
-			{
-				cityAreaMap.put(cityArea.getAreaId(), cityArea);
-			}
-			
-		}
-		return cityAreaMap;
-	}
-
-	public ArrayList<int[][]> getLocations()
-	{
-		ArrayList<int[][]> locations = new ArrayList<int[][]>();
-		for(Place place:placeData)
-		{
-			int latitude = (int)(place.getLatitude()*1E6);
-			int longitude = (int)(place.getLongitude()*1E6);
-			int[][] location = new int[][]{{latitude,longitude}};
-			locations.add(location);;
-		}
-		return locations;
-	}
-	
-	
-	
-
-	public HashMap<String, Double> getLocation()
-	{
-		return location;
-	}
 
 	public Place getPlace()
 	{
@@ -312,6 +164,164 @@ public class TravelApplication extends Application
 		this.dataFlag = dataFlag;
 	}
 
+	public HashMap<String, Double> getLocation()
+	{
+		return location;
+	}
+
+	public void setLocation(HashMap<String, Double> location)
+	{
+		this.location = location;
+	}
+
+
+
+	public HashMap<PlaceCategoryType, List<NameIdPair>> getSubCategoryMap()
+	{
+		return subCategoryMap;
+	}
+
+
+
+
+	public HashMap<PlaceCategoryType, List<NameIdPair>> getProvidedServiceMap()
+	{
+		return providedServiceMap;
+	}
+
+
+
+	/*public HashMap<Integer, CityArea> getCityAreaMap()
+	{
+		return cityAreaMap;
+	}
+*/
+
+	public void setSubCategoryMap(
+			HashMap<PlaceCategoryType, List<NameIdPair>> subCategoryMap)
+	{
+		this.subCategoryMap = subCategoryMap;
+	}
+
+
+
+
+	public void setProvidedServiceMap(
+			HashMap<PlaceCategoryType, List<NameIdPair>> providedServiceMap)
+	{
+		this.providedServiceMap = providedServiceMap;
+	}
+
+
+
+
+
+	/*public void setCityAreaMap(HashMap<Integer, CityArea> cityAreaMap)
+	{
+		this.cityAreaMap = cityAreaMap;
+	}*/
+
+
+
+
+	public HashMap<String, Integer> getCityNameMap()
+	{
+		return cityNameMap;
+	}
+
+
+
+
+	public void setCityNameMap(HashMap<String, Integer> cityNameMap)
+	{
+		this.cityNameMap = cityNameMap;
+	}
+
+
+
+
+	public HashMap<PlaceCategoryType, PlaceMeta> getPlaceMetaMap()
+	{
+		return PlaceMetaMap;
+	}
+
+
+
+
+	public void setPlaceMetaMap(HashMap<PlaceCategoryType, PlaceMeta> placeMetaMap)
+	{
+		PlaceMetaMap = placeMetaMap;
+	}
+
+
+
+
+	public HashMap<Integer, String> getSymbolMap()
+	{
+		return symbolMap;
+	}
+
+
+
+
+	public void setSymbolMap(HashMap<Integer, String> symbolMap)
+	{
+		this.symbolMap = symbolMap;
+	}
+
+
+
+
+	public HashMap<Integer, List<CityArea>> getCityAreaList()
+	{
+		return cityAreaList;
+	}
+
+
+
+
+	public void setCityAreaList(HashMap<Integer, List<CityArea>> cityAreaList)
+	{
+		this.cityAreaList = cityAreaList;
+	}
+
+
+
+
+	public HashMap<Integer, String> getSubCatNameMap()
+	{
+		return subCatNameMap;
+	}
+
+
+
+
+	public void setSubCatNameMap(HashMap<Integer, String> subCatNameMap)
+	{
+		this.subCatNameMap = subCatNameMap;
+	}
+
+
+
+
+/*	public HashMap<PlaceCategoryType, HashMap<Integer, String>> getProvidedServiceIconMap()
+	{
+		return providedServiceIconMap;
+	}
+
+
+
+
+	public void setProvidedServiceIconMap(
+			HashMap<PlaceCategoryType, HashMap<Integer, String>> providedServiceIconMap)
+	{
+		this.providedServiceIconMap = providedServiceIconMap;
+	}*/
+
+
+
+
+	
 
 	
 

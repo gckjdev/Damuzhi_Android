@@ -3,6 +3,7 @@ package com.damuzhi.travel.activity.adapter.common;
 import com.damuzhi.travel.R;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -10,14 +11,17 @@ public class ViewCache
 {
 	private View convertView;
 	private ImageView imageView;
-	private TextView sceneryName;
-	private TextView sceneryPrice;
-	private TextView sceneryTag;
-	private TextView sceneryArea;
-	private TextView sceneryDistance;
+	private TextView placeName;
+	private TextView placePrice;
+	private TextView placeTag;
+	private TextView placeLevel;
+	private TextView placeArea;
+	private TextView placeDistance;
+	private TextView foodType;
 	private ImageView recommendImageView1;
 	private ImageView recommendImageView2;
 	private ImageView recommendImageView3;
+	private ViewGroup serviceGroup;
 	/**
 	 * @param convertView
 	 */
@@ -32,79 +36,108 @@ public class ViewCache
 	{
 		if(imageView == null)
 		{
-			imageView = (ImageView) convertView.findViewById(R.id.scenery_image);
+			imageView = (ImageView) convertView.findViewById(R.id.place_image);
 		}
 		return imageView;
 	}
 	
-	public TextView getSceneryName()
+	public TextView getPlaceName()
 	{
-		if(sceneryName == null)
+		if(placeName == null)
 		{
-			sceneryName = (TextView) convertView.findViewById(R.id.scenery_name);
+			placeName = (TextView) convertView.findViewById(R.id.place_name);
 		}
-		return sceneryName;
+		return placeName;
 	}
 	
-	public TextView getSceneryPrice()
+	public TextView getPlacePrice()
 	{
-		if(sceneryPrice == null)
+		if(placePrice == null)
 		{
-			sceneryPrice = (TextView) convertView.findViewById(R.id.scenery_price);
+			placePrice = (TextView) convertView.findViewById(R.id.place_price);
 		}
-		return sceneryPrice;
+		return placePrice;
 	}
 	
-	public TextView getSceneryTag()
+	public TextView getPlaceTag()
 	{
-		if(sceneryTag == null)
+		if(placeTag == null)
 		{
-			sceneryTag = (TextView) convertView.findViewById(R.id.scenery_tag);
+			placeTag = (TextView) convertView.findViewById(R.id.place_tag);
 		}
-		return sceneryTag;
+		return placeTag;
 	}
-	public TextView getSceneryArea()
+	
+	public TextView getPlaceLevel()
 	{
-		if(sceneryArea == null)
+		if(placeLevel == null)
 		{
-			sceneryArea = (TextView) convertView.findViewById(R.id.scenery_city_area);
+			placeLevel = (TextView) convertView.findViewById(R.id.place_level);
 		}
-		return sceneryArea;
+		return placeLevel;
 	}
-	public TextView getSceneryDistance()
+	
+	public TextView getPlaceArea()
 	{
-		if(sceneryDistance == null)
+		if(placeArea == null)
 		{
-			sceneryDistance = (TextView) convertView.findViewById(R.id.scenery_city_distance);
+			placeArea = (TextView) convertView.findViewById(R.id.place_city_area);
 		}
-		return sceneryDistance;
+		return placeArea;
 	}
+	
+	public TextView getPlaceDistance()
+	{
+		if(placeDistance == null)
+		{
+			placeDistance = (TextView) convertView.findViewById(R.id.place_city_distance);
+		}
+		return placeDistance;
+	}
+	
 	public ImageView getRecommendImageView1()
 	{
 		if(recommendImageView1 == null)
 		{
-			recommendImageView1 = (ImageView) convertView.findViewById(R.id.scenery_recommend_image1);
+			recommendImageView1 = (ImageView) convertView.findViewById(R.id.place_recommend_image1);
 		}
 		return recommendImageView1;
 	}
+	
 	public ImageView getRecommendImageView2()
 	{
 		if(recommendImageView2 == null)
 		{
-			recommendImageView2 = (ImageView) convertView.findViewById(R.id.scenery_recommend_image2);
+			recommendImageView2 = (ImageView) convertView.findViewById(R.id.place_recommend_image2);
 		}
 		return recommendImageView2;
 	}
+	
 	public ImageView getRecommendImageView3()
 	{
 		if(recommendImageView3 == null)
 		{
-			recommendImageView3 = (ImageView) convertView.findViewById(R.id.scenery_recommend_image3);
+			recommendImageView3 = (ImageView) convertView.findViewById(R.id.place_recommend_image3);
 		}
 		return recommendImageView3;
 	}
 	
+	public ViewGroup getServiceGroup()
+	{
+		if(serviceGroup == null)
+		{
+			serviceGroup = (ViewGroup) convertView.findViewById(R.id.pro_service_group);
+		}
+		return serviceGroup;
+	}
 	
-	
+	public TextView getFoodType()
+	{
+		if(foodType == null)
+		{
+			foodType = (TextView) convertView.findViewById(R.id.food_type);
+		}
+		return foodType;
+	}
 	
 }

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
  android:orientation="vertical"
- android:background="@drawable/green_glass"
+ android:background="@drawable/location_info"
  android:layout_width="wrap_content"
  android:layout_height="wrap_content"
- android:paddingLeft="5px"
- android:paddingTop="5px"
- android:paddingRight="5px"
- android:paddingBottom="20px"> <!--注意加上padding,否则view里面的东西就画到边框上了-->
+ android:paddingLeft="5dp"
+ android:paddingTop="5dp"
+ android:paddingRight="5dp"
+ android:paddingBottom="20dp"> <!--注意加上padding,否则view里面的东西就画到边框上了-->
     <TextView android:id="@+id/map_bubbleTitle"
        android:ellipsize="marquee"
        android:layout_width="fill_parent"

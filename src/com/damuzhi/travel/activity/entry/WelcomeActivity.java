@@ -14,6 +14,8 @@ import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.service.DataService;
+import com.damuzhi.travel.service.MainService;
+import com.damuzhi.travel.util.LocationUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
 public class WelcomeActivity extends MenuActivity
@@ -24,7 +26,7 @@ public class WelcomeActivity extends MenuActivity
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startup);
-		final TravelApplication application = (TravelApplication) this.getApplication();
+		final TravelApplication application = TravelApplication.getInstance();
 		final AssetManager assets = WelcomeActivity.this.getAssets();
 		Thread thread = new Thread(new Runnable()
 		{
@@ -61,12 +63,14 @@ public class WelcomeActivity extends MenuActivity
 					//Thread.sleep(2000);
 					/*AppManager appData = new AppManager(ConstantField.APP_DATA_PATH,null);
 					application.setApp(appData.getApp());	*/
-					DataService placeDataService = new DataService(application);
-					placeDataService.getAppData(ConstantField.APP_DATA, ConstantField.LANG_HANS);
-					Intent intent = new Intent();
-					intent.setClass(WelcomeActivity.this, IndexActivity.class);
-					startActivity(intent);
-					finish();
+				LocationUtil getLocation = new LocationUtil(WelcomeActivity.this);	
+				application.setLocation( getLocation.getLocationByTower());	
+				DataService placeDataService = new DataService(application);
+				placeDataService.getAppData(ConstantField.APP_DATA, ConstantField.LANG_HANS,null);
+				Intent intent = new Intent();
+				intent.setClass(WelcomeActivity.this, IndexActivity.class);
+				startActivity(intent);
+				finish();
 			}
 		});
 		thread.start();

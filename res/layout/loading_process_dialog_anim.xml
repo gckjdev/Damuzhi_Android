@@ -5,9 +5,8 @@
 
 	<ProgressBar android:id="@+id/loading_process_dialog_progressBar"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
-		android:indeterminate="false" android:indeterminateDrawable="@anim/loading" />
-	<!--
-		<TextView android:layout_width="fill_parent"
+		android:indeterminate="false" android:indeterminateDrawable="@anim/loading" />	
+	<TextView android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:text="@string/loading" />
-	-->
+
 </LinearLayout>

@@ -7,8 +7,13 @@ import java.util.Set;
 
 import android.R.integer;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.app.PendingIntent.CanceledException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -20,12 +25,18 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.more.MoreActivity;
+import com.damuzhi.travel.activity.place.EntertainmentActivity;
+import com.damuzhi.travel.activity.place.HotelActivity;
+import com.damuzhi.travel.activity.place.NearbyActivity;
+import com.damuzhi.travel.activity.place.RestaurantActivity;
 import com.damuzhi.travel.activity.place.SceneryActivity;
+import com.damuzhi.travel.activity.place.ShoppingActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
@@ -35,33 +46,37 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	private static final String TAG = "IndexActivity";
 	private ImageButton moreButton;
 	private ImageButton sceneryButton;
+	private ImageButton hotelButton;
+	private ImageButton restaurantButton;
+	private ImageButton shoppingButton;
+	private ImageButton entertainmentButton;
+	private ImageButton nearbyButton;
 	private TravelApplication application;
-	private HashMap<String, Integer> cityNameList;
+	private HashMap<String, Integer> cityNameMap;
 	private List<String> list;
+	private Spinner city;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		setContentView(R.layout.index);
-		Log.d(TAG, "onCreate");
 		setProgressBarIndeterminateVisibility(true);
 		MainService.allActivity.add(this);//将当前的activity添加到Servicre的activity集合中
-		Spinner city = (Spinner) findViewById(R.id.city_spinner);
-		application = (TravelApplication) this.getApplication();
-		cityNameList = application.getCityList();
-		Set<String> cityNameSet = cityNameList.keySet();
+		city = (Spinner) findViewById(R.id.city_spinner);
+		application = TravelApplication.getInstance();
+		cityNameMap = application.getCityNameMap();
+		Set<String> cityNameSet = cityNameMap.keySet();
 		list = new ArrayList<String>();
 		int position = 0;
 		int flag = 0;
 		for(String cityName:cityNameSet)
 		{
-			list.add(cityName);
-			
+			list.add(cityName);			
 			if(cityName.equals("香港"))
 			{
-				//System.out.println("position = "+position);
 				flag = position;
 			}
 			position++;
@@ -69,34 +84,78 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_layout_item,android.R.id.text1, list);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		city.setAdapter(adapter);
-		city.setSelection(flag);
+		//city.setSelection(flag);
 		city.setOnItemSelectedListener(itemSelectedListener);
 		moreButton = (ImageButton) findViewById(R.id.more);
 		sceneryButton = (ImageButton) findViewById(R.id.scenery);
+		hotelButton = (ImageButton) findViewById(R.id.hotel);		
+		restaurantButton = (ImageButton) findViewById(R.id.restaurant);
+		shoppingButton = (ImageButton) findViewById(R.id.shopping);
+		entertainmentButton = (ImageButton) findViewById(R.id.entertainment);
+		nearbyButton = (ImageButton) findViewById(R.id.nearby);
 		sceneryButton.setOnClickListener(this);
+		hotelButton.setOnClickListener(this);
+		restaurantButton.setOnClickListener(this);
+		shoppingButton.setOnClickListener(this);
+		entertainmentButton.setOnClickListener(this);
+		nearbyButton.setOnClickListener(this);
 		moreButton.setOnClickListener(this);
 		Intent intent = new Intent();
 		intent.setAction(ConstantField.CHECK_NET);
 		sendBroadcast(intent);
-		
+		openGPSSettings();
 	}
 
+	
+	
 	@Override
 	public void onClick(View v)
 	{
 		// TODO Auto-generated method stub
 		ImageButton button = (ImageButton) v;
-		Intent intent = new Intent();
+		
 		switch (button.getId())
 		{
 		case R.id.more:
-			intent.setClass(IndexActivity.this, MoreActivity.class);
+			Intent intent = new Intent();
+			intent.setClass(IndexActivity.this, MoreActivity.class);	
 			startActivity(intent);
 			break;
-		case R.id.scenery:			
-			intent.setClass(IndexActivity.this,SceneryActivity.class);
-			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-			startActivity(intent);			
+		case R.id.scenery:	
+			Log.d(TAG, "scenery");
+			Intent sceneryIntent = new Intent();
+			sceneryIntent.setClass(IndexActivity.this, SceneryActivity.class);	
+			startActivity(sceneryIntent);
+			break;
+		case R.id.hotel:
+			Log.d(TAG, "hotel");
+			Intent hotelIntent = new Intent();
+			hotelIntent.setClass(IndexActivity.this, HotelActivity.class);		
+			startActivity(hotelIntent);
+			break;
+		case R.id.restaurant:	
+			Log.d(TAG, "restaurant");
+			Intent restaurantIntent = new Intent();
+			restaurantIntent.setClass(IndexActivity.this, RestaurantActivity.class);		
+			startActivity(restaurantIntent);
+			break;
+		case R.id.shopping:	
+			Log.d(TAG, "shopping");
+			Intent shoppingIntent = new Intent();
+			shoppingIntent.setClass(IndexActivity.this, ShoppingActivity.class);		
+			startActivity(shoppingIntent);
+			break;
+		case R.id.entertainment:	
+			Log.d(TAG, "shopping");
+			Intent entertainmentIntent = new Intent();
+			entertainmentIntent.setClass(IndexActivity.this, EntertainmentActivity.class);		
+			startActivity(entertainmentIntent);
+			break;
+		case R.id.nearby:	
+			Log.d(TAG, "nearby");
+			Intent nearbyIntent = new Intent();
+			nearbyIntent.setClass(IndexActivity.this, NearbyActivity.class);		
+			startActivity(nearbyIntent);
 			break;
 		default:
 			break;
@@ -113,8 +172,9 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		{
 			// TODO Auto-generated method stub
 			String cityName = list.get(arg2);
-			Integer cityID = cityNameList.get(cityName);
-			System.out.println("cityID= "+cityID);
+			Integer cityID = cityNameMap.get(cityName);
+			city.setSelection(arg2);
+			Log.d(TAG, "cityID = "+cityID);
 			application.setCityID(cityID);
 		}
 
@@ -179,5 +239,24 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		Log.d(TAG, "onResume");
 	}
 	
+	private void openGPSSettings() {
+
+		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+		//Toast.makeText(this, "GPS模块正常", Toast.LENGTH_SHORT).show();
+		return;
+		}
+	    Intent gpsIntent = new Intent();
+	    gpsIntent.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
+	    gpsIntent.addCategory("android.intent.category.ALTERNATIVE");
+	    gpsIntent.setData(Uri.parse("custom:3"));
+	    try {
+	        PendingIntent.getBroadcast(IndexActivity.this, 0, gpsIntent, 0).send();
+	    } catch (CanceledException e) {
+	        e.printStackTrace();
+	    }
+		}
+
+
 
 }

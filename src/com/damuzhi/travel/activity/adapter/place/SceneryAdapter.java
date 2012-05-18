@@ -7,6 +7,7 @@ import java.util.List;
 import android.content.Context;
 
 import android.os.Handler;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,19 +24,19 @@ import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.protos.AppProtos.CityArea;
 import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.util.LocationUtil;
 
 public class SceneryAdapter extends BaseAdapter
 {
 	private static final String TAG = "SceneryAdapter";
-	private static final int SHOE_IMAGE = 3;
 	private Context context;
 	private String datapath ;
 	private ArrayList<Place> list;
-	private HashMap<Integer, NameIdPair> subCatMap;
-	private HashMap<Integer, NameIdPair> proSerMap;
-	private HashMap<String, Double> location;
-	private HashMap<Integer, City> cityMap;
-	private HashMap<Integer, CityArea> cityAreaMap;
+	private HashMap<Integer, String> subCatMap;
+	private double latitude;
+	private double longitude;
+	private String symbol;
+	private HashMap<Integer, String> cityAreaMap;
 	private int dataFlag;
 	public Anseylodar anseylodar;
 	private LayoutInflater inflater;
@@ -52,26 +53,23 @@ public class SceneryAdapter extends BaseAdapter
 	 * @param dataFlag
 	 */
 	public SceneryAdapter(Context context, String datapath,
-			ArrayList<Place> list, HashMap<Integer, NameIdPair> subCatMap,
-			HashMap<Integer, NameIdPair> proSerMap,
-			HashMap<String, Double> location, HashMap<Integer, City> cityMap,
-			HashMap<Integer, CityArea> cityAreaMap, int dataFlag)
+			ArrayList<Place> list, HashMap<Integer, String> subCatMap,
+			HashMap<String, Double> location, String symbol,
+			HashMap<Integer, String> cityAreaMap, int dataFlag)
 	{
 		super();
 		this.context = context;
 		this.datapath = datapath;
 		this.list = list;
 		this.subCatMap = subCatMap;
-		this.proSerMap = proSerMap;
-		this.location = location;
-		this.cityMap = cityMap;
+		this.symbol = symbol;
 		this.cityAreaMap = cityAreaMap;
 		this.dataFlag = dataFlag;
 		anseylodar = new Anseylodar();
 		inflater = LayoutInflater.from(context);
-
+		latitude = location.get(ConstantField.LATITUDE);
+		longitude = location.get(ConstantField.LONGITUDE);
 	}
-
 	@Override
 	public int getCount()
 	{
@@ -125,15 +123,17 @@ public class SceneryAdapter extends BaseAdapter
 		}else {
 			viewCache = (ViewCache) convertView.getTag();
 		}
-		NameIdPair subCatName= subCatMap.get(place.getSubCategoryId());		
-		TextView sceneryName = viewCache.getSceneryName();
-		TextView sceneryPrice = viewCache.getSceneryPrice();
-		TextView sceneryTag = viewCache.getSceneryTag();
-		TextView sceneryArea = viewCache.getSceneryArea();
+		//NameIdPair subCatName= subCatMap.get(place.getSubCategoryId());	
+		String subCatName = subCatMap.get(place.getSubCategoryId());
+		TextView sceneryName = viewCache.getPlaceName();	
+		sceneryName.setSelected(true);		
+		TextView sceneryPrice = viewCache.getPlacePrice();
+		TextView sceneryTag = viewCache.getPlaceTag();
+		TextView sceneryArea = viewCache.getPlaceArea();
 		ImageView recommendImageView1 = viewCache.getRecommendImageView1();
 		ImageView recommendImageView2 = viewCache.getRecommendImageView2();
 		ImageView recommendImageView3 = viewCache.getRecommendImageView3();
-		TextView sceneryDistance = viewCache.getSceneryDistance();
+		TextView sceneryDistance = viewCache.getPlaceDistance();
 		int rank = place.getRank();
 		switch (rank)
 		{
@@ -167,14 +167,35 @@ public class SceneryAdapter extends BaseAdapter
 		}else{
 			url = place.getIcon();				
 		}	
-		anseylodar.showimgAnsy(imageView,url, dataFlag);			
+		anseylodar.showimgAnsy(imageView,url, dataFlag);
+		int distance = (int) LocationUtil.GetDistance(longitude, latitude, place.getLongitude(), place.getLatitude());
+		//Log.d(TAG, "distance = " +distance);
+		if(distance >1000)
+		{
+			sceneryDistance.setText(distance/1000+context.getResources().getString(R.string.kilometer));
+		}else {
+			sceneryDistance.setText(distance+context.getResources().getString(R.string.meter));
+		}		
 		sceneryName.setText(place.getName());
-		sceneryPrice.setText(cityMap.get(place.getCityId()).getCurrencySymbol()+place.getPrice());
-		sceneryTag.setText(subCatName.getName());
-		sceneryArea.setText(cityAreaMap.get(place.getAreaId()).getAreaName());
-		sceneryDistance.setText("100m");		
+		String price ;
+		if(place.getPrice().equals("0"))
+		{
+			price = context.getResources().getString(R.string.free);
+			sceneryPrice.setText(price);
+		}else {
+			price = place.getPrice();
+			sceneryPrice.setText(symbol+price);
+		}
+		sceneryTag.setText(subCatName);
+		if(cityAreaMap.containsKey(place.getAreaId()))
+		{
+			sceneryArea.setText(cityAreaMap.get(place.getAreaId()));
+		}
+		
+				
 		return convertView;
 	}
+	
 
 	
 
