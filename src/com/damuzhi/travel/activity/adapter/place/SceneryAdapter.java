@@ -67,8 +67,11 @@ public class SceneryAdapter extends BaseAdapter
 		this.dataFlag = dataFlag;
 		anseylodar = new Anseylodar();
 		inflater = LayoutInflater.from(context);
-		latitude = location.get(ConstantField.LATITUDE);
-		longitude = location.get(ConstantField.LONGITUDE);
+		
+		if (location == null){
+			latitude = location.get(ConstantField.LATITUDE);
+			longitude = location.get(ConstantField.LONGITUDE);
+		}
 	}
 	@Override
 	public int getCount()
