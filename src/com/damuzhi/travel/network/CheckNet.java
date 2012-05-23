@@ -34,15 +34,15 @@ public class CheckNet extends BroadcastReceiver
           // 获取当前的网络连接是否可用
           if (null == networkInfo)
           {
-              Toast.makeText(context, "当前的网络连接不可用", Toast.LENGTH_SHORT).show();
+              Toast.makeText(context, "当前的网络不可用", Toast.LENGTH_SHORT).show();
               //当网络不可用时，跳转到网络设置页面
           } else
           {
                available = networkInfo.isAvailable();
               if (!available)
               {
-            	  Log.d(TAG, "当前的网络连接不可用");
-                  Toast.makeText(context, "当前的网络连接不可用", Toast.LENGTH_SHORT).show();
+            	  Log.d(TAG, "当前的网络不可用");
+                  Toast.makeText(context, "当前的网络不可用", Toast.LENGTH_SHORT).show();
               } 
           }
           State state = connManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState();
