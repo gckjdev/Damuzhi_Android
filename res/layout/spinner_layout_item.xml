@@ -7,6 +7,8 @@
 	    android:id="@android:id/text1"
 		style="?android:attr/spinnerItemStyle"
 		android:text="@string/compositor"
+		android:textSize="20sp"
+		android:textColor="@color/white"
 	    android:singleLine="true"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
@@ -18,6 +20,7 @@
 		android:layout_width="wrap_content"   
 		android:layout_height="wrap_content" 
 		android:layout_gravity="center"
+		android:layout_marginLeft="5dp"
 		android:src="@drawable/spinner_bg"
 		android:background="@null"
 		android:scaleType="fitCenter"/>

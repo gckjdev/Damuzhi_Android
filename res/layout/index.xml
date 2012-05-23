@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="fill_parent"
     android:background="@drawable/index_bg"
@@ -8,326 +8,358 @@
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:orientation="horizontal"
+		    android:layout_alignParentTop="true"
+		    android:background="@drawable/topmenu_bg"
 		    android:gravity="center">
 		    <TextView 
 		        android:id="@+id/title"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 		        android:text="@string/damuzhi"
-		        android:textSize="30.0sp"/>
+		        android:textColor="@color/white"
+		        android:textSize="20.0sp"/>
 		    <Spinner 
 		        android:id="@+id/city_spinner"
 		        android:layout_width="wrap_content"
 		        android:layout_height="fill_parent"
+		        android:layout_marginLeft="5dp"
 		        android:background="@null"
 		        />
-		 </LinearLayout>   
-		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_margin="10.0dip"
-		    android:gravity="center">
-		    <TableRow>
-		        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="100.0dip"			    
-						    android:orientation="vertical"
-						    >
-			        <ImageButton
-			            android:id="@+id/scenery"
-			            android:layout_width="100.0dip"
-			            android:layout_height="100.0dip"
-			            android:background="@null"
-			            android:scaleType="fitCenter"
-			            android:src="@drawable/scenery_button" />
-			        <TextView 
-			            android:id="@+id/scenery_title"
-			            android:layout_gravity="bottom|center"
-			            android:layout_height="wrap_content"
-			            android:layout_width="wrap_content"
-			            android:text="@string/scenery"
-			            android:textSize="20.0sp"/>
-		        </FrameLayout>
-		        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="100.0dip"
-							android:orientation="vertical"
-						    android:gravity="center">
-			         <ImageButton
-			             android:id="@+id/hotel"
-			             android:layout_width="100.0dip"
-			             android:layout_height="100.0dip"
-			             android:background="@null"
-			             android:scaleType="fitCenter"
-			             android:src="@drawable/hotel_button" />
-			         <TextView 
-				        android:id="@+id/hotel_title"
-				        android:layout_gravity="bottom|center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/hotel"
-				        android:textSize="20.0sp"/>
-		         </FrameLayout>
-		         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="100.0dip"
-						    android:orientation="vertical"
-						    android:gravity="center">
-			          <ImageButton 
-			            android:id="@+id/restaurant"
-			            android:layout_width="100.0dip"
-			            android:layout_height="100.0dip"
-			            android:scaleType="fitCenter"
-			            android:background="@null"
-			            android:src="@drawable/restaurant_button"
-			            />
-			          <TextView 
-				        android:id="@+id/restaurant_title"
-				        android:layout_gravity="bottom|center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/restaurant"
-				        android:textSize="20.0sp"/>
-		          </FrameLayout>
-		    </TableRow>
-		    <TableRow>
-		        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="100.0dip"
-						    android:orientation="vertical"
-						    android:gravity="center">
-			        <ImageButton 
-			            android:id="@+id/shopping"
-			            android:layout_width="100.0dip"
-			           	android:layout_height="100.0dip"
-			            android:scaleType="fitCenter"
-			            android:background="@null"
-			            android:src="@drawable/shopping_button"
-			            />
-			         <TextView 
-				        android:id="@+id/shopping_title"
-				        android:layout_gravity="bottom|center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/shopping"
-				        android:textSize="20.0sp"/>
-		          </FrameLayout>
-		          <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						   android:layout_width="100.0dip"
-		           			android:layout_height="100.0dip"
-						    android:orientation="vertical"
-						    android:gravity="center">
-			         <ImageButton 
-			            android:id="@+id/entertainment"
-			            android:layout_width="100.0dip"
-			           	android:layout_height="100.0dip"
-			            android:scaleType="fitCenter"
-			            android:background="@null"
-			            android:src="@drawable/fun_button"
-			            />
-			          <TextView 
-				        android:id="@+id/entertainment_title"
-				        android:layout_gravity="bottom|center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/entertainment"
-				        android:textSize="20.0sp"/>
-		          </FrameLayout>
-		         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="100.0dip"
-						    android:orientation="vertical"
-						    android:gravity="center">   	
-		           <ImageButton
-		               android:id="@+id/nearby"
-		               android:layout_width="100.0dip"
-		               android:layout_height="100.0dip"
-		               android:background="@null"
-		               android:scaleType="fitCenter"
-		               android:src="@drawable/round_button" />	
-		            <TextView 
-				        android:id="@+id/nearby_title"
-				        android:layout_gravity="bottom|center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/nearby"
-				        android:textSize="20.0sp"/>		
-		          </FrameLayout>
-		    </TableRow>
-		</TableLayout>
-		<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		    android:layout_width="fill_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_margin="10.0dip"
-		    android:gravity="center">
-		    <TableRow>
-		        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="60.0dip"			    
-						    android:orientation="vertical"
-						    >
-			        <ImageButton
-			            android:id="@+id/city_base"
-			            android:layout_width="100.0dip"
-			            android:layout_height="60.0dip"
-			            android:background="@null"
-			            android:scaleType="fitXY"
-			            android:src="@drawable/city_about_button" />
-			        <TextView 
-			            android:id="@+id/city_base_title"
-			            android:layout_gravity="center"
-			            android:layout_height="wrap_content"
-			            android:layout_width="wrap_content"
-			            android:text="@string/city_base"
-			            android:textSize="20.0sp"/>
-		        </FrameLayout>
-		        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="60.0dip"
-							android:orientation="vertical"
-						    android:gravity="center">
-			         <ImageButton
-			             android:id="@+id/travel_prepration"
-			             android:layout_width="100.0dip"
-			             android:layout_height="60.0dip"
-			             android:background="@null"
-			             android:scaleType="fitXY"
-			             android:src="@drawable/travel_ready_button" />
-			         <TextView 
-				        android:id="@+id/travel_prepration_title"
-				        android:layout_gravity="center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/travel_prepration"
-				        android:textSize="20.0sp"/>
-		         </FrameLayout>
-		         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="60.0dip"
-						    android:orientation="vertical">
-			          <ImageButton 
-			            android:id="@+id/travel_utility"
-			            android:layout_width="100.0dip"
-			            android:layout_height="60.0dip"
-			            android:scaleType="fitXY"
-			            android:background="@null"
-			            android:src="@drawable/useful_info_button"
-			            />
-			          <TextView 
-				        android:id="@+id/useful_utility_title"
-				        android:layout_gravity="center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/travel_utility"
-				        android:textSize="20.0sp"/>
-		          </FrameLayout>
-		    </TableRow>
-		    <TableRow>
-		        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="60.0dip"
-						    android:orientation="vertical">
-			        <ImageButton
-			            android:id="@+id/travel_transportation"
-			            android:layout_width="100.0dip"
-			            android:layout_height="60.0dip"
-			            android:layout_gravity="top"
-			            android:background="@null"
-			            android:scaleType="fitXY"
-			            android:src="@drawable/city_traffic_button" />
-			         <TextView 
-				        android:id="@+id/travel_transportation_title"
-				        android:layout_gravity="center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/travel_transportaion"
-				        android:textSize="20.0sp"/>
-		          </FrameLayout>
-		          <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						   android:layout_width="100.0dip"
-		           			android:layout_height="60.0dip"
-						    android:orientation="vertical"
-						    android:gravity="top">
-			         <ImageButton 
-			            android:id="@+id/travel_tips"
-			            android:layout_width="100.0dip"
-			           	android:layout_height="60.0dip"
-			            android:scaleType="fitXY"
-			            android:background="@null"
-			            android:src="@drawable/travel_note_button"
-			            />
-			          <TextView 
-				        android:id="@+id/travel_tips_title"
-				        android:layout_gravity="center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/travel_note"
-				        android:textSize="20.0sp"/>
-		          </FrameLayout>
-		         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="100.0dip"
-		           			android:layout_height="60.0dip"
-						    android:orientation="vertical"
-						    android:gravity="top">   	
-		           <ImageButton
-		               android:id="@+id/travel_commend"
-		               android:layout_width="100.0dip"
-		               android:layout_height="60.0dip"
-		               android:background="@null"
-		               android:scaleType="fitXY"
-		               android:src="@drawable/travel_commend_button" />	
-		            <TextView 
-				        android:id="@+id/travel_commend_title"
-				        android:layout_gravity="center"
-				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
-				        android:text="@string/travel_commend"
-				        android:textSize="20.0sp"/>		
-		          </FrameLayout>
-		    </TableRow>
-		</TableLayout>
+		 </LinearLayout>
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    android:layout_width="fill_parent"
-		    android:layout_height="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:orientation="vertical"
+		    android:layout_centerInParent="true"
+		    android:gravity="center">   
+				<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_margin="10.0dp"
+				    android:gravity="center">
+				    <TableRow android:layout_gravity="center">
+				        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="fill_parent"
+				           			android:layout_height="fill_parent"
+				           			android:layout_weight="1"			    
+								    android:orientation="vertical"
+								    >
+					        <ImageButton
+					            android:id="@+id/scenery"
+					            android:layout_width="92.0dp"
+					            android:layout_height="108.0dp"
+					            android:background="@null"
+					            android:scaleType="fitCenter"
+					            android:layout_gravity="center"
+					            android:src="@drawable/scenery_button" />
+					        <TextView 
+					            android:id="@+id/scenery_title"
+					            android:layout_gravity="bottom|center"
+					            android:layout_height="wrap_content"
+					            android:layout_width="wrap_content"
+					            android:text="@string/scenery"
+					            android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				        </FrameLayout>
+				        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								   android:layout_width="fill_parent"
+				           			android:layout_height="fill_parent"
+				           			android:layout_weight="1"	
+									android:orientation="vertical"
+								    android:gravity="center">
+					         <ImageButton
+					             android:id="@+id/hotel"
+					             android:layout_width="92.0dp"
+					             android:layout_height="108.0dp"
+					             android:background="@null"
+					             android:layout_gravity="center"
+					             android:scaleType="fitCenter"
+					             android:src="@drawable/hotel_button" />
+					         <TextView 
+						        android:id="@+id/hotel_title"
+						        android:layout_gravity="bottom|center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/hotel"
+						        android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				         </FrameLayout>
+				         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="fill_parent"
+				           			android:layout_height="fill_parent"
+				           			android:layout_weight="1"	
+								    android:orientation="vertical"
+								    android:gravity="center">
+					          <ImageButton 
+					            android:id="@+id/restaurant"
+					            android:layout_width="92.0dp"
+					            android:layout_height="108.0dp"
+					            android:scaleType="fitCenter"
+					            android:layout_gravity="center"
+					            android:background="@null"
+					            android:src="@drawable/restaurant_button"
+					            />
+					          <TextView 
+						        android:id="@+id/restaurant_title"
+						        android:layout_gravity="bottom|center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/restaurant"
+						        android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				          </FrameLayout>
+				    </TableRow>
+				    <TableRow 
+				        android:layout_gravity="center" 
+				        android:layout_marginTop="8dp">
+				        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="fill_parent"
+				           			android:layout_height="fill_parent"
+				           			android:layout_weight="1"	
+								    android:orientation="vertical"
+								    android:gravity="center">
+					        <ImageButton 
+					            android:id="@+id/shopping"
+					            android:layout_width="92.0dp"
+					           	android:layout_height="108.0dp"
+					            android:scaleType="fitCenter"
+					            android:layout_gravity="center"
+					            android:background="@null"
+					            android:src="@drawable/shopping_button"
+					            />
+					         <TextView 
+						        android:id="@+id/shopping_title"
+						        android:layout_gravity="bottom|center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/shopping"
+						         android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				          </FrameLayout>
+				          <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="fill_parent"
+				           			android:layout_height="fill_parent"
+				           			android:layout_weight="1"	
+								    android:orientation="vertical"
+								    android:gravity="center">
+					         <ImageButton 
+					            android:id="@+id/entertainment"
+					            android:layout_width="92.0dp"
+					           	android:layout_height="108.0dp"
+					           	android:layout_gravity="center"
+					            android:scaleType="fitCenter"
+					            android:background="@null"
+					            android:src="@drawable/fun_button"
+					            />
+					          <TextView 
+						        android:id="@+id/entertainment_title"
+						        android:layout_gravity="bottom|center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/entertainment"
+						        android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				          </FrameLayout>
+				         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="fill_parent"
+				           			android:layout_height="fill_parent"
+				           			android:layout_weight="1"	
+								    android:orientation="vertical"
+								    android:gravity="center">   	
+				           <ImageButton
+				               android:id="@+id/nearby"
+				               android:layout_width="92.0dp"
+				               android:layout_height="108.0dp"
+				               android:layout_gravity="center"
+				               android:background="@null"
+				               android:scaleType="fitCenter"
+				               android:src="@drawable/round_button" />	
+				            <TextView 
+						        android:id="@+id/nearby_title"
+						        android:layout_gravity="bottom|center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/nearby"
+						         android:textColor="@color/white"
+					            android:textSize="17.0sp"/>		
+				          </FrameLayout>
+				    </TableRow>
+				</TableLayout>
+				<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_margin="10.0dp"
+				    android:gravity="center">
+				    <TableRow android:gravity="center">
+				        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="wrap_content"
+				           			android:layout_height="fill_parent"		    
+								    android:orientation="vertical"
+								    >
+					        <ImageButton
+					            android:id="@+id/city_base"
+					            android:layout_width="94.66dp"
+					            android:layout_height="42dp"
+					            android:background="@null"
+					            android:scaleType="fitXY"
+					            android:src="@drawable/city_about_button" />
+					        <TextView 
+					            android:id="@+id/city_base_title"
+					            android:layout_gravity="center"
+					            android:layout_height="wrap_content"
+					            android:layout_width="wrap_content"
+					            android:text="@string/city_base"
+					             android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				        </FrameLayout>
+				        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								   android:layout_width="wrap_content"
+				           			android:layout_height="fill_parent"
+									android:orientation="vertical"
+								    android:gravity="center">
+					         <ImageButton
+					             android:id="@+id/travel_prepration"
+					             android:layout_width="94.66dp"
+					             android:layout_height="42.0dp"
+					             android:background="@null"
+					             android:scaleType="fitXY"
+					             android:src="@drawable/travel_ready_button" />
+					         <TextView 
+						        android:id="@+id/travel_prepration_title"
+						        android:layout_gravity="center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/travel_prepration"
+						        android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				         </FrameLayout>
+				         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="wrap_content"
+				           			android:layout_height="fill_parent"
+								    android:orientation="vertical">
+					          <ImageButton 
+					            android:id="@+id/travel_utility"
+					            android:layout_width="94.66dp"
+					            android:layout_height="42dp"
+					            android:scaleType="fitXY"
+					            android:background="@null"
+					            android:src="@drawable/useful_info_button"
+					            />
+					          <TextView 
+						        android:id="@+id/useful_utility_title"
+						        android:layout_gravity="center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/travel_utility"
+						        android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				          </FrameLayout>
+				    </TableRow>
+				    <TableRow android:gravity="center">
+				        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								   android:layout_width="wrap_content"
+				           			android:layout_height="fill_parent"		           			
+								    android:orientation="vertical">
+					        <ImageButton
+					            android:id="@+id/travel_transportation"
+					            android:layout_width="94.66dp"
+					            android:layout_height="42dp"
+					            android:layout_gravity="top"
+					            android:background="@null"
+					            android:scaleType="fitXY"
+					            android:src="@drawable/city_traffic_button" />
+					         <TextView 
+						        android:id="@+id/travel_transportation_title"
+						        android:layout_gravity="center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/travel_transportaion"
+						        android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				          </FrameLayout>
+				          <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="wrap_content"
+				           			android:layout_height="fill_parent"				           			
+								    android:orientation="vertical">
+					         <ImageButton 
+					            android:id="@+id/travel_tips"
+					            android:layout_width="94.66dp"
+					           	android:layout_height="42dp"
+					            android:scaleType="fitXY"
+					            android:background="@null"
+					            android:src="@drawable/travel_note_button"
+					            />
+					          <TextView 
+						        android:id="@+id/travel_tips_title"
+						        android:layout_gravity="center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/travel_note"
+						        android:textColor="@color/white"
+					            android:textSize="17.0sp"/>
+				          </FrameLayout>
+				         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="wrap_content"
+				           			android:layout_height="fill_parent"				           			
+								    android:orientation="vertical">   	
+				           <ImageButton
+				               android:id="@+id/travel_commend"
+				               android:layout_width="94.66dp"
+				               android:layout_height="42dp"
+				               android:background="@null"
+				               android:scaleType="fitXY"
+				               android:src="@drawable/travel_commend_button" />	
+				            <TextView 
+						        android:id="@+id/travel_commend_title"
+						        android:layout_gravity="center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/travel_commend"
+						        android:textColor="@color/white"
+					            android:textSize="17.0sp"/>		
+				          </FrameLayout>
+				    </TableRow>
+				</TableLayout>
+		</LinearLayout>
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentBottom="true"
 		    android:orientation="horizontal"
-		    android:gravity="center|bottom"
-		    android:layout_gravity="bottom"
-		    android:paddingBottom="3dip">		    		        
-		        <ImageView
-		            android:id="@+id/bottom_left"
-		            android:layout_width="20.0dip"
-			        android:layout_height="50.0dip"
-		            android:scaleType="fitXY"
-		            android:src="@drawable/bottom_left" />		      
+		    android:gravity="bottom|center"		
+		    android:paddingBottom="1dp">		    		        	      
 		        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    android:layout_width="65.0dip"
-			           	 	android:layout_height="50.0dip"
+						    android:layout_width="fill_parent"
+			           	 	android:layout_height="wrap_content"
+			           	 	android:layout_weight="1"
 							android:orientation="vertical"
 						    android:gravity="center">
 			         <ImageButton
 			             android:id="@+id/help"
-		         		 android:layout_width="65.0dip"
-			           	 android:layout_height="50.0dip"
+		         		 android:layout_width="wrap_content"
+			           	 android:layout_height="wrap_content"
 			             android:background="@null"
-			             android:scaleType="fitXY"
+			             android:scaleType="fitCenter"
 			             android:src="@drawable/help_button" />
 			         <TextView 
 				        android:id="@+id/help_title"
 				        android:layout_gravity="bottom|center"
+				        android:gravity="center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
 				        android:text="@string/help"
-				        android:textSize="15.0sp"/>
+				        android:textSize="13.0sp"/>
 		         </FrameLayout>
 		         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						    	android:layout_width="65.0dip"
-			           	 	android:layout_height="50.0dip"
+						    android:layout_width="fill_parent"
+			           	 	android:layout_height="wrap_content"
+			           	 	android:layout_weight="1"
 						    android:orientation="vertical">
 			          <ImageButton 
 			            android:id="@+id/collection"
-		            	android:layout_width="65.0dip"
-		           	 	android:layout_height="50.0dip"
-			            android:scaleType="fitXY"
+		            	android:layout_width="wrap_content"
+			           	 android:layout_height="wrap_content"
+			            android:scaleType="fitCenter"
 			            android:background="@null"
 			            android:src="@drawable/collection_button"
 			            />
@@ -337,17 +369,18 @@
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
 				        android:text="@string/collection"
-				        android:textSize="15.0sp"/>
+				        android:textSize="13.0sp"/>
 		          </FrameLayout>
 		          <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						   	android:layout_width="65.0dip"
-			           	 	android:layout_height="50.0dip"
+						   	android:layout_width="fill_parent"
+			           	 	android:layout_height="wrap_content"
+			           	 	android:layout_weight="1"
 						    android:orientation="vertical">
 			          <ImageButton 
 			            android:id="@+id/share"
-		            	android:layout_width="65.0dip"
-		           	 	android:layout_height="50.0dip"
-			            android:scaleType="fitXY"
+		            	android:layout_width="wrap_content"
+			           	 android:layout_height="wrap_content"
+			            android:scaleType="fitCenter"
 			            android:background="@null"
 			            android:src="@drawable/share_button"
 			            />
@@ -357,17 +390,18 @@
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
 				        android:text="@string/share"
-				        android:textSize="15.0sp"/>
+				        android:textSize="13.0sp"/>
 		          </FrameLayout>
 		          <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-						   	android:layout_width="66.0dip"
-			           	 	android:layout_height="51.0dip"
+						   	android:layout_width="fill_parent"
+			           	 	android:layout_height="wrap_content"
+			           	 	android:layout_weight="1"
 						    android:orientation="vertical">
 			          <ImageButton 
 			            android:id="@+id/more"
-			            android:layout_width="66.0dip"
-			            android:layout_height="51.0dip"
-			            android:scaleType="fitXY"
+			            android:layout_width="wrap_content"
+			           	android:layout_height="wrap_content"
+			            android:scaleType="fitCenter"
 			            android:background="@null"
 			            android:src="@drawable/more_button"
 			            />
@@ -377,14 +411,7 @@
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
 				        android:text="@string/more"
-				        android:textSize="15.0sp"/>
-		          </FrameLayout>
-		          <ImageView
-		              android:id="@+id/bottom_right"
-		              android:layout_width="18.0dip"
-		              android:layout_height="50.0dip"
-		              android:scaleType="fitXY"
-		              android:src="@drawable/bottom_right" />
-	    
+				        android:textSize="13.0sp"/>
+		          </FrameLayout>	    
 		</LinearLayout>
-</LinearLayout>
+</RelativeLayout>
