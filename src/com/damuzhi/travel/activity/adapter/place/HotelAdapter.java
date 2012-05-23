@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.adapter.common.ViewCache;
+import com.damuzhi.travel.activity.adapter.common.PlaceViewCache;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
 import com.damuzhi.travel.activity.place.HotelDetailActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -102,15 +102,15 @@ public class HotelAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		// TODO Auto-generated method stub
-				ViewCache viewCache; 
+				PlaceViewCache viewCache; 
 				Place place = list.get(position);
 				if(convertView == null)
 				{
 					convertView = inflater.inflate(R.layout.hotel_list_item, null);
-					viewCache = new ViewCache(convertView);
+					viewCache = new PlaceViewCache(convertView);
 					convertView.setTag(viewCache);
 				}else {
-					viewCache = (ViewCache) convertView.getTag();
+					viewCache = (PlaceViewCache) convertView.getTag();
 				}
 				//NameIdPair subCatName= subCatMap.get(place.getSubCategoryId());	
 				
@@ -198,6 +198,14 @@ public class HotelAdapter extends BaseAdapter
 				
 						
 				return convertView;
+	}
+
+
+	
+
+	public void setList(ArrayList<Place> list)
+	{
+		this.list = list;
 	}
 
 }

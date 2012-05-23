@@ -17,6 +17,7 @@ public class ConstantField
 	public static final String APP_FILE = "app.dat";
 	public static final String PLACE_TAG = "place";
 	public static final String GUIDE_TAG = "guide";
+	public static final String OVERVIEW_TAG = "overview";
 	public static final String ROUTE_TAG = "route";
 	public static final String EXTENSION = ".dat"; 
 	public static final String LATITUDE = "latitude";
@@ -37,12 +38,15 @@ public class ConstantField
 	public static final String LANG_HANT = "2";
 	public static final String LANG_ENG ="3";
 	public static final String PLACE = "1";
-	public static final String CITY_INFO = "2";
-	public static final String CITY_TRAFFIC = "3";
-	public static final String USE_INFO = "4";
-	public static final String TRAVEL_GUIDE ="5";
-	public static final String TRAVEL_RODE = "6";
-	public static final String HELP_INFO = "7";
+	public static final String CITY_BASE = "2";
+	public static final String TRAVEL_PREPRATION= "3";
+	public static final String TRAVEL_TRANSPORTAION = "4";
+	public static final String TRAVEL_UTILITY = "5";
+	public static final String TRAVEL_TIPS ="6";
+	public static final String TRAVEL_ROUTE = "7";
+	public static final String TRAVEL_TIPS_LIST ="5";
+	public static final String TRAVEL_ROUTE_LIST = "6";
+	public static final String HELP_INFO = "8";
 	public static final String OPEN_CITY_LIST = "8";
 	public static final String TEST_CITY_LIST = "9";
 	public static final String APP_DATA = "10";
@@ -58,5 +62,13 @@ public class ConstantField
 	public static final String ALL_SHOPPING_ORDER_BY_RANK = "44";
 	public static final String ALL_FUN_ORDER_BY_RANK = "45";
 	public static final String ALL_PLACE = "È«²¿";
+	public static final int ALL_PLACE_CATEGORY_ID = -1;
+	public static final int HALF_KILOMETER = 500;
+	public static final int ONE_KILOMETER = 1000;
+	public static final int FIVE_KILOMETER = 5000;
+	public static final int TEN_KILOMETER = 10000;
+	{
+		
+	}
 	
 }

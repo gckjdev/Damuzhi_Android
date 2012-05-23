@@ -20,11 +20,12 @@ public class Task
 	  public static final int TASK_LOGIN_RESTAURANT=5;// 进入餐馆页面
 	  public static final int TASK_LOGIN_ENTERTAINMNET=6;// 进入娱乐页面
 	  public static final int TASK_LOGIN_NEARBY=7;// 进入附近页面
-	  public static final int CITY_ABOUT=8;// 进入城市概况页面
-	  public static final int TRAVEL_READY=9;// 进入旅行准备页面
-	  public static final int USEFUL_INFO=10;// 进入实用信息页面
-	  public static final int CITY_TRAFFIC=11;// 进入城市交通页面
-	  public static final int TRAVEL_NOTE=12;// 进入游记攻略页面
+	  public static final int OVERVIEW=8;// 进入OVERVIEW页面
+	/*  public static final int CITY_BASE=8;// 进入城市概况页面
+	  public static final int TRAVEL_PREPRATION=9;// 进入旅行准备页面
+	  public static final int TRAVEL_UTILITY=10;// 进入实用信息页面
+	  public static final int TRAVEL_TRANSPORTATION=11;// 进入城市交通页面
+*/	  public static final int TRAVEL_TIPS=12;// 进入游记攻略页面
 	  public static final int TRAVEL_COMMEND=13;// 进入线路推荐页面
 	  public static final int MAP_NEARBY= 14;//地图周边推荐
 

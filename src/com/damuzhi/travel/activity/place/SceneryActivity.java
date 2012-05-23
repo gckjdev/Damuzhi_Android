@@ -117,32 +117,33 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 		composSpinner = (ViewGroup) findViewById(R.id.compos_spinner);
 		mapView = (ImageView) findViewById(R.id.map_view);
 		application = TravelApplication.getInstance();
-		
-		
-	}
-	
-	private void initData(Object...param)
-	{
-		
-		cityID = application.getCityID();
-		dataPath = String.format(ConstantField.IMAGE_PATH,cityID);	
-		location = application.getLocation();
-		symbolMap = (HashMap<Integer, String>) param[0];
-		cityAreaMap = (HashMap<Integer, String>) param[1];		
-		subCatNameMap = (HashMap<Integer, String>) param[4];
-		subCatName = (String[]) param[2];
-		subCatKey = (int[]) param[3];
-		compos = this.getResources().getStringArray(R.array.spot);
-		sceneryPlaceList = application.getPlaceData();
-		int size = sceneryPlaceList.size();
-		titleView.setText(this.getResources().getString(R.string.scenery)+"("+size+")");
-		sceneryAdapter = new SceneryAdapter(this,dataPath,sceneryPlaceList,subCatNameMap,location,symbolMap.get(cityID),cityAreaMap,application.getDataFlag());
-		sceneryList.setAdapter(sceneryAdapter);
 		mapView.setOnClickListener(clickListener);
 		sortSpinner.setOnClickListener(clickListener);
 		composSpinner.setOnClickListener(clickListener);
+		compos = this.getResources().getStringArray(R.array.spot);
+	}
+	
+	
+	private void initData(Object... params)
+	{
+		symbolMap = (HashMap<Integer, String>) params[0];
+		cityAreaMap = (HashMap<Integer, String>) params[1];		
+		subCatNameMap = (HashMap<Integer, String>) params[4];
+		subCatName = (String[]) params[2];
+		subCatKey = (int[]) params[3];
+		cityID = application.getCityID();
+		dataPath = String.format(ConstantField.IMAGE_PATH,cityID);	
+		location = application.getLocation();
+		sceneryPlaceList = application.getPlaceData();
+		int size = sceneryPlaceList.size();
+		titleView.setText(SceneryActivity.this.getResources().getString(R.string.scenery)+"("+size+")");
+		sceneryAdapter = new SceneryAdapter(SceneryActivity.this,dataPath,sceneryPlaceList,subCatNameMap,location,symbolMap.get(cityID),cityAreaMap,application.getDataFlag());
+		sceneryList.setAdapter(sceneryAdapter);
 	}
 
+	
+	
+	
 	@Override
 	public void placeInfo()
 	{
@@ -151,11 +152,11 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 	}
 	
 	@Override
-	public void refresh(Object...param)
+	public void refresh(Object...params)
 	{
 		// TODO Auto-generated method stub
 		//thread.start();
-		initData(param);
+		initData(params);
 		Message message = handler.obtainMessage();
 		message.what = LOAD_OK;
 		message.obj = null;
@@ -229,6 +230,7 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 			switch (v.getId())
 			{
 			case R.id.map_view:
+				application.setPlaceCategoryID(PlaceCategoryType.PLACE_SPOT_VALUE);
 				Intent intent = new Intent(SceneryActivity.this,PlaceMap.class);
 				startActivity(intent);
 				break;
@@ -241,10 +243,8 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
                     {
                     	sort_position=position;                    	
                     	sceneryPlaceList = TravelUtil.sort(subCatKey[sort_position], application.getPlaceData());
-                    	sceneryAdapter = new SceneryAdapter(SceneryActivity.this,dataPath,sceneryPlaceList,subCatNameMap,location,symbolMap.get(cityID),cityAreaMap,application.getDataFlag());          		
-                    	sceneryList.setAdapter(sceneryAdapter);
-                    	/*sceneryList.invalidateViews();
-                    	((SceneryAdapter)((ListView)findViewById(R.id.scenery_list)).getAdapter()).notifyDataSetChanged();*/
+                    	sceneryAdapter.setList(sceneryPlaceList);
+                    	sceneryAdapter.notifyDataSetChanged();                   	
                         dialog.cancel();
                     }
                 }).setTitle(SceneryActivity.this.getResources().getString(R.string.sort));
@@ -262,11 +262,8 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
                     {
                     	compositor_position=position;
                     	sceneryPlaceList = TravelUtil.placeComposite(compositor_position, sceneryPlaceList,location);
-                    	//adapter = new SceneryAdapter(SceneryActivity.this,dataPath,sceneryPlaceList,subCatNameMap,location,symbolMap.get(cityID),cityAreaMap,application.getDataFlag());
-                    	//sceneryAdapter.notifyDataSetChanged();
-                		//sceneryList.setAdapter(adapter);
-                    	sceneryAdapter = new SceneryAdapter(SceneryActivity.this,dataPath,sceneryPlaceList,subCatNameMap,location,symbolMap.get(cityID),cityAreaMap,application.getDataFlag());          		
-                    	sceneryList.setAdapter(sceneryAdapter);
+                    	sceneryAdapter.setList(sceneryPlaceList);
+                    	sceneryAdapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
                 }).setTitle(SceneryActivity.this.getResources().getString(R.string.compositor));

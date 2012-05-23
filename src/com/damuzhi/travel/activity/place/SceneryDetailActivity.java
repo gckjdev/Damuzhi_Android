@@ -37,7 +37,7 @@ public class SceneryDetailActivity extends MenuActivity
 	private TextView sceneryDetailTitle;
 	private TextView sceneryIntro;
 	private TextView ticketsPrice;
-	private TextView openingHour;
+	private TextView openingTime;
 	private TextView trafficInfo;
 	private TextView tourTips;
 	private TextView phoneNum;
@@ -114,7 +114,7 @@ public class SceneryDetailActivity extends MenuActivity
 		sceneryDetailTitle = (TextView) findViewById(R.id.scenery_detail_title);
 		sceneryIntro = (TextView) findViewById(R.id.scenery_intro);
 		ticketsPrice = (TextView) findViewById(R.id.tickets_price);
-		openingHour = (TextView) findViewById(R.id.open_time);
+		openingTime = (TextView) findViewById(R.id.open_time);
 		trafficInfo = (TextView) findViewById(R.id.traffic_info);
 		tourTips = (TextView) findViewById(R.id.tour_tips);
 		phoneNum = (TextView) findViewById(R.id.phone_num);
@@ -137,7 +137,7 @@ public class SceneryDetailActivity extends MenuActivity
 		sceneryDetailTitle.setText(place.getName());
 		sceneryIntro.setText(place.getIntroduction());
 		ticketsPrice.setText(place.getPriceDescription());
-		openingHour.setText(place.getOpenTime());
+		openingTime.setText(place.getOpenTime());
 		trafficInfo.setText(place.getTransportation());		
 		tourTips.setText(place.getTips());
 		int rank = place.getRank();

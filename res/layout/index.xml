@@ -167,18 +167,18 @@
 						    android:orientation="vertical"
 						    >
 			        <ImageButton
-			            android:id="@+id/city_about"
+			            android:id="@+id/city_base"
 			            android:layout_width="100.0dip"
 			            android:layout_height="60.0dip"
 			            android:background="@null"
 			            android:scaleType="fitXY"
 			            android:src="@drawable/city_about_button" />
 			        <TextView 
-			            android:id="@+id/city_about_title"
+			            android:id="@+id/city_base_title"
 			            android:layout_gravity="center"
 			            android:layout_height="wrap_content"
 			            android:layout_width="wrap_content"
-			            android:text="@string/city_about"
+			            android:text="@string/city_base"
 			            android:textSize="20.0sp"/>
 		        </FrameLayout>
 		        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -187,18 +187,18 @@
 							android:orientation="vertical"
 						    android:gravity="center">
 			         <ImageButton
-			             android:id="@+id/travel_ready"
+			             android:id="@+id/travel_prepration"
 			             android:layout_width="100.0dip"
 			             android:layout_height="60.0dip"
 			             android:background="@null"
 			             android:scaleType="fitXY"
 			             android:src="@drawable/travel_ready_button" />
 			         <TextView 
-				        android:id="@+id/travel_ready_title"
+				        android:id="@+id/travel_prepration_title"
 				        android:layout_gravity="center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
-				        android:text="@string/travel_ready"
+				        android:text="@string/travel_prepration"
 				        android:textSize="20.0sp"/>
 		         </FrameLayout>
 		         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -206,7 +206,7 @@
 		           			android:layout_height="60.0dip"
 						    android:orientation="vertical">
 			          <ImageButton 
-			            android:id="@+id/useful_info"
+			            android:id="@+id/travel_utility"
 			            android:layout_width="100.0dip"
 			            android:layout_height="60.0dip"
 			            android:scaleType="fitXY"
@@ -214,11 +214,11 @@
 			            android:src="@drawable/useful_info_button"
 			            />
 			          <TextView 
-				        android:id="@+id/useful_info_title"
+				        android:id="@+id/useful_utility_title"
 				        android:layout_gravity="center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
-				        android:text="@string/useful_info"
+				        android:text="@string/travel_utility"
 				        android:textSize="20.0sp"/>
 		          </FrameLayout>
 		    </TableRow>
@@ -228,7 +228,7 @@
 		           			android:layout_height="60.0dip"
 						    android:orientation="vertical">
 			        <ImageButton
-			            android:id="@+id/city_traffic"
+			            android:id="@+id/travel_transportation"
 			            android:layout_width="100.0dip"
 			            android:layout_height="60.0dip"
 			            android:layout_gravity="top"
@@ -236,11 +236,11 @@
 			            android:scaleType="fitXY"
 			            android:src="@drawable/city_traffic_button" />
 			         <TextView 
-				        android:id="@+id/city_traffic_title"
+				        android:id="@+id/travel_transportation_title"
 				        android:layout_gravity="center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
-				        android:text="@string/city_traffic"
+				        android:text="@string/travel_transportaion"
 				        android:textSize="20.0sp"/>
 		          </FrameLayout>
 		          <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -249,7 +249,7 @@
 						    android:orientation="vertical"
 						    android:gravity="top">
 			         <ImageButton 
-			            android:id="@+id/travel_note"
+			            android:id="@+id/travel_tips"
 			            android:layout_width="100.0dip"
 			           	android:layout_height="60.0dip"
 			            android:scaleType="fitXY"
@@ -257,7 +257,7 @@
 			            android:src="@drawable/travel_note_button"
 			            />
 			          <TextView 
-				        android:id="@+id/travel_note_title"
+				        android:id="@+id/travel_tips_title"
 				        android:layout_gravity="center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"

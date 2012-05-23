@@ -16,7 +16,9 @@ import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.protos.AppProtos.CityArea;
 import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
+import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.util.LocationUtil;
 
 import android.R.integer;
@@ -75,7 +77,7 @@ public class MainService extends Service implements Runnable
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			DataService placeDataService = new DataService(application);	
+			DataService dataService = new DataService(application);	
 			HashMap<Integer, String> cityAreaMap = MainService.getCityAreaMap(application.getCityID());
 			HashMap<Integer, String> subCatNameMap;
 			String[] subCatNameList ;
@@ -90,7 +92,7 @@ public class MainService extends Service implements Runnable
 				subCatNameList = MainService.getSubCatNameList(PlaceCategoryType.PLACE_SPOT);
 				subCatKeyList = MainService.getSubCatKeyList(PlaceCategoryType.PLACE_SPOT);
 				subCatNameMap = MainService.getSubCatMap(PlaceCategoryType.PLACE_SPOT);				
-				placeDataService.getPlace(ConstantField.SCENERY, application.getCityID(), ConstantField.LANG_HANS);
+				dataService.getPlace(ConstantField.SCENERY, application.getCityID(), ConstantField.LANG_HANS);
 				PlaceActivity sceneryActivity = (PlaceActivity)object;
 				sceneryActivity.refresh(symbolMap,cityAreaMap,subCatNameList,subCatKeyList,subCatNameMap);
 				break;
@@ -100,7 +102,7 @@ public class MainService extends Service implements Runnable
 				cityAreasName = MainService.getCityAreaNameList(application.getCityID());
 				cityAreasKey = MainService.getCityAreaKeyList(application.getCityID());
 				proServiceMap = MainService.getProServiceMap(PlaceCategoryType.PLACE_HOTEL);
-				placeDataService.getPlace(ConstantField.HOTEL, application.getCityID(), ConstantField.LANG_HANS);
+				dataService.getPlace(ConstantField.HOTEL, application.getCityID(), ConstantField.LANG_HANS);
 				PlaceActivity hotelActivity = (PlaceActivity)object;
 				hotelActivity.refresh(symbolMap,cityAreaMap,cityAreasName,cityAreasKey,proSerName,proSerKey,proServiceMap);
 				break;
@@ -114,7 +116,7 @@ public class MainService extends Service implements Runnable
 				cityAreasKey = MainService.getCityAreaKeyList(application.getCityID());
 				proServiceMap = MainService.getProServiceMap(PlaceCategoryType.PLACE_RESTRAURANT);
 				application.setSubCatNameMap(subCatNameMap);
-				placeDataService.getPlace(ConstantField.RESTAURANT, application.getCityID(), ConstantField.LANG_HANS);
+				dataService.getPlace(ConstantField.RESTAURANT, application.getCityID(), ConstantField.LANG_HANS);
 				PlaceActivity restaurantActivity = (PlaceActivity)object;
 				restaurantActivity.refresh(symbolMap,cityAreaMap,subCatNameMap,subCatNameList,subCatKeyList,cityAreasName,cityAreasKey,proSerName,proSerKey,proServiceMap);
 				break;
@@ -122,7 +124,7 @@ public class MainService extends Service implements Runnable
 				subCatNameMap = MainService.getSubCatMap(PlaceCategoryType.PLACE_SHOPPING);								
 				cityAreasName = MainService.getCityAreaNameList(application.getCityID());
 				cityAreasKey = MainService.getCityAreaKeyList(application.getCityID());		
-				placeDataService.getPlace(ConstantField.SHOPPING, application.getCityID(), ConstantField.LANG_HANS);
+				dataService.getPlace(ConstantField.SHOPPING, application.getCityID(), ConstantField.LANG_HANS);
 				PlaceActivity shoppingActivity = (PlaceActivity)object;
 				shoppingActivity.refresh(symbolMap,cityAreaMap,subCatNameMap,cityAreasName,cityAreasKey);
 				break;
@@ -132,18 +134,42 @@ public class MainService extends Service implements Runnable
 				subCatKeyList = MainService.getSubCatKeyList(PlaceCategoryType.PLACE_ENTERTAINMENT);
 				cityAreasName = MainService.getCityAreaNameList(application.getCityID());
 				cityAreasKey = MainService.getCityAreaKeyList(application.getCityID());		
-				placeDataService.getPlace(ConstantField.ENTERTAINMENT, application.getCityID(), ConstantField.LANG_HANS);
+				dataService.getPlace(ConstantField.ENTERTAINMENT, application.getCityID(), ConstantField.LANG_HANS);
 				PlaceActivity entertainmentActivity = (PlaceActivity)object;
 				entertainmentActivity.refresh(symbolMap,cityAreaMap,subCatNameMap,subCatNameList,subCatKeyList,cityAreasName,cityAreasKey);
 				break;
 			case Task.TASK_LOGIN_NEARBY:// 
 				subCatNameMap = MainService.getAllSubCatMap();				
-				placeDataService.getPlace(ConstantField.PLACE, application.getCityID(), ConstantField.LANG_HANS);
+				dataService.getPlace(ConstantField.PLACE, application.getCityID(), ConstantField.LANG_HANS);
 				PlaceActivity nearbyActivity = (PlaceActivity)object;
 				nearbyActivity.refresh(symbolMap,cityAreaMap,subCatNameMap);
 				break;
+			case Task.OVERVIEW:// 	
+				CommonOverview commonOverview = null;
+				if(application.getOverviewType().equals(ConstantField.CITY_BASE))
+				{
+					commonOverview  = dataService.getCommonOverview(ConstantField.CITY_BASE, application.getCityID(), ConstantField.LANG_HANS);
+				}else if (application.getOverviewType().equals(ConstantField.TRAVEL_PREPRATION))
+				{
+					commonOverview  = dataService.getCommonOverview(ConstantField.TRAVEL_PREPRATION, application.getCityID(), ConstantField.LANG_HANS);
+				}else if (application.getOverviewType().equals(ConstantField.TRAVEL_UTILITY))
+				{
+					commonOverview  = dataService.getCommonOverview(ConstantField.TRAVEL_UTILITY, application.getCityID(), ConstantField.LANG_HANS);
+				}else if (application.getOverviewType().equals(ConstantField.TRAVEL_TRANSPORTAION))
+				{
+					commonOverview  = dataService.getCommonOverview(ConstantField.TRAVEL_TRANSPORTAION, application.getCityID(), ConstantField.LANG_HANS);
+				}
+				
+				PlaceActivity citybaseActivity = (PlaceActivity)object;
+				citybaseActivity.refresh(commonOverview);
+				break;
+			case Task.TRAVEL_TIPS:// 	
+				List<CommonTravelTip> commonTravelTips =  dataService.getCommonTravelTips(ConstantField.TRAVEL_TIPS_LIST, application.getCityID(), ConstantField.LANG_HANS);
+				PlaceActivity travelTipsActivity = (PlaceActivity)object;
+				travelTipsActivity.refresh(commonTravelTips);
+				break;
 			case Task.MAP_NEARBY:// 
-				ArrayList<Place> placeList = placeDataService.getAllPlaceInArea(application.getPlace(), ConstantField.DISTANCE, ConstantField.ALL_PLACE_ORDER_BY_RANK, application.getCityID(), ConstantField.LANG_HANS);
+				ArrayList<Place> placeList = dataService.getAllPlaceInArea(application.getPlace(), ConstantField.DISTANCE, ConstantField.ALL_PLACE_ORDER_BY_RANK, application.getCityID(), ConstantField.LANG_HANS);
 				CommendPlaceMap commendPlaceMap =  (CommendPlaceMap) object;
 				commendPlaceMap.refresh(placeList);
 				break;

@@ -12,9 +12,13 @@ import android.util.Log;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.model.overview.OverViewManager;
+import com.damuzhi.travel.model.overview.TravelTipsManager;
 import com.damuzhi.travel.model.place.PlaceManager;
 import com.damuzhi.travel.network.HttpTool;
+import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.LocationUtil;
 
@@ -93,6 +97,96 @@ public class DataService
 		 
 		
 	}
+	
+	public CommonOverview getCommonOverview(String placeType,int cityID,String lang)
+	{
+		CommonOverview commonOverview = null;
+		String url = String.format(ConstantField.OVERVIEW, placeType,cityID,lang);
+		Log.d(TAG, url);
+		boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));//检查是否有离线文件存在
+		/*if(fileExit)
+		{
+			String dataPath = String.format(ConstantField.DATA_PATH,cityID);
+			placeManager = new PlaceManager(dataPath,null);
+			int type = Integer.parseInt(placeType);
+			switch (type)
+			{
+			case ALL_SCENERY_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getSceneryListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;
+			case ALL_HOTEL_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getHotelListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;
+			case ALL_SHOPPING_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getShoppingListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;	
+			case ALL_RESTAURANT_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getRestraurantListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;
+			case ALL_FUN_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getFunListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;
+			default:
+				break;
+			}
+			
+		}else {*/
+		commonOverview = OverViewManager.getOverviewByUrl(url);
+		application.setDataFlag(ConstantField.DATA_HTTP);
+		return commonOverview;
+		//}
+	}
+	
+	
+	public List<CommonTravelTip> getCommonTravelTips(String placeType,int cityID,String lang)
+	{
+		List<CommonTravelTip> commonTravelTips = null;
+		String url = String.format(ConstantField.PLACElIST, placeType,cityID,lang);
+		Log.d(TAG, url);
+		boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));//检查是否有离线文件存在
+		/*if(fileExit)
+		{
+			String dataPath = String.format(ConstantField.DATA_PATH,cityID);
+			placeManager = new PlaceManager(dataPath,null);
+			int type = Integer.parseInt(placeType);
+			switch (type)
+			{
+			case ALL_SCENERY_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getSceneryListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;
+			case ALL_HOTEL_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getHotelListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;
+			case ALL_SHOPPING_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getShoppingListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;	
+			case ALL_RESTAURANT_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getRestraurantListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;
+			case ALL_FUN_ORDER_BY_RANK:
+				application.setPlaceData(placeManager.getFunListOrderByrank());
+				application.setDataFlag(ConstantField.DATA_LOCAL);
+				break;
+			default:
+				break;
+			}
+			
+		}else {*/
+		commonTravelTips = TravelTipsManager.getTravelTipsByUrl(url);
+		application.setDataFlag(ConstantField.DATA_HTTP);
+		return commonTravelTips;
+		//}
+	}
+	
 	
 	
 	/**  

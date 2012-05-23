@@ -11,10 +11,10 @@
 	<string name="shopping">购物</string>
 	<string name="entertainment">娱乐</string>
 	<string name="nearby">附近</string>
-	<string name="city_about">城市概况</string>
-	<string name="travel_ready">旅行准备</string>
-	<string name="useful_info">实用信息</string>
-	<string name="city_traffic">城市交通</string>
+	<string name="city_base">城市概况</string>
+	<string name="travel_prepration">旅行准备</string>
+	<string name="travel_utility">实用信息</string>
+	<string name="travel_transportaion">城市交通</string>
 	<string name="travel_note">游记攻略</string>
 	<string name="travel_commend">线路推荐</string>
 	<!-- moreInfo-->

@@ -31,6 +31,8 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.more.MoreActivity;
+import com.damuzhi.travel.activity.overview.OverviewActivity;
+import com.damuzhi.travel.activity.overview.TravelTipsActivity;
 import com.damuzhi.travel.activity.place.EntertainmentActivity;
 import com.damuzhi.travel.activity.place.HotelActivity;
 import com.damuzhi.travel.activity.place.NearbyActivity;
@@ -52,6 +54,12 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	private ImageButton entertainmentButton;
 	private ImageButton nearbyButton;
 	private TravelApplication application;
+	private ImageButton citybaseButton;
+	private ImageButton travelPreprationButton;
+	private ImageButton travelUtilityButton;
+	private ImageButton travelTransportaionButton;
+	private ImageButton travelTipsButton;
+	private ImageButton routeTipsButton;
 	private HashMap<String, Integer> cityNameMap;
 	private List<String> list;
 	private Spinner city;
@@ -93,12 +101,25 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		shoppingButton = (ImageButton) findViewById(R.id.shopping);
 		entertainmentButton = (ImageButton) findViewById(R.id.entertainment);
 		nearbyButton = (ImageButton) findViewById(R.id.nearby);
+		citybaseButton = (ImageButton) findViewById(R.id.city_base);		
+		travelPreprationButton = (ImageButton) findViewById(R.id.travel_prepration);
+		travelUtilityButton = (ImageButton) findViewById(R.id.travel_utility);
+		travelTransportaionButton = (ImageButton) findViewById(R.id.travel_transportation);
+		travelTipsButton = (ImageButton) findViewById(R.id.travel_tips);
+		routeTipsButton = (ImageButton) findViewById(R.id.travel_commend);
+		nearbyButton = (ImageButton) findViewById(R.id.nearby);
 		sceneryButton.setOnClickListener(this);
 		hotelButton.setOnClickListener(this);
 		restaurantButton.setOnClickListener(this);
 		shoppingButton.setOnClickListener(this);
 		entertainmentButton.setOnClickListener(this);
 		nearbyButton.setOnClickListener(this);
+		citybaseButton.setOnClickListener(this);
+		travelPreprationButton.setOnClickListener(this);
+		travelUtilityButton.setOnClickListener(this);
+		travelTransportaionButton.setOnClickListener(this);
+		travelTipsButton.setOnClickListener(this);
+		routeTipsButton.setOnClickListener(this);
 		moreButton.setOnClickListener(this);
 		Intent intent = new Intent();
 		intent.setAction(ConstantField.CHECK_NET);
@@ -156,6 +177,46 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			Intent nearbyIntent = new Intent();
 			nearbyIntent.setClass(IndexActivity.this, NearbyActivity.class);		
 			startActivity(nearbyIntent);
+			break;
+		case R.id.city_base:
+			Log.d(TAG, "city_base");
+			application.setOverviewType(ConstantField.CITY_BASE);
+			Intent cityBaseIntent = new Intent();
+			cityBaseIntent.setClass(IndexActivity.this, OverviewActivity.class);		
+			startActivity(cityBaseIntent);
+			break;
+		case R.id.travel_prepration:	
+			Log.d(TAG, "travel_prepration");
+			application.setOverviewType(ConstantField.TRAVEL_PREPRATION);
+			Intent travelPreprationIntent = new Intent();
+			travelPreprationIntent.setClass(IndexActivity.this, OverviewActivity.class);		
+			startActivity(travelPreprationIntent);
+			break;
+		case R.id.travel_utility:	
+			Log.d(TAG, "travel_utility");
+			application.setOverviewType(ConstantField.TRAVEL_UTILITY);
+			Intent travelUtilityIntent = new Intent();
+			travelUtilityIntent.setClass(IndexActivity.this, OverviewActivity.class);		
+			startActivity(travelUtilityIntent);
+			break;
+		case R.id.travel_transportation:	
+			Log.d(TAG, "travel_transportation");
+			application.setOverviewType(ConstantField.TRAVEL_TRANSPORTAION);
+			Intent travelTransportationIntent = new Intent();
+			travelTransportationIntent.setClass(IndexActivity.this, OverviewActivity.class);		
+			startActivity(travelTransportationIntent);
+			break;
+		case R.id.travel_tips:	
+			Log.d(TAG, "travel_tips");
+			Intent travelTipsIntent = new Intent();
+			travelTipsIntent.setClass(IndexActivity.this, TravelTipsActivity.class);		
+			startActivity(travelTipsIntent);
+			break;
+		case R.id.travel_commend:	
+			Log.d(TAG, "travel_commend");
+			Intent travelCOmmendIntent = new Intent();
+			travelCOmmendIntent.setClass(IndexActivity.this, EntertainmentActivity.class);		
+			startActivity(travelCOmmendIntent);
 			break;
 		default:
 			break;

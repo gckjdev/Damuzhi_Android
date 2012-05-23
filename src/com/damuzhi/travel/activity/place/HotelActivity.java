@@ -225,6 +225,7 @@ public class HotelActivity extends MenuActivity implements PlaceActivity
 			switch (v.getId())
 			{
 			case R.id.map_view:
+				application.setPlaceCategoryID(PlaceCategoryType.PLACE_HOTEL_VALUE);
 				Intent intent = new Intent(HotelActivity.this,PlaceMap.class);
 				startActivity(intent);
 				break;
@@ -237,9 +238,8 @@ public class HotelActivity extends MenuActivity implements PlaceActivity
                     {
                     	service_position=position;
                     	hotelPlaceList = TravelUtil.service(serviceID[service_position], application.getPlaceData());
-                    	adapter = new HotelAdapter(HotelActivity.this,dataPath,hotelPlaceList,location,symbolMap.get(application.getCityID()),cityAreaMap,application.getDataFlag());
-                		adapter.notifyDataSetChanged();
-                		hotelList.setAdapter(adapter);
+                    	adapter.setList(hotelPlaceList);
+                    	adapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
                 }).setTitle(HotelActivity.this.getResources().getString(R.string.service));
@@ -257,9 +257,8 @@ public class HotelActivity extends MenuActivity implements PlaceActivity
                     {
                     	area_position=position;
                     	hotelPlaceList = TravelUtil.area(areaID[area_position], application.getPlaceData());
-                    	adapter = new HotelAdapter(HotelActivity.this,dataPath,hotelPlaceList,location,symbolMap.get(application.getCityID()),cityAreaMap,application.getDataFlag());
-                		adapter.notifyDataSetChanged();
-                		hotelList.setAdapter(adapter);
+                    	adapter.setList(hotelPlaceList);
+                    	adapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
                 }).setTitle(HotelActivity.this.getResources().getString(R.string.area));
@@ -277,9 +276,8 @@ public class HotelActivity extends MenuActivity implements PlaceActivity
                     {
                     	price_position=position;
                     	hotelPlaceList = TravelUtil.price(price_position, application.getPlaceData());
-                    	adapter = new HotelAdapter(HotelActivity.this,dataPath,hotelPlaceList,location,symbolMap.get(application.getCityID()),cityAreaMap,application.getDataFlag());
-                		adapter.notifyDataSetChanged();
-                		hotelList.setAdapter(adapter);
+                    	adapter.setList(hotelPlaceList);
+                    	adapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
                 }).setTitle(HotelActivity.this.getResources().getString(R.string.price));
@@ -297,9 +295,8 @@ public class HotelActivity extends MenuActivity implements PlaceActivity
                     {
                     	compositor_position=position;
                     	hotelPlaceList = TravelUtil.hotelComposite(compositor_position, hotelPlaceList,location);
-                    	adapter = new HotelAdapter(HotelActivity.this,dataPath,hotelPlaceList,location,symbolMap.get(application.getCityID()),cityAreaMap,application.getDataFlag());
-                		adapter.notifyDataSetChanged();
-                		hotelList.setAdapter(adapter);
+                    	adapter.setList(hotelPlaceList);
+                    	adapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
                 }).setTitle(HotelActivity.this.getResources().getString(R.string.compositor));

@@ -147,7 +147,7 @@
 	          android:background="@color/place_info_bg"
 	          android:orientation="vertical">
 	   	  		<TextView	
-	   	  		    android:id="@+id/opening_time_title"
+	   	  		    android:id="@+id/open_time_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"
@@ -156,7 +156,7 @@
 	   	  		    android:text="@string/openingHour"
 	   	  		    />  
 	   	  		 <TextView
-	   	  		    android:id="@+id/opening_time"
+	   	  		    android:id="@+id/open_time"
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:padding="10.0dip"

@@ -27,6 +27,7 @@ import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.AppProtos.PlaceMeta;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
+import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.util.LocationUtil;
 
 import android.R.integer;
@@ -52,8 +53,9 @@ public class TravelApplication extends Application
 	private ArrayList<Place> placeData;//具体类别的PLACE
 	private HashMap<String, Double> location = new HashMap<String, Double>();//经纬度信息
 	private Place place;//一个具体的PLACE
-
-	
+	private int placeCategoryID;
+	private String overviewType;//overview类型
+	private CommonTravelTip commonTravelTip;
 	
 	private static TravelApplication travelApplication;
 	
@@ -300,6 +302,61 @@ public class TravelApplication extends Application
 	{
 		this.subCatNameMap = subCatNameMap;
 	}
+
+
+
+
+	public int getPlaceCategoryID()
+	{
+		return placeCategoryID;
+	}
+
+
+
+
+	public void setPlaceCategoryID(int placeCategoryID)
+	{
+		this.placeCategoryID = placeCategoryID;
+	}
+
+
+
+
+	public String getOverviewType()
+	{
+		return overviewType;
+	}
+
+
+
+
+	public void setOverviewType(String overviewType)
+	{
+		this.overviewType = overviewType;
+	}
+
+
+
+
+	public CommonTravelTip getCommonTravelTip()
+	{
+		return commonTravelTip;
+	}
+
+
+
+
+	public void setCommonTravelTip(CommonTravelTip commonTravelTip)
+	{
+		this.commonTravelTip = commonTravelTip;
+	}
+
+
+
+
+
+
+	
 
 
 

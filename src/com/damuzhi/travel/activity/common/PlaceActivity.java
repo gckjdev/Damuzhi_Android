@@ -4,5 +4,5 @@ public interface PlaceActivity
 {
 	void init();//初始化数据
 	void placeInfo();//查看一个具体place的info
-	void refresh(Object...param);//刷新数据
+	void refresh(Object...params);//刷新数据
 }
