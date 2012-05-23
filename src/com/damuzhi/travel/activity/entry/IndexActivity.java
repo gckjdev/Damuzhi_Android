@@ -42,6 +42,8 @@ import com.damuzhi.travel.activity.place.ShoppingActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
+import com.orange.utils.HttpUtils;
+import com.orange.utils.LocationUtil;
 
 public class IndexActivity extends MenuActivity implements OnClickListener
 {
@@ -66,6 +68,8 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
+		LocationUtil.getCurrentLocation(this);
+		
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
