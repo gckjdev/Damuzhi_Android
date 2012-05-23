@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingRight="30dp"
+    android:orientation="horizontal">
+		<ImageView 
+		    android:id="@+id/travel_tips_icon"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentLeft="true"
+		    android:src="@drawable/book"
+		    android:scaleType="fitXY"/>
+		<TextView 
+		    android:id="@+id/travel_tips_name"
+		    android:layout_height="fill_parent"
+		    android:layout_width="wrap_content"
+		    android:layout_centerVertical="true"
+		    android:singleLine="true"
+		    android:layout_toRightOf="@id/travel_tips_icon"/>    
+		 <ImageView 
+		    android:id="@+id/travel_tips_go_icon"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"		   
+		    android:layout_alignParentRight="true"
+		    android:layout_centerVertical="true"
+		    android:src="@drawable/go_btn"
+		    android:scaleType="fitXY"/>   
+</RelativeLayout>

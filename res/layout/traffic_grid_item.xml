@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:orientation="horizontal">
+    <TextView 
+        android:id="@+id/location"
+        android:layout_height="wrap_content"
+        android:layout_width="180dp"
+        android:gravity="left"
+        android:textColor="@color/place_name_color"/>
+    <TextView 
+        android:id="@+id/distance"
+        android:layout_height="wrap_content"
+        android:layout_width="60dp"
+        android:gravity="left"
+        android:textColor="@color/place_name_color"/>
+</LinearLayout>

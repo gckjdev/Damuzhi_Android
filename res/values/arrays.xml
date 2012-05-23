@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="spot">
+        <item >大拇指推荐高至低</item>
+        <item >距离近至远</item>
+        <item >门票价格高到低</item>
+    </string-array>
+    
+    <string-array name="hotel">
+        <item >大拇指推荐高至低</item>
+        <item >星级高至低</item>
+        <item >价格高至低</item>
+        <item >价格低至高</item>
+        <item >距离近至远</item>
+    </string-array>
+    
+    <string-array name="restaurant">
+        <item >大拇指推荐高至低</item>
+        <item >价格高至低</item>
+        <item >价格低至高</item>
+        <item >距离近至远</item>
+    </string-array>
+    
+    <string-array name="shopping">
+        <item >大拇指推荐高至低</item>
+        <item >距离近至远</item>
+    </string-array>
+    
+    <string-array name="entertainment">
+        <item >大拇指推荐高至低</item>
+        <item >价格高至低</item>
+        <item >价格低至高</item>
+        <item >距离近至远</item>
+    </string-array>
+    
+    <string-array name="priceRank">
+        <item >全部</item>
+        <item >500以下</item>
+        <item >500-1000</item>
+        <item >1000-1500</item>
+        <item >1500以上</item>
+    </string-array>
+</resources>
