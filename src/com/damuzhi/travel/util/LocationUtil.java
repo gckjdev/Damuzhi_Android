@@ -302,7 +302,9 @@ public class LocationUtil
 	     * @update 2012-5-8 обнГ12:04:37  
 	     */
 	private HashMap<String, Double> callGear(ArrayList<CellIDInfo> cellID) {
-	if (cellID == null) return null;		
+	if (cellID == null || cellID.size() == 0) 
+		return null;
+	
 		HttpPost post = new HttpPost("http://www.google.com/loc/json");
 		JSONObject holder = new JSONObject();
 	try {
