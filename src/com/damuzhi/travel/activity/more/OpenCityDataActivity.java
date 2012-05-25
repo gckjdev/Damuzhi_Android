@@ -54,14 +54,12 @@ private Map<String, TextView> resultTextMap = new HashMap<String, TextView>();
 		ViewGroup mContainer = (ViewGroup) findViewById(R.id.city_data_group);
 		 adapter = new OpenCityDataAdapter(city, OpenCityDataActivity.this);
 		openCtiyDataListView.setAdapter(adapter);
-		//openCtiyDataListView.setOnItemClickListener(itemClickListener);
-		//设置需要保存缓存  
 		bindService(new Intent(OpenCityDataActivity.this, DownLoadService.class), conn, Context.BIND_AUTO_CREATE);
         mContainer.setPersistentDrawingCache(ViewGroup.PERSISTENT_ANIMATION_CACHE);
 	}
 	
 	
-	//绑定bindservice，获得后台AIDL下载服务
+	//bindservice
 	private ServiceConnection conn = new ServiceConnection()
 	{
 		
@@ -94,7 +92,7 @@ private Map<String, TextView> resultTextMap = new HashMap<String, TextView>();
 		}
 	};
 	
-	//获得后台回调接口，获取下载数据
+
 	private IDownloadCallback callback = new IDownloadCallback.Stub()
 	{
 		
@@ -215,7 +213,6 @@ private Map<String, TextView> resultTextMap = new HashMap<String, TextView>();
 	};
 	
 	
-//对于UI控件的更新只能由主线程(UI线程)负责，如果在非UI线程更新UI控件，更新的结果不会反映在屏幕上，某些控件还会出错
 	private void download(final String strKey, final String strSavePath)
 	{	
 		Thread thread = new Thread(new Runnable()

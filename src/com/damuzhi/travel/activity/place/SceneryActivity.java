@@ -70,18 +70,21 @@ import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
 public class SceneryActivity extends MenuActivity implements PlaceActivity
 {
 	private	static final String TAG = "SceneryActivity";
-	private ListView sceneryList;
-	private TextView titleView;
-	private ImageView mapView;
-	private ViewGroup sortSpinner;
+	private ListView placeListView;
+	private TextView placeTitle;
+	private TextView placeNum;
+	private ImageView mapImageView;
+	private ViewGroup placeSpinner;
 	private ViewGroup composSpinner;
+	private ViewGroup areaSpinner;
+	private ViewGroup serviceSpinner;
 	private Dialog loadingDialog;
-	private ArrayList<Place> sceneryPlaceList;
+	private ArrayList<Place> placeList;
 	private TravelApplication application;
 	private String dataPath ;
 	private static final int LOADING = 0;
 	private static final int LOAD_OK = 1;
-	private int loadFlag = 1;//ÅÐ¶ÏÊÇ·ñ´ÓÐÂ¼ÓÔØactivity
+	private int loadFlag = 1;
 	private int compositor_position = 0;
 	private int sort_position = 0;
 	private int cityID = -1;
@@ -89,19 +92,26 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 	private String[] compos;
 	private String[] subCatName;
 	private int[] subCatKey;
+	private String[] serviceName;
+	private int[] serviceID;
+	private String[] price;
+	private String[] areaName;
+	private int[] areaID;
 	private HashMap<Integer,String> symbolMap;
 	private HashMap<Integer, String> cityAreaMap;
 	private HashMap<Integer, String> subCatNameMap;
 	private HashMap<String, Double> location;
+	private int task;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
-		setContentView(R.layout.scenery);
-		MainService.allActivity.add(this);//½«µ±Ç°µÄactivityÌí¼Óµ½ServicreµÄactivity¼¯ºÏÖÐ		
+		setContentView(R.layout.place);
+		MainService.allActivity.add(this);	
 		loadFlag = 0;
+		application = TravelApplication.getInstance();
 		init();
 		placeInfo();
 	}
@@ -111,16 +121,12 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 	public void init()
 	{
 		// TODO Auto-generated method stub
-		sceneryList = (ListView) findViewById(R.id.scenery_list);
-		titleView = (TextView) findViewById(R.id.scenery_title);
-		sortSpinner = (ViewGroup) findViewById(R.id.sort_spinner);
+		placeListView = (ListView) findViewById(R.id.place_listview);
+		placeTitle = (TextView) findViewById(R.id.scenery_title);
+		placeNum = (TextView) findViewById(R.id.place_num);
 		composSpinner = (ViewGroup) findViewById(R.id.compos_spinner);
-		mapView = (ImageView) findViewById(R.id.map_view);
-		application = TravelApplication.getInstance();
-		mapView.setOnClickListener(clickListener);
-		sortSpinner.setOnClickListener(clickListener);
-		composSpinner.setOnClickListener(clickListener);
-		compos = this.getResources().getStringArray(R.array.spot);
+		mapImageView = (ImageView) findViewById(R.id.map_view);		
+		mapImageView.setOnClickListener(clickListener);
 	}
 	
 	
@@ -134,21 +140,24 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 		cityID = application.getCityID();
 		dataPath = String.format(ConstantField.IMAGE_PATH,cityID);	
 		location = application.getLocation();
-		sceneryPlaceList = application.getPlaceData();
-		int size = sceneryPlaceList.size();
-		titleView.setText(SceneryActivity.this.getResources().getString(R.string.scenery)+"("+size+")");
-		sceneryAdapter = new SceneryAdapter(SceneryActivity.this,dataPath,sceneryPlaceList,subCatNameMap,location,symbolMap.get(cityID),cityAreaMap,application.getDataFlag());
-		sceneryList.setAdapter(sceneryAdapter);
+		placeList = application.getPlaceData();
+		placeTitle.setText(getString(R.string.scenery));
+		placeNum.setText("("+placeList.size()+")");
+		sceneryAdapter = new SceneryAdapter(SceneryActivity.this,dataPath,placeList,subCatNameMap,location,symbolMap.get(cityID),cityAreaMap,application.getDataFlag());
+		placeListView.setAdapter(sceneryAdapter);
 	}
 
-	
+	private void initSpinner()
+	{
+		
+	}
 	
 	
 	@Override
 	public void placeInfo()
 	{
 		// TODO Auto-generated method stub
-		sceneryList.setOnItemClickListener(itemClickListener);	
+		placeListView.setOnItemClickListener(itemClickListener);	
 	}
 	
 	@Override
@@ -210,7 +219,7 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 				long arg3)
 		{
 			// TODO Auto-generated method stub
-			Place place = sceneryPlaceList.get(arg2);
+			Place place = placeList.get(arg2);
 			application.setPlace(place);
 			Intent intent = new Intent(SceneryActivity.this, SceneryDetailActivity.class);
 			startActivity(intent);
@@ -242,8 +251,8 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
                     public void onClick(DialogInterface dialog, int position) 
                     {
                     	sort_position=position;                    	
-                    	sceneryPlaceList = TravelUtil.sort(subCatKey[sort_position], application.getPlaceData());
-                    	sceneryAdapter.setList(sceneryPlaceList);
+                    	placeList = TravelUtil.sort(subCatKey[sort_position], application.getPlaceData());
+                    	sceneryAdapter.setList(placeList);
                     	sceneryAdapter.notifyDataSetChanged();                   	
                         dialog.cancel();
                     }
@@ -261,8 +270,8 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
                     public void onClick(DialogInterface dialog, int position) 
                     {
                     	compositor_position=position;
-                    	sceneryPlaceList = TravelUtil.placeComposite(compositor_position, sceneryPlaceList,location);
-                    	sceneryAdapter.setList(sceneryPlaceList);
+                    	placeList = TravelUtil.placeComposite(compositor_position, placeList,location);
+                    	sceneryAdapter.setList(placeList);
                     	sceneryAdapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
@@ -306,7 +315,7 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
 	        loadingDialog = new AlertDialog.Builder(mContext).create();
 	        loadingDialog.setOnKeyListener(keyListener);
 	        loadingDialog.show();
-	        // ×¢Òâ´Ë´¦Òª·ÅÔÚshowÖ®ºó ·ñÔò»á±¨Òì³£
+	        // ×¢ï¿½ï¿½Ë´ï¿½Òªï¿½ï¿½ï¿½ï¿½showÖ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½á±¨ï¿½ì³£
 	        loadingDialog.setContentView(layout);
 	    }
 	  

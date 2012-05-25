@@ -6,10 +6,12 @@ public class ConstantField
 	public static final String SCENERY_ACTION = "damuzhi.activity.place.SceneryActivity";
 	public static final String HOTEL_ACTION = "damuzhi.activity.place.HotelActivity";
 	public static final String RESTAURANT_ACTION = "damuzhi.activity.place.RestaurantActivity";
-	public static final String SAVE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/";
+	public static final String APP_DATA_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/";
 	public static final String DATA_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/%s/";
 	public static final String IMAGE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/%s/data/";
-	public static final String APP_DATA_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app.dat";
+	public static final String APP_DATA_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app.dat";
+	public static final String APP_DATA_TEMP_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp";
+	public static final String APP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp/temp.dat";
 	public static final String PLACE_PATH ="/data/place/";
 	public static final int DATA_LOCAL = 0;
 	public static final int DATA_HTTP = 1;
@@ -31,7 +33,7 @@ public class ConstantField
 	public static final String FEED_BACK = "http://api.trip8888.com/service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACElIST = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&lang=%s";
-	public static final String APP = "http://api.trip8888.com/service/queryList.aspx?type=%s&lang=%s";
+	public static final String APP = "http://api.trip8888.com/service/queryList.aspx?type=10&lang=%s";
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
 	public static final String RESULT_OK = "0";
 	public static final String LANG_HANS = "1";
@@ -61,7 +63,7 @@ public class ConstantField
 	public static final String ALL_RESTAURANT_ORDER_BY_RANK = "43";
 	public static final String ALL_SHOPPING_ORDER_BY_RANK = "44";
 	public static final String ALL_FUN_ORDER_BY_RANK = "45";
-	public static final String ALL_PLACE = "È«²¿";
+	public static final String ALL_PLACE = "å…¨éƒ¨";
 	public static final int ALL_PLACE_CATEGORY_ID = -1;
 	public static final int HALF_KILOMETER = 500;
 	public static final int ONE_KILOMETER = 1000;

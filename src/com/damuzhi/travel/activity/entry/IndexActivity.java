@@ -33,17 +33,17 @@ import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.activity.overview.OverviewActivity;
 import com.damuzhi.travel.activity.overview.TravelTipsActivity;
+import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.EntertainmentActivity;
 import com.damuzhi.travel.activity.place.HotelActivity;
 import com.damuzhi.travel.activity.place.NearbyActivity;
 import com.damuzhi.travel.activity.place.RestaurantActivity;
 import com.damuzhi.travel.activity.place.SceneryActivity;
 import com.damuzhi.travel.activity.place.ShoppingActivity;
+import com.damuzhi.travel.activity.place.SpotActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
-import com.orange.utils.HttpUtils;
-import com.orange.utils.LocationUtil;
 
 public class IndexActivity extends MenuActivity implements OnClickListener
 {
@@ -68,7 +68,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		LocationUtil.getCurrentLocation(this);
+		//LocationUtil.getCurrentLocation(this);
 		
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
@@ -76,7 +76,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		setContentView(R.layout.index);
 		setProgressBarIndeterminateVisibility(true);
-		MainService.allActivity.add(this);//½«µ±Ç°µÄactivityÌí¼Óµ½ServicreµÄactivity¼¯ºÏÖÐ
+		MainService.allActivity.add(this);
 		city = (Spinner) findViewById(R.id.city_spinner);
 		application = TravelApplication.getInstance();
 		cityNameMap = application.getCityNameMap();
@@ -87,7 +87,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		for(String cityName:cityNameSet)
 		{
 			list.add(cityName);			
-			if(cityName.equals("Ïã¸Û"))
+			if(cityName.equals("ï¿½ï¿½ï¿½"))
 			{
 				flag = position;
 			}
@@ -149,7 +149,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		case R.id.scenery:	
 			Log.d(TAG, "scenery");
 			Intent sceneryIntent = new Intent();
-			sceneryIntent.setClass(IndexActivity.this, SceneryActivity.class);	
+			sceneryIntent.setClass(IndexActivity.this, SpotActivity.class);	
 			startActivity(sceneryIntent);
 			break;
 		case R.id.hotel:
@@ -308,7 +308,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 
 		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-		//Toast.makeText(this, "GPSÄ£¿éÕý³£", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(this, "GPSÄ£ï¿½ï¿½ï¿½ï¿½", Toast.LENGTH_SHORT).show();
 		return;
 		}
 	    Intent gpsIntent = new Intent();

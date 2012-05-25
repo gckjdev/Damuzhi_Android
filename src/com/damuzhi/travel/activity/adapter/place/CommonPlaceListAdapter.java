@@ -1,110 +1,96 @@
+/**  
+        * @title CommonPlaceListAdapter.java  
+        * @package com.damuzhi.travel.activity.adapter.place  
+        * @description   
+        * @author liuxiaokun  
+        * @update 2012-5-24 下午3:57:51  
+        * @version V1.0  
+        */
 package com.damuzhi.travel.activity.adapter.place;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.content.Context;
+import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.common.PlaceViewCache;
+import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.model.app.AppManager;
+import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.protos.AppProtos.App;
+import com.damuzhi.travel.protos.AppProtos.NameIdPair;
+import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
+import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.service.MainService;
+import com.damuzhi.travel.util.LocationUtil;
 
-import android.os.Handler;
-import android.text.method.ScrollingMovementMethod;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.adapter.common.PlaceViewCache;
-import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
-import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.protos.AppProtos.City;
-import com.damuzhi.travel.protos.AppProtos.CityArea;
-import com.damuzhi.travel.protos.AppProtos.NameIdPair;
-import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import com.damuzhi.travel.util.LocationUtil;
+/**  
+ * @description   
+ * @version 1.0  
+ * @author liuxiaokun  
+ * @update 2012-5-24 下午3:57:51  
+ */
 
-public class SceneryAdapter extends BaseAdapter
+public class CommonPlaceListAdapter extends BaseAdapter
 {
 	private static final String TAG = "SceneryAdapter";
 	private Context context;
-	private String datapath ;
-	private ArrayList<Place> list;
+	private List<Place> placeList;
+	private int placeCategoryType;
 	private HashMap<Integer, String> subCatMap;
 	private double latitude;
 	private double longitude;
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
-	private int dataFlag;
 	public Anseylodar anseylodar;
 	private LayoutInflater inflater;
 	private ImageView imageView;
-	/**
-	 * @param context
-	 * @param datapath
-	 * @param list
-	 * @param subCatMap
-	 * @param proSerMap
-	 * @param location
-	 * @param cityMap
-	 * @param cityAreaMap
-	 * @param dataFlag
-	 */
-	public SceneryAdapter(Context context, String datapath,
-			ArrayList<Place> list, HashMap<Integer, String> subCatMap,
-			HashMap<String, Double> location, String symbol,
-			HashMap<Integer, String> cityAreaMap, int dataFlag)
-	{
-		super();
-		this.context = context;
-		this.datapath = datapath;
-		this.list = list;
-		this.subCatMap = subCatMap;
-		this.symbol = symbol;
-		this.cityAreaMap = cityAreaMap;
-		this.dataFlag = dataFlag;
-		anseylodar = new Anseylodar();
-		inflater = LayoutInflater.from(context);
-		
-		if (location == null){
-			latitude = location.get(ConstantField.LATITUDE);
-			longitude = location.get(ConstantField.LONGITUDE);
-		}
-	}
+	//private int dataFlag;
+	
+
 	@Override
 	public int getCount()
 	{
 		// TODO Auto-generated method stub
-		return list.size();
+		return placeList.size();
+	}
+
+	/**  
+	        * Constructor Method   
+	        * @param context
+	        * @param placeList  
+	        */
+	public CommonPlaceListAdapter(Context context, List<Place> placeList,int placeCategoryType)
+	{
+		super();
+		this.context = context;
+		this.placeList = placeList;		
+		this.inflater = LayoutInflater.from(context);
+		this.anseylodar = new Anseylodar();
+		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
+		cityAreaMap = AppManager.getInstance().getCityAreaMap(TravelApplication.getInstance().getCityID());
+		symbol = AppManager.getInstance().getSymbolMap().get(TravelApplication.getInstance().getCityID());
 	}
 
 	@Override
 	public Object getItem(int position)
 	{
 		// TODO Auto-generated method stub
-		return list.get(position);
+		return placeList.get(position);
 	}
 	
-	 public  void starAnsy(){
-		   //istarAnsy=true;
-		   this.notifyDataSetChanged();
-		   Log.i("-----------------------------------", "star");
-	   } 
-	 
-	   public  void pauseAnsy(){
-		  // istarAnsy=false;
-		   Log.i("----------------------------------", "pause");
-	   }
-	   
-	 //����������
-		public void addmoreDate(ArrayList<Place> addmore){
-			if (list!=null) {
-				this.list.addAll(addmore);//���´�����ݼӵ����ڵ�list��
-				this.notifyDataSetChanged();//�����׷�ӵ�ListView����ʾ
-			}
-		}
+	
 	@Override
 	public long getItemId(int position)
 	{
@@ -117,7 +103,7 @@ public class SceneryAdapter extends BaseAdapter
 	{
 		// TODO Auto-generated method stub
 		PlaceViewCache viewCache; 
-		Place place = list.get(position);
+		Place place = placeList.get(position);
 		if(convertView == null)
 		{
 			convertView = inflater.inflate(R.layout.place_list_item, null);
@@ -126,7 +112,6 @@ public class SceneryAdapter extends BaseAdapter
 		}else {
 			viewCache = (PlaceViewCache) convertView.getTag();
 		}
-		//NameIdPair subCatName= subCatMap.get(place.getSubCategoryId());	
 		String subCatName = subCatMap.get(place.getSubCategoryId());
 		TextView sceneryName = viewCache.getPlaceName();	
 		sceneryName.setSelected(true);		
@@ -164,21 +149,27 @@ public class SceneryAdapter extends BaseAdapter
 		String url = "";
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
-		if(dataFlag == ConstantField.DATA_LOCAL)
+		/*if(dataFlag == ConstantField.DATA_LOCAL)
 		{
-			url = datapath+place.getIcon();
+			url = ConstantField.DATA_PATH+place.getIcon();
 		}else{
 			url = place.getIcon();				
-		}	
-		anseylodar.showimgAnsy(imageView,url, dataFlag);
-		int distance = (int) LocationUtil.GetDistance(longitude, latitude, place.getLongitude(), place.getLatitude());
-		//Log.d(TAG, "distance = " +distance);
-		if(distance >1000)
+		}*/	
+		url = place.getIcon();
+		anseylodar.showimgAnsy(imageView,url, ConstantField.DATA_HTTP);		
+		if(TravelApplication.getInstance().getLocation()!=null)
 		{
-			sceneryDistance.setText(distance/1000+context.getResources().getString(R.string.kilometer));
+			int distance = (int) LocationUtil.GetDistance(longitude, latitude, place.getLongitude(), place.getLatitude());
+			if(distance >1000)
+			{
+				sceneryDistance.setText(distance/1000+context.getResources().getString(R.string.kilometer));
+			}else {
+				sceneryDistance.setText(distance+context.getResources().getString(R.string.meter));
+			}
 		}else {
-			sceneryDistance.setText(distance+context.getResources().getString(R.string.meter));
-		}		
+			sceneryDistance.setText("");
+		}
+		sceneryDistance.setText("");	
 		sceneryName.setText(place.getName());
 		String price ;
 		if(place.getPrice().equals("0"))
@@ -199,12 +190,10 @@ public class SceneryAdapter extends BaseAdapter
 		return convertView;
 	}
 	
-	public void setList(ArrayList<Place> list)
+	public void setList(List<Place> list)
 	{
-		this.list = list;
+		this.placeList = list;
 	}
-	
-
 	
 
 }

@@ -9,7 +9,9 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.CommendPlaceMap;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.entry.WelcomeActivity;
 import com.damuzhi.travel.activity.place.SceneryActivity;
+import com.damuzhi.travel.mission.AppMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.place.PlaceManager;
 import com.damuzhi.travel.protos.AppProtos.City;
@@ -38,7 +40,7 @@ import android.util.Log;
         * @description   
         * @version 1.0  
         * @author liuxiaokun  
-        * @update 2012-5-11 ÏÂÎç5:25:22  
+        * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:25:22  
         */  
 public class MainService extends Service implements Runnable
 {
@@ -52,10 +54,10 @@ public class MainService extends Service implements Runnable
 	//public static  String dataPath ="";
 	
 	public static ArrayList<Activity> allActivity = new ArrayList<Activity>();
-	// ½«ËùÓĞÈÎÎñ·Åµ½ÈÎÎñ¼¯ºÏÖĞ
+	
 	public static ArrayList<Task> allTask = new ArrayList<Task>();
 
-	// ±éÀúËùÓĞactivity ¸ù¾İÃû³ÆÔÚ allActivity ÖĞÕÒµ½ĞèÒªµÄactivity
+	
 	public static Activity getActivityByName(String name) {
 		for (Activity ac : allActivity) {
 			if (ac.getClass().getName().indexOf(name) >= 0) {
@@ -65,19 +67,19 @@ public class MainService extends Service implements Runnable
 		return null;
 	}
 
-	// ½«µ±Ç°µÄÈÎÎñ¼Óµ½ÈÎÎñ¼¯ºÏÖĞ
+	
 	public static void newTask(Task task) {
 		allTask.add(task);
 	}
 
-	public boolean isrun = true;// Ïß³Ì¿ª¹Ø
+	public boolean isrun = true;
 	
 	private Handler handler = new Handler() {
 
 		@Override
 		public void handleMessage(Message msg) {
 			super.handleMessage(msg);
-			DataService dataService = new DataService(application);	
+			DataService dataService = new DataService();	
 			HashMap<Integer, String> cityAreaMap = MainService.getCityAreaMap(application.getCityID());
 			HashMap<Integer, String> subCatNameMap;
 			String[] subCatNameList ;
@@ -182,7 +184,7 @@ public class MainService extends Service implements Runnable
 	
 	private void doTask(Task task) {
 		Message mess = handler.obtainMessage();
-		mess.what = task.getTaskID();// ½«µ±Ç°ÈÎÎñµÄID ·Åµ½MessageÖĞ	
+		mess.what = task.getTaskID();
 		/*switch (task.getTaskID()) {
 		case Task.TASK_LOGIN_SCENERY:// 
 			break;
@@ -191,8 +193,8 @@ public class MainService extends Service implements Runnable
 		default:
 			break;	
 		}*/
-		handler.sendMessage(mess);// ·¢ËÍµ±Ç°ÏûÏ¢
-		allTask.remove(task);// µ±Ç°ÈÎÎñÖ´ĞĞÍê±Ï °ÑÈÎÎñ´ÓÈÎÎñ¼¯ºÏÖĞremove ²»È»»áÖØ¸´Ö´ĞĞ
+		handler.sendMessage(mess);
+		allTask.remove(task);// 
 	}
 
 	
@@ -212,7 +214,7 @@ public class MainService extends Service implements Runnable
 			}			
 			try
 			{
-				Thread.sleep(1000);// Ã¿¸ôÒ»ÃëÖÓ¼ì²éÊÇ·ñÓĞÈÎÎñ
+				Thread.sleep(1000);// 
 			} catch (InterruptedException e)
 			{
 				// TODO Auto-generated catch block
@@ -225,21 +227,31 @@ public class MainService extends Service implements Runnable
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		AppMission.getInstance().initAppData(this);
+		AppMission.getInstance().updateAppData(this);		
+		
 		application = TravelApplication.getInstance();
+		application.setDataFlag(ConstantField.DATA_HTTP);
+		
 		symbolMap = application.getSymbolMap();
 		cityAreaList = application.getCityAreaList();
 		subCatMap = application.getSubCategoryMap();	
 		proSerMap = application.getProvidedServiceMap();	
-		isrun = true;// Æô¶¯Ïß³Ì
+		
+		LocationUtil getLocation = new LocationUtil(this);	
+		application.setLocation( getLocation.getLocationByTower());
+		isrun = true;// 
 		Thread t = new Thread(this);
 		t.start();
+		
 	}
 
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		this.stopSelf();// Í£Ö¹·şÎñ
-		isrun = false;// ¹Ø±ÕÏß³Ì
+		this.stopSelf();// 
+		isrun = false;//
 	}
 
 	@Override
@@ -251,10 +263,10 @@ public class MainService extends Service implements Runnable
 	        * @param placeCategoryType
 	        * @param subCatMap
 	        * @return  
-	        * @description   µØµã·ÖÀàÏÂµÄËùÓĞ×Ó·ÖÀà
+	        * @description   ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-11 ÏÂÎç5:20:21  
+	        * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:20:21  
 	        */
 	private static HashMap<Integer, String> getSubCatMap(PlaceCategoryType placeCategoryType)
 	{
@@ -273,10 +285,10 @@ public class MainService extends Service implements Runnable
 	     * @param placeCategoryType
 	     * @param subCatMap
 	     * @return  
-	     * @description   µØµã·ÖÀàÏÂµÄËùÓĞ×Ó·ÖÀà
+	     * @description   ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½
 	     * @version 1.0  
 	     * @author liuxiaokun  
-	     * @update 2012-5-11 ÏÂÎç5:20:21  
+	     * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:20:21  
 	     */
 	private static HashMap<Integer, String> getAllSubCatMap()
 	{
@@ -297,10 +309,10 @@ public class MainService extends Service implements Runnable
 	        * @param placeCategoryType
 	        * @param subCatMap
 	        * @return  
-	        * @description   µØµã·ÖÀàÏÂµÄËùÓĞ×Ó·ÖÀà
+	        * @description   ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-11 ÏÂÎç5:21:10  
+	        * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:21:10  
 	        */
 	private static String[] getSubCatNameList(PlaceCategoryType placeCategoryType)
 	{
@@ -320,10 +332,10 @@ public class MainService extends Service implements Runnable
      * @param placeCategoryType
      * @param subCatMap
      * @return  
-     * @description   µØµã·ÖÀàÏÂµÄËùÓĞ×Ó·ÖÀà
+     * @description   ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó·ï¿½ï¿½ï¿½
      * @version 1.0  
      * @author liuxiaokun  
-     * @update 2012-5-11 ÏÂÎç5:21:10  
+     * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:21:10  
      */
 private static int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
 {
@@ -344,10 +356,10 @@ private static int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
 	        * @param placeCategoryType
 	        * @param subCatMap
 	        * @return  
-	        * @description   µØµã·ÖÀàÏÂµÄ¿ÉÓÃµÄËùÓĞ·şÎñÑ¡ÏîÁĞ±í
+	        * @description   ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ÂµÄ¿ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ğ·ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ğ±ï¿½
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-11 ÏÂÎç5:25:24  
+	        * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:25:24  
 	        */
 	private static String[] getProvidedServiceNameList(PlaceCategoryType placeCategoryType)
 	{
@@ -366,10 +378,10 @@ private static int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
      * @param placeCategoryType
      * @param subCatMap
      * @return  
-     * @description   µØµã·ÖÀàÏÂµÄ¿ÉÓÃµÄËùÓĞ·şÎñÑ¡ÏîÁĞ±í
+     * @description   ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ÂµÄ¿ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ğ·ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ğ±ï¿½
      * @version 1.0  
      * @author liuxiaokun  
-     * @update 2012-5-11 ÏÂÎç5:25:24  
+     * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:25:24  
      */
 	private static int[] getProvidedServiceKeyList(PlaceCategoryType placeCategoryType)
 	{
@@ -402,10 +414,10 @@ private static int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
 	     * @param placeCategoryType
 	     * @param subCatMap
 	     * @return  
-	     * @description   µØµã·ÖÀàÏÂµÄ¿ÉÓÃµÄËùÓĞ·şÎñÑ¡ÏîÁĞ±í
+	     * @description   ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ÂµÄ¿ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ğ·ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ğ±ï¿½
 	     * @version 1.0  
 	     * @author liuxiaokun  
-	     * @update 2012-5-11 ÏÂÎç5:25:24  
+	     * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:25:24  
 	     */
 	private static String[] getCityAreaNameList(int cityID)
 	{
@@ -425,10 +437,10 @@ private static int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
 	 * @param placeCategoryType
 	 * @param subCatMap
 	 * @return  
-	 * @description   µØµã·ÖÀàÏÂµÄ¿ÉÓÃµÄËùÓĞ·şÎñÑ¡ÏîÁĞ±í
+	 * @description   ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ÂµÄ¿ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ğ·ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ğ±ï¿½
 	 * @version 1.0  
 	 * @author liuxiaokun  
-	 * @update 2012-5-11 ÏÂÎç5:25:24  
+	 * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:25:24  
 	 */
 	private static int[] getCityAreaKeyList(int cityID)
 	{
@@ -450,10 +462,10 @@ private static int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
 	 * @param placeCategoryType
 	 * @param subCatMap
 	 * @return  
-	 * @description   µØµã·ÖÀàÏÂµÄ¿ÉÓÃµÄËùÓĞ·şÎñÑ¡ÏîÁĞ±í
+	 * @description   ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ÂµÄ¿ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½Ğ·ï¿½ï¿½ï¿½Ñ¡ï¿½ï¿½ï¿½Ğ±ï¿½
 	 * @version 1.0  
 	 * @author liuxiaokun  
-	 * @update 2012-5-11 ÏÂÎç5:25:24  
+	 * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½5:25:24  
 	 */
 	private static HashMap<Integer, String> getCityAreaMap(int cityID)
 	{
@@ -467,30 +479,30 @@ private static int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
 	}
 
 	/**
-	 * ÍË³öÓ¦ÓÃ³ÌĞò
+	 * ï¿½Ë³ï¿½Ó¦ï¿½Ã³ï¿½ï¿½ï¿½
 	 * 
 	 * @param context
 	 */
 	public static void exitAPP(Context context) {
 		Intent it = new Intent(ConstantField.MAIN_SERVICE);
-		context.stopService(it);// Í£Ö¹·şÎñ		
-		for (Activity activity : allActivity) {// ±éÀúËùÓĞactivity Ò»¸öÒ»¸öÉ¾³ı
+		context.stopService(it);// Í£Ö¹ï¿½ï¿½ï¿½ï¿½		
+		for (Activity activity : allActivity) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½activity Ò»ï¿½ï¿½Ò»ï¿½ï¿½É¾ï¿½ï¿½
 			activity.finish();
 		}
-		// É±ËÀ½ø³Ì ÎÒ¸Ğ¾õÕâÖÖ·½Ê½×îÖ±½ÓÁËµ±
+		// É±ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ò¸Ğ¾ï¿½ï¿½ï¿½ï¿½Ö·ï¿½Ê½ï¿½ï¿½Ö±ï¿½ï¿½ï¿½Ëµï¿½
 		android.os.Process.killProcess(android.os.Process.myPid());
 		System.exit(0);
 	}
 	
 	
    public static void finshall(){
-		for (Activity activity : allActivity) {// ±éÀúËùÓĞactivity Ò»¸öÒ»¸öÉ¾³ı
+		for (Activity activity : allActivity) {// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½activity Ò»ï¿½ï¿½Ò»ï¿½ï¿½É¾ï¿½ï¿½
 			activity.finish();
 		}
    }
    
 	/**
-	 * ÍøÂçÁ¬½ÓÒì³£
+	 * ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£
 	 * 
 	 * @param context
 	 */

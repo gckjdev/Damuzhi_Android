@@ -113,6 +113,8 @@
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.SAMPLE_CODE" />
             </intent-filter>
+        </activity>
+        <activity android:name="com.damuzhi.travel.activity.place.SpotActivity" android:screenOrientation="portrait" android:launchMode="singleTop">           
         </activity>   
           <!--  注册服务 -->
         <service android:name="com.damuzhi.travel.download.DownLoadService"></service> 

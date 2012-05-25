@@ -4,13 +4,18 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
+import android.support.v4.content.Loader;
 import android.util.Log;
 
 import com.damuzhi.travel.R.id;
+import com.damuzhi.travel.mission.AppMission;
+import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.City;
@@ -19,84 +24,82 @@ import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.AppProtos.PlaceMeta;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
+import com.damuzhi.travel.util.FileUtil;
 
 public class AppManager
 {
 	private static final String TAG = "AppManager";
-	private String dataPath ;
-	private String url;
-    private PlaceMeta placeMeta;
 	private App app;
-	private HashMap<Integer, City> cityMap = new HashMap<Integer, City>();
-	private HashMap<Integer, CityArea> cityAreaMap = new HashMap<Integer, CityArea>();
-	private HashMap<Integer, List<CityArea>> cityAreaList = new HashMap<Integer, List<CityArea>>();
-	private HashMap<String, Integer> cityNameMap = new HashMap<String,Integer>();//城市列表	
-	private HashMap<PlaceCategoryType, PlaceMeta> map = new HashMap<PlaceCategoryType, PlaceMeta>();//PLACE分类ID
-	private HashMap<Integer, String> symbolMap = new HashMap<Integer, String>();//货币显示符号
-	private HashMap<PlaceCategoryType, List<NameIdPair>> subCategoryMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();//地点分类下的所有子分类
-	private HashMap<PlaceCategoryType, List<NameIdPair>> providedServiceMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();//地点分类下的可用的所有服务选项列表
-	private HashMap<PlaceCategoryType, HashMap<Integer, String>> providedServiceIconMap = new HashMap<PlaceCategoryType, HashMap<Integer,String>>();
+	private static AppManager instance = null;
 
-	
-	/**
-	 * @param dataPath
-	 * @param url
-	 */
-	public AppManager(String dataPath, String url)
+	private AppManager()
 	{
-		super();
+		load();
+	}
+
+	public static AppManager getInstance()
+	{
+		if (instance == null)
+		{
+			instance = new AppManager();
+		}
+		return instance;
+	}
+
+	public void load()
+	{
+		String dataPath = ConstantField.APP_DATA_FILE;
+		if (!FileUtil.checkFileIsExits(dataPath))
+		{
+			Log.e(TAG, "load app data from file = " + dataPath
+					+ " but file not found");
+			return;
+		}
+
+		File appData = new File(dataPath);
 		try
 		{
-		if(dataPath != null){			
-			app = App.parseFrom(new FileInputStream(new File(dataPath)));		
-		}else {
-		    HttpTool httpTool = new HttpTool();
-		    TravelResponse travelResponse = TravelResponse.parseFrom(httpTool.sendGetRequest(url));
-		    app = travelResponse.getAppInfo();
-		}
-		} catch (FileNotFoundException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.i(TAG, "load app data from file = " + dataPath);
+			app = App.parseFrom(new FileInputStream(appData));
 		} catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e(TAG, "load app data from file = " + dataPath
+					+ " but catch exception = " + e.toString(), e);
 		}
 	}
-	
-	
+
+	/**
+	 * 
+	 * @description reload app data from local file
+	 * @version 1.0
+	 * @author liuxiaokun
+	 * @update 2012-5-24 涓嬪崍2:14:10
+	 */
+	public void reloadData()
+	{
+		load();
+	}
+
 	public HashMap<Integer, City> getCityMap()
 	{
-		for(City city:app.getCitiesList())
+		HashMap<Integer, City> cityMap = null;
+		if (app != null)
 		{
-			cityMap.put(city.getCityId(), city);
+			cityMap = new HashMap<Integer, City>();
+			for (City city : app.getCitiesList())
+			{
+				cityMap.put(city.getCityId(), city);
+			}
 		}
 		return cityMap;
 	}
-	
-	
-	/*public HashMap<Integer, CityArea> getCityAreaMap()
-	{
-		for(City city:app.getCitiesList())
-		{
-			for(CityArea cityArea :city.getAreaListList())
-			{
-				cityAreaMap.put(cityArea.getAreaId(), cityArea);
-			}
-			
-		}
-		return cityAreaMap;
-	}*/
-	
+
 	public HashMap<Integer, List<CityArea>> getCityAreaList()
 	{
-		if(app != null)
+		HashMap<Integer, List<CityArea>> cityAreaList = null;
+		if (app != null)
 		{
+			cityAreaList = new HashMap<Integer, List<CityArea>>();
 			for (City city : app.getCitiesList())
 			{
 				cityAreaList.put(city.getCityId(), city.getAreaListList());
@@ -104,11 +107,13 @@ public class AppManager
 		}
 		return cityAreaList;
 	}
-	
+
 	public HashMap<String, Integer> getCityNameMap()
 	{
-		if(app != null)
+		HashMap<String, Integer> cityNameMap = null;
+		if (app != null)
 		{
+			cityNameMap = new HashMap<String, Integer>();
 			for (City city : app.getCitiesList())
 			{
 				cityNameMap.put(city.getCityName(), city.getCityId());
@@ -116,92 +121,255 @@ public class AppManager
 		}
 		return cityNameMap;
 	}
-	
-	
+
 	public HashMap<PlaceCategoryType, PlaceMeta> getPlaceMeta()
 	{
-		if(app != null)
+		HashMap<PlaceCategoryType, PlaceMeta> map = null;
+		if (app != null)
 		{
-			for(PlaceMeta placeMeta :app.getPlaceMetaDataListList())
-			{				
+			map = new HashMap<PlaceCategoryType, PlaceMeta>();
+			for (PlaceMeta placeMeta : app.getPlaceMetaDataListList())
+			{
 				map.put(placeMeta.getCategoryId(), placeMeta);
 			}
 		}
-		
+
 		return map;
 	}
-	
+
 	public HashMap<Integer, City> getCity()
 	{
-		
-		for(City city : app.getCitiesList())
+		HashMap<Integer, City> cityMap = null;
+		if (app != null)
 		{
-			cityMap.put(city.getCityId(), city);
+			cityMap = new HashMap<Integer, City>();
+			for (City city : app.getCitiesList())
+			{
+				cityMap.put(city.getCityId(), city);
+			}
 		}
+
 		return cityMap;
 	}
-	
-	
-	
-	//地点分类下的所有子分类
+
 	public HashMap<PlaceCategoryType, List<NameIdPair>> getSubCatMap()
 	{
-		if(app != null)
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCategoryMap = null;
+		if (app != null)
 		{
-			for(PlaceMeta placeMeta:app.getPlaceMetaDataListList())
+			subCategoryMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();
+			for (PlaceMeta placeMeta : app.getPlaceMetaDataListList())
 			{
-				subCategoryMap.put(placeMeta.getCategoryId(), placeMeta.getSubCategoryListList());
+				subCategoryMap.put(placeMeta.getCategoryId(),
+						placeMeta.getSubCategoryListList());
 			}
 		}
 		return subCategoryMap;
 	}
-	
-	
-	
-	//地点分类下的可用的所有服务选项列表
+
 	public HashMap<PlaceCategoryType, List<NameIdPair>> getProSerMap()
 	{
-		if(app != null)
+		HashMap<PlaceCategoryType, List<NameIdPair>> providedServiceMap = null;
+		if (app != null)
 		{
-			for(PlaceMeta placeMeta:app.getPlaceMetaDataListList())
+			providedServiceMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();
+			for (PlaceMeta placeMeta : app.getPlaceMetaDataListList())
 			{
-				providedServiceMap.put(placeMeta.getCategoryId(), placeMeta.getProvidedServiceListList());
-				
+				providedServiceMap.put(placeMeta.getCategoryId(),
+						placeMeta.getProvidedServiceListList());
+
 			}
 		}
 		return providedServiceMap;
 	}
-	
-	//地点分类下的可用的所有服务选项列表
-		public HashMap<PlaceCategoryType, HashMap<Integer, String>> getProSerIconMap()
+
+	public HashMap<PlaceCategoryType, HashMap<Integer, String>> getProSerIconMap()
+	{
+		HashMap<PlaceCategoryType, HashMap<Integer, String>> providedServiceIconMap = null;
+		if (app != null)
 		{
-			if(app != null)
+			providedServiceIconMap = new HashMap<PlaceCategoryType, HashMap<Integer, String>>();
+			for (PlaceMeta placeMeta : app.getPlaceMetaDataListList())
 			{
-				for(PlaceMeta placeMeta:app.getPlaceMetaDataListList())
+				HashMap<Integer, String> map = new HashMap<Integer, String>();
+				for (NameIdPair nameIdPair : placeMeta
+						.getProvidedServiceListList())
 				{
-					HashMap<Integer, String> map = new HashMap<Integer, String>();
-					for(NameIdPair nameIdPair:placeMeta.getProvidedServiceListList())
-					{
-						map.put(nameIdPair.getId(), nameIdPair.getImage());
-					}
-				providedServiceIconMap.put(placeMeta.getCategoryId(), map);					
+					map.put(nameIdPair.getId(), nameIdPair.getImage());
 				}
+				providedServiceIconMap.put(placeMeta.getCategoryId(), map);
 			}
-			return providedServiceIconMap;
 		}
-	
-	
-	//地点分类下的可用的所有服务选项列表
-		public HashMap<Integer,String> getSymbolMap()
+		return providedServiceIconMap;
+	}
+
+	public HashMap<Integer, String> getSymbolMap()
+	{
+		HashMap<Integer, String> symbolMap = null;
+		if (app != null)
 		{
-			if(app != null)
+			symbolMap = new HashMap<Integer, String>();
+			for (City city : app.getCitiesList())
 			{
-				for(City city:app.getCitiesList())
-				{
-					symbolMap.put(city.getCityId(), city.getCurrencySymbol());
-				}
+				symbolMap.put(city.getCityId(), city.getCurrencySymbol());
 			}
-			return symbolMap;
 		}
-		
+		return symbolMap;
+	}
+
+	public HashMap<Integer, String> getPlaceSubCatMap(int placeCategoryType)
+	{
+		HashMap<Integer, String> map = new HashMap<Integer, String>();
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = instance
+				.getSubCatMap();
+		List<NameIdPair> nameIdPairs = subCatMap.get(PlaceCategoryType.valueOf(placeCategoryType));
+		for (NameIdPair nameIdPair : nameIdPairs)
+		{
+			map.put(nameIdPair.getId(), nameIdPair.getName());
+		}
+		return map;
+	}
+
+	public HashMap<Integer, String> getAllSubCatMap()
+	{
+		HashMap<Integer, String> map = new HashMap<Integer, String>();
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = instance
+				.getSubCatMap();
+		Set<PlaceCategoryType> keyset = subCatMap.keySet();
+		for (PlaceCategoryType placeCategoryType : keyset)
+		{
+			List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
+			for (NameIdPair nameIdPair : nameIdPairs)
+			{
+				map.put(nameIdPair.getId(), nameIdPair.getName());
+			}
+		}
+
+		return map;
+	}
+
+	public String[] getSubCatNameList(PlaceCategoryType placeCategoryType)
+	{
+		int i = 1;
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = instance
+				.getSubCatMap();
+		List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
+		String[] subCat = new String[nameIdPairs.size() + 1];
+		subCat[0] = ConstantField.ALL_PLACE;
+		for (NameIdPair nameIdPair : nameIdPairs)
+		{
+			subCat[i] = nameIdPair.getName();
+			i++;
+		}
+		return subCat;
+	}
+
+	public int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
+	{
+		int i = 1;
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = instance
+				.getSubCatMap();
+		List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
+		int[] subCatKey = new int[nameIdPairs.size() + 1];
+		subCatKey[0] = -1;
+		for (NameIdPair nameIdPair : nameIdPairs)
+		{
+			subCatKey[i] = nameIdPair.getId();
+			i++;
+		}
+		return subCatKey;
+	}
+
+	public static String[] getProvidedServiceNameList(
+			PlaceCategoryType placeCategoryType)
+	{
+		int i = 1;
+		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = instance
+				.getProSerMap();
+		List<NameIdPair> nameIdPairs = proSerMap.get(placeCategoryType);
+		String[] proServiceName = new String[nameIdPairs.size() + 1];
+		proServiceName[0] = ConstantField.ALL_PLACE;
+		for (NameIdPair nameIdPair : nameIdPairs)
+		{
+			proServiceName[i] = nameIdPair.getName();
+			i++;
+		}
+		return proServiceName;
+	}
+
+	public int[] getProvidedServiceKeyList(PlaceCategoryType placeCategoryType)
+	{
+		int i = 1;
+		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = instance
+				.getProSerMap();
+		List<NameIdPair> nameIdPairs = proSerMap.get(placeCategoryType);
+		int[] proServiceKey = new int[nameIdPairs.size() + 1];
+		proServiceKey[0] = -1;
+		for (NameIdPair nameIdPair : nameIdPairs)
+		{
+			proServiceKey[i] = nameIdPair.getId();
+			i++;
+		}
+		return proServiceKey;
+	}
+
+	public HashMap<Integer, String> getProServiceMap(
+			PlaceCategoryType placeCategoryType)
+	{
+		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = instance
+				.getProSerMap();
+		HashMap<Integer, String> map = new HashMap<Integer, String>();
+		List<NameIdPair> nameIdPairs = proSerMap.get(placeCategoryType);
+		for (NameIdPair nameIdPair : nameIdPairs)
+		{
+			map.put(nameIdPair.getId(), nameIdPair.getName());
+		}
+		return map;
+	}
+
+	public static String[] getCityAreaNameList(int cityID)
+	{
+		int i = 1;
+		HashMap<Integer, List<CityArea>> ctiyAreaList = instance
+				.getCityAreaList();
+		List<CityArea> ctiyAreas = ctiyAreaList.get(cityID);
+		String[] ctiyAreasName = new String[ctiyAreas.size() + 1];
+		ctiyAreasName[0] = ConstantField.ALL_PLACE;
+		for (CityArea cityArea : ctiyAreas)
+		{
+			ctiyAreasName[i] = cityArea.getAreaName();
+			i++;
+		}
+		return ctiyAreasName;
+	}
+
+	public int[] getCityAreaKeyList(int cityID)
+	{
+		int i = 1;
+		HashMap<Integer, List<CityArea>> cityAreaList = instance
+				.getCityAreaList();
+		List<CityArea> ctiyAreas = cityAreaList.get(cityID);
+		int[] ctiyAreasKey = new int[ctiyAreas.size() + 1];
+		ctiyAreasKey[0] = -1;
+		for (CityArea cityArea : ctiyAreas)
+		{
+			ctiyAreasKey[i] = cityArea.getAreaId();
+			i++;
+		}
+		return ctiyAreasKey;
+	}
+
+	public HashMap<Integer, String> getCityAreaMap(int cityID)
+	{
+		HashMap<Integer, List<CityArea>> cityAreaList = instance
+				.getCityAreaList();
+		HashMap<Integer, String> map = new HashMap<Integer, String>();
+		List<CityArea> ctiyAreas = cityAreaList.get(cityID);
+		for (CityArea cityArea : ctiyAreas)
+		{
+			map.put(cityArea.getAreaId(), cityArea.getAreaName());
+		}
+		return map;
+	}
+
 }

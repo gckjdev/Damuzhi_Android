@@ -13,12 +13,12 @@ public class DownloadThread extends Thread {
 	private File saveFile;
 	private URL downUrl;
 	private int block;
-	/* *下载开始位置  */
+	
 	private int threadId = -1;	
 	private int downLength;
 	private boolean finish = false;
 	private FileDownloader downloader;
-	private static final int INIT = 1;// 定义三种下载的状态：初始化状态，正在下载状态，暂停状态
+	private static final int INIT = 1;
 	private static final int DOWNLOADING = 2;
 	private static final int PAUSE = 3;
 	private int state = INIT;
@@ -34,7 +34,7 @@ public class DownloadThread extends Thread {
 	
 	@Override
 	public void run() {
-		if(downLength < block){//未下载完成
+		if(downLength < block){
 			try {
 				HttpURLConnection http = (HttpURLConnection) downUrl.openConnection();
 				http.setConnectTimeout(5 * 1000);
@@ -43,9 +43,9 @@ public class DownloadThread extends Thread {
 				http.setRequestProperty("Accept-Language", "zh-CN");
 				http.setRequestProperty("Referer", downUrl.toString()); 
 				http.setRequestProperty("Charset", "UTF-8");
-				int startPos = block * (threadId - 1) + downLength;//开始位置
-				int endPos = block * threadId -1;//结束位置
-				http.setRequestProperty("Range", "bytes=" + startPos + "-"+ endPos);//设置获取实体数据的范围
+				int startPos = block * (threadId - 1) + downLength;
+				int endPos = block * threadId -1;
+				http.setRequestProperty("Range", "bytes=" + startPos + "-"+ endPos);
 				http.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
 				http.setRequestProperty("Connection", "Keep-Alive");
 				
@@ -78,30 +78,23 @@ public class DownloadThread extends Thread {
 	private static void print(String msg){
 		Log.i(TAG, msg);
 	}
-	/**
-	 * 下载是否完成
-	 * @return
-	 */
+	
 	public boolean isFinish() {
 		return finish;
 	}
 	
-	/* 设置暂停*/
+	
 	public void pause() {
 		
 		state = PAUSE;
 		//Log.d(TAG, "pause = " + state);
 	}
 
-	// 重置下载状态
 	public void restart() {
 		state = INIT;
 		Log.d(TAG, "pause = " + state);
 	}
-	/**
-	 * 已经下载的内容大小
-	 * @return 如果返回值为-1,代表下载失败
-	 */
+	
 	public long getDownLength() {
 		return downLength;
 	}

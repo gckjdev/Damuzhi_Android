@@ -25,8 +25,8 @@ public class TravelUtil
 
 
 	/**
-     * »ñÈ¡±íÊ¾µ±Ç°¶¨Î»PLACEµÄÍ¼±ê
-     * @param categoryId ·ÖÀàID£¬Èç¾°µã£¯¾Æµê£¯...£¨´ýÈ·¶¨£©£¬²Î¼ûApp.proto // 1,2,3,4,5
+     * ï¿½ï¿½È¡ï¿½ï¿½Ê¾ï¿½ï¿½Ç°ï¿½ï¿½Î»PLACEï¿½ï¿½Í¼ï¿½ï¿½
+     * @param categoryId ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ç¾°ï¿½ã£¯ï¿½Æµê£¯...ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¼ï¿½App.proto // 1,2,3,4,5
      * @return
      */
     public static int getForecastImage(int categoryId)
@@ -59,8 +59,8 @@ public class TravelUtil
     
    
     /**
-     * »ñÈ¡±íÊ¾µ±Ç°¶¨Î»PLACEµÄÍ¼±ê
-     * @param categoryId ·ÖÀàID£¬Èç¾°µã£¯¾Æµê£¯...£¨´ýÈ·¶¨£©£¬²Î¼ûApp.proto // 1,2,3,4,5
+     * ï¿½ï¿½È¡ï¿½ï¿½Ê¾ï¿½ï¿½Ç°ï¿½ï¿½Î»PLACEï¿½ï¿½Í¼ï¿½ï¿½
+     * @param categoryId ï¿½ï¿½ï¿½ï¿½IDï¿½ï¿½ï¿½ç¾°ï¿½ã£¯ï¿½Æµê£¯...ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Î¼ï¿½App.proto // 1,2,3,4,5
      * @return
      */
     public static int getServiceImage(int providedServiceId)
@@ -261,11 +261,11 @@ public class TravelUtil
 	/**  
 	        * @param compositeType
 	        * @param hotelList
-	        * @return  ÅÅÐò
+	        * @return  ï¿½ï¿½ï¿½ï¿½
 	        * @description   
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-12 ÉÏÎç11:41:04  
+	        * @update 2012-5-12 ï¿½ï¿½ï¿½ï¿½11:41:04  
 	        */
 	public static ArrayList<Place> placeComposite(int compositeType,ArrayList<Place> placeList,HashMap<String, Double> location)
 	{
@@ -320,11 +320,11 @@ public class TravelUtil
 		/**  
 	     * @param compositeType
 	     * @param hotelList
-	     * @return  ÅÅÐò
+	     * @return  ï¿½ï¿½ï¿½ï¿½
 	     * @description   
 	     * @version 1.0  
 	     * @author liuxiaokun  
-	     * @update 2012-5-12 ÉÏÎç11:41:04  
+	     * @update 2012-5-12 ï¿½ï¿½ï¿½ï¿½11:41:04  
 	     */
 	public static ArrayList<Place> hotelComposite(int compositeType,ArrayList<Place> placeList,HashMap<String, Double> location)
 	{
@@ -360,11 +360,11 @@ public class TravelUtil
 		/**  
 	     * @param compositeType
 	     * @param hotelList
-	     * @return  ÅÅÐò
+	     * @return  ï¿½ï¿½ï¿½ï¿½
 	     * @description   
 	     * @version 1.0  
 	     * @author liuxiaokun  
-	     * @update 2012-5-12 ÉÏÎç11:41:04  
+	     * @update 2012-5-12 ï¿½ï¿½ï¿½ï¿½11:41:04  
 	     */
 	public static ArrayList<Place> restaurantComposite(int compositeType,ArrayList<Place> placeList,HashMap<String, Double> location)
 	{
@@ -395,11 +395,11 @@ public class TravelUtil
 		/**  
 	     * @param compositeType
 	     * @param hotelList
-	     * @return  ÅÅÐò
+	     * @return  ï¿½ï¿½ï¿½ï¿½
 	     * @description   
 	     * @version 1.0  
 	     * @author liuxiaokun  
-	     * @update 2012-5-12 ÉÏÎç11:41:04  
+	     * @update 2012-5-12 ï¿½ï¿½ï¿½ï¿½11:41:04  
 	     */
 	public static ArrayList<Place> shoppingComposite(int compositeType,ArrayList<Place> placeList,HashMap<String, Double> location)
 	{
@@ -424,11 +424,11 @@ public class TravelUtil
 	/**  
      * @param compositeType
      * @param hotelList
-     * @return  ÅÅÐò
+     * @return  ï¿½ï¿½ï¿½ï¿½
      * @description   
      * @version 1.0  
      * @author liuxiaokun  
-     * @update 2012-5-12 ÉÏÎç11:41:04  
+     * @update 2012-5-12 ï¿½ï¿½ï¿½ï¿½11:41:04  
      */
 public static ArrayList<Place> entertainmentComposite(int compositeType,ArrayList<Place> placeList,HashMap<String, Double> location)
 {
@@ -497,10 +497,10 @@ public static ArrayList<Place> entertainmentComposite(int compositeType,ArrayLis
     
     
     /**  
-            * @description   °´ÆÀ¼ÛÓÉ¸ßµ½µÍÅÅÐò
+            * @description   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É¸ßµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
             * @version 1.0  
             * @author liuxiaokun  
-            * @update 2012-5-11 ÏÂÎç4:26:24  
+            * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½4:26:24  
             */  
     public static class ComparatorRank implements Comparator<Place>
 	{
@@ -519,10 +519,10 @@ public static ArrayList<Place> entertainmentComposite(int compositeType,ArrayLis
     
     
 	/**  
-	        * @description   °´¼Û¸ñÓÉ¸ßµ½µÍÅÅÐò
+	        * @description   ï¿½ï¿½ï¿½Û¸ï¿½ï¿½É¸ßµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-11 ÏÂÎç4:26:43  
+	        * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½4:26:43  
 	        */  
 	public static class ComparatorPrice implements Comparator<Place>
 	{
@@ -537,10 +537,10 @@ public static ArrayList<Place> entertainmentComposite(int compositeType,ArrayLis
 	}
 	
 		/**  
-	     * @description   °´¼Û¸ñÓÉµÍµ½¸ßÅÅÐò
+	     * @description   ï¿½ï¿½ï¿½Û¸ï¿½ï¿½ÉµÍµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	     * @version 1.0  
 	     * @author liuxiaokun  
-	     * @update 2012-5-11 ÏÂÎç4:26:43  
+	     * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½4:26:43  
 	     */  
 	public static class ComparatorPriceContrary implements Comparator<Place>
 	{
@@ -567,10 +567,10 @@ public static ArrayList<Place> entertainmentComposite(int compositeType,ArrayLis
 	}
 	
 	/**  
-	        * @description   °´¾àÀëÓÉ½üµ½Ô¶ÅÅÐò
+	        * @description   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É½ï¿½Ô¶ï¿½ï¿½ï¿½ï¿½
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-11 ÏÂÎç4:27:13  
+	        * @update 2012-5-11 ï¿½ï¿½ï¿½ï¿½4:27:13  
 	        */  
 	public static class ComparatorDistance implements Comparator<Place>
 	{

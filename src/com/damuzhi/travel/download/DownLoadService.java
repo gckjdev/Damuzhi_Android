@@ -24,7 +24,7 @@ public class DownLoadService extends Service
 	private static final int DOWNLOADING = 3;
 	private static final int FAILED = 4;
 	private static final int RESTART = 5;
-	// 将所有任务放到任务集合中
+	
 	public static Map<String,FileDownloader> task = new HashMap<String,FileDownloader>();
 	public static Map<String, DLState> DLstateTask = new HashMap<String, DLState>();
 	public static IDownloadCallback iDownloadCallback;
@@ -106,11 +106,11 @@ public class DownLoadService extends Service
 		}
 	}
 	
-	//暂停下载
+	
 	public void onTaskChanged(DLState state)  
 	{  
 	    //if(state.mStatus == DLState.FAILED || state.mStatus == DLState.FINISH)  
-	    {}  //removeFromQueue(state.mKey,false);  
+	      //removeFromQueue(state.mKey,false);  
 	  if(iDownloadCallback == null)
 	  {
 		  int n = callbackList.beginBroadcast();  
@@ -123,9 +123,7 @@ public class DownLoadService extends Service
 	 	            // TODO Auto-generated catch block  
 	 	            e.printStackTrace();  
 	 	        }  
-	 	    }  
-		
-	   
+	 	    }  	   
 	    callbackList.finishBroadcast();  
 	  }
 	   
@@ -133,12 +131,9 @@ public class DownLoadService extends Service
 	
 	
 	
-	//更新下载信息
+	
 	public void onProcessChanged(FileDownloader downloader)  
-		{  
-		    int pid = android.os.Process.myPid();  
-		   // Log.d("********pid****service","pid ="+pid);  
-		    
+		{  		   
 		    	if(iDownloadCallback == null )
 		    	{
 		    		 int n = callbackList.beginBroadcast();  
@@ -235,7 +230,7 @@ public class DownLoadService extends Service
 		}  
 	
 	
-	//添加任务到下载队列
+	
 	public  boolean addTaskService(String strKey, String strURL, String strSavePath) throws Exception
 	{
 		boolean flag = false;
@@ -249,7 +244,7 @@ public class DownLoadService extends Service
 			FileDownloader fileDownloader = new FileDownloader(this, 3);
 			File dir = new File(strSavePath);
 			if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-				dir = Environment.getExternalStorageDirectory();//文件保存目录
+				dir = Environment.getExternalStorageDirectory();
 			}else{
 				Toast.makeText(DownLoadService.this, R.string.sdcarderror, 1).show();
 			}
@@ -270,7 +265,7 @@ public class DownLoadService extends Service
 	}
 	
 	
-	//暂停下载
+	
 	public void pauseTaskService(String strKey)
 	{
 		DLState dlState = DLstateTask.get(strKey);
@@ -281,7 +276,7 @@ public class DownLoadService extends Service
 		//task.remove(strKey);
 		//DLstateTask.remove(strKey);
 	}
-	//重启下载
+	
 	public void restartDownload(String downloadPath)
 	{
 		DLState dlState = DLstateTask.get(downloadPath);

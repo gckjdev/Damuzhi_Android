@@ -35,29 +35,29 @@ public class DataService
 	/**
 	 * @param application
 	 */
-	public DataService(TravelApplication application)
+	public DataService()
 	{
 		super();
-		this.application = application;
+		this.application = TravelApplication.getInstance();
 	}
 
 
 
 	/**  
-	        * @param placeType placeÀà±ð
+	        * @param placeType placeï¿½ï¿½ï¿½
 	        * @param cityID
 	        * @param lang  
-	        * @description   »ñÈ¡¾ßÌåÀà±ðµÄplacelist Èç¾°µã/¾Æµê/...
+	        * @description  
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÉÏÎç10:19:39  
+	        * @update 2012-5-8 ï¿½ï¿½ï¿½ï¿½10:19:39  
 	        */
 	public void getPlace(String placeType,int cityID,String lang) 
 	{
 		
 		PlaceManager placeManager ;
 		String url = String.format(ConstantField.PLACElIST, placeType,cityID,lang);
-		boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));//¼ì²éÊÇ·ñÓÐÀëÏßÎÄ¼þ´æÔÚ
+		boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));//
 		/*if(fileExit)
 		{
 			String dataPath = String.format(ConstantField.DATA_PATH,cityID);
@@ -103,7 +103,7 @@ public class DataService
 		CommonOverview commonOverview = null;
 		String url = String.format(ConstantField.OVERVIEW, placeType,cityID,lang);
 		Log.d(TAG, url);
-		boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));//¼ì²éÊÇ·ñÓÐÀëÏßÎÄ¼þ´æÔÚ
+		boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));//ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		/*if(fileExit)
 		{
 			String dataPath = String.format(ConstantField.DATA_PATH,cityID);
@@ -148,7 +148,7 @@ public class DataService
 		List<CommonTravelTip> commonTravelTips = null;
 		String url = String.format(ConstantField.PLACElIST, placeType,cityID,lang);
 		Log.d(TAG, url);
-		boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));//¼ì²éÊÇ·ñÓÐÀëÏßÎÄ¼þ´æÔÚ
+		boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));//ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		/*if(fileExit)
 		{
 			String dataPath = String.format(ConstantField.DATA_PATH,cityID);
@@ -191,21 +191,21 @@ public class DataService
 	
 	/**  
 	        * @param place
-	        * @param distanceÓë¾ßÌåµØµãÖ®¼äµÄ¾àÀë·¶Î§°ë¾¶
+	        * @param distanceï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½Ö®ï¿½ï¿½Ä¾ï¿½ï¿½ë·¶Î§ï¿½ë¾¶
 	        * @param placeType
 	        * @param cityID
 	        * @param lang
 	        * @return  
-	        * @description »ñÈ¡ÖÜ±ßÍÆ¼öplace
+	        * @description ï¿½ï¿½È¡ï¿½Ü±ï¿½ï¿½Æ¼ï¿½place
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÉÏÎç10:16:29  
+	        * @update 2012-5-8 ï¿½ï¿½ï¿½ï¿½10:16:29  
 	        */
 	public ArrayList<Place> getAllPlaceInArea(Place targetPlace,int distance,String placeType,int cityID,String lang)
 	{
 		String url = String.format(ConstantField.PLACElIST, placeType,cityID,lang);
 		ArrayList<Place> commnedPlace = new ArrayList<Place>();
-		//boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));////¼ì²éÊÇ·ñÓÐÀëÏßÎÄ¼þ´æÔÚ
+		//boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));////ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½ï¿½ï¿½ï¿½ï¿½
 		PlaceManager placeManager = new PlaceManager(null,url);
 		ArrayList<Place> placeList = placeManager.getPlaceDataList();
 		for(int i =0;i<placeList.size();i++)
@@ -225,25 +225,17 @@ public class DataService
 	/**  
 	        * @param placeType
 	        * @param lang  
-	        * @description   »ñÈ¡APP»ù´¡Êý¾Ý
+	        * @description   ï¿½ï¿½È¡APPï¿½ï¿½ï¿½ï¿½ï¿½
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÉÏÎç10:19:17  
+	        * @update 2012-5-8 ï¿½ï¿½ï¿½ï¿½10:19:17  
 	        */
-	public void getAppData(String placeType,String lang,String filePath)
+	/*public void getAppData()
 	{
-		String url = String.format(ConstantField.APP, placeType,lang);
-		AppManager appManager = new AppManager(null,url);
-		appManager.getPlaceMeta();
-		application.setSymbolMap(appManager.getSymbolMap());
-		application.setCityNameMap(appManager.getCityNameMap());
-		application.setCityAreaList(appManager.getCityAreaList());
-		application.setSubCategoryMap(appManager.getSubCatMap());
-		application.setProvidedServiceMap(appManager.getProSerMap());
-		application.setPlaceMetaMap(appManager.getPlaceMeta());
-		//application.setProvidedServiceIconMap(appManager.getProSerIconMap());
+		AppManager appManager = AppManager.getInstance();
+		appManager.getPlaceMeta();		
 		application.setDataFlag(ConstantField.DATA_HTTP);
-	}
+	}*/
 	
 	
 	
