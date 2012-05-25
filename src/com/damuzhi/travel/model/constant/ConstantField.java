@@ -52,7 +52,7 @@ public class ConstantField
 	public static final String OPEN_CITY_LIST = "8";
 	public static final String TEST_CITY_LIST = "9";
 	public static final String APP_DATA = "10";
-	public static final String SCENERY = "21";
+	public static final String SPOT = "21";
 	public static final String HOTEL = "22";
 	public static final String RESTAURANT = "23";
 	public static final String SHOPPING = "24";

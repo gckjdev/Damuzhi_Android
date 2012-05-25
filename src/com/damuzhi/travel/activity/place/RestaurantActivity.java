@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-15 ÏÂÎç4:30:35  
+        * @update 2012-5-15 ï¿½ï¿½ï¿½ï¿½4:30:35  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.place;
@@ -49,7 +49,7 @@ import com.damuzhi.travel.util.TravelUtil;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-15 ÏÂÎç4:30:35  
+ * @update 2012-5-15 ï¿½ï¿½ï¿½ï¿½4:30:35  
  */
 
 public class RestaurantActivity extends MenuActivity implements PlaceActivity
@@ -74,7 +74,7 @@ public class RestaurantActivity extends MenuActivity implements PlaceActivity
 	private int service_position = 0;
 	private int cityID = -1;
 	private RestaurantAdapter adapter;
-	private int loadFlag = 1;//ÅÐ¶ÏÊÇ·ñ´ÓÐÂ¼ÓÔØactivity
+	private int loadFlag = 1;//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½activity
 	private String[] compos;
 	private String[] subCatName;
 	private int[] subCatKey;
@@ -93,7 +93,7 @@ public class RestaurantActivity extends MenuActivity implements PlaceActivity
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate ");
 		setContentView(R.layout.restaurant);
-		MainService.allActivity.add(this);//½«µ±Ç°µÄactivityÌí¼Óµ½ServicreµÄactivity¼¯ºÏÖÐ	
+		MainService.allActivity.add(this);//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½activityï¿½ï¿½Óµï¿½Servicreï¿½ï¿½activityï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	
 		loadFlag = 0;
 		init();
 		placeInfo();
@@ -303,7 +303,7 @@ public class RestaurantActivity extends MenuActivity implements PlaceActivity
                     	adapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
-                }).setTitle(RestaurantActivity.this.getResources().getString(R.string.compositor));
+                }).setTitle(RestaurantActivity.this.getResources().getString(R.string.sort));
                 dialog = builder.create();
                 dialog.show();
 
@@ -343,7 +343,7 @@ public class RestaurantActivity extends MenuActivity implements PlaceActivity
 	        loadingDialog = new AlertDialog.Builder(mContext).create();
 	        loadingDialog.setOnKeyListener(keyListener);
 	        loadingDialog.show();
-	        // ×¢Òâ´Ë´¦Òª·ÅÔÚshowÖ®ºó ·ñÔò»á±¨Òì³£
+	        // ×¢ï¿½ï¿½Ë´ï¿½Òªï¿½ï¿½ï¿½ï¿½showÖ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½á±¨ï¿½ì³£
 	        loadingDialog.setContentView(layout);
 	    }
 	  

@@ -6,7 +6,7 @@
 	<TextView   
 	    android:id="@android:id/text1"
 		style="?android:attr/spinnerItemStyle"
-		android:text="@string/compositor"
+		android:text="@string/sort"
 		android:textSize="20sp"
 		android:textColor="@color/white"
 	    android:singleLine="true"

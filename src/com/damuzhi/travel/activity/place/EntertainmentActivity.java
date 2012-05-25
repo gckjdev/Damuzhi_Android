@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-16 ÏÂÎç4:37:27  
+        * @update 2012-5-16 ï¿½ï¿½ï¿½ï¿½4:37:27  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.place;
@@ -49,7 +49,7 @@ import com.damuzhi.travel.util.TravelUtil;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-16 ÏÂÎç4:37:27  
+ * @update 2012-5-16 ï¿½ï¿½ï¿½ï¿½4:37:27  
  */
 
 public class EntertainmentActivity extends MenuActivity implements PlaceActivity
@@ -67,7 +67,7 @@ public class EntertainmentActivity extends MenuActivity implements PlaceActivity
 	private String dataPath ;
 	private static final int LOADING = 0;
 	private static final int LOAD_OK = 1;
-	private int loadFlag = 1;//ÅÐ¶ÏÊÇ·ñ´ÓÐÂ¼ÓÔØactivity
+	private int loadFlag = 1;//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½activity
 	private int compositor_position = 0;
 	private int sort_position = 0;
 	private int area_position = 0;
@@ -89,7 +89,7 @@ public class EntertainmentActivity extends MenuActivity implements PlaceActivity
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
 		setContentView(R.layout.entertainment);
-		MainService.allActivity.add(this);//½«µ±Ç°µÄactivityÌí¼Óµ½ServicreµÄactivity¼¯ºÏÖÐ		
+		MainService.allActivity.add(this);//ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½activityï¿½ï¿½Óµï¿½Servicreï¿½ï¿½activityï¿½ï¿½ï¿½ï¿½ï¿½ï¿½		
 		loadFlag = 0;
 		init();
 		placeInfo();
@@ -277,7 +277,7 @@ public class EntertainmentActivity extends MenuActivity implements PlaceActivity
                     	entertainmentAdapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
-                }).setTitle(EntertainmentActivity.this.getResources().getString(R.string.compositor));
+                }).setTitle(EntertainmentActivity.this.getResources().getString(R.string.sort));
                 dialog = builder.create();
                 dialog.show();
 
@@ -317,7 +317,7 @@ public class EntertainmentActivity extends MenuActivity implements PlaceActivity
 	        loadingDialog = new AlertDialog.Builder(mContext).create();
 	        loadingDialog.setOnKeyListener(keyListener);
 	        loadingDialog.show();
-	        // ×¢Òâ´Ë´¦Òª·ÅÔÚshowÖ®ºó ·ñÔò»á±¨Òì³£
+	        // ×¢ï¿½ï¿½Ë´ï¿½Òªï¿½ï¿½ï¿½ï¿½showÖ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½á±¨ï¿½ì³£
 	        loadingDialog.setContentView(layout);
 	    }
 	  

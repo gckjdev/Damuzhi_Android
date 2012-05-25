@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -76,36 +77,43 @@ public class FileUtil
 	 * @update 2012-5-8 ����11:47:12
 	 */
 	public ArrayList<FileInputStream> getFileInputStreams(String Path,
-			String type, String Extension, boolean IsIterative) // ����Ŀ¼����չ���Ƿ�������ļ���
+			String type, String Extension, boolean IsIterative) 
 	{
 
 		File[] files = new File(Path).listFiles();
+		if(files == null ||files.length == 0)
+			return null;		
+		
 		for (int i = 0; i < files.length; i++)
 		{
 			File f = files[i];
 			if (f.isFile())
 			{
-				String fileExtension = f.getPath().substring(
-						f.getPath().length() - Extension.length());
-				String fileType = f.getPath().substring(
-						f.getPath().lastIndexOf("/") + 1,
-						f.getPath().lastIndexOf("."));
+				String fileExtension = f.getPath().substring(f.getPath().length() - Extension.length());
+				String fileType = f.getPath().substring(f.getPath().lastIndexOf("/") + 1,f.getPath().lastIndexOf("."));
 				if (fileExtension.equals(Extension) && fileType.contains(type))
 				{
-					// lstFile.add(f.getPath());
-					FileInputStream fileInputStream;
+					FileInputStream fileInputStream = null;
 					try
 					{
-						// Log.d(TAG, f.getPath());
-						fileInputStream = new FileInputStream(new File(
-								f.getPath()));
+						fileInputStream = new FileInputStream(new File(f.getPath()));
 						fileInput.add(fileInputStream);
-					} catch (FileNotFoundException e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						fileInputStream.close();
+						fileInputStream = null;
+					} catch (Exception e)
+					{					
+						Log.e(TAG, "<getFileInputStreams> but catch exception "+e.toString(),e);
 					}
-
+					finally
+					{
+						try
+						{
+							fileInputStream.close();
+						} catch (IOException e)
+						{
+						}
+					}
+					
 				}
 				if (!IsIterative)
 					break;

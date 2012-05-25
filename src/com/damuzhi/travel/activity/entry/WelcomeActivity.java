@@ -12,6 +12,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.AppMission;
+import com.damuzhi.travel.mission.LocalStorageMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.service.DataService;
@@ -28,6 +29,11 @@ public class WelcomeActivity extends MenuActivity
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startup);	
+		
+		// load place data by current city
+		String cityId = AppManager.getInstance().getCurrentCityId();
+		LocalStorageMission.getInstance().loadCityPlaceData(cityId);
+		
 		Thread thread = new Thread(new Runnable()
 		{			
 			@Override

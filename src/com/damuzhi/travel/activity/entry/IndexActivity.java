@@ -33,6 +33,7 @@ import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.activity.overview.OverviewActivity;
 import com.damuzhi.travel.activity.overview.TravelTipsActivity;
+import com.damuzhi.travel.activity.place.CommonHotelActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.EntertainmentActivity;
 import com.damuzhi.travel.activity.place.HotelActivity;
@@ -155,7 +156,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		case R.id.hotel:
 			Log.d(TAG, "hotel");
 			Intent hotelIntent = new Intent();
-			hotelIntent.setClass(IndexActivity.this, HotelActivity.class);		
+			hotelIntent.setClass(IndexActivity.this, CommonHotelActivity.class);		
 			startActivity(hotelIntent);
 			break;
 		case R.id.restaurant:	

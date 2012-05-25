@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import android.util.Log;
 
@@ -33,7 +34,19 @@ public class PlaceManager
 	private ArrayList<Place> entertrainList = new ArrayList<Place>();
 	private ArrayList<Place> placeDataList = new ArrayList<Place>();
  	
+	private List<Place> placeLists = new ArrayList<Place>();
 
+	public void clear(){
+		placeLists.clear();
+	}
+	
+	public void addPlaces(List<Place> list){
+		if (list == null)
+			return;
+		
+		placeLists.addAll(list);
+	}
+	
 	/**
 	 * @param dataPath
 	 * @param url
@@ -49,6 +62,16 @@ public class PlaceManager
 		}
 	}
 
+	
+	
+
+	/**  
+	        * Constructor Method     
+	        */
+	public PlaceManager()
+	{
+		// TODO Auto-generated constructor stub
+	}
 
 	private  void getPlaceDataByFile(String dataPath)
 	{

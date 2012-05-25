@@ -94,7 +94,7 @@ public class MainService extends Service implements Runnable
 				subCatNameList = MainService.getSubCatNameList(PlaceCategoryType.PLACE_SPOT);
 				subCatKeyList = MainService.getSubCatKeyList(PlaceCategoryType.PLACE_SPOT);
 				subCatNameMap = MainService.getSubCatMap(PlaceCategoryType.PLACE_SPOT);				
-				dataService.getPlace(ConstantField.SCENERY, application.getCityID(), ConstantField.LANG_HANS);
+				dataService.getPlace(ConstantField.SPOT, application.getCityID(), ConstantField.LANG_HANS);
 				PlaceActivity sceneryActivity = (PlaceActivity)object;
 				sceneryActivity.refresh(symbolMap,cityAreaMap,subCatNameList,subCatKeyList,subCatNameMap);
 				break;

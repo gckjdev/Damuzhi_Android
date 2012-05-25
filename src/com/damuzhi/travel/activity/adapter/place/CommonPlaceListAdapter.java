@@ -44,7 +44,7 @@ import android.widget.TextView;
 
 public class CommonPlaceListAdapter extends BaseAdapter
 {
-	private static final String TAG = "SceneryAdapter";
+	private static final String TAG = "CommonPlaceListAdapter";
 	private Context context;
 	private List<Place> placeList;
 	private int placeCategoryType;
@@ -62,7 +62,9 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		// TODO Auto-generated method stub
+		if (placeList == null)
+			return 0;
+		
 		return placeList.size();
 	}
 
@@ -193,6 +195,18 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	public void setList(List<Place> list)
 	{
 		this.placeList = list;
+	}
+
+	/**  
+	        * @return  
+	        * @description   
+	        * @version 1.0  
+	        * @author liuxiaokun  
+	        * @update 2012-5-25 下午12:04:52  
+	        */
+	public List<Place> getPlaceList()
+	{
+		return placeList;
 	}
 	
 

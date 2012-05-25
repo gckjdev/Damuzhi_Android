@@ -51,9 +51,9 @@
     <string name="loading">数据加载中...</string>
     <string name="all_place">全部</string>
  	<!-- sort-->
-    <string name="sort">分类</string>
+    <string name="sort">排序</string>
     <string name="price">价格</string>
-    <string name="compositor">排序</string>
+    <string name="sub_category">分类</string>
     <string name="area">区域</string>
     <string name="service">服务</string>
     <string name="food">菜系</string>

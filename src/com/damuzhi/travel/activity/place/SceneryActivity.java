@@ -275,7 +275,7 @@ public class SceneryActivity extends MenuActivity implements PlaceActivity
                     	sceneryAdapter.notifyDataSetChanged();
                         dialog.cancel();
                     }
-                }).setTitle(SceneryActivity.this.getResources().getString(R.string.compositor));
+                }).setTitle(SceneryActivity.this.getResources().getString(R.string.sort));
                 dialog = builder.create();
                 dialog.show();
 

@@ -31,6 +31,7 @@ public class AppManager
 	private static final String TAG = "AppManager";
 	private App app;
 	private static AppManager instance = null;
+	private String currentCityId;
 
 	private AppManager()
 	{
@@ -66,6 +67,10 @@ public class AppManager
 			Log.e(TAG, "load app data from file = " + dataPath
 					+ " but catch exception = " + e.toString(), e);
 		}
+		
+		// TODO current city Id should be persistented
+		currentCityId = String.valueOf(app.getCities(0).getCityId());
+		Log.i(TAG, "current city id is "+currentCityId);
 	}
 
 	/**
@@ -280,7 +285,7 @@ public class AppManager
 		return subCatKey;
 	}
 
-	public static String[] getProvidedServiceNameList(
+	public  String[] getProvidedServiceNameList(
 			PlaceCategoryType placeCategoryType)
 	{
 		int i = 1;
@@ -327,7 +332,7 @@ public class AppManager
 		return map;
 	}
 
-	public static String[] getCityAreaNameList(int cityID)
+	public  String[] getCityAreaNameList(int cityID)
 	{
 		int i = 1;
 		HashMap<Integer, List<CityArea>> ctiyAreaList = instance
@@ -372,4 +377,39 @@ public class AppManager
 		return map;
 	}
 
+	public String getCurrentCityId()
+	{
+		return currentCityId;
+	}
+
+	public void setCurrentCityId(String currentCityId)
+	{
+		this.currentCityId = currentCityId;
+	}
+
+	
+	public String[] getPriceRank(int cityID)
+	{
+		String[] price = null; 
+		if (app != null)
+		{
+			
+			for (City city : app.getCitiesList())
+			{
+				if(city.getCityId() == cityID)
+				{
+					price = new String[city.getPriceRank()+1];
+					price[0] = "全部";
+					String priceLogo = "";
+					for(int i=0;i<city.getPriceRank();i++)
+					{
+						priceLogo+="$";
+						price[i+1] = priceLogo;
+					}
+				}
+			}
+		}
+		return price;
+	}
+	
 }

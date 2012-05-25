@@ -111,7 +111,7 @@
    		     android:gravity="center"
    		     >
    		     <TextView   
-				android:text="@string/compositor"
+				android:text="@string/sort"
 			    android:singleLine="true"
 			    android:textSize="15.0sp"
 			    android:textColor="@color/place_sort_color"
