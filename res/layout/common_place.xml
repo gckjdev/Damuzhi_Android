@@ -53,6 +53,7 @@
     	    android:focusable="true"
     	    android:scrollbars="none"
     	    android:cacheColorHint="@color/listview_bg"
+    	    android:background="@color/white"
     	    android:scrollingCache="true"/>
     </LinearLayout> 
 </LinearLayout>

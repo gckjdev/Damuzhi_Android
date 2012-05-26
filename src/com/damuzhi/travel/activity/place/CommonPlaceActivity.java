@@ -15,8 +15,10 @@ import java.util.List;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.CommonPlaceListAdapter;
+import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.mission.PlaceMission;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
@@ -25,11 +27,16 @@ import com.damuzhi.travel.util.TravelUtil;
 import android.R.bool;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnKeyListener;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Layout;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
@@ -44,7 +51,7 @@ import android.widget.TextView;
  * @update 2012-5-24 下午3:51:48
  */
 
-public abstract class CommonPlaceActivity extends Activity
+public abstract class CommonPlaceActivity extends MenuActivity
 {
 
 	abstract public List<Place> getAllPlace();
@@ -62,7 +69,7 @@ public abstract class CommonPlaceActivity extends Activity
 	ListView placeListView = null;
 	List<Place> allPlaceList = null;
 	CommonPlaceListAdapter placeListAdapter = null;
-	
+	private ProgressDialog loadingDialog;
 	// sort condition
 	protected String[] sortDisplayName;
 	private int sortPosition = 0;
@@ -97,6 +104,7 @@ public abstract class CommonPlaceActivity extends Activity
 		ViewGroup spinner = (ViewGroup) findViewById(R.id.spinner_group);
 		
 		placeListView = (ListView) findViewById(R.id.place_listview);
+		//placeListView.removeAllViews();
 		placeListAdapter = new CommonPlaceListAdapter(this, null, getCategoryType());
 		placeListView.setAdapter(placeListAdapter);
 		
@@ -133,7 +141,7 @@ public abstract class CommonPlaceActivity extends Activity
 				
 				// TODO Auto-generated method stub
 				// hide loading dialog
-				
+				loadingDialog.dismiss();
 				allPlaceList = resultList;
 				
 				// set data and reload place list
@@ -150,6 +158,7 @@ public abstract class CommonPlaceActivity extends Activity
 			protected void onPreExecute()
 			{
 				// TODO show loading here
+				showRoundProcessDialog();
 				super.onPreExecute();
 			}
 			
@@ -261,7 +270,7 @@ public abstract class CommonPlaceActivity extends Activity
 			}else if (!isMatchArea(place)) {
 				continue;
 			}else if (!isMatchService(place)) {
-				
+				continue;
 			}
 			
 			// check 
@@ -303,7 +312,7 @@ public abstract class CommonPlaceActivity extends Activity
 		if (priceSelect == null)
 			return true;
 		
-		if (priceSelect.length > 0 && priceSelect[0] == -1)
+		if (priceSelect.length > 0 && priceSelect[0] == 0)
 			return true;
 		return false;
 	}
@@ -507,4 +516,35 @@ public abstract class CommonPlaceActivity extends Activity
 		String sizeString ="("+size+")";
 		return sizeString;
 	}
+	
+	 public void showRoundProcessDialog()
+	    {
+		 
+		 OnKeyListener keyListener = new OnKeyListener()
+	        {
+	            @Override
+	            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event)
+	            {
+	            	if ( keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
+	            		loadingDialog.dismiss();
+	            		Intent intent = new Intent(CommonPlaceActivity.this, IndexActivity.class);
+	            		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	   				    startActivity(intent);
+	   				    return true;
+		   		    }
+		   			else
+		   			{
+		   				return false;	
+		   			}
+	            }
+	        };
+		 
+		 loadingDialog =new ProgressDialog(this);
+		 loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);      
+		 loadingDialog.setMessage(getResources().getString(R.string.loading));
+		 loadingDialog.setIndeterminate(false);
+		 loadingDialog.setCancelable(true);
+		 loadingDialog.setOnKeyListener(keyListener);
+		 loadingDialog.show();	      
+	    }
 }

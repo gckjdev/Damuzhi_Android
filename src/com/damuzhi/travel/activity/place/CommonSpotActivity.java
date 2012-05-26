@@ -49,7 +49,7 @@ import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
  * @update 2012-5-24 下午4:07:02  
  */
 
-public class SpotActivity extends CommonPlaceActivity
+public class CommonSpotActivity extends CommonPlaceActivity
 {
 
 	

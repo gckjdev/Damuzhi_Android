@@ -390,7 +390,7 @@ public class AppManager
 	
 	public String[] getPriceRank(int cityID)
 	{
-		String[] price = null; 
+		String[] price = new String[]{"全部"}; 
 		if (app != null)
 		{
 			

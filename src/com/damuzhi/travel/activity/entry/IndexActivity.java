@@ -35,13 +35,15 @@ import com.damuzhi.travel.activity.overview.OverviewActivity;
 import com.damuzhi.travel.activity.overview.TravelTipsActivity;
 import com.damuzhi.travel.activity.place.CommonHotelActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
+import com.damuzhi.travel.activity.place.CommonRestaurantActivity;
 import com.damuzhi.travel.activity.place.EntertainmentActivity;
 import com.damuzhi.travel.activity.place.HotelActivity;
 import com.damuzhi.travel.activity.place.NearbyActivity;
 import com.damuzhi.travel.activity.place.RestaurantActivity;
 import com.damuzhi.travel.activity.place.SceneryActivity;
 import com.damuzhi.travel.activity.place.ShoppingActivity;
-import com.damuzhi.travel.activity.place.SpotActivity;
+import com.damuzhi.travel.activity.place.CommonSpotActivity;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
@@ -88,12 +90,13 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		for(String cityName:cityNameSet)
 		{
 			list.add(cityName);			
-			if(cityName.equals("���"))
+			if(cityName.equals(""))
 			{
 				flag = position;
 			}
 			position++;
 		}
+		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_layout_item,android.R.id.text1, list);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		city.setAdapter(adapter);
@@ -150,7 +153,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		case R.id.scenery:	
 			Log.d(TAG, "scenery");
 			Intent sceneryIntent = new Intent();
-			sceneryIntent.setClass(IndexActivity.this, SpotActivity.class);	
+			sceneryIntent.setClass(IndexActivity.this, CommonSpotActivity.class);	
 			startActivity(sceneryIntent);
 			break;
 		case R.id.hotel:
@@ -162,7 +165,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		case R.id.restaurant:	
 			Log.d(TAG, "restaurant");
 			Intent restaurantIntent = new Intent();
-			restaurantIntent.setClass(IndexActivity.this, RestaurantActivity.class);		
+			restaurantIntent.setClass(IndexActivity.this, CommonRestaurantActivity.class);		
 			startActivity(restaurantIntent);
 			break;
 		case R.id.shopping:	
@@ -241,7 +244,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			Integer cityID = cityNameMap.get(cityName);
 			city.setSelection(arg2);
 			Log.d(TAG, "cityID = "+cityID);
-			application.setCityID(cityID);
+			application.setCityID(Integer.parseInt(AppManager.getInstance().getCurrentCityId()));
 		}
 
 		@Override

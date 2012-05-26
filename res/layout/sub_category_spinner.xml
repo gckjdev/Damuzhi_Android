@@ -5,12 +5,13 @@
    		     android:layout_width="wrap_content"
    		     android:orientation="horizontal">
    		     <TextView   
-			    android:textSize="15.0sp"
+			    android:textSize="12.0sp"
+			    android:id="@+id/sub_cate_title"
 			    android:textColor="@color/place_sort_color"
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 			    android:gravity="left|center"
-			    android:text="@string/sort"
-			    android:paddingLeft="3dp"
+			    android:text="@string/sub_category"
+			    android:paddingLeft="5dp"
 			    android:background="@drawable/select_down"/>			
 </LinearLayout>

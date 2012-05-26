@@ -91,7 +91,6 @@ public class PlaceMission
 					
 					inputStream.close();
 					inputStream = null;
-					
 					return travelResponse.getPlaceList().getListList();
 				} catch (Exception e)
 				{					

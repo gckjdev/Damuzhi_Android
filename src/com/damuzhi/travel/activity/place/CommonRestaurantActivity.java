@@ -1,9 +1,9 @@
 /**  
-        * @title CommonHotelActivity.java  
+        * @title CommonRestaurantActivity.java  
         * @package com.damuzhi.travel.activity.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-25 下午4:59:20  
+        * @update 2012-5-26 上午11:14:56  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.place;
@@ -16,37 +16,35 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
-import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
 import com.damuzhi.travel.util.TravelUtil.ComparatorPrice;
 import com.damuzhi.travel.util.TravelUtil.ComparatorPriceContrary;
 import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
-import com.damuzhi.travel.util.TravelUtil.ComparatorStartRank;
 
 /**  
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-25 下午4:59:20  
+ * @update 2012-5-26 上午11:14:56  
  */
 
-public class CommonHotelActivity extends CommonPlaceActivity
+public class CommonRestaurantActivity extends CommonPlaceActivity
 {
 
 	
 	@Override
 	public List<Place> getAllPlace()
-	{		
+	{
 		return PlaceMission.getInstance().getAllPlace(getCategoryType());
 	}
 
@@ -54,14 +52,14 @@ public class CommonHotelActivity extends CommonPlaceActivity
 	@Override
 	public String getCategoryName()
 	{
-		
-		return getString(R.string.hotel);
+		return getString(R.string.restaurant);
 	}
+
 	
 	@Override
 	public int getCategoryType()
 	{
-		return PlaceCategoryType.PLACE_HOTEL_VALUE;
+		return PlaceCategoryType.PLACE_RESTRAURANT_VALUE;
 	}
 
 	
@@ -69,23 +67,24 @@ public class CommonHotelActivity extends CommonPlaceActivity
 	public void createFilterButtons(ViewGroup spinner)
 	{
 		LayoutInflater inflater = getLayoutInflater();
-		View priceSpinner = inflater.inflate(R.layout.price_spinner, null);
+		View subCategorySpinner = inflater.inflate(R.layout.sub_category_spinner, null);
 		View areaSpinner = inflater.inflate(R.layout.area_spinner, null);
 		View serviceSpinner = inflater.inflate(R.layout.service_spinner, null); 
 		View sortSpinner = inflater.inflate(R.layout.sort_spinner, null);
 		
-		LinearLayout priceLayout = (LinearLayout) priceSpinner.findViewById(R.id.price_spinner);
-		RelativeLayout.LayoutParams priceParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		priceParams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
-		priceParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
-		priceParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
-		priceLayout.setLayoutParams(priceParams);			
-		
-		
+		LinearLayout subCateLayout = (LinearLayout) subCategorySpinner.findViewById(R.id.sub_cate_spinner);
+		TextView subCateTitle = (TextView) subCategorySpinner.findViewById(R.id.sub_cate_title);
+		subCateTitle.setText(R.string.food);
+		RelativeLayout.LayoutParams subCateparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		subCateparams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
+		subCateparams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
+		subCateparams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
+		subCateLayout.setLayoutParams(subCateparams);	
+				
 		LinearLayout areaLayout = (LinearLayout) areaSpinner.findViewById(R.id.area_spinner);
 		RelativeLayout.LayoutParams areaParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		areaParams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
-		areaParams.addRule(RelativeLayout.RIGHT_OF,R.id.price_spinner);
+		areaParams.addRule(RelativeLayout.RIGHT_OF,R.id.sub_cate_spinner);
 		areaParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		areaLayout.setLayoutParams(areaParams);	
 		
@@ -102,62 +101,40 @@ public class CommonHotelActivity extends CommonPlaceActivity
 		sortParams.addRule(RelativeLayout.RIGHT_OF,R.id.service_spinner);
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);
-		int cityID = Integer.parseInt(AppManager.getInstance().getCurrentCityId());
-		sortDisplayName = getResources().getStringArray(R.array.hotel);
 		
-		price = AppManager.getInstance().getPriceRank(cityID);
+		int cityID = Integer.parseInt(AppManager.getInstance().getCurrentCityId());
+		sortDisplayName = getResources().getStringArray(R.array.restaurant);
+		subCatName = AppManager.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_RESTRAURANT);
+		subCatKey = AppManager.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
 		areaID = AppManager.getInstance().getCityAreaKeyList(cityID);
 		areaName = AppManager.getInstance().getCityAreaNameList(cityID);
-		serviceID = AppManager.getInstance().getProvidedServiceKeyList(PlaceCategoryType.PLACE_HOTEL);
-		serviceName = AppManager.getInstance().getProvidedServiceNameList(PlaceCategoryType.PLACE_HOTEL);
-		spinner.addView(priceSpinner);
+		serviceID = AppManager.getInstance().getProvidedServiceKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
+		serviceName = AppManager.getInstance().getProvidedServiceNameList(PlaceCategoryType.PLACE_RESTRAURANT);
+		
+		spinner.addView(subCategorySpinner);
 		spinner.addView(areaSpinner);
 		spinner.addView(serviceSpinner);
-		spinner.addView(sortSpinner);
+		spinner.addView(sortSpinner);	
 		
-		priceSpinner.setOnClickListener(priceClickListener);
+		subCategorySpinner.setOnClickListener(subCategoryClickListener);
 		areaSpinner.setOnClickListener(areaClickListener);
 		serviceSpinner.setOnClickListener(serviceClickListener);
 		sortSpinner.setOnClickListener(sortClickListener);
-		
-
 	}
 
 	
 	@Override
 	boolean isSupportSubcategory()
 	{
-		return false;
+		return true;
 	}
-
-	
-	@Override
-	Comparator<Place> getSortComparator(int index)
-	{			
-		switch (index)
-		{
-		case 0:
-			return new  ComparatorRank();
-		case 1:
-			return new  ComparatorStartRank();		
-		case 2:
-			return new  ComparatorPrice();			
-		case 3:
-			return new  ComparatorPriceContrary();
-		case 4:
-			return new ComparatorDistance(TravelApplication.getInstance().getLocation());
-		}
-			return null;
-	}
-
 
 	
 	@Override
 	boolean isSupportPrice()
 	{
-		return true;
+		return false;
 	}
-
 
 	
 	@Override
@@ -166,12 +143,29 @@ public class CommonHotelActivity extends CommonPlaceActivity
 		return true;
 	}
 
-
 	
 	@Override
 	boolean isSupportService()
 	{
 		return true;
+	}
+
+	
+	@Override
+	Comparator<Place> getSortComparator(int index)
+	{
+		switch (index)
+		{
+		case 0:
+			 return new  ComparatorRank();
+		case 1:
+			 return new  ComparatorPrice();
+		case 2:
+			return  new  ComparatorPriceContrary();
+		case 3:
+			return  new  ComparatorDistance(TravelApplication.getInstance().getLocation());
+		}
+		return null;
 	}
 
 }

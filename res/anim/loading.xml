@@ -8,4 +8,6 @@
 	<item android:duration="150" android:drawable="@drawable/loading_05" />
 	<item android:duration="150" android:drawable="@drawable/loading_06" />
 	<item android:duration="150" android:drawable="@drawable/loading_07" />
+	<item android:duration="150" android:drawable="@drawable/loading_08" />
+	<item android:duration="150" android:drawable="@drawable/loading_09" />
 </animation-list> 

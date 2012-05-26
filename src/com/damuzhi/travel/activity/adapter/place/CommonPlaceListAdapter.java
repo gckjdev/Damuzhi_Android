@@ -24,16 +24,19 @@ import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.util.LocationUtil;
+import com.damuzhi.travel.util.TravelUtil;
 
 import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ImageView.ScaleType;
 
 /**  
  * @description   
@@ -56,6 +59,7 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	public Anseylodar anseylodar;
 	private LayoutInflater inflater;
 	private ImageView imageView;
+	private ViewGroup serviceGroup;
 	//private int dataFlag;
 	
 
@@ -80,9 +84,11 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
 		this.anseylodar = new Anseylodar();
+		this.placeCategoryType = placeCategoryType;
 		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(TravelApplication.getInstance().getCityID());
 		symbol = AppManager.getInstance().getSymbolMap().get(TravelApplication.getInstance().getCityID());
+		
 	}
 
 	@Override
@@ -108,22 +114,22 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		Place place = placeList.get(position);
 		if(convertView == null)
 		{
-			convertView = inflater.inflate(R.layout.place_list_item, null);
+			convertView = inflater.inflate(R.layout.common_place_list_item, null);
 			viewCache = new PlaceViewCache(convertView);
 			convertView.setTag(viewCache);
 		}else {
 			viewCache = (PlaceViewCache) convertView.getTag();
 		}
 		String subCatName = subCatMap.get(place.getSubCategoryId());
-		TextView sceneryName = viewCache.getPlaceName();	
-		sceneryName.setSelected(true);		
-		TextView sceneryPrice = viewCache.getPlacePrice();
-		TextView sceneryTag = viewCache.getPlaceTag();
-		TextView sceneryArea = viewCache.getPlaceArea();
+		TextView placeName = viewCache.getPlaceName();	
+		placeName.setSelected(true);		
+		TextView placePrice = viewCache.getPlacePrice();
+		TextView placeTag = viewCache.getPlaceTag();
+		TextView placeArea = viewCache.getPlaceArea();
 		ImageView recommendImageView1 = viewCache.getRecommendImageView1();
 		ImageView recommendImageView2 = viewCache.getRecommendImageView2();
 		ImageView recommendImageView3 = viewCache.getRecommendImageView3();
-		TextView sceneryDistance = viewCache.getPlaceDistance();
+		TextView placeDistance = viewCache.getPlaceDistance();
 		int rank = place.getRank();
 		switch (rank)
 		{
@@ -151,44 +157,51 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		String url = "";
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
-		/*if(dataFlag == ConstantField.DATA_LOCAL)
-		{
-			url = ConstantField.DATA_PATH+place.getIcon();
-		}else{
-			url = place.getIcon();				
-		}*/	
 		url = place.getIcon();
-		anseylodar.showimgAnsy(imageView,url, ConstantField.DATA_HTTP);		
-		if(TravelApplication.getInstance().getLocation()!=null)
+		anseylodar.showimgAnsy(imageView,url, ConstantField.DATA_HTTP);	
+		
+		if(TravelApplication.getInstance().getLocation().size() >0)
 		{
-			int distance = (int) LocationUtil.GetDistance(longitude, latitude, place.getLongitude(), place.getLatitude());
-			if(distance >1000)
-			{
-				sceneryDistance.setText(distance/1000+context.getResources().getString(R.string.kilometer));
-			}else {
-				sceneryDistance.setText(distance+context.getResources().getString(R.string.meter));
-			}
-		}else {
-			sceneryDistance.setText("");
-		}
-		sceneryDistance.setText("");	
-		sceneryName.setText(place.getName());
-		String price ;
-		if(place.getPrice().equals("0"))
-		{
-			price = context.getResources().getString(R.string.free);
-			sceneryPrice.setText(price);
-		}else {
-			price = place.getPrice();
-			sceneryPrice.setText(symbol+price);
-		}
-		sceneryTag.setText(subCatName);
-		if(cityAreaMap.containsKey(place.getAreaId()))
-		{
-			sceneryArea.setText(cityAreaMap.get(place.getAreaId()));
+			String distance = TravelUtil.getDistance(longitude,latitude);
+			placeDistance.setText(distance);
+			
 		}
 		
-				
+		placeName.setText(place.getName());			
+		placePrice.setText(TravelUtil.getPriceStr(place.getPrice(),symbol));
+		
+		if(placeCategoryType == PlaceCategoryType.PLACE_HOTEL_VALUE)
+		{
+			placeTag.setText(TravelUtil.getHotelStar(context,place.getHotelStar()));
+		}else
+		{
+			placeTag.setText(subCatName);	
+		}		
+		
+		if(cityAreaMap.containsKey(place.getAreaId()))
+		{
+			placeArea.setText(cityAreaMap.get(place.getAreaId()));
+		}
+		
+		if(placeCategoryType == PlaceCategoryType.PLACE_HOTEL_VALUE || placeCategoryType == PlaceCategoryType.PLACE_RESTRAURANT_VALUE)
+		{
+			serviceGroup = viewCache.getServiceGroup();
+			serviceGroup.setVisibility(View.VISIBLE);
+			if(serviceGroup.getChildCount()>0)
+			{
+				serviceGroup.removeAllViews();
+			}
+			
+			for(int id:place.getProvidedServiceIdList())
+			{
+				 ImageView serviceImageView = new ImageView(context);  
+				 serviceImageView.setLayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.serviceIcon),
+						 LayoutParams.WRAP_CONTENT));   
+				 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
+				 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));
+		         serviceGroup.addView(serviceImageView);
+			}
+		}				
 		return convertView;
 	}
 	

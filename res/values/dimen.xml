@@ -3,6 +3,6 @@
     <dimen name="location_info">15sp</dimen>
     <dimen name="location_width">180dp</dimen>
     <dimen name="location_height">70dp</dimen>
-    <dimen name="serviceIcon">30dp</dimen>
+    <dimen name="serviceIcon">15dp</dimen>
     <dimen name="spinnerMargin">10dp</dimen>
 </resources>
