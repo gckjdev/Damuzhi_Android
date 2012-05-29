@@ -46,7 +46,7 @@ import android.widget.Toast;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.SceneryAdapter;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -67,7 +67,7 @@ import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
 import com.damuzhi.travel.util.TravelUtil.ComparatorPrice;
 import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
 
-public class SceneryActivity extends MenuActivity implements PlaceActivity
+public class SceneryActivity extends TravelActivity implements PlaceActivity
 {
 	private	static final String TAG = "SceneryActivity";
 	private ListView placeListView;

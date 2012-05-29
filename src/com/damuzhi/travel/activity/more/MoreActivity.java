@@ -10,9 +10,9 @@ import android.view.View.OnClickListener;
 import android.widget.TextView;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 
-public class MoreActivity extends MenuActivity implements OnClickListener
+public class MoreActivity extends TravelActivity implements OnClickListener
 {
 	TextView openCtiy;
 	@Override

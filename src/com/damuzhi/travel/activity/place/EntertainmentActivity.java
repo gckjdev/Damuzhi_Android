@@ -33,7 +33,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.EntertainmentAdapter;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -52,7 +52,7 @@ import com.damuzhi.travel.util.TravelUtil;
  * @update 2012-5-16 ����4:37:27  
  */
 
-public class EntertainmentActivity extends MenuActivity implements PlaceActivity
+public class EntertainmentActivity extends TravelActivity implements PlaceActivity
 {
 	private	static final String TAG = "EntertainmentActivity";
 	private ListView entertainmentList;

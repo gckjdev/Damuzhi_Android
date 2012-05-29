@@ -516,14 +516,13 @@ public class TravelUtil
 		String distanceStr = "";
 		double locationLonggitude = 0;
 		double locationLatitude = 0;
-		HashMap<String, Double> location = TravelApplication.getInstance()
-				.getLocation();
-		if (location.size() > 0 || location != null)
+		if(TravelApplication.getInstance().getLocation().size() >0)
 		{
+			HashMap<String, Double> location = TravelApplication.getInstance().getLocation();			
 			locationLonggitude = location.get(ConstantField.LONGITUDE);
 			locationLatitude = location.get(ConstantField.LATITUDE);
 			int distance = (int) LocationUtil.GetDistance(longitude, latitude,
-					longitude, latitude);
+					locationLonggitude, locationLatitude);
 			if (distance > 1000)
 			{
 				distanceStr = distance / 1000 + "km";
@@ -531,8 +530,8 @@ public class TravelUtil
 			{
 				distanceStr = distance + "m";
 			}
+			
 		}
-
 		return distanceStr;
 	}
 
@@ -548,6 +547,10 @@ public class TravelUtil
 	{
 		// TODO Auto-generated method stub
 		String priceStr = "";
+		if(price.equals("")||price==null)
+		{
+			return priceStr;
+		}
 		if(price.equals("0"))
 		{
 			priceStr = "免费";

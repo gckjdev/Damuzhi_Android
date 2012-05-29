@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-17 ÉÏÎç10:55:09  
+        * @update 2012-5-17 ï¿½ï¿½ï¿½ï¿½10:55:09  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.place;
@@ -51,7 +51,7 @@ import android.widget.TabHost.OnTabChangeListener;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.HotelAdapter;
 import com.damuzhi.travel.activity.adapter.place.NearbyAdapter;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
@@ -73,7 +73,7 @@ import com.google.android.maps.OverlayItem;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-17 ÉÏÎç10:55:09  
+ * @update 2012-5-17 ï¿½ï¿½ï¿½ï¿½10:55:09  
  */
 
 public class NearbyActivity extends MapActivity implements PlaceActivity
@@ -86,7 +86,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	private ImageView redStart;
 	private int startPosition = 0;
 	private float offset;
-	private int bmpW;// ¶¯»­Í¼Æ¬¿í¶È
+	private int bmpW;// ï¿½ï¿½ï¿½ï¿½Í¼Æ¬ï¿½ï¿½ï¿½
 	private int screenW;
 	private TextView allPlace;
 	private TextView spot;
@@ -102,7 +102,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	private static final int LOAD_OK = 1;
 	private Dialog loadingDialog;
 	private ArrayList<Place> placeList;
-	private int loadFlag = 1;//ÅÐ¶ÏÊÇ·ñ´ÓÐÂ¼ÓÔØactivity
+	private int loadFlag = 1;//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½activity
 	private HashMap<Integer,String> symbolMap;
 	private HashMap<Integer, String> cityAreaMap;
 	private HashMap<String, Double> location;
@@ -110,7 +110,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	private NearbyAdapter adapter;
 	private String dataPath ;
 	private MapView mapView;
-	private View popupView;//µ¯³öÆøÅÝ
+	private View popupView;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	long lasttime = -1;
     MapController mapc;
     private TravelApplication application;
@@ -602,13 +602,13 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	};
 	
 	/**
-	* ³õÊ¼»¯¶¯»­
+	* ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 	*/
 	private void getOffSet(ImageView imageView,int startPosition) {
-	//int bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.red_star).getWidth();// »ñÈ¡Í¼Æ¬¿í¶È
+	//int bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.red_star).getWidth();// ï¿½ï¿½È¡Í¼Æ¬ï¿½ï¿½ï¿½
 	DisplayMetrics dm = new DisplayMetrics();
 	getWindowManager().getDefaultDisplay().getMetrics(dm);
-	screenW = dm.widthPixels;// »ñÈ¡·Ö±æÂÊ¿í¶È
+	screenW = dm.widthPixels;// ï¿½ï¿½È¡ï¿½Ö±ï¿½ï¿½Ê¿ï¿½ï¿½
 	switch (startPosition)
 	{
 	case 0:
@@ -712,7 +712,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	        loadingDialog = new AlertDialog.Builder(mContext).create();
 	        loadingDialog.setOnKeyListener(keyListener);
 	        loadingDialog.show();
-	        // ×¢Òâ´Ë´¦Òª·ÅÔÚshowÖ®ºó ·ñÔò»á±¨Òì³£
+	        // ×¢ï¿½ï¿½Ë´ï¿½Òªï¿½ï¿½ï¿½ï¿½showÖ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½á±¨ï¿½ì³£
 	        loadingDialog.setContentView(layout);
 	    }
 	/*  

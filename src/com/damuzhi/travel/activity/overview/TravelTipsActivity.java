@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.overview  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-22 ÏÂÎç3:53:27  
+        * @update 2012-5-22 ï¿½ï¿½ï¿½ï¿½3:53:27  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.overview;
@@ -29,7 +29,7 @@ import android.widget.ListView;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.overview.TravelTipsAdapter;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
@@ -44,14 +44,14 @@ import com.damuzhi.travel.util.CornerListView;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-22 ÏÂÎç3:53:27  
+ * @update 2012-5-22 ï¿½ï¿½ï¿½ï¿½3:53:27  
  */
 
-public class TravelTipsActivity extends MenuActivity implements PlaceActivity
+public class TravelTipsActivity extends TravelActivity implements PlaceActivity
 {
 	private CornerListView listView;
 	private List<CommonTravelTip> commonTravelTips;
-	private int loadFlag = 1;//ÅÐ¶ÏÊÇ·ñ´ÓÐÂ¼ÓÔØactivity
+	private int loadFlag = 1;//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½activity
 	private Dialog loadingDialog;
 	private static final int LOADING = 0;
 	private static final int LOAD_OK = 1;
@@ -165,7 +165,7 @@ public class TravelTipsActivity extends MenuActivity implements PlaceActivity
 	        loadingDialog = new AlertDialog.Builder(mContext).create();
 	        loadingDialog.setOnKeyListener(keyListener);
 	        loadingDialog.show();
-	        // ×¢Òâ´Ë´¦Òª·ÅÔÚshowÖ®ºó ·ñÔò»á±¨Òì³£
+	        // ×¢ï¿½ï¿½Ë´ï¿½Òªï¿½ï¿½ï¿½ï¿½showÖ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½á±¨ï¿½ì³£
 	        loadingDialog.setContentView(layout);
 	    }
 	

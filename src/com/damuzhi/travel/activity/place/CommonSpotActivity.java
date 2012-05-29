@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -54,9 +55,9 @@ public class CommonSpotActivity extends CommonPlaceActivity
 
 	
 	@Override
-	public List<Place> getAllPlace()
+	public List<Place> getAllPlace(Activity activity)
 	{
-		return PlaceMission.getInstance().getAllPlace(getCategoryType());
+		return PlaceMission.getInstance().getAllPlace(PlaceCategoryType.PLACE_SPOT_VALUE,activity);
 	}
 	
 	@Override
@@ -66,7 +67,7 @@ public class CommonSpotActivity extends CommonPlaceActivity
 	}
 	
 	@Override
-	public void createFilterButtons(ViewGroup spinnerGroup)
+	public void createFilterButtons(ViewGroup spinner)
 	{
 		LayoutInflater inflater = getLayoutInflater();
 		View subCategorySpinner = inflater.inflate(R.layout.sub_category_spinner, null);
@@ -89,8 +90,8 @@ public class CommonSpotActivity extends CommonPlaceActivity
 		sortDisplayName = getResources().getStringArray(R.array.spot);
 		subCatName = AppManager.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_SPOT);
 		subCatKey = AppManager.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_SPOT);
-		spinnerGroup.addView(subCategorySpinner);
-		spinnerGroup.addView(sortSpinner);
+		spinner.addView(subCategorySpinner);
+		spinner.addView(sortSpinner);
 		subCategorySpinner.setOnClickListener(subCategoryClickListener);
 		sortSpinner.setOnClickListener(sortClickListener);
 	}

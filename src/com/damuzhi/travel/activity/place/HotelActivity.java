@@ -31,7 +31,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.HotelAdapter;
 import com.damuzhi.travel.activity.adapter.place.SceneryAdapter;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -50,7 +50,7 @@ import com.damuzhi.travel.util.TravelUtil.ComparatorPrice;
 import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
 import com.damuzhi.travel.util.TravelUtil.ComparatorStartRank;
 
-public class HotelActivity extends MenuActivity implements PlaceActivity
+public class HotelActivity extends TravelActivity implements PlaceActivity
 {
 	private	static final String TAG = "HotelActivity";
 	private ListView hotelList;

@@ -60,6 +60,14 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	private LayoutInflater inflater;
 	private ImageView imageView;
 	private ViewGroup serviceGroup;
+	private TextView placeName;
+	private TextView placePrice;
+	private TextView placeTag;
+	private TextView placeArea;
+	private ImageView recommendImageView1;
+	private ImageView recommendImageView2;
+	private ImageView recommendImageView3;
+	private TextView placeDistance;
 	//private int dataFlag;
 	
 
@@ -94,7 +102,6 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	@Override
 	public Object getItem(int position)
 	{
-		// TODO Auto-generated method stub
 		return placeList.get(position);
 	}
 	
@@ -102,14 +109,12 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	@Override
 	public long getItemId(int position)
 	{
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		// TODO Auto-generated method stub
 		PlaceViewCache viewCache; 
 		Place place = placeList.get(position);
 		if(convertView == null)
@@ -120,16 +125,14 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		}else {
 			viewCache = (PlaceViewCache) convertView.getTag();
 		}
-		String subCatName = subCatMap.get(place.getSubCategoryId());
-		TextView placeName = viewCache.getPlaceName();	
+		placeName = viewCache.getPlaceName();	
 		placeName.setSelected(true);		
-		TextView placePrice = viewCache.getPlacePrice();
-		TextView placeTag = viewCache.getPlaceTag();
-		TextView placeArea = viewCache.getPlaceArea();
-		ImageView recommendImageView1 = viewCache.getRecommendImageView1();
-		ImageView recommendImageView2 = viewCache.getRecommendImageView2();
-		ImageView recommendImageView3 = viewCache.getRecommendImageView3();
-		TextView placeDistance = viewCache.getPlaceDistance();
+		placePrice = viewCache.getPlacePrice();
+		placeTag = viewCache.getPlaceTag();
+		recommendImageView1 = viewCache.getRecommendImageView1();
+		recommendImageView2 = viewCache.getRecommendImageView2();
+		recommendImageView3 = viewCache.getRecommendImageView3();
+		placeDistance = viewCache.getPlaceDistance();
 		int rank = place.getRank();
 		switch (rank)
 		{
@@ -158,16 +161,10 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
 		url = place.getIcon();
-		anseylodar.showimgAnsy(imageView,url, ConstantField.DATA_HTTP);	
-		
-		if(TravelApplication.getInstance().getLocation().size() >0)
-		{
-			String distance = TravelUtil.getDistance(longitude,latitude);
-			placeDistance.setText(distance);
-			
-		}
-		
-		placeName.setText(place.getName());			
+		anseylodar.showimgAnsy(imageView,url, ConstantField.DATA_HTTP);		
+		String distance = TravelUtil.getDistance(longitude,latitude);
+		placeDistance.setText(distance);		
+		placeName.setText(place.getName());	
 		placePrice.setText(TravelUtil.getPriceStr(place.getPrice(),symbol));
 		
 		if(placeCategoryType == PlaceCategoryType.PLACE_HOTEL_VALUE)
@@ -175,11 +172,13 @@ public class CommonPlaceListAdapter extends BaseAdapter
 			placeTag.setText(TravelUtil.getHotelStar(context,place.getHotelStar()));
 		}else
 		{
+			String subCatName = subCatMap.get(place.getSubCategoryId());
 			placeTag.setText(subCatName);	
 		}		
 		
 		if(cityAreaMap.containsKey(place.getAreaId()))
 		{
+			placeArea = viewCache.getPlaceArea();
 			placeArea.setText(cityAreaMap.get(place.getAreaId()));
 		}
 		
@@ -210,13 +209,7 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		this.placeList = list;
 	}
 
-	/**  
-	        * @return  
-	        * @description   
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-5-25 下午12:04:52  
-	        */
+	
 	public List<Place> getPlaceList()
 	{
 		return placeList;

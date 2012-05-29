@@ -50,11 +50,11 @@ public class LocationUtil
 
 	
 	private static final String TAG ="LocationUtil";
-	private Context context ;
+	private static Context context ;
 	private HashMap<String, Double> locationMap = new HashMap<String, Double>();
 	private DefaultHttpClient client ;
-	private Location loc ;
-	private LocationManager locationManager;
+	private static Location loc ;
+	private static LocationManager locationManager;
 	/**
 	 * @param context
 	 */
@@ -69,12 +69,7 @@ public class LocationUtil
 
 	
 	
-	/**  
-	        * @description   
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÏÂÎç12:03:57  
-	        */  
+	
 	public class CellIDInfo {
 			
 			public int cellId;
@@ -91,7 +86,7 @@ public class LocationUtil
 	
 	public  HashMap<String, Double> getLocation()
 	{
-		getLocationByGps();
+		//getLocationByGps();
 		if(locationMap.isEmpty())
 		{
 			getLocationByTower();
@@ -104,33 +99,19 @@ public class LocationUtil
 	
 	
 	
-	/**  
-	        * @return  
-	        * @description   GPS¶¨Î»
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÏÂÎç12:04:44  
-	        */
-	public HashMap<String, Double> getLocationByGps()
+	/*public HashMap<String, Double> getLocationByGps()
 	{
-		//LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-		//showCurrentLocation();
 		Criteria criteria = new Criteria(); 	
-		criteria.setAccuracy(Criteria.ACCURACY_FINE); // »ñµÃ×îºÃµÄ¶¨Î»Ð§¹û 
+		criteria.setAccuracy(Criteria.ACCURACY_FINE);
 		criteria.setAltitudeRequired(false); 
 		criteria.setBearingRequired(false); 
 		criteria.setCostAllowed(true); 
-		// Ê¹ÓÃÊ¡µçÄ£Ê½ 
 		criteria.setPowerRequirement(Criteria.POWER_LOW);    
-		// »ñµÃµ±Ç°µÄÎ»ÖÃÌá¹©Õß 
 		String provider = locationManager.getBestProvider(criteria, true); 				
-		Log.d(TAG, "Location found? "+ (loc==null?"NO":"YES"));	
-		// »ñµÃµ±Ç°Î»ÖÃµÄÎ³¶È 
 		loc = locationManager.getLastKnownLocation(provider);
 		if(loc !=null)
 		{
 			Double latitude = loc.getLatitude() * 1E6; 			
-			// »ñµÃµ±Ç°Î»ÖÃµÄ¾­¶È 
 			Double longitude = loc.getLongitude() * 1E6; 
 			locationMap.put(ConstantField.LATITUDE, latitude);
 			locationMap.put(ConstantField.LONGITUDE, longitude);
@@ -139,33 +120,41 @@ public class LocationUtil
 		}		
 		locationManager.requestLocationUpdates(provider, 1000, 5, locationListener);			
 		return locationMap;
+	}*/
+	
+	
+	public static Location getLocationByGps(Context context)
+	{
+		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+		Criteria criteria = new Criteria(); 	
+		criteria.setAccuracy(Criteria.ACCURACY_FINE);
+		criteria.setAltitudeRequired(false); 
+		criteria.setBearingRequired(false); 
+		criteria.setCostAllowed(true); 
+		criteria.setPowerRequirement(Criteria.POWER_LOW);
+		if(locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER))
+		{
+			String provider = locationManager.getBestProvider(criteria, true); 				
+			loc = locationManager.getLastKnownLocation(provider);
+			locationManager.requestLocationUpdates(provider, 20000, 5, locationListener);			
+		}	
+		return loc;
 	}
 	
 	
-	/**  
-	        * @return  
-	        * @description   WIFI¶¨Î»
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÏÂÎç12:11:06  
-	        */
+	
 	public HashMap<String, Double> getLocationByNetWork()
 	{
 		//LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		/*Criteria criteria = new Criteria(); 
-		// »ñµÃ×îºÃµÄ¶¨Î»Ð§¹û 
 		criteria.setAccuracy(Criteria.ACCURACY_FINE); 
 		criteria.setAltitudeRequired(false); 
 		criteria.setBearingRequired(false); 
 		criteria.setCostAllowed(true); 
-		// Ê¹ÓÃÊ¡µçÄ£Ê½ 
 		criteria.setPowerRequirement(Criteria.POWER_LOW); 
-		// »ñµÃµ±Ç°µÄÎ»ÖÃÌá¹©Õß 
 		String provider = locationManager.getBestProvider(criteria, true); */		
-		// »ñµÃµ±Ç°µÄÎ»ÖÃ 
 		if(locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER))
 		{
-			Log.d(TAG, "Çë¿ªÆôÍøÂçÁ¬½Ó");
 			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 20000, 1, locationListener);
 			loc = locationManager.getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER);
 		}
@@ -173,9 +162,7 @@ public class LocationUtil
 		 
 		if(loc != null)
 		{
-			// »ñµÃµ±Ç°Î»ÖÃµÄÎ³¶È 
 			Double latitude = loc.getLatitude() * 1E6; 			
-			// »ñµÃµ±Ç°Î»ÖÃµÄ¾­¶È 
 			Double longitude = loc.getLongitude() * 1E6; 
 			locationMap.put(ConstantField.LATITUDE, latitude);
 			locationMap.put(ConstantField.LONGITUDE, longitude);
@@ -185,7 +172,7 @@ public class LocationUtil
 	}
 	
 	
-	private final LocationListener locationListener = new LocationListener() {
+	public static LocationListener locationListener = new LocationListener() {
 
 		@Override
 		public void onLocationChanged(Location location)
@@ -219,24 +206,13 @@ public class LocationUtil
 	};
 	
 	
-		/**  
-	     * @return  
-	     * @description   
-	     * @version 1.0  
-	     * @author liuxiaokun  
-	     * @update 2012-5-8 ÏÂÎç12:04:02  
-	     */
+		
 	public HashMap<String, Double> getLocationByTower(){
 		String locString = "";
 		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		int type = tm.getNetworkType();
-		//ÔÚÖÐ¹ú£¬ÒÆ¶¯µÄ2GÊÇEGDE£¬ÁªÍ¨µÄ2GÎªGPRS£¬µçÐÅµÄ2GÎªCDMA£¬µçÐÅµÄ3GÎªEVDO 
-		//String OperatorName = tm.getNetworkOperatorName(); 
 		Location loc = null;
 		ArrayList<CellIDInfo> CellID = new ArrayList<CellIDInfo>();
-		//ÖÐ¹úµçÐÅÎªCTC
-		//NETWORK_TYPE_EVDO_AÊÇÖÐ¹úµçÐÅ3GµÄgetNetworkType
-		//NETWORK_TYPE_CDMAµçÐÅ2GÊÇCDMA
 		if (type == TelephonyManager.NETWORK_TYPE_EVDO_A || type == TelephonyManager.NETWORK_TYPE_CDMA || type ==TelephonyManager.NETWORK_TYPE_1xRTT)
 		{
 			CdmaCellLocation location = (CdmaCellLocation) tm.getCellLocation();
@@ -253,7 +229,6 @@ public class LocationUtil
 	     info.radioType = "cdma";
 	     CellID.add(info);
 		}
-		//ÒÆ¶¯2G¿¨ + CMCC + 2 
 		//type = NETWORK_TYPE_EDGE
 		else if(type == TelephonyManager.NETWORK_TYPE_EDGE)
 		{
@@ -268,7 +243,6 @@ public class LocationUtil
 	     info.radioType = "gsm";
 	     CellID.add(info);
 		}
-		//ÁªÍ¨µÄ2G¾­¹ý²âÊÔ China Unicom   1 NETWORK_TYPE_GPRS
 		else if(type == TelephonyManager.NETWORK_TYPE_GPRS)
 		{
 			GsmCellLocation location = (GsmCellLocation)tm.getCellLocation();  
@@ -277,7 +251,6 @@ public class LocationUtil
 			CellIDInfo info = new CellIDInfo();
 	     info.cellId = cellIDs;
 	     info.locationAreaCode = lac;
-	     //¾­¹ý²âÊÔ£¬»ñÈ¡ÁªÍ¨Êý¾ÝÒÔÏÂÁ½ÐÐ±ØÐëÈ¥µô£¬·ñÔò»á³öÏÖ´íÎó£¬´íÎóÀàÐÍÎªJSON Parsing Error
 	     //info.mobileNetworkCode = tm.getNetworkOperator().substring(3, 5);   
 	     //info.mobileCountryCode = tm.getNetworkOperator().substring(0, 3);
 	     info.radioType = "gsm";
@@ -293,14 +266,7 @@ public class LocationUtil
 
 
 
-	/**  
-	     * @param cellID
-	     * @return  ·â×°»ùÕ¾ÐÅÏ¢
-	     * @description   
-	     * @version 1.0  
-	     * @author liuxiaokun  
-	     * @update 2012-5-8 ÏÂÎç12:04:37  
-	     */
+	
 	private HashMap<String, Double> callGear(ArrayList<CellIDInfo> cellID) {
 	if (cellID == null || cellID.size() == 0) 
 		return null;
@@ -385,7 +351,7 @@ public class LocationUtil
 	return null;
 	}
 	
-	//¼ÆËãÁ½µãÖ®¼äµÄ¾àÀë
+	
 	private static final double EARTH_RADIUS = 6378137;
 	
     private static double rad(double d)
@@ -393,14 +359,7 @@ public class LocationUtil
        return d * Math.PI / 180.0;
     }
     
-    /**
-     * ¸ù¾ÝÁ½µã¼ä¾­Î³¶È×ø±ê£¨doubleÖµ£©£¬¼ÆËãÁ½µã¼ä¾àÀë£¬µ¥Î»ÎªÃ×
-     * @param lng1
-     * @param lat1
-     * @param lng2
-     * @param lat2
-     * @return
-     */
+   
     public static double GetDistance(double lng1, double lat1, double lng2, double lat2)
     {
        double radLat1 = rad(lat1);
@@ -422,24 +381,24 @@ public class LocationUtil
 	        * @param itude
 	        * @return
 	        * @throws Exception  
-	        * @description   »ñÈ¡µØÀíÎ»ÖÃ
+	        * @description   ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Î»ï¿½ï¿½
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÏÂÎç12:05:15  
+	        * @update 2012-5-8 ï¿½ï¿½ï¿½ï¿½12:05:15  
 	        */
 	public String getLocation(Location itude) throws Exception {
 	String resultString = "";
 	
-	/** ÕâÀï²ÉÓÃget·½·¨£¬Ö±½Ó½«²ÎÊý¼Óµ½URLÉÏ */
+	/** ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½getï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö±ï¿½Ó½ï¿½ï¿½ï¿½ï¿½ï¿½Óµï¿½URLï¿½ï¿½ */
 	String urlString = String.format("http://maps.google.cn/maps/geo?key=abcdefg&q=%s,%s", itude.getLatitude(), itude.getLongitude());
 	Log.i("URL", urlString);
 	
-	/** ÐÂ½¨HttpClient */
+	/** ï¿½Â½ï¿½HttpClient */
 	
-	/** ²ÉÓÃGET·½·¨ */
+	/** ï¿½ï¿½ï¿½ï¿½GETï¿½ï¿½ï¿½ï¿½ */
 	HttpGet get = new HttpGet(urlString);
 	try {
-	/** ·¢ÆðGETÇëÇó²¢»ñµÃ·µ»ØÊý¾Ý */
+	/** ï¿½ï¿½ï¿½ï¿½GETï¿½ï¿½ï¿½ó²¢»ï¿½Ã·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ */
 	HttpResponse response = client.execute(get);
 	HttpEntity entity = response.getEntity();
 	BufferedReader buffReader = new BufferedReader(new InputStreamReader(entity.getContent()));
@@ -450,7 +409,7 @@ public class LocationUtil
 	}
 	resultString = strBuff.toString();
 	
-	/** ½âÎöJSONÊý¾Ý£¬»ñµÃÎïÀíµØÖ· */
+	/** ï¿½ï¿½ï¿½ï¿½JSONï¿½ï¿½Ý£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö· */
 	if (resultString != null && resultString.length() > 0) {
 		JSONObject jsonobject = new JSONObject(resultString);
 		JSONArray jsonArray = new JSONArray(jsonobject.get("Placemark").toString());
@@ -461,7 +420,7 @@ public class LocationUtil
 	}
 	} catch (Exception e) 
 	{
-		throw new Exception("»ñÈ¡ÎïÀíÎ»ÖÃ³öÏÖ´íÎó:" + e.getMessage());
+		throw new Exception("ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã³ï¿½ï¿½Ö´ï¿½ï¿½ï¿½:" + e.getMessage());
 	} finally 
 	{
 		get.abort();
@@ -477,7 +436,7 @@ public class LocationUtil
 	        * @description   
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÏÂÎç12:05:33  
+	        * @update 2012-5-8 ï¿½ï¿½ï¿½ï¿½12:05:33  
 	        *//*
 	public long GetUTCTime() { 
 		Calendar cal = Calendar.getInstance(Locale.CHINA); 

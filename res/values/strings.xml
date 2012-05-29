@@ -66,7 +66,7 @@
     <!-- hotelInfo -->
     <string name="hotelIntro">酒店简介</string>
     <string name="hotelStart">酒店星级</string>
-    <string name="appraisalKey">用户评价关键词</string>
+    <string name="key_word">推荐理由</string>
     <string name="hotelRoomPrice">房间价格</string>
     <string name="trafficLocation">位置</string>
     <string name="trafficDistance">距酒店</string>

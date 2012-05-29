@@ -34,7 +34,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.RestaurantAdapter;
 import com.damuzhi.travel.activity.adapter.place.ShoppingAdapter;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -53,7 +53,7 @@ import com.damuzhi.travel.util.TravelUtil;
  * @update 2012-5-16 ����2:59:43  
  */
 
-public class ShoppingActivity extends MenuActivity implements PlaceActivity
+public class ShoppingActivity extends TravelActivity implements PlaceActivity
 {
 
 	private	static final String TAG = "ShoppingActivity";

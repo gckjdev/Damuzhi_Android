@@ -24,7 +24,7 @@ import android.widget.TextView;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
 import com.damuzhi.travel.activity.common.CommendPlaceMap;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
 import com.damuzhi.travel.activity.entry.IndexActivity;
@@ -32,7 +32,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.service.MainService;
 
-public class SceneryDetailActivity extends MenuActivity
+public class SceneryDetailActivity extends TravelActivity
 {
 	private TextView sceneryDetailTitle;
 	private TextView sceneryIntro;
@@ -99,7 +99,7 @@ public class SceneryDetailActivity extends MenuActivity
             imageView.setPadding(10, 0, 10, 0);  
             imageViews[i] = imageView;  
             if (i == 0) {  
-                // Ä¬ÈÏ½øÈë³ÌÐòºóµÚÒ»ÕÅÍ¼Æ¬±»Ñ¡ÖÐ;  
+                // Ä¬ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ñ¡ï¿½ï¿½;  
                 imageViews[i].setBackgroundResource(R.drawable.guide_dot_white);  
             } else {  
                 imageViews[i].setBackgroundResource(R.drawable.guide_dot_black);  

@@ -212,6 +212,19 @@ public class PlaceManager
 	{
 		this.placeDataList = placeDataList;
 	}
+
+	
+	public Place getPlaceById(int placeId)
+	{
+		for(Place place:placeLists)
+		{
+			if(place.getPlaceId() == placeId)
+			{
+				return place;
+			}
+		}
+		return null;
+	}
 	
 	
 	

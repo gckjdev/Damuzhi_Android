@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.overview  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-22 ÉÏÎç11:23:39  
+        * @update 2012-5-22 ï¿½ï¿½ï¿½ï¿½11:23:39  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.overview;
@@ -38,7 +38,7 @@ import android.widget.TextView;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.R.string;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
@@ -54,10 +54,10 @@ import com.damuzhi.travel.service.Task;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-22 ÉÏÎç11:23:39  
+ * @update 2012-5-22 ï¿½ï¿½ï¿½ï¿½11:23:39  
  */
 
-public class OverviewActivity extends MenuActivity implements PlaceActivity
+public class OverviewActivity extends TravelActivity implements PlaceActivity
 {
 	private static final String TAG = "CityBaseOverView";
 	private WebView citybaseWebview;
@@ -68,7 +68,7 @@ public class OverviewActivity extends MenuActivity implements PlaceActivity
 	private ImageView[] imageViews;  	
 	private ViewPager citybaseImagePager;
 	private ViewGroup main,group;
-	private int loadFlag = 1;//ÅÐ¶ÏÊÇ·ñ´ÓÐÂ¼ÓÔØactivity
+	private int loadFlag = 1;//ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½activity
 	private Dialog loadingDialog;
 	private static final int LOADING = 0;
 	private static final int LOAD_OK = 1;
@@ -119,7 +119,7 @@ public class OverviewActivity extends MenuActivity implements PlaceActivity
             imageView.setPadding(10, 0, 10, 0);  
             imageViews[i] = imageView;  
             if (i == 0) {  
-                // Ä¬ÈÏ½øÈë³ÌÐòºóµÚÒ»ÕÅÍ¼Æ¬±»Ñ¡ÖÐ;  
+                // Ä¬ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ñ¡ï¿½ï¿½;  
                 imageViews[i].setBackgroundResource(R.drawable.guide_dot_white);  
             } else {  
                 imageViews[i].setBackgroundResource(R.drawable.guide_dot_black);  
@@ -262,7 +262,7 @@ public class OverviewActivity extends MenuActivity implements PlaceActivity
 	        loadingDialog = new AlertDialog.Builder(mContext).create();
 	        loadingDialog.setOnKeyListener(keyListener);
 	        loadingDialog.show();
-	        // ×¢Òâ´Ë´¦Òª·ÅÔÚshowÖ®ºó ·ñÔò»á±¨Òì³£
+	        // ×¢ï¿½ï¿½Ë´ï¿½Òªï¿½ï¿½ï¿½ï¿½showÖ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½á±¨ï¿½ì³£
 	        loadingDialog.setContentView(layout);
 	    }
 }

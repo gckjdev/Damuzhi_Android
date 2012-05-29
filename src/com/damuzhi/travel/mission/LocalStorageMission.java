@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.util.FileUtil;
@@ -97,5 +98,18 @@ public class LocalStorageMission
 		{
 			Log.e(TAG, "<loadCityPlaceData> read local city data but catch exception="+e.toString(), e);
 		} 
+	}
+	/**  
+	        * @return  
+	        * @description   
+	        * @version 1.0  
+	        * @author liuxiaokun  
+	        * @update 2012-5-29 下午2:59:33  
+	*/
+	public boolean currentCityHasLocalData()
+	{
+		// TODO Auto-generated method stub
+		String cityId = AppManager.getInstance().getCurrentCityId();		
+		return LocalStorageMission.getInstance().hasLocalCityData(cityId);
 	}
 }

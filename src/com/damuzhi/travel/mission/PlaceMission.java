@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.app.Activity;
+import android.content.Context;
 import android.util.Log;
 
+import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.place.PlaceManager;
@@ -53,7 +56,7 @@ public class PlaceMission
 		return instance;
 	}
 	
-	public List<Place> getAllPlace(int categoryId)
+	public List<Place> getAllPlace(int categoryId,Activity activity)
 	{
 		List<Place> retPlaceList = Collections.emptyList();
 		String cityId = AppManager.getInstance().getCurrentCityId();		
@@ -63,7 +66,22 @@ public class PlaceMission
 		}
 		else{
 			// send remote
-			retPlaceList = getPlaceListByUrl(cityId, categoryId);
+			final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
+			retPlaceList = remotePlaceList;
+			
+			// TODO save data in UI thread
+			if (remotePlaceList != null || remotePlaceList.size() > 0){
+				activity.runOnUiThread(new Runnable()
+				{				
+					@Override
+					public void run()
+					{
+						// TODO Auto-generated method stub
+						remotePlaceManager.clear();
+						remotePlaceManager.addPlaces(remotePlaceList);
+					}
+				});				
+			}
 		}
 						
 		return retPlaceList;
@@ -128,6 +146,26 @@ public class PlaceMission
 		public void addLocalPlaces(List<Place> list)
 		{
 			localPlaceManager.addPlaces(list);
+		}
+
+		/**  
+		        * @param placeId
+		        * @return  
+		        * @description   
+		        * @version 1.0  
+		        * @author liuxiaokun  
+		        * @update 2012-5-29 下午1:50:16  
+		*/
+		public Place getPlaceById(int placeId)
+		{
+			// TODO Auto-generated method stub
+			if (LocalStorageMission.getInstance().currentCityHasLocalData()){
+				return localPlaceManager.getPlaceById(placeId);
+			}
+			else{
+				return remotePlaceManager.getPlaceById(placeId);
+			}
+			
 		}
 		
 		

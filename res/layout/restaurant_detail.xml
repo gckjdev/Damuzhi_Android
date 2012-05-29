@@ -208,7 +208,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/appraisalKey"
+	   	  		    android:text="@string/key_word"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/appraisal_info"

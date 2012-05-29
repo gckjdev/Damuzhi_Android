@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-16 ÏÂÎç3:02:25  
+        * @update 2012-5-16 ï¿½ï¿½ï¿½ï¿½3:02:25  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.place;
@@ -29,7 +29,7 @@ import android.widget.TextView;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
 import com.damuzhi.travel.activity.common.CommendPlaceMap;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -40,10 +40,10 @@ import com.damuzhi.travel.service.MainService;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-16 ÏÂÎç3:02:25  
+ * @update 2012-5-16 ï¿½ï¿½ï¿½ï¿½3:02:25  
  */
 
-public class ShoppingDetailActivity extends MenuActivity
+public class ShoppingDetailActivity extends TravelActivity
 {
 	private TextView shoppingDetailTitle;
 	private TextView shoppingIntro;
@@ -110,7 +110,7 @@ public class ShoppingDetailActivity extends MenuActivity
             imageView.setPadding(10, 0, 10, 0);  
             imageViews[i] = imageView;  
             if (i == 0) {  
-                // Ä¬ÈÏ½øÈë³ÌÐòºóµÚÒ»ÕÅÍ¼Æ¬±»Ñ¡ÖÐ;  
+                // Ä¬ï¿½Ï½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½Í¼Æ¬ï¿½ï¿½Ñ¡ï¿½ï¿½;  
                 imageViews[i].setBackgroundResource(R.drawable.guide_dot_white);  
             } else {  
                 imageViews[i].setBackgroundResource(R.drawable.guide_dot_black);  

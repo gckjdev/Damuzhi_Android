@@ -25,14 +25,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.download.DownLoadService;
 import com.damuzhi.travel.download.IDownloadCallback;
 import com.damuzhi.travel.download.IDownloadService;
 import com.damuzhi.travel.model.entity.DownloadInfo;
 
 
-public class OpenCityDataActivity extends MenuActivity 
+public class OpenCityDataActivity extends TravelActivity 
 {
 private static String TAG = "OpenCityDataActivity";	
 private ListView openCtiyDataListView;

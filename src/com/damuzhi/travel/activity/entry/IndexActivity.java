@@ -28,14 +28,16 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.activity.overview.OverviewActivity;
 import com.damuzhi.travel.activity.overview.TravelTipsActivity;
+import com.damuzhi.travel.activity.place.CommonEntertainmentActivity;
 import com.damuzhi.travel.activity.place.CommonHotelActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonRestaurantActivity;
+import com.damuzhi.travel.activity.place.CommonShoppingActivity;
 import com.damuzhi.travel.activity.place.EntertainmentActivity;
 import com.damuzhi.travel.activity.place.HotelActivity;
 import com.damuzhi.travel.activity.place.NearbyActivity;
@@ -48,7 +50,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
 
-public class IndexActivity extends MenuActivity implements OnClickListener
+public class IndexActivity extends TravelActivity implements OnClickListener
 {
 	private static final String TAG = "IndexActivity";
 	private ImageButton moreButton;
@@ -171,13 +173,13 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		case R.id.shopping:	
 			Log.d(TAG, "shopping");
 			Intent shoppingIntent = new Intent();
-			shoppingIntent.setClass(IndexActivity.this, ShoppingActivity.class);		
+			shoppingIntent.setClass(IndexActivity.this, CommonShoppingActivity.class);		
 			startActivity(shoppingIntent);
 			break;
 		case R.id.entertainment:	
 			Log.d(TAG, "shopping");
 			Intent entertainmentIntent = new Intent();
-			entertainmentIntent.setClass(IndexActivity.this, EntertainmentActivity.class);		
+			entertainmentIntent.setClass(IndexActivity.this, CommonEntertainmentActivity.class);		
 			startActivity(entertainmentIntent);
 			break;
 		case R.id.nearby:	

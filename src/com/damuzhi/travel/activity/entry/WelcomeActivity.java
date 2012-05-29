@@ -9,7 +9,7 @@ import android.content.res.AssetManager;
 import android.os.Bundle;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.AppMission;
 import com.damuzhi.travel.mission.LocalStorageMission;
@@ -21,7 +21,7 @@ import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.LocationUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
-public class WelcomeActivity extends MenuActivity
+public class WelcomeActivity extends TravelActivity
 {	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)

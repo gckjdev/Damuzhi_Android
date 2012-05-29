@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,9 +46,9 @@ public class CommonHotelActivity extends CommonPlaceActivity
 
 	
 	@Override
-	public List<Place> getAllPlace()
+	public List<Place> getAllPlace(Activity activity)
 	{		
-		return PlaceMission.getInstance().getAllPlace(getCategoryType());
+		return PlaceMission.getInstance().getAllPlace(PlaceCategoryType.PLACE_HOTEL_VALUE,activity);
 	}
 
 	

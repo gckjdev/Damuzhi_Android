@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.overview  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-23 ионГ10:13:51  
+        * @update 2012-5-23 О©╫О©╫О©╫О©╫10:13:51  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.overview;
@@ -14,7 +14,7 @@ import android.webkit.WebView;
 import android.widget.TextView;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
@@ -23,10 +23,10 @@ import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-23 ионГ10:13:51  
+ * @update 2012-5-23 О©╫О©╫О©╫О©╫10:13:51  
  */
 
-public class TravelTipsDetailActivity extends MenuActivity implements
+public class TravelTipsDetailActivity extends TravelActivity implements
 		PlaceActivity
 {
 

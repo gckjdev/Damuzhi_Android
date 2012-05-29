@@ -1,13 +1,14 @@
 package com.damuzhi.travel.activity.common;
 
 import com.damuzhi.travel.R;
+import com.google.android.maps.MapActivity;
 
 import android.app.Activity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-public class MenuActivity extends Activity
+public class TravelActivity extends MapActivity
 {
 
 	@Override
@@ -46,5 +47,13 @@ public class MenuActivity extends Activity
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	protected boolean isRouteDisplayed()
+	{
+		return false;
+	}
+
+	
 
 }
