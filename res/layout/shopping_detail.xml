@@ -153,7 +153,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/parkingInfo"
+	   	  		    android:text="@string/park"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/parking_info"
@@ -199,7 +199,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/shoppingTips"
+	   	  		    android:text="@string/shopping_tips"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/shopping_tips"

@@ -91,6 +91,7 @@
    	    android:layout_width="fill_parent"
    	    android:layout_height="wrap_content"
    	    android:background="@color/white"
+   	    android:fillViewport="true"
    	    android:scrollbars="none">
     <LinearLayout
         android:layout_width="fill_parent"
@@ -422,6 +423,37 @@
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	          android:layout_width="fill_parent"  
 	          android:layout_height="wrap_content"
+	          android:id="@+id/park_group"
+	          android:visibility="gone"
+	          android:orientation="vertical">
+	   	  		<TextView	
+	   	  		    android:id="@+id/park_title"
+	   	  		    android:layout_width="wrap_content"
+	   	  		    android:layout_height="wrap_content"
+	   	  		    android:layout_marginTop="5dp"
+	   	  		    android:layout_marginLeft="10dp"
+	   	  		    android:layout_marginBottom="5dp"
+	   	  		    android:textSize="15.0sp"
+	   	  		    android:textColor="@color/place_title_color"
+	   	  		    android:text="@string/park"/>  
+	   	  		 <TextView
+	   	  		    android:id="@+id/park"
+	   	  		    android:layout_width="fill_parent"
+	   	  		    android:layout_height="wrap_content"
+	   	  		    android:layout_marginLeft="10.0dp"
+	   	  		    android:textSize="14.0sp"
+	   	  		    android:paddingBottom="15dp"
+	   	  		    android:textColor="@color/place_price_color"/>
+	   	  		 <ImageView
+	   	  		     android:layout_width="fill_parent"
+	   	  		     android:layout_height="wrap_content"
+	   	  		     android:scaleType="fitXY"
+	   	  		     android:src="@drawable/middle_line"/>
+	   	  </LinearLayout>
+	   	  <LinearLayout
+	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
+	          android:layout_width="fill_parent"  
+	          android:layout_height="wrap_content"
 	          android:orientation="vertical"
 	          android:id="@+id/transport_group"
 	          android:visibility="gone">
@@ -456,7 +488,6 @@
 	   	      android:id="@+id/special_trans_group"
 	          android:layout_width="fill_parent"  
 	          android:layout_height="wrap_content"
-	          android:background="@color/place_info_bg"
 	          android:visibility="gone"
 	          android:orientation="vertical">
 	   	  		<TextView	
@@ -475,6 +506,7 @@
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:id="@+id/special_trans"
 	   	  		    android:orientation="vertical"
+	   	  		    android:gravity="center"
 	   	  		    android:layout_margin="5dp">
 	   	  		    <RelativeLayout 
 	   	  		        android:id="@+id/special_trans_title"
@@ -520,7 +552,7 @@
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/tourTips"
+	   	  		    android:text="@string/tour_tips"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/tips"
@@ -536,6 +568,19 @@
 	   	  		     android:layout_height="wrap_content"
 	   	  		     android:scaleType="fitXY"
 	   	  		     android:src="@drawable/middle_line"/>
+	   	  </LinearLayout>
+	   	  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" 
+	          android:layout_width="fill_parent"  
+	          android:layout_height="wrap_content"
+	          android:orientation="vertical"
+	          android:gravity="center"
+	          android:id="@+id/near_list_group"
+	          android:paddingBottom="15dp">
+	   	  	   <ListView 
+	   	  	      android:id="@+id/nearby_list"
+	   	  	      android:layout_width="295dp"
+	   	  	      android:layout_height="295dp"
+	   	  	      android:scrollbars="none"/>
 	   	  </LinearLayout>
 	   	  <RelativeLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -572,7 +617,7 @@
 	   	  </RelativeLayout>
 	   	  <RelativeLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
-	   	      android:id="@+id/map_group"
+	   	      android:id="@+id/address_group"
 	          android:layout_width="fill_parent"  
 	          android:layout_height="34.0dp"
 	          android:gravity="center"

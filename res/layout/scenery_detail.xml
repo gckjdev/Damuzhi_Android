@@ -199,7 +199,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/tourTips"
+	   	  		    android:text="@string/tour_tips"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/tour_tips"

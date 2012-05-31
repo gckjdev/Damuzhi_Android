@@ -79,11 +79,12 @@
     <string name="special_food">特色菜式</string>
     <!--shopping -->
     <string name="shop_intro">商家简介</string>
-    <string name="parkingInfo">停车指南</string>
-    <string name="shoppingTips">购物贴士</string>
+    <string name="entertrainment_intro">商家简介</string>
+    <string name="park">停车指南</string>
+    <string name="shopping_tips">购物贴士</string>
 
     <!--entertainment -->
-    <string name="entertainmentTips">玩乐贴士</string>
+    <string name="entertainment_tips">玩乐贴士</string>
     
     <!-- placeInfo-->
     <string name="spot_intro">景点介绍</string>
@@ -91,7 +92,7 @@
     <string name="free">免费</string>
     <string name="open_time">开放时间</string>
     <string name="trafficInfo">交通信息</string>
-    <string name="tourTips">游览贴士</string>
+    <string name="tour_tips">游览贴士</string>
     <string name="phone_number">电话:</string>
     <string name="website">网站:</string>
     <string name="address">地址:</string>

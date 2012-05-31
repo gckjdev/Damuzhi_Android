@@ -9,11 +9,17 @@
 package com.damuzhi.travel.activity.place;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.R.bool;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -21,17 +27,22 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.place.NearbyAdapter;
+import com.damuzhi.travel.activity.adapter.place.NearbyPlaceListAdapter;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
+import com.damuzhi.travel.activity.common.CommendPlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
 import com.damuzhi.travel.mission.PlaceMission;
@@ -67,25 +78,50 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	abstract public boolean isSupportFood();
 	abstract public boolean isSupportAvgPrice();
 	abstract public boolean isSupportSpecialFood();
+	abstract public boolean isSupportPark();
 	
 	
+	private NearbyPlaceListAdapter nearbyAdapter;
 	int placeId;
 	Place place;
 	ImageView[] imageViews;
-	
-	
-	
+	String tipsTitle;
+	private TextView phoneNum;
+	private List<Place> nearbyPlaceList;
+	private AsyncTask<Void, Void, List<Place>> asyncTask;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		init();
+		
+		asyncTask = new AsyncTask<Void, Void, List<Place>>()
+		{
+
+			@Override
+			protected List<Place> doInBackground(Void... params)
+			{		
+				
+				return PlaceMission.getInstance().getPlaceNearby(place,10);
+			}
+
+			@Override
+			protected void onPostExecute(List<Place> result)
+			{
+				nearbyPlaceList = result;
+				nearbyAdapter.setNearbyPlaceList(nearbyPlaceList);
+				nearbyAdapter.notifyDataSetChanged();
+				super.onPostExecute(result);
+			}
+			
+		};
+		asyncTask.execute();
 	}
 
 	
 	private void init()
 	{
-		Place place = getPlaceById();
+		 place = getPlaceById();
 		if(place != null)
 		{
 			List<String> imagePath = place.getImagesList();
@@ -266,10 +302,20 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		if(isSupportTips())
 		{
 			findViewById(R.id.tips_group).setVisibility(View.VISIBLE);
-			TextView tips = (TextView) findViewById(R.id.tips);			
+			TextView tipsTitles = (TextView) findViewById(R.id.tips_title);
+			TextView tips = (TextView) findViewById(R.id.tips);
+			tipsTitles.setText(tipsTitle);
 			tips.setText(place.getTips());
 		}
 		
+		//park
+				if(isSupportPark())
+				{
+					findViewById(R.id.park_group).setVisibility(View.VISIBLE);
+					TextView park = (TextView) findViewById(R.id.park);
+					park.setText(place.getParkingGuide());
+				}
+				
 		//hotelStart
 		if(isSupportHotelStart())
 		{
@@ -371,7 +417,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		
 		if(place.getTelephoneList().size()>0)
 		{
-			TextView phoneNum = (TextView) findViewById(R.id.phone_num);
+			//ViewGroup phoneGroup = (ViewGroup) findViewById(R.id.phone_group);
+			phoneNum = (TextView) findViewById(R.id.phone_num);
 			phoneNum.setSelected(true);
 			ImageView phoneCall = (ImageView) findViewById(R.id.phone_call);
 			phoneNum.setVisibility(View.VISIBLE);
@@ -383,10 +430,12 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				phoneNumber.append(" ");
 			}
 			phoneNum.setText(getString(R.string.phone_number)+phoneNumber);
+			phoneCall.setOnClickListener(phoneCallOnClickListener);
 		}
 		
 		if(place.getAddressList().size()>0)
 		{
+			//ViewGroup addressGroup = (ViewGroup)findViewById(R.id.address_group);
 			TextView address = (TextView) findViewById(R.id.address);
 			address.setSelected(true);
 			ImageView addressMapView = (ImageView) findViewById(R.id.address_map_view);
@@ -399,6 +448,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				addressStr.append(" ");
 			}
 			address.setText(getString(R.string.address)+addressStr);
+			addressMapView.setOnClickListener(addressLocateOnClickListener);
 		}
 		
 		if(place.getWebsite()!=null)
@@ -407,7 +457,10 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			website.setText(getString(R.string.website)+place.getWebsite());
 		}
 		
-	}
+		ListView nearbyListView = (ListView) findViewById(R.id.nearby_list);
+		nearbyAdapter = new NearbyPlaceListAdapter(CommonPlaceDetailActivity.this, place, null); 
+		nearbyListView.setAdapter(nearbyAdapter);
+	  }
 	}
 	
 	private OnPageChangeListener scenecyImageListener  = new OnPageChangeListener()
@@ -439,6 +492,32 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	};
 
 
+	private OnClickListener phoneCallOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			String phoneNumber = (String)phoneNum.getText();
+			if(phoneNumber.trim()!=""||!phoneNumber.trim().equals(""))
+			{
+				makePhoneCall(phoneNumber);
+			}	
+		}
+	};
+	
+	private OnClickListener addressLocateOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.putExtra(ConstantField.PLACE_CATEGORY_ID, placeId);
+			intent.setClass(CommonPlaceDetailActivity.this, CommendPlaceMap.class);
+			startActivity(intent);		
+		}
+	};
 	
 	public static Class getClassByPlaceType(int categoryId)
 	{
@@ -451,15 +530,59 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		case PlaceCategoryType.PLACE_RESTRAURANT_VALUE:
 			return CommonRestaurantDetailActivity.class;
 		case PlaceCategoryType.PLACE_SHOPPING_VALUE:
-			return CommonShoppingActivity.class;
+			return CommonShoppingDetailActivity.class;
 		case PlaceCategoryType.PLACE_ENTERTAINMENT_VALUE:
-			return CommonEntertainmentActivity.class;
+			return CommonEntertainmentDetailActivity.class;
 		}
 		return null;
 	}
 
+	public void makePhoneCall( final String phoneNumber)
+	{
+		AlertDialog phoneCall = new AlertDialog.Builder(CommonPlaceDetailActivity.this).create();
+		phoneCall.setMessage(getResources().getString(R.string.make_phone_call)+"\n"+phoneNumber);
+		phoneCall.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(R.string.call),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(Intent.ACTION_CALL);
+				intent.setData(Uri.parse("tel:"+phoneNumber));
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				CommonPlaceDetailActivity.this.startActivity(intent);
+			}
+		} );
+		phoneCall.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				// TODO Auto-generated method stub
+				dialog.cancel();
+				
+			}
+		} );
+		phoneCall.show();
+	}
+
+	
+	
 
 
+	/*@Override
+	protected void onResume()
+	{
+		// TODO Auto-generated method stub
+		super.onResume();
+		if(asyncTask !=null)
+		{
+			asyncTask.cancel(true);
+		}
+	}*/
 
+	
 	
 }

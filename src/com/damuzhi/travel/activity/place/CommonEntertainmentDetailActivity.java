@@ -1,13 +1,12 @@
 /**  
-        * @title CommonSpotDetailActivity.java  
+        * @title CommonEntertainmentDetailActivity.java  
         * @package com.damuzhi.travel.activity.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-30 上午11:30:23  
+        * @update 2012-5-31 上午10:21:33  
         * @version V1.0  
  */
 package com.damuzhi.travel.activity.place;
-
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.mission.PlaceMission;
@@ -18,10 +17,11 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-30 上午11:30:23  
+ * @update 2012-5-31 上午10:21:33  
  */
 
-public class CommonSpotDetailActivity extends CommonPlaceDetailActivity
+public class CommonEntertainmentDetailActivity extends
+		CommonPlaceDetailActivity
 {
 
 	@Override
@@ -36,7 +36,7 @@ public class CommonSpotDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public String getPlaceIntroTitle()
 	{
-		return getString(R.string.spot_intro);
+		return getString(R.string.entertrainment_intro);
 	}
 
 	@Override
@@ -48,25 +48,25 @@ public class CommonSpotDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public boolean isSupportTicket()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isSupportKeyWords()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isSupportTips()
 	{
-		tipsTitle = getString(R.string.tour_tips);
+		tipsTitle = getString(R.string.entertainment_tips);
 		return true;
 	}
 
 	@Override
 	public boolean isSupportHotelStart()
-	{		
+	{
 		return false;
 	}
 
@@ -97,7 +97,7 @@ public class CommonSpotDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public boolean isSupportAvgPrice()
 	{
-		return false;
+		return true;
 	}
 
 	@Override

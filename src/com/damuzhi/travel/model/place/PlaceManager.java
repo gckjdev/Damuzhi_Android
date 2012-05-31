@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import android.os.IInterface;
 import android.util.Log;
 
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -20,6 +21,7 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
+import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
 import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
 
 public class PlaceManager
@@ -35,7 +37,9 @@ public class PlaceManager
 	private ArrayList<Place> placeDataList = new ArrayList<Place>();
  	
 	private List<Place> placeLists = new ArrayList<Place>();
-
+	
+	private List<Place> nearbyPlaceList = new ArrayList<Place>();
+	
 	public void clear(){
 		placeLists.clear();
 	}
@@ -225,7 +229,35 @@ public class PlaceManager
 		}
 		return null;
 	}
+
 	
+	public List<Place> getPlaceNearbyPlaceList(Place place,List<Place> placeList)
+	{
+		
+		ComparatorDistance comparatorDistance = new ComparatorDistance(place.getLongitude(),place.getLatitude());
+		Collections.sort(placeList, comparatorDistance);
+		for(int i=0;i<10;i++)
+		{
+			nearbyPlaceList.add(placeList.get(i));
+		}
+		return nearbyPlaceList;
+	}
+
+	public List<Place> getNearbyPlaceList()
+	{
+		return nearbyPlaceList;
+	}
+
+	public void setNearbyPlaceList(List<Place> nearbyPlaceList)
+	{
+		this.nearbyPlaceList.addAll(nearbyPlaceList);
+	}
+	
+	
+	public void clearNearbyList()
+	{
+		nearbyPlaceList.clear();
+	}
 	
 	
 }

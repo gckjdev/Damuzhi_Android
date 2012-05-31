@@ -32,6 +32,8 @@ import com.damuzhi.travel.activity.place.HotelDetailActivity;
 import com.damuzhi.travel.activity.place.RestaurantDetailActivity;
 import com.damuzhi.travel.activity.place.SceneryDetailActivity;
 import com.damuzhi.travel.activity.place.ShoppingDetailActivity;
+import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
@@ -54,15 +56,17 @@ public class CommendPlaceMap extends MapActivity
 	private static final int PLACE_LIST = 1;
 	private static final String TARGET_PLACE_POSITION = "-1";
 	private MapView mapView;
-	private View popupView;//µ¯³öÆøÅÝ
+	private View popupView;//
 	private View targetPlaceView;
-	private ArrayList<Place> placeList;
+	private List<Place> placeList;
 	private ImageButton selectListButton;
 	private Dialog loadingDialog;
 	long lasttime = -1;
     MapController mapc;
     private TravelApplication application;
     private Place targetPlace;
+    int placeId =0 ;
+    
 	@Override
 	protected void onCreate(Bundle icicle)
 	{
@@ -71,6 +75,7 @@ public class CommendPlaceMap extends MapActivity
 		setContentView(R.layout.commend_place_map);
 		MainService.allActivity.add(this);
 		application = (TravelApplication) this.getApplication();
+		placeId = getIntent().getIntExtra(ConstantField.PLACE_CATEGORY_ID, -1);
 		//Log.d(TAG, "onCreate");
 	}
 	
@@ -99,7 +104,7 @@ public class CommendPlaceMap extends MapActivity
 			switch (msg.what)
 			{
 			case PLACE_LIST:
-				 placeList = (ArrayList<Place>) msg.obj;
+				 placeList = PlaceMission.getInstance().getAllPlace(PlaceCategoryType.PLACE_SPOT_VALUE, CommendPlaceMap.this);
 				 loadingDialog.dismiss();
 				 init();		
 				break;
@@ -111,14 +116,14 @@ public class CommendPlaceMap extends MapActivity
 	
 	/**  
 	        *   
-	        * @description   ³õÊ¼»¯
+	        * @description   ï¿½ï¿½Ê¼ï¿½ï¿½
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÉÏÎç10:48:49  
+	        * @update 2012-5-8 ï¿½ï¿½ï¿½ï¿½10:48:49  
 	        */
 	public void init()
 	{	
-		targetPlace = application.getPlace();
+		targetPlace = PlaceMission.getInstance().getPlaceById(placeId);
 		selectListButton = (ImageButton) findViewById(R.id.list_view);
 		mapView = (MapView) findViewById(R.id.commendPlaceMap);
 		mapView.setBuiltInZoomControls(true);
@@ -169,10 +174,10 @@ public class CommendPlaceMap extends MapActivity
  
 	
 	/**  
-	        * @description   µØÍ¼ÏÔÊ¾Í¼±ê
+	        * @description   ï¿½ï¿½Í¼ï¿½ï¿½Ê¾Í¼ï¿½ï¿½
 	        * @version 1.0  
 	        * @author liuxiaokun  
-	        * @update 2012-5-8 ÉÏÎç10:44:53  
+	        * @update 2012-5-8 ï¿½ï¿½ï¿½ï¿½10:44:53  
 	        */  
 	class PlaceLoaction extends ItemizedOverlay<OverlayItem>
 	{
@@ -186,7 +191,7 @@ public class CommendPlaceMap extends MapActivity
 		 * @param marker
 		 * @param location
 		 */
-		public PlaceLoaction( Drawable iconMarker,Place targetPlace,ArrayList<Place> placeList)
+		public PlaceLoaction( Drawable iconMarker,Place targetPlace ,List<Place> placeList)
 		{
 			super(iconMarker);
 			this.marker = iconMarker;
@@ -317,10 +322,10 @@ public class CommendPlaceMap extends MapActivity
 		 /**  
 	     * @param mContext
 	     * @param layout  
-	     * @description   ¼ÓÔØµÈ´ýÌáÊ¾¿ò 
+	     * @description   ï¿½ï¿½ï¿½ØµÈ´ï¿½ï¿½ï¿½Ê¾ï¿½ï¿½ 
 	     * @version 1.0  
 	     * @author liuxiaokun  
-	     * @update 2012-5-8 ÉÏÎç11:47:37  
+	     * @update 2012-5-8 ï¿½ï¿½ï¿½ï¿½11:47:37  
 	     */
 	public void showRoundProcessDialog(Context mContext, int layout)
 	 {
@@ -366,7 +371,7 @@ public class CommendPlaceMap extends MapActivity
 	     loadingDialog = new AlertDialog.Builder(mContext).create();
 	     loadingDialog.setOnKeyListener(keyListener);
 	     loadingDialog.show();
-	     // ×¢Òâ´Ë´¦Òª·ÅÔÚshowÖ®ºó ·ñÔò»á±¨Òì³£
+	     // ×¢ï¿½ï¿½Ë´ï¿½Òªï¿½ï¿½ï¿½ï¿½showÖ®ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½á±¨ï¿½ì³£
 	     loadingDialog.setContentView(layout);
 	 }
 	

@@ -20,6 +20,7 @@ import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.LocationUtil;
@@ -729,12 +730,10 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		public PlaceMapViewOverlay(Drawable marker, List<Place> placeList)
 		{
 			super(marker);
-			this.markerIcon = getResources().getDrawable(
-					TravelUtil.getForecastImage(getCategoryType()));
+			this.markerIcon = getResources().getDrawable(TravelUtil.getForecastImage(getCategoryType()));
 			markerIcon.setBounds(0, 0,
 					(int) ((markerIcon.getIntrinsicWidth() / 2) * 1.5),
 					(int) ((markerIcon.getIntrinsicHeight() / 2) * 1.5));
-			;
 			int i = 0;
 			for (Place place : placeList)
 			{
@@ -800,7 +799,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
 			Intent intent = new Intent();
-			intent.putExtra("placeId", place.getPlaceId());			
+			intent.putExtra(ConstantField.PLACE_CATEGORY_ID, place.getPlaceId());			
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
 			intent.setClass(CommonPlaceActivity.this, detailPlaceClass);
 			startActivity(intent);

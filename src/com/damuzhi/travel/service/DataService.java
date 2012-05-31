@@ -189,23 +189,12 @@ public class DataService
 	
 	
 	
-	/**  
-	        * @param place
-	        * @param distance�����ص�֮��ľ��뷶Χ�뾶
-	        * @param placeType
-	        * @param cityID
-	        * @param lang
-	        * @return  
-	        * @description ��ȡ�ܱ��Ƽ�place
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-5-8 ����10:16:29  
-	        */
+	
 	public ArrayList<Place> getAllPlaceInArea(Place targetPlace,int distance,String placeType,int cityID,String lang)
 	{
 		String url = String.format(ConstantField.PLACElIST, placeType,cityID,lang);
 		ArrayList<Place> commnedPlace = new ArrayList<Place>();
-		//boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));////����Ƿ��������ļ�����
+		//boolean fileExit =  FileUtil.checkFileIsExits(Integer.toString(cityID));
 		PlaceManager placeManager = new PlaceManager(null,url);
 		ArrayList<Place> placeList = placeManager.getPlaceDataList();
 		for(int i =0;i<placeList.size();i++)
@@ -240,7 +229,9 @@ public class DataService
 	
 	
 	private static double getDistance(Place targetPlace,Place itemPlace)
-	{
+	{	
+		if(targetPlace==null||itemPlace ==null)
+		return 0;
 		double distance = LocationUtil.GetDistance(targetPlace.getLongitude(), targetPlace.getLatitude(), itemPlace.getLongitude(), itemPlace.getLatitude());
 		return distance;
 	}

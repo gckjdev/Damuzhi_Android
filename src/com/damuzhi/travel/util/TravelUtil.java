@@ -484,11 +484,22 @@ public class TravelUtil
 	public static class ComparatorDistance implements Comparator<Place>
 	{
 		private HashMap<String, Double> location;
-
+		private double longitude;
+		private double latitude;
+		
 		public ComparatorDistance(HashMap<String, Double> location)
 		{
 			super();
 			this.location = location;
+			this.longitude = location.get(ConstantField.LONGITUDE);
+			this.latitude = location.get(ConstantField.LATITUDE);
+		}
+		
+		public ComparatorDistance(double longitude,double latitude)
+		{
+			super();
+			this.longitude = longitude;
+			this.latitude = latitude;
 		}
 
 		@Override
@@ -496,12 +507,12 @@ public class TravelUtil
 		{
 			// TODO Auto-generated method stub
 			double lhsDistance = LocationUtil.GetDistance(
-					location.get(ConstantField.LONGITUDE),
-					location.get(ConstantField.LATITUDE), lhs.getLongitude(),
+					longitude,
+					latitude, lhs.getLongitude(),
 					lhs.getLatitude());
 			double rhsDistance = LocationUtil.GetDistance(
-					location.get(ConstantField.LONGITUDE),
-					location.get(ConstantField.LATITUDE), rhs.getLongitude(),
+					longitude,
+					latitude, rhs.getLongitude(),
 					rhs.getLatitude());
 			int flag = Double.valueOf(lhsDistance).compareTo(
 					Double.valueOf(rhsDistance));
@@ -512,7 +523,6 @@ public class TravelUtil
 	
 	public static String getDistance(double longitude, double latitude)
 	{
-		// TODO Auto-generated method stub
 		String distanceStr = "";
 		double locationLonggitude = 0;
 		double locationLatitude = 0;
@@ -534,15 +544,28 @@ public class TravelUtil
 		}
 		return distanceStr;
 	}
+	
+	
+	public static String getDistance(double targetLongitude, double targetLatitude,double longitude, double latitude)
+	{
+		String distanceStr = "";
+		if(TravelApplication.getInstance().getLocation().size() >0)
+		{			
+			int distance = (int) LocationUtil.GetDistance(longitude, latitude,
+					targetLongitude, targetLatitude);
+			if (distance > 1000)
+			{
+				distanceStr = distance / 1000 + "km";
+			} else
+			{
+				distanceStr = distance + "m";
+			}
+			
+		}
+		return distanceStr;
+	}
 
-	/**  
-	        * @param price
-	        * @return  
-	        * @description   
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-5-26 下午3:21:49  
-	*/
+	
 	public static String getPriceStr(String price,String symbol)
 	{
 		// TODO Auto-generated method stub
@@ -558,6 +581,24 @@ public class TravelUtil
 			priceStr = symbol+price;
 		}
 		return priceStr;
+	}
+	
+	public static int  getPlaceCategoryImage(int placeCategory)
+	{
+		switch (placeCategory)
+		{
+		case PlaceCategoryType.PLACE_SPOT_VALUE:
+			return  R.drawable.jd;
+		case PlaceCategoryType.PLACE_HOTEL_VALUE:
+			return R.drawable.ht;
+		case PlaceCategoryType.PLACE_RESTRAURANT_VALUE:
+			return R.drawable.cg;
+		case PlaceCategoryType.PLACE_SHOPPING_VALUE:
+			return R.drawable.gw;
+		case PlaceCategoryType.PLACE_ENTERTAINMENT_VALUE:
+			return R.drawable.yl;
+		}
+		return 0;
 	}
 
 }

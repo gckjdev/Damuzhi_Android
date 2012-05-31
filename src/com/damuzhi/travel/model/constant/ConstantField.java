@@ -16,6 +16,7 @@ public class ConstantField
 	public static final int DATA_LOCAL = 0;
 	public static final int DATA_HTTP = 1;
 	public static final int DISTANCE = 10000;
+	/*local data*/
 	public static final String APP_FILE = "app.dat";
 	public static final String PLACE_TAG = "place";
 	public static final String GUIDE_TAG = "guide";
@@ -26,6 +27,7 @@ public class ConstantField
 	public static final String LONGITUDE = "longitude";
 	public static final String CHECK_NET = "com.damuzhi.travel.network.CheckNet";
 	public static final String UTF ="UTF-8";
+	/* http data url */
 	public static final String REGISTER = "http://api.trip8888.com/service/registerUser.aspx?type=%s&deviceToken=%s&deviceId=%s";
 	public static final String USER_COLLECTION = "http://api.trip8888.com/service/addFavorite.aspx?userId=%s&placeId=%s&longitude=%s&latitude=%s";
 	public static final String USER_DELETE_COLLECTION = "http://api.trip8888.com/service/deleteFavorite.aspx?userId=%s&placeId=%s";
@@ -33,8 +35,10 @@ public class ConstantField
 	public static final String FEED_BACK = "http://api.trip8888.com/service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACElIST = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&lang=%s";
+	public static final String PLACE_LIST_NEARBY = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&placeId=%s&latitude=%s&longitude=%s&num=%s&distance=%s&lang=%s&os=%s";
 	public static final String APP = "http://api.trip8888.com/service/queryList.aspx?type=10&lang=%s";
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
+	/* http data type */
 	public static final String RESULT_OK = "0";
 	public static final String LANG_HANS = "1";
 	public static final String LANG_HANT = "2";
@@ -63,14 +67,28 @@ public class ConstantField
 	public static final String ALL_RESTAURANT_ORDER_BY_RANK = "43";
 	public static final String ALL_SHOPPING_ORDER_BY_RANK = "44";
 	public static final String ALL_FUN_ORDER_BY_RANK = "45";
+	public static final String NEARBY_PLACE_LIST = "50";
+	public static final String NEARBY_SPOT_LIST = "51";
+	public static final String NEARBY_HOTEL_LIST = "52";
+	public static final String NEARBY_RESTAURANT_LIST = "53";
+	public static final String NEARBY_SHOPPING_LIST = "54";
+	public static final String NEARBY_ENTERTRAINMENT_LIST = "55";
+	public static final String NEARBY_PLACE_LIST_IN_DISTANCE = "60";
+	public static final String NEARBY_SPOT_LIST_IN_DISTANCE = "61";
+	public static final String NEARBY_HOTEL_LIST_IN_DISTANCE = "62";
+	public static final String NEARBY_RESTAURANT_LIST_IN_DISTANCE = "63";
+	public static final String NEARBY_SHOPPING_LIST_IN_DISTANCE = "64";
+	public static final String NEARBY_ENTERTRAINMENT_LIST_IN_DISTANCE = "65";
+	
+	
 	public static final String ALL_PLACE = "全部";
 	public static final int ALL_PLACE_CATEGORY_ID = -1;
 	public static final int HALF_KILOMETER = 500;
 	public static final int ONE_KILOMETER = 1000;
 	public static final int FIVE_KILOMETER = 5000;
 	public static final int TEN_KILOMETER = 10000;
-	{
-		
-	}
+	
+	/* commonPlaceDetail*/
+	public static final String PLACE_CATEGORY_ID = "PLACE_CATEGORY_ID";
 	
 }

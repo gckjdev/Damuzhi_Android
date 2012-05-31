@@ -10,6 +10,7 @@ package com.damuzhi.travel.activity.place;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import android.os.Bundle;
 import android.util.Log;
@@ -29,7 +30,7 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public Place getPlaceById()
 	{
-		int placeId = getIntent().getIntExtra("placeId", -1);
+		int placeId = getIntent().getIntExtra(ConstantField.PLACE_CATEGORY_ID, -1);
 		super.placeId = placeId;
 		Place place = PlaceMission.getInstance().getPlaceById(placeId);
 		return place;
@@ -104,6 +105,13 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public boolean isSupportSpecialFood()
 	{
+		return false;
+	}
+
+	@Override
+	public boolean isSupportPark()
+	{
+		// TODO Auto-generated method stub
 		return false;
 	}
 

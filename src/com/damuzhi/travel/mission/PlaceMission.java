@@ -87,6 +87,21 @@ public class PlaceMission
 		return retPlaceList;
 	}
 	
+	public List<Place> getPlaceNearby(Place place,int num)
+	{
+		List<Place> nearbyPlaceList = Collections.emptyList();
+		if (LocalStorageMission.getInstance().currentCityHasLocalData()){
+			//return localPlaceManager.getPlaceNearBy(place);
+		}
+		else{
+			String cityId = AppManager.getInstance().getCurrentCityId();
+			nearbyPlaceList = getNearByPlaceListByUrl(cityId, place.getPlaceId(), num);	
+			remotePlaceManager.clearNearbyList();
+			remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
+		}
+		return nearbyPlaceList;
+	}
+	
 	private List<Place> getPlaceListByUrl(String cityId, int categoryId)
 	{
 		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
@@ -137,6 +152,54 @@ public class PlaceMission
 	}
 	
 		
+	private List<Place> getNearByPlaceListByUrl(String cityId,int placeId,int num)
+	{
+		String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST, cityId, placeId,null,null,num,null,ConstantField.LANG_HANS,null);
+		Log.d(TAG, "<getNearByPlaceListByUrl> load place data from http ,url = "+url);
+		HttpTool httpTool = new HttpTool();
+		InputStream inputStream = null;
+		try
+		{
+			inputStream = httpTool.sendGetRequest(url);
+			if(inputStream !=null)
+			{
+				try
+				{
+					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
+					if (travelResponse == null || travelResponse.getResultCode() != 0 ||
+							travelResponse.getPlaceList() == null){
+						return Collections.emptyList();
+					}
+					
+					inputStream.close();
+					inputStream = null;
+					return travelResponse.getPlaceList().getListList();
+				} catch (Exception e)
+				{					
+					Log.e(TAG, "<getNearByPlaceListByUrl> catch exception = "+e.toString(), e);
+					return Collections.emptyList();
+				}				
+			}
+			else{
+				return Collections.emptyList();
+			}
+			
+		} 
+		catch (Exception e)
+		{
+			Log.e(TAG, "<getNearByPlaceListByUrl> catch exception = "+e.toString(), e);
+			if (inputStream != null){
+				try
+				{
+					inputStream.close();
+				} catch (IOException e1)
+				{
+				}
+			}
+			return Collections.emptyList();
+		}
+	}
+	
 		public void clearLocalData()
 		{
 			localPlaceManager.clear();			
@@ -148,17 +211,9 @@ public class PlaceMission
 			localPlaceManager.addPlaces(list);
 		}
 
-		/**  
-		        * @param placeId
-		        * @return  
-		        * @description   
-		        * @version 1.0  
-		        * @author liuxiaokun  
-		        * @update 2012-5-29 下午1:50:16  
-		*/
+		
 		public Place getPlaceById(int placeId)
 		{
-			// TODO Auto-generated method stub
 			if (LocalStorageMission.getInstance().currentCityHasLocalData()){
 				return localPlaceManager.getPlaceById(placeId);
 			}
@@ -167,6 +222,9 @@ public class PlaceMission
 			}
 			
 		}
+
+		
+		
 		
 		
 	

@@ -223,7 +223,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/entertainmentTips"
+	   	  		    android:text="@string/entertainment_tips"
 	   	  		    />	   	  		
  	  		    <TextView	
 	   	  		    android:id="@+id/entertainment_tips"
