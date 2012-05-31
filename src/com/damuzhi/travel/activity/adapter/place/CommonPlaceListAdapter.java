@@ -194,7 +194,7 @@ public class CommonPlaceListAdapter extends BaseAdapter
 			for(int id:place.getProvidedServiceIdList())
 			{
 				 ImageView serviceImageView = new ImageView(context);  
-				 serviceImageView.setLayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.serviceIcon),
+				 serviceImageView.setLayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.service_icon),
 						 LayoutParams.WRAP_CONTENT));   
 				 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
 				 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));

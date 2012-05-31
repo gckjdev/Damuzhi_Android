@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.adapter.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-18 ÏÂÎç2:58:44  
+        * @update 2012-5-18 ï¿½ï¿½ï¿½ï¿½2:58:44  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.adapter.place;
@@ -37,7 +37,7 @@ import android.widget.ImageView.ScaleType;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-18 ÏÂÎç2:58:44  
+ * @update 2012-5-18 ï¿½ï¿½ï¿½ï¿½2:58:44  
  */
 
 public class NearbyAdapter extends BaseAdapter
@@ -134,7 +134,7 @@ public class NearbyAdapter extends BaseAdapter
 					for(int id:place.getProvidedServiceIdList())
 					{
 						 ImageView serviceImageView = new ImageView(context);  
-						 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.serviceIcon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
+						 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.service_icon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
 						 //serviceImageView.setPadding(10, 0, 10, 0);  
 						 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
 						 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));

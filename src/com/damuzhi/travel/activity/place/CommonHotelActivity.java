@@ -77,7 +77,7 @@ public class CommonHotelActivity extends CommonPlaceActivity
 		
 		LinearLayout priceLayout = (LinearLayout) priceSpinner.findViewById(R.id.price_spinner);
 		RelativeLayout.LayoutParams priceParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		priceParams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
+		priceParams.setMargins((int)getResources().getDimension(R.dimen.spinner_margin), 0, 0, 0);
 		priceParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
 		priceParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		priceLayout.setLayoutParams(priceParams);			
@@ -85,21 +85,21 @@ public class CommonHotelActivity extends CommonPlaceActivity
 		
 		LinearLayout areaLayout = (LinearLayout) areaSpinner.findViewById(R.id.area_spinner);
 		RelativeLayout.LayoutParams areaParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		areaParams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
+		areaParams.setMargins((int)getResources().getDimension(R.dimen.spinner_margin), 0, 0, 0);
 		areaParams.addRule(RelativeLayout.RIGHT_OF,R.id.price_spinner);
 		areaParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		areaLayout.setLayoutParams(areaParams);	
 		
 		LinearLayout serviceLayout = (LinearLayout) serviceSpinner.findViewById(R.id.service_spinner);
 		RelativeLayout.LayoutParams serviceParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		serviceParams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
+		serviceParams.setMargins((int)getResources().getDimension(R.dimen.spinner_margin), 0, 0, 0);
 		serviceParams.addRule(RelativeLayout.RIGHT_OF,R.id.area_spinner);
 		serviceParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		serviceLayout.setLayoutParams(serviceParams);	
 		
 		LinearLayout sortLayout = (LinearLayout) sortSpinner.findViewById(R.id.sort_spinner);
 		RelativeLayout.LayoutParams sortParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		sortParams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
+		sortParams.setMargins((int)getResources().getDimension(R.dimen.spinner_margin), 0, 0, 0);
 		sortParams.addRule(RelativeLayout.RIGHT_OF,R.id.service_spinner);
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);

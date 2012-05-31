@@ -75,14 +75,14 @@ public class CommonSpotActivity extends CommonPlaceActivity
 		
 		LinearLayout subCateLayout = (LinearLayout) subCategorySpinner.findViewById(R.id.sub_cate_spinner);
 		RelativeLayout.LayoutParams subCateparams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		subCateparams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
+		subCateparams.setMargins((int)getResources().getDimension(R.dimen.spinner_margin), 0, 0, 0);
 		subCateparams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
 		subCateparams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		subCateLayout.setLayoutParams(subCateparams);			
 		
 		LinearLayout sortLayout = (LinearLayout) sortSpinner.findViewById(R.id.sort_spinner);
 		RelativeLayout.LayoutParams sortParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		sortParams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
+		sortParams.setMargins((int)getResources().getDimension(R.dimen.spinner_margin), 0, 0, 0);
 		sortParams.addRule(RelativeLayout.RIGHT_OF,R.id.sub_cate_spinner);
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);

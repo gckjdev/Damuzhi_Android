@@ -107,7 +107,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/shopIntro"
+	   	  		    android:text="@string/shop_intro"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/shopping_intro"
@@ -130,7 +130,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/openTime"
+	   	  		    android:text="@string/open_time1"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/opening_time"

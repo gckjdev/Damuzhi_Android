@@ -115,7 +115,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/restaurantIntro"
+	   	  		    android:text="@string/restaurant_intro"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/restaurant_intro"
@@ -138,7 +138,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/foodType"
+	   	  		    android:text="@string/food_type"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/food_type"
@@ -162,7 +162,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/openTime"
+	   	  		    android:text="@string/open_time1"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/open_time"
@@ -185,7 +185,7 @@
 	   	  		    android:padding="10.0dip"
 	   	  		    android:textSize="18.0sp"
 	   	  		    android:textColor="@color/place_title_color"
-	   	  		    android:text="@string/averageConsumption"
+	   	  		    android:text="@string/avg_price"
 	   	  		    />  
 	   	  		 <TextView
 	   	  		    android:id="@+id/average_consumption"

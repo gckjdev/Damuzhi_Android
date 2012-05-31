@@ -124,7 +124,7 @@ public class RestaurantDetailActivity extends TravelActivity
 		{
 			
 			 ImageView serviceImageView = new ImageView(RestaurantDetailActivity.this);  
-			 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.serviceIcon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
+			 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.service_icon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
 			 //serviceImageView.setPadding(10, 0, 10, 0);  
 			 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
 			 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));

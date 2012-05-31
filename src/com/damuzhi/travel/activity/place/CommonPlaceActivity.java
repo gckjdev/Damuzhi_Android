@@ -800,11 +800,9 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
 			Intent intent = new Intent();
-			
-				Log.i(TAG," go intent placeId = "+place.getPlaceId());
-				intent.putExtra("placeId", place.getPlaceId());
-			
-			intent.setClass(CommonPlaceActivity.this, CommonHotelDetailActivity.class);
+			intent.putExtra("placeId", place.getPlaceId());			
+			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
+			intent.setClass(CommonPlaceActivity.this, detailPlaceClass);
 			startActivity(intent);
 		}
 	};

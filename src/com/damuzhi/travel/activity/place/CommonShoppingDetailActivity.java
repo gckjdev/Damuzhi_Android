@@ -1,9 +1,9 @@
 /**  
-        * @title CommonHotelDetailActivity.java  
+        * @title CommonShoppingDetailActivity.java  
         * @package com.damuzhi.travel.activity.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-29 下午2:31:25  
+        * @update 2012-5-31 上午9:47:59  
         * @version V1.0  
  */
 package com.damuzhi.travel.activity.place;
@@ -11,20 +11,16 @@ package com.damuzhi.travel.activity.place;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.mission.PlaceMission;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import android.os.Bundle;
-import android.util.Log;
 
 /**  
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-29 下午2:31:25  
+ * @update 2012-5-31 上午9:47:59  
  */
 
-public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
+public class CommonShoppingDetailActivity extends CommonPlaceDetailActivity
 {
-
-	private static final String TAG = "CommonHotelDetailActivity";
 
 	@Override
 	public Place getPlaceById()
@@ -38,13 +34,13 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public String getPlaceIntroTitle()
 	{
-		return getString(R.string.hotelIntro);
+		return getString(R.string.shop_intro);
 	}
 
 	@Override
 	public boolean isSupportSpecialTrafficStyle()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
@@ -56,37 +52,37 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public boolean isSupportKeyWords()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isSupportTips()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isSupportHotelStart()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isSupportService()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isSupportRoomPrice()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isSupportOpenTime()
 	{
-		return false;
+		return true;
 	}
 
 	@Override

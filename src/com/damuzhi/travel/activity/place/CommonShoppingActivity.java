@@ -68,13 +68,13 @@ public class CommonShoppingActivity extends CommonPlaceActivity
 		
 		LinearLayout areaLayout = (LinearLayout) areaSpinner.findViewById(R.id.area_spinner);
 		RelativeLayout.LayoutParams areaParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		areaParams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
+		areaParams.setMargins((int)getResources().getDimension(R.dimen.spinner_margin), 0, 0, 0);
 		areaParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT,RelativeLayout.TRUE);
 		areaParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		
 		LinearLayout sortLayout = (LinearLayout) sortSpinner.findViewById(R.id.sort_spinner);
 		RelativeLayout.LayoutParams sortParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		sortParams.setMargins((int)getResources().getDimension(R.dimen.spinnerMargin), 0, 0, 0);
+		sortParams.setMargins((int)getResources().getDimension(R.dimen.spinner_margin), 0, 0, 0);
 		sortParams.addRule(RelativeLayout.RIGHT_OF,R.id.area_spinner);
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);

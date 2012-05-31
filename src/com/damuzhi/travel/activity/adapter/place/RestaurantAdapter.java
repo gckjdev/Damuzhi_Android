@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.adapter.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-15 ÏÂÎç5:05:21  
+        * @update 2012-5-15 ï¿½ï¿½ï¿½ï¿½5:05:21  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.adapter.place;
@@ -33,7 +33,7 @@ import android.widget.ImageView.ScaleType;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-15 ÏÂÎç5:05:21  
+ * @update 2012-5-15 ï¿½ï¿½ï¿½ï¿½5:05:21  
  */
 
 public class RestaurantAdapter extends BaseAdapter
@@ -130,7 +130,7 @@ public class RestaurantAdapter extends BaseAdapter
 				for(int id:place.getProvidedServiceIdList())
 				{
 					 ImageView serviceImageView = new ImageView(context);  
-					 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.serviceIcon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
+					 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.service_icon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
 					 //serviceImageView.setPadding(10, 0, 10, 0);  
 					 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
 					 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));
@@ -192,7 +192,7 @@ public class RestaurantAdapter extends BaseAdapter
 				restaunrantName.setText(place.getName());
 				String price ;				
 				price = place.getAvgPrice();
-				restaunrantPrice.setText("ÈË¾ù"+symbol+price);				
+				restaunrantPrice.setText("ï¿½Ë¾ï¿½"+symbol+price);				
 				if(cityAreaMap.containsKey(place.getAreaId()))
 				{
 					restaunrantArea.setText(cityAreaMap.get(place.getAreaId()));

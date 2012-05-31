@@ -1,30 +1,28 @@
 /**  
-        * @title CommonHotelDetailActivity.java  
+        * @title CommonRestaurantDetailActivity.java  
         * @package com.damuzhi.travel.activity.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-29 下午2:31:25  
+        * @update 2012-5-30 下午5:27:36  
         * @version V1.0  
  */
 package com.damuzhi.travel.activity.place;
 
+
+
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.mission.PlaceMission;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import android.os.Bundle;
-import android.util.Log;
 
 /**  
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-29 下午2:31:25  
+ * @update 2012-5-30 下午5:27:36  
  */
 
-public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
+public class CommonRestaurantDetailActivity extends CommonPlaceDetailActivity
 {
-
-	private static final String TAG = "CommonHotelDetailActivity";
 
 	@Override
 	public Place getPlaceById()
@@ -38,13 +36,13 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public String getPlaceIntroTitle()
 	{
-		return getString(R.string.hotelIntro);
+		return getString(R.string.restaurant_intro);
 	}
 
 	@Override
 	public boolean isSupportSpecialTrafficStyle()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
@@ -68,7 +66,7 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public boolean isSupportHotelStart()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
@@ -80,31 +78,31 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public boolean isSupportRoomPrice()
 	{
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean isSupportOpenTime()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isSupportFood()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isSupportAvgPrice()
 	{
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean isSupportSpecialFood()
 	{
-		return false;
+		return true;
 	}
 
 }

@@ -3,7 +3,14 @@
     <dimen name="location_info">15sp</dimen>
     <dimen name="location_width">180dp</dimen>
     <dimen name="location_height">70dp</dimen>
-    <dimen name="serviceIcon">16dp</dimen>
-    <dimen name="serviceIcon2">19dp</dimen>
-    <dimen name="spinnerMargin">10dp</dimen>
+    <dimen name="service_icon">16dp</dimen>
+    <dimen name="service_icon2">19dp</dimen>
+    <dimen name="hotel_start_icon">18dp</dimen>
+    <dimen name="spinner_margin">10dp</dimen>
+    <dimen name="transport_margin_left">20dp</dimen>
+    <dimen name="transport_margin_right">200dp</dimen>
+    <dimen name="transport_width">295dp</dimen>
+    <dimen name="transport_height">30dp</dimen>
+    <dimen name="transport_text_size">9sp</dimen>
+    <dimen name="image_margin">4dp</dimen>
 </resources>

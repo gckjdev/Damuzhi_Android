@@ -123,7 +123,7 @@ public class HotelAdapter extends BaseAdapter
 				for(int id:place.getProvidedServiceIdList())
 				{
 					 ImageView serviceImageView = new ImageView(context);  
-					 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.serviceIcon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
+					 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.service_icon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
 					 //serviceImageView.setPadding(10, 0, 10, 0);  
 					 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
 					 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));
