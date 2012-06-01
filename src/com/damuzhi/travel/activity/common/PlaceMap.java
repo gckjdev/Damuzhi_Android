@@ -47,7 +47,7 @@ public class PlaceMap extends MapActivity
 {
 	private static final String TAG = "PlaceMap";
 	private MapView mapView;
-	private View popupView;//µ¯³öÆøÅÝ
+	private View popupView;
 	private ArrayList<Place> places;
 	long lasttime = -1;
     MapController mapc;
@@ -56,7 +56,6 @@ public class PlaceMap extends MapActivity
 	@Override
 	protected void onCreate(Bundle icicle)
 	{
-		// TODO Auto-generated method stub
 		super.onCreate(icicle);
 		setContentView(R.layout.map);
 		MainService.allActivity.add(this);

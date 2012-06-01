@@ -6,7 +6,7 @@
     android:gravity="center">
     <ImageView 
         android:id="@+id/place_category"
-        android:layout_width="wrap_content"
+        android:layout_width="15dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
@@ -15,16 +15,18 @@
         android:id="@+id/place_name"
         android:layout_width="130dp"
         android:layout_height="fill_parent"
+        android:gravity="center_vertical"
         android:singleLine="true"
         android:textColor="@color/place_title_color"
-        android:textSize="13sp"
+        android:textSize="12sp"
         android:layout_toRightOf="@id/place_category"
         android:layout_marginLeft="7dp"/>
      <ImageView 
         android:id="@+id/place_detail_recommend_image1"
-        android:layout_width="12.0dip"
+        android:layout_width="8.0dp"
         android:layout_height="fill_parent"
-        android:layout_marginLeft="20.0dp"	
+        android:layout_marginLeft="10.0dp"	
+        android:layout_marginRight="3dp"
         android:layout_centerVertical="true"			        
         android:layout_toRightOf="@id/place_name"
         android:visibility="gone"
@@ -32,31 +34,41 @@
         android:scaleType="fitCenter"/>
      <ImageView 
         android:id="@+id/place_detail_recommend_image2"
-        android:layout_width="12.0dip"
+        android:layout_width="8.0dp"
         android:layout_height="fill_parent"
         android:layout_centerVertical="true"
+        android:layout_marginRight="3dp"
         android:layout_toRightOf="@id/place_detail_recommend_image1"	
         android:visibility="gone"
         android:src="@drawable/good2"			        
         android:scaleType="fitCenter"/>	
       <ImageView 
        android:id="@+id/place_detail_recommend_image3"
-       android:layout_width="12.0dip"
+       android:layout_width="8.0dp"
        android:layout_height="fill_parent"
        android:layout_centerVertical="true"
        android:layout_toRightOf="@id/place_detail_recommend_image2"		
        android:src="@drawable/good2"	
        android:visibility="gone"	        
        android:scaleType="fitCenter"/>
-      <TextView
+      <ImageView 
+       android:id="@+id/go_btn"
+       android:layout_width="8dp"
+       android:layout_height="fill_parent"
+       android:layout_centerVertical="true"
+       android:layout_alignParentRight="true"	
+       android:layout_marginRight="10dp"
+       android:src="@drawable/go_btn"		        
+       android:scaleType="fitCenter"/>	
+       <TextView
           android:id="@+id/place_distance"
-          android:layout_width="20dp"
+          android:layout_width="wrap_content"
           android:layout_height="fill_parent"
-          android:gravity="left"
+          android:gravity="left|center_vertical"
           android:textColor="@color/place_title_color"
-          android:textSize="13sp"
+          android:textSize="12sp"
+          android:layout_marginRight="10dp"
           android:layout_centerVertical="true"
-          android:layout_alignParentRight="true"
-          android:layout_marginRight="20dp"/>	
+          android:layout_toLeftOf="@id/go_btn"/>
 </RelativeLayout>    
 	          

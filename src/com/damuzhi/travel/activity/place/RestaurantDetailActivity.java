@@ -29,7 +29,7 @@ import android.widget.ImageView.ScaleType;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
-import com.damuzhi.travel.activity.common.CommendPlaceMap;
+import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
@@ -281,11 +281,11 @@ public class RestaurantDetailActivity extends TravelActivity
 			{
 			case R.id.item_map_view:
 				
-				intent.setClass(RestaurantDetailActivity.this, CommendPlaceMap.class);
+				intent.setClass(RestaurantDetailActivity.this, NearbyPlaceMap.class);
 				startActivity(intent);
 				break;
 			case R.id.restaurant_detail_map_nearby:	
-				intent.setClass(RestaurantDetailActivity.this, CommendPlaceMap.class);
+				intent.setClass(RestaurantDetailActivity.this, NearbyPlaceMap.class);
 				startActivity(intent);
 				break;
 			case R.id.phone_group:

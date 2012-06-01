@@ -799,7 +799,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
 			Intent intent = new Intent();
-			intent.putExtra(ConstantField.PLACE_CATEGORY_ID, place.getPlaceId());			
+			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
 			intent.setClass(CommonPlaceActivity.this, detailPlaceClass);
 			startActivity(intent);

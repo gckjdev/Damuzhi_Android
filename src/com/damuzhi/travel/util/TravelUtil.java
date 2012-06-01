@@ -548,9 +548,7 @@ public class TravelUtil
 	
 	public static String getDistance(double targetLongitude, double targetLatitude,double longitude, double latitude)
 	{
-		String distanceStr = "";
-		if(TravelApplication.getInstance().getLocation().size() >0)
-		{			
+		String distanceStr = "";		
 			int distance = (int) LocationUtil.GetDistance(longitude, latitude,
 					targetLongitude, targetLatitude);
 			if (distance > 1000)
@@ -560,8 +558,6 @@ public class TravelUtil
 			{
 				distanceStr = distance + "m";
 			}
-			
-		}
 		return distanceStr;
 	}
 

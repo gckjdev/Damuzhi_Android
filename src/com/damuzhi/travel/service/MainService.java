@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.common.CommendPlaceMap;
+import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.WelcomeActivity;
@@ -171,9 +171,9 @@ public class MainService extends Service implements Runnable
 				travelTipsActivity.refresh(commonTravelTips);
 				break;
 			case Task.MAP_NEARBY:// 
-				ArrayList<Place> placeList = dataService.getAllPlaceInArea(application.getPlace(), ConstantField.DISTANCE, ConstantField.ALL_PLACE_ORDER_BY_RANK, application.getCityID(), ConstantField.LANG_HANS);
+				/*ArrayList<Place> placeList = dataService.getAllPlaceInArea(application.getPlace(), ConstantField.DISTANCE, ConstantField.ALL_PLACE_ORDER_BY_RANK, application.getCityID(), ConstantField.LANG_HANS);
 				CommendPlaceMap commendPlaceMap =  (CommendPlaceMap) object;
-				commendPlaceMap.refresh(placeList);
+				commendPlaceMap.refresh(placeList);*/
 				break;
 			}
 

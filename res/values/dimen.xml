@@ -13,4 +13,6 @@
     <dimen name="transport_height">30dp</dimen>
     <dimen name="transport_text_size">9sp</dimen>
     <dimen name="image_margin">4dp</dimen>
+    <dimen name="nearby_list_width">295dp</dimen>
+    <dimen name="nearby_list_height">30dp</dimen>
 </resources>

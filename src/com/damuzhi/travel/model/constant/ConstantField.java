@@ -89,6 +89,6 @@ public class ConstantField
 	public static final int TEN_KILOMETER = 10000;
 	
 	/* commonPlaceDetail*/
-	public static final String PLACE_CATEGORY_ID = "PLACE_CATEGORY_ID";
+	public static final String PLACE_DETAIL = "PLACE_DETAIL";
 	
 }

@@ -475,7 +475,7 @@
 	   	  		    android:singleLine="true"
 	   	  		    android:layout_marginLeft="10.0dp"
 	   	  		    android:textSize="14.0sp"
-	   	  		     android:paddingBottom="15dp"
+	   	  		    android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		  <ImageView
 	   	  		     android:layout_width="fill_parent"
@@ -495,8 +495,7 @@
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_marginTop="5dp"
-	   	  		    android:layout_marginLeft="10dp"
-	   	  		    android:layout_marginBottom="5dp"
+	   	  		    android:layout_marginLeft="10dp"	   	  		    
 	   	  		    android:textSize="15.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/trafficInfo"
@@ -507,6 +506,7 @@
 	   	  		    android:id="@+id/special_trans"
 	   	  		    android:orientation="vertical"
 	   	  		    android:gravity="center"
+	   	  		    android:paddingBottom="15dp"
 	   	  		    android:layout_margin="5dp">
 	   	  		    <RelativeLayout 
 	   	  		        android:id="@+id/special_trans_title"
@@ -535,6 +535,11 @@
 			   	  		    android:text="@string/trafficDistance"/>
 	   	  		    </RelativeLayout>
 	   	  		</LinearLayout>  
+	   	  		 <ImageView
+	   	  		     android:layout_width="fill_parent"
+	   	  		     android:layout_height="wrap_content"
+	   	  		     android:scaleType="fitXY"
+	   	  		     android:src="@drawable/middle_line"/>
 	   	  </LinearLayout>
 	   	  <LinearLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
@@ -574,21 +579,33 @@
 	          android:layout_height="wrap_content"
 	          android:orientation="vertical"
 	          android:gravity="center"
-	          android:id="@+id/near_list_group"
+	          android:id="@+id/nearby_list_group"
 	          android:paddingBottom="15dp">
-	   	  	   <ListView 
-	   	  	      android:id="@+id/nearby_list"
-	   	  	      android:layout_width="295dp"
-	   	  	      android:layout_height="295dp"
-	   	  	      android:scrollbars="none"/>
+	   	  		  <TextView	
+	   	  		    android:id="@+id/nearby_title"
+	   	  		    android:layout_width="fill_parent"
+	   	  		    android:layout_height="wrap_content"
+	   	  		    android:textSize="15.0sp"
+	   	  		    android:gravity="left"
+	   	  		    android:layout_marginTop="5dp"
+	   	  		    android:layout_marginLeft="10dp"
+	   	  		    android:layout_marginBottom="5dp"
+	   	  		    android:textColor="@color/place_title_color"
+	   	  		    android:text="@string/nearby_title"
+	   	  		    />  
 	   	  </LinearLayout>
+	   	   <ImageView
+	   	  		     android:layout_width="fill_parent"
+	   	  		     android:layout_height="wrap_content"
+	   	  		     android:scaleType="fitXY"
+	   	  		     android:src="@drawable/middle_line"/>
 	   	  <RelativeLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	   	      android:id="@+id/phone_group"
 	          android:layout_width="fill_parent"  
-	          android:layout_height="34.0dp"
-	          android:gravity="center"
-	          android:background="@drawable/t_bg">	   	  
+	          android:layout_height="34dp"
+	          android:background="@drawable/t_bg"
+	          android:gravity="center">	   	  
 	   	  		<TextView	
 	   	  		    android:id="@+id/phone_num"
 	   	  		    android:layout_width="wrap_content"
@@ -619,9 +636,9 @@
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	   	      android:id="@+id/address_group"
 	          android:layout_width="fill_parent"  
-	          android:layout_height="34.0dp"
-	          android:gravity="center"
-	          android:background="@drawable/t_bg">
+	          android:layout_height="34dp"
+	          android:background="@drawable/t_bg"
+	          android:gravity="center">
 	   	  		<TextView	
 	   	  		    android:id="@+id/address"
 	   	  		    android:layout_width="wrap_content"
@@ -634,6 +651,7 @@
 			        android:scrollHorizontally="true"
 	   	  		    android:gravity="center_vertical"
 	   	  		    android:layout_marginLeft="30.0dp"
+	   	  		    android:layout_marginRight="10dp"
 	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/connect_info"
 	   	  		    android:visibility="gone"
@@ -646,13 +664,13 @@
 	   	  		    android:src="@drawable/t_map2x"
 	   	  		    android:scaleType="fitXY"
 	   	  		    android:visibility="gone"
-	   	  		    android:layout_marginRight="10.0dip"/>
+	   	  		    android:layout_marginRight="10.0dip"/> 	  		
 	   	  </RelativeLayout>
 	   	   <RelativeLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	   	      android:id="@+id/website_group"
 	          android:layout_width="fill_parent"  
-	          android:layout_height="40.0dp"
+	          android:layout_height="34dp"
 	          android:gravity="left|center"
 	          android:background="@drawable/t_bg">
 	   	  		<TextView	
@@ -665,6 +683,46 @@
 	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/connect_info"
 	   	  		    android:visibility="gone"
+	   	  		    />  
+	   	  </RelativeLayout>
+	   	  <RelativeLayout
+	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
+	   	      android:id="@+id/collect_group"
+	          android:layout_width="fill_parent"  
+	          android:layout_height="wrap_content"
+	          android:background="@drawable/bottombg">
+	   	  		<FrameLayout
+	   	  		    android:layout_width="wrap_content"
+	   	  		    android:layout_height="wrap_content"
+	   	  		    android:layout_centerInParent="true">
+	   	  		<ImageView
+	   	  		     android:layout_width="124dp"
+	   	  		     android:layout_height="38dp"
+	   	  		     android:layout_gravity="center"
+	   	  		     android:scaleType="fitXY"
+	   	  		     android:src="@drawable/favorites"/>
+	   	  		<TextView	
+	   	  		    android:id="@+id/collect"
+	   	  		    android:layout_width="wrap_content"
+	   	  		    android:layout_height="wrap_content"
+	   	  		    android:gravity="left|center_vertical"
+	   	  		    android:layout_gravity="right|center_vertical"
+	   	  		    android:layout_marginRight="15.0dp"
+	   	  		    android:textSize="16.0sp"
+	   	  		    android:textColor="@color/connect_info"
+	   	  		    android:text="@string/collect"
+	   	  		    />  
+	   	  		</FrameLayout>
+	   	  		<TextView	
+	   	  		    android:id="@+id/collect_num"
+	   	  		    android:layout_width="wrap_content"
+	   	  		    android:layout_height="wrap_content"
+	   	  		    android:gravity="left|center_vertical"
+	   	  		    android:layout_alignParentLeft="true"
+	   	  		    android:layout_marginLeft="30.0dp"
+	   	  		    android:textSize="16.0sp"
+	   	  		    android:textColor="@color/connect_info"
+	   	  		    android:paddingBottom="15dp"
 	   	  		    />  
 	   	  </RelativeLayout>
    	  </LinearLayout>

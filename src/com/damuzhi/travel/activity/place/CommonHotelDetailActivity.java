@@ -12,6 +12,8 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.mission.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.google.protobuf.InvalidProtocolBufferException;
+
 import android.os.Bundle;
 import android.util.Log;
 
@@ -30,9 +32,15 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public Place getPlaceById()
 	{
-		int placeId = getIntent().getIntExtra(ConstantField.PLACE_CATEGORY_ID, -1);
-		super.placeId = placeId;
-		Place place = PlaceMission.getInstance().getPlaceById(placeId);
+		Place place = null;
+		try
+		{
+			place = Place.parseFrom(getIntent().getByteArrayExtra(ConstantField.PLACE_DETAIL));
+		} catch (InvalidProtocolBufferException e)
+		{
+			Log.e(TAG, "<CommonHotelDetailActivity> get place data but catch exception = "+e.toString(),e);
+		}
+		super.placeId = place.getPlaceId();
 		return place;
 	}
 

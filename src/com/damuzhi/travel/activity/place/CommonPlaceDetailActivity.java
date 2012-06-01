@@ -42,7 +42,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.NearbyAdapter;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceListAdapter;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
-import com.damuzhi.travel.activity.common.CommendPlaceMap;
+import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
 import com.damuzhi.travel.mission.PlaceMission;
@@ -87,34 +87,15 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	ImageView[] imageViews;
 	String tipsTitle;
 	private TextView phoneNum;
-	private List<Place> nearbyPlaceList;
+	private List<Place> nearbyPlaceList = new ArrayList<Place>();
 	private AsyncTask<Void, Void, List<Place>> asyncTask;
+	ViewGroup nearbyListGroup;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		init();
-		
-		asyncTask = new AsyncTask<Void, Void, List<Place>>()
-		{
-
-			@Override
-			protected List<Place> doInBackground(Void... params)
-			{		
-				
-				return PlaceMission.getInstance().getPlaceNearby(place,10);
-			}
-
-			@Override
-			protected void onPostExecute(List<Place> result)
-			{
-				nearbyPlaceList = result;
-				nearbyAdapter.setNearbyPlaceList(nearbyPlaceList);
-				nearbyAdapter.notifyDataSetChanged();
-				super.onPostExecute(result);
-			}
-			
-		};
+		asyncTask = new NearbyAsyncTask();		
 		asyncTask.execute();
 	}
 
@@ -361,26 +342,10 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			roomPrice.setText(symbol);
 		}
 		
-		
-		/*
-		//trafficInfo = (GridView) findViewById(R.id.trafficInfo);
-		phoneNum = (TextView) findViewById(R.id.phone_num);
-		address = (TextView) findViewById(R.id.address);
-		website = (TextView) findViewById(R.id.website);*/
 		ImageView recommendImage1 = (ImageView) findViewById(R.id.place_detail_recommend_image1);
 		ImageView recommendImage2 = (ImageView) findViewById(R.id.place_detail_recommend_image2);
 		ImageView recommendImage3 = (ImageView) findViewById(R.id.place_detail_recommend_image3);
-		
-		/*mapView1 = (ImageView) findViewById(R.id.item_map_view);
-		mapView2 = (ImageView)findViewById(R.id.place_detail_map_nearby);
-		mapView1.setOnClickListener(clickListener);
-		mapView2.setOnClickListener(clickListener);
-		
-		phoneGroup = (ViewGroup) findViewById(R.id.phone_group);
-		websiteGroup = (ViewGroup)findViewById(R.id.website_group);
-		mapGroup = (ViewGroup)findViewById(R.id.map_group);
-		phoneGroup.setOnClickListener(clickListener);*/
-		
+				
 		TextView placeDetailTitle = (TextView) findViewById(R.id.place_detail_title);
 		TextView placeIntroTitle = (TextView) findViewById(R.id.place_intro_title);
 		TextView placeIntro = (TextView) findViewById(R.id.place_intro);
@@ -456,10 +421,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			TextView website = (TextView) findViewById(R.id.website);
 			website.setText(getString(R.string.website)+place.getWebsite());
 		}
-		
-		ListView nearbyListView = (ListView) findViewById(R.id.nearby_list);
-		nearbyAdapter = new NearbyPlaceListAdapter(CommonPlaceDetailActivity.this, place, null); 
-		nearbyListView.setAdapter(nearbyAdapter);
+		nearbyListGroup = (ViewGroup) findViewById(R.id.nearby_list_group);
 	  }
 	}
 	
@@ -513,8 +475,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		public void onClick(View v)
 		{
 			Intent intent = new Intent();
-			intent.putExtra(ConstantField.PLACE_CATEGORY_ID, placeId);
-			intent.setClass(CommonPlaceDetailActivity.this, CommendPlaceMap.class);
+			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
+			intent.setClass(CommonPlaceDetailActivity.this, NearbyPlaceMap.class);
 			startActivity(intent);		
 		}
 	};
@@ -547,7 +509,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
-				// TODO Auto-generated method stub
 				Intent intent = new Intent(Intent.ACTION_CALL);
 				intent.setData(Uri.parse("tel:"+phoneNumber));
 				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -560,7 +521,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
-				// TODO Auto-generated method stub
 				dialog.cancel();
 				
 			}
@@ -569,8 +529,103 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	}
 
 	
-	
+	class NearbyAsyncTask extends AsyncTask<Void, Void, List<Place>>
+	{
 
+		@Override
+		protected List<Place> doInBackground(Void... params)
+		{				
+			return PlaceMission.getInstance().getPlaceNearby(place,10);
+		}
+
+		@Override
+		protected void onPostExecute(List<Place> result)
+		{
+			super.onPostExecute(result);
+			if(nearbyPlaceList.size()>0)
+			{
+				nearbyPlaceList.clear();
+			}			
+			nearbyPlaceList.addAll(result);
+			int size = 0;
+			if(result.size()>10)
+			{
+				size = 10;
+			}else {
+				size = result.size();
+			}
+			for(int i=0;i<size;i++)
+			{
+				View nearbyListItemView = getLayoutInflater().inflate(R.layout.nearby_list_item, null);
+				nearbyListItemView.setTag(i);
+				nearbyListItemView.setOnClickListener(nearbyListItemOnClickListener);
+				nearbyListItemView.setLayoutParams(new LayoutParams((int)getResources().getDimension(R.dimen.nearby_list_width), (int)getResources().getDimension(R.dimen.nearby_list_height)));
+				if(i == 0)
+				{
+					nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_top));
+				}else if (i == 9) {
+					nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_down));
+				}else {
+					nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_center));
+				}
+				Place placeItem = result.get(i);
+				
+				ImageView placeCategoryImage = (ImageView) nearbyListItemView.findViewById(R.id.place_category);
+				int placeCategoryIcon = TravelUtil.getPlaceCategoryImage(placeItem.getCategoryId());
+				placeCategoryImage.setImageDrawable(getResources().getDrawable(placeCategoryIcon));
+				
+				TextView placeName = (TextView) nearbyListItemView.findViewById(R.id.place_name);;
+				TextView distance = (TextView) nearbyListItemView.findViewById(R.id.place_distance);
+				
+				
+				placeName.setText(placeItem.getName());
+				String distanceStr = TravelUtil.getDistance(placeItem.getLongitude(), placeItem.getLatitude(),place.getLongitude(),place.getLatitude());
+				distance.setText(distanceStr);
+				
+				ImageView recommendImageView1 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image1);
+				ImageView recommendImageView2 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image2);
+				ImageView recommendImageView3 =(ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image3);
+				int rank = placeItem.getRank();
+				switch (rank)
+				{
+				case 1:
+					recommendImageView1.setVisibility(View.VISIBLE);		
+					break;
+				case 2:
+					recommendImageView1.setVisibility(View.VISIBLE);
+					recommendImageView2.setVisibility(View.VISIBLE);
+					break;
+				case 3:
+					recommendImageView1.setVisibility(View.VISIBLE);
+					recommendImageView2.setVisibility(View.VISIBLE);
+					recommendImageView3.setVisibility(View.VISIBLE);
+				break;
+				
+				}					
+				nearbyListGroup.addView(nearbyListItemView);
+			}
+			
+		}
+		
+	}
+
+	private OnClickListener nearbyListItemOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			int position = (Integer)v.getTag();
+			Place nearbyPlace = nearbyPlaceList.get(position);
+			Intent intent = new Intent();
+			intent.putExtra(ConstantField.PLACE_DETAIL, nearbyPlace.toByteArray());
+			Class activity = getClassByPlaceType(nearbyPlace.getCategoryId());
+			intent.setClass(CommonPlaceDetailActivity.this, activity);
+			//intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
+		}
+	}; 
+	
 
 	/*@Override
 	protected void onResume()

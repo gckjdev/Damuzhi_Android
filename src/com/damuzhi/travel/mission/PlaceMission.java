@@ -87,6 +87,7 @@ public class PlaceMission
 		return retPlaceList;
 	}
 	
+	
 	public List<Place> getPlaceNearby(Place place,int num)
 	{
 		List<Place> nearbyPlaceList = Collections.emptyList();
@@ -95,12 +96,31 @@ public class PlaceMission
 		}
 		else{
 			String cityId = AppManager.getInstance().getCurrentCityId();
-			nearbyPlaceList = getNearByPlaceListByUrl(cityId, place.getPlaceId(), num);	
-			remotePlaceManager.clearNearbyList();
-			remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
+			String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST, cityId, place.getPlaceId(),null,null,num,null,ConstantField.LANG_HANS,null);
+			nearbyPlaceList = getNearByPlaceListByUrl(url);	
+			//remotePlaceManager.clearNearbyList();
+			//remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
 		}
 		return nearbyPlaceList;
 	}
+	
+	
+	public List<Place> getPlaceNearbyInDistance(Place place,float distance)
+	{
+		List<Place> nearbyPlaceList = Collections.emptyList();
+		if (LocalStorageMission.getInstance().currentCityHasLocalData()){
+			//return localPlaceManager.getPlaceNearBy(place);
+		}
+		else{
+			String cityId = AppManager.getInstance().getCurrentCityId();
+			String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE, cityId, place.getPlaceId(),null,null,null,distance,ConstantField.LANG_HANS,null);
+			nearbyPlaceList = getNearByPlaceListByUrl(url);	
+			//remotePlaceManager.clearNearbyList();
+			//remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
+		}
+		return nearbyPlaceList;
+	}
+	
 	
 	private List<Place> getPlaceListByUrl(String cityId, int categoryId)
 	{
@@ -152,9 +172,8 @@ public class PlaceMission
 	}
 	
 		
-	private List<Place> getNearByPlaceListByUrl(String cityId,int placeId,int num)
+	private List<Place> getNearByPlaceListByUrl(String url)
 	{
-		String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST, cityId, placeId,null,null,num,null,ConstantField.LANG_HANS,null);
 		Log.d(TAG, "<getNearByPlaceListByUrl> load place data from http ,url = "+url);
 		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;

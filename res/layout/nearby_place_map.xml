@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">  
+    <TextView 
+    	    android:id="@+id/place_title"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_gravity="center"
+    	    android:gravity="center"
+    	    android:text="@string/nearby_title"
+    	    android:background="@drawable/topmenu_bg"
+    	    android:textSize="20.0sp"/>
+     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	   android:layout_width="fill_parent"
+	   android:layout_height="fill_parent">
+    	<com.google.android.maps.MapView
+         android:id="@+id/commendPlaceMap"
+         android:layout_width="fill_parent"
+         android:layout_height="fill_parent"
+         android:clickable="true"
+         android:apiKey="00drkb-fVMRRdSoct48qrn8K7RpgKDO0CDpm76w"
+         />
+    	 <ImageView
+		      android:id="@+id/my_locate"
+		      android:layout_width="31dp"
+		      android:layout_height="31dp"
+		      android:src="@drawable/locate"
+		      android:layout_alignParentRight="true"
+		      android:layout_alignParentBottom="true"
+		      android:layout_marginRight="20dp"
+		      android:layout_marginBottom="20dp"/>
+    	 <ImageView
+		      android:id="@+id/cancel_locate"
+		      android:layout_width="31dp"
+		      android:layout_height="31dp"
+		      android:src="@drawable/locate_back2"
+		      android:layout_alignParentRight="true"
+		      android:layout_alignParentBottom="true"
+		      android:visibility="gone"
+		      android:layout_marginRight="20dp"
+		      android:layout_marginBottom="20dp"/>
+    </RelativeLayout>
+    
+</LinearLayout>

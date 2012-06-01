@@ -85,7 +85,8 @@
 
     <!--entertainment -->
     <string name="entertainment_tips">玩乐贴士</string>
-    
+    <string name="nearby_title">周边推荐</string>
+    <string name="collect">收藏本页</string>
     <!-- placeInfo-->
     <string name="spot_intro">景点介绍</string>
     <string name="ticketsPrice">门票价格</string>

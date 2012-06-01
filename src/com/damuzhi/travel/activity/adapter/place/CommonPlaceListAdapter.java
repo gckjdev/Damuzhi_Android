@@ -94,8 +94,8 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		this.anseylodar = new Anseylodar();
 		this.placeCategoryType = placeCategoryType;
 		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
-		cityAreaMap = AppManager.getInstance().getCityAreaMap(TravelApplication.getInstance().getCityID());
-		symbol = AppManager.getInstance().getSymbolMap().get(TravelApplication.getInstance().getCityID());
+		cityAreaMap = AppManager.getInstance().getCityAreaMap(Integer.parseInt(AppManager.getInstance().getCurrentCityId()));
+		symbol = AppManager.getInstance().getSymbolMap().get(Integer.parseInt(AppManager.getInstance().getCurrentCityId()));
 		
 	}
 

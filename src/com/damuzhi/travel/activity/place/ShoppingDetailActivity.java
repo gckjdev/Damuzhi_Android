@@ -28,7 +28,7 @@ import android.widget.TextView;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
-import com.damuzhi.travel.activity.common.CommendPlaceMap;
+import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
@@ -232,11 +232,11 @@ public class ShoppingDetailActivity extends TravelActivity
 			{
 			case R.id.item_map_view:
 				
-				intent.setClass(ShoppingDetailActivity.this, CommendPlaceMap.class);
+				intent.setClass(ShoppingDetailActivity.this, NearbyPlaceMap.class);
 				startActivity(intent);
 				break;
 			case R.id.shopping_detail_map_nearby:	
-				intent.setClass(ShoppingDetailActivity.this, CommendPlaceMap.class);
+				intent.setClass(ShoppingDetailActivity.this, NearbyPlaceMap.class);
 				startActivity(intent);
 				break;
 			case R.id.phone_group:
