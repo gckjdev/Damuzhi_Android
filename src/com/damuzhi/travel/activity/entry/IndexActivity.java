@@ -69,20 +69,16 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	private ImageButton routeTipsButton;
 	private HashMap<String, Integer> cityNameMap;
 	private List<String> list;
-	private Spinner city;
+	private Spinner citySpinner;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		//LocationUtil.getCurrentLocation(this);
-		
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		Log.d(TAG, "onCreate");
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		setContentView(R.layout.index);
 		setProgressBarIndeterminateVisibility(true);
 		MainService.allActivity.add(this);
-		city = (Spinner) findViewById(R.id.city_spinner);
+		citySpinner = (Spinner) findViewById(R.id.city_spinner);
 		application = TravelApplication.getInstance();
 		cityNameMap = application.getCityNameMap();
 		Set<String> cityNameSet = cityNameMap.keySet();
@@ -101,9 +97,9 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_layout_item,android.R.id.text1, list);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		city.setAdapter(adapter);
+		citySpinner.setAdapter(adapter);
 		//city.setSelection(flag);
-		city.setOnItemSelectedListener(itemSelectedListener);
+		citySpinner.setOnItemSelectedListener(itemSelectedListener);
 		moreButton = (ImageButton) findViewById(R.id.more);
 		sceneryButton = (ImageButton) findViewById(R.id.scenery);
 		hotelButton = (ImageButton) findViewById(R.id.hotel);		
@@ -241,10 +237,9 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
 		{
-			// TODO Auto-generated method stub
 			String cityName = list.get(arg2);
 			Integer cityID = cityNameMap.get(cityName);
-			city.setSelection(arg2);
+			citySpinner.setSelection(arg2);
 			Log.d(TAG, "cityID = "+cityID);
 			application.setCityID(Integer.parseInt(AppManager.getInstance().getCurrentCityId()));
 		}
@@ -253,7 +248,6 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		public void onNothingSelected(AdapterView<?> arg0)
 		{
 			// TODO Auto-generated method stub
-			
 		}
 	};
 	
@@ -261,7 +255,6 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		// TODO Auto-generated method stub
 		if(keyCode == event.KEYCODE_BACK)
 		{
 			AlertDialog leaveAlertDialog = new AlertDialog.Builder(IndexActivity.this).create();
@@ -272,7 +265,6 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 				@Override
 				public void onClick(DialogInterface dialog, int which)
 				{
-					// TODO Auto-generated method stub
 					MainService.exitAPP(IndexActivity.this);				
 				}
 			} );
@@ -282,7 +274,6 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 				@Override
 				public void onClick(DialogInterface dialog, int which)
 				{
-					// TODO Auto-generated method stub
 					dialog.cancel();
 					
 				}
@@ -294,27 +285,12 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		}
 	}
 
-	@Override
-	protected void onDestroy()
-	{
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		Log.d(TAG, "onDestroy");
-	}
 	
-	@Override
-	protected void onResume()
-	{
-		// TODO Auto-generated method stub
-		super.onResume();
-		Log.d(TAG, "onResume");
-	}
 	
 	private void openGPSSettings() {
 
 		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-		//Toast.makeText(this, "GPSģ����", Toast.LENGTH_SHORT).show();
 		return;
 		}
 	    Intent gpsIntent = new Intent();

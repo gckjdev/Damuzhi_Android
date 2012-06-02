@@ -23,9 +23,9 @@ public class HttpTool
 	
 	public InputStream sendGetRequest(String url) throws Exception
 	{
-		
+			 HttpURLConnection urlConnection = null;
 			 try{
-			        HttpURLConnection urlConnection = (HttpURLConnection)new URL(url).openConnection();
+				 	urlConnection = (HttpURLConnection)new URL(url).openConnection();
 					urlConnection.setDoInput(true);
 					urlConnection.setUseCaches(true);
 					urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
@@ -35,23 +35,15 @@ public class HttpTool
 			        urlConnection.setRequestMethod("GET");
 			        if (urlConnection.getResponseCode() != 200)
 			        {
-			        	Log.d(TAG, "can not get http connection");
+			        	Log.d(TAG, "<sendGetRequest> can not get http connection");
 			        	return null;
 			        }			          
 			        return urlConnection.getInputStream();
 			
-			} catch (MalformedURLException e)
-			{
-				// TODO Auto-generated catch block
-				
-				Log.d(TAG, "url = "+url);
-				e.printStackTrace();
-				throw new Exception("httptool sendGetRequest error");
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				throw new Exception("httptool io error");
+			} catch (Exception e)
+			{			
+				Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
+				return null;
 			}
 	}
 }

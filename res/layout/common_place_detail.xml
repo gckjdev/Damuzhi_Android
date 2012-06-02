@@ -605,7 +605,8 @@
 	          android:layout_width="fill_parent"  
 	          android:layout_height="34dp"
 	          android:background="@drawable/t_bg"
-	          android:gravity="center">	   	  
+	          android:gravity="center"
+	          android:visibility="gone">	   	  
 	   	  		<TextView	
 	   	  		    android:id="@+id/phone_num"
 	   	  		    android:layout_width="wrap_content"
@@ -620,7 +621,6 @@
 			        android:scrollHorizontally="true"
 	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/connect_info"
-	   	  		    android:visibility="gone"
 	   	  		    />  
 	   	  		 <ImageView
 	   	  		    android:id="@+id/phone_call"
@@ -629,7 +629,6 @@
 	   	  		    android:layout_alignParentRight="true"
 	   	  		    android:src="@drawable/t_phone2x"
 	   	  		    android:scaleType="fitXY"
-	   	  		    android:visibility="gone"
 	   	  		    android:layout_marginRight="10.0dip"/>
 	   	  </RelativeLayout>
 	   	  <RelativeLayout
@@ -638,7 +637,8 @@
 	          android:layout_width="fill_parent"  
 	          android:layout_height="34dp"
 	          android:background="@drawable/t_bg"
-	          android:gravity="center">
+	          android:gravity="center"
+	          android:visibility="gone">
 	   	  		<TextView	
 	   	  		    android:id="@+id/address"
 	   	  		    android:layout_width="wrap_content"
@@ -654,7 +654,6 @@
 	   	  		    android:layout_marginRight="10dp"
 	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/connect_info"
-	   	  		    android:visibility="gone"
 	   	  		    />  
 	   	  		 <ImageView
 	   	  		    android:id="@+id/address_map_view" 
@@ -663,7 +662,6 @@
 	   	  		    android:layout_alignParentRight="true"
 	   	  		    android:src="@drawable/t_map2x"
 	   	  		    android:scaleType="fitXY"
-	   	  		    android:visibility="gone"
 	   	  		    android:layout_marginRight="10.0dip"/> 	  		
 	   	  </RelativeLayout>
 	   	   <RelativeLayout
@@ -672,7 +670,8 @@
 	          android:layout_width="fill_parent"  
 	          android:layout_height="34dp"
 	          android:gravity="left|center"
-	          android:background="@drawable/t_bg">
+	          android:background="@drawable/t_bg"
+	          android:visibility="gone">
 	   	  		<TextView	
 	   	  		    android:id="@+id/website"
 	   	  		    android:layout_width="wrap_content"
@@ -682,7 +681,6 @@
 	   	  		    android:layout_marginLeft="30.0dp"
 	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/connect_info"
-	   	  		    android:visibility="gone"
 	   	  		    />  
 	   	  </RelativeLayout>
 	   	  <RelativeLayout
@@ -691,37 +689,28 @@
 	          android:layout_width="fill_parent"  
 	          android:layout_height="wrap_content"
 	          android:background="@drawable/bottombg">
-	   	  		<FrameLayout
-	   	  		    android:layout_width="wrap_content"
-	   	  		    android:layout_height="wrap_content"
-	   	  		    android:layout_centerInParent="true">
-	   	  		<ImageView
-	   	  		     android:layout_width="124dp"
-	   	  		     android:layout_height="38dp"
-	   	  		     android:layout_gravity="center"
-	   	  		     android:scaleType="fitXY"
-	   	  		     android:src="@drawable/favorites"/>
 	   	  		<TextView	
 	   	  		    android:id="@+id/collect"
-	   	  		    android:layout_width="wrap_content"
-	   	  		    android:layout_height="wrap_content"
-	   	  		    android:gravity="left|center_vertical"
-	   	  		    android:layout_gravity="right|center_vertical"
-	   	  		    android:layout_marginRight="15.0dp"
-	   	  		    android:textSize="16.0sp"
-	   	  		    android:textColor="@color/connect_info"
-	   	  		    android:text="@string/collect"
-	   	  		    />  
-	   	  		</FrameLayout>
+	   	  		    android:layout_width="100dp"
+	   	  		    android:layout_height="30dp"
+	   	  		    android:gravity="right|center_vertical"
+	   	  		    android:layout_centerHorizontal="true"
+	   	  		    android:paddingRight="8dp"
+	   	  		    android:background="@drawable/favorites"
+	   	  		    android:layout_marginTop="12dp"
+	   	  		    android:textSize="15.0sp"
+	   	  		    android:textColor="@android:color/black"
+	   	  		    android:text="@string/collect"/>  
 	   	  		<TextView	
-	   	  		    android:id="@+id/collect_num"
+	   	  		    android:id="@+id/favorite_count"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:gravity="left|center_vertical"
-	   	  		    android:layout_alignParentLeft="true"
-	   	  		    android:layout_marginLeft="30.0dp"
-	   	  		    android:textSize="16.0sp"
-	   	  		    android:textColor="@color/connect_info"
+	   	  		    android:layout_below="@id/collect"
+	   	  		    android:layout_centerHorizontal="true"
+	   	  		    android:layout_marginTop="5dp"
+	   	  		    android:textSize="14.0sp"
+	   	  		    android:textColor="@color/place_price_color"
 	   	  		    android:paddingBottom="15dp"
 	   	  		    />  
 	   	  </RelativeLayout>

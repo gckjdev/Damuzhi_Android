@@ -18,6 +18,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.CursorJoiner.Result;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.NearbyAdapter;
@@ -45,8 +47,10 @@ import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
 import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.mission.CollectMission;
 import com.damuzhi.travel.mission.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
+import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
@@ -86,7 +90,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	Place place;
 	ImageView[] imageViews;
 	String tipsTitle;
-	private TextView phoneNum;
+	private TextView phoneNum,favoriteCount,collect;
 	private List<Place> nearbyPlaceList = new ArrayList<Place>();
 	private AsyncTask<Void, Void, List<Place>> asyncTask;
 	ViewGroup nearbyListGroup;
@@ -97,6 +101,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		init();
 		asyncTask = new NearbyAsyncTask();		
 		asyncTask.execute();
+		getPlaceFavoriteCount();
 	}
 
 	
@@ -382,12 +387,11 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		
 		if(place.getTelephoneList().size()>0)
 		{
-			//ViewGroup phoneGroup = (ViewGroup) findViewById(R.id.phone_group);
+			ViewGroup phoneGroup = (ViewGroup) findViewById(R.id.phone_group);
 			phoneNum = (TextView) findViewById(R.id.phone_num);
 			phoneNum.setSelected(true);
 			ImageView phoneCall = (ImageView) findViewById(R.id.phone_call);
-			phoneNum.setVisibility(View.VISIBLE);
-			phoneCall.setVisibility(View.VISIBLE);
+			phoneGroup.setVisibility(View.VISIBLE);
 			StringBuffer phoneNumber = new StringBuffer();
 			for(String telephone:place.getTelephoneList())
 			{
@@ -400,12 +404,11 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		
 		if(place.getAddressList().size()>0)
 		{
-			//ViewGroup addressGroup = (ViewGroup)findViewById(R.id.address_group);
+			ViewGroup addressGroup = (ViewGroup)findViewById(R.id.address_group);
 			TextView address = (TextView) findViewById(R.id.address);
 			address.setSelected(true);
 			ImageView addressMapView = (ImageView) findViewById(R.id.address_map_view);
-			address.setVisibility(View.VISIBLE);
-			addressMapView.setVisibility(View.VISIBLE);
+			addressGroup.setVisibility(View.VISIBLE);
 			StringBuffer addressStr = new StringBuffer();
 			for(String addres:place.getAddressList())
 			{
@@ -418,10 +421,15 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		
 		if(place.getWebsite()!=null)
 		{
+			ViewGroup websiteGroup = (ViewGroup) findViewById(R.id.website_group);
+			websiteGroup.setVisibility(View.VISIBLE);
 			TextView website = (TextView) findViewById(R.id.website);
 			website.setText(getString(R.string.website)+place.getWebsite());
 		}
 		nearbyListGroup = (ViewGroup) findViewById(R.id.nearby_list_group);
+		favoriteCount = (TextView) findViewById(R.id.favorite_count);
+		collect = (TextView) findViewById(R.id.collect);
+		collect.setOnClickListener(addFavoriteOnClickListener);
 	  }
 	}
 	
@@ -626,7 +634,54 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		}
 	}; 
 	
+	private void getPlaceFavoriteCount()
+	{
+		AsyncTask< Void, Void, Integer> asyncTask = new AsyncTask<Void, Void, Integer>()
+		{
 
+			@Override
+			protected Integer doInBackground(Void... params)
+			{
+				Integer count = CollectMission.getInstance().getFavoriteCount(place.getPlaceId());
+				return count;
+			}
+
+			@Override
+			protected void onPostExecute(Integer result)
+			{
+				String favoriteCountStr = String.format(ConstantField.FAVORITE_COUNT_STR, result);
+				favoriteCount.setText(favoriteCountStr);
+				super.onPostExecute(result);
+			}};
+			asyncTask.execute();
+	}
+	
+	
+	private void addFavorite(Place place)
+	{
+		int reulst = CollectMission.getInstance().addFavorite(UserManager.getInstance().getUserId(this),place);
+		Toast toast;
+		if(reulst == 0)
+		{
+			toast = Toast.makeText(this, "收藏成功", Toast.LENGTH_LONG);
+			
+		}else {
+			toast = Toast.makeText(this, "收藏失败", Toast.LENGTH_LONG);
+		}
+		toast.show();
+	}
+	
+	
+	private OnClickListener addFavoriteOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			addFavorite(place);
+			
+		}
+	};
 	/*@Override
 	protected void onResume()
 	{

@@ -1,5 +1,7 @@
 package com.damuzhi.travel.model.constant;
 
+import java.security.PublicKey;
+
 public class ConstantField
 {
 	public static final String MAIN_SERVICE = "damuzhi.travel.service.MainService";
@@ -11,7 +13,8 @@ public class ConstantField
 	public static final String IMAGE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/%s/data/";
 	public static final String APP_DATA_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app.dat";
 	public static final String APP_DATA_TEMP_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp";
-	public static final String APP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp/temp.dat";
+	public static final String APP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp/temp.dat"
+			;
 	public static final String PLACE_PATH ="/data/place/";
 	public static final int DATA_LOCAL = 0;
 	public static final int DATA_HTTP = 1;
@@ -28,9 +31,6 @@ public class ConstantField
 	public static final String CHECK_NET = "com.damuzhi.travel.network.CheckNet";
 	public static final String UTF ="UTF-8";
 	/* http data url */
-	public static final String REGISTER = "http://api.trip8888.com/service/registerUser.aspx?type=%s&deviceToken=%s&deviceId=%s";
-	public static final String USER_COLLECTION = "http://api.trip8888.com/service/addFavorite.aspx?userId=%s&placeId=%s&longitude=%s&latitude=%s";
-	public static final String USER_DELETE_COLLECTION = "http://api.trip8888.com/service/deleteFavorite.aspx?userId=%s&placeId=%s";
 	public static final String PLACE_INFO = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = "http://api.trip8888.com/service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
@@ -90,5 +90,14 @@ public class ConstantField
 	
 	/* commonPlaceDetail*/
 	public static final String PLACE_DETAIL = "PLACE_DETAIL";
+	/* collect */
+	public static final String QUERY_PLACE_FAVORITE_COUNT = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
+	public static final String ADD_FAVORITE = "http://api.trip8888.com/service/addFavorite.aspx?userId=%s&placeId=%s&longitude=%s&latitude=%s";
+	public static final String DELETE_FAVORITE = "http://api.trip8888.com/service/deleteFavorite.aspx?userId=%s&placeId=%s";
+	public static final String FAVORITE_COUNT_STR = "已有%s人收藏";
+	public static final String FAVORITE_FILE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/favorite.dat";
 	
+	/* register*/
+	public static final String REGISTER = "http://api.trip8888.com/service/registerUser.aspx?type=2&deviceId=%s";
+	public static final String USER_ID = "user_id";
 }
