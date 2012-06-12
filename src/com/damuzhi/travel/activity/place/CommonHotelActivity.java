@@ -103,7 +103,7 @@ public class CommonHotelActivity extends CommonPlaceActivity
 		sortParams.addRule(RelativeLayout.RIGHT_OF,R.id.service_spinner);
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);
-		int cityID = Integer.parseInt(AppManager.getInstance().getCurrentCityId());
+		int cityID = AppManager.getInstance().getCurrentCityId();
 		sortDisplayName = getResources().getStringArray(R.array.hotel);
 		
 		price = AppManager.getInstance().getPriceRank(cityID);

@@ -81,7 +81,7 @@ public class CommonShoppingActivity extends CommonPlaceActivity
 		sortDisplayName = getResources().getStringArray(R.array.shopping);
 		
 		areaLayout.setLayoutParams(areaParams);	
-		int cityID = Integer.parseInt(AppManager.getInstance().getCurrentCityId());
+		int cityID = AppManager.getInstance().getCurrentCityId();
 		areaID = AppManager.getInstance().getCityAreaKeyList(cityID);
 		areaName = AppManager.getInstance().getCityAreaNameList(cityID);
 		spinner.addView(areaSpinner);		

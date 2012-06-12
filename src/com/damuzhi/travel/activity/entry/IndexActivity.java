@@ -3,6 +3,7 @@ package com.damuzhi.travel.activity.entry;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.R.integer;
@@ -19,18 +20,21 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.more.MoreActivity;
+import com.damuzhi.travel.activity.more.OpenCityDataActivity;
 import com.damuzhi.travel.activity.overview.OverviewActivity;
 import com.damuzhi.travel.activity.overview.TravelTipsActivity;
 import com.damuzhi.travel.activity.place.CommonEntertainmentActivity;
@@ -41,12 +45,15 @@ import com.damuzhi.travel.activity.place.CommonShoppingActivity;
 import com.damuzhi.travel.activity.place.EntertainmentActivity;
 import com.damuzhi.travel.activity.place.HotelActivity;
 import com.damuzhi.travel.activity.place.NearbyActivity;
+import com.damuzhi.travel.activity.place.NearbyPlaceActivity;
 import com.damuzhi.travel.activity.place.RestaurantActivity;
 import com.damuzhi.travel.activity.place.SceneryActivity;
 import com.damuzhi.travel.activity.place.ShoppingActivity;
 import com.damuzhi.travel.activity.place.CommonSpotActivity;
+import com.damuzhi.travel.mission.AppMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
 
@@ -68,8 +75,10 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	private ImageButton travelTipsButton;
 	private ImageButton routeTipsButton;
 	private HashMap<String, Integer> cityNameMap;
+	private HashMap<Integer, Integer> citySpinnerPositionMap = new HashMap<Integer, Integer>();
 	private List<String> list;
-	private Spinner citySpinner;
+	TextView currentCityName;
+	//private Spinner citySpinner;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -78,28 +87,32 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		setContentView(R.layout.index);
 		setProgressBarIndeterminateVisibility(true);
 		MainService.allActivity.add(this);
-		citySpinner = (Spinner) findViewById(R.id.city_spinner);
+		//citySpinner = (Spinner) findViewById(R.id.city_spinner);
+		currentCityName = (TextView) findViewById(R.id.current_city_name);
+		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);
 		application = TravelApplication.getInstance();
-		cityNameMap = application.getCityNameMap();
-		Set<String> cityNameSet = cityNameMap.keySet();
-		list = new ArrayList<String>();
-		int position = 0;
-		int flag = 0;
-		for(String cityName:cityNameSet)
+		//cityNameMap = application.getCityNameMap();
+		/*cityNameMap = AppManager.getInstance().getCityNameMap();
+		Set<String> cityNameSet = null;
+		if(cityNameMap !=null)
 		{
-			list.add(cityName);			
-			if(cityName.equals(""))
+			list = new ArrayList<String>();
+			cityNameSet = cityNameMap.keySet();
+			int position =0;
+			for(Map.Entry<String, Integer> entry:cityNameMap.entrySet())
 			{
-				flag = position;
+				list.add(entry.getKey());	
+				citySpinnerPositionMap.put(entry.getValue(), position);
+				position++;			
 			}
-			position++;
-		}
-		
+		}*/
+		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
+		currentCitygGroup.setOnClickListener(currentGroupOnClickListener);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_layout_item,android.R.id.text1, list);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		citySpinner.setAdapter(adapter);
+		//citySpinner.setAdapter(adapter);
 		//city.setSelection(flag);
-		citySpinner.setOnItemSelectedListener(itemSelectedListener);
+		//citySpinner.setOnItemSelectedListener(itemSelectedListener);
 		moreButton = (ImageButton) findViewById(R.id.more);
 		sceneryButton = (ImageButton) findViewById(R.id.scenery);
 		hotelButton = (ImageButton) findViewById(R.id.hotel);		
@@ -130,7 +143,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		Intent intent = new Intent();
 		intent.setAction(ConstantField.CHECK_NET);
 		sendBroadcast(intent);
-		openGPSSettings();
+		//openGPSSettings();
 	}
 
 	
@@ -181,7 +194,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		case R.id.nearby:	
 			Log.d(TAG, "nearby");
 			Intent nearbyIntent = new Intent();
-			nearbyIntent.setClass(IndexActivity.this, NearbyActivity.class);		
+			nearbyIntent.setClass(IndexActivity.this, NearbyPlaceActivity.class);		
 			startActivity(nearbyIntent);
 			break;
 		case R.id.city_base:
@@ -230,7 +243,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		
 	}
 	
-	private OnItemSelectedListener itemSelectedListener = new OnItemSelectedListener()
+	/*private OnItemSelectedListener itemSelectedListener = new OnItemSelectedListener()
 	{
 
 		@Override
@@ -240,8 +253,8 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 			String cityName = list.get(arg2);
 			Integer cityID = cityNameMap.get(cityName);
 			citySpinner.setSelection(arg2);
-			Log.d(TAG, "cityID = "+cityID);
-			application.setCityID(Integer.parseInt(AppManager.getInstance().getCurrentCityId()));
+			AppManager.getInstance().setCurrentCityId(cityID);
+			AppManager.getInstance().setCurrentCityName(cityName);
 		}
 
 		@Override
@@ -249,8 +262,20 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		{
 			// TODO Auto-generated method stub
 		}
-	};
+	};*/
 	
+	
+	private OnClickListener currentGroupOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.setClass(IndexActivity.this, OpenCityDataActivity.class);
+			startActivity(intent);
+		}
+	};
 	
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -265,6 +290,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 				@Override
 				public void onClick(DialogInterface dialog, int which)
 				{
+					AppMission.getInstance().saveLastCityId(IndexActivity.this);
 					MainService.exitAPP(IndexActivity.this);				
 				}
 			} );
@@ -285,9 +311,19 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		}
 	}
 
+
+
+	@Override
+	protected void onResume()
+	{
+		
+		super.onResume();
+		//citySpinner.setSelection(citySpinnerPositionMap.get(AppManager.getInstance().getCurrentCityId()));
+	}
+
 	
 	
-	private void openGPSSettings() {
+	/*private void openGPSSettings() {
 
 		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
@@ -302,7 +338,9 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	    } catch (CanceledException e) {
 	        e.printStackTrace();
 	    }
-		}
+		}*/
+	
+	
 
 
 

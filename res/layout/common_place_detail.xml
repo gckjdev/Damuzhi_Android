@@ -585,7 +585,7 @@
 	   	  		    android:id="@+id/nearby_title"
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="15sp"
 	   	  		    android:gravity="left"
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
@@ -619,7 +619,7 @@
 			        android:ellipsize="marquee"
 			        android:marqueeRepeatLimit="marquee_forever"
 			        android:scrollHorizontally="true"
-	   	  		    android:textSize="16.0sp"
+	   	  		    android:textSize="15sp"
 	   	  		    android:textColor="@color/connect_info"
 	   	  		    />  
 	   	  		 <ImageView
@@ -652,7 +652,7 @@
 	   	  		    android:gravity="center_vertical"
 	   	  		    android:layout_marginLeft="30.0dp"
 	   	  		    android:layout_marginRight="10dp"
-	   	  		    android:textSize="16.0sp"
+	   	  		    android:textSize="15sp"
 	   	  		    android:textColor="@color/connect_info"
 	   	  		    />  
 	   	  		 <ImageView
@@ -679,7 +679,7 @@
 	   	  		    android:gravity="left|center_vertical"
 	   	  		    android:layout_alignParentLeft="true"
 	   	  		    android:layout_marginLeft="30.0dp"
-	   	  		    android:textSize="16.0sp"
+	   	  		    android:textSize="15sp"
 	   	  		    android:textColor="@color/connect_info"
 	   	  		    />  
 	   	  </RelativeLayout>
@@ -689,14 +689,21 @@
 	          android:layout_width="fill_parent"  
 	          android:layout_height="wrap_content"
 	          android:background="@drawable/bottombg">
+	   	  		<ImageView 
+	   	  		    android:id="@+id/collect_btn"
+	   	  		    android:layout_marginTop="12dp"
+	   	  		    android:layout_width="100dp"
+	   	  		    android:layout_height="30dp"
+	   	  		    android:src="@drawable/favorites"
+	   	  		    android:layout_centerHorizontal="true"
+	   	  		    android:scaleType="fitXY"/>
 	   	  		<TextView	
 	   	  		    android:id="@+id/collect"
 	   	  		    android:layout_width="100dp"
 	   	  		    android:layout_height="30dp"
-	   	  		    android:gravity="right|center_vertical"
+	   	  		    android:gravity="center_vertical"
 	   	  		    android:layout_centerHorizontal="true"
-	   	  		    android:paddingRight="8dp"
-	   	  		    android:background="@drawable/favorites"
+	   	  		    android:paddingLeft="30dp"
 	   	  		    android:layout_marginTop="12dp"
 	   	  		    android:textSize="15.0sp"
 	   	  		    android:textColor="@android:color/black"

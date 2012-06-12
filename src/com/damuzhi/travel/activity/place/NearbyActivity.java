@@ -86,7 +86,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	private ImageView redStart;
 	private int startPosition = 0;
 	private float offset;
-	private int bmpW;// ����ͼƬ���
+	private int bmpW;//
 	private int screenW;
 	private TextView allPlace;
 	private TextView spot;
@@ -102,7 +102,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	private static final int LOAD_OK = 1;
 	private Dialog loadingDialog;
 	private ArrayList<Place> placeList;
-	private int loadFlag = 1;//�ж��Ƿ���¼���activity
+	private int loadFlag = 1;
 	private HashMap<Integer,String> symbolMap;
 	private HashMap<Integer, String> cityAreaMap;
 	private HashMap<String, Double> location;
@@ -110,19 +110,18 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	private NearbyAdapter adapter;
 	private String dataPath ;
 	private MapView mapView;
-	private View popupView;//��������
+	private View popupView;//
 	long lasttime = -1;
     MapController mapc;
     private TravelApplication application;
     private ImageButton selectMapViewButton;
     private ImageButton selectListViewButton;
     private int placeCategoryID = ConstantField.ALL_PLACE_CATEGORY_ID;
-    private int placeDistance = ConstantField.HALF_KILOMETER;
+    private int placeDistance = 500;
     private PlaceLoaction placeLoaction;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.nearby);
 		
@@ -134,7 +133,6 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	@Override
 	public void init()
 	{
-		// TODO Auto-generated method stub
 		listView = (ListView) findViewById(R.id.nearby_list);
 		mapView = (MapView) findViewById(R.id.placeMap);
 		mapc = mapView.getController();
@@ -171,7 +169,6 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	
 	public void initMapView()
 	{	
-		//mapView.invalidate();
 		listView.setVisibility(View.GONE);
 		selectMapViewButton.setVisibility(View.GONE);		
 		mapView.setVisibility(View.VISIBLE);
@@ -197,8 +194,6 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	@Override
 	public void refresh(Object...param)
 	{
-		// TODO Auto-generated method stub
-		//thread.start();
 		initData(param);
 		Message message = handler.obtainMessage();
 		message.what = LOAD_OK;
@@ -210,7 +205,6 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 		@Override
 		public void handleMessage(Message msg)
 		{
-			// TODO Auto-generated method stub
 			super.handleMessage(msg);
 			switch (msg.what)
 			{
@@ -236,7 +230,6 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	@Override
 	protected void onResume()
 	{
-		// TODO Auto-generated method stub
 		super.onResume();
 		if(loadFlag == 0)
 		{			
@@ -482,7 +475,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 				endSet = screenW*0.01f;
 				startPosition = 0;
 				run = true;
-				placeDistance = ConstantField.HALF_KILOMETER;
+				placeDistance = 500;//ConstantField.HALF_KILOMETER;
 				placeList = TravelUtil.getPlaceInDistance(placeDistance, application.getPlaceData(), location,placeCategoryID);
 				if(listView.getVisibility() == View.VISIBLE)
 				{
@@ -509,7 +502,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 				endSet = screenW*0.18f;											
 				startPosition = 1;
 				run = true;
-				placeDistance = ConstantField.ONE_KILOMETER;
+				placeDistance = 1000;//ConstantField.ONE_KILOMETER;
 				placeList = TravelUtil.getPlaceInDistance(placeDistance, application.getPlaceData(), location,placeCategoryID);
 				if(listView.getVisibility() == View.VISIBLE)
 				{
@@ -536,7 +529,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 				endSet = screenW*0.43f;							
 				startPosition = 2;
 				run = true;
-				placeDistance = ConstantField.FIVE_KILOMETER;
+				placeDistance = 5000;//ConstantField.FIVE_KILOMETER;
 				placeList = TravelUtil.getPlaceInDistance(placeDistance, application.getPlaceData(), location,placeCategoryID);
 				if(listView.getVisibility() == View.VISIBLE)
 				{
@@ -563,7 +556,7 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 				endSet = screenW*0.82f;
 				startPosition = 3;
 				run = true;
-				placeDistance = ConstantField.TEN_KILOMETER;
+				placeDistance = 10000;//ConstantField.TEN_KILOMETER;
 				placeList = TravelUtil.getPlaceInDistance(placeDistance, application.getPlaceData(), location,placeCategoryID);
 				if(listView.getVisibility() == View.VISIBLE)
 				{
@@ -601,14 +594,12 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 		}
 	};
 	
-	/**
-	* ��ʼ������
-	*/
+	
 	private void getOffSet(ImageView imageView,int startPosition) {
-	//int bmpW = BitmapFactory.decodeResource(getResources(), R.drawable.red_star).getWidth();// ��ȡͼƬ���
+	
 	DisplayMetrics dm = new DisplayMetrics();
 	getWindowManager().getDefaultDisplay().getMetrics(dm);
-	screenW = dm.widthPixels;// ��ȡ�ֱ��ʿ��
+	screenW = dm.widthPixels;//
 	switch (startPosition)
 	{
 	case 0:
@@ -712,37 +703,25 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 	        loadingDialog = new AlertDialog.Builder(mContext).create();
 	        loadingDialog.setOnKeyListener(keyListener);
 	        loadingDialog.show();
-	        // ע��˴�Ҫ����show֮�� ����ᱨ�쳣
 	        loadingDialog.setContentView(layout);
 	    }
-	/*  
-	        (non-Javadoc)  
-	        * @see com.google.android.maps.MapActivity#isRouteDisplayed()  
-	        */
+
 	@Override
 	protected boolean isRouteDisplayed()
 	{
-		// TODO Auto-generated method stub
 		return false;
 	}
 	
 	class PlaceLoaction extends ItemizedOverlay<OverlayItem>
 	{
-		//private ArrayList<int[][]> location;
 		private List<OverlayItem> placeOverlayItems = new ArrayList<OverlayItem>();
 		private ArrayList<Place> places;
 		
-		/**
-		 * @param defaultMarker
-		 * @param marker
-		 * @param location
-		 */
+		
 		public PlaceLoaction( Drawable marker,ArrayList<Place> placeList)
 		{
 			super(marker);
-			//this.marker = marker;
 			int i=0;
-			//this.location = location;
 			this.places = placeList;
 			for (Place place:placeList)
 			{			
@@ -761,14 +740,12 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 		@Override
 		protected OverlayItem createItem(int i)
 		{
-			// TODO Auto-generated method stub
 			return placeOverlayItems.get(i);
 		}
 
 		@Override
 		public int size()
 		{
-			// TODO Auto-generated method stub
 			return placeOverlayItems.size();
 		}
 
@@ -791,7 +768,6 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 		@Override
 		public void onFocusChanged(ItemizedOverlay overlay, OverlayItem newFocus)
 		{
-			// TODO Auto-generated method stub
 			if(popupView !=null)
 			{
 				popupView.setVisibility(View.GONE);
@@ -852,7 +828,6 @@ public class NearbyActivity extends MapActivity implements PlaceActivity
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3)
 			{
-				// TODO Auto-generated method stub
 				Place place = placeList.get(arg2);
 				application.setPlace(place);
 				Intent intent = new Intent();

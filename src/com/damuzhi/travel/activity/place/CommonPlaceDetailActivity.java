@@ -91,16 +91,16 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	ImageView[] imageViews;
 	String tipsTitle;
 	private TextView phoneNum,favoriteCount,collect;
+	private ImageView coolectBtn;
 	private List<Place> nearbyPlaceList = new ArrayList<Place>();
-	private AsyncTask<Void, Void, List<Place>> asyncTask;
+	private AsyncTask<Void, Void, List<Place>> nearbyAsyncTask;
 	ViewGroup nearbyListGroup;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		init();
-		asyncTask = new NearbyAsyncTask();		
-		asyncTask.execute();
+		getNearbyList();
 		getPlaceFavoriteCount();
 	}
 
@@ -419,7 +419,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			addressMapView.setOnClickListener(addressLocateOnClickListener);
 		}
 		
-		if(place.getWebsite()!=null)
+		if(place.getWebsite()!=null &&!place.getWebsite().equals(""))
 		{
 			ViewGroup websiteGroup = (ViewGroup) findViewById(R.id.website_group);
 			websiteGroup.setVisibility(View.VISIBLE);
@@ -429,7 +429,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		nearbyListGroup = (ViewGroup) findViewById(R.id.nearby_list_group);
 		favoriteCount = (TextView) findViewById(R.id.favorite_count);
 		collect = (TextView) findViewById(R.id.collect);
-		collect.setOnClickListener(addFavoriteOnClickListener);
+		coolectBtn = (ImageView) findViewById(R.id.collect_btn);
+		coolectBtn.setOnClickListener(addFavoriteOnClickListener);
 	  }
 	}
 	
@@ -536,86 +537,90 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		phoneCall.show();
 	}
 
-	
-	class NearbyAsyncTask extends AsyncTask<Void, Void, List<Place>>
+	private void getNearbyList()
 	{
-
-		@Override
-		protected List<Place> doInBackground(Void... params)
-		{				
-			return PlaceMission.getInstance().getPlaceNearby(place,10);
-		}
-
-		@Override
-		protected void onPostExecute(List<Place> result)
+		 nearbyAsyncTask = new AsyncTask<Void, Void, List<Place>>()
 		{
-			super.onPostExecute(result);
-			if(nearbyPlaceList.size()>0)
-			{
-				nearbyPlaceList.clear();
-			}			
-			nearbyPlaceList.addAll(result);
-			int size = 0;
-			if(result.size()>10)
-			{
-				size = 10;
-			}else {
-				size = result.size();
+
+			@Override
+			protected List<Place> doInBackground(Void... params)
+			{				
+				return PlaceMission.getInstance().getPlaceNearby(place,10);
 			}
-			for(int i=0;i<size;i++)
+
+			@Override
+			protected void onPostExecute(List<Place> result)
 			{
-				View nearbyListItemView = getLayoutInflater().inflate(R.layout.nearby_list_item, null);
-				nearbyListItemView.setTag(i);
-				nearbyListItemView.setOnClickListener(nearbyListItemOnClickListener);
-				nearbyListItemView.setLayoutParams(new LayoutParams((int)getResources().getDimension(R.dimen.nearby_list_width), (int)getResources().getDimension(R.dimen.nearby_list_height)));
-				if(i == 0)
+				super.onPostExecute(result);
+				if(nearbyPlaceList.size()>0)
 				{
-					nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_top));
-				}else if (i == 9) {
-					nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_down));
+					nearbyPlaceList.clear();
+				}			
+				nearbyPlaceList.addAll(result);
+				int size = 0;
+				if(result.size()>10)
+				{
+					size = 10;
 				}else {
-					nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_center));
+					size = result.size();
 				}
-				Place placeItem = result.get(i);
-				
-				ImageView placeCategoryImage = (ImageView) nearbyListItemView.findViewById(R.id.place_category);
-				int placeCategoryIcon = TravelUtil.getPlaceCategoryImage(placeItem.getCategoryId());
-				placeCategoryImage.setImageDrawable(getResources().getDrawable(placeCategoryIcon));
-				
-				TextView placeName = (TextView) nearbyListItemView.findViewById(R.id.place_name);;
-				TextView distance = (TextView) nearbyListItemView.findViewById(R.id.place_distance);
-				
-				
-				placeName.setText(placeItem.getName());
-				String distanceStr = TravelUtil.getDistance(placeItem.getLongitude(), placeItem.getLatitude(),place.getLongitude(),place.getLatitude());
-				distance.setText(distanceStr);
-				
-				ImageView recommendImageView1 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image1);
-				ImageView recommendImageView2 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image2);
-				ImageView recommendImageView3 =(ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image3);
-				int rank = placeItem.getRank();
-				switch (rank)
+				for(int i=0;i<size;i++)
 				{
-				case 1:
-					recommendImageView1.setVisibility(View.VISIBLE);		
+					View nearbyListItemView = getLayoutInflater().inflate(R.layout.nearby_list_item, null);
+					nearbyListItemView.setTag(i);
+					nearbyListItemView.setOnClickListener(nearbyListItemOnClickListener);
+					nearbyListItemView.setLayoutParams(new LayoutParams((int)getResources().getDimension(R.dimen.nearby_list_width), (int)getResources().getDimension(R.dimen.nearby_list_height)));
+					if(i == 0)
+					{
+						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_top));
+					}else if (i == 9) {
+						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_down));
+					}else {
+						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_center));
+					}
+					Place placeItem = result.get(i);
+					
+					ImageView placeCategoryImage = (ImageView) nearbyListItemView.findViewById(R.id.place_category);
+					int placeCategoryIcon = TravelUtil.getPlaceCategoryImage(placeItem.getCategoryId());
+					placeCategoryImage.setImageDrawable(getResources().getDrawable(placeCategoryIcon));
+					
+					TextView placeName = (TextView) nearbyListItemView.findViewById(R.id.place_name);;
+					TextView distance = (TextView) nearbyListItemView.findViewById(R.id.place_distance);
+					
+					
+					placeName.setText(placeItem.getName());
+					String distanceStr = TravelUtil.getDistance(placeItem.getLongitude(), placeItem.getLatitude(),place.getLongitude(),place.getLatitude());
+					distance.setText(distanceStr);
+					
+					ImageView recommendImageView1 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image1);
+					ImageView recommendImageView2 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image2);
+					ImageView recommendImageView3 =(ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image3);
+					int rank = placeItem.getRank();
+					switch (rank)
+					{
+					case 1:
+						recommendImageView1.setVisibility(View.VISIBLE);		
+						break;
+					case 2:
+						recommendImageView1.setVisibility(View.VISIBLE);
+						recommendImageView2.setVisibility(View.VISIBLE);
+						break;
+					case 3:
+						recommendImageView1.setVisibility(View.VISIBLE);
+						recommendImageView2.setVisibility(View.VISIBLE);
+						recommendImageView3.setVisibility(View.VISIBLE);
 					break;
-				case 2:
-					recommendImageView1.setVisibility(View.VISIBLE);
-					recommendImageView2.setVisibility(View.VISIBLE);
-					break;
-				case 3:
-					recommendImageView1.setVisibility(View.VISIBLE);
-					recommendImageView2.setVisibility(View.VISIBLE);
-					recommendImageView3.setVisibility(View.VISIBLE);
-				break;
+					
+					}					
+					nearbyListGroup.addView(nearbyListItemView);
+				}
 				
-				}					
-				nearbyListGroup.addView(nearbyListItemView);
 			}
 			
-		}
-		
+		};
+		nearbyAsyncTask.execute();
 	}
+	
 
 	private OnClickListener nearbyListItemOnClickListener = new OnClickListener()
 	{
@@ -651,6 +656,11 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			{
 				String favoriteCountStr = String.format(ConstantField.FAVORITE_COUNT_STR, result);
 				favoriteCount.setText(favoriteCountStr);
+				if(CollectMission.getInstance().checkPlaceIsCollected(place.getPlaceId()))
+				{
+					collect.setText(R.string.collected);
+					coolectBtn.setClickable(false);
+				}
 				super.onPostExecute(result);
 			}};
 			asyncTask.execute();
@@ -663,10 +673,12 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		Toast toast;
 		if(reulst == 0)
 		{
-			toast = Toast.makeText(this, "收藏成功", Toast.LENGTH_LONG);
-			
+			toast = Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT);
+			collect.setText(R.string.collected);
+			coolectBtn.setClickable(false);
+			getPlaceFavoriteCount();
 		}else {
-			toast = Toast.makeText(this, "收藏失败", Toast.LENGTH_LONG);
+			toast = Toast.makeText(this, "收藏失败", Toast.LENGTH_SHORT);
 		}
 		toast.show();
 	}

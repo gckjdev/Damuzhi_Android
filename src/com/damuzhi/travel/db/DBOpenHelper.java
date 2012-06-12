@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBOpenHelper extends SQLiteOpenHelper {
-	private static final String DBNAME = "smart.db";
+	private static final String DBNAME = "downloadInfo.db";
 	private static final int VERSION = 1;
 	
 	public DBOpenHelper(Context context) {
@@ -14,13 +14,17 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 	
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		db.execSQL("CREATE TABLE IF NOT EXISTS FileDownlog (id integer primary key autoincrement, downpath varchar(100), threadid INTEGER, filelength INTEGER,downlength INTEGER)");
+		//db.execSQL("CREATE TABLE IF NOT EXISTS FileDownloadLog (id integer primary key autoincrement, downloadurl varchar(100), threadid INTEGER, filelength INTEGER,downlength INTEGER)");
+		//db.close();
+		//status 1.downloading 2. done 3.unzip 4.zipsuccess 5.success
+		db.execSQL("CREATE TABLE IF NOT EXISTS FileDownloadLog (_id integer PRIMARY KEY AUTOINCREMENT,cityid INTEGER , downloadurl varchar(100),savepath varchar(100), temppath varchar(100),  filelength INTEGER,downlength INTEGER,threadid INTEGER, status INTEGER)");		
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		db.execSQL("DROP TABLE IF EXISTS FileDownlog ");
+		db.execSQL("DROP TABLE IF EXISTS FileDownloadLog ");
 		onCreate(db);
+		//db.close();
 	}
 
 }

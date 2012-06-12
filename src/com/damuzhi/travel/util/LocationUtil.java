@@ -51,7 +51,7 @@ public class LocationUtil
 	
 	private static final String TAG ="LocationUtil";
 	private static Context context ;
-	private HashMap<String, Double> locationMap = new HashMap<String, Double>();
+	private static HashMap<String, Double> locationMap = new HashMap<String, Double>();
 	private DefaultHttpClient client ;
 	private static Location loc ;
 	private static LocationManager locationManager;
@@ -70,7 +70,7 @@ public class LocationUtil
 	
 	
 	
-	public class CellIDInfo {
+	public static class CellIDInfo {
 			
 			public int cellId;
 			public String mobileCountryCode;
@@ -89,7 +89,7 @@ public class LocationUtil
 		//getLocationByGps();
 		if(locationMap.isEmpty())
 		{
-			getLocationByTower();
+			//getLocationByTower();
 			
 		}
 	    return locationMap;
@@ -123,7 +123,7 @@ public class LocationUtil
 	}*/
 	
 	
-	public static Location getLocationByGps(Context context)
+	public static HashMap<String, Double> getLocationByGps(Context context)
 	{
 		LocationManager locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 		Criteria criteria = new Criteria(); 	
@@ -132,13 +132,20 @@ public class LocationUtil
 		criteria.setBearingRequired(false); 
 		criteria.setCostAllowed(true); 
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
-		if(locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER))
+		String provider = locationManager.getBestProvider(criteria, true);
+		HashMap<String, Double> location = new HashMap<String, Double>();
+		if(locationManager.isProviderEnabled(provider))
 		{
-			String provider = locationManager.getBestProvider(criteria, true); 				
+			//String provider = locationManager.getBestProvider(criteria, true); 				
 			loc = locationManager.getLastKnownLocation(provider);
+			if(loc != null)
+			{
+				location.put(ConstantField.LONGITUDE, loc.getLongitude());
+				location.put(ConstantField.LATITUDE, loc.getLatitude());
+			}		
 			locationManager.requestLocationUpdates(provider, 20000, 5, locationListener);			
 		}	
-		return loc;
+		return location;
 	}
 	
 	
@@ -207,7 +214,7 @@ public class LocationUtil
 	
 	
 		
-	public HashMap<String, Double> getLocationByTower(){
+	public static HashMap<String, Double> getLocationByTower(Context context){
 		String locString = "";
 		TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
 		int type = tm.getNetworkType();
@@ -267,7 +274,7 @@ public class LocationUtil
 
 
 	
-	private HashMap<String, Double> callGear(ArrayList<CellIDInfo> cellID) {
+	private static HashMap<String, Double> callGear(ArrayList<CellIDInfo> cellID) {
 	if (cellID == null || cellID.size() == 0) 
 		return null;
 	
@@ -309,6 +316,7 @@ public class LocationUtil
 		StringEntity se = new StringEntity(holder.toString());
 		Log.e("Location send", holder.toString());
 		post.setEntity(se);
+		DefaultHttpClient client = TravelApplication.getInstance().getHttpClient();
 		HttpResponse resp = client.execute(post);
 		HttpEntity entity = resp.getEntity();
 		

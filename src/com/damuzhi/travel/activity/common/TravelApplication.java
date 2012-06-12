@@ -18,6 +18,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import com.damuzhi.travel.mission.AppMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
@@ -77,6 +78,8 @@ public class TravelApplication extends Application
 		super.onCreate();
 		travelApplication = this;
 		defaultHttpClient = createHttpClient();
+		AppMission.getInstance().initAppData(this);
+		AppMission.getInstance().updateAppData(this);
 		
 	}
 	

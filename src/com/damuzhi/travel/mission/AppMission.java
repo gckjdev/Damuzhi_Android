@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -78,7 +80,32 @@ public class AppMission
 		}	
 		
 		AppManager.getInstance().load();
+		int cityId = getCurrentCityId(context);
+		if(cityId == -1)
+		{
+			cityId =  AppManager.getInstance().getDefaulCityId();
+		}
+		AppManager.getInstance().setCurrentCityId(cityId);
 	}
+	
+	
+	public int getCurrentCityId(Context context)
+	{
+		SharedPreferences userSharedPreferences = context.getSharedPreferences(ConstantField.LAST_CITY_ID, 0);
+		int cityId = userSharedPreferences.getInt(ConstantField.LAST_CITY_ID, -1);
+		AppManager.getInstance().setCurrentCityId(cityId);
+		return cityId;
+	}
+
+	public boolean saveLastCityId(Context context)
+	{
+		SharedPreferences userSharedPreferences = context.getSharedPreferences(ConstantField.LAST_CITY_ID, 0);
+		Editor editor = userSharedPreferences.edit();		
+		int currentCityID = AppManager.getInstance().getCurrentCityId();
+		editor.putInt(ConstantField.LAST_CITY_ID,currentCityID );
+		return editor.commit();
+	}
+	
 	
 	public void updateAppData(Context context)
 	{

@@ -1,49 +1,93 @@
 package com.damuzhi.travel.db;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
+import com.damuzhi.travel.model.downlaod.DownloadBean;
+
+import android.R.integer;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-/**
- * 业务bean
- *
- */
+
+
+
 public class FileDBHelper {
 	private DBOpenHelper openHelper;
 
 	public FileDBHelper(Context context) {
 		openHelper = new DBOpenHelper(context);
 	}
-	/**
-	 * 获取每条线程已经下载的文件长度
-	 * @param path
-	 * @return
-	 */
+	
+	
+	
 	public Map<Integer, Integer> getData(String path){
 		SQLiteDatabase db = openHelper.getReadableDatabase();
-		Cursor cursor = db.rawQuery("select threadid, downlength from FileDownlog where downpath=?", new String[]{path});
+		Cursor cursor = db.rawQuery("select threadid, downlength from FileDownloadLog where downloadurl=? ", new String[]{path});
 		Map<Integer, Integer> data = new HashMap<Integer, Integer>();
-		while(cursor.moveToNext()){
-			data.put(cursor.getInt(0), cursor.getInt(1));
+		try
+		{		
+			while(cursor.moveToNext()){
+				data.put(cursor.getInt(0), cursor.getInt(1));
+			}
 		}
-		cursor.close();
-		db.close();
+		finally
+		{
+			cursor.close();
+			db.close();
+		}
+		
 		return data;
 	}
-	/**
-	 * 保存每条线程已经下载的文件长度
-	 * @param path
-	 * @param map
-	 */
-	public void save(String path,  Map<Integer, Integer> map){//int threadid, int position
+	
+	
+	public DownloadBean getUnfinishDownTask(String downloadURL)
+	{
+		DownloadBean downloadBean = null;
+		SQLiteDatabase db = openHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery("select downloadurl, sum(downlength) downloadLength,filelength from FileDownloadLog where downloadurl = ? group by  downloadurl ", new String[]{downloadURL});
+		try
+		{		
+			while(cursor.moveToNext()){	
+				downloadBean = new DownloadBean();
+				downloadBean.setDownloadURL(cursor.getString(0));
+				downloadBean.setDownloadLength(cursor.getInt(1));
+				downloadBean.setFileLength(cursor.getInt(2));
+			}
+		}
+		/*Cursor cursor = db.rawQuery("select  downlength,filelength from FileDownloadLog where downloadurl=? ", new String[]{downloadURL});
+		int downloadLength = 0;
+		int fileLength = 0;
+		try
+		{		
+			while(cursor.moveToNext()){
+				downloadLength += cursor.getInt(0);
+				fileLength = cursor.getInt(1);
+				//data.put(cursor.getInt(0), cursor.getInt(1));
+			}
+			downloadBean = new DownloadBean();
+			downloadBean.setDownloadURL(downloadURL);
+			downloadBean.setDownloadLength(downloadLength);
+			downloadBean.setFileLength(fileLength);
+		}*/
+		finally
+		{
+			cursor.close();
+			db.close();
+		}
+		
+		return downloadBean;
+	}
+	
+	public void save(int cityid, String downloadURL, String savePath,String tempPath, int status,int filelength,Map<Integer, Integer> map){//int threadid, int position
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		db.beginTransaction();
 		try{
 			for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-				db.execSQL("insert into FileDownlog(downpath, threadid,filelength, downlength) values(?,?,?,?)",
-						new Object[]{path, entry.getKey(), entry.getValue()});
+				db.execSQL("insert into FileDownloadLog(cityid,downloadurl, savepath,temppath,status,filelength,threadid, downlength) values(?,?,?,?,?,?,?,?)",
+						new Object[]{cityid,downloadURL,savePath,tempPath,status,filelength, entry.getKey(), entry.getValue()});
 			}
 			db.setTransactionSuccessful();
 		}finally{
@@ -51,17 +95,14 @@ public class FileDBHelper {
 		}
 		db.close();
 	}
-	/**
-	 * 实时更新每条线程已经下载的文件长度
-	 * @param path
-	 * @param map
-	 */
-	public void update(String path, Map<Integer, Integer> map){
+	
+	
+	public void update(String downloadURL, Map<Integer, Integer> map){
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		db.beginTransaction();
 		try{
 			for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-				db.execSQL("update FileDownlog set downlength=? where downpath=? and threadid=?",new Object[]{entry.getValue(), path, entry.getKey()});
+				db.execSQL("update FileDownloadLog set downlength=? where downloadurl=? and threadid=?",new Object[]{entry.getValue(), downloadURL, entry.getKey()});
 			}
 			db.setTransactionSuccessful();
 		}finally{
@@ -69,14 +110,71 @@ public class FileDBHelper {
 		}
 		db.close();
 	}
-	/**
-	 * 当文件下载完成后，删除对应的下载记录
-	 * @param path
-	 */
+	
+	
+	public void updateDownloadSuccess(String downloadURL,Map<Integer, Integer> map)
+	{
+		SQLiteDatabase db = openHelper.getWritableDatabase();
+		db.beginTransaction();
+		try{
+			for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+				db.execSQL("update FileDownloadLog set downlength=? ,status = ? where downloadurl=? and threadid=?",new Object[]{entry.getValue(), downloadURL, entry.getKey()});
+			}
+			db.setTransactionSuccessful();
+		}finally{
+			db.endTransaction();
+		}
+		db.close();
+	}
+	
+	public void updateDownloadStatus(String downloadURL,Map<Integer, Integer> map)
+	{
+		SQLiteDatabase db = openHelper.getWritableDatabase();
+		db.beginTransaction();
+		try{
+			for(Map.Entry<Integer, Integer> entry : map.entrySet()){
+				db.execSQL("update FileDownloadLog set status = ? where downloadurl=? and threadid=?",new Object[]{entry.getValue(), downloadURL, entry.getKey()});
+			}
+			db.setTransactionSuccessful();
+		}finally{
+			db.endTransaction();
+		}
+		db.close();
+	}
+	
+	
 	public void delete(String path){
 		SQLiteDatabase db = openHelper.getWritableDatabase();
-		db.execSQL("delete from FileDownlog where downpath=?", new Object[]{path});
+		db.execSQL("delete from FileDownloadLog where downloadurl=?", new Object[]{path});
 		db.close();
 	}
+
+
+
+	
+	public boolean check(String downloadURL)
+	{
+		SQLiteDatabase db = openHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery("select * from FileDownloadLog where downloadurl = ? ", new String[]{downloadURL});
+		try
+		{		
+			while(cursor.moveToNext()){
+				return true;
+			}
+		}
+		finally
+		{
+			cursor.close();
+			db.close();
+		}
+		return false;
+	}
+
+
+
+	
+	
+	
+	
 	
 }

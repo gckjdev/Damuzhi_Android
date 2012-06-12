@@ -1,6 +1,6 @@
 package com.damuzhi.travel.download;
 interface IDownloadCallback{
-	void onTaskStatusChanged(in String strkey, in int status);
-	void onTaskProcessStatusChanged(in String strkey,in long speed ,in long totalBytes,in long curPos);
+	void onTaskStatusChanged(in String downloadURL, in int status);
+	void onTaskProcessStatusChanged(in int cityId,in String downloadURL,in long speed ,in long totalBytes,in long curPos);
 
 }

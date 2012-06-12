@@ -1,8 +1,10 @@
 package com.damuzhi.travel.download;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.zip.ZipException;
 
 import android.app.Service;
 import android.content.Intent;
@@ -14,20 +16,31 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.model.entity.DLState;
+import com.damuzhi.travel.db.FileDBHelper;
+import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.model.downlaod.DownloadManager;
+import com.damuzhi.travel.model.entity.DownloadStatus;
+import com.damuzhi.travel.network.HttpTool;
+import com.damuzhi.travel.util.FileUtil;
+import com.damuzhi.travel.util.ZipUtil;
 
-public class DownLoadService extends Service
+public class DownloadService extends Service
 {
 	private static final String TAG ="DownLoadService";
+	
 	private static final int FINISH = 1;
 	private static final int PAUSE = 2;
 	private static final int DOWNLOADING = 3;
 	private static final int FAILED = 4;
 	private static final int RESTART = 5;
+	private static final int cancel = 6;
 	
-	public static Map<String,FileDownloader> task = new HashMap<String,FileDownloader>();
-	public static Map<String, DLState> DLstateTask = new HashMap<String, DLState>();
-	public static IDownloadCallback iDownloadCallback;
+	public static Map<String,FileDownloader> downloadTask = new HashMap<String,FileDownloader>();
+	
+	public static Map<String, DownloadStatus> downloadStstudTask = new HashMap<String, DownloadStatus>();
+	
+	private  IDownloadCallback iDownloadCallback;
+	
 	private final  IDownloadService.Stub iDownCallService = new IDownloadService.Stub()
 	
 	{
@@ -35,53 +48,58 @@ public class DownLoadService extends Service
 		@Override
 		public void unregCallback(IDownloadCallback cb) throws RemoteException
 		{
-			// TODO Auto-generated method stub
 			unRegCallbackService(cb);
 		}
 		
 		@Override
 		public void setMaxTaskCount(int count) throws RemoteException
 		{
-			// TODO Auto-generated method stub
 			// setTaskCount(count); 
 		}
+		
 		
 		@Override
 		public void regCallback(IDownloadCallback cb) throws RemoteException
 		{
-			// TODO Auto-generated method stub
 			regCallbackService(cb);
 		}
 		
+		
+		
 		@Override
-		public void pauseTask(String strKey) throws RemoteException
+		public void pauseDownload(String downloadURL) throws RemoteException
 		{
-			// TODO Auto-generated method stub
-			pauseTaskService(strKey);
+			pauseDownloadTask(downloadURL);
 		}
 		
 		@Override
-		public void cancelTask(String strkey) throws RemoteException
+		public void cancelDownload(String downloadURL) throws RemoteException
 		{
-			// TODO Auto-generated method stub
-			restartDownload(strkey);
+			cancelDownloadTask(downloadURL);
 		}
 		
+		
 		@Override
-		public boolean addTask(String strKey, String strURL, String strSavePath)
+		public boolean startDownload( int cityId,String downloadURL, String downloadSavePath,String tempPath)
 				throws RemoteException
 		{
-			// TODO Auto-generated method stub
 			boolean flag = false;
 			try
 			{
-				flag = addTaskService(strKey, strURL, strSavePath);
+				flag = startDownloadTask( cityId,downloadURL, downloadSavePath,tempPath);
 			} catch (Exception e)
 			{
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return flag;
+		}
+
+		
+		
+		@Override
+		public void restartDownload(String downloadURL) throws RemoteException
+		{
+			restartDownloadTask(downloadURL);
 		}
 	};
 	
@@ -107,207 +125,196 @@ public class DownLoadService extends Service
 	}
 	
 	
-	public void onTaskChanged(DLState state)  
-	{  
-	    //if(state.mStatus == DLState.FAILED || state.mStatus == DLState.FINISH)  
-	      //removeFromQueue(state.mKey,false);  
-	  if(iDownloadCallback == null)
-	  {
-		  int n = callbackList.beginBroadcast();  
-		    
-	    	 for(int i = 0;i < n; i++)  
-	 	    {  
-	 	        try {  
-	 	        	callbackList.getBroadcastItem(i).onTaskStatusChanged(state.mKey,state.mStatus);  
-	 	        } catch (RemoteException e) {  
-	 	            // TODO Auto-generated catch block  
-	 	            e.printStackTrace();  
-	 	        }  
-	 	    }  	   
-	    callbackList.finishBroadcast();  
-	  }
+	public void removeTask(DownloadStatus state)  
+	{    
+	  callbackList.finishBroadcast(); 
+	}  
+	
+	public void onTaskChanged(DownloadStatus dlState)  
+	{    
+		if(dlState != null)
+		{			
+			try
+			{
+				iDownloadCallback.onTaskStatusChanged(dlState.mKey, dlState.mStatus);
+			} catch (RemoteException e)
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			/*if(iDownloadCallback == null)
+			  {
+				  int n = callbackList.beginBroadcast();  
+				    
+			    	 for(int i = 0;i < n; i++)  
+			 	    {  
+			 	        try {  
+			 	        	callbackList.getBroadcastItem(i).onTaskStatusChanged(dlState.mKey,dlState.mStatus);  
+			 	        } catch (RemoteException e) {  
+			 	            e.printStackTrace();  
+			 	        }  
+			 	    }  	   
+			    callbackList.finishBroadcast();  
+			  }*/
+		}
+	  
 	   
 	}  
 	
 	
 	
 	
-	public void onProcessChanged(FileDownloader downloader)  
-		{  		   
-		    	if(iDownloadCallback == null )
-		    	{
-		    		 int n = callbackList.beginBroadcast();  
-			    	 for(int i = 0;i < n ;i++)  
-					    {  	    		 
-					        try {    
-					        	/*Set<String> keyStr = task.keySet();
-					        	for(String key:keyStr)
-					        	{*/
-					        		//FileDownloader fileDownloader = task.get(key);
-					        	FileDownloader fileDownloader =downloader;
-					        		fileDownloader.download(new DownloadProgressListener()
-									{									
-										@Override
-										public void onDownloadSize(String strKey, long size, long fileLength)
-										{
-											// TODO Auto-generated method stub
-											try
-											{
-												DLState dlState = DLstateTask.get(strKey);
-												if(dlState.mStatus == PAUSE)
-												{
-													return;
-												}
-												iDownloadCallback = callbackList.getBroadcastItem(0);
-												iDownloadCallback.onTaskProcessStatusChanged(strKey, size, fileLength, 0);
-												if(size == fileLength)
-												{
-													task.remove(strKey);
-												}
-											} catch (RemoteException e)
-											{
-												// TODO Auto-generated catch block
-												e.printStackTrace();
-											}
-										}
-									});
-					        		
-					        	//}
-					        	
-					        } catch (Exception e)
-							{
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}  
-					    } 
-		    	}else
-		    	{
-		    		try {    
-			        	/*Set<String> keyStr = task.keySet();
-			        	for(String key:keyStr)
-			        	{*/
-			        		//Log.d(TAG, "key = "+key);
-			        		//FileDownloader fileDownloader = task.get(key);
-			        		FileDownloader fileDownloader = downloader;
-			        		fileDownloader.download(new DownloadProgressListener()
-							{
-								
-								@Override
-								public void onDownloadSize(String strKey, long size, long fileLength)
-								{
-									// TODO Auto-generated method stub
-									try
-									{
-										DLState dlState = DLstateTask.get(strKey);
-										if(dlState.mStatus == PAUSE)
-										{
-											return;
-										}
-										iDownloadCallback = callbackList.getBroadcastItem(0);
-										iDownloadCallback.onTaskProcessStatusChanged(strKey, size, fileLength, 0);
-										Log.d(TAG, "url = "+strKey);
-										if(size == fileLength)
-										{
-											task.remove(strKey);
-										}
-									} catch (RemoteException e)
-									{
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-								}
-							});
-			        		
-			        	//}
-			        	
-			        } catch (Exception e)
-					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}  
-		    	}					    	 
-		    callbackList.finishBroadcast();  
-		}  
 	
 	
 	
-	public  boolean addTaskService(String strKey, String strURL, String strSavePath) throws Exception
-	{
-		boolean flag = false;
-		/*if(task.containsKey(strKey))
+	
+	public void onDownloading()  
+	{  		   	    
+    	/*if(iDownloadCallback == null )
+    	{
+    		 int n = callbackList.beginBroadcast();  
+	    	 for(int i = 0;i < n ;i++) 
+	    	 {
+	    		 iDownloadCallback = callbackList.getBroadcastItem(0);
+	    	 }
+	    }*/
+		for(Map.Entry<String, FileDownloader> entry:downloadTask.entrySet())
 		{
-			DLState dlState = DLstateTask.get(strKey);
-			dlState.mStatus = RESTART;
-			onProcessChanged();
-			flag = true;
-		}else {*/
-			FileDownloader fileDownloader = new FileDownloader(this, 3);
-			File dir = new File(strSavePath);
-			if(Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)){
-				dir = Environment.getExternalStorageDirectory();
-			}else{
-				Toast.makeText(DownLoadService.this, R.string.sdcarderror, 1).show();
-			}
-			flag = fileDownloader.FileDownloaderCheeck(strURL, dir);
-			Log.d(TAG, "flag = "+flag);
-			if(flag)
-			{
-				Log.d(TAG, strKey+"downloading");
-				task.put(strKey, fileDownloader);
-				DLState dlState = new DLState(DOWNLOADING, strKey);
-				DLstateTask.put(strKey, dlState);
-				onProcessChanged(fileDownloader);
-					
-			}
-		//}
+			FileDownloader downloader = entry.getValue();
+			downloader.download(new DownloadProgressListener()
+			{									
+				@Override
+				public void onDownloadSize(int cityId,String downloadURL, long downloadSpeed,long size, long fileLength)
+				{
+					try
+					{
+						DownloadStatus downloadStatus = downloadStstudTask.get(downloadURL);
+						if( downloadStatus != null && downloadStatus.mStatus != PAUSE)
+						{
+							iDownloadCallback.onTaskProcessStatusChanged(cityId,downloadURL,downloadSpeed , fileLength, size);
+							if(size == fileLength)
+							{
+								/*String zipTempFilePath = String.format(ConstantField.DOWNLOAD_CITY_ZIP_DATA_PATH, cityId)+HttpTool.getTempFileName(HttpTool.getConnection(downloadURL), downloadURL);
+								String zipFilePath = String.format(ConstantField.DOWNLOAD_CITY_ZIP_DATA_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(downloadURL), downloadURL);
+								File tempFile = new File(zipTempFilePath);
+								File zipFile = new File(zipFilePath);
+								if(tempFile.renameTo(zipFile))
+								{
+									String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
+									boolean zipSuccess = ZipUtil.upZipFile(zipFilePath,upZipFilePath );
+									
+									Log.i(TAG, "upZipFile success = "+zipSuccess);
+									if(zipSuccess)
+									{									
+										
+									}else
+									{
+										downloadManager.deleteDownloadInfo(downloadURL);
+										FileUtil.deleteFolder(zipFilePath);
+										FileUtil.deleteFolder(upZipFilePath);
+									}	
+								
+								}*/
+							DownloadManager downloadManager = new DownloadManager(DownloadService.this);
+							downloadManager.deleteDownloadInfo(downloadURL);
+							downloadTask.remove(downloadURL);
+								
+							} 
+						}						
+					}catch (Exception e)
+					{
+						Log.e(TAG, "<onProcessChanged> but catch exception :"+e.toString(),e);
+					}
+				}
+			});
+		}
 		
+	    callbackList.finishBroadcast();  
+	}  
+	
+	
+	
+	
+	
+	public  boolean startDownloadTask(int cityId,String downloadURL, String downloadSavePath,String tempPath) throws Exception
+	{
+		if(iDownloadCallback == null )
+    	{
+    		 int n = callbackList.beginBroadcast();  
+	    	 for(int i = 0;i < n ;i++) 
+	    	 {
+	    		 iDownloadCallback = callbackList.getBroadcastItem(0);
+	    	 }
+	    }
+		boolean flag = true;
+		FileDownloader fileDownloader = new FileDownloader(this, 3,cityId,downloadSavePath,tempPath,downloadURL);
+		//File dir = new File(downloadSavePath);
+		flag = fileDownloader.FileDownloaderCheeck();
+		if(flag)
+		{
+			downloadTask.put(downloadURL, fileDownloader);
+			DownloadStatus dlState = new DownloadStatus(DOWNLOADING, downloadURL);
+			downloadStstudTask.put(downloadURL, dlState);
+			onDownloading();
+		}
 		return flag;
 	}
 	
 	
 	
-	public void pauseTaskService(String strKey)
+	public void pauseDownloadTask(String downloadURL)
 	{
-		DLState dlState = DLstateTask.get(strKey);
-		dlState.mStatus = PAUSE;
-		FileDownloader fileDownloader = task.get(strKey);
-		//Log.d(TAG, "url = "+strKey);
+		DownloadStatus downloadStatus = downloadStstudTask.get(downloadURL);
+		downloadStatus.mStatus = PAUSE;
+		FileDownloader fileDownloader = downloadTask.get(downloadURL);
 		fileDownloader.pauseDownload();
-		//task.remove(strKey);
-		//DLstateTask.remove(strKey);
 	}
 	
-	public void restartDownload(String downloadPath)
+	public void restartDownloadTask(String downloadURL)
 	{
-		DLState dlState = DLstateTask.get(downloadPath);
+		DownloadStatus dlState = downloadStstudTask.get(downloadURL);
 		dlState.mStatus = RESTART;
-		FileDownloader fileDownloader = task.get(downloadPath);
-		//Log.d(TAG, "url = "+strKey);
+		FileDownloader fileDownloader = downloadTask.get(downloadURL);
 		fileDownloader.restartDownload();
 	}
+	
+	
+	public void cancelDownloadTask(String downloadURL)
+	{
+		FileDownloader fileDownloader = downloadTask.get(downloadURL);
+		if(fileDownloader != null)
+		{
+			fileDownloader.cancelDownload();
+			downloadTask.remove(downloadURL);
+			downloadStstudTask.remove(downloadURL);
+			DownloadManager downloadManager = new DownloadManager(DownloadService.this);
+			downloadManager.deleteDownloadInfo(downloadURL);
+		}
+		
+	}
+	
+	
+	
+	
 	
 	@Override
 	public IBinder onBind(Intent intent)
 	{
-		// TODO Auto-generated method stub
 		return iDownCallService;
 	}
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
-		// TODO Auto-generated method stub
 		return super.onStartCommand(intent, flags, startId);
 	}
 
 	@Override
 	public void onCreate()
 	{
-		// TODO Auto-generated method stub
 		
 		super.onCreate();
 		
 	}
-
-	
 }

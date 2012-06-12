@@ -1,5 +1,7 @@
 package com.damuzhi.travel.util;
 
+import java.nio.FloatBuffer;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -595,6 +597,15 @@ public class TravelUtil
 			return R.drawable.yl;
 		}
 		return 0;
+	}
+
+	
+	public static CharSequence getDataSize(int dataSize)
+	{
+		float size = dataSize/(1024f*1024f) ;
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		String dataSizeStr = decimalFormat.format(size)+"M";
+		return dataSizeStr;
 	}
 
 }

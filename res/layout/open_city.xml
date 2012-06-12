@@ -1,63 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@drawable/topmenu_bg"
     android:id="@+id/city_data_group"
     android:orientation="vertical" >
 	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/top_btn_group"
 	    android:layout_width="fill_parent"
-	    android:layout_height="35.0dip"
+	    android:layout_height="wrap_content"
 	    android:layout_gravity="center"
 	    android:orientation="horizontal" 
-	    android:background="@android:color/darker_gray">
-	    <FrameLayout
-	        xmlns:android="http://schemas.android.com/apk/res/android"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-	        android:layout_centerVertical="true"
-	        android:orientation="horizontal" >
-		    <ImageButton
-		        android:id="@+id/back_button"
-		        android:layout_width="68dp"
-		        android:layout_height="wrap_content"
-		        android:background="@null"
-		        android:scaleType="fitCenter"
-		        android:src="@drawable/back_button" />
-		    <TextView android:id="@+id/back_title"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_gravity="center"
-		        android:text="@string/back"
-		        android:textSize="20.0sp"/>
-		 </FrameLayout>
-	    <TextView android:id="@+id/more_tap_title"
+	    android:background="@drawable/topmenu_bg">
+	    <LinearLayout 
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerInParent="true"
-	        android:layout_gravity="center"
-	        android:text="@string/more"
-	        android:textSize="25.0sp"
-	        android:textColor="@color/white"/>
+	        android:orientation="horizontal"
+	        android:gravity="center">
+	    <LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/data_list_group"	  
+	        android:background="@drawable/citybtn_on"     
+	        android:orientation="horizontal" 
+	        android:gravity="center">
+		    <TextView android:id="@+id/city_list_title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:text="@string/city_list"
+		        android:textColor="@color/white"
+		        android:textSize="15.0sp"/>
+		 </LinearLayout>
+		  <LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"	
+	        android:id="@+id/download_list_group"      
+	        android:background="@drawable/citybtn_off2"     
+	        android:orientation="horizontal" 
+	        android:gravity="center" >
+		    <TextView android:id="@+id/download_manager_title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:textColor="@android:color/black"
+		        android:text="@string/download_manager"
+		        android:textSize="15.0sp"/>
+		 </LinearLayout>
+		 </LinearLayout>
     </RelativeLayout>
    <TextView android:id="@+id/open_city_tips_download"
        		 android:layout_width="fill_parent"
        		 android:layout_height="wrap_content"
+       		 android:layout_below="@id/top_btn_group"
+       		 android:textColor="@color/white"
        		 android:gravity="center"
        		 android:singleLine="true"
-       		 android:textSize="15.0sp"
-       		 android:text="@string/open_city_tips1"/>
-   
-   <ListView android:id="@+id/open_city_download_data"
+       		 android:background="@drawable/main_bottom"
+       		 android:textSize="13.0sp"
+       		 android:text="@string/open_city_tips1"/>  		 
+   <ListView android:id="@+id/open_city_data_listview"
        		 android:layout_width="fill_parent"
-       		 android:layout_height="wrap_content"
-       		 android:focusable="true"
+       		 android:layout_height="fill_parent"
+       		 android:layout_below="@id/open_city_tips_download"
+       		 android:footerDividersEnabled="false"
+       		 android:background="@drawable/topmenu_bg"
+       		 android:cacheColorHint="@color/download_listview_bg"
        		 android:scrollbars="none" >
    </ListView> 
-   <TextView android:id="@+id/open_city_tips_update"
+   <ListView android:id="@+id/download_data_listview"
        		 android:layout_width="fill_parent"
-       		 android:layout_height="wrap_content"
-       		 android:gravity="center"
-       		 android:textSize="15.0sp"
-       		 android:text="@string/open_city_tips2"/>
-</LinearLayout>
+       		 android:layout_height="fill_parent"
+       		 android:layout_below="@id/open_city_tips_download"
+       		 android:footerDividersEnabled="false"
+       		 android:background="@drawable/topmenu_bg"
+       		 android:cacheColorHint="@color/download_listview_bg"
+       		 android:visibility="gone"
+       		 android:scrollbars="none" >	  
+   </ListView> 
+</RelativeLayout>

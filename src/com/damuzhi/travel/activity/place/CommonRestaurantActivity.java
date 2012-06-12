@@ -103,7 +103,7 @@ public class CommonRestaurantActivity extends CommonPlaceActivity
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);
 		
-		int cityID = Integer.parseInt(AppManager.getInstance().getCurrentCityId());
+		int cityID = AppManager.getInstance().getCurrentCityId();
 		sortDisplayName = getResources().getStringArray(R.array.restaurant);
 		subCatName = AppManager.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_RESTRAURANT);
 		subCatKey = AppManager.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_RESTRAURANT);

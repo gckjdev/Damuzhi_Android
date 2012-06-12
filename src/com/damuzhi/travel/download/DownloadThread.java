@@ -6,6 +6,8 @@ import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import com.damuzhi.travel.network.HttpTool;
+
 import android.util.Log;
 
 public class DownloadThread extends Thread {
@@ -21,7 +23,7 @@ public class DownloadThread extends Thread {
 	private static final int INIT = 1;
 	private static final int DOWNLOADING = 2;
 	private static final int PAUSE = 3;
-	private int state = INIT;
+	private volatile boolean runflag = true;
 
 	public DownloadThread(FileDownloader downloader, URL downUrl, File saveFile, int block, int downLength, int threadId) {
 		this.downUrl = downUrl;
@@ -36,34 +38,25 @@ public class DownloadThread extends Thread {
 	public void run() {
 		if(downLength < block){
 			try {
-				HttpURLConnection http = (HttpURLConnection) downUrl.openConnection();
-				http.setConnectTimeout(5 * 1000);
-				http.setRequestMethod("GET");
-				http.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
-				http.setRequestProperty("Accept-Language", "zh-CN");
-				http.setRequestProperty("Referer", downUrl.toString()); 
-				http.setRequestProperty("Charset", "UTF-8");
 				int startPos = block * (threadId - 1) + downLength;
 				int endPos = block * threadId -1;
-				http.setRequestProperty("Range", "bytes=" + startPos + "-"+ endPos);
-				http.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
-				http.setRequestProperty("Connection", "Keep-Alive");
-				
-				InputStream inStream = http.getInputStream();
+				InputStream inStream = HttpTool.getDownloadInputStream(downUrl, startPos, endPos);
 				byte[] buffer = new byte[1024];
 				int offset = 0;
 				Log.d(TAG, "Thread " + this.threadId + " start download from position "+ startPos);
 				RandomAccessFile threadfile = new RandomAccessFile(this.saveFile, "rwd");
 				threadfile.seek(startPos);
 				while ((offset = inStream.read(buffer, 0, 1024)) != -1) {
-					if (state == PAUSE) {
-						return;
+					while (getrunflag())
+					{
+						threadfile.write(buffer, 0, offset);
+						downLength += offset;
+						downloader.update(this.threadId, downLength);
+						downloader.saveLogFile();
+						downloader.append(offset);
+						downloader.downloadSpeed(offset);					
 					}
-					threadfile.write(buffer, 0, offset);
-					downLength += offset;
-					downloader.update(this.threadId, downLength);
-					downloader.saveLogFile();
-					downloader.append(offset);					
+					
 				}
 				threadfile.close();
 				inStream.close();			
@@ -71,29 +64,36 @@ public class DownloadThread extends Thread {
 				this.finish = true;
 			} catch (Exception e) {
 				this.downLength = -1;
-				print("Thread "+ this.threadId+ ":"+ e);
+				Log.i(TAG, "Thread "+ this.threadId+ ":"+ e);
 			}
 		}
 	}
-	private static void print(String msg){
-		Log.i(TAG, msg);
-	}
+
 	
 	public boolean isFinish() {
 		return finish;
 	}
 	
 	
-	public void pause() {
-		
-		state = PAUSE;
-		//Log.d(TAG, "pause = " + state);
+	public synchronized void pause() {
+		downloader.saveLogFile();
+		runflag = false;
 	}
+	
+	public synchronized boolean getrunflag()
+	{
+	return runflag; 
+	} 
 
-	public void restart() {
-		state = INIT;
-		Log.d(TAG, "pause = " + state);
+	public synchronized void restart() {
+		runflag = true;
 	}
+	
+	public synchronized void cancel()
+	{
+		runflag = false;
+	}
+	
 	
 	public long getDownLength() {
 		return downLength;

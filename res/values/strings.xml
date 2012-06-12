@@ -23,24 +23,30 @@
 	<string name="share">分享</string>
 	<string name="more">更多</string>
 	<string name="back">返回</string>
-	<string name="more_open_city">已开通服务城市</string>
+	<string name="more_open_city">已开通城市</string>
 	<string name="more_browser_history">浏览记录</string>
 	<string name="more_feedback">意见反馈</string>
 	<string name="more_update_version">版本更新</string>
 	<string name="more_about_damuzhi">关于大拇指旅行</string>
 	<string name="more_positive_criticism">给我们一个好评吧</string>
-	<string name="more_show_image">列表中显示图片</string>
+	<string name="more_list_image">列表中显示图片</string>
 	<string name="more_good_commend">精彩应用推荐</string>
+	<!-- more_open_city-->
+	<string name="city_list">城市列表</string>
+	<string name="download_manager">下载管理</string>
+	<string name="online">在线</string>
 	<!-- download -->
 	<string name="open_city_tips1">提前下载离线城市数据，可以节省流量和提高打开速度</string>
-	<string name="open_city_tips2">更多城市指南即将开通</string>
+	<string name="open_city_tips2">更多城市指南即将开通...</string>
 	<string name="success">下载完成</string>
     <string name="error">下载失败</string>
     <string name="sdcarderror">SDCard不存在或者写保护</string>
     <string name="download">下载</string>
     <string name="download_pause">暂停</string>
     <string name="review_online">在线导览</string>
-    
+    <string name="installing">安装中...</string>
+	<string name="installed">已安装</string>
+	<string name="delete">删除</string>
     <!-- exception -->
     <string name="main_fetch_fail">网络异常</string>
 	<string name="NoSignalException">无法连接到网络，请检查网络配置</string>
@@ -87,6 +93,11 @@
     <string name="entertainment_tips">玩乐贴士</string>
     <string name="nearby_title">周边推荐</string>
     <string name="collect">收藏本页</string>
+    <string name="collected">已收藏</string>
+    
+     <!--nearby -->
+    <string name="data_not_found">未找到相关信息</string>
+    <string name="my_nearby">我的附近</string>
     <!-- placeInfo-->
     <string name="spot_intro">景点介绍</string>
     <string name="ticketsPrice">门票价格</string>

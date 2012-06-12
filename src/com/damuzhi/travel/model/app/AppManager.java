@@ -10,6 +10,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.support.v4.content.Loader;
 import android.util.Log;
 
@@ -31,8 +34,8 @@ public class AppManager
 	private static final String TAG = "AppManager";
 	private App app;
 	private static AppManager instance = null;
-	private String currentCityId;
-
+	private int currentCityId;
+	private String currentCityName;
 	private AppManager()
 	{
 		load();
@@ -58,21 +61,43 @@ public class AppManager
 		}
 
 		File appData = new File(dataPath);
+		FileInputStream inputStream = null;
 		try
 		{
+			 inputStream = new FileInputStream(appData);
 			Log.i(TAG, "load app data from file = " + dataPath);
-			app = App.parseFrom(new FileInputStream(appData));
+			app = App.parseFrom(inputStream);
 		} catch (Exception e)
 		{
 			Log.e(TAG, "load app data from file = " + dataPath
 					+ " but catch exception = " + e.toString(), e);
 		}
-		
+		finally
+		{
+			try
+			{
+				inputStream.close();
+			} catch (Exception e)
+			{
+			}
+		}
 		// TODO current city Id should be persistented
-		currentCityId = String.valueOf(app.getCities(0).getCityId());
+		//int cityId = instance.getLastCityId(context);
+		/*if(cityId == -1)
+		{
+			currentCityId = app.getCities(0).getCityId();
+		}else {
+			currentCityId = cityId;
+		}*/
+		
 		Log.i(TAG, "current city id is "+currentCityId);
 	}
 
+	
+	
+	
+	
+	
 	/**
 	 * 
 	 * @description reload app data from local file
@@ -377,16 +402,7 @@ public class AppManager
 		return map;
 	}
 
-	public String getCurrentCityId()
-	{
-		return currentCityId;
-	}
-
-	public void setCurrentCityId(String currentCityId)
-	{
-		this.currentCityId = currentCityId;
-	}
-
+	
 	
 	public String[] getPriceRank(int cityID)
 	{
@@ -410,6 +426,69 @@ public class AppManager
 			}
 		}
 		return price;
+	}
+
+	public int getCurrentCityId()
+	{
+		return currentCityId;
+	}
+
+	public void setCurrentCityId(int currentCityId)
+	{
+		this.currentCityId = currentCityId;
+	}
+
+	public String getCurrentCityName()
+	{
+		if (app != null)
+		{
+			for (City city : app.getCitiesList())
+			{
+				if(city.getCityId() == currentCityId)
+				{
+					currentCityName = city.getCityName();
+				}
+			}
+		}
+		return currentCityName;
+	}
+
+	/*public void setCurrentCityName(String currentCityName)
+	{
+		this.currentCityName = currentCityName;
+	}*/
+
+	
+	public List<City> getCityList()
+	{
+		if (app != null)
+		{
+			return app.getCitiesList();
+		}		
+		return null;
+	}
+
+	public int getDefaulCityId()
+	{
+		return app.getCities(0).getCityId();
+	}
+
+	
+	
+	
+	public City getCityByCityId(int cityId)
+	{
+		if (app != null)
+		{
+			for (City city : app.getCitiesList())
+			{
+				if(city.getCityId() == cityId)
+				{
+					return city;
+				}
+			}
+		}
+		return null;
 	}
 	
 }

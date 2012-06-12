@@ -191,5 +191,16 @@ public class CollectMission
 			return resultCode;
 		}
 	}
+
+	
+	public boolean checkPlaceIsCollected(int placeId)
+	{
+		boolean isCollected = false;
+		isCollected = collectManger.checkPlaceIsCollected(placeId);
+		return isCollected;
+	}
+	
+	
+	
 	
 }

@@ -1,6 +1,6 @@
 package com.damuzhi.travel.model.entity;
 
-public class DLState
+public class DownloadStatus
 {
 	public static final int FINISH = 1;
 	public static final int PAUSE = 2;
@@ -13,7 +13,7 @@ public class DLState
 	 * @param mStatus
 	 * @param mkey
 	 */
-	public DLState(int mStatus, String mKey)
+	public DownloadStatus(int mStatus, String mKey)
 	{
 		super();
 		this.mStatus = mStatus;

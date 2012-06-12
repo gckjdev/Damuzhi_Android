@@ -77,23 +77,7 @@ public class PlaceViewCache
 		return placeLevel;
 	}
 	
-	public TextView getPlaceArea()
-	{
-		if(placeArea == null)
-		{
-			placeArea = (TextView) convertView.findViewById(R.id.place_city_area);
-		}
-		return placeArea;
-	}
 	
-	public TextView getPlaceDistance()
-	{
-		if(placeDistance == null)
-		{
-			placeDistance = (TextView) convertView.findViewById(R.id.place_city_distance);
-		}
-		return placeDistance;
-	}
 	
 	public ImageView getRecommendImageView1()
 	{
@@ -121,6 +105,26 @@ public class PlaceViewCache
 		}
 		return recommendImageView3;
 	}
+	
+	
+	public TextView getPlaceArea()
+	{
+		if(placeArea == null)
+		{
+			placeArea = (TextView) convertView.findViewById(R.id.place_city_area);
+		}
+		return placeArea;
+	}
+	
+	public TextView getPlaceDistance()
+	{
+		if(placeDistance == null)
+		{
+			placeDistance = (TextView) convertView.findViewById(R.id.place_city_distance);
+		}
+		return placeDistance;
+	}
+	
 	
 	public ViewGroup getServiceGroup()
 	{

@@ -11,10 +11,13 @@ import java.io.OutputStream;
 import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.damuzhi.travel.model.constant.ConstantField;
 
+import android.R.integer;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
@@ -22,21 +25,11 @@ import android.util.Log;
 public class FileUtil
 {
 	private static final String TAG = "FileUtil";
-	private List<String> lstFile = new ArrayList<String>(); // ��� List
+	private List<String> lstFile = new ArrayList<String>(); 
 	private ArrayList<FileInputStream> fileInput = new ArrayList<FileInputStream>();
 
-	/**
-	 * @param Path
-	 * @param Extension
-	 * @param IsIterative
-	 * @return
-	 * @description
-	 * @version 1.0
-	 * @author liuxiaokun
-	 * @update 2012-5-8 ����11:45:01
-	 */
-	public List<String> GetFiles(String Path, String Extension,
-			boolean IsIterative)
+
+	public List<String> GetFiles(String Path, String Extension,boolean IsIterative)
 	{
 		File[] files = new File(Path).listFiles();
 		for (int i = 0; i < files.length; i++)
@@ -44,12 +37,10 @@ public class FileUtil
 			File f = files[i];
 			if (f.isFile())
 			{
-				if (f.getPath()
-						.substring(f.getPath().length() - Extension.length())
-						.equals(Extension))
+				if (f.getPath().substring(f.getPath().length() - Extension.length()).equals(Extension))
 				{
 					lstFile.add(f.getPath());
-				} // �ж���չ��
+				} 
 				if (!IsIterative)
 					break;
 			} else if (f.isDirectory() && f.getPath().indexOf("/.") == -1)
@@ -65,17 +56,7 @@ public class FileUtil
 	 * public List<String> GetFiles(String Path, String type,String Extension, boolean IsIterative) { File[] files = new File(Path).listFiles(); for (int i = 0; i < files.length; i++) { File f = files[i]; if (f.isFile()) { String fileExtension = f.getPath().substring(f.getPath().length() - Extension.length()); String fileType = f.getPath().substring(f.getPath().lastIndexOf("/")+1,f.getPath().lastIndexOf(".")); if (fileExtension.equals(Extension)&&fileType.contains(type)) { lstFile.add(f.getPath()); } //�ж���չ�� if (!IsIterative) break; } else if (f.isDirectory() && f.getPath().indexOf("/.") == -1) { GetFiles(f.getPath(), Extension, IsIterative); } } return lstFile; }
 	 */
 
-	/**
-	 * @param Path
-	 * @param type
-	 * @param Extension
-	 * @param IsIterative
-	 * @return
-	 * @description
-	 * @version 1.0
-	 * @author liuxiaokun
-	 * @update 2012-5-8 ����11:47:12
-	 */
+	
 	public ArrayList<FileInputStream> getFileInputStreams(String Path,
 			String type, String Extension, boolean IsIterative) 
 	{
@@ -243,14 +224,7 @@ public class FileUtil
 		return flag;
 	}
 
-	/**
-	 * @param fileName
-	 * @return
-	 * @description
-	 * @version 1.0
-	 * @author liuxiaokun
-	 * @update 2012-5-8 ����11:47:21
-	 */
+	
 	public static boolean checkFileIsExits(String filePath)
 	{
 		File file = new File(filePath);
@@ -261,13 +235,88 @@ public class FileUtil
 		return false;
 	}
 
-	/**
-	 * @return
-	 * @description
-	 * @version 1.0
-	 * @author liuxiaokun
-	 * @update 2012-5-8 ����11:47:24
-	 */
+	
+    
+    public static boolean deleteFolder(String filePath) {  
+       boolean  flag = false;  
+       File file = new File(filePath);  
+        if (!file.exists()) 
+        {  
+            return flag;  
+        } else 
+        {  
+            if (file.isFile()) {  
+                return deleteFile(filePath);  
+            } else {  
+                return deleteDirectory(filePath);  
+            }  
+        }  
+    }  
+	
+	
+   
+    public static boolean deleteFile(String filePath) {  
+       boolean flag = false;  
+       File file = new File(filePath);  
+        if (file.isFile() && file.exists()) {  
+            file.delete();  
+            flag = true;  
+        }  
+        return flag;  
+    }  
+    
+    
+   
+    public static boolean deleteDirectory(String filePath) {  
+        if (!filePath.endsWith(File.separator)) {  
+        	filePath = filePath + File.separator;  
+        }  
+        File dirFile = new File(filePath);  
+        if (!dirFile.exists() || !dirFile.isDirectory()) {  
+            return false;  
+        }  
+        boolean flag = true;  
+        File[] files = dirFile.listFiles();  
+        for (int i = 0; i < files.length; i++) {  
+            if (files[i].isFile()) {  
+                flag = deleteFile(files[i].getAbsolutePath());  
+                if (!flag) break;  
+            }   
+            else {  
+                flag = deleteDirectory(files[i].getAbsolutePath());  
+                if (!flag) break;  
+            }  
+        }  
+        if (!flag) return false;   
+        if (dirFile.delete()) {  
+            return true;  
+        } else {  
+            return false;  
+        }  
+    }  
+    
+    
+    public static Map<Integer, Integer> getFiles(String Path)
+	{
+    	Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		File[] files = new File(Path).listFiles();
+		if(files!=null && files.length>0)
+		{
+			for (int i = 0; i < files.length; i++)
+			{
+				File f = files[i];
+				if (!f.isFile())
+				{
+					int cityId = Integer.parseInt(f.getName());
+					map.put(cityId,cityId);
+				} 
+			}
+		}		
+		return map;
+	}
+    
+    
+	
 	public static int freeSpaceOnSd()
 	{
 		StatFs stat = new StatFs(Environment.getExternalStorageDirectory()

@@ -11,22 +11,29 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import android.R.integer;
 import android.content.Context;
+import android.os.RemoteException;
 import android.util.Log;
 
 import com.damuzhi.travel.db.FileDBHelper;
+import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.model.downlaod.DownloadManager;
+import com.damuzhi.travel.network.HttpTool;
+import com.damuzhi.travel.util.ZipUtil;
 
+public class FileDownloader
+{
 
-
-public class FileDownloader {
 	private static final String TAG = "FileDownloader";
 	private Context context;
-	private FileDBHelper fileDBHelper;	
-
+	//private FileDBHelper fileDBHelper;
+	private DownloadManager downloadManager;	
 	private int downloadSize = 0;
-	
+	private int downloadSpeed = 0;
+	private int cityId;
 	private int fileSize = 0;
-	
+
 	private DownloadThread[] threads;
 
 	private File saveFile;
@@ -34,225 +41,418 @@ public class FileDownloader {
 	private Map<Integer, Integer> data = new ConcurrentHashMap<Integer, Integer>();
 
 	private int block;
-	
-	private String downloadUrl;
 
-	private int threadNum;
+	private String downloadURL;
+
+	private String savePath,tempPath;
 	
-	public int getThreadSize() {
+	private int threadNum;
+	private HttpURLConnection conn;
+	private volatile  boolean runflag = true;
+	private volatile  boolean notFinish;
+
+	public int getThreadSize()
+	{
 		return threads.length;
 	}
-	
-	public int getFileSize() {
+
+	public int getFileSize()
+	{
 		return fileSize;
 	}
-	
-	protected synchronized void append(int size) {
+
+	protected synchronized void append(int size)
+	{
 		downloadSize += size;
 	}
+
+	protected synchronized void downloadSpeed(int speed)
+	{
+		downloadSpeed = speed;
+	}
 	
-	protected void update(int threadId, int pos) {
+	protected void update(int threadId, int pos)
+	{
 		this.data.put(threadId, pos);
 	}
-	
-	protected synchronized void saveLogFile() {
-		this.fileDBHelper.update(this.downloadUrl, this.data);
+
+	protected synchronized void saveLogFile()
+	{
+		this.downloadManager.updateDownloadInfo(this.downloadURL, this.data);
 	}
-	
-	
-	public FileDownloader(Context context, int threadNum)
+
+	public FileDownloader(Context context, int threadNum, int cityId,String savePath,String tempPath,String downloadUrl)
 	{
 		super();
 		this.context = context;
 		this.threadNum = threadNum;
+		this.cityId = cityId;
+		this.savePath = savePath;
+		this.tempPath = tempPath;
+		this.downloadURL = downloadUrl;
+		
 	}
-	
-	
-	
-	public boolean FileDownloaderCheeck( String downloadUrl, File fileSaveDir) {
-		try {
+
+	public boolean FileDownloaderCheeck()
+	{
+		try
+		{
 			boolean flag = false;
-			this.downloadUrl = downloadUrl;
-			fileDBHelper = new FileDBHelper(this.context);
-			URL url = new URL(this.downloadUrl);
-			if(!fileSaveDir.exists()) fileSaveDir.mkdirs();
-			this.threads = new DownloadThread[threadNum];					
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			conn.setConnectTimeout(5*1000);
-			conn.setRequestMethod("GET");
-			conn.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
-			conn.setRequestProperty("Accept-Language", "zh-CN");
-			conn.setRequestProperty("Referer", downloadUrl); 
-			conn.setRequestProperty("Charset", "UTF-8");
-			conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
-			conn.setRequestProperty("Connection", "Keep-Alive");
+			//this.downloadURL = downloadURL;
+			//fileDBHelper = new FileDBHelper(this.context);
+			File fileSaveDir = new File(this.tempPath);
+			downloadManager = new DownloadManager(this.context);
+			if (!fileSaveDir.exists())
+				fileSaveDir.mkdirs();
+			this.threads = new DownloadThread[threadNum];
+			HttpURLConnection conn = HttpTool.getConnection(downloadURL);
 			conn.connect();
 			printResponseHeader(conn);
-			if (conn.getResponseCode()==200) {
-				
+			if (conn.getResponseCode() == 200)
+			{
 				this.fileSize = conn.getContentLength();
-				if (this.fileSize <= 0) 
+				if (this.fileSize <= 0)
 				{
 					throw new RuntimeException("Unkown file size ");
 				}
-				flag = true;		
-				String filename = getFileName(conn);
+				flag = true;
+				String filename = HttpTool.getTempFileName(conn, downloadURL);
 				this.saveFile = new File(fileSaveDir, filename);
-				Map<Integer, Integer> logdata = fileDBHelper.getData(downloadUrl);				
-				if(logdata.size()>0)
+				//Map<Integer, Integer> logdata = fileDBHelper.getData(downloadURL);
+				Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
+				if (logdata.size() > 0)
 				{
-					for(Map.Entry<Integer, Integer> entry : logdata.entrySet())
+					for (Map.Entry<Integer, Integer> entry : logdata.entrySet())
 					{
 						data.put(entry.getKey(), entry.getValue());
 					}
 				}
-				this.block = (this.fileSize % this.threads.length)==0? this.fileSize / this.threads.length : this.fileSize / this.threads.length + 1;
-				if(this.data.size()==this.threads.length)
+				this.block = (this.fileSize % this.threads.length) == 0 ? this.fileSize/ this.threads.length: this.fileSize / this.threads.length + 1;
+				if (this.data.size() == this.threads.length)
 				{
 					for (int i = 0; i < this.threads.length; i++)
 					{
-						this.downloadSize += this.data.get(i+1);
+						this.downloadSize += this.data.get(i + 1);
 					}
-					Log.d(TAG, "downsize = "+this.downloadSize);
-					
-				}				
-			}else{
+					Log.d(TAG, "downsize = " + this.downloadSize);
+
+				}
+			} else
+			{
 				throw new RuntimeException("server no response ");
 			}
 			return flag;
-		} catch (Exception e) {
-			print(e.toString());
-			throw new RuntimeException("don't connection this url");
+		} catch (Exception e)
+		{
+			Log.e(TAG,"download city data but catch exception :" + e.toString(),e);
+			return false;
 		}
 	}
+
 	
 	
 	
-	private String getFileName(HttpURLConnection conn) {
-		String filename = this.downloadUrl.substring(this.downloadUrl.lastIndexOf('/') + 1);
-		if(filename==null || "".equals(filename.trim())){
-			for (int i = 0;; i++) {
-				String mine = conn.getHeaderField(i);
-				if (mine == null) break;
-				if("content-disposition".equals(conn.getHeaderFieldKey(i).toLowerCase())){
-					Matcher m = Pattern.compile(".*filename=(.*)").matcher(mine.toLowerCase());
-					if(m.find()) return m.group(1);
-				}
-			}
-			filename = UUID.randomUUID()+ ".tmp";
-		}
-		return filename;
-	}
-	
-	
-	
-	public int download(DownloadProgressListener listener) throws Exception{
-		try {
+	public int download(DownloadProgressListener listener) 
+	{
+		try
+		{
 			RandomAccessFile randOut = new RandomAccessFile(this.saveFile, "rw");
-			if(this.fileSize>0) randOut.setLength(this.fileSize);
+			if (this.fileSize > 0)
+				randOut.setLength(this.fileSize);
 			randOut.close();
-			URL url = new URL(this.downloadUrl);
-			if(this.data.size() != this.threads.length)
+			URL url = new URL(this.downloadURL);
+			if (this.data.size() != this.threads.length)
 			{
 				this.data.clear();
 				for (int i = 0; i < this.threads.length; i++)
 				{
-					this.data.put(i+1, 0);
+					this.data.put(i + 1, 0);
 				}
 			}
-			for (int i = 0; i < this.threads.length; i++) {
-				int downLength = this.data.get(i+1);
-				if(downLength < this.block && this.downloadSize<this.fileSize){ 					
-					this.threads[i] = new DownloadThread(this, url, this.saveFile, this.block, this.data.get(i+1), i+1);
+			for (int i = 0; i < this.threads.length; i++)
+			{
+				int downLength = this.data.get(i + 1);
+				if (downLength < this.block&& this.downloadSize < this.fileSize)
+				{
+					this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block, this.data.get(i + 1),i + 1);
 					this.threads[i].setPriority(7);
-					this.threads[i].setName(url.toString()+i);
+					this.threads[i].setName(url.toString() + i);
 					this.threads[i].start();
-				}else{
+				} else
+				{
 					this.threads[i] = null;
 				}
 			}
-			this.fileDBHelper.save(this.downloadUrl, this.data);
-			boolean notFinish = true;
-				while (notFinish) {
-					Thread.sleep(900);
-					notFinish = false;
-					for (int i = 0; i < this.threads.length; i++){
-						if (this.threads[i] != null && !this.threads[i].isFinish()) 
-						{
-							notFinish = true;
-							if(this.threads[i].getDownLength() == -1)
-							{
-								
-								this.threads[i] = new DownloadThread(this, url, this.saveFile, this.block, this.data.get(i+1), i+1);
-								this.threads[i].setPriority(7);
-								this.threads[i].setName(url.toString()+i);
-								this.threads[i].start();
-							}
-						}
-					}				
-					if(listener!=null) 
+			downloadManager.saveDownloadInfo(cityId, downloadURL, savePath, tempPath, 1, this.fileSize, this.data);
+			notFinish = true;
+			while (notFinish)
+			{
+				Thread.sleep(900);
+				notFinish = false;
+				for (int i = 0; i < this.threads.length; i++)
+				{
+					if (this.threads[i] != null && !this.threads[i].isFinish())
 					{
-						listener.onDownloadSize(downloadUrl,this.downloadSize,fileSize);
+						notFinish = true;
+						if (this.threads[i].getDownLength() == -1)
+						{
+							this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block,this.data.get(i + 1), i + 1);
+							this.threads[i].setPriority(7);
+							this.threads[i].setName(url.toString() + i);
+							this.threads[i].start();
+						}
 					}
-				}	
-				fileDBHelper.delete(this.downloadUrl);
-		} catch (Exception e) {
-			print(e.toString());
-			throw new Exception("file download fail");
+				}
+				if (listener != null&&getrunflag())
+				{
+					listener.onDownloadSize(cityId, downloadURL,this.downloadSpeed,this.downloadSize, fileSize);
+				}
+			}
+			
+		} catch (Exception e)
+		{
+			Log.e(TAG,"file download fail but catch exception :" + e.toString(),e);
 		}
 		return this.downloadSize;
 	}
-	
-	
-	public void pauseDownload()
+
+	public synchronized boolean getrunflag()
 	{
-		for(int i=0 ,size = threads.length;i<size;i++)
+	return runflag; 
+	} 
+	
+	public synchronized void pauseDownload()
+	{
+		for (int i = 0, size = threads.length; i < size; i++)
 		{
-			if (this.threads[i] != null && !this.threads[i].isFinish()) 
-			{		
-				
+			if (this.threads[i] != null && !this.threads[i].isFinish())
+			{
 				threads[i].pause();
 			}
-		
-		}
-	}
-	
-	
-		public void restartDownload()
-		{
-			for(int i=0 ,size = threads.length;i<size;i++)
-			{
-				if (this.threads[i] != null && !this.threads[i].isFinish()) 
-				{				
-					
-					threads[i].restart();
-				}
-			
-			}
-		}
-	
-	
-	public static Map<String, String> getHttpResponseHeader(HttpURLConnection http) {
-		Map<String, String> header = new LinkedHashMap<String, String>();
-		for (int i = 0;; i++) {
-			String mine = http.getHeaderField(i);
-			if (mine == null) break;
-			header.put(http.getHeaderFieldKey(i), mine);
-		}
-		return header;
-	}
-	
-	public static void printResponseHeader(HttpURLConnection http){
-		Map<String, String> header = getHttpResponseHeader(http);
-		for(Map.Entry<String, String> entry : header.entrySet()){
-			String key = entry.getKey()!=null ? entry.getKey()+ ":" : "";
-			print(key+ entry.getValue());
-		}
-	}
-	private static void print(String msg){
-		Log.i(TAG, msg);
-	}
-	
-	
 
+		}
+		runflag = false;
+		saveLogFile();
+	}
+
+	
+	
+	public synchronized void restartDownload()
+	{
+		for (int i = 0, size = threads.length; i < size; i++)
+		{
+			if (this.threads[i] != null && !this.threads[i].isFinish())
+			{
+				threads[i].restart();
+			}
+
+		}
+		runflag = true;
+	}
+
+	
+	
+	public synchronized void cancelDownload()
+	{
+		for (int i = 0, size = threads.length; i < size; i++)
+		{
+			if (this.threads[i] != null && !this.threads[i].isFinish())
+			{
+				threads[i].cancel();
+			}
+
+		}
+		notFinish = false;
+		runflag = false;
+	}
+	
+	
+	public static void printResponseHeader(HttpURLConnection http)
+	{
+		Map<String, String> header = HttpTool.getHttpResponseHeader(http);
+		for (Map.Entry<String, String> entry : header.entrySet())
+		{
+			String key = entry.getKey() != null ? entry.getKey() + ":" : "";
+			Log.i(TAG, key + entry.getValue());
+		}
+	}
+
+	
+	/*public void startDownload(final IDownloadCallback iDownloadCallback)
+	{
+		File saveDownloadDataFile = new File(this.savePath);
+		if(FileDownloaderCheeck(downloadURL, saveDownloadDataFile))
+		{
+			download(new DownloadProgressListener()
+			{
+				
+				@Override
+				public void onDownloadSize(int cityId, String downloadURL,
+						long downloadSpeed, long downloadLength, long fileLength)
+				{
+					try
+					{
+						iDownloadCallback.onTaskProcessStatusChanged(downloadURL,downloadSpeed , fileLength, downloadLength);
+						if(downloadLength == fileLength)
+						{
+							String zipFilePath = String.format(ConstantField.DOWNLOAD_CITY_ZIP_DATA_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(downloadURL), downloadURL);
+							String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
+							boolean zipSuccess = ZipUtil.upZipFile(zipFilePath,upZipFilePath );
+							Log.i(TAG, "upZipFile success = "+zipSuccess);
+							if(zipSuccess)
+							{
+								FileDBHelper fileDBHelper = new FileDBHelper(context);
+								fileDBHelper.delete(downloadURL);
+								//downloadTask.remove(downloadURL);
+							}else
+							{
+								
+							}	
+						} 
+					} catch (Exception e)
+					{
+						e.printStackTrace();
+					}
+					
+					
+				}
+			});
+		}else {
+			
+		}
+	
+	}*/
+
+	/*public boolean FileDownloaderCheeck()
+	{
+		try
+		{
+			boolean flag = false;
+			this.downloadURL = downloadURL;
+			//fileDBHelper = new FileDBHelper(this.context);		
+			conn = HttpTool.getConnection(downloadURL);
+			conn.connect();
+			printResponseHeader(conn);
+			if (conn.getResponseCode() == 200)
+			{
+				this.fileSize = conn.getContentLength();
+				if (this.fileSize <= 0)
+				{
+					throw new RuntimeException("Unkown file size ");
+				}
+				flag = true;
+			} else
+			{
+				throw new RuntimeException("server no response ");
+			}
+			return flag;
+		} catch (Exception e)
+		{
+			Log.e(TAG,"download city data but catch exception :" + e.toString(),e);
+			return false;
+		}
+	}
+	
+	
+	public int download(DownloadProgressListener listener) 
+	{
+		try
+		{
+			File saveDownloadDataFile = new File(this.savePath);
+			if (!saveDownloadDataFile.exists())
+				saveDownloadDataFile.mkdirs();
+			
+			String filename = HttpTool.getTempFileName(conn, downloadURL);
+			this.saveFile = new File(saveDownloadDataFile, filename);
+			Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
+			
+			if (logdata.size() > 0)
+			{
+				for (Map.Entry<Integer, Integer> entry : logdata.entrySet())
+				{
+					data.put(entry.getKey(), entry.getValue());
+				}
+			}
+			
+			this.block = (this.fileSize % this.threads.length) == 0 ? this.fileSize/ this.threads.length: this.fileSize / this.threads.length + 1;
+			
+			RandomAccessFile randOut = new RandomAccessFile(this.saveFile, "rw");
+			if (this.fileSize > 0)
+				randOut.setLength(this.fileSize);
+			randOut.close();
+			
+			if (this.data.size() == this.threads.length)
+			{
+				for (int i = 0; i < this.threads.length; i++)
+				{
+					this.downloadSize += this.data.get(i + 1);
+				}
+				Log.d(TAG, "downsize = " + this.downloadSize);
+
+			}
+			
+			
+			
+			
+			if (this.data.size() != this.threads.length)
+			{
+				this.data.clear();
+				for (int i = 0; i < this.threads.length; i++)
+				{
+					this.data.put(i + 1, 0);
+				}
+			}
+			
+			URL url = new URL(this.downloadURL);
+			for (int i = 0; i < this.threads.length; i++)
+			{
+				int downLength = this.data.get(i + 1);
+				if (downLength < this.block&& this.downloadSize < this.fileSize)
+				{
+					this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block, this.data.get(i + 1),i + 1);
+					this.threads[i].setPriority(7);
+					this.threads[i].setName(url.toString() + i);
+					this.threads[i].start();
+				} else
+				{
+					this.threads[i] = null;
+				}
+			}
+			
+			downloadManager.saveDownloadInfo(cityId, downloadURL, savePath, tempPath, 1, this.fileSize, this.data);
+			notFinish = true;
+			
+			while (notFinish)
+			{
+				Thread.sleep(900);
+				notFinish = false;
+				for (int i = 0; i < this.threads.length; i++)
+				{
+					if (this.threads[i] != null && !this.threads[i].isFinish())
+					{
+						notFinish = true;
+						if (this.threads[i].getDownLength() == -1)
+						{
+							this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block,this.data.get(i + 1), i + 1);
+							this.threads[i].setPriority(7);
+							this.threads[i].setName(url.toString() + i);
+							this.threads[i].start();
+						}
+					}
+				}
+				if (listener != null&&getrunflag())
+				{
+					listener.onDownloadSize(cityId, downloadURL,this.downloadSpeed,this.downloadSize, fileSize);
+				}
+			}
+			
+		} catch (Exception e)
+		{
+			Log.e(TAG,"file download fail but catch exception :" + e.toString(),e);
+		}
+		return this.downloadSize;
+	}*/
+	
+	
+	
 }

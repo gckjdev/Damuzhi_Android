@@ -14,131 +14,46 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.entry.IndexActivity"  android:screenOrientation="portrait" >
-            <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.more.MoreActivity" android:screenOrientation="portrait">
-             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.more.OpenCityDataActivity"  android:screenOrientation="portrait">
-             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.place.SceneryActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
-            <intent-filter >
-                <action android:name="damuzhi.activity.place.SceneryActivity"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>  
-         <activity android:name=".activity.place.HotelActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
-             <intent-filter >
-                <action android:name="damuzhi.activity.place.HotelActivity"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>  
-        <activity android:name=".activity.place.RestaurantActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
-             <intent-filter >
-                <action android:name="damuzhi.activity.place.RestaurantActivity"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.place.ShoppingActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
-             <intent-filter >
-                <action android:name="damuzhi.activity.place.ShoppingActivity"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.place.EntertainmentActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
-             <intent-filter >
-                <action android:name="damuzhi.activity.place.EntertainmentActivity"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.place.NearbyActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
-             <intent-filter >
-                <action android:name="damuzhi.activity.place.NearbyActivity"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-         <activity android:name=".activity.overview.OverviewActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
-             <intent-filter >
-                <action android:name="damuzhi.activity.overview.OverviewActivity"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.overview.TravelTipsActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
-             <intent-filter >
-                <action android:name="damuzhi.activity.overview.TravelTipsActivity"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.overview.TravelTipsDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
-             <intent-filter >
-                <action android:name="damuzhi.activity.overview.TravelTipsDetailActivity"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.place.SceneryDetailActivity" android:screenOrientation="portrait" >            
-        </activity> 
-         <activity android:name=".activity.place.HotelDetailActivity" android:screenOrientation="portrait" >            
-        </activity> 
-         <activity android:name=".activity.place.RestaurantDetailActivity" android:screenOrientation="portrait" >            
-        </activity> 
-        <activity android:name=".activity.place.ShoppingDetailActivity" android:screenOrientation="portrait" >            
-        </activity>
-        <activity android:name=".activity.place.EntertainmentDetailActivity" android:screenOrientation="portrait" >            
-        </activity>
-        <activity android:name=".activity.common.PlaceMap" android:screenOrientation="portrait" android:launchMode="singleTop">
-             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.common.NearbyPlaceMap" android:screenOrientation="portrait" android:launchMode="singleTop">
-             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.common.TravelActivity"  android:screenOrientation="portrait">
-             <intent-filter >
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.SAMPLE_CODE" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".activity.place.CommonSpotActivity" android:screenOrientation="portrait" android:launchMode="singleTop">           
-        </activity>  
-        <activity android:name=".activity.place.CommonHotelActivity" android:screenOrientation="portrait" android:launchMode="singleTop">           
-        </activity> 
-        <activity android:name=".activity.place.CommonRestaurantActivity" android:screenOrientation="portrait" android:launchMode="singleTop">           
-        </activity> 
-        <activity android:name=".activity.place.CommonShoppingActivity" android:screenOrientation="portrait" android:launchMode="singleTop">           
-        </activity> 
-        <activity android:name=".activity.place.CommonEntertainmentActivity" android:screenOrientation="portrait" android:launchMode="singleTop">           
-        </activity>
-        <activity android:name=".activity.place.CommonPlaceDetailActivity" android:screenOrientation="portrait" android:launchMode="standard">           
-        </activity>
-         <activity android:name=".activity.place.CommonHotelDetailActivity" android:screenOrientation="portrait" android:launchMode="standard">           
-        </activity>
-         <activity android:name=".activity.place.CommonSpotDetailActivity" android:screenOrientation="portrait" android:launchMode="standard">           
-        </activity>
-         <activity android:name=".activity.place.CommonRestaurantDetailActivity" android:screenOrientation="portrait" android:launchMode="standard">           
-        </activity>
-        <activity android:name=".activity.place.CommonShoppingDetailActivity" android:screenOrientation="portrait" android:launchMode="standard">           
-        </activity>
-         <activity android:name=".activity.place.CommonEntertainmentDetailActivity" android:screenOrientation="portrait" android:launchMode="standard">           
-        </activity>
+        <activity android:name=".activity.entry.IndexActivity"  android:screenOrientation="portrait" />
+        <activity android:name=".activity.more.MoreActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.more.OpenCityDataActivity"  android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.place.SceneryActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+         <activity android:name=".activity.place.HotelActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.place.RestaurantActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.place.ShoppingActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>          
+        <activity android:name=".activity.place.EntertainmentActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.place.NearbyActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>                  
+        <activity android:name=".activity.overview.OverviewActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>          
+        <activity android:name=".activity.overview.TravelTipsActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>          
+        <activity android:name=".activity.overview.TravelTipsDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>         
+        <activity android:name=".activity.place.SceneryDetailActivity" android:screenOrientation="portrait" />            
+        <activity android:name=".activity.place.HotelDetailActivity" android:screenOrientation="portrait" />            
+        <activity android:name=".activity.place.RestaurantDetailActivity" android:screenOrientation="portrait" />            
+        <activity android:name=".activity.place.ShoppingDetailActivity" android:screenOrientation="portrait" />            
+        <activity android:name=".activity.place.EntertainmentDetailActivity" android:screenOrientation="portrait" />            
+        <activity android:name=".activity.common.PlaceMap" android:screenOrientation="portrait" android:launchMode="singleTop"/>
+        <activity android:name=".activity.common.NearbyPlaceMap" android:screenOrientation="portrait" android:launchMode="singleTop"/>
+        <activity android:name=".activity.common.TravelActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".activity.place.CommonSpotActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>           
+        <activity android:name=".activity.place.CommonHotelActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>            
+        <activity android:name=".activity.place.CommonRestaurantActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>           
+        <activity android:name=".activity.place.CommonShoppingActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>           
+        <activity android:name=".activity.place.CommonEntertainmentActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>           
+        <activity android:name=".activity.place.CommonPlaceDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
+         <activity android:name=".activity.place.CommonHotelDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
+         <activity android:name=".activity.place.CommonSpotDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
+         <activity android:name=".activity.place.CommonRestaurantDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
+        <activity android:name=".activity.place.CommonShoppingDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
+         <activity android:name=".activity.place.CommonEntertainmentDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/> 
+          <activity android:name=".activity.place.NearbyPlaceActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
           <!--  注册服务 -->
-        <service android:name="com.damuzhi.travel.download.DownLoadService"></service> 
-        <service android:name=".service.MainService" >
+         <service android:name=".download.DownloadService"></service>  
+        <service android:name="com.damuzhi.travel.service.DownloadService">
+             <intent-filter >
+                <action android:name="com.damuzhi.travel.service.DownloadService"/>
+            </intent-filter>
+        </service> 
+         <service android:name=".service.MainService" >
             <intent-filter >
                 <action android:name="damuzhi.travel.service.MainService"/>
             </intent-filter>

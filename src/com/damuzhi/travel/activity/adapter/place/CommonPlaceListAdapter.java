@@ -94,8 +94,8 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		this.anseylodar = new Anseylodar();
 		this.placeCategoryType = placeCategoryType;
 		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
-		cityAreaMap = AppManager.getInstance().getCityAreaMap(Integer.parseInt(AppManager.getInstance().getCurrentCityId()));
-		symbol = AppManager.getInstance().getSymbolMap().get(Integer.parseInt(AppManager.getInstance().getCurrentCityId()));
+		cityAreaMap = AppManager.getInstance().getCityAreaMap(AppManager.getInstance().getCurrentCityId());
+		symbol = AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId());
 		
 	}
 
@@ -162,7 +162,8 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		imageView.setTag(position);	
 		url = place.getIcon();
 		anseylodar.showimgAnsy(imageView,url, ConstantField.DATA_HTTP);		
-		String distance = TravelUtil.getDistance(longitude,latitude);
+		
+		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		
 		placeName.setText(place.getName());	
 		placePrice.setText(TravelUtil.getPriceStr(place.getPrice(),symbol));

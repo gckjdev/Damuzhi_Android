@@ -3,11 +3,13 @@ package com.damuzhi.travel.activity.entry;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
@@ -38,10 +40,12 @@ public class WelcomeActivity extends TravelActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startup);	
-		
+		/*AppMission.getInstance().initAppData(this);
+		AppMission.getInstance().updateAppData(this);*/
 		// load place data by current city
-		String cityId = AppManager.getInstance().getCurrentCityId();
-		LocalStorageMission.getInstance().loadCityPlaceData(cityId);		
+		int cityId = AppManager.getInstance().getCurrentCityId();
+		LocalStorageMission.getInstance().loadCityPlaceData(cityId);
+		TravelApplication.getInstance().setLocation(LocationUtil.getLocationByTower(this));
 		String userId = UserManager.getInstance().getUserId(this);		
 		if(userId==null ||userId.equals(""))
 		{

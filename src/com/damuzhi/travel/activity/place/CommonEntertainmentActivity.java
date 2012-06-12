@@ -87,7 +87,7 @@ public class CommonEntertainmentActivity extends CommonPlaceActivity
 		sortParams.addRule(RelativeLayout.RIGHT_OF,R.id.area_spinner);
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);
-		int cityID = Integer.parseInt(AppManager.getInstance().getCurrentCityId());
+		int cityID = AppManager.getInstance().getCurrentCityId();
 		sortDisplayName = getResources().getStringArray(R.array.entertainment);
 		subCatName = AppManager.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_ENTERTAINMENT);
 		subCatKey = AppManager.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_ENTERTAINMENT);

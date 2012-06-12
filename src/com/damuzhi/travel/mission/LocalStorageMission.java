@@ -48,7 +48,7 @@ public class LocalStorageMission
 	        * @author liuxiaokun  
 	        * @update 2012-5-25 上午10:44:05  
 	        */
-	public boolean hasLocalCityData(String cityId)
+	public boolean hasLocalCityData(int cityId)
 	{
 		// TODO Auto-generated method stub
 		String dataPath = String.format(ConstantField.DATA_PATH,cityId);
@@ -63,13 +63,13 @@ public class LocalStorageMission
 	        * @author liuxiaokun  
 	        * @update 2012-5-25 上午10:45:00  
 	        */
-	public String getCityDataPath(String cityId)
+	public String getCityDataPath(int cityId)
 	{
 		String dataPath = String.format(ConstantField.DATA_PATH,cityId);
 		return dataPath;
 	}
 	
-	public void loadCityPlaceData(String cityId){
+	public void loadCityPlaceData(int cityId){
 		try
 		{
 			String dataPath = getCityDataPath(cityId);
@@ -109,7 +109,7 @@ public class LocalStorageMission
 	public boolean currentCityHasLocalData()
 	{
 		// TODO Auto-generated method stub
-		String cityId = AppManager.getInstance().getCurrentCityId();		
+		int cityId = AppManager.getInstance().getCurrentCityId();		
 		return LocalStorageMission.getInstance().hasLocalCityData(cityId);
 	}
 }

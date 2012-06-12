@@ -259,9 +259,8 @@ public class NearbyPlaceMap extends MapActivity
 			{
 				if(newFocus.getSnippet() == TARGET_PLACE_POSITION)
 				{
-					Intent intent = new Intent();
-						
-					startActivity(intent);
+					/*Intent intent = new Intent();				
+					startActivity(intent);*/
 				    return;
 				}
 				MapView.LayoutParams geoLP = (LayoutParams) popupView.getLayoutParams();

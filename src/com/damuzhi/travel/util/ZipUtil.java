@@ -99,6 +99,61 @@ public class ZipUtil
 	        
 	    	}
 	 
+	    
+	    
+	    public static boolean upZipFile(String zipFilePath, String folderPath) throws ZipException, IOException {
+	     boolean zipSuccess = false;
+	     String strEntry; 
+		 try {
+		        BufferedOutputStream dest = null; 
+		        FileInputStream fis = new FileInputStream(zipFilePath);
+		        ZipInputStream zis = null;
+		        if(fis != null)
+		        {
+		        	zis  = new ZipInputStream(new BufferedInputStream(fis));
+		        }      
+		        ZipEntry entry;
+	
+		        while ((entry = zis.getNextEntry()) != null) {
+		        strEntry = entry.getName();
+		        String str = folderPath + File.separator + strEntry; 
+		        File entryFile = new File(new String(str.getBytes("8859_1"), "GB2312"));
+		        if (entry.isDirectory()) 
+		        {
+		            if (!entryFile.exists()) 
+		                entryFile.mkdirs();
+		    	} 
+		        else
+		        {
+	    			if (!entryFile.getParentFile().exists())
+	    			{
+	    				entryFile.getParentFile().mkdirs();
+	    			}		
+			        int count ;
+			        byte data[] = new byte[BUFF_SIZE];
+			        FileOutputStream fos = new FileOutputStream(new File(folderPath + File.separator + strEntry));
+			        dest = new BufferedOutputStream(fos, BUFF_SIZE);
+			        while ((count = zis.read(data)) != -1) {
+			           dest.write(data, 0, count);
+			        }
+			        zipSuccess = true;
+			        dest.flush();
+			        dest.close();
+	    		}
+		        } 
+	        fis.close();
+	        zis.close();
+	        return zipSuccess;
+		} catch (Exception cwj) 
+	    {
+        cwj.printStackTrace();
+        return zipSuccess;
+        }
+	        
+	   }
+	    
+	    
+	    
 	   
 	    public static ArrayList<File> upZipSelectedFile(File zipFile, String folderPath,
 	            String nameContains) throws ZipException, IOException {

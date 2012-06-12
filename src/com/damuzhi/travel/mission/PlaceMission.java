@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -59,7 +60,7 @@ public class PlaceMission
 	public List<Place> getAllPlace(int categoryId,Activity activity)
 	{
 		List<Place> retPlaceList = Collections.emptyList();
-		String cityId = AppManager.getInstance().getCurrentCityId();		
+		int cityId = AppManager.getInstance().getCurrentCityId();		
 		if (LocalStorageMission.getInstance().hasLocalCityData(cityId)){
 			// read local
 			retPlaceList = localPlaceManager.getPlaceDataList();
@@ -95,7 +96,7 @@ public class PlaceMission
 			//return localPlaceManager.getPlaceNearBy(place);
 		}
 		else{
-			String cityId = AppManager.getInstance().getCurrentCityId();
+			int cityId = AppManager.getInstance().getCurrentCityId();
 			String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST, cityId, place.getPlaceId(),null,null,num,null,ConstantField.LANG_HANS,null);
 			nearbyPlaceList = getNearByPlaceListByUrl(url);	
 			//remotePlaceManager.clearNearbyList();
@@ -112,7 +113,7 @@ public class PlaceMission
 			//return localPlaceManager.getPlaceNearBy(place);
 		}
 		else{
-			String cityId = AppManager.getInstance().getCurrentCityId();
+			int cityId = AppManager.getInstance().getCurrentCityId();
 			String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE, cityId, place.getPlaceId(),null,null,null,distance,ConstantField.LANG_HANS,null);
 			nearbyPlaceList = getNearByPlaceListByUrl(url);	
 			//remotePlaceManager.clearNearbyList();
@@ -122,7 +123,25 @@ public class PlaceMission
 	}
 	
 	
-	private List<Place> getPlaceListByUrl(String cityId, int categoryId)
+	public List<Place> getPlaceNearbyInDistance(HashMap<String, Double> location,String distance,String placeCategory )
+	{
+		List<Place> nearbyPlaceList = Collections.emptyList();
+		if (LocalStorageMission.getInstance().currentCityHasLocalData()){
+			//return localPlaceManager.getPlaceNearBy(place);
+		}
+		else{
+			int cityId = AppManager.getInstance().getCurrentCityId();
+			String url = String.format(ConstantField.PLACE_LIST_NEARBY, placeCategory, cityId, null,location.get(ConstantField.LATITUDE),location.get(ConstantField.LONGITUDE),null,distance,ConstantField.LANG_HANS,null);
+			nearbyPlaceList = getNearByPlaceListByUrl(url);	
+			//remotePlaceManager.clearNearbyList();
+			//remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
+		}
+		return nearbyPlaceList;
+	}
+	
+	
+	
+	private List<Place> getPlaceListByUrl(int cityId, int categoryId)
 	{
 		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
 		String url = String.format(ConstantField.PLACElIST, objectType, cityId, ConstantField.LANG_HANS);
@@ -185,8 +204,8 @@ public class PlaceMission
 				try
 				{
 					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-					if (travelResponse == null || travelResponse.getResultCode() != 0 ||
-							travelResponse.getPlaceList() == null){
+					if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null)
+					{
 						return Collections.emptyList();
 					}
 					
@@ -241,6 +260,9 @@ public class PlaceMission
 			}
 			
 		}
+
+		
+		
 
 		
 		

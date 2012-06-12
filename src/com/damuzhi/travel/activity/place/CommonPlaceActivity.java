@@ -11,6 +11,7 @@ package com.damuzhi.travel.activity.place;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import com.damuzhi.travel.R;
@@ -185,9 +186,9 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				// hide loading dialog
 				loadingDialog.dismiss();
 				allPlaceList = resultList;
-
 				// set data and reload place list
-				refreshPlaceView(resultList);
+				//refreshPlaceView(allPlaceList);
+				filterPlaceList();
 
 				// TODO update sub category name and key and count
 
@@ -651,13 +652,13 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		@Override
 		public void onClick(View v)
 		{
-			Location location = LocationUtil
+			HashMap<String, Double> location = LocationUtil
 					.getLocationByGps(CommonPlaceActivity.this);
 			if (location != null)
 			{
 				GeoPoint geoPoint = new GeoPoint(
-						(int) (location.getLatitude() * 1E6),
-						(int) (location.getLongitude() * 1E6));
+						(int) (location.get(ConstantField.LATITUDE) * 1E6),
+						(int) (location.get(ConstantField.LONGITUDE) * 1E6));
 				mapc.animateTo(geoPoint);				
 			}
 			myLocateButton.setVisibility(View.GONE);
