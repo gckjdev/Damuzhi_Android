@@ -22,6 +22,8 @@
     	    android:layout_width="310dp"
     	    android:layout_height="400dp"
     	    android:layout_gravity="center_horizontal"
+    	    android:paddingLeft="15dp"
+    	    android:paddingRight="15dp"
     	    android:orientation="vertical"
     	    android:layout_marginTop="40dp"
     	    android:gravity="center">
@@ -29,7 +31,7 @@
 	        android:layout_width="fill_parent"
 	        android:layout_height="50dp"
 	        android:background="@drawable/more_top"
-	        android:id="@+id/open_city_group">"
+	        android:id="@+id/open_city_group">
 	    	<TextView 
 	    	    android:layout_width="wrap_content"
 	    	    android:layout_height="wrap_content"

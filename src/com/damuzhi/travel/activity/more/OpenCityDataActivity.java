@@ -88,6 +88,7 @@ public class OpenCityDataActivity extends Activity
 		downloadManager = new DownloadManager(OpenCityDataActivity.this);
 		openCtiyDataListView = (ListView) findViewById(R.id.open_city_data_listview);		
 		downloadListView = (ListView) findViewById(R.id.download_data_listview);
+		findViewById(R.id.open_city_tips_download).setSelected(true);
 		cityList = AppManager.getInstance().getCityList();
 		View listViewFooter = getLayoutInflater().inflate(R.layout.open_data_listview_footer, null, false);
 		TextView tipsTextView = (TextView) listViewFooter.findViewById(R.id.open_city_tips_update);
@@ -635,6 +636,11 @@ public class OpenCityDataActivity extends Activity
 				ImageView dataSelectIcon = (ImageView) convertView.findViewById(R.id.data_staus);
 				dataSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.yes_s));
 				dataCityName.setTextColor(context.getResources().getColor(R.color.red));
+			}else
+			{
+				ImageView dataSelectIcon = (ImageView) convertView.findViewById(R.id.data_staus);
+				dataSelectIcon.setImageDrawable(context.getResources().getDrawable(R.drawable.no_s));
+				dataCityName.setTextColor(context.getResources().getColor(R.color.black));
 			}
 			DownloadBean downloadBean = downloadManager.getUnfinishDownTask(city.getDownloadURL());
 			dataCityName.setText(city.getCountryName()+"."+city.getCityName());
@@ -660,8 +666,7 @@ public class OpenCityDataActivity extends Activity
 				dataDownloadMangerGroup.setVisibility(View.GONE);
 				
 			}else
-			{
-				
+			{				
 				if(downloadStatus.get(city.getDownloadURL())!=null && downloadStatus.get(city.getDownloadURL()) == DOWNLOAD_ING)
 				{
 					//downloadBar = progressBarMap.get(city.getDownloadURL());
@@ -678,8 +683,6 @@ public class OpenCityDataActivity extends Activity
 				{
 					if(downloadBean != null)
 					{	
-						//downloadBar = (ProgressBar) convertView.findViewById(R.id.downloadbar);
-						//resultTextView = (TextView) convertView.findViewById(R.id.download_persent);
 						convertView.findViewById(R.id.start_download_manager_group).setVisibility(View.GONE);
 						convertView.findViewById(R.id.cancel_download_manager_group).setVisibility(View.VISIBLE);
 						dataSize.setVisibility(View.GONE);
@@ -718,7 +721,7 @@ public class OpenCityDataActivity extends Activity
 				restartDownloadBtn.setOnClickListener(restartDownloadClickListener);
 				stopDownloadBtn.setOnClickListener(stopDownloadOnClickListener);
 				onlineButton.setOnClickListener(onlineOnClickListener);
-			}						
+			}					
 			listViewItemGroup.setOnClickListener(listViewOnClickListener);
 			return convertView;
 		}

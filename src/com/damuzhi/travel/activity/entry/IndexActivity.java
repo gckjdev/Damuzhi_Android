@@ -87,32 +87,13 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		setContentView(R.layout.index);
 		setProgressBarIndeterminateVisibility(true);
 		MainService.allActivity.add(this);
-		//citySpinner = (Spinner) findViewById(R.id.city_spinner);
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
 		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);
-		application = TravelApplication.getInstance();
-		//cityNameMap = application.getCityNameMap();
-		/*cityNameMap = AppManager.getInstance().getCityNameMap();
-		Set<String> cityNameSet = null;
-		if(cityNameMap !=null)
-		{
-			list = new ArrayList<String>();
-			cityNameSet = cityNameMap.keySet();
-			int position =0;
-			for(Map.Entry<String, Integer> entry:cityNameMap.entrySet())
-			{
-				list.add(entry.getKey());	
-				citySpinnerPositionMap.put(entry.getValue(), position);
-				position++;			
-			}
-		}*/
+		application = TravelApplication.getInstance();		
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		currentCitygGroup.setOnClickListener(currentGroupOnClickListener);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_layout_item,android.R.id.text1, list);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		//citySpinner.setAdapter(adapter);
-		//city.setSelection(flag);
-		//citySpinner.setOnItemSelectedListener(itemSelectedListener);
 		moreButton = (ImageButton) findViewById(R.id.more);
 		sceneryButton = (ImageButton) findViewById(R.id.scenery);
 		hotelButton = (ImageButton) findViewById(R.id.hotel);		
@@ -151,7 +132,6 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	@Override
 	public void onClick(View v)
 	{
-		// TODO Auto-generated method stub
 		ImageButton button = (ImageButton) v;
 		
 		switch (button.getId())
@@ -318,7 +298,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	{
 		
 		super.onResume();
-		//citySpinner.setSelection(citySpinnerPositionMap.get(AppManager.getInstance().getCurrentCityId()));
+		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 	}
 
 	

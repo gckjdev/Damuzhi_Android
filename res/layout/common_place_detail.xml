@@ -77,7 +77,7 @@
 	         android:orientation="horizontal"
 	         android:visibility="gone"/>
 	     <ImageView 
-	        android:id="@+id/place_detail_map_nearby"
+	        android:id="@+id/help2"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentRight="true"

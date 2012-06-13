@@ -17,6 +17,7 @@ import com.damuzhi.travel.model.app.AppManager;
 public class MoreActivity extends TravelActivity implements OnClickListener
 {
 	ViewGroup openCtiyGroup;
+	TextView currentCityName;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -24,7 +25,7 @@ public class MoreActivity extends TravelActivity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
 		openCtiyGroup = (ViewGroup) findViewById(R.id.open_city_group);
-		TextView currentCityName = (TextView) findViewById(R.id.current_city_name);
+		currentCityName = (TextView) findViewById(R.id.current_city_name);
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		openCtiyGroup.setOnClickListener(this);
 	}
@@ -43,5 +44,13 @@ public class MoreActivity extends TravelActivity implements OnClickListener
 			break;
 		}
 	}
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
+	}
+	
+	
 
 }

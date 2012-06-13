@@ -46,7 +46,7 @@
 	    	    android:layout_gravity="center"
 	    	    android:gravity="center"
 	    	    android:textColor="@color/white"
-	    	    android:textSize="15sp"
+	    	    android:textSize="14sp"
 	    	    />	
     	  </FrameLayout>
     </RelativeLayout>

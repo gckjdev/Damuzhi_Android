@@ -14,8 +14,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.entry.IndexActivity"  android:screenOrientation="portrait" />
-        <activity android:name=".activity.more.MoreActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.entry.IndexActivity"  android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.more.MoreActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.more.OpenCityDataActivity"  android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.place.SceneryActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
          <activity android:name=".activity.place.HotelActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
@@ -40,12 +40,13 @@
         <activity android:name=".activity.place.CommonShoppingActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>           
         <activity android:name=".activity.place.CommonEntertainmentActivity" android:screenOrientation="portrait" android:launchMode="singleTop"/>           
         <activity android:name=".activity.place.CommonPlaceDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
-         <activity android:name=".activity.place.CommonHotelDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
-         <activity android:name=".activity.place.CommonSpotDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
-         <activity android:name=".activity.place.CommonRestaurantDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
+        <activity android:name=".activity.place.CommonHotelDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
+        <activity android:name=".activity.place.CommonSpotDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
+        <activity android:name=".activity.place.CommonRestaurantDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
         <activity android:name=".activity.place.CommonShoppingDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
-         <activity android:name=".activity.place.CommonEntertainmentDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/> 
-          <activity android:name=".activity.place.NearbyPlaceActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
+        <activity android:name=".activity.place.CommonEntertainmentDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/> 
+        <activity android:name=".activity.place.NearbyPlaceActivity" android:screenOrientation="portrait" android:launchMode="standard"/>       
+        <activity android:name=".activity.common.HelpActiviy" android:screenOrientation="portrait" android:launchMode="standard"/>         
           <!--  注册服务 -->
          <service android:name=".download.DownloadService"></service>  
         <service android:name="com.damuzhi.travel.service.DownloadService">

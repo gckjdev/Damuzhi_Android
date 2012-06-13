@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+ <LinearLayout
+	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
+	          android:layout_width="fill_parent"  
+	          android:layout_height="wrap_content"  
+	          android:background="@color/placeIntro_bg"
+	          android:orientation="vertical">
+    	<TextView 
+    	    android:id="@+id/place_title"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:background="@drawable/topmenu_bg"
+    	    android:text="@string/help" 
+    	    android:gravity="center"
+    	    android:textSize="20.0sp"
+    	    android:textColor="@color/white"/>
+	   	  <WebView
+	   	      android:id="@+id/help_webview"
+	   	      android:layout_width="fill_parent"
+	   	      android:layout_height="wrap_content"
+	   	      android:scrollbars="none"
+	   	      />
+</LinearLayout>	

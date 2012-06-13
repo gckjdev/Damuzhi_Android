@@ -31,6 +31,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
@@ -44,8 +45,8 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.NearbyAdapter;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceListAdapter;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
+import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.NearbyPlaceMap;
-import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
 import com.damuzhi.travel.mission.CollectMission;
 import com.damuzhi.travel.mission.PlaceMission;
@@ -266,7 +267,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		{
 			findViewById(R.id.avg_price_group).setVisibility(View.VISIBLE);
 			TextView avgPrice = (TextView) findViewById(R.id.avg_price);			
-			StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(TravelApplication.getInstance().getCityID()));
+			StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId()));
 			avgPrice.setText(symbol+place.getAvgPrice());
 		}
 		
@@ -341,7 +342,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		{
 			findViewById(R.id.room_price_group).setVisibility(View.VISIBLE);
 			TextView roomPrice = (TextView) findViewById(R.id.room_price);
-			StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(TravelApplication.getInstance().getCityID()));
+			StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId()));
 			symbol.append(place.getPrice());
 			symbol.append("起");
 			roomPrice.setText(symbol);
@@ -431,6 +432,10 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		collect = (TextView) findViewById(R.id.collect);
 		coolectBtn = (ImageView) findViewById(R.id.collect_btn);
 		coolectBtn.setOnClickListener(addFavoriteOnClickListener);
+		ImageButton helpButton = (ImageButton) findViewById(R.id.help_button);
+		ImageView help2Button = (ImageView) findViewById(R.id.help2);
+		helpButton.setOnClickListener(helpOnClickListener);
+		help2Button.setOnClickListener(helpOnClickListener);
 	  }
 	}
 	
@@ -671,9 +676,9 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	{
 		int reulst = CollectMission.getInstance().addFavorite(UserManager.getInstance().getUserId(this),place);
 		Toast toast;
+		toast = Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT);
 		if(reulst == 0)
-		{
-			toast = Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT);
+		{			
 			collect.setText(R.string.collected);
 			coolectBtn.setClickable(false);
 			getPlaceFavoriteCount();
@@ -694,17 +699,21 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			
 		}
 	};
-	/*@Override
-	protected void onResume()
+	
+	
+	private OnClickListener helpOnClickListener = new OnClickListener()
 	{
-		// TODO Auto-generated method stub
-		super.onResume();
-		if(asyncTask !=null)
+		
+		@Override
+		public void onClick(View v)
 		{
-			asyncTask.cancel(true);
+			Intent  intent = new Intent();
+			intent.setClass(CommonPlaceDetailActivity.this, HelpActiviy.class);
+			startActivity(intent);
+			
 		}
-	}*/
-
+	};
+	
 	
 	
 }

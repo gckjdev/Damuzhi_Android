@@ -12,8 +12,13 @@ public class ConstantField
 	public static final String DATA_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/%s/";
 	public static final String IMAGE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/%s/data/";
 	public static final String APP_DATA_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app/app.dat";
+	public static final String HELP_DATA_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app/help.dat";
 	public static final String APP_DATA_TEMP_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp";
+	public static final String HELP_HTML_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/help/";
+	public static final String HELP_HTML_FILE_PATH = "file:///mnt/sdcard/damuzhi/data/help/helpinfo.html";
 	public static final String APP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp/temp.dat";
+	public static final String HELP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp/Helptemp.dat";
+	public static final String HELP_DATA_ZIP_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/help/help.zip";
 	public static final String PLACE_PATH ="/data/place/";
 	public static final int DATA_LOCAL = 0;
 	public static final int DATA_HTTP = 1;
@@ -37,6 +42,8 @@ public class ConstantField
 	public static final String PLACElIST = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&lang=%s";
 	public static final String PLACE_LIST_NEARBY = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&placeId=%s&latitude=%s&longitude=%s&num=%s&distance=%s&lang=%s&os=%s";
 	public static final String APP = "http://api.trip8888.com/service/queryList.aspx?type=10&lang=%s";
+	//public static final String HELP = "http://api.trip8888.com/service/queryList.aspx?type=8&lang=%s";
+	public static final String HELP = "http://api.trip8888.com/service/queryObject.aspx?type=8&lang=%s";
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
 	/* http data type */
 	public static final String RESULT_OK = "0";

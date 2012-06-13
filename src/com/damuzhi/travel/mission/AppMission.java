@@ -12,6 +12,9 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -27,9 +30,11 @@ import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.App;
+import com.damuzhi.travel.protos.AppProtos.HelpInfo;
 import com.damuzhi.travel.protos.PackageProtos.Package;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.util.FileUtil;
+import com.damuzhi.travel.util.ZipUtil;
 
 /**  
  * @description   
@@ -163,17 +168,112 @@ public class AppMission
 				
 	}
 	
+	
+	
+	private boolean downloadHelpData()
+	{		
+		boolean result = false;
+		File tempFile = new File(ConstantField.APP_DATA_TEMP_PATH);       
+        if (!tempFile.exists())
+        {
+          tempFile.mkdirs();
+        }
+        
+		HttpTool httpTool = new HttpTool();
+		InputStream appInputStream = null;
+		TravelResponse travelResponse = null;
+		FileOutputStream output = null;
+		try
+		{
+			appInputStream =  httpTool.sendGetRequest(String.format(ConstantField.HELP, ConstantField.LANG_HANS));
+			travelResponse = TravelResponse.parseFrom(appInputStream);	
+			if (travelResponse != null && travelResponse.getResultCode() == 0){
+				output = new FileOutputStream(ConstantField.HELP_DATA_TEMP_FILE);
+				HelpInfo help = travelResponse.getHelpInfo();
+				HelpInfo.Builder helpBuilder = HelpInfo.newBuilder();
+				helpBuilder.mergeFrom(help);
+				helpBuilder.build().writeTo(output);		
+				result = true;
+			}
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<downloadAppData> catch exception = "
+					+e.toString(), e);
+			result = false;
+		}
+		
+		try
+		{
+			output.close();
+		} catch (IOException e)
+		{
+		}
+		
+		try
+		{
+			appInputStream.close();
+		} catch (IOException e)
+		{
+		}	
+		
+		return result;
+				
+	}
+	
+	private boolean downloadHelpHtml()
+	{		
+		boolean result = false;
+		
+        String url = AppManager.getInstance().getHelpURL();
+        if(url != null)
+		{
+    		File helpFolder = new File(ConstantField.HELP_HTML_PATH);       
+            if (!helpFolder.exists())
+            {
+            	helpFolder.mkdirs();
+            }        
+    		try
+    		{
+    			File helpFile = new File(helpFolder ,HttpTool.getFileName(HttpTool.getConnection(url), url));
+    			URL helpURL = new URL(url);
+    			int fileSize = HttpTool.getConnection(url).getContentLength();
+    			InputStream inStream = HttpTool.getDownloadInputStream(helpURL, 0, fileSize);
+    			byte[] buffer = new byte[1024];
+    			int offset = 0;
+    			RandomAccessFile threadfile = new RandomAccessFile(helpFile, "rwd");
+    			while ((offset = inStream.read(buffer, 0, 1024)) != -1) {					
+    				threadfile.write(buffer, 0, offset);										
+    			}
+    			threadfile.close();
+    			inStream.close();	
+    			result = true;
+    		} catch (Exception e)
+    		{
+    			Log.e(TAG, "<downloadHelpData> catch exception = "
+    					+e.toString(), e);
+    			result = false;
+    		}		
+		}
+		
+		return result;
+				
+	}
+	
+	
 	private class UpdateAppTask extends AsyncTask<String, Void, Boolean>{
 
 		@Override
 		protected Boolean doInBackground(String... params)
 		{
 			boolean result = downloadAppData();
+			downloadHelpData();
 			if (result){
 				try
 				{
 					result = FileUtil.copyFile(ConstantField.APP_DATA_TEMP_FILE, ConstantField.APP_DATA_FILE);
-					if (!result){
+					FileUtil.copyFile(ConstantField.HELP_DATA_TEMP_FILE, ConstantField.HELP_DATA_FILE);
+					ZipUtil.upZipFile(ConstantField.HELP_DATA_ZIP_FILE, ConstantField.HELP_HTML_PATH);
+					if (!result){						
 						return Boolean.valueOf(false);
 					}
 					
@@ -195,6 +295,7 @@ public class AppMission
 			super.onPostExecute(result);
 			if (result.booleanValue()){
 				AppManager.getInstance().reloadData();
+				downloadHelpHtml();
 			}
 		}
 	}

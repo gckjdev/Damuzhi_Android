@@ -6,7 +6,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="50.0dip"
-    android:background="@color/title_bg_color">
+    android:background="@drawable/topmenu_bg">
     	<LinearLayout 
     	    android:layout_width="wrap_content"
     	    android:layout_height="fill_parent"
@@ -30,24 +30,24 @@
     	</LinearLayout>
     	 <ImageButton 
    		      android:id="@+id/map_view"
-   		      android:layout_height="40dp"
-   		      android:layout_width="40dp"
+   		      android:layout_height="wrap_content"
+   		      android:layout_width="wrap_content"
    		      android:paddingRight="5dp"
    		      android:layout_alignParentRight="true"
    		      android:layout_centerVertical="true"
    		      android:background="@null"
-   		      android:scaleType="fitXY"
+   		      android:scaleType="fitCenter"
    		      android:src="@drawable/select_map_button"/>
     	 <ImageButton 
    		      android:id="@+id/list_view"
-   		      android:layout_height="40dp"
-   		      android:layout_width="40dp"
+   		      android:layout_height="wrap_content"
+   		      android:layout_width="wrap_content"
    		      android:paddingRight="5dp"
    		      android:layout_alignParentRight="true"
    		      android:layout_centerVertical="true"
    		      android:visibility="gone"
    		      android:background="@null"
-   		      android:scaleType="fitXY"
+   		      android:scaleType="fitCenter"
    		      android:src="@drawable/select_list_button"/>
     </RelativeLayout>
     <RelativeLayout
@@ -116,56 +116,69 @@
             android:background="@drawable/pbtn"
             android:layout_height="40dp" 
             android:gravity="center_vertical">
-            <TextView
-                android:id="@+id/place_all"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:layout_alignParentLeft="true"
-                android:text="@string/all_place" />
-             <TextView
-                android:id="@+id/move"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:layout_alignParentLeft="true"
-                android:gravity="center"
-                android:background="@drawable/list_btn_2"
-                android:text="@string/all_place" />
-            <TextView
-                android:id="@+id/place_spot"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:layout_toRightOf="@id/place_all"
-                android:text="@string/scenery" />
-            <TextView
-                android:id="@+id/place_hotel"
-               android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:layout_toRightOf="@id/place_spot"
-                android:text="@string/hotel" />
-            <TextView
-                android:id="@+id/place_restaurant"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:layout_toRightOf="@id/place_hotel"
-                android:text="@string/restaurant" />
-            <TextView
-                android:id="@+id/place_shopping"
-               android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:layout_toRightOf="@id/place_restaurant"
-                android:text="@string/shopping" />
-            <TextView
-                android:id="@+id/place_entertrainment"
-                android:layout_width="50dp"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:layout_toRightOf="@id/place_shopping"
-                android:text="@string/entertainment" />
+          <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical">
+	            <TextView
+	                android:id="@+id/place_all"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_alignParentLeft="true"
+	                android:text="@string/all_place" />
+	             <TextView
+	                android:id="@+id/move"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:layout_alignParentLeft="true"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:background="@drawable/list_btn_3"
+	                android:text="@string/all_place" />
+	            <TextView
+	                android:id="@+id/place_spot"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_all"
+	                android:text="@string/scenery" />
+	            <TextView
+	                android:id="@+id/place_hotel"
+	               android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_spot"
+	                android:text="@string/hotel" />
+	            <TextView
+	                android:id="@+id/place_restaurant"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_hotel"
+	                android:text="@string/restaurant" />
+	            <TextView
+	                android:id="@+id/place_shopping"
+	               android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_restaurant"
+	                android:text="@string/shopping" />
+	            <TextView
+	                android:id="@+id/place_entertrainment"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_shopping"
+	                android:text="@string/entertainment" />
+            </RelativeLayout>
         </RelativeLayout>
         </LinearLayout>
     <TextView 
@@ -191,7 +204,6 @@
 	        android:id="@+id/nearby_list"
 	        android:layout_width="fill_parent"
 	        android:layout_height="fill_parent"
-	        android:scrollingCache="true"
 	        android:scrollbars="none"
 	        android:cacheColorHint="@color/listview_bg"
 	        android:divider="#FFCC00"/>

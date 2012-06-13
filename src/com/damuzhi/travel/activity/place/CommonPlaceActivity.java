@@ -16,6 +16,7 @@ import java.util.List;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.CommonPlaceListAdapter;
+import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -60,6 +61,7 @@ import android.view.View.OnClickListener;
 import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -141,17 +143,18 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		TextView placeTitle = (TextView) findViewById(R.id.place_title);
 		TextView placeSize = (TextView) findViewById(R.id.place_num);
 		ViewGroup spinner = (ViewGroup) findViewById(R.id.spinner_group);
+		ImageButton helpButton = (ImageButton) findViewById(R.id.help_button);
 		mapviewGroup = (ViewGroup) findViewById(R.id.mapview_group);
 		listViewGroup = (ViewGroup) findViewById(R.id.listview_group);
 		mapViewButton = (ImageView) findViewById(R.id.map_view);
 		listViewButton = (ImageView) findViewById(R.id.list_view);
 		placeListView = (ListView) findViewById(R.id.place_listview);
-		placeListAdapter = new CommonPlaceListAdapter(this, null,
-				getCategoryType());
+		placeListAdapter = new CommonPlaceListAdapter(this, null,getCategoryType());
 		placeListView.setAdapter(placeListAdapter);
 		placeListView.setOnItemClickListener(listViewOnItemClickListener);
 		mapViewButton.setOnClickListener(mapViewOnClickListener);
 		listViewButton.setOnClickListener(listViewOnClickListener);
+		helpButton.setOnClickListener(helpOnClickListener);
 		createFilterButtons(spinner);
 		placeTitle.setText(getCategoryName());
 		placeSize.setText(getCategorySize());
@@ -437,8 +440,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 						public void onClick(DialogInterface dialog, int position)
 						{
 							subCatPosition = position;
-							if (subCatPosition < 0
-									|| subCatPosition >= subCatKey.length)
+							if (subCatPosition < 0|| subCatPosition >= subCatKey.length)
 							{
 								return;
 							}
@@ -473,8 +475,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 						public void onClick(DialogInterface dialog, int position)
 						{
 							pricePosition = position;
-							if (pricePosition < 0
-									|| pricePosition >= price.length)
+							if (pricePosition < 0|| pricePosition >= price.length)
 							{
 								return;
 							}
@@ -508,8 +509,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 						public void onClick(DialogInterface dialog, int position)
 						{
 							areaPosition = position;
-							if (areaPosition < 0
-									|| areaPosition >= areaName.length)
+							if (areaPosition < 0|| areaPosition >= areaName.length)
 							{
 								return;
 							}
@@ -807,4 +807,16 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		}
 	};
 
+	private OnClickListener helpOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent  intent = new Intent();
+			intent.setClass(CommonPlaceActivity.this, HelpActiviy.class);
+			startActivity(intent);
+			
+		}
+	};
 }

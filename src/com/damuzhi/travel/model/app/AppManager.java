@@ -23,6 +23,7 @@ import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.protos.AppProtos.CityArea;
+import com.damuzhi.travel.protos.AppProtos.HelpInfo;
 import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.AppProtos.PlaceMeta;
@@ -491,4 +492,40 @@ public class AppManager
 		return null;
 	}
 	
+	
+	public String getHelpURL()
+	{
+		String url = "";
+		String dataPath = ConstantField.HELP_DATA_FILE;
+		if (!FileUtil.checkFileIsExits(dataPath))
+		{
+			Log.e(TAG, "load help data from file = " + dataPath
+					+ " but file not found");
+			return "";
+		}
+
+		File appData = new File(dataPath);
+		FileInputStream inputStream = null;
+		try
+		{
+			 inputStream = new FileInputStream(appData);
+			Log.i(TAG, "load help data from file = " + dataPath);
+			HelpInfo helpInfo = HelpInfo.parseFrom(inputStream);
+			url = helpInfo.getHelpHtml();
+		} catch (Exception e)
+		{
+			Log.e(TAG, "load help data from file = " + dataPath
+					+ " but catch exception = " + e.toString(), e);
+		}
+		finally
+		{
+			try
+			{
+				inputStream.close();
+			} catch (Exception e)
+			{
+			}
+		}
+		return url;
+	}
 }

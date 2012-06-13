@@ -58,6 +58,7 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
 import com.damuzhi.travel.util.TravelUtil;
+import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapController;
@@ -113,10 +114,9 @@ public class NearbyPlaceActivity extends TravelActivity
 		currentDistance = ConstantField.ONE_KILOMETER;
 		currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
 		location = TravelApplication.getInstance().getLocation();
+		loadingDialog = new ProgressDialog(this);
 		init();
-		loadPlace();
-		
-		//initTab();
+		loadPlace();		
 		
 	}
 	
@@ -125,8 +125,13 @@ public class NearbyPlaceActivity extends TravelActivity
 		listView = (ListView) findViewById(R.id.nearby_list);
 		mapView = (MapView) findViewById(R.id.placeMap);
 		mapc = mapView.getController();
+		mapc.setZoom(18);
+		mapView.setStreetView(true);
 		selectMapViewButton = (ImageButton) findViewById(R.id.map_view);
 		selectListViewButton = (ImageButton)findViewById(R.id.list_view);
+		selectListViewButton.setOnClickListener(selectListViewOnClickListener);
+		selectMapViewButton.setOnClickListener(selectMapViewOncClickListener);
+		listView.setOnItemClickListener(listviewOnItemClickListener);
 		redStart = (ImageView) findViewById(R.id.position);
 		startButton = (ImageButton) findViewById(R.id.start_button);
 		oneKMbutton = (ImageButton) findViewById(R.id.one_km);
@@ -154,7 +159,7 @@ public class NearbyPlaceActivity extends TravelActivity
 		shopping.setOnClickListener(shoppingOnClickListener);
 		entertrainment.setOnClickListener(entertrainmnetOnClickListener);			
 		move = (TextView) findViewById(R.id.move);
-		
+		move.setTextColor(getResources().getColor(R.color.white));
 		
 		popupView = LayoutInflater.from(this).inflate(R.layout.overlay_popup, null);
 		application= TravelApplication.getInstance();	
@@ -186,11 +191,11 @@ public class NearbyPlaceActivity extends TravelActivity
 			protected void onPostExecute(List<Place> resultList)
 			{
 				loadingDialog.dismiss();
-				placeList = resultList;
+				placeList = resultList;	
+				refreshPlaceView(placeList);
 				if(placeList.size()>0)
 				{
 					findViewById(R.id.page).setVisibility(View.VISIBLE);					
-					refreshPlaceView(placeList);
 				}else
 				{
 					findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
@@ -213,31 +218,27 @@ public class NearbyPlaceActivity extends TravelActivity
 	
 	private void refreshPlaceView(List<Place> list)
 	{
-		/*adapter.setList(placeList);
-		adapter.notifyDataSetChanged();
-		if (mapView != null)
-		{
-			mapView.getOverlays().clear();
-			placeOverlay = new PlaceMapViewOverlay(null, list);
-			mapView.getOverlays().add(placeOverlay);
-			mapView.invalidate();
-			placeOverlay.setOnFocusChangeListener(changeListener);
-		}*/
+		List<Place> origList = new ArrayList<Place>();
+		origList.addAll(list);
+		ComparatorDistance comparatorDistance = new ComparatorDistance(location);
+		Collections.sort(origList, comparatorDistance);
 		if(listView.getVisibility() == View.VISIBLE)
 		{
-			adapter.setList(placeList);
+			adapter.setList(origList);
 			adapter.notifyDataSetChanged();
 		}else
 		{
 			mapView.getOverlays().clear();
-			//placeLoaction = new PlaceLoaction( null, placeList);						
-			if(placeList.size()!=0)
+			placeLoaction = new PlaceLoaction( null, origList);						
+			if(origList.size()!=0)
 			{
 				mapView.removeAllViews();
 				mapView.getOverlays().add(placeLoaction);
 				mapc.setCenter(placeLoaction.getCenter());	
-				addPopupView();
-			//	placeLoaction.setOnFocusChangeListener(changeListener);
+				mapView.addView(popupView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.BOTTOM_CENTER));
+				popupView.setVisibility(View.GONE);	
+				popupView.setOnClickListener(popupViewOnClickListener);
+				placeLoaction.setOnFocusChangeListener(changeListener);
 			}
 			mapView.postInvalidate();						
 		}
@@ -249,34 +250,13 @@ public class NearbyPlaceActivity extends TravelActivity
 	private void updateTitle()
 	{
 		TextView placeSize = (TextView) findViewById(R.id.place_num);
-		int size = adapter.getPlaceList().size();
+		int size = placeList.size();
 		String sizeString = "(" + size + ")";
 		placeSize.setText(sizeString);
 	}
 	
 	
-	public void initMapView()
-	{	
-		listView.setVisibility(View.GONE);
-		selectMapViewButton.setVisibility(View.GONE);		
-		mapView.setVisibility(View.VISIBLE);
-		selectListViewButton.setVisibility(View.VISIBLE);		
-		mapView.setBuiltInZoomControls(true);
-		mapc.setZoom(13);				
-		addPopupView();
-		//selectListViewButton.setOnClickListener(onClickListener);
-		placeLoaction = new PlaceLoaction( null, placeList);
-		mapView.getOverlays().add(placeLoaction);
-		mapc.setCenter(placeLoaction.getCenter());
-		placeLoaction.setOnFocusChangeListener(changeListener);
-	}
 	
-	public void addPopupView()
-	{
-		mapView.addView(popupView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.BOTTOM_CENTER));
-		popupView.setVisibility(View.GONE);	
-		//popupView.setOnClickListener(popupViewOnClickListener);
-	}
 	
 
 	 
@@ -287,17 +267,16 @@ public class NearbyPlaceActivity extends TravelActivity
 		public void onClick(View v)
 		{
 			Animation animation = null;
-			currentDistance = ConstantField.HALF_KILOMETER;
-			loadPlace();
+			currentDistance = ConstantField.HALF_KILOMETER;		
 			getOffSet(redStart,startPosition);
-			float endSet = screenW*0.01f;
+			float endSet = screenW*-0.18f;
 			startPosition = 0;			
 			animation = new TranslateAnimation(offset,endSet, 0, 0);
 			animation.setDuration(700);		
 			redStart.startAnimation(animation);
 			animation.setFillAfter(true);
-			
-			
+			loadPlace();
+
 		}
 	};
 	
@@ -308,15 +287,15 @@ public class NearbyPlaceActivity extends TravelActivity
 			public void onClick(View v)
 			{
 				Animation animation = null;
-				currentDistance = ConstantField.ONE_KILOMETER;
-				loadPlace();
+				currentDistance = ConstantField.ONE_KILOMETER;				
 				getOffSet(redStart,startPosition);
-				float endSet = screenW*0.18f;											
+				float endSet = screenW*0f;											
 				startPosition = 1;				
 				animation = new TranslateAnimation(offset,endSet, 0, 0);
 				animation.setDuration(700);		
 				redStart.startAnimation(animation);
-				animation.setFillAfter(true);
+				animation.setFillAfter(true);				
+				loadPlace();
 				
 			}
 		};
@@ -329,16 +308,15 @@ public class NearbyPlaceActivity extends TravelActivity
 				public void onClick(View v)
 				{
 					Animation animation = null;
-					currentDistance = ConstantField.FIVE_KILOMETER;
-					loadPlace();
+					currentDistance = ConstantField.FIVE_KILOMETER;					
 					getOffSet(redStart,startPosition);
-					float endSet = screenW*0.43f;							
+					float endSet = screenW*0.25f;							
 					startPosition = 2;					
 					animation = new TranslateAnimation(offset,endSet, 0, 0);
 					animation.setDuration(700);		
 					redStart.startAnimation(animation);
 					animation.setFillAfter(true);
-						
+					loadPlace();	
 				}
 			};
 			
@@ -352,15 +330,14 @@ public class NearbyPlaceActivity extends TravelActivity
 				{
 					Animation animation = null;
 					currentDistance = ConstantField.TEN_KILOMETER;
-					loadPlace();
 					getOffSet(redStart,startPosition);
-					float endSet = screenW*0.82f;
+					float endSet = screenW*0.64f;
 					startPosition = 3;
 					animation = new TranslateAnimation(offset,endSet, 0, 0);
 					animation.setDuration(700);		
 					redStart.startAnimation(animation);
 					animation.setFillAfter(true);
-						
+					loadPlace();	
 				}
 			};
 				
@@ -383,7 +360,6 @@ public class NearbyPlaceActivity extends TravelActivity
 					move.bringToFront();
 					move.startAnimation(animation);					
 					move.setText(setEndPosition(startPosition));
-						
 				}
 			};
 			
@@ -500,154 +476,93 @@ public class NearbyPlaceActivity extends TravelActivity
 			};
 	 
 		
-
-	/*private OnClickListener listener = new OnClickListener()
+			
+	private OnClickListener selectListViewOnClickListener = new OnClickListener()
 	{
 		
 		@Override
 		public void onClick(View v)
 		{
-			// TODO Auto-generated method stub
-			Animation animation = null;
-			float endSet = 0;
-			boolean run = false;
-			switch (v.getId())
-			{
-			case R.id.start_button:
-				getOffSet(redStart,startPosition);
-				endSet = screenW*0.01f;
-				startPosition = 0;
-				run = true;
-				placeDistance = ConstantField.HALF_KILOMETER;
-				placeList = TravelUtil.getPlaceInDistance(placeDistance, application.getPlaceData(), location,placeCategoryID);
-				if(listView.getVisibility() == View.VISIBLE)
-				{
-					adapter.setList(placeList);
-					adapter.notifyDataSetChanged();
-				}else
-				{
-					mapView.getOverlays().clear();
-					placeLoaction = new PlaceLoaction( null, placeList);						
-					if(placeList.size()!=0)
-					{
-						mapView.removeAllViews();
-						mapView.getOverlays().add(placeLoaction);
-						mapc.setCenter(placeLoaction.getCenter());		
-						addPopupView();
-						placeLoaction.setOnFocusChangeListener(changeListener);
-					}
-					mapView.postInvalidate();
-					Log.d(TAG, "500m");
-				}
-				break;
-			case R.id.one_km:
-				getOffSet(redStart,startPosition);
-				endSet = screenW*0.18f;											
-				startPosition = 1;
-				run = true;
-				placeDistance = ConstantField.ONE_KILOMETER;
-				placeList = TravelUtil.getPlaceInDistance(placeDistance, application.getPlaceData(), location,placeCategoryID);
-				if(listView.getVisibility() == View.VISIBLE)
-				{
-					adapter.setList(placeList);
-					adapter.notifyDataSetChanged();
-				}else
-				{
-					mapView.getOverlays().clear();
-					placeLoaction = new PlaceLoaction( null, placeList);						
-					if(placeList.size()!=0)
-					{
-						mapView.removeAllViews();
-						mapView.getOverlays().add(placeLoaction);
-						mapc.setCenter(placeLoaction.getCenter());							
-						addPopupView();
-						placeLoaction.setOnFocusChangeListener(changeListener);
-					}				
-					mapView.postInvalidate();
-					Log.d(TAG, "1km");
-				}
-				break;
-			case R.id.five_km:
-				getOffSet(redStart,startPosition);
-				endSet = screenW*0.43f;							
-				startPosition = 2;
-				run = true;
-				placeDistance = ConstantField.FIVE_KILOMETER;
-				placeList = TravelUtil.getPlaceInDistance(placeDistance, application.getPlaceData(), location,placeCategoryID);
-				if(listView.getVisibility() == View.VISIBLE)
-				{
-					adapter.setList(placeList);
-					adapter.notifyDataSetChanged();
-				}else
-				{		
-					mapView.getOverlays().clear();
-					placeLoaction = new PlaceLoaction( null, placeList);						
-					if(placeList.size()!=0)
-					{
-						mapView.removeAllViews();
-						mapView.getOverlays().add(placeLoaction);
-						mapc.setCenter(placeLoaction.getCenter());		
-						addPopupView();
-						placeLoaction.setOnFocusChangeListener(changeListener);
-					}				
-					mapView.postInvalidate();
-					Log.d(TAG, "5km");
-				}
-				break;
-			case R.id.ten_km:		
-				getOffSet(redStart,startPosition);
-				endSet = screenW*0.82f;
-				startPosition = 3;
-				run = true;
-				placeDistance = ConstantField.TEN_KILOMETER;
-				placeList = TravelUtil.getPlaceInDistance(placeDistance, application.getPlaceData(), location,placeCategoryID);
-				if(listView.getVisibility() == View.VISIBLE)
-				{
-					adapter.setList(placeList);
-					adapter.notifyDataSetChanged();
-				}else
-				{
-					
-					mapView.getOverlays().clear();
-					placeLoaction = new PlaceLoaction( null, placeList);						
-					if(placeList.size()!=0)
-					{
-						mapView.removeAllViews();
-						mapView.getOverlays().add(placeLoaction);
-						mapc.setCenter(placeLoaction.getCenter());	
-						addPopupView();
-						placeLoaction.setOnFocusChangeListener(changeListener);
-					}
-					mapView.postInvalidate();
-					Log.d(TAG, "10km");
-				}
-				break;
-			default:
-				break;
-			}
-			if(run)
-			{
-				animation = new TranslateAnimation(offset,endSet, 0, 0);
-				animation.setDuration(700);		
-				redStart.startAnimation(animation);
-				animation.setFillAfter(true);
-			}				
-			
+			mapView.setVisibility(View.GONE);
+			selectListViewButton.setVisibility(View.GONE);
+			selectMapViewButton.setVisibility(View.VISIBLE);
+			listView.setVisibility(View.VISIBLE);					
+			adapter.setList(placeList);
+			adapter.notifyDataSetChanged();	
 			
 		}
-	};*/
+	};		
 	
+	
+	private OnClickListener selectMapViewOncClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			listView.setVisibility(View.GONE);
+			selectMapViewButton.setVisibility(View.GONE);		
+			mapView.setVisibility(View.VISIBLE);
+			selectListViewButton.setVisibility(View.VISIBLE);	
+			mapView.removeAllViews();
+			mapView.addView(popupView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.BOTTOM_CENTER));
+			popupView.setVisibility(View.GONE);	
+			popupView.setOnClickListener(popupViewOnClickListener);
+			placeLoaction = new PlaceLoaction( null, placeList);
+			mapView.getOverlays().add(placeLoaction);
+			mapc.setCenter(placeLoaction.getCenter());
+			placeLoaction.setOnFocusChangeListener(changeListener);
+			
+		}
+	};
+
+	
+	
+	
+	private OnItemClickListener listviewOnItemClickListener = new OnItemClickListener()
+	{
+
+		@Override
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+				long arg3)
+		{
+			Place place = placeList.get(arg2);
+			Intent intent = new Intent();
+			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
+			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
+			intent.setClass(NearbyPlaceActivity.this, detailPlaceClass);
+			startActivity(intent);
+			
+		}
+	};
+			
+	
+	private OnClickListener popupViewOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			String position = v.getTag().toString();
+			Place place = placeList.get(Integer.parseInt(position));
+			Intent intent = new Intent();
+			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
+			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
+			intent.setClass(NearbyPlaceActivity.this, detailPlaceClass);
+			startActivity(intent);
+			popupView.setVisibility(View.GONE);
+		}
+		};
 	
 	private void getOffSet(ImageView imageView,int startPosition) {
 	
 	DisplayMetrics dm = new DisplayMetrics();
 	getWindowManager().getDefaultDisplay().getMetrics(dm);
-	screenW = dm.widthPixels;//
+	screenW = dm.widthPixels;
 	switch (startPosition)
 	{
 	case 0:
-		Log.d(TAG, "startposition = "+startPosition);
-		offset = 0;
+		offset = screenW*0f;
 		break;
 	case 1:
 		offset = screenW*0.18f;
@@ -736,8 +651,7 @@ public class NearbyPlaceActivity extends TravelActivity
 						&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(NearbyPlaceActivity.this,
-							IndexActivity.class);
+					Intent intent = new Intent(NearbyPlaceActivity.this,IndexActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;
@@ -748,7 +662,6 @@ public class NearbyPlaceActivity extends TravelActivity
 			}
 		};
 
-		loadingDialog = new ProgressDialog(this);
 		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loadingDialog.setMessage(getResources().getString(R.string.loading));
 		loadingDialog.setIndeterminate(false);
@@ -834,79 +747,4 @@ public class NearbyPlaceActivity extends TravelActivity
 			}
 		}
 	};
-	
-	
-	/*private OnClickListener popupViewOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			// TODO Auto-generated method stub
-			String position = v.getTag().toString();
-			application.setPlace(placeList.get(Integer.parseInt(position)));
-			Intent intent = new Intent();
-			switch (placeList.get(Integer.parseInt(position)).getCategoryId())
-			{
-			case PlaceCategoryType.PLACE_SPOT_VALUE:
-				intent.setClass(NearbyActivity.this, SceneryDetailActivity.class);
-				break;
-			case PlaceCategoryType.PLACE_HOTEL_VALUE:
-				intent.setClass(NearbyActivity.this, HotelDetailActivity.class);
-				break;
-			case PlaceCategoryType.PLACE_RESTRAURANT_VALUE:
-				intent.setClass(NearbyActivity.this, RestaurantDetailActivity.class);
-				break;
-			case PlaceCategoryType.PLACE_SHOPPING_VALUE:
-				intent.setClass(NearbyActivity.this, ShoppingDetailActivity.class);
-				break;
-			case PlaceCategoryType.PLACE_ENTERTAINMENT_VALUE:
-				intent.setClass(NearbyActivity.this, EntertainmentDetailActivity.class);
-				break;
-			default:
-				break;
-			}			
-			startActivity(intent);
-			popupView.setVisibility(View.GONE);
-		}
-		};*/
-		
-		/*private OnItemClickListener itemClickListener = new OnItemClickListener()
-		{
-
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3)
-			{
-				Place place = placeList.get(arg2);
-				application.setPlace(place);
-				Intent intent = new Intent();
-				switch (place.getCategoryId())
-				{
-				case PlaceCategoryType.PLACE_SPOT_VALUE:
-					intent.setClass(NearbyActivity.this, SceneryDetailActivity.class);
-					break;
-				case PlaceCategoryType.PLACE_HOTEL_VALUE:
-					intent.setClass(NearbyActivity.this, HotelDetailActivity.class);
-					break;
-				case PlaceCategoryType.PLACE_RESTRAURANT_VALUE:
-					intent.setClass(NearbyActivity.this, RestaurantDetailActivity.class);
-					break;
-				case PlaceCategoryType.PLACE_SHOPPING_VALUE:
-					intent.setClass(NearbyActivity.this, ShoppingDetailActivity.class);
-					break;
-				case PlaceCategoryType.PLACE_ENTERTAINMENT_VALUE:
-					intent.setClass(NearbyActivity.this, EntertainmentDetailActivity.class);
-					break;
-				default:
-					break;
-				}			
-				startActivity(intent);
-	
-			}
-		};*/
-	
-	
-	
-
 }

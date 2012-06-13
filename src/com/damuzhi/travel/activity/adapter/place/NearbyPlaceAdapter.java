@@ -9,6 +9,8 @@
 package com.damuzhi.travel.activity.adapter.place;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.LocationUtil;
 import com.damuzhi.travel.util.TravelUtil;
+import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -45,7 +48,6 @@ public class NearbyPlaceAdapter extends BaseAdapter
 	private static final String TAG = "CommonPlaceListAdapter";
 	private Context context;
 	private List<Place> placeList;
-	private int placeCategoryType;
 	private HashMap<Integer, String> subCatMap;
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
@@ -73,11 +75,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		return placeList.size();
 	}
 
-	/**  
-	        * Constructor Method   
-	        * @param context
-	        * @param placeList  
-	        */
+	
 	public NearbyPlaceAdapter(Context context, List<Place> placeList)
 	{
 		super();
@@ -108,6 +106,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 	{
 		PlaceViewCache viewCache; 
 		Place place = placeList.get(position);
+		int placeCategoryType = place.getCategoryId();
 		if(convertView == null)
 		{
 			convertView = inflater.inflate(R.layout.nearby_place_listview_item, null);
@@ -115,8 +114,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 			convertView.setTag(viewCache);
 		}else {
 			viewCache = (PlaceViewCache) convertView.getTag();
-		}
-		this.placeCategoryType = place.getCategoryId();
+		}		
 		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
 		placeName = viewCache.getPlaceName();	
 		placeName.setSelected(true);		
@@ -194,7 +192,11 @@ public class NearbyPlaceAdapter extends BaseAdapter
 				 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));
 		         serviceGroup.addView(serviceImageView);
 			}
-		}				
+		}		
+		else{
+			serviceGroup = viewCache.getServiceGroup();
+			serviceGroup.setVisibility(View.GONE);
+		}
 		return convertView;
 	}
 	

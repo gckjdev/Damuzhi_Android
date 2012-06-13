@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
- android:orientation="vertical"
- android:background="@drawable/map_bg"
- android:layout_width="wrap_content"
- android:layout_height="wrap_content"
- android:paddingLeft="5dp"
- android:paddingTop="5dp"
- android:paddingRight="5dp"
- android:paddingBottom="20dp"> 
-    <TextView android:id="@+id/map_bubbleTitle"
-       android:ellipsize="marquee"
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_gravity="center_horizontal"
-       android:gravity="center_horizontal"
-       android:singleLine="true" /> 
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/map_bg"
+    android:orientation="horizontal"
+    android:paddingBottom="20dp"
+    android:gravity="center_horizontal"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="5dp" >
+    <TextView
+        android:id="@+id/map_bubbleTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:ellipsize="marquee"
+        android:gravity="center"
+        android:singleLine="true" />
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/detail"
-        android:scaleType="fitEnd"/>
+        android:layout_gravity="center_vertical|right"
+        android:scaleType="fitCenter"
+        android:src="@drawable/detail" />
 </LinearLayout>
-

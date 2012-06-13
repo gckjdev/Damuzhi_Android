@@ -119,7 +119,6 @@ public class OverviewActivity extends TravelActivity implements PlaceActivity
             imageView.setPadding(10, 0, 10, 0);  
             imageViews[i] = imageView;  
             if (i == 0) {  
-                // Ĭ�Ͻ��������һ��ͼƬ��ѡ��;  
                 imageViews[i].setBackgroundResource(R.drawable.guide_dot_white);  
             } else {  
                 imageViews[i].setBackgroundResource(R.drawable.guide_dot_black);  

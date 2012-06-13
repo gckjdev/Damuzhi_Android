@@ -21,6 +21,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -32,6 +33,9 @@ import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.util.FileUtil;
+import com.damuzhi.travel.util.TravelUtil;
+import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
+import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
 
 /**  
  * @description   
@@ -132,7 +136,7 @@ public class PlaceMission
 		else{
 			int cityId = AppManager.getInstance().getCurrentCityId();
 			String url = String.format(ConstantField.PLACE_LIST_NEARBY, placeCategory, cityId, null,location.get(ConstantField.LATITUDE),location.get(ConstantField.LONGITUDE),null,distance,ConstantField.LANG_HANS,null);
-			nearbyPlaceList = getNearByPlaceListByUrl(url);	
+			nearbyPlaceList = getNearByPlaceListByUrl(url);				
 			//remotePlaceManager.clearNearbyList();
 			//remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
 		}
@@ -162,7 +166,7 @@ public class PlaceMission
 					}
 					
 					inputStream.close();
-					inputStream = null;
+					inputStream = null;					
 					return travelResponse.getPlaceList().getListList();
 				} catch (Exception e)
 				{					
