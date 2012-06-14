@@ -3,11 +3,20 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/all_page_bg2"
-    android:orientation="vertical" >  
+    android:orientation="vertical" > 
+     <TextView 
+    	    android:id="@+id/place_title"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:background="@drawable/topmenu_bg"
+    	    android:gravity="center"
+    	    android:text="@string/travel_commend"
+    	    android:textSize="20.0sp"
+    	    android:textColor="@color/white"/> 
     <ListView
         android:id="@+id/travel_route_listview"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:cacheColorHint="@null"
         android:scrollbars="none"
    />

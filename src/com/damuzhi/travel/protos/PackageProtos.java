@@ -388,7 +388,7 @@ public final class PackageProtos {
         return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_Package_fieldAccessorTable;
       }
       
-      // Construct using com.lk.damuzhi.util.PackageProtos.Package.newBuilder()
+      // Construct using com.damuzhi.travel.protos.PackageProtos.Package.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -704,6 +704,2436 @@ public final class PackageProtos {
     // @@protoc_insertion_point(class_scope:damuzhi.Package)
   }
   
+  public interface UserInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // required string userId = 1;
+    boolean hasUserId();
+    String getUserId();
+    
+    // required int32 loginType = 2;
+    boolean hasLoginType();
+    int getLoginType();
+    
+    // required string password = 3;
+    boolean hasPassword();
+    String getPassword();
+    
+    // required string telephone = 10;
+    boolean hasTelephone();
+    String getTelephone();
+    
+    // required string email = 11;
+    boolean hasEmail();
+    String getEmail();
+    
+    // optional string nickName = 20;
+    boolean hasNickName();
+    String getNickName();
+    
+    // optional int32 gender = 21;
+    boolean hasGender();
+    int getGender();
+    
+    // optional string fullName = 22;
+    boolean hasFullName();
+    String getFullName();
+    
+    // optional string address = 23;
+    boolean hasAddress();
+    String getAddress();
+  }
+  public static final class UserInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements UserInfoOrBuilder {
+    // Use UserInfo.newBuilder() to construct.
+    private UserInfo(Builder builder) {
+      super(builder);
+    }
+    private UserInfo(boolean noInit) {}
+    
+    private static final UserInfo defaultInstance;
+    public static UserInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public UserInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_UserInfo_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_UserInfo_fieldAccessorTable;
+    }
+    
+    private int bitField0_;
+    // required string userId = 1;
+    public static final int USERID_FIELD_NUMBER = 1;
+    private java.lang.Object userId_;
+    public boolean hasUserId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public String getUserId() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          userId_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getUserIdBytes() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        userId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // required int32 loginType = 2;
+    public static final int LOGINTYPE_FIELD_NUMBER = 2;
+    private int loginType_;
+    public boolean hasLoginType() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public int getLoginType() {
+      return loginType_;
+    }
+    
+    // required string password = 3;
+    public static final int PASSWORD_FIELD_NUMBER = 3;
+    private java.lang.Object password_;
+    public boolean hasPassword() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    public String getPassword() {
+      java.lang.Object ref = password_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          password_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getPasswordBytes() {
+      java.lang.Object ref = password_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        password_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // required string telephone = 10;
+    public static final int TELEPHONE_FIELD_NUMBER = 10;
+    private java.lang.Object telephone_;
+    public boolean hasTelephone() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    public String getTelephone() {
+      java.lang.Object ref = telephone_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          telephone_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getTelephoneBytes() {
+      java.lang.Object ref = telephone_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        telephone_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // required string email = 11;
+    public static final int EMAIL_FIELD_NUMBER = 11;
+    private java.lang.Object email_;
+    public boolean hasEmail() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    public String getEmail() {
+      java.lang.Object ref = email_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          email_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getEmailBytes() {
+      java.lang.Object ref = email_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        email_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string nickName = 20;
+    public static final int NICKNAME_FIELD_NUMBER = 20;
+    private java.lang.Object nickName_;
+    public boolean hasNickName() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    public String getNickName() {
+      java.lang.Object ref = nickName_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          nickName_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getNickNameBytes() {
+      java.lang.Object ref = nickName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        nickName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional int32 gender = 21;
+    public static final int GENDER_FIELD_NUMBER = 21;
+    private int gender_;
+    public boolean hasGender() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    public int getGender() {
+      return gender_;
+    }
+    
+    // optional string fullName = 22;
+    public static final int FULLNAME_FIELD_NUMBER = 22;
+    private java.lang.Object fullName_;
+    public boolean hasFullName() {
+      return ((bitField0_ & 0x00000080) == 0x00000080);
+    }
+    public String getFullName() {
+      java.lang.Object ref = fullName_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          fullName_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getFullNameBytes() {
+      java.lang.Object ref = fullName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        fullName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string address = 23;
+    public static final int ADDRESS_FIELD_NUMBER = 23;
+    private java.lang.Object address_;
+    public boolean hasAddress() {
+      return ((bitField0_ & 0x00000100) == 0x00000100);
+    }
+    public String getAddress() {
+      java.lang.Object ref = address_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          address_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getAddressBytes() {
+      java.lang.Object ref = address_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        address_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    private void initFields() {
+      userId_ = "";
+      loginType_ = 0;
+      password_ = "";
+      telephone_ = "";
+      email_ = "";
+      nickName_ = "";
+      gender_ = 0;
+      fullName_ = "";
+      address_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasLoginType()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasPassword()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasTelephone()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasEmail()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeInt32(2, loginType_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getPasswordBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(10, getTelephoneBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(11, getEmailBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(20, getNickNameBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeInt32(21, gender_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        output.writeBytes(22, getFullNameBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        output.writeBytes(23, getAddressBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(2, loginType_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getPasswordBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getTelephoneBytes());
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(11, getEmailBytes());
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(20, getNickNameBytes());
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(21, gender_);
+      }
+      if (((bitField0_ & 0x00000080) == 0x00000080)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(22, getFullNameBytes());
+      }
+      if (((bitField0_ & 0x00000100) == 0x00000100)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(23, getAddressBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.UserInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.damuzhi.travel.protos.PackageProtos.UserInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.damuzhi.travel.protos.PackageProtos.UserInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_UserInfo_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_UserInfo_fieldAccessorTable;
+      }
+      
+      // Construct using com.damuzhi.travel.protos.PackageProtos.UserInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        userId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        loginType_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        password_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        telephone_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        email_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        nickName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        gender_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        fullName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
+        address_ = "";
+        bitField0_ = (bitField0_ & ~0x00000100);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.damuzhi.travel.protos.PackageProtos.UserInfo.getDescriptor();
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.UserInfo getDefaultInstanceForType() {
+        return com.damuzhi.travel.protos.PackageProtos.UserInfo.getDefaultInstance();
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.UserInfo build() {
+        com.damuzhi.travel.protos.PackageProtos.UserInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.damuzhi.travel.protos.PackageProtos.UserInfo buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.damuzhi.travel.protos.PackageProtos.UserInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.UserInfo buildPartial() {
+        com.damuzhi.travel.protos.PackageProtos.UserInfo result = new com.damuzhi.travel.protos.PackageProtos.UserInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.userId_ = userId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.loginType_ = loginType_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.password_ = password_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.telephone_ = telephone_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.email_ = email_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.nickName_ = nickName_;
+        if (((from_bitField0_ & 0x00000040) == 0x00000040)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.gender_ = gender_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000080;
+        }
+        result.fullName_ = fullName_;
+        if (((from_bitField0_ & 0x00000100) == 0x00000100)) {
+          to_bitField0_ |= 0x00000100;
+        }
+        result.address_ = address_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.damuzhi.travel.protos.PackageProtos.UserInfo) {
+          return mergeFrom((com.damuzhi.travel.protos.PackageProtos.UserInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.damuzhi.travel.protos.PackageProtos.UserInfo other) {
+        if (other == com.damuzhi.travel.protos.PackageProtos.UserInfo.getDefaultInstance()) return this;
+        if (other.hasUserId()) {
+          setUserId(other.getUserId());
+        }
+        if (other.hasLoginType()) {
+          setLoginType(other.getLoginType());
+        }
+        if (other.hasPassword()) {
+          setPassword(other.getPassword());
+        }
+        if (other.hasTelephone()) {
+          setTelephone(other.getTelephone());
+        }
+        if (other.hasEmail()) {
+          setEmail(other.getEmail());
+        }
+        if (other.hasNickName()) {
+          setNickName(other.getNickName());
+        }
+        if (other.hasGender()) {
+          setGender(other.getGender());
+        }
+        if (other.hasFullName()) {
+          setFullName(other.getFullName());
+        }
+        if (other.hasAddress()) {
+          setAddress(other.getAddress());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasUserId()) {
+          
+          return false;
+        }
+        if (!hasLoginType()) {
+          
+          return false;
+        }
+        if (!hasPassword()) {
+          
+          return false;
+        }
+        if (!hasTelephone()) {
+          
+          return false;
+        }
+        if (!hasEmail()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              userId_ = input.readBytes();
+              break;
+            }
+            case 16: {
+              bitField0_ |= 0x00000002;
+              loginType_ = input.readInt32();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              password_ = input.readBytes();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000008;
+              telephone_ = input.readBytes();
+              break;
+            }
+            case 90: {
+              bitField0_ |= 0x00000010;
+              email_ = input.readBytes();
+              break;
+            }
+            case 162: {
+              bitField0_ |= 0x00000020;
+              nickName_ = input.readBytes();
+              break;
+            }
+            case 168: {
+              bitField0_ |= 0x00000040;
+              gender_ = input.readInt32();
+              break;
+            }
+            case 178: {
+              bitField0_ |= 0x00000080;
+              fullName_ = input.readBytes();
+              break;
+            }
+            case 186: {
+              bitField0_ |= 0x00000100;
+              address_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required string userId = 1;
+      private java.lang.Object userId_ = "";
+      public boolean hasUserId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public String getUserId() {
+        java.lang.Object ref = userId_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          userId_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setUserId(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearUserId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userId_ = getDefaultInstance().getUserId();
+        onChanged();
+        return this;
+      }
+      void setUserId(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000001;
+        userId_ = value;
+        onChanged();
+      }
+      
+      // required int32 loginType = 2;
+      private int loginType_ ;
+      public boolean hasLoginType() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public int getLoginType() {
+        return loginType_;
+      }
+      public Builder setLoginType(int value) {
+        bitField0_ |= 0x00000002;
+        loginType_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearLoginType() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        loginType_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // required string password = 3;
+      private java.lang.Object password_ = "";
+      public boolean hasPassword() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public String getPassword() {
+        java.lang.Object ref = password_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          password_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setPassword(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        password_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearPassword() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        password_ = getDefaultInstance().getPassword();
+        onChanged();
+        return this;
+      }
+      void setPassword(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000004;
+        password_ = value;
+        onChanged();
+      }
+      
+      // required string telephone = 10;
+      private java.lang.Object telephone_ = "";
+      public boolean hasTelephone() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      public String getTelephone() {
+        java.lang.Object ref = telephone_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          telephone_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setTelephone(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        telephone_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearTelephone() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        telephone_ = getDefaultInstance().getTelephone();
+        onChanged();
+        return this;
+      }
+      void setTelephone(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000008;
+        telephone_ = value;
+        onChanged();
+      }
+      
+      // required string email = 11;
+      private java.lang.Object email_ = "";
+      public boolean hasEmail() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      public String getEmail() {
+        java.lang.Object ref = email_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          email_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setEmail(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        email_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearEmail() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        email_ = getDefaultInstance().getEmail();
+        onChanged();
+        return this;
+      }
+      void setEmail(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000010;
+        email_ = value;
+        onChanged();
+      }
+      
+      // optional string nickName = 20;
+      private java.lang.Object nickName_ = "";
+      public boolean hasNickName() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      public String getNickName() {
+        java.lang.Object ref = nickName_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          nickName_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setNickName(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        nickName_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearNickName() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        nickName_ = getDefaultInstance().getNickName();
+        onChanged();
+        return this;
+      }
+      void setNickName(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000020;
+        nickName_ = value;
+        onChanged();
+      }
+      
+      // optional int32 gender = 21;
+      private int gender_ ;
+      public boolean hasGender() {
+        return ((bitField0_ & 0x00000040) == 0x00000040);
+      }
+      public int getGender() {
+        return gender_;
+      }
+      public Builder setGender(int value) {
+        bitField0_ |= 0x00000040;
+        gender_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearGender() {
+        bitField0_ = (bitField0_ & ~0x00000040);
+        gender_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional string fullName = 22;
+      private java.lang.Object fullName_ = "";
+      public boolean hasFullName() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      public String getFullName() {
+        java.lang.Object ref = fullName_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          fullName_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setFullName(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        fullName_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearFullName() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        fullName_ = getDefaultInstance().getFullName();
+        onChanged();
+        return this;
+      }
+      void setFullName(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000080;
+        fullName_ = value;
+        onChanged();
+      }
+      
+      // optional string address = 23;
+      private java.lang.Object address_ = "";
+      public boolean hasAddress() {
+        return ((bitField0_ & 0x00000100) == 0x00000100);
+      }
+      public String getAddress() {
+        java.lang.Object ref = address_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          address_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setAddress(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000100;
+        address_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearAddress() {
+        bitField0_ = (bitField0_ & ~0x00000100);
+        address_ = getDefaultInstance().getAddress();
+        onChanged();
+        return this;
+      }
+      void setAddress(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000100;
+        address_ = value;
+        onChanged();
+      }
+      
+      // @@protoc_insertion_point(builder_scope:damuzhi.UserInfo)
+    }
+    
+    static {
+      defaultInstance = new UserInfo(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:damuzhi.UserInfo)
+  }
+  
+  public interface RouteFeekbackListOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // repeated .damuzhi.RouteFeekback routeFeekbacks = 1;
+    java.util.List<com.damuzhi.travel.protos.PackageProtos.RouteFeekback> 
+        getRouteFeekbacksList();
+    com.damuzhi.travel.protos.PackageProtos.RouteFeekback getRouteFeekbacks(int index);
+    int getRouteFeekbacksCount();
+    java.util.List<? extends com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder> 
+        getRouteFeekbacksOrBuilderList();
+    com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder getRouteFeekbacksOrBuilder(
+        int index);
+  }
+  public static final class RouteFeekbackList extends
+      com.google.protobuf.GeneratedMessage
+      implements RouteFeekbackListOrBuilder {
+    // Use RouteFeekbackList.newBuilder() to construct.
+    private RouteFeekbackList(Builder builder) {
+      super(builder);
+    }
+    private RouteFeekbackList(boolean noInit) {}
+    
+    private static final RouteFeekbackList defaultInstance;
+    public static RouteFeekbackList getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public RouteFeekbackList getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_RouteFeekbackList_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_RouteFeekbackList_fieldAccessorTable;
+    }
+    
+    // repeated .damuzhi.RouteFeekback routeFeekbacks = 1;
+    public static final int ROUTEFEEKBACKS_FIELD_NUMBER = 1;
+    private java.util.List<com.damuzhi.travel.protos.PackageProtos.RouteFeekback> routeFeekbacks_;
+    public java.util.List<com.damuzhi.travel.protos.PackageProtos.RouteFeekback> getRouteFeekbacksList() {
+      return routeFeekbacks_;
+    }
+    public java.util.List<? extends com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder> 
+        getRouteFeekbacksOrBuilderList() {
+      return routeFeekbacks_;
+    }
+    public int getRouteFeekbacksCount() {
+      return routeFeekbacks_.size();
+    }
+    public com.damuzhi.travel.protos.PackageProtos.RouteFeekback getRouteFeekbacks(int index) {
+      return routeFeekbacks_.get(index);
+    }
+    public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder getRouteFeekbacksOrBuilder(
+        int index) {
+      return routeFeekbacks_.get(index);
+    }
+    
+    private void initFields() {
+      routeFeekbacks_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      for (int i = 0; i < getRouteFeekbacksCount(); i++) {
+        if (!getRouteFeekbacks(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < routeFeekbacks_.size(); i++) {
+        output.writeMessage(1, routeFeekbacks_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      for (int i = 0; i < routeFeekbacks_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, routeFeekbacks_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.damuzhi.travel.protos.PackageProtos.RouteFeekbackListOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_RouteFeekbackList_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_RouteFeekbackList_fieldAccessorTable;
+      }
+      
+      // Construct using com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getRouteFeekbacksFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        if (routeFeekbacksBuilder_ == null) {
+          routeFeekbacks_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          routeFeekbacksBuilder_.clear();
+        }
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.getDescriptor();
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList getDefaultInstanceForType() {
+        return com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.getDefaultInstance();
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList build() {
+        com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList buildPartial() {
+        com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList result = new com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList(this);
+        int from_bitField0_ = bitField0_;
+        if (routeFeekbacksBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            routeFeekbacks_ = java.util.Collections.unmodifiableList(routeFeekbacks_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.routeFeekbacks_ = routeFeekbacks_;
+        } else {
+          result.routeFeekbacks_ = routeFeekbacksBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList) {
+          return mergeFrom((com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList other) {
+        if (other == com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.getDefaultInstance()) return this;
+        if (routeFeekbacksBuilder_ == null) {
+          if (!other.routeFeekbacks_.isEmpty()) {
+            if (routeFeekbacks_.isEmpty()) {
+              routeFeekbacks_ = other.routeFeekbacks_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureRouteFeekbacksIsMutable();
+              routeFeekbacks_.addAll(other.routeFeekbacks_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.routeFeekbacks_.isEmpty()) {
+            if (routeFeekbacksBuilder_.isEmpty()) {
+              routeFeekbacksBuilder_.dispose();
+              routeFeekbacksBuilder_ = null;
+              routeFeekbacks_ = other.routeFeekbacks_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              routeFeekbacksBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRouteFeekbacksFieldBuilder() : null;
+            } else {
+              routeFeekbacksBuilder_.addAllMessages(other.routeFeekbacks_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        for (int i = 0; i < getRouteFeekbacksCount(); i++) {
+          if (!getRouteFeekbacks(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 10: {
+              com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder subBuilder = com.damuzhi.travel.protos.PackageProtos.RouteFeekback.newBuilder();
+              input.readMessage(subBuilder, extensionRegistry);
+              addRouteFeekbacks(subBuilder.buildPartial());
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // repeated .damuzhi.RouteFeekback routeFeekbacks = 1;
+      private java.util.List<com.damuzhi.travel.protos.PackageProtos.RouteFeekback> routeFeekbacks_ =
+        java.util.Collections.emptyList();
+      private void ensureRouteFeekbacksIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          routeFeekbacks_ = new java.util.ArrayList<com.damuzhi.travel.protos.PackageProtos.RouteFeekback>(routeFeekbacks_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.PackageProtos.RouteFeekback, com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder, com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder> routeFeekbacksBuilder_;
+      
+      public java.util.List<com.damuzhi.travel.protos.PackageProtos.RouteFeekback> getRouteFeekbacksList() {
+        if (routeFeekbacksBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(routeFeekbacks_);
+        } else {
+          return routeFeekbacksBuilder_.getMessageList();
+        }
+      }
+      public int getRouteFeekbacksCount() {
+        if (routeFeekbacksBuilder_ == null) {
+          return routeFeekbacks_.size();
+        } else {
+          return routeFeekbacksBuilder_.getCount();
+        }
+      }
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekback getRouteFeekbacks(int index) {
+        if (routeFeekbacksBuilder_ == null) {
+          return routeFeekbacks_.get(index);
+        } else {
+          return routeFeekbacksBuilder_.getMessage(index);
+        }
+      }
+      public Builder setRouteFeekbacks(
+          int index, com.damuzhi.travel.protos.PackageProtos.RouteFeekback value) {
+        if (routeFeekbacksBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRouteFeekbacksIsMutable();
+          routeFeekbacks_.set(index, value);
+          onChanged();
+        } else {
+          routeFeekbacksBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      public Builder setRouteFeekbacks(
+          int index, com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder builderForValue) {
+        if (routeFeekbacksBuilder_ == null) {
+          ensureRouteFeekbacksIsMutable();
+          routeFeekbacks_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          routeFeekbacksBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addRouteFeekbacks(com.damuzhi.travel.protos.PackageProtos.RouteFeekback value) {
+        if (routeFeekbacksBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRouteFeekbacksIsMutable();
+          routeFeekbacks_.add(value);
+          onChanged();
+        } else {
+          routeFeekbacksBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      public Builder addRouteFeekbacks(
+          int index, com.damuzhi.travel.protos.PackageProtos.RouteFeekback value) {
+        if (routeFeekbacksBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRouteFeekbacksIsMutable();
+          routeFeekbacks_.add(index, value);
+          onChanged();
+        } else {
+          routeFeekbacksBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      public Builder addRouteFeekbacks(
+          com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder builderForValue) {
+        if (routeFeekbacksBuilder_ == null) {
+          ensureRouteFeekbacksIsMutable();
+          routeFeekbacks_.add(builderForValue.build());
+          onChanged();
+        } else {
+          routeFeekbacksBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addRouteFeekbacks(
+          int index, com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder builderForValue) {
+        if (routeFeekbacksBuilder_ == null) {
+          ensureRouteFeekbacksIsMutable();
+          routeFeekbacks_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          routeFeekbacksBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAllRouteFeekbacks(
+          java.lang.Iterable<? extends com.damuzhi.travel.protos.PackageProtos.RouteFeekback> values) {
+        if (routeFeekbacksBuilder_ == null) {
+          ensureRouteFeekbacksIsMutable();
+          super.addAll(values, routeFeekbacks_);
+          onChanged();
+        } else {
+          routeFeekbacksBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      public Builder clearRouteFeekbacks() {
+        if (routeFeekbacksBuilder_ == null) {
+          routeFeekbacks_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          routeFeekbacksBuilder_.clear();
+        }
+        return this;
+      }
+      public Builder removeRouteFeekbacks(int index) {
+        if (routeFeekbacksBuilder_ == null) {
+          ensureRouteFeekbacksIsMutable();
+          routeFeekbacks_.remove(index);
+          onChanged();
+        } else {
+          routeFeekbacksBuilder_.remove(index);
+        }
+        return this;
+      }
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder getRouteFeekbacksBuilder(
+          int index) {
+        return getRouteFeekbacksFieldBuilder().getBuilder(index);
+      }
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder getRouteFeekbacksOrBuilder(
+          int index) {
+        if (routeFeekbacksBuilder_ == null) {
+          return routeFeekbacks_.get(index);  } else {
+          return routeFeekbacksBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder> 
+           getRouteFeekbacksOrBuilderList() {
+        if (routeFeekbacksBuilder_ != null) {
+          return routeFeekbacksBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(routeFeekbacks_);
+        }
+      }
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder addRouteFeekbacksBuilder() {
+        return getRouteFeekbacksFieldBuilder().addBuilder(
+            com.damuzhi.travel.protos.PackageProtos.RouteFeekback.getDefaultInstance());
+      }
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder addRouteFeekbacksBuilder(
+          int index) {
+        return getRouteFeekbacksFieldBuilder().addBuilder(
+            index, com.damuzhi.travel.protos.PackageProtos.RouteFeekback.getDefaultInstance());
+      }
+      public java.util.List<com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder> 
+           getRouteFeekbacksBuilderList() {
+        return getRouteFeekbacksFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.PackageProtos.RouteFeekback, com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder, com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder> 
+          getRouteFeekbacksFieldBuilder() {
+        if (routeFeekbacksBuilder_ == null) {
+          routeFeekbacksBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.damuzhi.travel.protos.PackageProtos.RouteFeekback, com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder, com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder>(
+                  routeFeekbacks_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          routeFeekbacks_ = null;
+        }
+        return routeFeekbacksBuilder_;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:damuzhi.RouteFeekbackList)
+    }
+    
+    static {
+      defaultInstance = new RouteFeekbackList(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:damuzhi.RouteFeekbackList)
+  }
+  
+  public interface RouteFeekbackOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // required int32 routeId = 1;
+    boolean hasRouteId();
+    int getRouteId();
+    
+    // required string userId = 2;
+    boolean hasUserId();
+    String getUserId();
+    
+    // required string nickName = 3;
+    boolean hasNickName();
+    String getNickName();
+    
+    // required int32 date = 4;
+    boolean hasDate();
+    int getDate();
+    
+    // required int32 rank = 5;
+    boolean hasRank();
+    int getRank();
+    
+    // optional string content = 6;
+    boolean hasContent();
+    String getContent();
+  }
+  public static final class RouteFeekback extends
+      com.google.protobuf.GeneratedMessage
+      implements RouteFeekbackOrBuilder {
+    // Use RouteFeekback.newBuilder() to construct.
+    private RouteFeekback(Builder builder) {
+      super(builder);
+    }
+    private RouteFeekback(boolean noInit) {}
+    
+    private static final RouteFeekback defaultInstance;
+    public static RouteFeekback getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public RouteFeekback getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_RouteFeekback_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_RouteFeekback_fieldAccessorTable;
+    }
+    
+    private int bitField0_;
+    // required int32 routeId = 1;
+    public static final int ROUTEID_FIELD_NUMBER = 1;
+    private int routeId_;
+    public boolean hasRouteId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getRouteId() {
+      return routeId_;
+    }
+    
+    // required string userId = 2;
+    public static final int USERID_FIELD_NUMBER = 2;
+    private java.lang.Object userId_;
+    public boolean hasUserId() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public String getUserId() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          userId_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getUserIdBytes() {
+      java.lang.Object ref = userId_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        userId_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // required string nickName = 3;
+    public static final int NICKNAME_FIELD_NUMBER = 3;
+    private java.lang.Object nickName_;
+    public boolean hasNickName() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    public String getNickName() {
+      java.lang.Object ref = nickName_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          nickName_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getNickNameBytes() {
+      java.lang.Object ref = nickName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        nickName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // required int32 date = 4;
+    public static final int DATE_FIELD_NUMBER = 4;
+    private int date_;
+    public boolean hasDate() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    public int getDate() {
+      return date_;
+    }
+    
+    // required int32 rank = 5;
+    public static final int RANK_FIELD_NUMBER = 5;
+    private int rank_;
+    public boolean hasRank() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    public int getRank() {
+      return rank_;
+    }
+    
+    // optional string content = 6;
+    public static final int CONTENT_FIELD_NUMBER = 6;
+    private java.lang.Object content_;
+    public boolean hasContent() {
+      return ((bitField0_ & 0x00000020) == 0x00000020);
+    }
+    public String getContent() {
+      java.lang.Object ref = content_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          content_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getContentBytes() {
+      java.lang.Object ref = content_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        content_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    private void initFields() {
+      routeId_ = 0;
+      userId_ = "";
+      nickName_ = "";
+      date_ = 0;
+      rank_ = 0;
+      content_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasRouteId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasUserId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasNickName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasDate()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasRank()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, routeId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getNickNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(4, date_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeInt32(5, rank_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        output.writeBytes(6, getContentBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, routeId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getUserIdBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getNickNameBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(4, date_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(5, rank_);
+      }
+      if (((bitField0_ & 0x00000020) == 0x00000020)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(6, getContentBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.RouteFeekback parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.damuzhi.travel.protos.PackageProtos.RouteFeekback prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.damuzhi.travel.protos.PackageProtos.RouteFeekbackOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_RouteFeekback_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_RouteFeekback_fieldAccessorTable;
+      }
+      
+      // Construct using com.damuzhi.travel.protos.PackageProtos.RouteFeekback.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        routeId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        userId_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        nickName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        date_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        rank_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000010);
+        content_ = "";
+        bitField0_ = (bitField0_ & ~0x00000020);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.damuzhi.travel.protos.PackageProtos.RouteFeekback.getDescriptor();
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekback getDefaultInstanceForType() {
+        return com.damuzhi.travel.protos.PackageProtos.RouteFeekback.getDefaultInstance();
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekback build() {
+        com.damuzhi.travel.protos.PackageProtos.RouteFeekback result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.damuzhi.travel.protos.PackageProtos.RouteFeekback buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.damuzhi.travel.protos.PackageProtos.RouteFeekback result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekback buildPartial() {
+        com.damuzhi.travel.protos.PackageProtos.RouteFeekback result = new com.damuzhi.travel.protos.PackageProtos.RouteFeekback(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.routeId_ = routeId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.userId_ = userId_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.nickName_ = nickName_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.date_ = date_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.rank_ = rank_;
+        if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
+          to_bitField0_ |= 0x00000020;
+        }
+        result.content_ = content_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.damuzhi.travel.protos.PackageProtos.RouteFeekback) {
+          return mergeFrom((com.damuzhi.travel.protos.PackageProtos.RouteFeekback)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.damuzhi.travel.protos.PackageProtos.RouteFeekback other) {
+        if (other == com.damuzhi.travel.protos.PackageProtos.RouteFeekback.getDefaultInstance()) return this;
+        if (other.hasRouteId()) {
+          setRouteId(other.getRouteId());
+        }
+        if (other.hasUserId()) {
+          setUserId(other.getUserId());
+        }
+        if (other.hasNickName()) {
+          setNickName(other.getNickName());
+        }
+        if (other.hasDate()) {
+          setDate(other.getDate());
+        }
+        if (other.hasRank()) {
+          setRank(other.getRank());
+        }
+        if (other.hasContent()) {
+          setContent(other.getContent());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasRouteId()) {
+          
+          return false;
+        }
+        if (!hasUserId()) {
+          
+          return false;
+        }
+        if (!hasNickName()) {
+          
+          return false;
+        }
+        if (!hasDate()) {
+          
+          return false;
+        }
+        if (!hasRank()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              routeId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              userId_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              nickName_ = input.readBytes();
+              break;
+            }
+            case 32: {
+              bitField0_ |= 0x00000008;
+              date_ = input.readInt32();
+              break;
+            }
+            case 40: {
+              bitField0_ |= 0x00000010;
+              rank_ = input.readInt32();
+              break;
+            }
+            case 50: {
+              bitField0_ |= 0x00000020;
+              content_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required int32 routeId = 1;
+      private int routeId_ ;
+      public boolean hasRouteId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getRouteId() {
+        return routeId_;
+      }
+      public Builder setRouteId(int value) {
+        bitField0_ |= 0x00000001;
+        routeId_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRouteId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        routeId_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // required string userId = 2;
+      private java.lang.Object userId_ = "";
+      public boolean hasUserId() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public String getUserId() {
+        java.lang.Object ref = userId_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          userId_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setUserId(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        userId_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearUserId() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        userId_ = getDefaultInstance().getUserId();
+        onChanged();
+        return this;
+      }
+      void setUserId(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000002;
+        userId_ = value;
+        onChanged();
+      }
+      
+      // required string nickName = 3;
+      private java.lang.Object nickName_ = "";
+      public boolean hasNickName() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public String getNickName() {
+        java.lang.Object ref = nickName_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          nickName_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setNickName(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        nickName_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearNickName() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        nickName_ = getDefaultInstance().getNickName();
+        onChanged();
+        return this;
+      }
+      void setNickName(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000004;
+        nickName_ = value;
+        onChanged();
+      }
+      
+      // required int32 date = 4;
+      private int date_ ;
+      public boolean hasDate() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      public int getDate() {
+        return date_;
+      }
+      public Builder setDate(int value) {
+        bitField0_ |= 0x00000008;
+        date_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearDate() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        date_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // required int32 rank = 5;
+      private int rank_ ;
+      public boolean hasRank() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      public int getRank() {
+        return rank_;
+      }
+      public Builder setRank(int value) {
+        bitField0_ |= 0x00000010;
+        rank_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRank() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        rank_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional string content = 6;
+      private java.lang.Object content_ = "";
+      public boolean hasContent() {
+        return ((bitField0_ & 0x00000020) == 0x00000020);
+      }
+      public String getContent() {
+        java.lang.Object ref = content_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          content_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setContent(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000020;
+        content_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearContent() {
+        bitField0_ = (bitField0_ & ~0x00000020);
+        content_ = getDefaultInstance().getContent();
+        onChanged();
+        return this;
+      }
+      void setContent(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000020;
+        content_ = value;
+        onChanged();
+      }
+      
+      // @@protoc_insertion_point(builder_scope:damuzhi.RouteFeekback)
+    }
+    
+    static {
+      defaultInstance = new RouteFeekback(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:damuzhi.RouteFeekback)
+  }
+  
   public interface TravelResponseOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
@@ -754,6 +3184,35 @@ public final class PackageProtos {
     boolean hasTravelTipList();
     com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList getTravelTipList();
     com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipListOrBuilder getTravelTipListOrBuilder();
+    
+    // optional int32 totalCount = 13;
+    boolean hasTotalCount();
+    int getTotalCount();
+    
+    // optional .damuzhi.UserInfo userInfo = 15;
+    boolean hasUserInfo();
+    com.damuzhi.travel.protos.PackageProtos.UserInfo getUserInfo();
+    com.damuzhi.travel.protos.PackageProtos.UserInfoOrBuilder getUserInfoOrBuilder();
+    
+    // optional .damuzhi.TouristRoute route = 20;
+    boolean hasRoute();
+    com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute getRoute();
+    com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteOrBuilder getRouteOrBuilder();
+    
+    // optional .damuzhi.TouristRouteList routeList = 21;
+    boolean hasRouteList();
+    com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList getRouteList();
+    com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteListOrBuilder getRouteListOrBuilder();
+    
+    // optional .damuzhi.RouteFeekbackList routeFeekbackList = 30;
+    boolean hasRouteFeekbackList();
+    com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList getRouteFeekbackList();
+    com.damuzhi.travel.protos.PackageProtos.RouteFeekbackListOrBuilder getRouteFeekbackListOrBuilder();
+    
+    // optional .damuzhi.OrderList orderList = 35;
+    boolean hasOrderList();
+    com.damuzhi.travel.protos.TouristRouteProtos.OrderList getOrderList();
+    com.damuzhi.travel.protos.TouristRouteProtos.OrderListOrBuilder getOrderListOrBuilder();
   }
   public static final class TravelResponse extends
       com.google.protobuf.GeneratedMessage
@@ -930,6 +3389,81 @@ public final class PackageProtos {
       return travelTipList_;
     }
     
+    // optional int32 totalCount = 13;
+    public static final int TOTALCOUNT_FIELD_NUMBER = 13;
+    private int totalCount_;
+    public boolean hasTotalCount() {
+      return ((bitField0_ & 0x00000400) == 0x00000400);
+    }
+    public int getTotalCount() {
+      return totalCount_;
+    }
+    
+    // optional .damuzhi.UserInfo userInfo = 15;
+    public static final int USERINFO_FIELD_NUMBER = 15;
+    private com.damuzhi.travel.protos.PackageProtos.UserInfo userInfo_;
+    public boolean hasUserInfo() {
+      return ((bitField0_ & 0x00000800) == 0x00000800);
+    }
+    public com.damuzhi.travel.protos.PackageProtos.UserInfo getUserInfo() {
+      return userInfo_;
+    }
+    public com.damuzhi.travel.protos.PackageProtos.UserInfoOrBuilder getUserInfoOrBuilder() {
+      return userInfo_;
+    }
+    
+    // optional .damuzhi.TouristRoute route = 20;
+    public static final int ROUTE_FIELD_NUMBER = 20;
+    private com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute route_;
+    public boolean hasRoute() {
+      return ((bitField0_ & 0x00001000) == 0x00001000);
+    }
+    public com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute getRoute() {
+      return route_;
+    }
+    public com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteOrBuilder getRouteOrBuilder() {
+      return route_;
+    }
+    
+    // optional .damuzhi.TouristRouteList routeList = 21;
+    public static final int ROUTELIST_FIELD_NUMBER = 21;
+    private com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList routeList_;
+    public boolean hasRouteList() {
+      return ((bitField0_ & 0x00002000) == 0x00002000);
+    }
+    public com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList getRouteList() {
+      return routeList_;
+    }
+    public com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteListOrBuilder getRouteListOrBuilder() {
+      return routeList_;
+    }
+    
+    // optional .damuzhi.RouteFeekbackList routeFeekbackList = 30;
+    public static final int ROUTEFEEKBACKLIST_FIELD_NUMBER = 30;
+    private com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList routeFeekbackList_;
+    public boolean hasRouteFeekbackList() {
+      return ((bitField0_ & 0x00004000) == 0x00004000);
+    }
+    public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList getRouteFeekbackList() {
+      return routeFeekbackList_;
+    }
+    public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackListOrBuilder getRouteFeekbackListOrBuilder() {
+      return routeFeekbackList_;
+    }
+    
+    // optional .damuzhi.OrderList orderList = 35;
+    public static final int ORDERLIST_FIELD_NUMBER = 35;
+    private com.damuzhi.travel.protos.TouristRouteProtos.OrderList orderList_;
+    public boolean hasOrderList() {
+      return ((bitField0_ & 0x00008000) == 0x00008000);
+    }
+    public com.damuzhi.travel.protos.TouristRouteProtos.OrderList getOrderList() {
+      return orderList_;
+    }
+    public com.damuzhi.travel.protos.TouristRouteProtos.OrderListOrBuilder getOrderListOrBuilder() {
+      return orderList_;
+    }
+    
     private void initFields() {
       resultCode_ = 0;
       resultInfo_ = "";
@@ -941,6 +3475,12 @@ public final class PackageProtos {
       cityList_ = com.damuzhi.travel.protos.AppProtos.CityList.getDefaultInstance();
       appInfo_ = com.damuzhi.travel.protos.AppProtos.App.getDefaultInstance();
       travelTipList_ = com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList.getDefaultInstance();
+      totalCount_ = 0;
+      userInfo_ = com.damuzhi.travel.protos.PackageProtos.UserInfo.getDefaultInstance();
+      route_ = com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.getDefaultInstance();
+      routeList_ = com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.getDefaultInstance();
+      routeFeekbackList_ = com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.getDefaultInstance();
+      orderList_ = com.damuzhi.travel.protos.TouristRouteProtos.OrderList.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -993,6 +3533,36 @@ public final class PackageProtos {
           return false;
         }
       }
+      if (hasUserInfo()) {
+        if (!getUserInfo().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasRoute()) {
+        if (!getRoute().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasRouteList()) {
+        if (!getRouteList().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasRouteFeekbackList()) {
+        if (!getRouteFeekbackList().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasOrderList()) {
+        if (!getOrderList().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -1029,6 +3599,24 @@ public final class PackageProtos {
       }
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         output.writeMessage(10, travelTipList_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        output.writeInt32(13, totalCount_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        output.writeMessage(15, userInfo_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        output.writeMessage(20, route_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        output.writeMessage(21, routeList_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        output.writeMessage(30, routeFeekbackList_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        output.writeMessage(35, orderList_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -1078,6 +3666,30 @@ public final class PackageProtos {
       if (((bitField0_ & 0x00000200) == 0x00000200)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(10, travelTipList_);
+      }
+      if (((bitField0_ & 0x00000400) == 0x00000400)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(13, totalCount_);
+      }
+      if (((bitField0_ & 0x00000800) == 0x00000800)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(15, userInfo_);
+      }
+      if (((bitField0_ & 0x00001000) == 0x00001000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(20, route_);
+      }
+      if (((bitField0_ & 0x00002000) == 0x00002000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(21, routeList_);
+      }
+      if (((bitField0_ & 0x00004000) == 0x00004000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(30, routeFeekbackList_);
+      }
+      if (((bitField0_ & 0x00008000) == 0x00008000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(35, orderList_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -1184,7 +3796,7 @@ public final class PackageProtos {
         return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_TravelResponse_fieldAccessorTable;
       }
       
-      // Construct using com.lk.damuzhi.util.PackageProtos.TravelResponse.newBuilder()
+      // Construct using com.damuzhi.travel.protos.PackageProtos.TravelResponse.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1203,6 +3815,11 @@ public final class PackageProtos {
           getCityListFieldBuilder();
           getAppInfoFieldBuilder();
           getTravelTipListFieldBuilder();
+          getUserInfoFieldBuilder();
+          getRouteFieldBuilder();
+          getRouteListFieldBuilder();
+          getRouteFeekbackListFieldBuilder();
+          getOrderListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1263,6 +3880,38 @@ public final class PackageProtos {
           travelTipListBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00000200);
+        totalCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000400);
+        if (userInfoBuilder_ == null) {
+          userInfo_ = com.damuzhi.travel.protos.PackageProtos.UserInfo.getDefaultInstance();
+        } else {
+          userInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000800);
+        if (routeBuilder_ == null) {
+          route_ = com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.getDefaultInstance();
+        } else {
+          routeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00001000);
+        if (routeListBuilder_ == null) {
+          routeList_ = com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.getDefaultInstance();
+        } else {
+          routeListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00002000);
+        if (routeFeekbackListBuilder_ == null) {
+          routeFeekbackList_ = com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.getDefaultInstance();
+        } else {
+          routeFeekbackListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00004000);
+        if (orderListBuilder_ == null) {
+          orderList_ = com.damuzhi.travel.protos.TouristRouteProtos.OrderList.getDefaultInstance();
+        } else {
+          orderListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00008000);
         return this;
       }
       
@@ -1373,6 +4022,50 @@ public final class PackageProtos {
         } else {
           result.travelTipList_ = travelTipListBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00000400) == 0x00000400)) {
+          to_bitField0_ |= 0x00000400;
+        }
+        result.totalCount_ = totalCount_;
+        if (((from_bitField0_ & 0x00000800) == 0x00000800)) {
+          to_bitField0_ |= 0x00000800;
+        }
+        if (userInfoBuilder_ == null) {
+          result.userInfo_ = userInfo_;
+        } else {
+          result.userInfo_ = userInfoBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00001000) == 0x00001000)) {
+          to_bitField0_ |= 0x00001000;
+        }
+        if (routeBuilder_ == null) {
+          result.route_ = route_;
+        } else {
+          result.route_ = routeBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00002000) == 0x00002000)) {
+          to_bitField0_ |= 0x00002000;
+        }
+        if (routeListBuilder_ == null) {
+          result.routeList_ = routeList_;
+        } else {
+          result.routeList_ = routeListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00004000) == 0x00004000)) {
+          to_bitField0_ |= 0x00004000;
+        }
+        if (routeFeekbackListBuilder_ == null) {
+          result.routeFeekbackList_ = routeFeekbackList_;
+        } else {
+          result.routeFeekbackList_ = routeFeekbackListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00008000) == 0x00008000)) {
+          to_bitField0_ |= 0x00008000;
+        }
+        if (orderListBuilder_ == null) {
+          result.orderList_ = orderList_;
+        } else {
+          result.orderList_ = orderListBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1418,6 +4111,24 @@ public final class PackageProtos {
         }
         if (other.hasTravelTipList()) {
           mergeTravelTipList(other.getTravelTipList());
+        }
+        if (other.hasTotalCount()) {
+          setTotalCount(other.getTotalCount());
+        }
+        if (other.hasUserInfo()) {
+          mergeUserInfo(other.getUserInfo());
+        }
+        if (other.hasRoute()) {
+          mergeRoute(other.getRoute());
+        }
+        if (other.hasRouteList()) {
+          mergeRouteList(other.getRouteList());
+        }
+        if (other.hasRouteFeekbackList()) {
+          mergeRouteFeekbackList(other.getRouteFeekbackList());
+        }
+        if (other.hasOrderList()) {
+          mergeOrderList(other.getOrderList());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -1466,6 +4177,36 @@ public final class PackageProtos {
         }
         if (hasTravelTipList()) {
           if (!getTravelTipList().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasUserInfo()) {
+          if (!getUserInfo().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasRoute()) {
+          if (!getRoute().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasRouteList()) {
+          if (!getRouteList().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasRouteFeekbackList()) {
+          if (!getRouteFeekbackList().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasOrderList()) {
+          if (!getOrderList().isInitialized()) {
             
             return false;
           }
@@ -1576,6 +4317,56 @@ public final class PackageProtos {
               }
               input.readMessage(subBuilder, extensionRegistry);
               setTravelTipList(subBuilder.buildPartial());
+              break;
+            }
+            case 104: {
+              bitField0_ |= 0x00000400;
+              totalCount_ = input.readInt32();
+              break;
+            }
+            case 122: {
+              com.damuzhi.travel.protos.PackageProtos.UserInfo.Builder subBuilder = com.damuzhi.travel.protos.PackageProtos.UserInfo.newBuilder();
+              if (hasUserInfo()) {
+                subBuilder.mergeFrom(getUserInfo());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setUserInfo(subBuilder.buildPartial());
+              break;
+            }
+            case 162: {
+              com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.Builder subBuilder = com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.newBuilder();
+              if (hasRoute()) {
+                subBuilder.mergeFrom(getRoute());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setRoute(subBuilder.buildPartial());
+              break;
+            }
+            case 170: {
+              com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.Builder subBuilder = com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.newBuilder();
+              if (hasRouteList()) {
+                subBuilder.mergeFrom(getRouteList());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setRouteList(subBuilder.buildPartial());
+              break;
+            }
+            case 242: {
+              com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.Builder subBuilder = com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.newBuilder();
+              if (hasRouteFeekbackList()) {
+                subBuilder.mergeFrom(getRouteFeekbackList());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setRouteFeekbackList(subBuilder.buildPartial());
+              break;
+            }
+            case 282: {
+              com.damuzhi.travel.protos.TouristRouteProtos.OrderList.Builder subBuilder = com.damuzhi.travel.protos.TouristRouteProtos.OrderList.newBuilder();
+              if (hasOrderList()) {
+                subBuilder.mergeFrom(getOrderList());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setOrderList(subBuilder.buildPartial());
               break;
             }
           }
@@ -2361,6 +5152,477 @@ public final class PackageProtos {
         return travelTipListBuilder_;
       }
       
+      // optional int32 totalCount = 13;
+      private int totalCount_ ;
+      public boolean hasTotalCount() {
+        return ((bitField0_ & 0x00000400) == 0x00000400);
+      }
+      public int getTotalCount() {
+        return totalCount_;
+      }
+      public Builder setTotalCount(int value) {
+        bitField0_ |= 0x00000400;
+        totalCount_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearTotalCount() {
+        bitField0_ = (bitField0_ & ~0x00000400);
+        totalCount_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional .damuzhi.UserInfo userInfo = 15;
+      private com.damuzhi.travel.protos.PackageProtos.UserInfo userInfo_ = com.damuzhi.travel.protos.PackageProtos.UserInfo.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.PackageProtos.UserInfo, com.damuzhi.travel.protos.PackageProtos.UserInfo.Builder, com.damuzhi.travel.protos.PackageProtos.UserInfoOrBuilder> userInfoBuilder_;
+      public boolean hasUserInfo() {
+        return ((bitField0_ & 0x00000800) == 0x00000800);
+      }
+      public com.damuzhi.travel.protos.PackageProtos.UserInfo getUserInfo() {
+        if (userInfoBuilder_ == null) {
+          return userInfo_;
+        } else {
+          return userInfoBuilder_.getMessage();
+        }
+      }
+      public Builder setUserInfo(com.damuzhi.travel.protos.PackageProtos.UserInfo value) {
+        if (userInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          userInfo_ = value;
+          onChanged();
+        } else {
+          userInfoBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      public Builder setUserInfo(
+          com.damuzhi.travel.protos.PackageProtos.UserInfo.Builder builderForValue) {
+        if (userInfoBuilder_ == null) {
+          userInfo_ = builderForValue.build();
+          onChanged();
+        } else {
+          userInfoBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      public Builder mergeUserInfo(com.damuzhi.travel.protos.PackageProtos.UserInfo value) {
+        if (userInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00000800) == 0x00000800) &&
+              userInfo_ != com.damuzhi.travel.protos.PackageProtos.UserInfo.getDefaultInstance()) {
+            userInfo_ =
+              com.damuzhi.travel.protos.PackageProtos.UserInfo.newBuilder(userInfo_).mergeFrom(value).buildPartial();
+          } else {
+            userInfo_ = value;
+          }
+          onChanged();
+        } else {
+          userInfoBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000800;
+        return this;
+      }
+      public Builder clearUserInfo() {
+        if (userInfoBuilder_ == null) {
+          userInfo_ = com.damuzhi.travel.protos.PackageProtos.UserInfo.getDefaultInstance();
+          onChanged();
+        } else {
+          userInfoBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000800);
+        return this;
+      }
+      public com.damuzhi.travel.protos.PackageProtos.UserInfo.Builder getUserInfoBuilder() {
+        bitField0_ |= 0x00000800;
+        onChanged();
+        return getUserInfoFieldBuilder().getBuilder();
+      }
+      public com.damuzhi.travel.protos.PackageProtos.UserInfoOrBuilder getUserInfoOrBuilder() {
+        if (userInfoBuilder_ != null) {
+          return userInfoBuilder_.getMessageOrBuilder();
+        } else {
+          return userInfo_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.PackageProtos.UserInfo, com.damuzhi.travel.protos.PackageProtos.UserInfo.Builder, com.damuzhi.travel.protos.PackageProtos.UserInfoOrBuilder> 
+          getUserInfoFieldBuilder() {
+        if (userInfoBuilder_ == null) {
+          userInfoBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.damuzhi.travel.protos.PackageProtos.UserInfo, com.damuzhi.travel.protos.PackageProtos.UserInfo.Builder, com.damuzhi.travel.protos.PackageProtos.UserInfoOrBuilder>(
+                  userInfo_,
+                  getParentForChildren(),
+                  isClean());
+          userInfo_ = null;
+        }
+        return userInfoBuilder_;
+      }
+      
+      // optional .damuzhi.TouristRoute route = 20;
+      private com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute route_ = com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute, com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.Builder, com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteOrBuilder> routeBuilder_;
+      public boolean hasRoute() {
+        return ((bitField0_ & 0x00001000) == 0x00001000);
+      }
+      public com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute getRoute() {
+        if (routeBuilder_ == null) {
+          return route_;
+        } else {
+          return routeBuilder_.getMessage();
+        }
+      }
+      public Builder setRoute(com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute value) {
+        if (routeBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          route_ = value;
+          onChanged();
+        } else {
+          routeBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00001000;
+        return this;
+      }
+      public Builder setRoute(
+          com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.Builder builderForValue) {
+        if (routeBuilder_ == null) {
+          route_ = builderForValue.build();
+          onChanged();
+        } else {
+          routeBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00001000;
+        return this;
+      }
+      public Builder mergeRoute(com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute value) {
+        if (routeBuilder_ == null) {
+          if (((bitField0_ & 0x00001000) == 0x00001000) &&
+              route_ != com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.getDefaultInstance()) {
+            route_ =
+              com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.newBuilder(route_).mergeFrom(value).buildPartial();
+          } else {
+            route_ = value;
+          }
+          onChanged();
+        } else {
+          routeBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00001000;
+        return this;
+      }
+      public Builder clearRoute() {
+        if (routeBuilder_ == null) {
+          route_ = com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.getDefaultInstance();
+          onChanged();
+        } else {
+          routeBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00001000);
+        return this;
+      }
+      public com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.Builder getRouteBuilder() {
+        bitField0_ |= 0x00001000;
+        onChanged();
+        return getRouteFieldBuilder().getBuilder();
+      }
+      public com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteOrBuilder getRouteOrBuilder() {
+        if (routeBuilder_ != null) {
+          return routeBuilder_.getMessageOrBuilder();
+        } else {
+          return route_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute, com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.Builder, com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteOrBuilder> 
+          getRouteFieldBuilder() {
+        if (routeBuilder_ == null) {
+          routeBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute, com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute.Builder, com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteOrBuilder>(
+                  route_,
+                  getParentForChildren(),
+                  isClean());
+          route_ = null;
+        }
+        return routeBuilder_;
+      }
+      
+      // optional .damuzhi.TouristRouteList routeList = 21;
+      private com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList routeList_ = com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList, com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.Builder, com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteListOrBuilder> routeListBuilder_;
+      public boolean hasRouteList() {
+        return ((bitField0_ & 0x00002000) == 0x00002000);
+      }
+      public com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList getRouteList() {
+        if (routeListBuilder_ == null) {
+          return routeList_;
+        } else {
+          return routeListBuilder_.getMessage();
+        }
+      }
+      public Builder setRouteList(com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList value) {
+        if (routeListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          routeList_ = value;
+          onChanged();
+        } else {
+          routeListBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00002000;
+        return this;
+      }
+      public Builder setRouteList(
+          com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.Builder builderForValue) {
+        if (routeListBuilder_ == null) {
+          routeList_ = builderForValue.build();
+          onChanged();
+        } else {
+          routeListBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00002000;
+        return this;
+      }
+      public Builder mergeRouteList(com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList value) {
+        if (routeListBuilder_ == null) {
+          if (((bitField0_ & 0x00002000) == 0x00002000) &&
+              routeList_ != com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.getDefaultInstance()) {
+            routeList_ =
+              com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.newBuilder(routeList_).mergeFrom(value).buildPartial();
+          } else {
+            routeList_ = value;
+          }
+          onChanged();
+        } else {
+          routeListBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00002000;
+        return this;
+      }
+      public Builder clearRouteList() {
+        if (routeListBuilder_ == null) {
+          routeList_ = com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.getDefaultInstance();
+          onChanged();
+        } else {
+          routeListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00002000);
+        return this;
+      }
+      public com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.Builder getRouteListBuilder() {
+        bitField0_ |= 0x00002000;
+        onChanged();
+        return getRouteListFieldBuilder().getBuilder();
+      }
+      public com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteListOrBuilder getRouteListOrBuilder() {
+        if (routeListBuilder_ != null) {
+          return routeListBuilder_.getMessageOrBuilder();
+        } else {
+          return routeList_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList, com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.Builder, com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteListOrBuilder> 
+          getRouteListFieldBuilder() {
+        if (routeListBuilder_ == null) {
+          routeListBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList, com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteList.Builder, com.damuzhi.travel.protos.TouristRouteProtos.TouristRouteListOrBuilder>(
+                  routeList_,
+                  getParentForChildren(),
+                  isClean());
+          routeList_ = null;
+        }
+        return routeListBuilder_;
+      }
+      
+      // optional .damuzhi.RouteFeekbackList routeFeekbackList = 30;
+      private com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList routeFeekbackList_ = com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList, com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.Builder, com.damuzhi.travel.protos.PackageProtos.RouteFeekbackListOrBuilder> routeFeekbackListBuilder_;
+      public boolean hasRouteFeekbackList() {
+        return ((bitField0_ & 0x00004000) == 0x00004000);
+      }
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList getRouteFeekbackList() {
+        if (routeFeekbackListBuilder_ == null) {
+          return routeFeekbackList_;
+        } else {
+          return routeFeekbackListBuilder_.getMessage();
+        }
+      }
+      public Builder setRouteFeekbackList(com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList value) {
+        if (routeFeekbackListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          routeFeekbackList_ = value;
+          onChanged();
+        } else {
+          routeFeekbackListBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00004000;
+        return this;
+      }
+      public Builder setRouteFeekbackList(
+          com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.Builder builderForValue) {
+        if (routeFeekbackListBuilder_ == null) {
+          routeFeekbackList_ = builderForValue.build();
+          onChanged();
+        } else {
+          routeFeekbackListBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00004000;
+        return this;
+      }
+      public Builder mergeRouteFeekbackList(com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList value) {
+        if (routeFeekbackListBuilder_ == null) {
+          if (((bitField0_ & 0x00004000) == 0x00004000) &&
+              routeFeekbackList_ != com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.getDefaultInstance()) {
+            routeFeekbackList_ =
+              com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.newBuilder(routeFeekbackList_).mergeFrom(value).buildPartial();
+          } else {
+            routeFeekbackList_ = value;
+          }
+          onChanged();
+        } else {
+          routeFeekbackListBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00004000;
+        return this;
+      }
+      public Builder clearRouteFeekbackList() {
+        if (routeFeekbackListBuilder_ == null) {
+          routeFeekbackList_ = com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.getDefaultInstance();
+          onChanged();
+        } else {
+          routeFeekbackListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00004000);
+        return this;
+      }
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.Builder getRouteFeekbackListBuilder() {
+        bitField0_ |= 0x00004000;
+        onChanged();
+        return getRouteFeekbackListFieldBuilder().getBuilder();
+      }
+      public com.damuzhi.travel.protos.PackageProtos.RouteFeekbackListOrBuilder getRouteFeekbackListOrBuilder() {
+        if (routeFeekbackListBuilder_ != null) {
+          return routeFeekbackListBuilder_.getMessageOrBuilder();
+        } else {
+          return routeFeekbackList_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList, com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.Builder, com.damuzhi.travel.protos.PackageProtos.RouteFeekbackListOrBuilder> 
+          getRouteFeekbackListFieldBuilder() {
+        if (routeFeekbackListBuilder_ == null) {
+          routeFeekbackListBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList, com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.Builder, com.damuzhi.travel.protos.PackageProtos.RouteFeekbackListOrBuilder>(
+                  routeFeekbackList_,
+                  getParentForChildren(),
+                  isClean());
+          routeFeekbackList_ = null;
+        }
+        return routeFeekbackListBuilder_;
+      }
+      
+      // optional .damuzhi.OrderList orderList = 35;
+      private com.damuzhi.travel.protos.TouristRouteProtos.OrderList orderList_ = com.damuzhi.travel.protos.TouristRouteProtos.OrderList.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.TouristRouteProtos.OrderList, com.damuzhi.travel.protos.TouristRouteProtos.OrderList.Builder, com.damuzhi.travel.protos.TouristRouteProtos.OrderListOrBuilder> orderListBuilder_;
+      public boolean hasOrderList() {
+        return ((bitField0_ & 0x00008000) == 0x00008000);
+      }
+      public com.damuzhi.travel.protos.TouristRouteProtos.OrderList getOrderList() {
+        if (orderListBuilder_ == null) {
+          return orderList_;
+        } else {
+          return orderListBuilder_.getMessage();
+        }
+      }
+      public Builder setOrderList(com.damuzhi.travel.protos.TouristRouteProtos.OrderList value) {
+        if (orderListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          orderList_ = value;
+          onChanged();
+        } else {
+          orderListBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00008000;
+        return this;
+      }
+      public Builder setOrderList(
+          com.damuzhi.travel.protos.TouristRouteProtos.OrderList.Builder builderForValue) {
+        if (orderListBuilder_ == null) {
+          orderList_ = builderForValue.build();
+          onChanged();
+        } else {
+          orderListBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00008000;
+        return this;
+      }
+      public Builder mergeOrderList(com.damuzhi.travel.protos.TouristRouteProtos.OrderList value) {
+        if (orderListBuilder_ == null) {
+          if (((bitField0_ & 0x00008000) == 0x00008000) &&
+              orderList_ != com.damuzhi.travel.protos.TouristRouteProtos.OrderList.getDefaultInstance()) {
+            orderList_ =
+              com.damuzhi.travel.protos.TouristRouteProtos.OrderList.newBuilder(orderList_).mergeFrom(value).buildPartial();
+          } else {
+            orderList_ = value;
+          }
+          onChanged();
+        } else {
+          orderListBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00008000;
+        return this;
+      }
+      public Builder clearOrderList() {
+        if (orderListBuilder_ == null) {
+          orderList_ = com.damuzhi.travel.protos.TouristRouteProtos.OrderList.getDefaultInstance();
+          onChanged();
+        } else {
+          orderListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00008000);
+        return this;
+      }
+      public com.damuzhi.travel.protos.TouristRouteProtos.OrderList.Builder getOrderListBuilder() {
+        bitField0_ |= 0x00008000;
+        onChanged();
+        return getOrderListFieldBuilder().getBuilder();
+      }
+      public com.damuzhi.travel.protos.TouristRouteProtos.OrderListOrBuilder getOrderListOrBuilder() {
+        if (orderListBuilder_ != null) {
+          return orderListBuilder_.getMessageOrBuilder();
+        } else {
+          return orderList_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.TouristRouteProtos.OrderList, com.damuzhi.travel.protos.TouristRouteProtos.OrderList.Builder, com.damuzhi.travel.protos.TouristRouteProtos.OrderListOrBuilder> 
+          getOrderListFieldBuilder() {
+        if (orderListBuilder_ == null) {
+          orderListBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.damuzhi.travel.protos.TouristRouteProtos.OrderList, com.damuzhi.travel.protos.TouristRouteProtos.OrderList.Builder, com.damuzhi.travel.protos.TouristRouteProtos.OrderListOrBuilder>(
+                  orderList_,
+                  getParentForChildren(),
+                  isClean());
+          orderList_ = null;
+        }
+        return orderListBuilder_;
+      }
+      
       // @@protoc_insertion_point(builder_scope:damuzhi.TravelResponse)
     }
     
@@ -2378,6 +5640,21 @@ public final class PackageProtos {
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_damuzhi_Package_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_damuzhi_UserInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_damuzhi_UserInfo_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_damuzhi_RouteFeekbackList_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_damuzhi_RouteFeekbackList_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_damuzhi_RouteFeekback_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_damuzhi_RouteFeekback_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_damuzhi_TravelResponse_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -2393,21 +5670,36 @@ public final class PackageProtos {
     java.lang.String[] descriptorData = {
       "\n\rPackage.proto\022\007damuzhi\032\013Place.proto\032\022C" +
       "ityOverview.proto\032\020TravelTips.proto\032\tApp" +
-      ".proto\"n\n\007Package\022\017\n\007version\030\001 \002(\t\022\016\n\006ci" +
-      "tyId\030\002 \002(\005\022\020\n\010cityName\030\003 \002(\t\0220\n\010language" +
-      "\030\004 \002(\0162\025.damuzhi.LanguageType:\007ZH_HANS\"\367" +
-      "\002\n\016TravelResponse\022\025\n\nresultCode\030\001 \002(\005:\0010" +
-      "\022\022\n\nresultInfo\030\002 \001(\t\022\035\n\005place\030\003 \001(\0132\016.da" +
-      "muzhi.Place\022)\n\010overview\030\004 \001(\0132\027.damuzhi." +
-      "CommonOverview\022+\n\ttravelTip\030\005 \001(\0132\030.damu" +
-      "zhi.CommonTravelTip\022#\n\010helpInfo\030\006 \001(\0132\021.",
-      "damuzhi.HelpInfo\022%\n\tplaceList\030\007 \001(\0132\022.da" +
-      "muzhi.PlaceList\022#\n\010cityList\030\010 \001(\0132\021.damu" +
-      "zhi.CityList\022\035\n\007appInfo\030\t \001(\0132\014.damuzhi." +
-      "App\0223\n\rtravelTipList\030\n \001(\0132\034.damuzhi.Com" +
-      "monTravelTipList*0\n\014LanguageType\022\013\n\007ZH_H" +
-      "ANS\020\001\022\013\n\007ZH_HANT\020\002\022\006\n\002EN\020\003B$\n\023com.lk.dam" +
-      "uzhi.utilB\rPackageProtos"
+      ".proto\032\022TouristRoute.proto\"n\n\007Package\022\017\n" +
+      "\007version\030\001 \002(\t\022\016\n\006cityId\030\002 \002(\005\022\020\n\010cityNa" +
+      "me\030\003 \002(\t\0220\n\010language\030\004 \002(\0162\025.damuzhi.Lan" +
+      "guageType:\007ZH_HANS\"\246\001\n\010UserInfo\022\016\n\006userI" +
+      "d\030\001 \002(\t\022\021\n\tloginType\030\002 \002(\005\022\020\n\010password\030\003" +
+      " \002(\t\022\021\n\ttelephone\030\n \002(\t\022\r\n\005email\030\013 \002(\t\022\020" +
+      "\n\010nickName\030\024 \001(\t\022\016\n\006gender\030\025 \001(\005\022\020\n\010full" +
+      "Name\030\026 \001(\t\022\017\n\007address\030\027 \001(\t\"C\n\021RouteFeek",
+      "backList\022.\n\016routeFeekbacks\030\001 \003(\0132\026.damuz" +
+      "hi.RouteFeekback\"o\n\rRouteFeekback\022\017\n\007rou" +
+      "teId\030\001 \002(\005\022\016\n\006userId\030\002 \002(\t\022\020\n\010nickName\030\003" +
+      " \002(\t\022\014\n\004date\030\004 \002(\005\022\014\n\004rank\030\005 \002(\005\022\017\n\007cont" +
+      "ent\030\006 \001(\t\"\342\004\n\016TravelResponse\022\025\n\nresultCo" +
+      "de\030\001 \002(\005:\0010\022\022\n\nresultInfo\030\002 \001(\t\022\035\n\005place" +
+      "\030\003 \001(\0132\016.damuzhi.Place\022)\n\010overview\030\004 \001(\013" +
+      "2\027.damuzhi.CommonOverview\022+\n\ttravelTip\030\005" +
+      " \001(\0132\030.damuzhi.CommonTravelTip\022#\n\010helpIn" +
+      "fo\030\006 \001(\0132\021.damuzhi.HelpInfo\022%\n\tplaceList",
+      "\030\007 \001(\0132\022.damuzhi.PlaceList\022#\n\010cityList\030\010" +
+      " \001(\0132\021.damuzhi.CityList\022\035\n\007appInfo\030\t \001(\013" +
+      "2\014.damuzhi.App\0223\n\rtravelTipList\030\n \001(\0132\034." +
+      "damuzhi.CommonTravelTipList\022\022\n\ntotalCoun" +
+      "t\030\r \001(\005\022#\n\010userInfo\030\017 \001(\0132\021.damuzhi.User" +
+      "Info\022$\n\005route\030\024 \001(\0132\025.damuzhi.TouristRou" +
+      "te\022,\n\trouteList\030\025 \001(\0132\031.damuzhi.TouristR" +
+      "outeList\0225\n\021routeFeekbackList\030\036 \001(\0132\032.da" +
+      "muzhi.RouteFeekbackList\022%\n\torderList\030# \001" +
+      "(\0132\022.damuzhi.OrderList*0\n\014LanguageType\022\013",
+      "\n\007ZH_HANS\020\001\022\013\n\007ZH_HANT\020\002\022\006\n\002EN\020\003B#\n\022com." +
+      "damuzhi.travelB\rPackageProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2422,12 +5714,36 @@ public final class PackageProtos {
               new java.lang.String[] { "Version", "CityId", "CityName", "Language", },
               com.damuzhi.travel.protos.PackageProtos.Package.class,
               com.damuzhi.travel.protos.PackageProtos.Package.Builder.class);
-          internal_static_damuzhi_TravelResponse_descriptor =
+          internal_static_damuzhi_UserInfo_descriptor =
             getDescriptor().getMessageTypes().get(1);
+          internal_static_damuzhi_UserInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_damuzhi_UserInfo_descriptor,
+              new java.lang.String[] { "UserId", "LoginType", "Password", "Telephone", "Email", "NickName", "Gender", "FullName", "Address", },
+              com.damuzhi.travel.protos.PackageProtos.UserInfo.class,
+              com.damuzhi.travel.protos.PackageProtos.UserInfo.Builder.class);
+          internal_static_damuzhi_RouteFeekbackList_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_damuzhi_RouteFeekbackList_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_damuzhi_RouteFeekbackList_descriptor,
+              new java.lang.String[] { "RouteFeekbacks", },
+              com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.class,
+              com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.Builder.class);
+          internal_static_damuzhi_RouteFeekback_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_damuzhi_RouteFeekback_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_damuzhi_RouteFeekback_descriptor,
+              new java.lang.String[] { "RouteId", "UserId", "NickName", "Date", "Rank", "Content", },
+              com.damuzhi.travel.protos.PackageProtos.RouteFeekback.class,
+              com.damuzhi.travel.protos.PackageProtos.RouteFeekback.Builder.class);
+          internal_static_damuzhi_TravelResponse_descriptor =
+            getDescriptor().getMessageTypes().get(4);
           internal_static_damuzhi_TravelResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_TravelResponse_descriptor,
-              new java.lang.String[] { "ResultCode", "ResultInfo", "Place", "Overview", "TravelTip", "HelpInfo", "PlaceList", "CityList", "AppInfo", "TravelTipList", },
+              new java.lang.String[] { "ResultCode", "ResultInfo", "Place", "Overview", "TravelTip", "HelpInfo", "PlaceList", "CityList", "AppInfo", "TravelTipList", "TotalCount", "UserInfo", "Route", "RouteList", "RouteFeekbackList", "OrderList", },
               com.damuzhi.travel.protos.PackageProtos.TravelResponse.class,
               com.damuzhi.travel.protos.PackageProtos.TravelResponse.Builder.class);
           return null;
@@ -2440,6 +5756,7 @@ public final class PackageProtos {
           com.damuzhi.travel.protos.CityOverviewProtos.getDescriptor(),
           com.damuzhi.travel.protos.TravelTipsProtos.getDescriptor(),
           com.damuzhi.travel.protos.AppProtos.getDescriptor(),
+          com.damuzhi.travel.protos.TouristRouteProtos.getDescriptor(),
         }, assigner);
   }
   

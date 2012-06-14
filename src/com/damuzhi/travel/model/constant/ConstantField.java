@@ -128,5 +128,7 @@ public class ConstantField
 	public static final int DOWNLOAD_DONE = 4;
 	public static final int DOWNLOAD_ZIP_SUCCESS = 5;
 	public static final int DOWNLOAD_SUCCESS = 6;
+	public static final String TRAVEL_TIPS_INFO = "travelTipsInfo";
+	public static final String TRAVEL_ROUTES_INFO = "travelRoutesInfo";
 
 }

@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.model.overview  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-22 ÉÏÎç9:58:35  
+        * @update 2012-5-22 ï¿½ï¿½ï¿½ï¿½9:58:35  
         * @version V1.0  
         */
 package com.damuzhi.travel.model.overview;
@@ -30,17 +30,13 @@ import com.damuzhi.travel.util.FileUtil;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-22 ÉÏÎç9:58:35  
+ * @update 2012-5-22 ï¿½ï¿½ï¿½ï¿½9:58:35  
  */
 
 public class OverViewManager
 {
 	
-	/**  
-	        * Constructor Method   
-	        * @param dataPath
-	        * @param url  
-	        */
+	
 	private static final String TAG = "OverViewManger";
 
 	
@@ -58,13 +54,8 @@ public class OverViewManager
 				
 			}
 			
-		} catch (FileNotFoundException e)
+		} catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return cityOverview;
@@ -80,23 +71,13 @@ public class OverViewManager
 		{
 			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
-			{
-				try
-				{
-					
-					commonOverview =  TravelResponse.parseFrom(inputStream).getOverview();
-					
-				} catch (IOException e)
-				{
-					// TODO Auto-generated catch block
-					Log.d(TAG, "getData from http error...");
-					e.printStackTrace();
-				}
+			{									
+				commonOverview =  TravelResponse.parseFrom(inputStream).getOverview();				
 			}
 			
 		} catch (Exception e1)
 		{
-			// TODO Auto-generated catch block
+			
 			e1.printStackTrace();
 		}
 		return commonOverview;

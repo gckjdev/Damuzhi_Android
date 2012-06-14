@@ -8,6 +8,81 @@ public final class CityOverviewProtos {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public enum CommonOverviewType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    CITY_BASIC(0, 1),
+    TRAVEL_PREPRATION(1, 2),
+    TRAVEL_UTILITY(2, 3),
+    TRAVEL_TRANSPORTATION(3, 4),
+    ;
+    
+    public static final int CITY_BASIC_VALUE = 1;
+    public static final int TRAVEL_PREPRATION_VALUE = 2;
+    public static final int TRAVEL_UTILITY_VALUE = 3;
+    public static final int TRAVEL_TRANSPORTATION_VALUE = 4;
+    
+    
+    public final int getNumber() { return value; }
+    
+    public static CommonOverviewType valueOf(int value) {
+      switch (value) {
+        case 1: return CITY_BASIC;
+        case 2: return TRAVEL_PREPRATION;
+        case 3: return TRAVEL_UTILITY;
+        case 4: return TRAVEL_TRANSPORTATION;
+        default: return null;
+      }
+    }
+    
+    public static com.google.protobuf.Internal.EnumLiteMap<CommonOverviewType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<CommonOverviewType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<CommonOverviewType>() {
+            public CommonOverviewType findValueByNumber(int number) {
+              return CommonOverviewType.valueOf(number);
+            }
+          };
+    
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.CityOverviewProtos.getDescriptor().getEnumTypes().get(0);
+    }
+    
+    private static final CommonOverviewType[] VALUES = {
+      CITY_BASIC, TRAVEL_PREPRATION, TRAVEL_UTILITY, TRAVEL_TRANSPORTATION, 
+    };
+    
+    public static CommonOverviewType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+    
+    private final int index;
+    private final int value;
+    
+    private CommonOverviewType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+    
+    // @@protoc_insertion_point(enum_scope:damuzhi.CommonOverviewType)
+  }
+  
   public interface CommonOverviewOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
@@ -248,7 +323,7 @@ public final class CityOverviewProtos {
         return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CommonOverview_fieldAccessorTable;
       }
       
-      // Construct using com.lk.damuzhi.util.CityOverviewProtos.CommonOverview.newBuilder()
+      // Construct using com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -790,7 +865,7 @@ public final class CityOverviewProtos {
         return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CityOverview_fieldAccessorTable;
       }
       
-      // Construct using com.lk.damuzhi.util.CityOverviewProtos.CityOverview.newBuilder()
+      // Construct using com.damuzhi.travel.protos.CityOverviewProtos.CityOverview.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1429,8 +1504,11 @@ public final class CityOverviewProtos {
       " \001(\0132\027.damuzhi.CommonOverview\022.\n\rtravelU" +
       "tility\030\003 \001(\0132\027.damuzhi.CommonOverview\0225\n" +
       "\024travelTransportation\030\004 \001(\0132\027.damuzhi.Co" +
-      "mmonOverviewB)\n\023com.lk.damuzhi.utilB\022Cit" +
-      "yOverviewProtos"
+      "mmonOverview*j\n\022CommonOverviewType\022\016\n\nCI" +
+      "TY_BASIC\020\001\022\025\n\021TRAVEL_PREPRATION\020\002\022\022\n\016TRA" +
+      "VEL_UTILITY\020\003\022\031\n\025TRAVEL_TRANSPORTATION\020\004",
+      "B(\n\022com.damuzhi.travel.protosB\022CityOverviewProt" +
+      "os"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

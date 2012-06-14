@@ -38,6 +38,7 @@ import android.widget.Toast;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.download.DownloadDataListAdapter;
+import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.download.DownloadService;
@@ -55,7 +56,7 @@ import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
 
-public class OpenCityDataActivity extends Activity 
+public class OpenCityDataActivity extends MenuActivity 
 {
 	private static String TAG = "OpenCityDataActivity";	
 	private ListView openCtiyDataListView,downloadListView;

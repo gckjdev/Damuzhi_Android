@@ -23,9 +23,11 @@
         <activity android:name=".activity.place.ShoppingActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>          
         <activity android:name=".activity.place.EntertainmentActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.place.NearbyActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>                  
-        <activity android:name=".activity.overview.OverviewActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>          
-        <activity android:name=".activity.overview.TravelTipsActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>          
-        <activity android:name=".activity.overview.TravelTipsDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>         
+        <activity android:name=".activity.overview.OverviewActivity" android:screenOrientation="portrait" />          
+        <activity android:name=".activity.overview.TravelTipsActivity" android:screenOrientation="portrait" />          
+        <activity android:name=".activity.overview.TravelTipsDetailActivity" android:screenOrientation="portrait" />  
+         <activity android:name=".activity.overview.TravelRoutesActivity" android:screenOrientation="portrait" />    
+         <activity android:name=".activity.overview.TravelRoutesDetailActivity" android:screenOrientation="portrait" />         
         <activity android:name=".activity.place.SceneryDetailActivity" android:screenOrientation="portrait" />            
         <activity android:name=".activity.place.HotelDetailActivity" android:screenOrientation="portrait" />            
         <activity android:name=".activity.place.RestaurantDetailActivity" android:screenOrientation="portrait" />            
@@ -46,7 +48,12 @@
         <activity android:name=".activity.place.CommonShoppingDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/>           
         <activity android:name=".activity.place.CommonEntertainmentDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/> 
         <activity android:name=".activity.place.NearbyPlaceActivity" android:screenOrientation="portrait" android:launchMode="standard"/>       
-        <activity android:name=".activity.common.HelpActiviy" android:screenOrientation="portrait" android:launchMode="standard"/>         
+        <activity android:name=".activity.common.HelpActiviy" android:screenOrientation="portrait" android:launchMode="standard"/> 
+        <activity android:name=".activity.overview.CommonOverViewActivity" android:screenOrientation="portrait" />     
+        <activity android:name=".activity.overview.CommonTravelPreprationActivity" android:screenOrientation="portrait" />  
+        <activity android:name=".activity.overview.CommonTravelUtilityActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.overview.CommonTravelTransportationActivity" android:screenOrientation="portrait" />
+        <activity android:name=".activity.overview.CommonCtiyBaseActivity" android:screenOrientation="portrait" />     
           <!--  注册服务 -->
          <service android:name=".download.DownloadService"></service>  
         <service android:name="com.damuzhi.travel.service.DownloadService">

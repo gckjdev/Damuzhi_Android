@@ -1144,7 +1144,7 @@ public final class PlaceListProtos {
         return com.damuzhi.travel.protos.PlaceListProtos.internal_static_damuzhi_Place_fieldAccessorTable;
       }
       
-      // Construct using com.lk.damuzhi.util.PlaceListProtos.Place.newBuilder()
+      // Construct using com.damuzhi.travel.protos.PlaceListProtos.Place.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2969,7 +2969,7 @@ public final class PlaceListProtos {
         return com.damuzhi.travel.protos.PlaceListProtos.internal_static_damuzhi_PlaceList_fieldAccessorTable;
       }
       
-      // Construct using com.lk.damuzhi.util.PlaceListProtos.PlaceList.newBuilder()
+      // Construct using com.damuzhi.travel.protos.PlaceListProtos.PlaceList.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -3400,8 +3400,8 @@ public final class PlaceListProtos {
       "arkingGuide\030, \001(\t\022\032\n\022placeFavoriteCount\030" +
       "< \001(\005\022\023\n\013hasDiscount\030= \001(\005\"9\n\tPlaceList\022" +
       "\034\n\004list\030\001 \003(\0132\016.damuzhi.Place\022\016\n\006cityId\030" +
-      "\002 \001(\005B&\n\023com.lk.damuzhi.utilB\017PlaceListP" +
-      "rotos"
+      "\002 \001(\005B%\n\022com.damuzhi.travel.protosB\017PlaceListPr" +
+      "otos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

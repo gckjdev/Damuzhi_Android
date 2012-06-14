@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.adapter.overview  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-23 ÏÂÎç1:36:36  
+        * @update 2012-5-23 ï¿½ï¿½ï¿½ï¿½1:36:36  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.adapter.overview;
@@ -11,21 +11,27 @@ package com.damuzhi.travel.activity.adapter.overview;
 import java.util.List;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.common.TravelRoutesViewCache;
 import com.damuzhi.travel.activity.adapter.common.TravelTipsViewCache;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
+import com.damuzhi.travel.util.PicUtill;
+import com.damuzhi.travel.util.TravelUtil;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 /**  
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-23 ÏÂÎç1:36:36  
+ * @update 2012-5-23 ï¿½ï¿½ï¿½ï¿½1:36:36  
  */
 
 public class TravelRoutesAdapter extends BaseAdapter
@@ -36,12 +42,6 @@ public class TravelRoutesAdapter extends BaseAdapter
 	
 	
 	
-
-	/**  
-	        * Constructor Method   
-	        * @param commonTravelTips
-	        * @param context  
-	        */
 	public TravelRoutesAdapter(List<CommonTravelTip> commonTravelTips,
 			Context context)
 	{
@@ -76,20 +76,35 @@ public class TravelRoutesAdapter extends BaseAdapter
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
 		// TODO Auto-generated method stub
-		TravelTipsViewCache viewCache; 
+		TravelRoutesViewCache viewCache; 
 		if(convertView == null)
 		{
 			convertView = LayoutInflater.from(context).inflate(R.layout.travel_routes_list_item, null);
-			viewCache = new TravelTipsViewCache(convertView);
+			viewCache = new TravelRoutesViewCache(convertView);
 			convertView.setTag(viewCache);
 		}else {
-			viewCache = (TravelTipsViewCache) convertView.getTag();
+			viewCache = (TravelRoutesViewCache) convertView.getTag();
 		}
 		CommonTravelTip commonTravelTip = commonTravelTips.get(position);
-		TextView travelTipsName = viewCache.getTravelTipsName();
-		travelTipsName.setText(commonTravelTip.getName());
-		
+		TextView travelRouteName = viewCache.getTravelRoutesName();
+		TextView travelRouteIntro = viewCache.getTravelRoutesIntro();
+		ImageView travelRouteIcon = viewCache.getTravelRoutesIcon();		
+		travelRouteName.setText(commonTravelTip.getName());
+		travelRouteIntro.setText(commonTravelTip.getBriefIntro());
+		String iconPath = commonTravelTip.getIcon();
+		Bitmap bitmap = PicUtill.getbitmapByImagePath(iconPath);
+		travelRouteIcon.setImageBitmap(bitmap);
 		return convertView;
+	}
+
+	public List<CommonTravelTip> getCommonTravelTips()
+	{
+		return commonTravelTips;
+	}
+
+	public void setCommonTravelTips(List<CommonTravelTip> commonTravelTips)
+	{
+		this.commonTravelTips = commonTravelTips;
 	}
 
 }

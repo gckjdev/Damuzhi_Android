@@ -7,7 +7,7 @@
 	    android:layout_width="fill_parent"
 	    android:layout_height="50.0dip"
 	    android:orientation="horizontal" 
-	    android:background="@color/title_bg_color"
+	    android:background="@drawable/topmenu_bg"
 	    android:gravity="center">
 	    	<TextView 
 	    	    android:id="@+id/travel_tips_detail_title"
@@ -18,6 +18,7 @@
     </LinearLayout>   
 	<WebView
       android:id="@+id/travel_tips_webview"
+      android:scrollbars="none"
       android:layout_width="fill_parent"
       android:layout_height="wrap_content"/>  
 </LinearLayout>

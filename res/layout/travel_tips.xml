@@ -2,17 +2,31 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@drawable/all_page_bg2"
     android:orientation="vertical" >  
-    <com.damuzhi.travel.util.CornerListView
-        android:id="@+id/travel_tips_listview"
-        android:layout_width="wrap_content"
-        android:layout_height="450dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/shape_bg_listview"
-        android:cacheColorHint="@null"
-        android:scrollbars="none"
-   />
+    <TextView 
+    	    android:id="@+id/place_title"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="wrap_content"
+    	    android:background="@drawable/topmenu_bg"
+    	    android:gravity="center"
+    	    android:text="@string/travel_note"
+    	    android:textSize="20.0sp"
+    	    android:textColor="@color/white"/>
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:background="@drawable/all_page_bg2"
+	    android:orientation="vertical" >
+	    <ListView
+	        android:id="@+id/travel_tips_listview"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:layout_marginTop="15dp"
+	        android:layout_marginLeft="7dp"
+	        android:layout_marginRight="7dp"
+	        android:background="@color/white"
+	        android:cacheColorHint="@null"
+	        android:scrollbars="none"
+	   />
+    </LinearLayout>
 </LinearLayout>

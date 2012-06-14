@@ -2,33 +2,38 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:paddingRight="30dp"
+    android:background="@drawable/list_tr_bg2"
     android:orientation="horizontal">
 		<ImageView 
 		    android:id="@+id/travel_route_icon"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
+		    android:layout_margin="5dp"
 		    android:layout_alignParentLeft="true"
-		    android:src="@drawable/book"
-		    android:scaleType="fitXY"/>
+		    android:layout_centerVertical="true"
+		    android:scaleType="fitCenter"/>
 		<LinearLayout 
 		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
+		    android:layout_height="fill_parent"
+		    android:layout_marginTop="5dp"
+		     android:layout_marginBottom="5dp"
 		    android:layout_centerVertical="true"
 		    android:orientation="vertical"
 		    android:layout_toRightOf="@id/travel_route_icon">
 		<TextView 
+		    android:layout_gravity="top"
 		    android:id="@+id/travel_route_name"
 		    android:layout_height="wrap_content"
 		    android:layout_width="wrap_content"
-		    android:textSize="20sp"
+		    android:textSize="15sp"
 		    android:textColor="@android:color/black"
 		    android:singleLine="true"/>  
 		 <TextView 
 		    android:id="@+id/travel_route_driefIntro"
 		    android:layout_height="wrap_content"
-		    android:layout_width="wrap_content"
-		    android:singleLine="true"/>   
+		    android:layout_width="180dp"
+		    android:textColor="@color/place_name_color"
+		    android:textSize="13sp"/>   
 		</LinearLayout>  
 		 <ImageView 
 		    android:id="@+id/travel_tips_go_icon"
@@ -36,6 +41,7 @@
 		    android:layout_height="wrap_content"		   
 		    android:layout_alignParentRight="true"
 		    android:layout_centerVertical="true"
+		    android:layout_marginRight="8dp"
 		    android:src="@drawable/go_btn"
 		    android:scaleType="fitXY"/>   
 </RelativeLayout>

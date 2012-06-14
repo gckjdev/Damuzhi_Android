@@ -18,28 +18,20 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 public class PicUtill {
-	/**
-	 * 根据一个网络连接(URL)获取bitmapDrawable图像
-	 * @param imageUri
-	 * @return
-	 */
+	
 	public static BitmapDrawable getfriendicon(URL imageUri) {
 
 		BitmapDrawable icon = null;
 		try {
 			HttpURLConnection hp = (HttpURLConnection) imageUri.openConnection();
-			icon = new BitmapDrawable(hp.getInputStream());// 将输入流转换成bitmap
-			hp.disconnect();// 关闭连接
+			icon = new BitmapDrawable(hp.getInputStream());
+			hp.disconnect();
 		} catch (Exception e) {
 		}
 		return icon;
 	}
 
-	/**
-	 * 根据一个网络连接(String)获取bitmapDrawable图像
-	 * @param imageUri
-	 * @return
-	 */
+	
 	public static BitmapDrawable getcontentPic(String imageUri) {
 		URL imgUrl = null;
 		try {
@@ -50,20 +42,15 @@ public class PicUtill {
 		BitmapDrawable icon = null;
 		try {
 			HttpURLConnection hp = (HttpURLConnection) imgUrl.openConnection();
-			icon = new BitmapDrawable(hp.getInputStream());// 将输入流转换成bitmap
-			hp.disconnect();// 关闭连接
+			icon = new BitmapDrawable(hp.getInputStream());
+			hp.disconnect();
 		} catch (Exception e) {
 		}
 		return icon;
 	}
 
-	/**
-	 *  根据一个网络连接(URL)获取bitmap图像
-	 * @param imageUri
-	 * @return
-	 */
+	
 	public static Bitmap getusericon(URL imageUri) {
-		// 显示网络上的图片
 		URL myFileUrl = imageUri;
 		Bitmap bitmap = null;
 		try {
@@ -79,15 +66,8 @@ public class PicUtill {
 		}
 		return bitmap;
 	}
-	/**
-	 *  根据一个网络连接(String)获取bitmap图像
-	 * @param imageUri
-	 * @return
-	 * @throws Exception 
-	 * @throws MalformedURLException 
-	 */
+	
 	public static Bitmap getbitmap(String imageUri)  {
-		// 显示网络上的图片
 		Bitmap bitmap = null;
 		try {
 			URL myFileUrl = new URL(imageUri);
@@ -106,15 +86,8 @@ public class PicUtill {
 	}
 	
 	
-	/**
-	 *  根据一个网络连接(String)获取bitmap图像
-	 * @param imageUri
-	 * @return
-	 * @throws Exception 
-	 * @throws MalformedURLException 
-	 */
+	
 	public static Drawable getDrawable(String imageUri)  {
-		// 显示网络上的图片
 		Drawable drawable = null;
 		try {
 			URL myFileUrl = new URL(imageUri);
@@ -132,15 +105,8 @@ public class PicUtill {
 		return drawable;
 	}
 	
-	/**
-	 * 下载图片 同时写道本地缓存文件中
-	 * @param context
-	 * @param imageUri
-	 * @return
-	 * @throws MalformedURLException
-	 */
+	
 	public static Bitmap getbitmapAndwrite(Context context,String imageUri) throws MalformedURLException {
-		// 显示网络上的图片
 		URL myFileUrl = new URL(imageUri);
 		Bitmap bitmap = null;
 		try {
@@ -193,13 +159,10 @@ public class PicUtill {
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * 将文件写入缓存系统中
-	 * 
-	 * @param filename
-	 * @param is
-	 * @return
-	 */
+	
+	
+	
+	
 	public static String writefile(Context context,String filename, InputStream is) {
 		BufferedInputStream inputStream = null;
 		BufferedOutputStream outputStream = null;
@@ -232,4 +195,32 @@ public class PicUtill {
 		}
 		return context.getFilesDir() + "/" + filename+".jpg";
 	}
+	
+	public static Bitmap getbitmapByImagePath(String imagePath)  {
+		Bitmap bitmap = null;
+		try {
+			if(imagePath.contains("http://"))
+			{
+				URL myFileUrl = new URL(imagePath);
+				HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+				conn.setDoInput(true);
+				conn.connect();
+				InputStream is = conn.getInputStream();
+				bitmap = BitmapFactory.decodeStream(is);
+				is.close();
+			}else
+			{
+				String pathName = imagePath;
+				bitmap = BitmapFactory.decodeFile(pathName);
+			}
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+						
+		}
+		return bitmap;
+	}
+	
 }

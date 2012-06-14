@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.adapter.overview  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-22 ÏÂÎç4:14:35  
+        * @update 2012-5-22 ï¿½ï¿½ï¿½ï¿½4:14:35  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.adapter.overview;
@@ -28,7 +28,7 @@ import android.widget.TextView;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-22 ÏÂÎç4:14:35  
+ * @update 2012-5-22 ï¿½ï¿½ï¿½ï¿½4:14:35  
  */
 
 public class TravelTipsAdapter extends BaseAdapter
@@ -39,11 +39,7 @@ public class TravelTipsAdapter extends BaseAdapter
 	
 	
 
-	/**  
-	        * Constructor Method   
-	        * @param commonTravelTips
-	        * @param context  
-	        */
+	
 	public TravelTipsAdapter(List<CommonTravelTip> commonTravelTips,
 			Context context)
 	{
@@ -55,7 +51,6 @@ public class TravelTipsAdapter extends BaseAdapter
 	@Override
 	public int getCount()
 	{
-		// TODO Auto-generated method stub
 		return commonTravelTips.size();
 	}
 
@@ -63,21 +58,18 @@ public class TravelTipsAdapter extends BaseAdapter
 	@Override
 	public Object getItem(int position)
 	{
-		// TODO Auto-generated method stub
 		return commonTravelTips.get(position);
 	}
 
 	@Override
 	public long getItemId(int position)
 	{
-		// TODO Auto-generated method stub
 		return position;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
-		// TODO Auto-generated method stub
 		TravelTipsViewCache viewCache; 
 		if(convertView == null)
 		{
@@ -87,11 +79,29 @@ public class TravelTipsAdapter extends BaseAdapter
 		}else {
 			viewCache = (TravelTipsViewCache) convertView.getTag();
 		}
+		if(position == 0)
+		{
+			viewCache.setBackground(context.getResources().getDrawable(R.drawable.select_bg_top));
+		}else if (position == commonTravelTips.size()-1) {
+			viewCache.setBackground(context.getResources().getDrawable(R.drawable.select_bg_down));
+		}else {
+			viewCache.setBackground(context.getResources().getDrawable(R.drawable.select_bg_center));
+		}
 		CommonTravelTip commonTravelTip = commonTravelTips.get(position);
 		TextView travelTipsName = viewCache.getTravelTipsName();
 		travelTipsName.setText(commonTravelTip.getName());
 		
 		return convertView;
+	}
+
+	public List<CommonTravelTip> getCommonTravelTips()
+	{
+		return commonTravelTips;
+	}
+
+	public void setCommonTravelTips(List<CommonTravelTip> commonTravelTips)
+	{
+		this.commonTravelTips = commonTravelTips;
 	}
 
 }

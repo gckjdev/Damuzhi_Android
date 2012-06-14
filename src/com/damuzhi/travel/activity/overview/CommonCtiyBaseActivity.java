@@ -1,0 +1,44 @@
+/**  
+        * @title CommonCtiyBaseOverViewActivity.java  
+        * @package com.damuzhi.travel.activity.overview  
+        * @description   
+        * @author liuxiaokun  
+        * @update 2012-6-14 上午10:29:03  
+        * @version V1.0  
+ */
+package com.damuzhi.travel.activity.overview;
+
+import android.app.Activity;
+
+import com.damuzhi.travel.R;
+import com.damuzhi.travel.mission.OverviewMission;
+import com.damuzhi.travel.model.app.AppManager;
+import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
+import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
+
+
+
+public class CommonCtiyBaseActivity extends CommonOverViewActivity
+{
+
+	@Override
+	public CommonOverview loadData(Activity activity)
+	{
+		return OverviewMission.getInstance().getOverview(ConstantField.CITY_BASE,AppManager.getInstance().getCurrentCityId(),activity);
+		
+	}
+
+	@Override
+	public boolean isSupportViewpager()
+	{
+		return true;
+	}
+
+	@Override
+	public String setTitleName()
+	{
+		return  getResources().getString(R.string.city_base);
+	}
+
+}

@@ -11,10 +11,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.model.app.AppManager;
 
-public class MoreActivity extends TravelActivity implements OnClickListener
+public class MoreActivity extends MenuActivity implements OnClickListener
 {
 	ViewGroup openCtiyGroup;
 	TextView currentCityName;

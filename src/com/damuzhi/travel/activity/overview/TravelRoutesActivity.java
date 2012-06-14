@@ -8,14 +8,17 @@
         */
 package com.damuzhi.travel.activity.overview;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnKeyListener;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -27,13 +30,18 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.overview.TravelRoutesAdapter;
 import com.damuzhi.travel.activity.adapter.overview.TravelTipsAdapter;
+import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.mission.TravelTipsMission;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
+import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
 import com.damuzhi.travel.util.CornerListView;
@@ -45,128 +53,115 @@ import com.damuzhi.travel.util.CornerListView;
  * @update 2012-5-23 ����1:33:19  
  */
 
-public class TravelRoutesActivity extends TravelActivity implements PlaceActivity
+public class TravelRoutesActivity extends MenuActivity
 {
-
 	private ListView listView;
-	private List<CommonTravelTip> commonTravelTips;
-	private int loadFlag = 1;//�ж��Ƿ���¼���activity
-	private Dialog loadingDialog;
-	private static final int LOADING = 0;
-	private static final int LOAD_OK = 1;
+	private List<CommonTravelTip> commonTravelTips = new ArrayList<CommonTravelTip>();
+	private ProgressDialog loadingDialog;
 	private static final String TAG = "TravelTipsActivity";
 	private TravelApplication application;
+	private TravelRoutesAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.travel_tips);
-		MainService.allActivity.add(this);
-		application = TravelApplication.getInstance();
-		loadFlag = 0;
-		init();
-	}
-	
-	
-	
-	@Override
-	public void init()
-	{
-		// TODO Auto-generated method stub
-		listView = (CornerListView) findViewById(R.id.travel_tips_listview);
+		setContentView(R.layout.travel_route);
+		listView = (ListView) findViewById(R.id.travel_route_listview);
 		listView.setOnItemClickListener(clickListener);
-	}
-
-	public void initData()
-	{
-		TravelTipsAdapter adapter = new TravelTipsAdapter(commonTravelTips, this);
+		adapter = new TravelRoutesAdapter(commonTravelTips, this);
 		listView.setAdapter(adapter);
+		loadTravelTips();
 	}
 	
-	@Override
-	public void placeInfo()
+	
+	
+	private void refresh(List<CommonTravelTip> list)
 	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void refresh(Object...param)
-	{
-		// TODO Auto-generated method stub
-		commonTravelTips = (List<CommonTravelTip>) param[0];
-		initData();
-		Message message = handler.obtainMessage();
-		message.what = LOAD_OK;
-		message.obj = null;
-		handler.sendMessage(message);
+		adapter.setCommonTravelTips(list);
+		adapter.notifyDataSetChanged();
 	}
 	
-	private Handler handler = new Handler(){
-		@Override
-		public void handleMessage(Message msg)
+	
+	
+	private void loadTravelTips()
+	{
+		AsyncTask<Void, Void, CommonTravelTipList> task = new AsyncTask<Void, Void, CommonTravelTipList>()
 		{
-			// TODO Auto-generated method stub
-			super.handleMessage(msg);
-			switch (msg.what)
+
+			@Override
+			protected CommonTravelTipList doInBackground(Void... params)
 			{
-			case LOADING:				
-				break;
-			case LOAD_OK:							
-				loadingDialog.dismiss();	
-				loadingDialog.cancel();
-				break;			
-			default:
-				break;
+				int currentCityId = AppManager.getInstance().getCurrentCityId();
+				return TravelTipsMission.getInstance().getTravelTips(ConstantField.TRAVEL_ROUTE_LIST, currentCityId, TravelRoutesActivity.this);
 			}
-	}};
-	
-	@Override
-	protected void onResume()
-	{
-		// TODO Auto-generated method stub
-		super.onResume();
-		Log.d(TAG, "loadFlag = "+loadFlag);
-		Log.d(TAG, "onResume ");
-		super.onResume();
-		if(loadFlag == 0)
-		{			
-			loadFlag = 1;
-			showRoundProcessDialog(TravelRoutesActivity.this, R.layout.loading_process_dialog_anim);
-			Task hotelTask = new Task(Task.TRAVEL_TIPS,TravelRoutesActivity.this);
-			MainService.newTask(hotelTask);
-			Intent intent = new Intent(ConstantField.MAIN_SERVICE);
-			startService(intent);	
-		}
+
+			@Override
+			protected void onCancelled()
+			{
+				super.onCancelled();
+			}
+
+			@Override
+			protected void onPostExecute(CommonTravelTipList commonTravelTipList)
+			{				
+				commonTravelTips = commonTravelTipList.getTipListList();
+				refresh(commonTravelTips);
+				loadingDialog.dismiss();
+				super.onPostExecute(commonTravelTipList);
+			}
+
+			@Override
+			protected void onPreExecute()
+			{
+				showRoundProcessDialog();
+				super.onPreExecute();
+			}
+
+			
+
+		};
+
+		task.execute();
 	}
 	
-	 public void showRoundProcessDialog(Context mContext, int layout)
-	    {
-	        OnKeyListener keyListener = new OnKeyListener()
-	        {
-	            @Override
-	            public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event)
-	            {
-	            	if ( keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
-	            		loadingDialog.dismiss();
-	            		Intent intent = new Intent(TravelRoutesActivity.this, IndexActivity.class);
-	   				    startActivity(intent);
-	   				    return true;
-		   		    }
-		   			else
-		   			{
-		   				  return false;	
-		   			}
-	            }
-	        };
+	
+	
+	public void showRoundProcessDialog()
+	{
 
-	        loadingDialog = new AlertDialog.Builder(mContext).create();
-	        loadingDialog.setOnKeyListener(keyListener);
-	        loadingDialog.show();
-	        // ע��˴�Ҫ����show֮�� ����ᱨ�쳣
-	        loadingDialog.setContentView(layout);
-	    }
+		OnKeyListener keyListener = new OnKeyListener()
+		{
+			@Override
+			public boolean onKey(DialogInterface dialog, int keyCode,
+					KeyEvent event)
+			{
+				if (keyCode == KeyEvent.KEYCODE_BACK
+						&& event.getRepeatCount() == 0)
+				{
+					loadingDialog.dismiss();
+					Intent intent = new Intent(TravelRoutesActivity.this,IndexActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					return true;
+				} else
+				{
+					return false;
+				}
+			}
+		};
+
+		loadingDialog = new ProgressDialog(this);
+		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		loadingDialog.setMessage(getResources().getString(R.string.loading));
+		loadingDialog.setIndeterminate(false);
+		loadingDialog.setCancelable(true);
+		loadingDialog.setOnKeyListener(keyListener);
+		loadingDialog.show();
+	}
+	
+	
+	
+	
 	
 	 private OnItemClickListener clickListener = new OnItemClickListener()
 	{
@@ -175,13 +170,14 @@ public class TravelRoutesActivity extends TravelActivity implements PlaceActivit
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
 		{
-			// TODO Auto-generated method stub
 			 CommonTravelTip commonTravelTip = commonTravelTips.get(arg2);
-			 application.setCommonTravelTip(commonTravelTip);
+			 /*application.setCommonTravelTip(commonTravelTip);*/
 			 Intent intent = new Intent();
-			 intent.setClass(TravelRoutesActivity.this, TravelTipsDetailActivity.class);
+			 intent.putExtra(ConstantField.TRAVEL_ROUTES_INFO, commonTravelTip.toByteArray());
+			 intent.setClass(TravelRoutesActivity.this, TravelRoutesDetailActivity.class);
 			 startActivity(intent);
 		}
 	};
+
 
 }

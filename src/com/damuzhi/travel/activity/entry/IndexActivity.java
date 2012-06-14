@@ -35,7 +35,12 @@ import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.activity.more.OpenCityDataActivity;
+import com.damuzhi.travel.activity.overview.CommonCtiyBaseActivity;
+import com.damuzhi.travel.activity.overview.CommonTravelPreprationActivity;
+import com.damuzhi.travel.activity.overview.CommonTravelTransportationActivity;
+import com.damuzhi.travel.activity.overview.CommonTravelUtilityActivity;
 import com.damuzhi.travel.activity.overview.OverviewActivity;
+import com.damuzhi.travel.activity.overview.TravelRoutesActivity;
 import com.damuzhi.travel.activity.overview.TravelTipsActivity;
 import com.damuzhi.travel.activity.place.CommonEntertainmentActivity;
 import com.damuzhi.travel.activity.place.CommonHotelActivity;
@@ -178,31 +183,23 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 			startActivity(nearbyIntent);
 			break;
 		case R.id.city_base:
-			Log.d(TAG, "city_base");
-			application.setOverviewType(ConstantField.CITY_BASE);
 			Intent cityBaseIntent = new Intent();
-			cityBaseIntent.setClass(IndexActivity.this, OverviewActivity.class);		
+			cityBaseIntent.setClass(IndexActivity.this, CommonCtiyBaseActivity.class);		
 			startActivity(cityBaseIntent);
 			break;
 		case R.id.travel_prepration:	
-			Log.d(TAG, "travel_prepration");
-			application.setOverviewType(ConstantField.TRAVEL_PREPRATION);
 			Intent travelPreprationIntent = new Intent();
-			travelPreprationIntent.setClass(IndexActivity.this, OverviewActivity.class);		
+			travelPreprationIntent.setClass(IndexActivity.this, CommonTravelPreprationActivity.class);		
 			startActivity(travelPreprationIntent);
 			break;
 		case R.id.travel_utility:	
-			Log.d(TAG, "travel_utility");
-			application.setOverviewType(ConstantField.TRAVEL_UTILITY);
 			Intent travelUtilityIntent = new Intent();
-			travelUtilityIntent.setClass(IndexActivity.this, OverviewActivity.class);		
+			travelUtilityIntent.setClass(IndexActivity.this, CommonTravelUtilityActivity.class);		
 			startActivity(travelUtilityIntent);
 			break;
 		case R.id.travel_transportation:	
-			Log.d(TAG, "travel_transportation");
-			application.setOverviewType(ConstantField.TRAVEL_TRANSPORTAION);
 			Intent travelTransportationIntent = new Intent();
-			travelTransportationIntent.setClass(IndexActivity.this, OverviewActivity.class);		
+			travelTransportationIntent.setClass(IndexActivity.this, CommonTravelTransportationActivity.class);		
 			startActivity(travelTransportationIntent);
 			break;
 		case R.id.travel_tips:	
@@ -213,9 +210,9 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 			break;
 		case R.id.travel_commend:	
 			Log.d(TAG, "travel_commend");
-			Intent travelCOmmendIntent = new Intent();
-			travelCOmmendIntent.setClass(IndexActivity.this, EntertainmentActivity.class);		
-			startActivity(travelCOmmendIntent);
+			Intent travelRoutesIntent = new Intent();
+			travelRoutesIntent.setClass(IndexActivity.this, TravelRoutesActivity.class);		
+			startActivity(travelRoutesIntent);
 			break;
 		default:
 			break;
@@ -223,26 +220,6 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		
 	}
 	
-	/*private OnItemSelectedListener itemSelectedListener = new OnItemSelectedListener()
-	{
-
-		@Override
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3)
-		{
-			String cityName = list.get(arg2);
-			Integer cityID = cityNameMap.get(cityName);
-			citySpinner.setSelection(arg2);
-			AppManager.getInstance().setCurrentCityId(cityID);
-			AppManager.getInstance().setCurrentCityName(cityName);
-		}
-
-		@Override
-		public void onNothingSelected(AdapterView<?> arg0)
-		{
-			// TODO Auto-generated method stub
-		}
-	};*/
 	
 	
 	private OnClickListener currentGroupOnClickListener = new OnClickListener()

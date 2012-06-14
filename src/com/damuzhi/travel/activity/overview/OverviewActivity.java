@@ -61,14 +61,14 @@ public class OverviewActivity extends TravelActivity implements PlaceActivity
 {
 	private static final String TAG = "CityBaseOverView";
 	private WebView citybaseWebview;
-	private CommonOverview citybaseOverview;
+	private CommonOverview commonOverview;
 	private ArrayList<View> imageViewlist; 
 	private TravelApplication application;
 	private ImageView imageView;  
 	private ImageView[] imageViews;  	
 	private ViewPager citybaseImagePager;
 	private ViewGroup main,group;
-	private int loadFlag = 1;//�ж��Ƿ���¼���activity
+	private int loadFlag = 1;
 	private Dialog loadingDialog;
 	private static final int LOADING = 0;
 	private static final int LOAD_OK = 1;
@@ -87,7 +87,7 @@ public class OverviewActivity extends TravelActivity implements PlaceActivity
 	public void init()
 	{
 		// TODO Auto-generated method stub
-		List<String> imagePath = citybaseOverview.getImagesList();
+		List<String> imagePath = commonOverview.getImagesList();
 		LayoutInflater inflater = getLayoutInflater();
 		imageViewlist = new ArrayList<View>();
 		String dataPath = String.format(ConstantField.IMAGE_PATH,application.getCityID());
@@ -144,8 +144,8 @@ public class OverviewActivity extends TravelActivity implements PlaceActivity
 			textView.setText(getString(R.string.travel_transportaion));
 		}
 		citybaseWebview = (WebView) findViewById(R.id.overview_webview);
-		Log.d(TAG, "html = "+citybaseOverview.getHtml());
-		citybaseWebview.loadUrl(citybaseOverview.getHtml());
+		Log.d(TAG, "html = "+commonOverview.getHtml());
+		citybaseWebview.loadUrl(commonOverview.getHtml());
 	}
 
 	
@@ -160,7 +160,7 @@ public class OverviewActivity extends TravelActivity implements PlaceActivity
 	public void refresh(Object...param)
 	{
 		// TODO Auto-generated method stub
-		citybaseOverview = (CommonOverview) param[0];
+		commonOverview = (CommonOverview) param[0];
 		init();
 		Message message = handler.obtainMessage();
 		message.what = LOAD_OK;

@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.model.overview  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-22 обнГ3:11:52  
+        * @update 2012-5-22 О©╫О©╫О©╫О©╫3:11:52  
         * @version V1.0  
         */
 package com.damuzhi.travel.model.overview;
@@ -27,20 +27,10 @@ import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList;
 import com.damuzhi.travel.protos.TravelTipsProtos.TravelTips;
 import com.damuzhi.travel.util.FileUtil;
 
-/**  
- * @description   
- * @version 1.0  
- * @author liuxiaokun  
- * @update 2012-5-22 обнГ3:11:52  
- */
 
 public class TravelTipsManager
 {
-		/**  
-	     * Constructor Method   
-	     * @param dataPath
-	     * @param url  
-	     */
+		
 	private static final String TAG = "TravelTipsManager";
 	
 	

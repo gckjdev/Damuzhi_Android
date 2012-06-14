@@ -8,6 +8,75 @@ public final class TravelTipsProtos {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public enum TravelTipType
+      implements com.google.protobuf.ProtocolMessageEnum {
+    GUIDE(0, 1),
+    ROUTE(1, 2),
+    ;
+    
+    public static final int GUIDE_VALUE = 1;
+    public static final int ROUTE_VALUE = 2;
+    
+    
+    public final int getNumber() { return value; }
+    
+    public static TravelTipType valueOf(int value) {
+      switch (value) {
+        case 1: return GUIDE;
+        case 2: return ROUTE;
+        default: return null;
+      }
+    }
+    
+    public static com.google.protobuf.Internal.EnumLiteMap<TravelTipType>
+        internalGetValueMap() {
+      return internalValueMap;
+    }
+    private static com.google.protobuf.Internal.EnumLiteMap<TravelTipType>
+        internalValueMap =
+          new com.google.protobuf.Internal.EnumLiteMap<TravelTipType>() {
+            public TravelTipType findValueByNumber(int number) {
+              return TravelTipType.valueOf(number);
+            }
+          };
+    
+    public final com.google.protobuf.Descriptors.EnumValueDescriptor
+        getValueDescriptor() {
+      return getDescriptor().getValues().get(index);
+    }
+    public final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptorForType() {
+      return getDescriptor();
+    }
+    public static final com.google.protobuf.Descriptors.EnumDescriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.TravelTipsProtos.getDescriptor().getEnumTypes().get(0);
+    }
+    
+    private static final TravelTipType[] VALUES = {
+      GUIDE, ROUTE, 
+    };
+    
+    public static TravelTipType valueOf(
+        com.google.protobuf.Descriptors.EnumValueDescriptor desc) {
+      if (desc.getType() != getDescriptor()) {
+        throw new java.lang.IllegalArgumentException(
+          "EnumValueDescriptor is not for this type.");
+      }
+      return VALUES[desc.getIndex()];
+    }
+    
+    private final int index;
+    private final int value;
+    
+    private TravelTipType(int index, int value) {
+      this.index = index;
+      this.value = value;
+    }
+    
+    // @@protoc_insertion_point(enum_scope:damuzhi.TravelTipType)
+  }
+  
   public interface CommonTravelTipOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
@@ -31,9 +100,18 @@ public final class TravelTipsProtos {
     boolean hasBriefIntro();
     String getBriefIntro();
     
-    // optional string image = 6;
-    boolean hasImage();
-    String getImage();
+    // optional string icon = 6;
+    boolean hasIcon();
+    String getIcon();
+    
+    // repeated string images = 7;
+    java.util.List<String> getImagesList();
+    int getImagesCount();
+    String getImages(int index);
+    
+    // optional string detailIntro = 8;
+    boolean hasDetailIntro();
+    String getDetailIntro();
   }
   public static final class CommonTravelTip extends
       com.google.protobuf.GeneratedMessage
@@ -180,14 +258,14 @@ public final class TravelTipsProtos {
       }
     }
     
-    // optional string image = 6;
-    public static final int IMAGE_FIELD_NUMBER = 6;
-    private java.lang.Object image_;
-    public boolean hasImage() {
+    // optional string icon = 6;
+    public static final int ICON_FIELD_NUMBER = 6;
+    private java.lang.Object icon_;
+    public boolean hasIcon() {
       return ((bitField0_ & 0x00000020) == 0x00000020);
     }
-    public String getImage() {
-      java.lang.Object ref = image_;
+    public String getIcon() {
+      java.lang.Object ref = icon_;
       if (ref instanceof String) {
         return (String) ref;
       } else {
@@ -195,17 +273,63 @@ public final class TravelTipsProtos {
             (com.google.protobuf.ByteString) ref;
         String s = bs.toStringUtf8();
         if (com.google.protobuf.Internal.isValidUtf8(bs)) {
-          image_ = s;
+          icon_ = s;
         }
         return s;
       }
     }
-    private com.google.protobuf.ByteString getImageBytes() {
-      java.lang.Object ref = image_;
+    private com.google.protobuf.ByteString getIconBytes() {
+      java.lang.Object ref = icon_;
       if (ref instanceof String) {
         com.google.protobuf.ByteString b = 
             com.google.protobuf.ByteString.copyFromUtf8((String) ref);
-        image_ = b;
+        icon_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // repeated string images = 7;
+    public static final int IMAGES_FIELD_NUMBER = 7;
+    private com.google.protobuf.LazyStringList images_;
+    public java.util.List<String>
+        getImagesList() {
+      return images_;
+    }
+    public int getImagesCount() {
+      return images_.size();
+    }
+    public String getImages(int index) {
+      return images_.get(index);
+    }
+    
+    // optional string detailIntro = 8;
+    public static final int DETAILINTRO_FIELD_NUMBER = 8;
+    private java.lang.Object detailIntro_;
+    public boolean hasDetailIntro() {
+      return ((bitField0_ & 0x00000040) == 0x00000040);
+    }
+    public String getDetailIntro() {
+      java.lang.Object ref = detailIntro_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          detailIntro_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getDetailIntroBytes() {
+      java.lang.Object ref = detailIntro_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        detailIntro_ = b;
         return b;
       } else {
         return (com.google.protobuf.ByteString) ref;
@@ -218,7 +342,9 @@ public final class TravelTipsProtos {
       name_ = "";
       html_ = "";
       briefIntro_ = "";
-      image_ = "";
+      icon_ = "";
+      images_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      detailIntro_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -252,7 +378,13 @@ public final class TravelTipsProtos {
         output.writeBytes(5, getBriefIntroBytes());
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
-        output.writeBytes(6, getImageBytes());
+        output.writeBytes(6, getIconBytes());
+      }
+      for (int i = 0; i < images_.size(); i++) {
+        output.writeBytes(7, images_.getByteString(i));
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        output.writeBytes(8, getDetailIntroBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -285,7 +417,20 @@ public final class TravelTipsProtos {
       }
       if (((bitField0_ & 0x00000020) == 0x00000020)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeBytesSize(6, getImageBytes());
+          .computeBytesSize(6, getIconBytes());
+      }
+      {
+        int dataSize = 0;
+        for (int i = 0; i < images_.size(); i++) {
+          dataSize += com.google.protobuf.CodedOutputStream
+            .computeBytesSizeNoTag(images_.getByteString(i));
+        }
+        size += dataSize;
+        size += 1 * getImagesList().size();
+      }
+      if (((bitField0_ & 0x00000040) == 0x00000040)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(8, getDetailIntroBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -392,7 +537,7 @@ public final class TravelTipsProtos {
         return com.damuzhi.travel.protos.TravelTipsProtos.internal_static_damuzhi_CommonTravelTip_fieldAccessorTable;
       }
       
-      // Construct using com.lk.damuzhi.util.TravelTipsProtos.CommonTravelTip.newBuilder()
+      // Construct using com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -421,8 +566,12 @@ public final class TravelTipsProtos {
         bitField0_ = (bitField0_ & ~0x00000008);
         briefIntro_ = "";
         bitField0_ = (bitField0_ & ~0x00000010);
-        image_ = "";
+        icon_ = "";
         bitField0_ = (bitField0_ & ~0x00000020);
+        images_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        detailIntro_ = "";
+        bitField0_ = (bitField0_ & ~0x00000080);
         return this;
       }
       
@@ -484,7 +633,17 @@ public final class TravelTipsProtos {
         if (((from_bitField0_ & 0x00000020) == 0x00000020)) {
           to_bitField0_ |= 0x00000020;
         }
-        result.image_ = image_;
+        result.icon_ = icon_;
+        if (((bitField0_ & 0x00000040) == 0x00000040)) {
+          images_ = new com.google.protobuf.UnmodifiableLazyStringList(
+              images_);
+          bitField0_ = (bitField0_ & ~0x00000040);
+        }
+        result.images_ = images_;
+        if (((from_bitField0_ & 0x00000080) == 0x00000080)) {
+          to_bitField0_ |= 0x00000040;
+        }
+        result.detailIntro_ = detailIntro_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -516,8 +675,21 @@ public final class TravelTipsProtos {
         if (other.hasBriefIntro()) {
           setBriefIntro(other.getBriefIntro());
         }
-        if (other.hasImage()) {
-          setImage(other.getImage());
+        if (other.hasIcon()) {
+          setIcon(other.getIcon());
+        }
+        if (!other.images_.isEmpty()) {
+          if (images_.isEmpty()) {
+            images_ = other.images_;
+            bitField0_ = (bitField0_ & ~0x00000040);
+          } else {
+            ensureImagesIsMutable();
+            images_.addAll(other.images_);
+          }
+          onChanged();
+        }
+        if (other.hasDetailIntro()) {
+          setDetailIntro(other.getDetailIntro());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -581,7 +753,17 @@ public final class TravelTipsProtos {
             }
             case 50: {
               bitField0_ |= 0x00000020;
-              image_ = input.readBytes();
+              icon_ = input.readBytes();
+              break;
+            }
+            case 58: {
+              ensureImagesIsMutable();
+              images_.add(input.readBytes());
+              break;
+            }
+            case 66: {
+              bitField0_ |= 0x00000080;
+              detailIntro_ = input.readBytes();
               break;
             }
           }
@@ -740,39 +922,131 @@ public final class TravelTipsProtos {
         onChanged();
       }
       
-      // optional string image = 6;
-      private java.lang.Object image_ = "";
-      public boolean hasImage() {
+      // optional string icon = 6;
+      private java.lang.Object icon_ = "";
+      public boolean hasIcon() {
         return ((bitField0_ & 0x00000020) == 0x00000020);
       }
-      public String getImage() {
-        java.lang.Object ref = image_;
+      public String getIcon() {
+        java.lang.Object ref = icon_;
         if (!(ref instanceof String)) {
           String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
-          image_ = s;
+          icon_ = s;
           return s;
         } else {
           return (String) ref;
         }
       }
-      public Builder setImage(String value) {
+      public Builder setIcon(String value) {
         if (value == null) {
     throw new NullPointerException();
   }
   bitField0_ |= 0x00000020;
-        image_ = value;
+        icon_ = value;
         onChanged();
         return this;
       }
-      public Builder clearImage() {
+      public Builder clearIcon() {
         bitField0_ = (bitField0_ & ~0x00000020);
-        image_ = getDefaultInstance().getImage();
+        icon_ = getDefaultInstance().getIcon();
         onChanged();
         return this;
       }
-      void setImage(com.google.protobuf.ByteString value) {
+      void setIcon(com.google.protobuf.ByteString value) {
         bitField0_ |= 0x00000020;
-        image_ = value;
+        icon_ = value;
+        onChanged();
+      }
+      
+      // repeated string images = 7;
+      private com.google.protobuf.LazyStringList images_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+      private void ensureImagesIsMutable() {
+        if (!((bitField0_ & 0x00000040) == 0x00000040)) {
+          images_ = new com.google.protobuf.LazyStringArrayList(images_);
+          bitField0_ |= 0x00000040;
+         }
+      }
+      public java.util.List<String>
+          getImagesList() {
+        return java.util.Collections.unmodifiableList(images_);
+      }
+      public int getImagesCount() {
+        return images_.size();
+      }
+      public String getImages(int index) {
+        return images_.get(index);
+      }
+      public Builder setImages(
+          int index, String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureImagesIsMutable();
+        images_.set(index, value);
+        onChanged();
+        return this;
+      }
+      public Builder addImages(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  ensureImagesIsMutable();
+        images_.add(value);
+        onChanged();
+        return this;
+      }
+      public Builder addAllImages(
+          java.lang.Iterable<String> values) {
+        ensureImagesIsMutable();
+        super.addAll(values, images_);
+        onChanged();
+        return this;
+      }
+      public Builder clearImages() {
+        images_ = com.google.protobuf.LazyStringArrayList.EMPTY;
+        bitField0_ = (bitField0_ & ~0x00000040);
+        onChanged();
+        return this;
+      }
+      void addImages(com.google.protobuf.ByteString value) {
+        ensureImagesIsMutable();
+        images_.add(value);
+        onChanged();
+      }
+      
+      // optional string detailIntro = 8;
+      private java.lang.Object detailIntro_ = "";
+      public boolean hasDetailIntro() {
+        return ((bitField0_ & 0x00000080) == 0x00000080);
+      }
+      public String getDetailIntro() {
+        java.lang.Object ref = detailIntro_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          detailIntro_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setDetailIntro(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000080;
+        detailIntro_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearDetailIntro() {
+        bitField0_ = (bitField0_ & ~0x00000080);
+        detailIntro_ = getDefaultInstance().getDetailIntro();
+        onChanged();
+        return this;
+      }
+      void setDetailIntro(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000080;
+        detailIntro_ = value;
         onChanged();
       }
       
@@ -991,7 +1265,7 @@ public final class TravelTipsProtos {
         return com.damuzhi.travel.protos.TravelTipsProtos.internal_static_damuzhi_CommonTravelTipList_fieldAccessorTable;
       }
       
-      // Construct using com.lk.damuzhi.util.TravelTipsProtos.CommonTravelTipList.newBuilder()
+      // Construct using com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -1622,7 +1896,7 @@ public final class TravelTipsProtos {
         return com.damuzhi.travel.protos.TravelTipsProtos.internal_static_damuzhi_TravelTips_fieldAccessorTable;
       }
       
-      // Construct using com.lk.damuzhi.util.TravelTipsProtos.TravelTips.newBuilder()
+      // Construct using com.damuzhi.travel.protos.TravelTipsProtos.TravelTips.newBuilder()
       private Builder() {
         maybeForceBuilderInitialization();
       }
@@ -2282,16 +2556,18 @@ public final class TravelTipsProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020TravelTips.proto\022\007damuzhi\"o\n\017CommonTra" +
-      "velTip\022\r\n\005tipId\030\001 \001(\005\022\016\n\006cityId\030\002 \001(\005\022\014\n" +
-      "\004name\030\003 \002(\t\022\014\n\004html\030\004 \001(\t\022\022\n\nbriefIntro\030" +
-      "\005 \001(\t\022\r\n\005image\030\006 \001(\t\"@\n\023CommonTravelTipL" +
-      "ist\022)\n\007tipList\030\001 \003(\0132\030.damuzhi.CommonTra" +
-      "velTip\"v\n\nTravelTips\022+\n\tguideList\030\001 \003(\0132" +
-      "\030.damuzhi.CommonTravelTip\022+\n\trouteList\030\002" +
-      " \003(\0132\030.damuzhi.CommonTravelTip\022\016\n\006cityId" +
-      "\030\003 \001(\005B\'\n\023com.lk.damuzhi.utilB\020TravelTip" +
-      "sProtos"
+      "\n\020TravelTips.proto\022\007damuzhi\"\223\001\n\017CommonTr" +
+      "avelTip\022\r\n\005tipId\030\001 \001(\005\022\016\n\006cityId\030\002 \001(\005\022\014" +
+      "\n\004name\030\003 \002(\t\022\014\n\004html\030\004 \001(\t\022\022\n\nbriefIntro" +
+      "\030\005 \001(\t\022\014\n\004icon\030\006 \001(\t\022\016\n\006images\030\007 \003(\t\022\023\n\013" +
+      "detailIntro\030\010 \001(\t\"@\n\023CommonTravelTipList" +
+      "\022)\n\007tipList\030\001 \003(\0132\030.damuzhi.CommonTravel" +
+      "Tip\"v\n\nTravelTips\022+\n\tguideList\030\001 \003(\0132\030.d" +
+      "amuzhi.CommonTravelTip\022+\n\trouteList\030\002 \003(" +
+      "\0132\030.damuzhi.CommonTravelTip\022\016\n\006cityId\030\003 " +
+      "\001(\005*%\n\rTravelTipType\022\t\n\005GUIDE\020\001\022\t\n\005ROUTE",
+      "\020\002B&\n\022com.damuzhi.travel.protosB\020TravelTipsProt" +
+      "os"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -2303,7 +2579,7 @@ public final class TravelTipsProtos {
           internal_static_damuzhi_CommonTravelTip_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_CommonTravelTip_descriptor,
-              new java.lang.String[] { "TipId", "CityId", "Name", "Html", "BriefIntro", "Image", },
+              new java.lang.String[] { "TipId", "CityId", "Name", "Html", "BriefIntro", "Icon", "Images", "DetailIntro", },
               com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip.class,
               com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip.Builder.class);
           internal_static_damuzhi_CommonTravelTipList_descriptor =
