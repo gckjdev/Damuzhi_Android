@@ -5404,9 +5404,9 @@ public final class AppProtos {
     boolean hasAgencyId();
     int getAgencyId();
     
-    // required int32 name = 2;
+    // required string name = 2;
     boolean hasName();
-    int getName();
+    String getName();
   }
   public static final class Agency extends
       com.google.protobuf.GeneratedMessage
@@ -5447,19 +5447,41 @@ public final class AppProtos {
       return agencyId_;
     }
     
-    // required int32 name = 2;
+    // required string name = 2;
     public static final int NAME_FIELD_NUMBER = 2;
-    private int name_;
+    private java.lang.Object name_;
     public boolean hasName() {
       return ((bitField0_ & 0x00000002) == 0x00000002);
     }
-    public int getName() {
-      return name_;
+    public String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
     }
     
     private void initFields() {
       agencyId_ = 0;
-      name_ = 0;
+      name_ = "";
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -5485,7 +5507,7 @@ public final class AppProtos {
         output.writeInt32(1, agencyId_);
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeInt32(2, name_);
+        output.writeBytes(2, getNameBytes());
       }
       getUnknownFields().writeTo(output);
     }
@@ -5502,7 +5524,7 @@ public final class AppProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
-          .computeInt32Size(2, name_);
+          .computeBytesSize(2, getNameBytes());
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -5630,7 +5652,7 @@ public final class AppProtos {
         super.clear();
         agencyId_ = 0;
         bitField0_ = (bitField0_ & ~0x00000001);
-        name_ = 0;
+        name_ = "";
         bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
@@ -5744,9 +5766,9 @@ public final class AppProtos {
               agencyId_ = input.readInt32();
               break;
             }
-            case 16: {
+            case 18: {
               bitField0_ |= 0x00000002;
-              name_ = input.readInt32();
+              name_ = input.readBytes();
               break;
             }
           }
@@ -5776,25 +5798,40 @@ public final class AppProtos {
         return this;
       }
       
-      // required int32 name = 2;
-      private int name_ ;
+      // required string name = 2;
+      private java.lang.Object name_ = "";
       public boolean hasName() {
         return ((bitField0_ & 0x00000002) == 0x00000002);
       }
-      public int getName() {
-        return name_;
+      public String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
       }
-      public Builder setName(int value) {
-        bitField0_ |= 0x00000002;
+      public Builder setName(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
         name_ = value;
         onChanged();
         return this;
       }
       public Builder clearName() {
         bitField0_ = (bitField0_ & ~0x00000002);
-        name_ = 0;
+        name_ = getDefaultInstance().getName();
         onChanged();
         return this;
+      }
+      void setName(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
       }
       
       // @@protoc_insertion_point(builder_scope:damuzhi.Agency)
@@ -9385,7 +9422,7 @@ public final class AppProtos {
       "\030\001 \002(\t\022\n\n\002id\030\002 \002(\005\022\r\n\005appId\030\003 \001(\t\022\023\n\013des" +
       "cription\030\004 \001(\t\022\014\n\004icon\030\005 \001(\t\022\013\n\003url\030\006 \001(" +
       "\t\"(\n\006Agency\022\020\n\010agencyId\030\001 \002(\005\022\014\n\004name\030\002 ",
-      "\002(\005\"G\n\tRouteCity\022\023\n\013routeCityId\030\001 \002(\005\022\020\n" +
+      "\002(\t\"G\n\tRouteCity\022\023\n\013routeCityId\030\001 \002(\005\022\020\n" +
       "\010cityName\030\002 \002(\t\022\023\n\013countryName\030\003 \002(\t\"\214\003\n" +
       "\003App\022\023\n\013dataVersion\030\001 \002(\t\022\035\n\006cities\030\002 \003(" +
       "\0132\r.damuzhi.City\022!\n\ntestCities\030\003 \003(\0132\r.d" +

@@ -17,6 +17,7 @@ import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.Message;
 import android.os.Process;
 import android.os.RemoteException;
@@ -86,31 +87,39 @@ public class OpenCityDataActivity extends MenuActivity
 		super.onCreate(savedInstanceState);
 		Log.i(TAG, "onCreate");
 		setContentView(R.layout.open_city);
+		
 		downloadManager = new DownloadManager(OpenCityDataActivity.this);
-		openCtiyDataListView = (ListView) findViewById(R.id.open_city_data_listview);		
+				
 		downloadListView = (ListView) findViewById(R.id.download_data_listview);
 		findViewById(R.id.open_city_tips_download).setSelected(true);
+		
 		cityList = AppManager.getInstance().getCityList();
+				
+		openCtiyDataListView = (ListView) findViewById(R.id.open_city_data_listview);
+		installCityData = DownloadManager.getInstallCity();
+		cityListAdapter = new OpenCityDataAdapter(cityList, OpenCityDataActivity.this);
+		installedCityList.addAll(installCityData.values());
+		downloadDataListAdapter = new DownloadDataListAdapter(installedCityList, this);
+		
 		View listViewFooter = getLayoutInflater().inflate(R.layout.open_data_listview_footer, null, false);
 		TextView tipsTextView = (TextView) listViewFooter.findViewById(R.id.open_city_tips_update);
 		SpannableString tips = new SpannableString(getString(R.string.open_city_tips2));
 		tips.setSpan(new StyleSpan(android.graphics.Typeface.BOLD_ITALIC), 0, tips.length()-1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 		tipsTextView.setText(tips);
-		installCityData = DownloadManager.getInstallCity();
-		cityListAdapter = new OpenCityDataAdapter(cityList, OpenCityDataActivity.this);
-		installedCityList.addAll(installCityData.values());
-		downloadDataListAdapter = new DownloadDataListAdapter(installedCityList, this);
 		openCtiyDataListView.addFooterView(listViewFooter);
 		openCtiyDataListView.setFooterDividersEnabled(false);
 		openCtiyDataListView.setDrawingCacheEnabled(false);
 		openCtiyDataListView.setAdapter(cityListAdapter);
 		downloadListView.setAdapter(downloadDataListAdapter);
+		
 		dataListGroup = (ViewGroup) findViewById(R.id.data_list_group);
 		downloadListGroup = (ViewGroup) findViewById(R.id.download_list_group);
 		dataListTitle = (TextView) findViewById(R.id.city_list_title);
 		downloadListTitle = (TextView) findViewById(R.id.download_manager_title);
+		
 		dataListGroup.setOnClickListener(dataListOnClickListener);
 		downloadListGroup.setOnClickListener(downloadListOnClickListener);
+		
 		bindService(new Intent(OpenCityDataActivity.this, DownloadService.class), conn, Context.BIND_AUTO_CREATE);
 	}
 	
@@ -126,14 +135,13 @@ public class OpenCityDataActivity extends MenuActivity
 		@Override
 		public void onServiceDisconnected(ComponentName name)
 		{
-			Log.i(TAG, "ServiceDisConnection -> onServiceDisConnected");
+			//Log.i(TAG, "ServiceDisConnection -> onServiceDisConnected");
 			iDownloadService = null;
 		}
 		
 		@Override
 		public void onServiceConnected(ComponentName name, IBinder service)
 		{
-			//Log.i(TAG, "ServiceConnection -> onServiceConnected");
 			iDownloadService = IDownloadService.Stub.asInterface(service);
 			if(iDownloadService != null)
 			{
@@ -194,13 +202,13 @@ public class OpenCityDataActivity extends MenuActivity
 						File tempFile = new File(zipTempFilePath);
 						File zipFile = new File(zipFilePath);
 						String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
-						if(tempFile.renameTo(zipFile))
+						boolean reulst = tempFile.renameTo(zipFile);
+						if(reulst)
 						{														
 							try
 							{
-								boolean zipSuccess = ZipUtil.upZipFile(zipFilePath,upZipFilePath );								
-								Log.i(TAG, "upZipFile success = "+zipSuccess);
-								if(zipSuccess)
+								reulst = ZipUtil.upZipFile(zipFilePath,upZipFilePath );								
+								if(reulst)
 								{									
 									openCtiyDataListView.findViewWithTag("installing"+position).setVisibility(View.GONE);
 									openCtiyDataListView.findViewWithTag("installed"+position).setVisibility(View.VISIBLE);
@@ -338,7 +346,6 @@ public class OpenCityDataActivity extends MenuActivity
 				dataSize.setVisibility(View.GONE);
 				cancleGroup.setVisibility(View.VISIBLE);
 				dataDownloadMangerGroup.setVisibility(View.VISIBLE);
-				//pauseButton.setVisibility(View.VISIBLE);
 		}
 	};
 	
@@ -480,7 +487,13 @@ public class OpenCityDataActivity extends MenuActivity
 			{
 				try
 				{
-					iDownloadService.startDownload(cityId,downloadURL, downloadSavePath,tempPath);
+					boolean result = iDownloadService.startDownload(cityId,downloadURL, downloadSavePath,tempPath);
+					if(!result)
+					{
+						Looper.prepare();
+						Toast.makeText(OpenCityDataActivity.this, getResources().getString(R.string.download_connection_error), Toast.LENGTH_LONG).show();
+						Looper.loop();
+					}
 				} catch (RemoteException e)
 				{
 					e.printStackTrace();
@@ -492,7 +505,7 @@ public class OpenCityDataActivity extends MenuActivity
 	
 	
 	
-	//pause a task download
+	
 	
 	
 	private void pauseDownload(final String downloadURL) 
@@ -575,17 +588,7 @@ public class OpenCityDataActivity extends MenuActivity
 		super.onDestroy();
 	}
 
-	@Override
-	protected void onPause()
-	{
-		super.onPause();
-	}
-	
-	
-	
-	
-	
-	
+
 	
 	
 	
@@ -595,6 +598,8 @@ public class OpenCityDataActivity extends MenuActivity
 		private static final String TAG = "OpenCityDataAdapter";
 		private List<City> cityDataList;
 		private Context context;
+		ProgressBar downloadBar ;
+		TextView resultTextView ;
 		
 		public OpenCityDataAdapter(List<City> cityList, Context context)
 		{
@@ -658,8 +663,8 @@ public class OpenCityDataActivity extends MenuActivity
 			ImageButton cancelButton = (ImageButton) convertView.findViewById(R.id.cancel_download_button);
 			ViewGroup startGroup = (ViewGroup)convertView.findViewById(R.id.start_download_manager_group);
 			ViewGroup cancelGroup = (ViewGroup)convertView.findViewById(R.id.cancel_download_manager_group);
-			ProgressBar downloadBar = (ProgressBar) convertView.findViewById(R.id.downloadbar);
-			TextView resultTextView = (TextView) convertView.findViewById(R.id.download_persent);
+			downloadBar = (ProgressBar) convertView.findViewById(R.id.downloadbar);
+			resultTextView = (TextView) convertView.findViewById(R.id.download_persent);
 			if(installCityData!=null && installCityData.containsKey(city.getCityId()))
 			{
 				installedTextView.setVisibility(View.VISIBLE);

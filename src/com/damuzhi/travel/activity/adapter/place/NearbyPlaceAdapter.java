@@ -152,7 +152,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
 		url = place.getIcon();
-		anseylodar.showimgAnsy(imageView,url, ConstantField.DATA_HTTP);		
+		anseylodar.showimgAnsy(imageView,url);		
 		
 		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		

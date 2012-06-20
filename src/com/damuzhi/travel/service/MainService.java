@@ -223,7 +223,7 @@ public class MainService extends Service implements Runnable
 				break;
 			case Task.TRAVEL_TIPS://
 				List<CommonTravelTip> commonTravelTips = dataService
-						.getCommonTravelTips(ConstantField.TRAVEL_TIPS_LIST,
+						.getCommonTravelTips(ConstantField.TRAVEL_GUIDE_LIST,
 								application.getCityID(),
 								ConstantField.LANG_HANS);
 				PlaceActivity travelTipsActivity = (PlaceActivity) object;

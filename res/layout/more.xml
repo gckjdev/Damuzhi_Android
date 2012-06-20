@@ -75,7 +75,6 @@
 	    	    android:textColor="@color/place_price_color"
 	    	    android:text="@string/more_browser_history"/>  	
 	    	<ImageView
-	    	    android:id="@+id/detail_btn"
 	    	    android:layout_width="wrap_content"
 	    	    android:layout_height="wrap_content"
 	    	    android:layout_alignParentRight="true"
@@ -99,7 +98,6 @@
 	    	    android:textColor="@color/place_price_color"
 	    	    android:text="@string/more_feedback"/>  	
 	    	<ImageView
-	    	    android:id="@+id/detail_btn"
 	    	    android:layout_width="wrap_content"
 	    	    android:layout_height="wrap_content"
 	    	    android:layout_alignParentRight="true"
@@ -123,7 +121,6 @@
 	    	    android:textColor="@color/place_price_color"
 	    	    android:text="@string/more_update_version"/>  	
 	    	<ImageView
-	    	    android:id="@+id/detail_btn"
 	    	    android:layout_width="wrap_content"
 	    	    android:layout_height="wrap_content"
 	    	    android:layout_alignParentRight="true"
@@ -147,7 +144,6 @@
 	    	    android:textColor="@color/place_price_color"
 	    	    android:text="@string/more_about_damuzhi"/>  	
 	    	<ImageView
-	    	    android:id="@+id/detail_btn"
 	    	    android:layout_width="wrap_content"
 	    	    android:layout_height="wrap_content"
 	    	    android:layout_alignParentRight="true"
@@ -156,7 +152,7 @@
 	    	    android:src="@drawable/go_btn"
 	    	    android:scaleType="fitCenter"/>
     	</RelativeLayout>
-    	<RelativeLayout 
+    	<!-- <RelativeLayout 
 	        android:layout_width="fill_parent"
 	        android:layout_height="50dp"
 	        android:background="@drawable/more_middle"
@@ -179,7 +175,7 @@
 	    	    android:paddingRight="15dp"
 	    	    android:src="@drawable/go_btn"
 	    	    android:scaleType="fitCenter"/>
-    	</RelativeLayout>
+    	</RelativeLayout> -->
     	<RelativeLayout 
 	        android:layout_width="fill_parent"
 	        android:layout_height="50dp"
@@ -194,21 +190,19 @@
 	    	    android:textSize="15.0sp"
 	    	    android:textColor="@color/place_price_color"
 	    	    android:text="@string/more_list_image"/>  	
-	    	<ImageView
-	    	    android:id="@+id/detail_btn"
-	    	    android:layout_width="wrap_content"
-	    	    android:layout_height="wrap_content"
-	    	    android:layout_alignParentRight="true"
-	    	    android:layout_centerVertical="true"
-	    	    android:paddingRight="15dp"
-	    	    android:src="@drawable/go_btn"
-	    	    android:scaleType="fitCenter"/>
+	    	<com.damuzhi.travel.util.SlidButton
+	            android:id="@+id/is_show_list_image"
+	            android:layout_width="100dp"
+	            android:layout_marginTop="23dp"
+	            android:layout_height="fill_parent"
+	            android:layout_centerVertical="true"
+	            android:layout_alignParentRight="true" />
     	</RelativeLayout>
     	<RelativeLayout 
 	        android:layout_width="fill_parent"
 	        android:layout_height="50dp"
 	        android:background="@drawable/more_bottom"
-	        android:id="@+id/good_commend_group">
+	        android:id="@+id/recommended_app_group">
 	    	<TextView 
 	    	    android:layout_width="wrap_content"
 	    	    android:layout_height="wrap_content"
@@ -219,7 +213,6 @@
 	    	    android:textColor="@color/place_price_color"
 	    	    android:text="@string/more_good_commend"/>  	
 	    	<ImageView
-	    	    android:id="@+id/detail_btn"
 	    	    android:layout_width="wrap_content"
 	    	    android:layout_height="wrap_content"
 	    	    android:layout_alignParentRight="true"

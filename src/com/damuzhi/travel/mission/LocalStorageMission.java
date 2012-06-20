@@ -16,7 +16,9 @@ import android.util.Log;
 
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.protos.CityOverviewProtos.CityOverview;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
+import com.damuzhi.travel.protos.TravelTipsProtos.TravelTips;
 import com.damuzhi.travel.util.FileUtil;
 
 /**  
@@ -31,6 +33,8 @@ public class LocalStorageMission
 	private static final String TAG = "LocalStorageMission";	
 	
 	private PlaceMission placeMission = PlaceMission.getInstance();
+	private TravelTipsMission tipsMission = TravelTipsMission.getInstance();
+	private OverviewMission overviewMission = OverviewMission.getInstance();
 	private static LocalStorageMission instance = null;
 	private LocalStorageMission() {
 	}
@@ -40,34 +44,34 @@ public class LocalStorageMission
 		}
 		return instance;
 	}
-	/**  
-	        * @param cityId
-	        * @return  
-	        * @description   
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-5-25 上午10:44:05  
-	        */
+	
+	
 	public boolean hasLocalCityData(int cityId)
 	{
-		// TODO Auto-generated method stub
 		String dataPath = String.format(ConstantField.DATA_PATH,cityId);
 		boolean result =  FileUtil.checkFileIsExits(dataPath);
 		return result;
 	}
-	/**  
-	        * @param cityId
-	        * @return  
-	        * @description   
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-5-25 上午10:45:00  
-	        */
+	
+	
+	
 	public String getCityDataPath(int cityId)
 	{
 		String dataPath = String.format(ConstantField.DATA_PATH,cityId);
 		return dataPath;
 	}
+	
+	
+	public void loadLocalData(int cityId)
+	{
+		loadCityPlaceData(cityId);
+		loadCityTravelGuideData(cityId);
+		loadCityTravelRouteData(cityId);
+		loadCityOverviewData(cityId);
+	}
+	
+	
+	
 	
 	public void loadCityPlaceData(int cityId){
 		try
@@ -99,17 +103,112 @@ public class LocalStorageMission
 			Log.e(TAG, "<loadCityPlaceData> read local city data but catch exception="+e.toString(), e);
 		} 
 	}
-	/**  
-	        * @return  
-	        * @description   
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-5-29 下午2:59:33  
-	*/
+	
+	
+	
 	public boolean currentCityHasLocalData()
 	{
-		// TODO Auto-generated method stub
 		int cityId = AppManager.getInstance().getCurrentCityId();		
 		return LocalStorageMission.getInstance().hasLocalCityData(cityId);
+	}
+	
+	
+	public void loadCityTravelGuideData(int cityId)
+	{
+		try
+		{
+			String dataPath = getCityDataPath(cityId);
+			Log.i(TAG, "<loadCityTravelGuideData> load commonTravelTips data from "+dataPath+" for city "+cityId);
+			
+			// delete all old data
+			tipsMission.clearLocalGuideData();
+			
+			// read data from place files
+			FileUtil fileUtil = new FileUtil();
+			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.GUIDE_TAG, ConstantField.EXTENSION, true);
+			if(fileInputStreams ==null || fileInputStreams.size()==0)
+			return ;
+			
+			for(FileInputStream fileInputStream : fileInputStreams)
+			{
+				TravelTips travelTips = TravelTips.parseFrom(fileInputStream);
+				if (travelTips != null){				
+					tipsMission.addLocalTravelGuide(travelTips.getGuideListList());
+					Log.i(TAG, "<loadCityTravelGuideData> read "+travelTips.getRouteListCount()+" travelGuide");
+				}
+				fileInputStream.close();
+			}
+			
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<loadCityTravelGuideData> read local city commonTravelTips data but catch exception="+e.toString(), e);
+		} 
+	}
+	
+	
+	public void loadCityTravelRouteData(int cityId)
+	{
+		try
+		{
+			String dataPath = getCityDataPath(cityId);
+			Log.i(TAG, "<loadCityTravelRouteData> load commonTravelTips data from "+dataPath+" for city "+cityId);
+			
+			// delete all old data
+			tipsMission.clearLocalRouteData();
+			
+			// read data from place files
+			FileUtil fileUtil = new FileUtil();
+			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.ROUTE_TAG, ConstantField.EXTENSION, true);
+			if(fileInputStreams ==null || fileInputStreams.size()==0)
+			return ;
+			
+			for(FileInputStream fileInputStream : fileInputStreams)
+			{
+				TravelTips travelTips = TravelTips.parseFrom(fileInputStream);
+				if (travelTips != null){				
+					tipsMission.addLocalTravelRoute(travelTips.getRouteListList());
+					Log.i(TAG, "<loadCityTravelRouteData> read "+travelTips.getRouteListCount()+" travelRoute");
+				}
+				fileInputStream.close();
+			}
+			
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<loadCityTravelRouteData> read local city commonTravelTips data but catch exception="+e.toString(), e);
+		} 
+	}
+	
+	
+	
+	public void loadCityOverviewData(int cityId)
+	{
+		try
+		{
+			String dataPath = getCityDataPath(cityId);
+			Log.i(TAG, "<loadCityOverviewData> load cityOverview data from "+dataPath+" for city "+cityId);
+			
+			// delete all old data
+			overviewMission.clearLocalOverData();
+			
+			// read data from place files
+			FileUtil fileUtil = new FileUtil();
+			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.OVERVIEW_TAG, ConstantField.EXTENSION, true);
+			if(fileInputStreams ==null || fileInputStreams.size()==0)
+			return ;
+			
+			for(FileInputStream fileInputStream : fileInputStreams)
+			{
+				CityOverview cityOverview = CityOverview.parseFrom(fileInputStream);
+				if (cityOverview != null){				
+					overviewMission.addLocalCityOverview(cityOverview);
+					Log.i(TAG, "<loadCityOverviewData> read  overview");
+				}
+				fileInputStream.close();
+			}
+			
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<loadCityOverviewData> read local cityOverview data but catch exception="+e.toString(), e);
+		} 
 	}
 }

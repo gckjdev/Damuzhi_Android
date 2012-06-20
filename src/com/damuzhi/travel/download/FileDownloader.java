@@ -15,7 +15,9 @@ import android.R.integer;
 import android.content.Context;
 import android.os.RemoteException;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.damuzhi.travel.R;
 import com.damuzhi.travel.db.FileDBHelper;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.downlaod.DownloadManager;
@@ -98,18 +100,16 @@ public class FileDownloader
 		try
 		{
 			boolean flag = false;
-			//this.downloadURL = downloadURL;
-			//fileDBHelper = new FileDBHelper(this.context);
-			File fileSaveDir = new File(this.tempPath);
-			downloadManager = new DownloadManager(this.context);
-			if (!fileSaveDir.exists())
-				fileSaveDir.mkdirs();
-			this.threads = new DownloadThread[threadNum];
 			HttpURLConnection conn = HttpTool.getConnection(downloadURL);
 			conn.connect();
 			printResponseHeader(conn);
 			if (conn.getResponseCode() == 200)
 			{
+				File fileSaveDir = new File(this.tempPath);
+				downloadManager = new DownloadManager(this.context);
+				if (!fileSaveDir.exists())
+					fileSaveDir.mkdirs();
+				this.threads = new DownloadThread[threadNum];
 				this.fileSize = conn.getContentLength();
 				if (this.fileSize <= 0)
 				{
@@ -118,7 +118,6 @@ public class FileDownloader
 				flag = true;
 				String filename = HttpTool.getTempFileName(conn, downloadURL);
 				this.saveFile = new File(fileSaveDir, filename);
-				//Map<Integer, Integer> logdata = fileDBHelper.getData(downloadURL);
 				Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
 				if (logdata.size() > 0)
 				{
@@ -139,12 +138,12 @@ public class FileDownloader
 				}
 			} else
 			{
-				throw new RuntimeException("server no response ");
+				Log.e(TAG, "<FileDownloaderCheeck> download service get conn fail,response code = "+conn.getResponseCode());
 			}
 			return flag;
 		} catch (Exception e)
 		{
-			Log.e(TAG,"download city data but catch exception :" + e.toString(),e);
+			Log.e(TAG,"<FileDownloaderCheeck> download city data but catch exception :" + e.toString(),e);
 			return false;
 		}
 	}
@@ -211,7 +210,7 @@ public class FileDownloader
 			
 		} catch (Exception e)
 		{
-			Log.e(TAG,"file download fail but catch exception :" + e.toString(),e);
+			Log.e(TAG,"<download> file download fail but catch exception :" + e.toString(),e);
 		}
 		return this.downloadSize;
 	}

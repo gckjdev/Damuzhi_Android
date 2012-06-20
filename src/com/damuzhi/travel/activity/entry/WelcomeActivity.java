@@ -44,8 +44,8 @@ public class WelcomeActivity extends TravelActivity
 		AppMission.getInstance().updateAppData(this);*/
 		// load place data by current city
 		int cityId = AppManager.getInstance().getCurrentCityId();
-		LocalStorageMission.getInstance().loadCityPlaceData(cityId);
-		TravelApplication.getInstance().setLocation(LocationUtil.getLocationByTower(this));
+		LocalStorageMission.getInstance().loadLocalData(cityId);
+		//TravelApplication.getInstance().setLocation(LocationUtil.getLocationByTower(this));
 		String userId = UserManager.getInstance().getUserId(this);		
 		if(userId==null ||userId.equals(""))
 		{

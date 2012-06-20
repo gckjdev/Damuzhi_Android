@@ -22,11 +22,14 @@ import java.util.zip.ZipOutputStream;
 import com.damuzhi.travel.model.constant.ConstantField;
 
 import android.content.Context;
+import android.util.Log;
 
 public class ZipUtil
 {
 	  
 	 private static final int BUFF_SIZE = 1024 * 1024; // 1M Byte
+	 
+	private static final String TAG = "ZipUtil";
 	 
 	   
 	    public static void zipFiles(Collection<File> resFileList, File zipFile) throws IOException {
@@ -37,16 +40,7 @@ public class ZipUtil
 	        zipout.close();
 	    }
 	 
-	 /*   
-	    public static void zipFiles(ArrayList<File> resFileList, File zipFile) throws IOException {
-	        ZipOutputStream zipout = new ZipOutputStream(new BufferedOutputStream(new FileOutputStream(
-	                zipFile), BUFF_SIZE));
-	        for (File resFile : resFileList) {
-	            zipFile(resFile, zipout, "");
-	        }
-	        zipout.close();
-	    }*/
-	    
+	
 	    
 	    public static void zipFiles(Collection<File> resFileList, File zipFile, String comment)
 	            throws IOException {
@@ -101,7 +95,7 @@ public class ZipUtil
 	 
 	    
 	    
-	    public static boolean upZipFile(String zipFilePath, String folderPath) throws ZipException, IOException {
+	    public static boolean upZipFile(String zipFilePath, String folderPath)  {
 	     boolean zipSuccess = false;
 	     String strEntry; 
 		 try {
@@ -143,13 +137,14 @@ public class ZipUtil
 		        } 
 	        fis.close();
 	        zis.close();
-	        return zipSuccess;
-		} catch (Exception cwj) 
+	       
+		} catch (Exception e) 
 	    {
-        cwj.printStackTrace();
-        return zipSuccess;
+		   Log.e(TAG, "<upZipFile> but catch exception :"+e.toString(), e);
+		   FileUtil.deleteFolder(folderPath);
+		   return false;
         }
-	        
+		 return zipSuccess;
 	   }
 	    
 	    

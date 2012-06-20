@@ -8,11 +8,17 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.IllegalFormatCodePointException;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.security.auth.PrivateCredentialPermission;
 
 import android.R.style;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.util.Log;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -20,12 +26,18 @@ import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.CityArea;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
+import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverviewType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.protos.TravelTipsProtos.TravelTipType;
 import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
 
 public class TravelUtil
 {
 
+	private static final ComparatorRank comparatorRank = new ComparatorRank();
+	private static final String TAG = "TravelUtil";
+	
+	
 	public static int getForecastImage(int categoryId)
 	{
 		int icon = 0;
@@ -419,7 +431,7 @@ public class TravelUtil
 		return placeList;
 	}
 
-	private static final ComparatorRank comparatorRank = new ComparatorRank();
+	
 
 	public static ComparatorRank getComparatorRank()
 	{
@@ -608,4 +620,96 @@ public class TravelUtil
 		return dataSizeStr;
 	}
 
+	
+	public static boolean checkHelpIsNeedUpdate(String localDataPath, float httpVersion)
+	{
+		Float localVersion = 0f;
+		boolean result = false;
+		if(localDataPath!= null&&FileUtil.checkFileIsExits(localDataPath))
+		{
+			String localVersionStr = AppManager.getInstance().getLocalHelpVersion();
+			localVersion = Float.valueOf(localVersionStr);
+		}	
+		if(localVersion<httpVersion)
+		{
+			result = true;
+		}
+		return result;
+	}
+
+	
+	public static String getTravelTipsType(int travelTipType)
+	{
+		if(travelTipType == TravelTipType.GUIDE_VALUE)
+		{
+			return ConstantField.TRAVEL_GUIDE_LIST;
+		}else if (travelTipType == TravelTipType.ROUTE_VALUE) {
+			return ConstantField.TRAVEL_ROUTE_LIST;
+		}else {
+			return null;
+		}
+		
+	}
+
+	
+	public static String getOverviewType(int overviewType)
+	{
+		switch (overviewType)
+		{
+		case CommonOverviewType.CITY_BASIC_VALUE:
+			return ConstantField.CITY_BASE;
+		case CommonOverviewType.TRAVEL_PREPRATION_VALUE:
+			return ConstantField.TRAVEL_PREPRATION;
+		case CommonOverviewType.TRAVEL_UTILITY_VALUE:
+			return ConstantField.TRAVEL_UTILITY;
+		case CommonOverviewType.TRAVEL_TRANSPORTATION_VALUE:
+			return ConstantField.TRAVEL_TRANSPORTAION;
+		}
+		return null;
+	}
+
+	
+	public static boolean isEmail(String strEmail) { 
+	    String strPattern = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
+	    Pattern p = Pattern.compile(strPattern);
+	    Matcher m = p.matcher(strEmail);
+	    return m.matches();
+	}
+	
+	public static boolean isNumber(String strNumber) { 
+	    String strPattern = "^[0-9]*$";
+	    Pattern p = Pattern.compile(strPattern);
+	    Matcher m = p.matcher(strNumber);
+	    return m.matches();
+	}
+	
+	public static float getVersionName(Context context) {
+       PackageManager packageManager = context.getPackageManager();
+       PackageInfo packInfo;
+	try
+	{
+		packInfo = packageManager.getPackageInfo(context.getPackageName(),0);
+		float version = Float.parseFloat(packInfo.versionName);          
+        return version;
+	} catch (Exception e)
+	{
+		Log.e(TAG, "<getVersionName> but catch exception :"+e.toString(),e);
+		return 0f;
+	}
+       
+   }
+
+	
+	public static int checkImageSouce(String url)
+	{
+		if(url.contains("http://"))
+		{
+			return ConstantField.DATA_HTTP;
+		}else {
+			return ConstantField.DATA_LOCAL;
+		}
+		
+	}
+	
+	
 }

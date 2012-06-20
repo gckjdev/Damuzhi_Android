@@ -185,7 +185,7 @@ public class NearbyAdapter extends BaseAdapter
 				}else{
 					url = place.getIcon();				
 				}	
-				anseylodar.showimgAnsy(imageView,url, dataFlag);
+				anseylodar.showimgAnsy(imageView,url);
 				int distance = (int) LocationUtil.GetDistance(longitude, latitude, place.getLongitude(), place.getLatitude());
 				//Log.d(TAG, "distance = " +distance);
 				if(distance >1000)

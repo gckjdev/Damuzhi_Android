@@ -42,16 +42,12 @@ import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList;
+import com.damuzhi.travel.protos.TravelTipsProtos.TravelTipType;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
 import com.damuzhi.travel.util.CornerListView;
 
-/**  
- * @description   
- * @version 1.0  
- * @author liuxiaokun  
- * @update 2012-5-23 ����1:33:19  
- */
+
 
 public class TravelRoutesActivity extends MenuActivity
 {
@@ -85,14 +81,14 @@ public class TravelRoutesActivity extends MenuActivity
 	
 	private void loadTravelTips()
 	{
-		AsyncTask<Void, Void, CommonTravelTipList> task = new AsyncTask<Void, Void, CommonTravelTipList>()
+		AsyncTask<Void, Void, List<CommonTravelTip>> task = new AsyncTask<Void, Void, List<CommonTravelTip>>()
 		{
 
 			@Override
-			protected CommonTravelTipList doInBackground(Void... params)
+			protected List<CommonTravelTip> doInBackground(Void... params)
 			{
 				int currentCityId = AppManager.getInstance().getCurrentCityId();
-				return TravelTipsMission.getInstance().getTravelTips(ConstantField.TRAVEL_ROUTE_LIST, currentCityId, TravelRoutesActivity.this);
+				return TravelTipsMission.getInstance().getTravelTips(TravelTipType.ROUTE_VALUE, currentCityId, TravelRoutesActivity.this);
 			}
 
 			@Override
@@ -102,9 +98,9 @@ public class TravelRoutesActivity extends MenuActivity
 			}
 
 			@Override
-			protected void onPostExecute(CommonTravelTipList commonTravelTipList)
+			protected void onPostExecute(List<CommonTravelTip> commonTravelTipList)
 			{				
-				commonTravelTips = commonTravelTipList.getTipListList();
+				commonTravelTips = commonTravelTipList;
 				refresh(commonTravelTips);
 				loadingDialog.dismiss();
 				super.onPostExecute(commonTravelTipList);

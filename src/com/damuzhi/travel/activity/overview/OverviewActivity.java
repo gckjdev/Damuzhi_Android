@@ -106,7 +106,7 @@ public class OverviewActivity extends TravelActivity implements PlaceActivity
 				url = imagePath.get(i);		
 				Log.d(TAG, "image url = "+url);
 			}		
-			anseylodar.showimgAnsy(imageView, url, application.getDataFlag());
+			anseylodar.showimgAnsy(imageView, url);
 			imageViewlist.add(view);
 		}
 		imageViews = new ImageView[size];

@@ -272,7 +272,7 @@ public class NearbyPlaceActivity extends TravelActivity
 			float endSet = screenW*-0.18f;
 			startPosition = 0;			
 			animation = new TranslateAnimation(offset,endSet, 0, 0);
-			animation.setDuration(700);		
+			animation.setDuration(500);		
 			redStart.startAnimation(animation);
 			animation.setFillAfter(true);
 			loadPlace();
@@ -292,7 +292,7 @@ public class NearbyPlaceActivity extends TravelActivity
 				float endSet = screenW*0f;											
 				startPosition = 1;				
 				animation = new TranslateAnimation(offset,endSet, 0, 0);
-				animation.setDuration(700);		
+				animation.setDuration(500);		
 				redStart.startAnimation(animation);
 				animation.setFillAfter(true);				
 				loadPlace();
@@ -313,7 +313,7 @@ public class NearbyPlaceActivity extends TravelActivity
 					float endSet = screenW*0.25f;							
 					startPosition = 2;					
 					animation = new TranslateAnimation(offset,endSet, 0, 0);
-					animation.setDuration(700);		
+					animation.setDuration(500);		
 					redStart.startAnimation(animation);
 					animation.setFillAfter(true);
 					loadPlace();	
@@ -334,7 +334,7 @@ public class NearbyPlaceActivity extends TravelActivity
 					float endSet = screenW*0.64f;
 					startPosition = 3;
 					animation = new TranslateAnimation(offset,endSet, 0, 0);
-					animation.setDuration(700);		
+					animation.setDuration(500);		
 					redStart.startAnimation(animation);
 					animation.setFillAfter(true);
 					loadPlace();	

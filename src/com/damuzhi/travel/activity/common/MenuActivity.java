@@ -9,8 +9,10 @@
 package com.damuzhi.travel.activity.common;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,7 +45,9 @@ public class MenuActivity extends Activity
 			
 			break;
 		case R.id.menu_help:
-			
+			Intent  intent = new Intent();
+			intent.setClass(MenuActivity.this, HelpActiviy.class);
+			startActivity(intent);
 			break;
 		case R.id.menu_feedback:
 			

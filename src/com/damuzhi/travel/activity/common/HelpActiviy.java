@@ -14,6 +14,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.WebView;
+import android.widget.TextView;
 
 
 
@@ -25,9 +26,10 @@ public class HelpActiviy extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);
-		WebView helpView = (WebView) findViewById(R.id.help_webview);
-		//String baseUrl = "file:///mnt/sdcard/test/";
-		//helpView.loadDataWithBaseURL(baseUrl, data, "text/html", "utf-8", null); 
+		String title = getIntent().getStringExtra(ConstantField.HELP_TITLE);
+		TextView textView = (TextView) findViewById(R.id.place_title);
+		textView.setText(title);
+		WebView helpView = (WebView) findViewById(R.id.help_webview); 
 		helpView.loadUrl(ConstantField.HELP_HTML_FILE_PATH);
 	}
 

@@ -16,6 +16,7 @@ import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
+import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverviewType;
 
 
 
@@ -25,7 +26,7 @@ public class CommonCtiyBaseActivity extends CommonOverViewActivity
 	@Override
 	public CommonOverview loadData(Activity activity)
 	{
-		return OverviewMission.getInstance().getOverview(ConstantField.CITY_BASE,AppManager.getInstance().getCurrentCityId(),activity);
+		return OverviewMission.getInstance().getOverview(CommonOverviewType.CITY_BASIC_VALUE,AppManager.getInstance().getCurrentCityId(),activity);
 		
 	}
 

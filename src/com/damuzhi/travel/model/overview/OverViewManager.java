@@ -13,14 +13,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.List;
 
 import android.util.Log;
 
+import com.damuzhi.travel.activity.overview.CommonCtiyBaseActivity;
+import com.damuzhi.travel.activity.overview.CommonOverViewActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.CityOverviewProtos.CityOverview;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
+import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverviewType;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
@@ -38,7 +42,7 @@ public class OverViewManager
 	
 	
 	private static final String TAG = "OverViewManger";
-
+	private CityOverview cityOverview ;
 	
 	
 	public static CityOverview getOverviewDataByFile(String dataPath)
@@ -81,6 +85,42 @@ public class OverViewManager
 			e1.printStackTrace();
 		}
 		return commonOverview;
+	}
+
+
+	public CityOverview getCityOverview()
+	{
+		return cityOverview;
+	}
+
+
+	public void setCityOverview(CityOverview cityOverview)
+	{
+		this.cityOverview = cityOverview;
+	}
+
+
+	
+	public void clear()
+	{
+		this.cityOverview = null;
+		
+	}
+	
+	public CommonOverview getCityCommonOverview(int commonOverviewType)
+	{
+		switch (commonOverviewType)
+		{
+		case CommonOverviewType.CITY_BASIC_VALUE:
+			return cityOverview.getCityBasic();
+		case CommonOverviewType.TRAVEL_PREPRATION_VALUE:
+			return cityOverview.getTravelPrepration();
+		case CommonOverviewType.TRAVEL_UTILITY_VALUE:
+			return cityOverview.getTravelUtility();
+		case CommonOverviewType.TRAVEL_TRANSPORTATION_VALUE:
+			return cityOverview.getTravelTransportation();
+		}
+		return null;
 	}
 	
 	

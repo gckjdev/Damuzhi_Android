@@ -51,7 +51,7 @@ public class CollectManager
 		try
 		{
 			if (place != null){
-				output = new FileOutputStream(ConstantField.FAVORITE_FILE_PATH);
+				output = new FileOutputStream(ConstantField.FAVORITE_FILE_PATH,true);
 				PlaceList.Builder placeBuilder = PlaceList.newBuilder();
 				placeBuilder.addList(place);
 				placeBuilder.build().writeTo(output);		

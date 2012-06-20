@@ -41,8 +41,8 @@ public class ConstantField
 	public static final String OVERVIEW = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACElIST = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&lang=%s";
 	public static final String PLACE_LIST_NEARBY = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&placeId=%s&latitude=%s&longitude=%s&num=%s&distance=%s&lang=%s&os=%s";
-	public static final String APP = "http://api.trip8888.com/service/queryList.aspx?type=10&lang=%s";
-	//public static final String HELP = "http://api.trip8888.com/service/queryList.aspx?type=8&lang=%s";
+	public static final String APP = "http://api.trip8888.com/service/queryList.aspx?type=10&lang=%s&os=2";
+	//public static final String APP = "http://59.34.17.68:8012/service/queryList.aspx?type=10&lang=%s&os=2";
 	public static final String HELP = "http://api.trip8888.com/service/queryObject.aspx?type=8&lang=%s";
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
 	/* http data type */
@@ -57,7 +57,7 @@ public class ConstantField
 	public static final String TRAVEL_UTILITY = "5";
 	public static final String TRAVEL_TIPS ="6";
 	public static final String TRAVEL_ROUTE = "7";
-	public static final String TRAVEL_TIPS_LIST ="5";
+	public static final String TRAVEL_GUIDE_LIST ="5";
 	public static final String TRAVEL_ROUTE_LIST = "6";
 	public static final String HELP_INFO = "8";
 	public static final String OPEN_CITY_LIST = "8";
@@ -111,6 +111,9 @@ public class ConstantField
 	public static final String FAVORITE_COUNT_STR = "已有%s人收藏";
 	public static final String FAVORITE_FILE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/favorite.dat";
 	
+	/* history*/
+	public static final String HISTORY_FILE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app/history.dat";
+	
 	/* register*/
 	public static final String REGISTER = "http://api.trip8888.com/service/registerUser.aspx?type=2&deviceId=%s";
 	public static final String USER_ID = "user_id";
@@ -130,5 +133,10 @@ public class ConstantField
 	public static final int DOWNLOAD_SUCCESS = 6;
 	public static final String TRAVEL_TIPS_INFO = "travelTipsInfo";
 	public static final String TRAVEL_ROUTES_INFO = "travelRoutesInfo";
+	
+	
+	/* more*/
+	public static final String HELP_TITLE = "help_title";
+	public static final String SHOW_LIST_IMAGE = "show_list_image";
 
 }

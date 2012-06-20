@@ -51,10 +51,7 @@ public class PlaceManager
 		placeLists.addAll(list);
 	}
 	
-	/**
-	 * @param dataPath
-	 * @param url
-	 */
+	
 	public PlaceManager(String dataPath, String url)
 	{
 		super();
@@ -69,9 +66,7 @@ public class PlaceManager
 	
 	
 
-	/**  
-	        * Constructor Method     
-	        */
+	
 	public PlaceManager()
 	{
 		// TODO Auto-generated constructor stub

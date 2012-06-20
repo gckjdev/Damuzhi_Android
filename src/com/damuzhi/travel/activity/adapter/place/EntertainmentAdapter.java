@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.adapter.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-16 ÏÂÎç5:11:07  
+        * @update 2012-5-16 ï¿½ï¿½ï¿½ï¿½5:11:07  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.adapter.place;
@@ -31,7 +31,7 @@ import android.widget.TextView;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-16 ÏÂÎç5:11:07  
+ * @update 2012-5-16 ï¿½ï¿½ï¿½ï¿½5:11:07  
  */
 
 public class EntertainmentAdapter extends BaseAdapter
@@ -103,11 +103,11 @@ public class EntertainmentAdapter extends BaseAdapter
 		   Log.i("----------------------------------", "pause");
 	   }
 	   
-	 //ÇëÇó¸ü¶àµÄÊý¾Ý
+	 //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void addmoreDate(ArrayList<Place> addmore){
 			if (list!=null) {
-				this.list.addAll(addmore);//°ÉÐÂ´«µÃÊý¾Ý¼Óµ½ÏÖÔÚµÄlistÖÐ
-				this.notifyDataSetChanged();//½«Êý¾Ý×·¼Óµ½ListViewÖÐÏÔÊ¾
+				this.list.addAll(addmore);//ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼Óµï¿½ï¿½ï¿½ï¿½Úµï¿½listï¿½ï¿½
+				this.notifyDataSetChanged();//ï¿½ï¿½ï¿½ï¿½ï¿½×·ï¿½Óµï¿½ListViewï¿½ï¿½ï¿½ï¿½Ê¾
 			}
 		}
 	@Override
@@ -175,7 +175,7 @@ public class EntertainmentAdapter extends BaseAdapter
 		}else{
 			url = place.getIcon();				
 		}	
-		anseylodar.showimgAnsy(imageView,url, dataFlag);
+		anseylodar.showimgAnsy(imageView,url);
 		int distance = (int) LocationUtil.GetDistance(longitude, latitude, place.getLongitude(), place.getLatitude());
 		//Log.d(TAG, "distance = " +distance);
 		if(distance >1000)
@@ -192,7 +192,7 @@ public class EntertainmentAdapter extends BaseAdapter
 			sceneryPrice.setText(price);
 		}else {
 			price = place.getPrice();
-			sceneryPrice.setText("ÈË¾ù"+symbol+price);
+			sceneryPrice.setText("ï¿½Ë¾ï¿½"+symbol+price);
 		}
 		sceneryTag.setText(subCatName);
 		if(cityAreaMap.containsKey(place.getAreaId()))

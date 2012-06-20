@@ -43,6 +43,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList;
+import com.damuzhi.travel.protos.TravelTipsProtos.TravelTipType;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
 import com.damuzhi.travel.util.CornerListView;
@@ -54,7 +55,7 @@ import com.damuzhi.travel.util.CornerListView;
  * @update 2012-5-22 ����3:53:27  
  */
 
-public class TravelTipsActivity extends MenuActivity
+public class TravelGuidesActivity extends MenuActivity
 {
 	private ListView listView;
 	private List<CommonTravelTip> commonTravelTips = new ArrayList<CommonTravelTip>();
@@ -87,14 +88,14 @@ public class TravelTipsActivity extends MenuActivity
 	
 	private void loadTravelTips()
 	{
-		AsyncTask<Void, Void, CommonTravelTipList> task = new AsyncTask<Void, Void, CommonTravelTipList>()
+		AsyncTask<Void, Void, List<CommonTravelTip>> task = new AsyncTask<Void, Void, List<CommonTravelTip>>()
 		{
 
 			@Override
-			protected CommonTravelTipList doInBackground(Void... params)
+			protected List<CommonTravelTip> doInBackground(Void... params)
 			{
 				int currentCityId = AppManager.getInstance().getCurrentCityId();
-				return TravelTipsMission.getInstance().getTravelTips(ConstantField.TRAVEL_TIPS_LIST, currentCityId, TravelTipsActivity.this);
+				return TravelTipsMission.getInstance().getTravelTips(TravelTipType.GUIDE_VALUE, currentCityId, TravelGuidesActivity.this);
 			}
 
 			@Override
@@ -104,10 +105,10 @@ public class TravelTipsActivity extends MenuActivity
 			}
 
 			@Override
-			protected void onPostExecute(CommonTravelTipList commonTravelTipList)
+			protected void onPostExecute(List<CommonTravelTip> commonTravelTipList)
 			{
 			
-				commonTravelTips = commonTravelTipList.getTipListList();
+				commonTravelTips = commonTravelTipList;
 				refresh(commonTravelTips);
 				loadingDialog.dismiss();
 				super.onPostExecute(commonTravelTipList);
@@ -142,7 +143,7 @@ public class TravelTipsActivity extends MenuActivity
 						&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(TravelTipsActivity.this,IndexActivity.class);
+					Intent intent = new Intent(TravelGuidesActivity.this,IndexActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;
@@ -177,7 +178,7 @@ public class TravelTipsActivity extends MenuActivity
 			 /*application.setCommonTravelTip(commonTravelTip);*/
 			 Intent intent = new Intent();
 			 intent.putExtra(ConstantField.TRAVEL_TIPS_INFO, commonTravelTip.toByteArray());
-			 intent.setClass(TravelTipsActivity.this, TravelTipsDetailActivity.class);
+			 intent.setClass(TravelGuidesActivity.this, TravelGuidesDetailActivity.class);
 			 startActivity(intent);
 		}
 	};

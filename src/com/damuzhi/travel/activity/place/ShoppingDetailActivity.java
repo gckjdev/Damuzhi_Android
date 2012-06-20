@@ -97,7 +97,7 @@ public class ShoppingDetailActivity extends TravelActivity
 			{
 				url = imagePath.get(i);			
 			}		
-			anseylodar.showimgAnsy(imageView, url, application.getDataFlag());
+			anseylodar.showimgAnsy(imageView, url);
 			imageViewlist.add(view);
 		}
 		imageViews = new ImageView[size];

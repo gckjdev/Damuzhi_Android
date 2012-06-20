@@ -89,7 +89,7 @@ public class DownloadService extends Service
 				flag = startDownloadTask( cityId,downloadURL, downloadSavePath,tempPath);
 			} catch (Exception e)
 			{
-				e.printStackTrace();
+				Log.e(TAG, "<startDownload> but catch exception : "+e.toString(),e);
 			}
 			return flag;
 		}
@@ -139,24 +139,9 @@ public class DownloadService extends Service
 				iDownloadCallback.onTaskStatusChanged(dlState.mKey, dlState.mStatus);
 			} catch (RemoteException e)
 			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				Log.e(TAG, "<onTaskChanged> but catch exception : "+e.toString(),e);
 			}
 			
-			/*if(iDownloadCallback == null)
-			  {
-				  int n = callbackList.beginBroadcast();  
-				    
-			    	 for(int i = 0;i < n; i++)  
-			 	    {  
-			 	        try {  
-			 	        	callbackList.getBroadcastItem(i).onTaskStatusChanged(dlState.mKey,dlState.mStatus);  
-			 	        } catch (RemoteException e) {  
-			 	            e.printStackTrace();  
-			 	        }  
-			 	    }  	   
-			    callbackList.finishBroadcast();  
-			  }*/
 		}
 	  
 	   
@@ -171,14 +156,6 @@ public class DownloadService extends Service
 	
 	public void onDownloading()  
 	{  		   	    
-    	/*if(iDownloadCallback == null )
-    	{
-    		 int n = callbackList.beginBroadcast();  
-	    	 for(int i = 0;i < n ;i++) 
-	    	 {
-	    		 iDownloadCallback = callbackList.getBroadcastItem(0);
-	    	 }
-	    }*/
 		for(Map.Entry<String, FileDownloader> entry:downloadTask.entrySet())
 		{
 			FileDownloader downloader = entry.getValue();
@@ -195,30 +172,9 @@ public class DownloadService extends Service
 							iDownloadCallback.onTaskProcessStatusChanged(cityId,downloadURL,downloadSpeed , fileLength, size);
 							if(size == fileLength)
 							{
-								/*String zipTempFilePath = String.format(ConstantField.DOWNLOAD_CITY_ZIP_DATA_PATH, cityId)+HttpTool.getTempFileName(HttpTool.getConnection(downloadURL), downloadURL);
-								String zipFilePath = String.format(ConstantField.DOWNLOAD_CITY_ZIP_DATA_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(downloadURL), downloadURL);
-								File tempFile = new File(zipTempFilePath);
-								File zipFile = new File(zipFilePath);
-								if(tempFile.renameTo(zipFile))
-								{
-									String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
-									boolean zipSuccess = ZipUtil.upZipFile(zipFilePath,upZipFilePath );
-									
-									Log.i(TAG, "upZipFile success = "+zipSuccess);
-									if(zipSuccess)
-									{									
-										
-									}else
-									{
-										downloadManager.deleteDownloadInfo(downloadURL);
-										FileUtil.deleteFolder(zipFilePath);
-										FileUtil.deleteFolder(upZipFilePath);
-									}	
-								
-								}*/
-							DownloadManager downloadManager = new DownloadManager(DownloadService.this);
-							downloadManager.deleteDownloadInfo(downloadURL);
-							downloadTask.remove(downloadURL);
+								DownloadManager downloadManager = new DownloadManager(DownloadService.this);
+								downloadManager.deleteDownloadInfo(downloadURL);
+								downloadTask.remove(downloadURL);
 								
 							} 
 						}						
@@ -249,7 +205,6 @@ public class DownloadService extends Service
 	    }
 		boolean flag = true;
 		FileDownloader fileDownloader = new FileDownloader(this, 3,cityId,downloadSavePath,tempPath,downloadURL);
-		//File dir = new File(downloadSavePath);
 		flag = fileDownloader.FileDownloaderCheeck();
 		if(flag)
 		{
@@ -257,6 +212,8 @@ public class DownloadService extends Service
 			DownloadStatus dlState = new DownloadStatus(DOWNLOADING, downloadURL);
 			downloadStstudTask.put(downloadURL, dlState);
 			onDownloading();
+		}else
+		{
 		}
 		return flag;
 	}
@@ -293,9 +250,6 @@ public class DownloadService extends Service
 		}
 		
 	}
-	
-	
-	
 	
 	
 	@Override

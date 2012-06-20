@@ -16,6 +16,7 @@ import com.damuzhi.travel.mission.OverviewMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
+import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverviewType;
 
 /**  
  * @description   
@@ -30,7 +31,7 @@ public class CommonTravelUtilityActivity extends CommonOverViewActivity
 	@Override
 	public CommonOverview loadData(Activity activity)
 	{
-		return OverviewMission.getInstance().getOverview(ConstantField.TRAVEL_UTILITY,AppManager.getInstance().getCurrentCityId(),activity);
+		return OverviewMission.getInstance().getOverview(CommonOverviewType.TRAVEL_UTILITY_VALUE,AppManager.getInstance().getCurrentCityId(),activity);
 
 	}
 

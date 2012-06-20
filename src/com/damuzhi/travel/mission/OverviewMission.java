@@ -22,9 +22,11 @@ import com.damuzhi.travel.model.overview.OverViewManager;
 import com.damuzhi.travel.model.place.PlaceManager;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.network.PlaceNetworkHandler;
+import com.damuzhi.travel.protos.CityOverviewProtos.CityOverview;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.util.TravelUtil;
 
 
 
@@ -46,16 +48,16 @@ public class OverviewMission
 	}
 
 	
-	public CommonOverview getOverview(String overviewType,int currentCityId,Activity activity)
+	public CommonOverview getOverview(int commonOverviewType,int currentCityId,Activity activity)
 	{
 		CommonOverview retCommonOverview = null;		
 		if (LocalStorageMission.getInstance().hasLocalCityData(currentCityId)){
 			// read local
-			//retCommonOverview = localOverviewManager.getPlaceDataList();
+			retCommonOverview = localOverviewManager.getCityCommonOverview(commonOverviewType);
 		}
 		else{
 			// send remote
-			final CommonOverview remoteCommonOverview = getOverviewByUrl(overviewType, currentCityId);
+			final CommonOverview remoteCommonOverview = getOverviewByUrl(commonOverviewType, currentCityId);
 			retCommonOverview = remoteCommonOverview;
 			
 			// TODO save data in UI thread
@@ -78,9 +80,10 @@ public class OverviewMission
 	
 	
 	
-	private  CommonOverview getOverviewByUrl(String overviewType,int cityId)
+	private  CommonOverview getOverviewByUrl(int overviewType,int cityId)
 	{
-		String url = String.format(ConstantField.OVERVIEW, overviewType,cityId,ConstantField.LANG_HANS);
+		String CityOverviewType = TravelUtil.getOverviewType(overviewType);
+		String url = String.format(ConstantField.OVERVIEW, CityOverviewType,cityId,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getOverviewByUrl> load place data from http ,url = "+url);
 		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;
@@ -123,5 +126,19 @@ public class OverviewMission
 			}
 			return null;
 		}
+	}
+
+	
+	public void clearLocalOverData()
+	{
+		localOverviewManager.clear();
+		
+	}
+
+	
+	public void addLocalCityOverview(CityOverview cityOverview)
+	{
+		localOverviewManager.setCityOverview(cityOverview);
+		
 	}
 }

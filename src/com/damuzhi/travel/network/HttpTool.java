@@ -26,30 +26,30 @@ public class HttpTool
 	
 	// TODO move all http handling here
 	
-	public static InputStream sendGetRequest(String url) 
+	public  InputStream sendGetRequest(String url) 
 	{
-			 HttpURLConnection urlConnection = null;
-			 try{
-				 	urlConnection = (HttpURLConnection)new URL(url).openConnection();
-					urlConnection.setDoInput(true);
-					urlConnection.setUseCaches(true);
-					urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
-					urlConnection.setRequestProperty("Connection", "Keep-Alive");// 
-					urlConnection.setRequestProperty("Charset", "UTF-8"); 
-			        urlConnection.setConnectTimeout(5000);
-			        urlConnection.setRequestMethod("GET");
-			        if (urlConnection.getResponseCode() != 200)
-			        {
-			        	Log.d(TAG, "<sendGetRequest> can not get http connection");
-			        	return null;
-			        }			          
-			        return urlConnection.getInputStream();
-			
-			} catch (Exception e)
-			{			
-				Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
-				return null;
-			}
+		 HttpURLConnection urlConnection = null;
+		 try{
+			 	urlConnection = (HttpURLConnection)new URL(url).openConnection();
+				urlConnection.setDoInput(true);
+				urlConnection.setUseCaches(true);
+				urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
+				urlConnection.setRequestProperty("Connection", "Keep-Alive");// 
+				urlConnection.setRequestProperty("Charset", "UTF-8"); 
+		        urlConnection.setConnectTimeout(5000);
+		        urlConnection.setRequestMethod("GET");
+		        if (urlConnection.getResponseCode() != 200)
+		        {
+		        	Log.d(TAG, "<sendGetRequest> can not get http connection");
+		        	return null;
+		        }			          
+		        return urlConnection.getInputStream();
+		
+		} catch (Exception e)
+		{			
+			Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
+			return null;
+		}
 	}
 	
 	

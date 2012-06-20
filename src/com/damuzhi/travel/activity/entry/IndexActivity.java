@@ -31,6 +31,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.more.MoreActivity;
@@ -41,7 +42,7 @@ import com.damuzhi.travel.activity.overview.CommonTravelTransportationActivity;
 import com.damuzhi.travel.activity.overview.CommonTravelUtilityActivity;
 import com.damuzhi.travel.activity.overview.OverviewActivity;
 import com.damuzhi.travel.activity.overview.TravelRoutesActivity;
-import com.damuzhi.travel.activity.overview.TravelTipsActivity;
+import com.damuzhi.travel.activity.overview.TravelGuidesActivity;
 import com.damuzhi.travel.activity.place.CommonEntertainmentActivity;
 import com.damuzhi.travel.activity.place.CommonHotelActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
@@ -72,6 +73,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	private ImageButton shoppingButton;
 	private ImageButton entertainmentButton;
 	private ImageButton nearbyButton;
+	private ImageButton helpButton;
 	private TravelApplication application;
 	private ImageButton citybaseButton;
 	private ImageButton travelPreprationButton;
@@ -113,6 +115,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		travelTipsButton = (ImageButton) findViewById(R.id.travel_tips);
 		routeTipsButton = (ImageButton) findViewById(R.id.travel_commend);
 		nearbyButton = (ImageButton) findViewById(R.id.nearby);
+		helpButton = (ImageButton) findViewById(R.id.help);
 		sceneryButton.setOnClickListener(this);
 		hotelButton.setOnClickListener(this);
 		restaurantButton.setOnClickListener(this);
@@ -126,6 +129,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		travelTipsButton.setOnClickListener(this);
 		routeTipsButton.setOnClickListener(this);
 		moreButton.setOnClickListener(this);
+		helpButton.setOnClickListener(helpOnClickListener);
 		Intent intent = new Intent();
 		intent.setAction(ConstantField.CHECK_NET);
 		sendBroadcast(intent);
@@ -205,7 +209,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		case R.id.travel_tips:	
 			Log.d(TAG, "travel_tips");
 			Intent travelTipsIntent = new Intent();
-			travelTipsIntent.setClass(IndexActivity.this, TravelTipsActivity.class);		
+			travelTipsIntent.setClass(IndexActivity.this, TravelGuidesActivity.class);		
 			startActivity(travelTipsIntent);
 			break;
 		case R.id.travel_commend:	
@@ -247,7 +251,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 				@Override
 				public void onClick(DialogInterface dialog, int which)
 				{
-					AppMission.getInstance().saveLastCityId(IndexActivity.this);
+					AppMission.getInstance().saveCurrentCityId(IndexActivity.this);
 					MainService.exitAPP(IndexActivity.this);				
 				}
 			} );
@@ -297,7 +301,18 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	    }
 		}*/
 	
-	
+	private OnClickListener helpOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent  intent = new Intent();
+			intent.setClass(IndexActivity.this, HelpActiviy.class);
+			startActivity(intent);
+			
+		}
+	};
 
 
 

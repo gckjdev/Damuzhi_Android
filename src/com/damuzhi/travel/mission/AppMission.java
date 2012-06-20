@@ -1,11 +1,4 @@
-/**  
-        * @title AppMission.java  
-        * @package com.damuzhi.travel.mission  
-        * @description   
-        * @author liuxiaokun  
-        * @update 2012-5-23 下午5:33:16  
-        * @version V1.0  
-        */
+
 package com.damuzhi.travel.mission;
 
 import java.io.File;
@@ -15,6 +8,7 @@ import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -31,9 +25,10 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.HelpInfo;
-import com.damuzhi.travel.protos.PackageProtos.Package;
+import com.damuzhi.travel.protos.AppProtos.RecommendedApp;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.util.FileUtil;
+import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
 /**  
@@ -102,7 +97,7 @@ public class AppMission
 		return cityId;
 	}
 
-	public boolean saveLastCityId(Context context)
+	public boolean saveCurrentCityId(Context context)
 	{
 		SharedPreferences userSharedPreferences = context.getSharedPreferences(ConstantField.LAST_CITY_ID, 0);
 		Editor editor = userSharedPreferences.edit();		
@@ -116,6 +111,8 @@ public class AppMission
 	{
 		UpdateAppTask task = new UpdateAppTask();
 		task.execute();
+		UpdateHelpTask helpTask = new UpdateHelpTask();
+		helpTask.execute();
 	}
 	
 	private boolean downloadAppData()
@@ -129,20 +126,32 @@ public class AppMission
         
 		HttpTool httpTool = new HttpTool();
 		InputStream appInputStream = null;
-		TravelResponse travelResponse = null;
 		FileOutputStream output = null;
 		try
 		{
-			appInputStream =  httpTool.sendGetRequest(String.format(ConstantField.APP, ConstantField.LANG_HANS));
-			travelResponse = TravelResponse.parseFrom(appInputStream);	
-			if (travelResponse != null && travelResponse.getResultCode() == 0){
-				output = new FileOutputStream(ConstantField.APP_DATA_TEMP_FILE);
-				App app = travelResponse.getAppInfo();
-				App.Builder appBuilder = App.newBuilder();
-				appBuilder.mergeFrom(app);
-				appBuilder.build().writeTo(output);		
-				result = true;
+			String url = String.format(ConstantField.APP, ConstantField.LANG_HANS);
+			appInputStream =  httpTool.sendGetRequest(url);
+			if(appInputStream != null)
+			{
+				TravelResponse travelResponse = TravelResponse.parseFrom(appInputStream);	
+				if (travelResponse != null && travelResponse.getResultCode() == 0){
+					output = new FileOutputStream(ConstantField.APP_DATA_TEMP_FILE);
+					App app = travelResponse.getAppInfo();
+					App.Builder appBuilder = App.newBuilder();
+					appBuilder.mergeFrom(app);
+					appBuilder.build().writeTo(output);		
+					result = true;					
+					try
+					{
+						output.close();
+						appInputStream.close();
+					} catch (IOException e)
+					{
+					}	
+				}
+				
 			}
+			
 		} catch (Exception e)
 		{
 			Log.e(TAG, "<downloadAppData> catch exception = "
@@ -150,19 +159,7 @@ public class AppMission
 			result = false;
 		}
 		
-		try
-		{
-			output.close();
-		} catch (IOException e)
-		{
-		}
 		
-		try
-		{
-			appInputStream.close();
-		} catch (IOException e)
-		{
-		}	
 		
 		return result;
 				
@@ -170,7 +167,7 @@ public class AppMission
 	
 	
 	
-	private boolean downloadHelpData()
+	private boolean downloadHelpProtoData()
 	{		
 		boolean result = false;
 		File tempFile = new File(ConstantField.APP_DATA_TEMP_PATH);       
@@ -180,13 +177,13 @@ public class AppMission
         }
         
 		HttpTool httpTool = new HttpTool();
-		InputStream appInputStream = null;
+		InputStream helpInputStream = null;
 		TravelResponse travelResponse = null;
 		FileOutputStream output = null;
 		try
 		{
-			appInputStream =  httpTool.sendGetRequest(String.format(ConstantField.HELP, ConstantField.LANG_HANS));
-			travelResponse = TravelResponse.parseFrom(appInputStream);	
+			helpInputStream =  httpTool.sendGetRequest(String.format(ConstantField.HELP, ConstantField.LANG_HANS));
+			travelResponse = TravelResponse.parseFrom(helpInputStream);	
 			if (travelResponse != null && travelResponse.getResultCode() == 0){
 				output = new FileOutputStream(ConstantField.HELP_DATA_TEMP_FILE);
 				HelpInfo help = travelResponse.getHelpInfo();
@@ -197,7 +194,7 @@ public class AppMission
 			}
 		} catch (Exception e)
 		{
-			Log.e(TAG, "<downloadAppData> catch exception = "
+			Log.e(TAG, "<downloadHelpProtoData> catch exception = "
 					+e.toString(), e);
 			result = false;
 		}
@@ -211,7 +208,7 @@ public class AppMission
 		
 		try
 		{
-			appInputStream.close();
+			helpInputStream.close();
 		} catch (IOException e)
 		{
 		}	
@@ -220,7 +217,10 @@ public class AppMission
 				
 	}
 	
-	private boolean downloadHelpHtml()
+	
+	
+	
+	private boolean downloadHelpZipData()
 	{		
 		boolean result = false;
 		
@@ -249,7 +249,7 @@ public class AppMission
     			result = true;
     		} catch (Exception e)
     		{
-    			Log.e(TAG, "<downloadHelpData> catch exception = "
+    			Log.e(TAG, "<downloadHelpZipData> catch exception = "
     					+e.toString(), e);
     			result = false;
     		}		
@@ -266,13 +266,10 @@ public class AppMission
 		protected Boolean doInBackground(String... params)
 		{
 			boolean result = downloadAppData();
-			downloadHelpData();
 			if (result){
 				try
 				{
-					result = FileUtil.copyFile(ConstantField.APP_DATA_TEMP_FILE, ConstantField.APP_DATA_FILE);
-					FileUtil.copyFile(ConstantField.HELP_DATA_TEMP_FILE, ConstantField.HELP_DATA_FILE);
-					ZipUtil.upZipFile(ConstantField.HELP_DATA_ZIP_FILE, ConstantField.HELP_HTML_PATH);
+					result = FileUtil.copyFile(ConstantField.APP_DATA_TEMP_FILE, ConstantField.APP_DATA_FILE);			
 					if (!result){						
 						return Boolean.valueOf(false);
 					}
@@ -295,9 +292,100 @@ public class AppMission
 			super.onPostExecute(result);
 			if (result.booleanValue()){
 				AppManager.getInstance().reloadData();
-				downloadHelpHtml();
 			}
 		}
 	}
+	
+	
+	private class UpdateHelpTask extends AsyncTask<Void, Void, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(Void... params)
+		{
+			boolean isExits = FileUtil.checkFileIsExits(ConstantField.HELP_DATA_ZIP_FILE);
+			boolean result = false;
+			if(!isExits)
+			{
+				result = downloadHelpProtoData();
+				if(result)
+				{
+					result =  FileUtil.copyFile(ConstantField.HELP_DATA_TEMP_FILE, ConstantField.HELP_DATA_FILE);
+					if(result)
+					{
+						result = downloadHelpZipData();
+						Log.i(TAG, "<UpdateHelpTask> init data load, try download...");					
+					}
+					
+				}	
+			}else
+			{
+				String localDataPath = ConstantField.HELP_DATA_FILE;
+				float httpVersion = getHelpHttpVersion();
+				boolean checkVersion = TravelUtil.checkHelpIsNeedUpdate(localDataPath,httpVersion);
+				if(checkVersion)
+				{
+					result = downloadHelpProtoData();
+					if(result)
+					{
+						result =  FileUtil.copyFile(ConstantField.HELP_DATA_TEMP_FILE, ConstantField.HELP_DATA_FILE);
+						if(result)
+						{
+							result = downloadHelpZipData();	
+							Log.i(TAG, "<UpdateHelpTask> update data load, try download...");				
+						}
+						
+					}	
+				}else
+				{
+					return Boolean.valueOf(result);
+				}
+			}			
+			return Boolean.valueOf(result);
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result)
+		{
+			super.onPostExecute(result);
+			if (result.booleanValue()){
+				ZipUtil.upZipFile(ConstantField.HELP_DATA_ZIP_FILE, ConstantField.HELP_HTML_PATH);
+			}
+		}
+	}
+	
+	
+	
+	
+	private float getHelpHttpVersion()
+	{
+		float version = 0f;	
+  		HttpTool httpTool = new HttpTool();
+		InputStream helpInputStream = null;
+		TravelResponse travelResponse = null;
+		try
+		{
+			helpInputStream =  httpTool.sendGetRequest(String.format(ConstantField.HELP, ConstantField.LANG_HANS));
+			travelResponse = TravelResponse.parseFrom(helpInputStream);	
+			if (travelResponse != null && travelResponse.getResultCode() == 0){
+				HelpInfo help = travelResponse.getHelpInfo();
+				String versionString = help.getVersion();
+				version = Float.valueOf(versionString);
+			}
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<getHelpHttpVersion> catch exception = "+e.toString(), e);
+		}	
+		try
+		{
+			helpInputStream.close();
+		} catch (IOException e)
+		{
+		}	
+		
+		return version;
+	}
+	
+	
+	
 
 }

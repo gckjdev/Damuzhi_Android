@@ -21,6 +21,7 @@ import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.mission.BrowseHistoryMission;
 import com.damuzhi.travel.mission.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
@@ -799,6 +800,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				long arg3)
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
+			BrowseHistoryMission.getInstance().addBrowseHistory(place);
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
@@ -814,6 +816,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		public void onClick(View v)
 		{
 			Intent  intent = new Intent();
+			intent.putExtra(ConstantField.HELP_TITLE, getResources().getString(R.string.help));
 			intent.setClass(CommonPlaceActivity.this, HelpActiviy.class);
 			startActivity(intent);
 			

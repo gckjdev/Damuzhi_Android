@@ -93,7 +93,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 					View view = inflater.inflate(R.layout.place_detail_image, null);
 					ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
 					String url  = imagePath.get(i);
-					anseylodar.showimgAnsy(imageView,url, ConstantField.DATA_HTTP);	
+					anseylodar.showimgAnsy(imageView,url);	
 					imageViewlist.add(view);
 				}
 				imageViews = new ImageView[size];

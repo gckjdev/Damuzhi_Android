@@ -24,8 +24,8 @@
         <activity android:name=".activity.place.EntertainmentActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.place.NearbyActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>                  
         <activity android:name=".activity.overview.OverviewActivity" android:screenOrientation="portrait" />          
-        <activity android:name=".activity.overview.TravelTipsActivity" android:screenOrientation="portrait" />          
-        <activity android:name=".activity.overview.TravelTipsDetailActivity" android:screenOrientation="portrait" />  
+        <activity android:name=".activity.overview.TravelGuidesActivity" android:screenOrientation="portrait" />          
+        <activity android:name=".activity.overview.TravelGuidesDetailActivity" android:screenOrientation="portrait" />  
          <activity android:name=".activity.overview.TravelRoutesActivity" android:screenOrientation="portrait" />    
          <activity android:name=".activity.overview.TravelRoutesDetailActivity" android:screenOrientation="portrait" />         
         <activity android:name=".activity.place.SceneryDetailActivity" android:screenOrientation="portrait" />            
@@ -53,7 +53,10 @@
         <activity android:name=".activity.overview.CommonTravelPreprationActivity" android:screenOrientation="portrait" />  
         <activity android:name=".activity.overview.CommonTravelUtilityActivity" android:screenOrientation="portrait" />
         <activity android:name=".activity.overview.CommonTravelTransportationActivity" android:screenOrientation="portrait" />
-        <activity android:name=".activity.overview.CommonCtiyBaseActivity" android:screenOrientation="portrait" />     
+        <activity android:name=".activity.overview.CommonCtiyBaseActivity" android:screenOrientation="portrait" /> 
+        <activity android:name=".activity.more.BrowseHistoryActivity" android:screenOrientation="portrait" />     
+        <activity android:name=".activity.more.FeedBackActivity" android:screenOrientation="portrait" />     
+        <activity android:name=".activity.more.RecommendedAppActivity" android:screenOrientation="portrait" />  
           <!--  注册服务 -->
          <service android:name=".download.DownloadService"></service>  
         <service android:name="com.damuzhi.travel.service.DownloadService">

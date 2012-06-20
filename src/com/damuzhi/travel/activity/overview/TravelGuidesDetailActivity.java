@@ -24,7 +24,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 
 
 
-public class TravelTipsDetailActivity extends MenuActivity 
+public class TravelGuidesDetailActivity extends MenuActivity 
 {
 
 	private static final String TAG = "TravelTipsDetailActivity";

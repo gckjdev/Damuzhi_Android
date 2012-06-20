@@ -27,6 +27,7 @@ import com.damuzhi.travel.protos.AppProtos.HelpInfo;
 import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.AppProtos.PlaceMeta;
+import com.damuzhi.travel.protos.AppProtos.RecommendedApp;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.util.FileUtil;
 
@@ -56,8 +57,7 @@ public class AppManager
 		String dataPath = ConstantField.APP_DATA_FILE;
 		if (!FileUtil.checkFileIsExits(dataPath))
 		{
-			Log.e(TAG, "load app data from file = " + dataPath
-					+ " but file not found");
+			Log.e(TAG, "load app data from file = " + dataPath+ " but file not found");
 			return;
 		}
 
@@ -70,8 +70,7 @@ public class AppManager
 			app = App.parseFrom(inputStream);
 		} catch (Exception e)
 		{
-			Log.e(TAG, "load app data from file = " + dataPath
-					+ " but catch exception = " + e.toString(), e);
+			Log.e(TAG, "load app data from file = " + dataPath+ " but catch exception = " + e.toString(), e);
 		}
 		finally
 		{
@@ -83,14 +82,6 @@ public class AppManager
 			}
 		}
 		// TODO current city Id should be persistented
-		//int cityId = instance.getLastCityId(context);
-		/*if(cityId == -1)
-		{
-			currentCityId = app.getCities(0).getCityId();
-		}else {
-			currentCityId = cityId;
-		}*/
-		
 		Log.i(TAG, "current city id is "+currentCityId);
 	}
 
@@ -191,8 +182,7 @@ public class AppManager
 			subCategoryMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();
 			for (PlaceMeta placeMeta : app.getPlaceMetaDataListList())
 			{
-				subCategoryMap.put(placeMeta.getCategoryId(),
-						placeMeta.getSubCategoryListList());
+				subCategoryMap.put(placeMeta.getCategoryId(),placeMeta.getSubCategoryListList());
 			}
 		}
 		return subCategoryMap;
@@ -206,8 +196,7 @@ public class AppManager
 			providedServiceMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();
 			for (PlaceMeta placeMeta : app.getPlaceMetaDataListList())
 			{
-				providedServiceMap.put(placeMeta.getCategoryId(),
-						placeMeta.getProvidedServiceListList());
+				providedServiceMap.put(placeMeta.getCategoryId(),placeMeta.getProvidedServiceListList());
 
 			}
 		}
@@ -223,12 +212,15 @@ public class AppManager
 			for (PlaceMeta placeMeta : app.getPlaceMetaDataListList())
 			{
 				HashMap<Integer, String> map = new HashMap<Integer, String>();
-				for (NameIdPair nameIdPair : placeMeta
-						.getProvidedServiceListList())
+				if(placeMeta!=null)
 				{
-					map.put(nameIdPair.getId(), nameIdPair.getImage());
-				}
-				providedServiceIconMap.put(placeMeta.getCategoryId(), map);
+					for (NameIdPair nameIdPair : placeMeta.getProvidedServiceListList())
+					{
+						map.put(nameIdPair.getId(), nameIdPair.getImage());
+					}
+					providedServiceIconMap.put(placeMeta.getCategoryId(), map);
+				}				
+				
 			}
 		}
 		return providedServiceIconMap;
@@ -251,63 +243,93 @@ public class AppManager
 	public HashMap<Integer, String> getPlaceSubCatMap(int placeCategoryType)
 	{
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
-		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = instance
-				.getSubCatMap();
-		List<NameIdPair> nameIdPairs = subCatMap.get(PlaceCategoryType.valueOf(placeCategoryType));
-		for (NameIdPair nameIdPair : nameIdPairs)
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = AppManager.getInstance().getSubCatMap();
+		if(subCatMap!=null && subCatMap.size()>0)
 		{
-			map.put(nameIdPair.getId(), nameIdPair.getName());
+			List<NameIdPair> nameIdPairs = subCatMap.get(PlaceCategoryType.valueOf(placeCategoryType));
+			if(nameIdPairs!=null &&nameIdPairs.size()>0)
+			{
+				for (NameIdPair nameIdPair : nameIdPairs)
+				{
+					map.put(nameIdPair.getId(), nameIdPair.getName());
+				}
+			}
+			
 		}
+		
 		return map;
 	}
 
 	public HashMap<Integer, String> getAllSubCatMap()
 	{
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
-		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = instance
-				.getSubCatMap();
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = AppManager.getInstance().getSubCatMap();
 		Set<PlaceCategoryType> keyset = subCatMap.keySet();
-		for (PlaceCategoryType placeCategoryType : keyset)
+		if(subCatMap!=null && subCatMap.size()>0)
 		{
-			List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
-			for (NameIdPair nameIdPair : nameIdPairs)
+			for (PlaceCategoryType placeCategoryType : keyset)
 			{
-				map.put(nameIdPair.getId(), nameIdPair.getName());
+				List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
+				if(nameIdPairs!=null &&nameIdPairs.size()>0)
+				{
+					for (NameIdPair nameIdPair : nameIdPairs)
+					{
+						map.put(nameIdPair.getId(), nameIdPair.getName());
+					}
+				}
+				
 			}
 		}
+		
 
 		return map;
 	}
 
-	public String[] getSubCatNameList(PlaceCategoryType placeCategoryType)
+	public String[] getSubCatNameList(PlaceCategoryType placeCategoryType  )
 	{
 		int i = 1;
-		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = instance
-				.getSubCatMap();
-		List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
-		String[] subCat = new String[nameIdPairs.size() + 1];
-		subCat[0] = ConstantField.ALL_PLACE;
-		for (NameIdPair nameIdPair : nameIdPairs)
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = AppManager.getInstance().getSubCatMap();
+		String[] subCat = null;
+		if(subCatMap!=null && subCatMap.size()>0)
 		{
-			subCat[i] = nameIdPair.getName();
-			i++;
+			List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
+			if(nameIdPairs!=null && nameIdPairs.size()>0)
+			{
+				subCat = new String[nameIdPairs.size() + 1];
+				subCat[0] = ConstantField.ALL_PLACE;
+				for (NameIdPair nameIdPair : nameIdPairs)
+				{
+					subCat[i] = nameIdPair.getName();
+					i++;
+				}				
+			}
+			
 		}
+		
 		return subCat;
 	}
 
 	public int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
 	{
 		int i = 1;
-		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = instance
-				.getSubCatMap();
-		List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
-		int[] subCatKey = new int[nameIdPairs.size() + 1];
-		subCatKey[0] = -1;
-		for (NameIdPair nameIdPair : nameIdPairs)
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = AppManager.getInstance().getSubCatMap();
+		int[] subCatKey =null;
+		if(subCatMap!=null && subCatMap.size()>0)
 		{
-			subCatKey[i] = nameIdPair.getId();
-			i++;
+			List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
+			if(nameIdPairs!=null && nameIdPairs.size()>0)
+			{
+				subCatKey = new int[nameIdPairs.size() + 1];
+				subCatKey[0] = -1;
+				for (NameIdPair nameIdPair : nameIdPairs)
+				{
+					subCatKey[i] = nameIdPair.getId();
+					i++;
+				}
+			}
+		    
 		}
+		
 		return subCatKey;
 	}
 
@@ -315,8 +337,7 @@ public class AppManager
 			PlaceCategoryType placeCategoryType)
 	{
 		int i = 1;
-		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = instance
-				.getProSerMap();
+		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = AppManager.getInstance().getProSerMap();
 		List<NameIdPair> nameIdPairs = proSerMap.get(placeCategoryType);
 		String[] proServiceName = new String[nameIdPairs.size() + 1];
 		proServiceName[0] = ConstantField.ALL_PLACE;
@@ -331,8 +352,7 @@ public class AppManager
 	public int[] getProvidedServiceKeyList(PlaceCategoryType placeCategoryType)
 	{
 		int i = 1;
-		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = instance
-				.getProSerMap();
+		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = AppManager.getInstance().getProSerMap();
 		List<NameIdPair> nameIdPairs = proSerMap.get(placeCategoryType);
 		int[] proServiceKey = new int[nameIdPairs.size() + 1];
 		proServiceKey[0] = -1;
@@ -344,11 +364,9 @@ public class AppManager
 		return proServiceKey;
 	}
 
-	public HashMap<Integer, String> getProServiceMap(
-			PlaceCategoryType placeCategoryType)
+	public HashMap<Integer, String> getProServiceMap(PlaceCategoryType placeCategoryType)
 	{
-		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = instance
-				.getProSerMap();
+		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = AppManager.getInstance().getProSerMap();
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
 		List<NameIdPair> nameIdPairs = proSerMap.get(placeCategoryType);
 		for (NameIdPair nameIdPair : nameIdPairs)
@@ -361,8 +379,7 @@ public class AppManager
 	public  String[] getCityAreaNameList(int cityID)
 	{
 		int i = 1;
-		HashMap<Integer, List<CityArea>> ctiyAreaList = instance
-				.getCityAreaList();
+		HashMap<Integer, List<CityArea>> ctiyAreaList = AppManager.getInstance().getCityAreaList();
 		List<CityArea> ctiyAreas = ctiyAreaList.get(cityID);
 		String[] ctiyAreasName = new String[ctiyAreas.size() + 1];
 		ctiyAreasName[0] = ConstantField.ALL_PLACE;
@@ -377,8 +394,7 @@ public class AppManager
 	public int[] getCityAreaKeyList(int cityID)
 	{
 		int i = 1;
-		HashMap<Integer, List<CityArea>> cityAreaList = instance
-				.getCityAreaList();
+		HashMap<Integer, List<CityArea>> cityAreaList = AppManager.getInstance().getCityAreaList();
 		List<CityArea> ctiyAreas = cityAreaList.get(cityID);
 		int[] ctiyAreasKey = new int[ctiyAreas.size() + 1];
 		ctiyAreasKey[0] = -1;
@@ -392,8 +408,7 @@ public class AppManager
 
 	public HashMap<Integer, String> getCityAreaMap(int cityID)
 	{
-		HashMap<Integer, List<CityArea>> cityAreaList = instance
-				.getCityAreaList();
+		HashMap<Integer, List<CityArea>> cityAreaList = AppManager.getInstance().getCityAreaList();
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
 		List<CityArea> ctiyAreas = cityAreaList.get(cityID);
 		for (CityArea cityArea : ctiyAreas)
@@ -509,12 +524,12 @@ public class AppManager
 		try
 		{
 			 inputStream = new FileInputStream(appData);
-			Log.i(TAG, "load help data from file = " + dataPath);
+			Log.i(TAG, "load help data help html url from file = " + dataPath);
 			HelpInfo helpInfo = HelpInfo.parseFrom(inputStream);
 			url = helpInfo.getHelpHtml();
 		} catch (Exception e)
 		{
-			Log.e(TAG, "load help data from file = " + dataPath
+			Log.e(TAG, "load help data help html url from file = " + dataPath
 					+ " but catch exception = " + e.toString(), e);
 		}
 		finally
@@ -528,4 +543,54 @@ public class AppManager
 		}
 		return url;
 	}
+
+	
+	public String getLocalHelpVersion()
+	{
+		String version = "";
+		String dataPath = ConstantField.HELP_DATA_FILE;
+		if (!FileUtil.checkFileIsExits(dataPath))
+		{
+			Log.e(TAG, "load help data version from file = " + dataPath
+					+ " but file not found");
+			return "";
+		}
+
+		File appData = new File(dataPath);
+		FileInputStream inputStream = null;
+		try
+		{
+			 inputStream = new FileInputStream(appData);
+			Log.i(TAG, "load help data from file = " + dataPath);
+			HelpInfo helpInfo = HelpInfo.parseFrom(inputStream);
+			version = helpInfo.getVersion();
+		} catch (Exception e)
+		{
+			Log.e(TAG, "load help data  version from file = " + dataPath
+					+ " but catch exception = " + e.toString(), e);
+		}
+		finally
+		{
+			try
+			{
+				inputStream.close();
+			} catch (Exception e)
+			{
+			}
+		}
+		return version;
+	}
+
+
+	public List<RecommendedApp> getRecommendedApp()
+	{
+		List<RecommendedApp> list  = null;
+		if (app != null)
+		{
+			list = app.getRecommendedAppsList();
+		}
+		return list;
+	}
+	
+	
 }

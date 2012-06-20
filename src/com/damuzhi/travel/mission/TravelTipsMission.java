@@ -10,6 +10,7 @@ package com.damuzhi.travel.mission;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import android.app.Activity;
 import android.util.Log;
@@ -20,8 +21,11 @@ import com.damuzhi.travel.model.overview.TravelTipsManager;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
+import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList;
+import com.damuzhi.travel.protos.TravelTipsProtos.TravelTipType;
 import com.damuzhi.travel.protos.TravelTipsProtos.TravelTips;
+import com.damuzhi.travel.util.TravelUtil;
 
 /**  
  * @description   
@@ -34,8 +38,8 @@ public class TravelTipsMission
 {
 	private static final String TAG = "OverviewMission";
 	private static TravelTipsMission instance = null;
-	private TravelTipsManager localOverviewManager = new TravelTipsManager();
-	private TravelTipsManager remoteOverviewManager = new TravelTipsManager();
+	private TravelTipsManager localTravelTipsManager = new TravelTipsManager();
+	private TravelTipsManager remoteTravelTipsManager = new TravelTipsManager();
 	
 	private TravelTipsMission() {
 	}
@@ -48,16 +52,24 @@ public class TravelTipsMission
 	}
 
 	
-	public CommonTravelTipList getTravelTips(String overviewType,int currentCityId,Activity activity)
+	public List<CommonTravelTip> getTravelTips(int travelTipType,int currentCityId,Activity activity)
 	{
-		CommonTravelTipList retTravelTips = null;		
+		List<CommonTravelTip> retTravelTips = null;		
 		if (LocalStorageMission.getInstance().hasLocalCityData(currentCityId)){
 			// read local
-			//retCommonOverview = localOverviewManager.getPlaceDataList();
+			if(travelTipType == TravelTipType.GUIDE_VALUE)
+			{
+				retTravelTips = localTravelTipsManager.getTravelGuides();
+			}else if (travelTipType == TravelTipType.ROUTE_VALUE) {
+				retTravelTips = localTravelTipsManager.getTravelRoutes();
+			}else
+			{
+				
+			}
 		}
 		else{
 			// send remote
-			final CommonTravelTipList remoteTravelTips = getTravelTipsByUrl(overviewType, currentCityId);
+			final List<CommonTravelTip> remoteTravelTips = getTravelTipsByUrl(travelTipType, currentCityId);
 			retTravelTips = remoteTravelTips;
 			
 			// TODO save data in UI thread
@@ -80,9 +92,10 @@ public class TravelTipsMission
 	
 	
 	
-	private  CommonTravelTipList getTravelTipsByUrl(String overviewType,int cityId)
+	private  List<CommonTravelTip> getTravelTipsByUrl(int travelTipType,int cityId)
 	{
-		String url = String.format(ConstantField.PLACElIST, overviewType,cityId,ConstantField.LANG_HANS);
+		String tipsType = TravelUtil.getTravelTipsType(travelTipType);
+		String url = String.format(ConstantField.PLACElIST, tipsType,cityId,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getTravelTipsByUrl> load place data from http ,url = "+url);
 		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;
@@ -100,7 +113,7 @@ public class TravelTipsMission
 					
 					inputStream.close();
 					inputStream = null;					
-					return travelResponse.getTravelTipList();
+					return travelResponse.getTravelTipList().getTipListList();
 				} catch (Exception e)
 				{					
 					Log.e(TAG, "<getTravelTipsByUrl> catch exception = "+e.toString(), e);
@@ -125,5 +138,34 @@ public class TravelTipsMission
 			}
 			return null;
 		}
+	}
+
+	
+	
+	public void clearLocalGuideData()
+	{
+		localTravelTipsManager.guidesClear();
+		
+	}
+
+	
+	public void addLocalTravelGuide(List<CommonTravelTip> guideList)
+	{
+		localTravelTipsManager.addGuides(guideList);
+		
+	}
+	
+	
+	public void clearLocalRouteData()
+	{
+		localTravelTipsManager.routesClear();
+		
+	}
+
+	
+	public void addLocalTravelRoute(List<CommonTravelTip> routeList)
+	{
+		localTravelTipsManager.addRoutes(routeList);
+		
 	}
 }

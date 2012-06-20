@@ -123,7 +123,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				String url ;
 				url = imagePath.get(i);	
 				// update anseylodar.showimgAnsy judge http or local
-				anseylodar.showimgAnsy(imageView, url, ConstantField.DATA_HTTP);
+				anseylodar.showimgAnsy(imageView, url);
 				imageViewlist.add(view);
 			}
 			imageViews = new ImageView[size];	
@@ -708,6 +708,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		public void onClick(View v)
 		{
 			Intent  intent = new Intent();
+			intent.putExtra(ConstantField.HELP_TITLE, getResources().getString(R.string.help));
 			intent.setClass(CommonPlaceDetailActivity.this, HelpActiviy.class);
 			startActivity(intent);
 			

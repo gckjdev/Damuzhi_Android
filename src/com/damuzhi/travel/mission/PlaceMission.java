@@ -81,7 +81,6 @@ public class PlaceMission
 					@Override
 					public void run()
 					{
-						// TODO Auto-generated method stub
 						remotePlaceManager.clear();
 						remotePlaceManager.addPlaces(remotePlaceList);
 					}

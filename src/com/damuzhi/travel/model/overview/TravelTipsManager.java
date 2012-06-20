@@ -33,33 +33,52 @@ public class TravelTipsManager
 		
 	private static final String TAG = "TravelTipsManager";
 	
+	private List<CommonTravelTip> travelGuides = new ArrayList<CommonTravelTip>();
+	private List<CommonTravelTip> travelRoutes = new ArrayList<CommonTravelTip>();	
 	
-	
-	public static TravelTips getTravelTipsByFile(String dataPath)
+	public static TravelTips getTravelGuideByFile(String dataPath)
 	{
 		TravelTips travelTips = null;
 		try
 		{
 			FileUtil fileUtil = new FileUtil();			
-			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.OVERVIEW_TAG, ConstantField.EXTENSION, true);
+			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.GUIDE_TAG, ConstantField.EXTENSION, true);
 			for(FileInputStream fileInputStream : fileInputStreams)
 			{
 				travelTips = TravelTips.parseFrom(fileInputStream);
 				
 			}
 			
-		} catch (FileNotFoundException e)
+		} catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			Log.e(TAG, "<getTravelGuideByFile> but catch exception:"+e.toString(),e);
+		} 
 		return travelTips;
 	}
 		
+	
+	public static TravelTips getTravelRouteByFile(String dataPath)
+	{
+		TravelTips travelTips = null;
+		try
+		{
+			FileUtil fileUtil = new FileUtil();			
+			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.ROUTE_TAG, ConstantField.EXTENSION, true);
+			for(FileInputStream fileInputStream : fileInputStreams)
+			{
+				travelTips = TravelTips.parseFrom(fileInputStream);
+				
+			}
+			
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<getTravelRouteByFile> but catch exception:"+e.toString(),e);
+		} 
+		return travelTips;
+	}
+	
+	
+	
 	
 	public static List<CommonTravelTip> getTravelTipsByUrl(String url)
 	{
@@ -90,5 +109,66 @@ public class TravelTipsManager
 			e1.printStackTrace();
 		}
 		return list;
+	}
+
+
+	
+	public void guidesClear()
+	{
+		travelGuides.clear();
+		
+	}
+
+
+	
+	public void addGuides(List<CommonTravelTip> guideList)
+	{
+		if (guideList == null)
+			return;
+		
+		travelGuides.addAll(guideList);
+		
+	}
+	
+	
+	public void routesClear()
+	{
+		travelRoutes.clear();
+		
+	}
+
+
+	
+	public void addRoutes(List<CommonTravelTip> routesList)
+	{
+		if (routesList == null)
+			return;
+		
+		travelRoutes.addAll(routesList);
+		
+	}
+
+
+	public List<CommonTravelTip> getTravelGuides()
+	{
+		return travelGuides;
+	}
+
+
+	public List<CommonTravelTip> getTravelRoutes()
+	{
+		return travelRoutes;
+	}
+
+
+	public void setTravelGuides(List<CommonTravelTip> travelGuides)
+	{
+		this.travelGuides = travelGuides;
+	}
+
+
+	public void setTravelRoutes(List<CommonTravelTip> travelRoutes)
+	{
+		this.travelRoutes = travelRoutes;
 	}
 }

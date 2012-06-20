@@ -3,7 +3,7 @@
         * @package com.damuzhi.travel.activity.adapter.place  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-5-16 ÏÂÎç3:23:53  
+        * @update 2012-5-16 ï¿½ï¿½ï¿½ï¿½3:23:53  
         * @version V1.0  
         */
 package com.damuzhi.travel.activity.adapter.place;
@@ -31,7 +31,7 @@ import android.widget.TextView;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-5-16 ÏÂÎç3:23:53  
+ * @update 2012-5-16 ï¿½ï¿½ï¿½ï¿½3:23:53  
  */
 
 public class ShoppingAdapter extends BaseAdapter
@@ -101,11 +101,11 @@ public class ShoppingAdapter extends BaseAdapter
 		   Log.i("----------------------------------", "pause");
 	   }
 	   
-	 //ÇëÇó¸ü¶àµÄÊý¾Ý
+	 //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		public void addmoreDate(ArrayList<Place> addmore){
 			if (list!=null) {
-				this.list.addAll(addmore);//°ÉÐÂ´«µÃÊý¾Ý¼Óµ½ÏÖÔÚµÄlistÖÐ
-				this.notifyDataSetChanged();//½«Êý¾Ý×·¼Óµ½ListViewÖÐÏÔÊ¾
+				this.list.addAll(addmore);//ï¿½ï¿½ï¿½Â´ï¿½ï¿½ï¿½ï¿½ï¿½Ý¼Óµï¿½ï¿½ï¿½ï¿½Úµï¿½listï¿½ï¿½
+				this.notifyDataSetChanged();//ï¿½ï¿½ï¿½ï¿½ï¿½×·ï¿½Óµï¿½ListViewï¿½ï¿½ï¿½ï¿½Ê¾
 			}
 		}
 	@Override
@@ -171,7 +171,7 @@ public class ShoppingAdapter extends BaseAdapter
 		}else{
 			url = place.getIcon();				
 		}	
-		anseylodar.showimgAnsy(imageView,url, dataFlag);
+		anseylodar.showimgAnsy(imageView,url);
 		int distance = (int) LocationUtil.GetDistance(longitude, latitude, place.getLongitude(), place.getLatitude());
 		if(distance >1000)
 		{
