@@ -32,7 +32,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.CommonPlaceListAdapter;
 import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;

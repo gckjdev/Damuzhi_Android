@@ -57,21 +57,6 @@ public class FileDBHelper {
 				downloadBean.setFileLength(cursor.getInt(2));
 			}
 		}
-		/*Cursor cursor = db.rawQuery("select  downlength,filelength from FileDownloadLog where downloadurl=? ", new String[]{downloadURL});
-		int downloadLength = 0;
-		int fileLength = 0;
-		try
-		{		
-			while(cursor.moveToNext()){
-				downloadLength += cursor.getInt(0);
-				fileLength = cursor.getInt(1);
-				//data.put(cursor.getInt(0), cursor.getInt(1));
-			}
-			downloadBean = new DownloadBean();
-			downloadBean.setDownloadURL(downloadURL);
-			downloadBean.setDownloadLength(downloadLength);
-			downloadBean.setFileLength(fileLength);
-		}*/
 		finally
 		{
 			cursor.close();

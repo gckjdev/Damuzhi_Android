@@ -6,7 +6,7 @@
         * @update 2012-6-2 上午10:21:37  
         * @version V1.0  
  */
-package com.damuzhi.travel.mission;
+package com.damuzhi.travel.mission.favorite;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,8 +20,9 @@ import org.json.JSONObject;
 import android.R.integer;
 import android.util.Log;
 
-import com.damuzhi.travel.model.common.CollectManager;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.model.favorite.FavoriteManager;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.network.PlaceNetworkHandler;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
@@ -34,17 +35,17 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
  * @update 2012-6-2 上午10:21:37  
  */
 
-public class CollectMission
+public class FavoriteMission
 {
-	private static final String TAG = "CollectMission";
-	private static CollectMission instance = null;
-	private CollectManager collectManger = new CollectManager();
-	private CollectMission() {
+	private static final String TAG = "FavoriteMission";
+	private static FavoriteMission instance = null;
+	private FavoriteManager favoriteManger = new FavoriteManager();
+	private FavoriteMission() {
 	}
 	
-	public static CollectMission getInstance() {
+	public static FavoriteMission getInstance() {
 		if (instance == null) {
-			instance = new CollectMission();
+			instance = new FavoriteMission();
 		}
 		return instance;
 	}
@@ -122,7 +123,7 @@ public class CollectMission
 		int result = addFavorite(userId, place.getPlaceId());
 		if(result == 0)
 		{
-			if(!collectManger.addFavorite(place))
+			if(!favoriteManger.addFavorite(place))
 			{
 				result = -1;
 			}
@@ -196,11 +197,89 @@ public class CollectMission
 	public boolean checkPlaceIsCollected(int placeId)
 	{
 		boolean isCollected = false;
-		isCollected = collectManger.checkPlaceIsCollected(placeId);
+		isCollected = favoriteManger.checkPlaceIsCollected(placeId);
 		return isCollected;
+	}
+
+	
+	public  List<Place> getMyFavorite()
+	{
+		List<Place> list = favoriteManger.getMyFavorite();
+		return list;
+	}
+	
+	public  List<Place> getMyFavorite(int placeCategoryId)
+	{
+		List<Place> list = favoriteManger.getMyFavorite(placeCategoryId);
+		return list;
+	}
+
+	
+	
+
+	
+	public List<Place> getFavorite(int categoryId)
+	{
+		int cityId = AppManager.getInstance().getCurrentCityId();
+		List<Place> list = getPlaceListByUrl(cityId, categoryId);
+		return list;
 	}
 	
 	
 	
+	private List<Place> getPlaceListByUrl(int cityId, int categoryId)
+	{
+		String url = String.format(ConstantField.PLACElIST, categoryId, cityId, ConstantField.LANG_HANS);
+		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);
+		HttpTool httpTool = new HttpTool();
+		InputStream inputStream = null;
+		try
+		{
+			inputStream = httpTool.sendGetRequest(url);
+			if(inputStream !=null)
+			{
+				try
+				{
+					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
+					if (travelResponse == null || travelResponse.getResultCode() != 0 ||
+							travelResponse.getPlaceList() == null){
+						return Collections.emptyList();
+					}
+					
+					inputStream.close();
+					inputStream = null;					
+					return travelResponse.getPlaceList().getListList();
+				} catch (Exception e)
+				{					
+					Log.e(TAG, "<getPlaceListByUrl> catch exception = "+e.toString(), e);
+					return Collections.emptyList();
+				}				
+			}
+			else{
+				return Collections.emptyList();
+			}
+			
+		} 
+		catch (Exception e)
+		{
+			Log.e(TAG, "<getPlaceListByUrl> catch exception = "+e.toString(), e);
+			if (inputStream != null){
+				try
+				{
+					inputStream.close();
+				} catch (IOException e1)
+				{
+				}
+			}
+			return Collections.emptyList();
+		}
+	}
+
+	
+	public boolean deleteFavorite(int placeId)
+	{
+		return favoriteManger.deleteFavorite(placeId);
+		
+	}
 	
 }

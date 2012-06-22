@@ -14,7 +14,7 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.damuzhi.travel.mission.UserMission;
+import com.damuzhi.travel.mission.common.UserMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 
 

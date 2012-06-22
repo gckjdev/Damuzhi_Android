@@ -4,6 +4,7 @@ package com.damuzhi.travel.activity.more;
 
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -15,12 +16,13 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
-import com.damuzhi.travel.mission.MoreMission;
+import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.SlidButton;
 import com.damuzhi.travel.util.SlidButton.OnChangedListener;
 import com.damuzhi.travel.util.TravelUtil;
+import com.umeng.analytics.MobclickAgent;
 
 public class MoreActivity extends MenuActivity 
 {
@@ -33,6 +35,7 @@ public class MoreActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
+		MobclickAgent.updateOnlineConfig(this);
 		openCtiyGroup = (ViewGroup) findViewById(R.id.open_city_group);
 		browseHistoryGroup = (ViewGroup) findViewById(R.id.browser_history_group);
 		feedback = (ViewGroup) findViewById(R.id.feedback_group);
@@ -139,12 +142,13 @@ public class MoreActivity extends MenuActivity
 			float localVersion = TravelUtil.getVersionName(MoreActivity.this);
 			if(remoteVersion>localVersion)
 			{
-				
+				Uri uri = Uri.parse(MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_DOWNLOAD_CONFIGURE));
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
 			}else
 			{
 				Toast.makeText(MoreActivity.this, getResources().getString(R.string.new_version), Toast.LENGTH_SHORT).show();
-			}
-			
+			}		
 		}
 	};
 	
@@ -154,9 +158,19 @@ public class MoreActivity extends MenuActivity
 	protected void onResume()
 	{
 		super.onResume();
+		MobclickAgent.onResume(this);
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		isShowListImage = MoreMission.getInstance().isShowListImage();
 		slidButton.setCheck(isShowListImage);
+	}
+
+
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 	
 	

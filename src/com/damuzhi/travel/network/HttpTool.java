@@ -130,9 +130,9 @@ public class HttpTool
 					return m.group(1);
 				}
 			}
-			filename = UUID.randomUUID()+ ".tmp";
+			filename = ".temp"+UUID.randomUUID();
 		}
-		filename =  filename+".tmp";
+		filename =  ".temp"+filename;
 		return filename;
 	}
 	
@@ -148,7 +148,7 @@ public class HttpTool
 					return m.group(1);
 				}
 			}
-			filename = UUID.randomUUID()+ ".tmp";
+			filename = UUID.randomUUID()+ ".temp";
 		}
 		return filename;
 	}

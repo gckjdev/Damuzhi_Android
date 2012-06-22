@@ -202,7 +202,8 @@ public class OpenCityDataActivity extends MenuActivity
 						File tempFile = new File(zipTempFilePath);
 						File zipFile = new File(zipFilePath);
 						String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
-						boolean reulst = tempFile.renameTo(zipFile);
+						//boolean reulst = tempFile.renameTo(zipFile);
+						boolean reulst = true;
 						if(reulst)
 						{														
 							try
@@ -215,8 +216,8 @@ public class OpenCityDataActivity extends MenuActivity
 								}else
 								{
 									openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.VISIBLE);									
-									FileUtil.deleteFolder(zipFilePath);
-									FileUtil.deleteFolder(upZipFilePath);
+									//FileUtil.deleteFolder(zipFilePath);
+									//FileUtil.deleteFolder(upZipFilePath);
 								}	
 								DownloadManager downloadManager = new DownloadManager(OpenCityDataActivity.this);
 								downloadManager.deleteDownloadInfo(downloadURL);
@@ -228,9 +229,12 @@ public class OpenCityDataActivity extends MenuActivity
 						}else
 						{
 							openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.VISIBLE);									
-							FileUtil.deleteFolder(zipFilePath);
-							FileUtil.deleteFolder(upZipFilePath);
+							//FileUtil.deleteFolder(zipFilePath);
+							//FileUtil.deleteFolder(upZipFilePath);
 						}	
+					}else
+					{
+						return;
 					}					
 				}				
 				break;
@@ -675,11 +679,6 @@ public class OpenCityDataActivity extends MenuActivity
 			{				
 				if(downloadStatus.get(city.getDownloadURL())!=null && downloadStatus.get(city.getDownloadURL()) == DOWNLOAD_ING)
 				{
-					//downloadBar = progressBarMap.get(city.getDownloadURL());
-					//resultTextView = resultTextMap.get(city.getDownloadURL());
-					/*downloadBar.setMax(progressBarMap.get(city.getDownloadURL()).getMax());
-					downloadBar.setProgress(progressBarMap.get(city.getDownloadURL()).getProgress());
-					resultTextView.setText(resultTextMap.get(city.getDownloadURL()).getText());*/
 					dataDownloadMangerGroup.setVisibility(View.VISIBLE);
 					restartDownloadBtn.setVisibility(View.GONE);
 					stopDownloadBtn.setVisibility(View.VISIBLE);
@@ -760,13 +759,9 @@ public class OpenCityDataActivity extends MenuActivity
 		super.onResume();
 		Log.i(TAG, "onResume");
 		currentCityId = AppManager.getInstance().getCurrentCityId();
-		installCityData = DownloadManager.getInstallCity();
-		//adapter = new OpenCityDataAdapter(cityList, OpenCityDataActivity.this);
+		/*installCityData = DownloadManager.getInstallCity();
 		cityListAdapter.setCityList(cityList);
-		//
-		cityListAdapter.notifyDataSetChanged();
-		//openCtiyDataListView.invalidateViews();
-		//openCtiyDataListView.setAdapter(adapter);
+		cityListAdapter.notifyDataSetChanged();*/
 	}
 
 

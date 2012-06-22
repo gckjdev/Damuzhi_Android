@@ -138,5 +138,6 @@ public class ConstantField
 	/* more*/
 	public static final String HELP_TITLE = "help_title";
 	public static final String SHOW_LIST_IMAGE = "show_list_image";
+	public static final String U_MENG_DOWNLOAD_CONFIGURE = "download_website_android";
 
 }

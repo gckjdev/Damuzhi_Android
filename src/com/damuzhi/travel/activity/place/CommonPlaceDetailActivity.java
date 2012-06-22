@@ -48,8 +48,8 @@ import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
-import com.damuzhi.travel.mission.CollectMission;
-import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.mission.favorite.FavoriteMission;
+import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -652,7 +652,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			@Override
 			protected Integer doInBackground(Void... params)
 			{
-				Integer count = CollectMission.getInstance().getFavoriteCount(place.getPlaceId());
+				Integer count = FavoriteMission.getInstance().getFavoriteCount(place.getPlaceId());
 				return count;
 			}
 
@@ -661,7 +661,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			{
 				String favoriteCountStr = String.format(ConstantField.FAVORITE_COUNT_STR, result);
 				favoriteCount.setText(favoriteCountStr);
-				if(CollectMission.getInstance().checkPlaceIsCollected(place.getPlaceId()))
+				if(FavoriteMission.getInstance().checkPlaceIsCollected(place.getPlaceId()))
 				{
 					collect.setText(R.string.collected);
 					coolectBtn.setClickable(false);
@@ -674,7 +674,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	
 	private void addFavorite(Place place)
 	{
-		int reulst = CollectMission.getInstance().addFavorite(UserManager.getInstance().getUserId(this),place);
+		int reulst = FavoriteMission.getInstance().addFavorite(UserManager.getInstance().getUserId(this),place);
 		Toast toast;
 		toast = Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT);
 		if(reulst == 0)

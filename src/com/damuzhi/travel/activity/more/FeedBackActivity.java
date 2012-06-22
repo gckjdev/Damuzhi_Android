@@ -18,8 +18,8 @@ import android.widget.Toast;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.MenuActivity;
-import com.damuzhi.travel.mission.FeedbackMission;
-import com.damuzhi.travel.mission.UserMission;
+import com.damuzhi.travel.mission.common.UserMission;
+import com.damuzhi.travel.mission.more.FeedbackMission;
 import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.TravelUtil;

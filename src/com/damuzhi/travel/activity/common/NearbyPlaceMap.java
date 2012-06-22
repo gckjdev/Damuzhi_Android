@@ -34,7 +34,7 @@ import com.damuzhi.travel.activity.place.HotelDetailActivity;
 import com.damuzhi.travel.activity.place.RestaurantDetailActivity;
 import com.damuzhi.travel.activity.place.SceneryDetailActivity;
 import com.damuzhi.travel.activity.place.ShoppingDetailActivity;
-import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;

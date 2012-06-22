@@ -37,7 +37,7 @@ import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
-import com.damuzhi.travel.mission.TravelTipsMission;
+import com.damuzhi.travel.mission.overview.TravelTipsMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;

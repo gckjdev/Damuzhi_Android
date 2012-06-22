@@ -6,7 +6,7 @@
         * @update 2012-5-24 下午3:34:02  
         * @version V1.0  
         */
-package com.damuzhi.travel.mission;
+package com.damuzhi.travel.mission.place;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

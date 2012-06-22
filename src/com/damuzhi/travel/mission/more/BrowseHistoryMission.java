@@ -6,7 +6,7 @@
         * @update 2012-6-18 上午10:40:09  
         * @version V1.0  
  */
-package com.damuzhi.travel.mission;
+package com.damuzhi.travel.mission.more;
 
 import java.util.List;
 
@@ -42,7 +42,6 @@ public class BrowseHistoryMission
 		if(place != null)
 		{
 			historyManager.addHistory(place);
-			Log.i(TAG, "add browse history place = "+place.getName());
 		}
 	}
 	

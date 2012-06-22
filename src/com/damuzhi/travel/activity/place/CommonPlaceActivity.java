@@ -15,14 +15,16 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.common.FilterAdapter;
+import com.damuzhi.travel.activity.adapter.common.FilterAdapter.ViewHolder;
 import com.damuzhi.travel.activity.adapter.place.CommonPlaceListAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
-import com.damuzhi.travel.mission.BrowseHistoryMission;
-import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.mission.more.BrowseHistoryMission;
+import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
@@ -54,6 +56,7 @@ import android.os.Bundle;
 import android.text.Layout;
 import android.util.Log;
 import android.view.Display;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +68,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 /**
@@ -133,7 +137,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private int areaPosition = 0;
 	private int servicePosition = 0;
 	private MapController mapc;
-
+	private PopupWindow filterWindow;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -545,8 +550,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 						public void onClick(DialogInterface dialog, int position)
 						{
 							servicePosition = position;
-							if (servicePosition < 0
-									|| servicePosition >= serviceName.length)
+							if (servicePosition < 0|| servicePosition >= serviceName.length)
 							{
 								return;
 							}
@@ -592,6 +596,32 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			dialog.show();
 		}
 	};
+	
+	
+	/*protected OnClickListener sortClickListener = new OnClickListener()
+	{
+
+		boolean [] sss = new boolean[]{true,true,false ,false};
+		@Override
+		public void onClick(View v)
+		{
+			final AlertDialog dialog;
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					CommonPlaceActivity.this).setMultiChoiceItems(sortDisplayName, sss, new DialogInterface.OnMultiChoiceClickListener()
+					{
+						
+						@Override
+						public void onClick(DialogInterface dialog, int which, boolean isChecked)
+						{
+							Log.i(TAG,"multi choice which="+ which);
+							Log.i(TAG,"multi choice isCheck="+ isChecked);
+						}
+					});
+			//builder.setPositiveButton(text, listener);
+			dialog = builder.create();		
+			dialog.show();
+		}
+	};*/
 
 	private OnClickListener mapViewOnClickListener = new OnClickListener()
 	{
@@ -822,4 +852,38 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			
 		}
 	};
+	
+	
+	
+    private void filterWindow(View parent,List<String> filterTitleList,HashMap<Integer, Boolean> isSelected,boolean isSelectAll) {  
+        if (filterWindow == null) {  
+            LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
+            View v = lay.inflate(R.layout.filter_place_popup, null);  
+            v.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
+
+            ListView filterList=(ListView)v.findViewById(R.id.filter_listview);  
+            FilterAdapter adapter=new FilterAdapter(CommonPlaceActivity.this,filterTitleList,isSelected);  
+            filterList.setAdapter(adapter);  
+            filterList.setItemsCanFocus(false);  
+            filterList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
+            filterList.setOnItemClickListener(listClickListener);  
+              
+            filterWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);  
+        }  
+          
+        filterWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
+        filterWindow.setFocusable(true);  
+        filterWindow.update();  
+        filterWindow.showAtLocation(parent, Gravity.CENTER_VERTICAL, 0, 0);  
+    }  
+  
+    OnItemClickListener listClickListener = new OnItemClickListener() {  
+        @Override  
+        public void onItemClick(AdapterView<?> parent, View view, int position,  
+                long id) {  
+            ViewHolder vHollder = (ViewHolder) view.getTag();    
+            vHollder.cBox.toggle();  
+            FilterAdapter.isSelected.put(position, vHollder.cBox.isChecked());  
+        }  
+    };  
 }

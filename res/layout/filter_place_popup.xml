@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/all_page_bg2"
+    android:orientation="vertical" >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" 
+    android:background="@drawable/topmenu_bg">
+    <LinearLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+    	<TextView 
+    	    android:id="@+id/place_title"
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:gravity="center"
+    	    android:textSize="20.0sp"
+    	    android:textColor="@color/white"/>
+    	</LinearLayout>
+    	<FrameLayout 
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_alignParentRight="true"
+    	    android:layout_centerVertical="true"
+    	    android:layout_marginRight="10dp">
+	    	<ImageButton 
+	    	    android:id="@+id/help_button"
+	    	    android:layout_width="48dp"
+	    	    android:layout_height="32dp"
+	    	    android:background="@null"
+	    	    android:src="@drawable/help_mini_button"/>	
+	    	 <TextView 
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="@string/help"
+	    	    android:layout_gravity="center"
+	    	    android:gravity="center"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="14sp"
+	    	    />	
+    	  </FrameLayout>
+    </RelativeLayout>
+     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listview_group" 
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:orientation="vertical" >
+    	 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		    android:layout_width="fill_parent"
+		    android:background="@drawable/table_bg2_top"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="15dp"
+    	    android:layout_marginRight="15dp"
+    	    android:layout_marginTop="30dp"
+		    android:orientation="horizontal">
+	    	  <CheckBox  
+		         android:id="@+id/filter_all_checkbox"  
+		         android:layout_width="wrap_content"  
+		         android:layout_height="wrap_content"  
+		         android:focusable="false"  
+		         android:focusableInTouchMode="false"  
+		         android:clickable="false"         
+		         android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>  
+		      <TextView   
+		         android:id="@+id/filter_all_title"  
+		         android:textSize="14sp"  
+		         android:paddingLeft="20dp"
+		         android:layout_width="wrap_content"  
+		         android:layout_height="wrap_content"/>
+	    	 </LinearLayout>
+    	<ListView
+    	    android:id="@+id/filter_listview"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="fill_parent"
+    	    android:layout_marginLeft="15dp"
+    	    android:layout_marginRight="15dp"
+    	    android:focusable="true"
+    	    android:scrollbars="none"
+    	    android:cacheColorHint="@color/listview_bg"
+    	    android:background="@color/white"
+    	    android:scrollingCache="true"/>
+    </LinearLayout> 
+</LinearLayout>

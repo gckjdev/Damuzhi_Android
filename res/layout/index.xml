@@ -357,7 +357,7 @@
 			           	 	android:layout_weight="1"
 						    android:orientation="vertical">
 			          <ImageButton 
-			            android:id="@+id/collection"
+			            android:id="@+id/favorite"
 		            	android:layout_width="wrap_content"
 			           	 android:layout_height="wrap_content"
 			            android:scaleType="fitCenter"

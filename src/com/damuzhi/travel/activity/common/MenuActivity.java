@@ -9,7 +9,10 @@
 package com.damuzhi.travel.activity.common;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.more.FeedBackActivity;
+import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
+import com.damuzhi.travel.model.constant.ConstantField;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -38,25 +41,33 @@ public class MenuActivity extends Activity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item)
 	{
-		// TODO Auto-generated method stub
-		switch (item.getItemId())
-		{
+		Intent  intent;
+		switch (item.getItemId())	
+		{		
 		case R.id.menu_refresh:
 			
 			break;
 		case R.id.menu_help:
-			Intent  intent = new Intent();
+			intent = new Intent();
+			intent.putExtra(ConstantField.HELP_TITLE, getResources().getString(R.string.help));
 			intent.setClass(MenuActivity.this, HelpActiviy.class);
 			startActivity(intent);
 			break;
 		case R.id.menu_feedback:
-			
+			intent = new Intent();			
+			intent.setClass(MenuActivity.this, FeedBackActivity.class);
+			startActivity(intent);
 			break;
 		case R.id.menu_about:
-			
+			intent = new Intent();
+			String about = getResources().getString(R.string.about_damuzhi);
+			intent.putExtra(ConstantField.HELP_TITLE, about);
+			intent.setClass(MenuActivity.this, HelpActiviy.class);
+			startActivity(intent);
 			break;
 		case R.id.menu_exit:
-			
+			android.os.Process.killProcess(android.os.Process.myPid());
+			System.exit(0);
 			break;
 
 		default:

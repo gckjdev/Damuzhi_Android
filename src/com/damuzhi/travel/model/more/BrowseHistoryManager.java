@@ -26,52 +26,92 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.util.FileUtil;
 
-/**  
- * @description   
- * @version 1.0  
- * @author liuxiaokun  
- * @update 2012-6-18 上午10:45:00  
- */
 
-public class BrowseHistoryManager
-{
-	private static final String TAG = "BrowseHistoryManager";
 
-	public boolean addHistory(Place place)
+	public class BrowseHistoryManager
 	{
-		boolean result = false;
-		File tempFile = new File(ConstantField.APP_DATA_PATH);       
-        if (!tempFile.exists())
-        {
-          tempFile.mkdirs();
-        }
-        
-		
-		try
+		private static final String TAG = "BrowseHistoryManager";
+	
+		public boolean addHistory(Place place)
 		{
-			PlaceList.Builder placeBuilder = null;
-			FileOutputStream output = null;			
-	        if (place != null){
-	        	output = new FileOutputStream(ConstantField.HISTORY_FILE_PATH, true);
-				placeBuilder = PlaceList.newBuilder();
-				placeBuilder.addList(place);
-				placeBuilder.build().writeTo(output);
-				result = true;
+			boolean result = false;
+			File tempFile = new File(ConstantField.APP_DATA_PATH);       
+	        if (!tempFile.exists())
+	        {
+	          tempFile.mkdirs();
+	        }	
+			try
+			{
+				PlaceList.Builder placeBuilder = null;
+				FileOutputStream output = null;			
+		        if (place != null){
+					List<Place> list = checkPlaceIsExitse(place);
+					output = new FileOutputStream(ConstantField.HISTORY_FILE_PATH);
+					placeBuilder = PlaceList.newBuilder();
+					if(list !=null&&list.size()>0)
+					{
+						placeBuilder.addAllList(list);
+					}else
+					{
+						placeBuilder.addList(place);
+					}				
+					placeBuilder.build().writeTo(output);
+					result = true;
+				}
+		        try
+	    		{
+	    			output.close();
+	    		} catch (IOException e)
+	    		{
+	    		}	
+			} catch (Exception e)
+			{
+				Log.e(TAG, "<addHistory> catch exception = "+e.toString(), e);
+				result = false;
+			}		
+			
+			return result;
+			
+		}
+	
+	
+	public List<Place> checkPlaceIsExitse(Place place)
+	{
+		List<Place> list = new ArrayList<Place>();
+		try
+		{		
+			list.addAll(loadHistoryData());
+			int position = -1;
+			if(list!=null&&list.size()>0)
+			{				
+				int i = 0;
+				for(Place placeItem:list)
+				{
+					if(placeItem.getPlaceId() == place.getPlaceId())
+					{
+						position = i;	
+					}
+					i++;
+				}	
+				if(position != -1)
+				{
+					list.remove(position);
+				}					
+				list.add(place);
+				if(list!=null&&list.size()>30)
+				{
+					list.remove(0);
+				}
+			}else
+			{
+				return Collections.emptyList();
 			}
-	        try
-    		{
-    			output.close();
-    		} catch (IOException e)
-    		{
-    		}	
 		} catch (Exception e)
 		{
-			Log.e(TAG, "<addHistory> catch exception = "+e.toString(), e);
-			result = false;
-		}		
-		
-		return result;
-		
+			Log.e(TAG, "<checkPlaceIsExitse> check browse history is exitse place but catch exception :"+e.toString(),e);
+			return Collections.emptyList();
+		}
+		return list;	
 	}
 	
 	

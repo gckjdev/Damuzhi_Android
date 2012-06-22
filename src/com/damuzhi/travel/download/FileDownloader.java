@@ -106,6 +106,7 @@ public class FileDownloader
 			if (conn.getResponseCode() == 200)
 			{
 				File fileSaveDir = new File(this.tempPath);
+				//File fileSaveDir = new File(this.savePath);
 				downloadManager = new DownloadManager(this.context);
 				if (!fileSaveDir.exists())
 					fileSaveDir.mkdirs();
@@ -116,7 +117,8 @@ public class FileDownloader
 					throw new RuntimeException("Unkown file size ");
 				}
 				flag = true;
-				String filename = HttpTool.getTempFileName(conn, downloadURL);
+				String filename = HttpTool.getFileName(conn, downloadURL);
+				//String filename = HttpTool.getTempFileName(conn, downloadURL);
 				this.saveFile = new File(fileSaveDir, filename);
 				Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
 				if (logdata.size() > 0)

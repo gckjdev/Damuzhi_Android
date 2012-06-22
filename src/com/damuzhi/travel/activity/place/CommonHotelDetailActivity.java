@@ -9,7 +9,7 @@
 package com.damuzhi.travel.activity.place;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.google.protobuf.InvalidProtocolBufferException;

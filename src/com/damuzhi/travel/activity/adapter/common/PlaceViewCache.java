@@ -21,6 +21,8 @@ public class PlaceViewCache
 	private ImageView recommendImageView1;
 	private ImageView recommendImageView2;
 	private ImageView recommendImageView3;
+	private ImageView heart;
+	private ImageView delete;
 	private ViewGroup serviceGroup;
 	/**
 	 * @param convertView
@@ -144,4 +146,23 @@ public class PlaceViewCache
 		return foodType;
 	}
 	
+	
+	public ImageView getHeart()
+	{
+		if(heart == null)
+		{
+			heart = (ImageView) convertView.findViewById(R.id.place_favorite_image);
+		}
+		return heart;
+	}
+	
+	
+	public ImageView getDelete()
+	{
+		if(delete == null)
+		{
+			delete = (ImageView) convertView.findViewById(R.id.place_favorite_delete);
+		}
+		return delete;
+	}
 }

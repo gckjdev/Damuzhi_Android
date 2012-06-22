@@ -13,7 +13,7 @@ import java.util.Map;
 import android.content.Context;
 
 import com.damuzhi.travel.db.FileDBHelper;
-import com.damuzhi.travel.mission.AppMission;
+import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.FileUtil;
 

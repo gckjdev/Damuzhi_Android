@@ -6,7 +6,7 @@
         * @update 2012-6-2 下午2:43:01  
         * @version V1.0  
  */
-package com.damuzhi.travel.mission;
+package com.damuzhi.travel.mission.common;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -21,9 +21,9 @@ import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.damuzhi.travel.model.common.CollectManager;
 import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.model.favorite.FavoriteManager;
 import com.damuzhi.travel.network.HttpTool;
 
 /**  

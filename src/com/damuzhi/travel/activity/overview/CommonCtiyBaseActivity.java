@@ -11,7 +11,7 @@ package com.damuzhi.travel.activity.overview;
 import android.app.Activity;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.mission.OverviewMission;
+import com.damuzhi.travel.mission.overview.OverviewMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;

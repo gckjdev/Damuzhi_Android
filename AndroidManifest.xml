@@ -57,6 +57,7 @@
         <activity android:name=".activity.more.BrowseHistoryActivity" android:screenOrientation="portrait" />     
         <activity android:name=".activity.more.FeedBackActivity" android:screenOrientation="portrait" />     
         <activity android:name=".activity.more.RecommendedAppActivity" android:screenOrientation="portrait" />  
+        <activity android:name=".activity.favorite.FavoriteActivity" android:screenOrientation="portrait" />  
           <!--  注册服务 -->
          <service android:name=".download.DownloadService"></service>  
         <service android:name="com.damuzhi.travel.service.DownloadService">
@@ -69,11 +70,12 @@
                 <action android:name="damuzhi.travel.service.MainService"/>
             </intent-filter>
         </service> 
-        <receiver android:name="com.damuzhi.travel.network.CheckNet">
+        <receiver android:name=".network.CheckNet">
             <intent-filter >
                 <action android:name="com.damuzhi.travel.network.CheckNet"/>
             </intent-filter>
         </receiver>
+        <meta-data android:value="4fe182a95270156dc4000074" android:name="UMENG_APPKEY"></meta-data>
     </application>
     
 <uses-permission android:name="android.permission.INTERNET"/>  
@@ -85,5 +87,8 @@
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 <uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION"/>
 <uses-permission android:name="android.permission.READ_PHONE_STATE"/>  
-
+<uses-permission android:name="android.permission.READ_LOGS"/>
+<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission> 
+<uses-permission android:name="android.permission.WRITE_APN_SETTINGS"></uses-permission>
+<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
 </manifest>

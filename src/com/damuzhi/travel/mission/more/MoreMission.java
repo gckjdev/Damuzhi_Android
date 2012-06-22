@@ -6,7 +6,7 @@
         * @update 2012-6-20 下午4:52:55  
         * @version V1.0  
  */
-package com.damuzhi.travel.mission;
+package com.damuzhi.travel.mission.more;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -51,8 +51,7 @@ public class MoreMission
 	public boolean isShowListImage()
 	{		
 		SharedPreferences showListImage = TravelApplication.getInstance().getSharedPreferences(ConstantField.SHOW_LIST_IMAGE, 0);
-		boolean isShow = showListImage.getBoolean(ConstantField.SHOW_LIST_IMAGE, false);
-		Log.i(TAG, "<isShowListImage> isShow = "+isShow);
+		boolean isShow = showListImage.getBoolean(ConstantField.SHOW_LIST_IMAGE, true);
 		return isShow;
 		
 	}

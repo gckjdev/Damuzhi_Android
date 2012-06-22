@@ -50,7 +50,7 @@ import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity.PlaceMapViewOverlay;
 import com.damuzhi.travel.activity.place.NearbyActivity.PlaceLoaction;
-import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;

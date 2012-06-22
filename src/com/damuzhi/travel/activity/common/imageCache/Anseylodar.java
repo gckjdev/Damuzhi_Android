@@ -10,7 +10,7 @@ import java.io.IOException;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.imageCache.ImageLoader.ImageCallback;
 import com.damuzhi.travel.activity.common.imageCache.PortraitLodar.PortraitImgCallback;
-import com.damuzhi.travel.mission.MoreMission;
+import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.TravelUtil;
 

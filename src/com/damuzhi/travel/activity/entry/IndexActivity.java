@@ -34,6 +34,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.favorite.FavoriteActivity;
 import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.activity.more.OpenCityDataActivity;
 import com.damuzhi.travel.activity.overview.CommonCtiyBaseActivity;
@@ -56,7 +57,7 @@ import com.damuzhi.travel.activity.place.RestaurantActivity;
 import com.damuzhi.travel.activity.place.SceneryActivity;
 import com.damuzhi.travel.activity.place.ShoppingActivity;
 import com.damuzhi.travel.activity.place.CommonSpotActivity;
-import com.damuzhi.travel.mission.AppMission;
+import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
@@ -81,6 +82,8 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	private ImageButton travelTransportaionButton;
 	private ImageButton travelTipsButton;
 	private ImageButton routeTipsButton;
+	private ImageButton favoriteButton;
+	private ImageButton shareButton;
 	private HashMap<String, Integer> cityNameMap;
 	private HashMap<Integer, Integer> citySpinnerPositionMap = new HashMap<Integer, Integer>();
 	private List<String> list;
@@ -116,6 +119,8 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		routeTipsButton = (ImageButton) findViewById(R.id.travel_commend);
 		nearbyButton = (ImageButton) findViewById(R.id.nearby);
 		helpButton = (ImageButton) findViewById(R.id.help);
+		favoriteButton = (ImageButton) findViewById(R.id.favorite);
+		shareButton = (ImageButton) findViewById(R.id.share);
 		sceneryButton.setOnClickListener(this);
 		hotelButton.setOnClickListener(this);
 		restaurantButton.setOnClickListener(this);
@@ -130,6 +135,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		routeTipsButton.setOnClickListener(this);
 		moreButton.setOnClickListener(this);
 		helpButton.setOnClickListener(helpOnClickListener);
+		favoriteButton.setOnClickListener(favoriteOnClickListener);
 		Intent intent = new Intent();
 		intent.setAction(ConstantField.CHECK_NET);
 		sendBroadcast(intent);
@@ -308,7 +314,22 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		public void onClick(View v)
 		{
 			Intent  intent = new Intent();
+			intent.putExtra(ConstantField.HELP_TITLE, getResources().getString(R.string.help));
 			intent.setClass(IndexActivity.this, HelpActiviy.class);
+			startActivity(intent);
+			
+		}
+	};
+	
+	
+	private OnClickListener favoriteOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent  intent = new Intent();
+			intent.setClass(IndexActivity.this, FavoriteActivity.class);
 			startActivity(intent);
 			
 		}

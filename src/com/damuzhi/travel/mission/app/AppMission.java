@@ -1,5 +1,5 @@
 
-package com.damuzhi.travel.mission;
+package com.damuzhi.travel.mission.app;
 
 import java.io.File;
 import java.io.FileOutputStream;

@@ -6,7 +6,7 @@
         * @update 2012-6-20 上午11:20:46  
         * @version V1.0  
  */
-package com.damuzhi.travel.mission;
+package com.damuzhi.travel.mission.more;
 
 import java.io.BufferedReader;
 import java.io.IOException;

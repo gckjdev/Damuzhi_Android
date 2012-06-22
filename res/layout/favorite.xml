@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:id="@+id/top_btn_group"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center"
+	    android:orientation="horizontal" 
+	    android:background="@drawable/topmenu_bg">
+	    <LinearLayout 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_centerInParent="true"
+	        android:orientation="horizontal"
+	        android:gravity="center">
+	    <LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:id="@+id/my_favorite_group"	  
+	        android:background="@drawable/citybtn_on"     
+	        android:orientation="horizontal" 
+	        android:gravity="center">
+		    <TextView android:id="@+id/my_favorite_title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:text="@string/my_collected"
+		        android:textColor="@color/white"
+		        android:textSize="15.0sp"/>
+		 </LinearLayout>
+		  <LinearLayout
+	        xmlns:android="http://schemas.android.com/apk/res/android"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"	
+	        android:id="@+id/favorite_rank_group"      
+	        android:background="@drawable/citybtn_off2"     
+	        android:orientation="horizontal" 
+	        android:gravity="center" >
+		    <TextView android:id="@+id/favorite_rank_title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_gravity="center"
+		        android:textColor="@android:color/black"
+		        android:text="@string/collect_rank"
+		        android:textSize="15.0sp"/>
+		 </LinearLayout>
+		 </LinearLayout>
+		 <ImageView android:id="@+id/delete_button"
+		     android:layout_width="wrap_content"
+		     android:layout_height="wrap_content"
+		     android:scaleType="fitCenter"
+		     android:src="@drawable/delete"
+		     android:layout_alignParentRight="true"
+		     android:layout_centerVertical="true"
+		     android:layout_marginRight="15dp"/>
+    </RelativeLayout>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/root"
+    android:background="@color/white"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+     <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"    
+        android:id="@+id/collect_bar"
+        android:orientation="horizontal" >
+        <RelativeLayout
+            android:id="@+id/all_place"
+            android:layout_width="fill_parent"
+            android:background="@drawable/options_bg2"
+            android:layout_height="40dp" 
+            android:gravity="center_vertical">
+          <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical">
+	            <TextView
+	                android:id="@+id/place_all"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_alignParentLeft="true"
+	                android:text="@string/all_place" />
+	             <TextView
+	                android:id="@+id/move"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:layout_alignParentLeft="true"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:background="@drawable/list_btn_3"
+	                android:text="@string/all_place" />
+	            <TextView
+	                android:id="@+id/place_spot"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_all"
+	                android:text="@string/scenery" />
+	            <TextView
+	                android:id="@+id/place_hotel"
+	               android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_spot"
+	                android:text="@string/hotel" />
+	            <TextView
+	                android:id="@+id/place_restaurant"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_hotel"
+	                android:text="@string/restaurant" />
+	            <TextView
+	                android:id="@+id/place_shopping"
+	               android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_restaurant"
+	                android:text="@string/shopping" />
+	            <TextView
+	                android:id="@+id/place_entertrainment"
+	                android:layout_width="50dp"
+	                android:layout_height="30dp"
+	                android:gravity="center"
+	                android:textColor="@color/black"
+	                android:layout_toRightOf="@id/place_shopping"
+	                android:text="@string/entertainment" />
+            </RelativeLayout>
+        </RelativeLayout>
+        </LinearLayout>
+    <TextView 
+     android:layout_width="fill_parent"
+     android:layout_height="wrap_content"
+     android:text="@string/data_not_found"
+     android:layout_below="@id/collect_bar"
+     android:gravity="center"
+     android:id="@+id/data_not_found"
+     android:visibility="gone"
+     android:textSize="13sp"/>
+    <LinearLayout 
+     android:id="@+id/page"
+     android:layout_width="fill_parent"
+     android:layout_height="fill_parent"
+     android:layout_alignParentLeft="true"
+     android:layout_below="@id/collect_bar"
+     android:background="#ffffff"
+     android:orientation="vertical"
+     android:visibility="gone">   
+	    <ListView 
+	        android:id="@+id/collect_list"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent"
+	        android:scrollbars="none"
+	        android:cacheColorHint="@color/listview_bg"
+	        android:descendantFocusability="blocksDescendants"
+	        android:divider="#FFCC00"/>
+	</LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

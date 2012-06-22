@@ -21,7 +21,7 @@ import android.widget.RelativeLayout;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.mission.PlaceMission;
+import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;

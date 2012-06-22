@@ -6,7 +6,7 @@
         * @update 2012-6-14 下午3:01:14  
         * @version V1.0  
  */
-package com.damuzhi.travel.mission;
+package com.damuzhi.travel.mission.overview;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,6 +15,7 @@ import java.util.List;
 import android.app.Activity;
 import android.util.Log;
 
+import com.damuzhi.travel.mission.place.LocalStorageMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.overview.OverViewManager;
 import com.damuzhi.travel.model.overview.TravelTipsManager;

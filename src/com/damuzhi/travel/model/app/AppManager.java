@@ -17,7 +17,7 @@ import android.support.v4.content.Loader;
 import android.util.Log;
 
 import com.damuzhi.travel.R.id;
-import com.damuzhi.travel.mission.AppMission;
+import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.App;

@@ -27,7 +27,7 @@ import com.damuzhi.travel.activity.adapter.more.BrowseHistoryAdapter;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
-import com.damuzhi.travel.mission.BrowseHistoryMission;
+import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 

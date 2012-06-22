@@ -11,7 +11,7 @@ import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.WelcomeActivity;
 import com.damuzhi.travel.activity.place.SceneryActivity;
-import com.damuzhi.travel.mission.AppMission;
+import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.place.PlaceManager;
 import com.damuzhi.travel.protos.AppProtos.City;

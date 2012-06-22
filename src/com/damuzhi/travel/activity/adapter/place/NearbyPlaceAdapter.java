@@ -18,6 +18,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.PlaceViewCache;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
@@ -62,6 +63,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 	private ImageView recommendImageView1;
 	private ImageView recommendImageView2;
 	private ImageView recommendImageView3;
+	private ImageView heart;
 	private TextView placeDistance;
 	//private int dataFlag;
 	
@@ -123,6 +125,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		recommendImageView1 = viewCache.getRecommendImageView1();
 		recommendImageView2 = viewCache.getRecommendImageView2();
 		recommendImageView3 = viewCache.getRecommendImageView3();
+		heart = viewCache.getHeart();
 		placeDistance = viewCache.getPlaceDistance();
 		int rank = place.getRank();
 		switch (rank)
@@ -196,6 +199,13 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		else{
 			serviceGroup = viewCache.getServiceGroup();
 			serviceGroup.setVisibility(View.GONE);
+		}
+		if(FavoriteMission.getInstance().checkPlaceIsCollected(place.getPlaceId()))
+		{
+			heart.setVisibility(View.VISIBLE);
+		}else
+		{
+			heart.setVisibility(View.GONE);
 		}
 		return convertView;
 	}

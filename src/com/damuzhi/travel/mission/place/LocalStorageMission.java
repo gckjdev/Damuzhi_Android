@@ -6,7 +6,7 @@
         * @update 2012-5-25 上午10:35:04  
         * @version V1.0  
         */
-package com.damuzhi.travel.mission;
+package com.damuzhi.travel.mission.place;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,6 +14,8 @@ import java.util.ArrayList;
 
 import android.util.Log;
 
+import com.damuzhi.travel.mission.overview.OverviewMission;
+import com.damuzhi.travel.mission.overview.TravelTipsMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CityOverview;
