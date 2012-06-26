@@ -1,17 +1,17 @@
 /**  
-        * @title FilterAdapter.java  
+        * @title SortAdapter.java  
         * @package com.damuzhi.travel.activity.adapter.common  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-6-22 下午5:34:35  
+        * @update 2012-6-26 下午12:22:33  
         * @version V1.0  
  */
 package com.damuzhi.travel.activity.adapter.common;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.common.FilterAdapter.ViewHolder;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,19 +19,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.damuzhi.travel.R;
 
 /**  
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-6-22 下午5:34:35  
+ * @update 2012-6-26 下午12:22:33  
  */
 
-public class FilterAdapter extends BaseAdapter
+public class SortAdapter extends BaseAdapter
 {
 
 	private LayoutInflater mInflater;   
@@ -39,7 +36,7 @@ public class FilterAdapter extends BaseAdapter
     private HashMap<Integer, Boolean> isSelected;  
   
    
-	public FilterAdapter(Context context,
+	public SortAdapter(Context context,
 			String[] filterTitleList)
 	{
 		mInflater = LayoutInflater.from(context);
@@ -65,20 +62,24 @@ public class FilterAdapter extends BaseAdapter
   
     @Override  
     public View getView(int position, View convertView, ViewGroup parent) {  
-        ViewHolder holder = null;         
+    	SortViewHolder holder = null;     
+        
         if (convertView == null) {  
-            holder = new ViewHolder();  
+            holder = new SortViewHolder();  
             convertView = mInflater.inflate(R.layout.filter_place_popup_listview_item, null);  
             holder.title = (TextView) convertView.findViewById(R.id.filter_title);  
             holder.cBox = (CheckBox) convertView.findViewById(R.id.filter_checkbox);  
             convertView.setTag(holder);  
         } else {  
-            holder = (ViewHolder) convertView.getTag();  
+            holder = (SortViewHolder) convertView.getTag();  
         } 
         if(position==mData.length-1)
         {
         	convertView.setBackgroundResource(R.drawable.select_bg_down);
-        }else
+        }else if (position== 0 )
+		{
+        	convertView.setBackgroundResource(R.drawable.select_bg_top);
+		}else
         {
         	convertView.setBackgroundResource(R.drawable.select_bg_center);
         }
@@ -94,7 +95,7 @@ public class FilterAdapter extends BaseAdapter
         return convertView;  
     }  
   
-    public final class ViewHolder {  
+    public final class SortViewHolder {  
         public TextView title;  
         public CheckBox cBox;  
     }

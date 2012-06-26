@@ -107,6 +107,7 @@ public class CommonHotelActivity extends CommonPlaceActivity
 		sortDisplayName = getResources().getStringArray(R.array.hotel);
 		
 		price = AppManager.getInstance().getPriceRank(cityID);
+		priceId = AppManager.getInstance().getPriceId(cityID);
 		areaID = AppManager.getInstance().getCityAreaKeyList(cityID);
 		areaName = AppManager.getInstance().getCityAreaNameList(cityID);
 		serviceID = AppManager.getInstance().getProvidedServiceKeyList(PlaceCategoryType.PLACE_HOTEL);

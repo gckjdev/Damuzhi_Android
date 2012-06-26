@@ -504,33 +504,39 @@ public class TravelUtil
 		public ComparatorDistance(HashMap<String, Double> location)
 		{
 			super();
-			this.location = location;
-			this.longitude = location.get(ConstantField.LONGITUDE);
-			this.latitude = location.get(ConstantField.LATITUDE);
+			if(location!=null&&location.size()>0)
+			{
+				this.location = location;
+				this.longitude = location.get(ConstantField.LONGITUDE);
+				this.latitude = location.get(ConstantField.LATITUDE);
+			}
+			
 		}
 		
 		public ComparatorDistance(double longitude,double latitude)
 		{
 			super();
-			this.longitude = longitude;
-			this.latitude = latitude;
+			if(location!=null&&location.size()>0)
+			{
+				this.longitude = longitude;
+				this.latitude = latitude;
+			}
+			
 		}
 
 		@Override
 		public int compare(Place lhs, Place rhs)
 		{
-			// TODO Auto-generated method stub
-			double lhsDistance = LocationUtil.GetDistance(
-					longitude,
-					latitude, lhs.getLongitude(),
-					lhs.getLatitude());
-			double rhsDistance = LocationUtil.GetDistance(
-					longitude,
-					latitude, rhs.getLongitude(),
-					rhs.getLatitude());
-			int flag = Double.valueOf(lhsDistance).compareTo(
-					Double.valueOf(rhsDistance));
-			return flag;
+			if(longitude!=0&&latitude!=0)
+			{
+				double lhsDistance = LocationUtil.GetDistance(longitude,latitude, lhs.getLongitude(),lhs.getLatitude());
+				double rhsDistance = LocationUtil.GetDistance(longitude,latitude, rhs.getLongitude(),rhs.getLatitude());
+				int flag = Double.valueOf(lhsDistance).compareTo(Double.valueOf(rhsDistance));
+				return flag;
+			}else {
+				return 1;
+			}
+			
 		}
 	}
 

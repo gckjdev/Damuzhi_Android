@@ -16,8 +16,11 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -25,13 +28,18 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.common.SortAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
+import com.damuzhi.travel.activity.common.Share2Weibo;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.favorite.FavoriteActivity;
@@ -63,6 +71,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
+import com.google.android.maps.MapView.LayoutParams;
 
 public class IndexActivity extends TravelActivity implements OnClickListener
 {
@@ -88,6 +97,10 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	private HashMap<Integer, Integer> citySpinnerPositionMap = new HashMap<Integer, Integer>();
 	private List<String> list;
 	TextView currentCityName;
+	private PopupWindow shareWindow;
+	private static final String SHARE_CONFIG = "share_config";
+	private static final  int SHARE_2_SINA = 1;
+	private static final  int SHARE_2_QQ = 2;
 	//private Spinner citySpinner;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -136,6 +149,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		moreButton.setOnClickListener(this);
 		helpButton.setOnClickListener(helpOnClickListener);
 		favoriteButton.setOnClickListener(favoriteOnClickListener);
+		shareButton.setOnClickListener(shareOnClickListener);
 		Intent intent = new Intent();
 		intent.setAction(ConstantField.CHECK_NET);
 		sendBroadcast(intent);
@@ -336,5 +350,75 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	};
 
 
+	
+	private OnClickListener shareOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			shareWindow(v);
+			
+		}
+	};
+	
+	private void shareWindow(View parent)
+	{
+		 LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
+	        View v = lay.inflate(R.layout.share_popup, null);        
+	        Button shareByMessageButton = (Button) v.findViewById(R.id.share_by_message_btn);
+	        Button share2sinaButton = (Button) v.findViewById(R.id.share_2_sina_btn);
+	        Button share2qqButton = (Button) v.findViewById(R.id.share_2_qq_btn);
+	        shareByMessageButton.setOnClickListener(shareByMessage);
+	        share2sinaButton.setOnClickListener(share2sinaWeiboOnClickListener);
+	        share2qqButton.setOnClickListener(share2qqWeiboOnClickListener);
+	        //shareWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,(int)getResources().getDimension(R.dimen.share_popup_height)); 
+	        shareWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,true);   
+	        shareWindow.setBackgroundDrawable(null);
+	        shareWindow.setFocusable(true);  
+	        shareWindow.update();  
+	        shareWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);  
+	}
+	
+	
+	private OnClickListener shareByMessage = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+            String messageCont = getString(R.string.share_content);
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"));
+            intent.putExtra("sms_body", messageCont);
+            startActivity(intent);
+		}
+	};
+	
+	private OnClickListener share2sinaWeiboOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.putExtra(SHARE_CONFIG, SHARE_2_SINA);
+			intent.setClass(IndexActivity.this, Share2Weibo.class);
+			startActivity(intent);
+		}
+	};
+	
+	
+	private OnClickListener share2qqWeiboOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.putExtra(SHARE_CONFIG, SHARE_2_QQ);
+			intent.setClass(IndexActivity.this, Share2Weibo.class);
+			startActivity(intent);
+		}
+	};
 
 }

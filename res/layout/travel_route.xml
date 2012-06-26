@@ -17,6 +17,7 @@
         android:id="@+id/travel_route_listview"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:background="@color/transparent"
         android:cacheColorHint="@null"
         android:scrollbars="none"
    />

@@ -285,7 +285,7 @@ public class AppManager
 		return map;
 	}
 
-	public String[] getSubCatNameList(PlaceCategoryType placeCategoryType  )
+	/*public String[] getSubCatNameList(PlaceCategoryType placeCategoryType  )
 	{
 		int i = 1;
 		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = AppManager.getInstance().getSubCatMap();
@@ -331,9 +331,55 @@ public class AppManager
 		}
 		
 		return subCatKey;
+	}*/
+	
+	public String[] getSubCatNameList(PlaceCategoryType placeCategoryType  )
+	{
+		int i = 0;
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = AppManager.getInstance().getSubCatMap();
+		String[] subCat = null;
+		if(subCatMap!=null && subCatMap.size()>0)
+		{
+			List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
+			if(nameIdPairs!=null && nameIdPairs.size()>0)
+			{
+				subCat = new String[nameIdPairs.size()];
+				for (NameIdPair nameIdPair : nameIdPairs)
+				{
+					subCat[i] = nameIdPair.getName();
+					i++;
+				}				
+			}
+			
+		}
+		
+		return subCat;
 	}
 
-	public  String[] getProvidedServiceNameList(
+	public int[] getSubCatKeyList(PlaceCategoryType placeCategoryType)
+	{
+		int i = 0;
+		HashMap<PlaceCategoryType, List<NameIdPair>> subCatMap = AppManager.getInstance().getSubCatMap();
+		int[] subCatKey =null;
+		if(subCatMap!=null && subCatMap.size()>0)
+		{
+			List<NameIdPair> nameIdPairs = subCatMap.get(placeCategoryType);
+			if(nameIdPairs!=null && nameIdPairs.size()>0)
+			{
+				subCatKey = new int[nameIdPairs.size()];
+				for (NameIdPair nameIdPair : nameIdPairs)
+				{
+					subCatKey[i] = nameIdPair.getId();
+					i++;
+				}
+			}
+		    
+		}
+		
+		return subCatKey;
+	}
+
+	/*public  String[] getProvidedServiceNameList(
 			PlaceCategoryType placeCategoryType)
 	{
 		int i = 1;
@@ -362,6 +408,35 @@ public class AppManager
 			i++;
 		}
 		return proServiceKey;
+	}*/
+	
+	public  String[] getProvidedServiceNameList(
+			PlaceCategoryType placeCategoryType)
+	{
+		int i = 0;
+		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = AppManager.getInstance().getProSerMap();
+		List<NameIdPair> nameIdPairs = proSerMap.get(placeCategoryType);
+		String[] proServiceName = new String[nameIdPairs.size()];
+		for (NameIdPair nameIdPair : nameIdPairs)
+		{
+			proServiceName[i] = nameIdPair.getName();
+			i++;
+		}
+		return proServiceName;
+	}
+
+	public int[] getProvidedServiceKeyList(PlaceCategoryType placeCategoryType)
+	{
+		int i = 0;
+		HashMap<PlaceCategoryType, List<NameIdPair>> proSerMap = AppManager.getInstance().getProSerMap();
+		List<NameIdPair> nameIdPairs = proSerMap.get(placeCategoryType);
+		int[] proServiceKey = new int[nameIdPairs.size()];
+		for (NameIdPair nameIdPair : nameIdPairs)
+		{
+			proServiceKey[i] = nameIdPair.getId();
+			i++;
+		}
+		return proServiceKey;
 	}
 
 	public HashMap<Integer, String> getProServiceMap(PlaceCategoryType placeCategoryType)
@@ -376,7 +451,7 @@ public class AppManager
 		return map;
 	}
 
-	public  String[] getCityAreaNameList(int cityID)
+	/*public  String[] getCityAreaNameList(int cityID)
 	{
 		int i = 1;
 		HashMap<Integer, List<CityArea>> ctiyAreaList = AppManager.getInstance().getCityAreaList();
@@ -404,8 +479,37 @@ public class AppManager
 			i++;
 		}
 		return ctiyAreasKey;
+	}*/
+
+	
+	public  String[] getCityAreaNameList(int cityID)
+	{
+		int i = 0;
+		HashMap<Integer, List<CityArea>> ctiyAreaList = AppManager.getInstance().getCityAreaList();
+		List<CityArea> ctiyAreas = ctiyAreaList.get(cityID);
+		String[] ctiyAreasName = new String[ctiyAreas.size()];
+		for (CityArea cityArea : ctiyAreas)
+		{
+			ctiyAreasName[i] = cityArea.getAreaName();
+			i++;
+		}
+		return ctiyAreasName;
 	}
 
+	public int[] getCityAreaKeyList(int cityID)
+	{
+		int i = 0;
+		HashMap<Integer, List<CityArea>> cityAreaList = AppManager.getInstance().getCityAreaList();
+		List<CityArea> ctiyAreas = cityAreaList.get(cityID);
+		int[] ctiyAreasKey = new int[ctiyAreas.size()];
+		for (CityArea cityArea : ctiyAreas)
+		{
+			ctiyAreasKey[i] = cityArea.getAreaId();
+			i++;
+		}
+		return ctiyAreasKey;
+	}
+	
 	public HashMap<Integer, String> getCityAreaMap(int cityID)
 	{
 		HashMap<Integer, List<CityArea>> cityAreaList = AppManager.getInstance().getCityAreaList();
@@ -420,7 +524,7 @@ public class AppManager
 
 	
 	
-	public String[] getPriceRank(int cityID)
+	/*public String[] getPriceRank(int cityID)
 	{
 		String[] price = new String[]{"全部"}; 
 		if (app != null)
@@ -437,6 +541,29 @@ public class AppManager
 					{
 						priceLogo+="$";
 						price[i+1] = priceLogo;
+					}
+				}
+			}
+		}
+		return price;
+	}*/
+	
+	public String[] getPriceRank(int cityID)
+	{
+		String[] price = null; 
+		if (app != null)
+		{
+			
+			for (City city : app.getCitiesList())
+			{
+				if(city.getCityId() == cityID)
+				{
+					price = new String[city.getPriceRank()];
+					String priceLogo = "";
+					for(int i=0;i<city.getPriceRank();i++)
+					{
+						priceLogo+="$";
+						price[i] = priceLogo;
 					}
 				}
 			}
@@ -590,6 +717,30 @@ public class AppManager
 			list = app.getRecommendedAppsList();
 		}
 		return list;
+	}
+
+	
+	public int[] getPriceId(int cityID)
+	{
+		int[] priceId = null; 
+		if (app != null)
+		{
+			
+			for (City city : app.getCitiesList())
+			{
+				if(city.getCityId() == cityID)
+				{
+					priceId = new int[city.getPriceRank()];
+					int priceRank = 0;
+					for(int i=0;i<city.getPriceRank();i++)
+					{
+						priceRank++;
+						priceId[i] = priceRank;
+					}
+				}
+			}
+		}
+		return priceId;
 	}
 	
 	

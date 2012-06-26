@@ -15,4 +15,6 @@
     <dimen name="image_margin">4dp</dimen>
     <dimen name="nearby_list_width">295dp</dimen>
     <dimen name="nearby_list_height">30dp</dimen>
+    <dimen name="sort_list_padding_top">30dp</dimen>
+    <dimen name="share_popup_height">200dp</dimen>
 </resources>

@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
@@ -50,7 +51,7 @@ public class PlaceMission
 	private static PlaceMission instance = null;
 	private PlaceManager localPlaceManager = new PlaceManager();
 	private PlaceManager remotePlaceManager = new PlaceManager();
-	
+	private List<Place> retPlaceList;
 	private PlaceMission() {
 	}
 	
@@ -63,7 +64,7 @@ public class PlaceMission
 	
 	public List<Place> getAllPlace(int categoryId,Activity activity)
 	{
-		List<Place> retPlaceList = Collections.emptyList();
+		retPlaceList = Collections.emptyList();
 		int cityId = AppManager.getInstance().getCurrentCityId();		
 		if (LocalStorageMission.getInstance().hasLocalCityData(cityId)){
 			// read local
@@ -265,6 +266,92 @@ public class PlaceMission
 		}
 
 		
+		
+		
+		public String[] countPlaceBySubcate(String[] subcateName, int[] subcateID)
+		{
+			String[] name = new String[subcateName.length];
+			for(int i=0;i<subcateID.length;i++)
+			{
+				int count = 0;
+				for(Place place:retPlaceList)
+				{
+					if(place.getSubCategoryId() == subcateID[i])
+					{
+						count++;
+					}
+				}
+				name[i] = subcateName[i]+"("+count+")";
+				
+			}
+			return name;
+		}
+
+		
+		public String[] countPlaceByPrice(String[] priceName, int[] priceID)
+		{
+			String[] name = new String[priceName.length];
+			for(int i=0;i<priceID.length;i++)
+			{
+				int count = 0;
+				for(Place place:retPlaceList)
+				{
+					if(place.getPriceRank() == priceID[i])
+					{
+						count++;
+					}
+				}
+				name[i] = priceName[i]+"("+count+")";
+				
+			}
+			return name;
+		}
+		
+		
+		public String[] countPlaceByArea(String[] areaName, int[] areaID)
+		{
+			String[] name = new String[areaName.length]; 
+			for(int i=0;i<areaID.length;i++)
+			{
+				int count = 0;
+				for(Place place:retPlaceList)
+				{
+					if(place.getAreaId() == areaID[i])
+					{
+						count++;
+					}
+				}
+				name[i] = areaName[i]+"("+count+")";
+				
+			}
+			return name;
+			
+		}
+		
+		
+		public String[] countPlaceByService(String[] serviceName, int[] serviceID)
+		{
+			String[] name = new String[serviceName.length];
+			for(int i=0;i<serviceID.length;i++)
+			{
+				int count = 0;
+				for(Place place:retPlaceList)
+				{
+					for(int proServiceID:place.getProvidedServiceIdList() )
+					{
+						if(proServiceID == serviceID[i])
+						{
+							count++;
+							break;
+						}
+						
+					}
+				}
+				name[i] = serviceName[i]+"("+count+")";
+				
+			}
+			return name;
+		}
 		
 
 		

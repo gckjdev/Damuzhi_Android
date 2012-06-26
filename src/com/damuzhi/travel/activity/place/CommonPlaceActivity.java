@@ -8,21 +8,55 @@
  */
 package com.damuzhi.travel.activity.place;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import android.R.integer;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnKeyListener;
+import android.content.Intent;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.CheckBox;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
+
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.FilterAdapter;
 import com.damuzhi.travel.activity.adapter.common.FilterAdapter.ViewHolder;
+import com.damuzhi.travel.activity.adapter.common.SortAdapter;
+import com.damuzhi.travel.activity.adapter.common.SortAdapter.SortViewHolder;
 import com.damuzhi.travel.activity.adapter.place.CommonPlaceListAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
-import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.PlaceMap;
+import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -34,42 +68,8 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
-import com.google.android.maps.OverlayItem;
-import com.google.android.maps.Projection;
 import com.google.android.maps.MapView.LayoutParams;
-
-import android.R.bool;
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.DialogInterface.OnKeyListener;
-import android.graphics.Canvas;
-import android.graphics.Point;
-import android.graphics.drawable.Drawable;
-import android.location.Location;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
-import android.view.Display;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.Adapter;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.PopupWindow;
-import android.widget.TextView;
+import com.google.android.maps.OverlayItem;
 
 /**
  * @description
@@ -128,6 +128,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	protected int[] serviceID;
 	protected int[] serviceSelect;
 	protected String[] price;
+	protected int[] priceId;
 	protected int[] priceSelect;
 	protected String[] areaName;
 	protected int[] areaID;
@@ -138,13 +139,50 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private int servicePosition = 0;
 	private MapController mapc;
 	private PopupWindow filterWindow;
+	private int statusBarHeight;
+	private FilterAdapter filterAdapter;
+	private SortAdapter sortAdapter;
+	private HashMap<Integer, Boolean> subCateIsSelected = new HashMap<Integer, Boolean>();
+	private HashMap<Integer, Boolean> serviceIsSelected = new HashMap<Integer, Boolean>();
+	private HashMap<Integer, Boolean> priceIsSelected = new HashMap<Integer, Boolean>();
+	private HashMap<Integer, Boolean> areaIsSelected = new HashMap<Integer, Boolean>();
+	private HashMap<Integer, Boolean> sortSelected = new HashMap<Integer, Boolean>();
+	private HashMap<Integer, Boolean> IsSelectedTemp = new HashMap<Integer, Boolean>();
+	private CheckBox selectAllCheckBox;
+	private ViewGroup selectAllViewGroup;
+	private boolean isSelectAll;
+	private int filterType = 0;
+	private static final int subCateType = 1;
+	private static final int serviceType = 2;
+	private static final int areaType = 3;
+	private static final int priceType = 4;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.common_place);
+		if(statusBarHeight == 0)
+		{
+			Class<?> c = null;
+			Object obj = null;
+			Field field = null;
+			int x = 0;
+		    try
+			{
+				c = Class.forName("com.android.internal.R$dimen");
+				obj = c.newInstance();
+			    field = c.getField("status_bar_height");
+			    x = Integer.parseInt(field.get(obj).toString());
+			    statusBarHeight = getResources().getDimensionPixelSize(x);
+			} catch (Exception e)
+			{
+				e.printStackTrace();
+			}
+		}
+		
+	   
+		
 
 		TextView placeTitle = (TextView) findViewById(R.id.place_title);
 		TextView placeSize = (TextView) findViewById(R.id.place_num);
@@ -164,7 +202,9 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		createFilterButtons(spinner);
 		placeTitle.setText(getCategoryName());
 		placeSize.setText(getCategorySize());
-
+		
+		
+		
 		loadPlace();
 	}
 
@@ -373,8 +413,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		if (priceSelect == null)
 			return true;
 
-		if (priceSelect.length > 0 && priceSelect[0] == 0)
-			return true;
+		/*if (priceSelect.length > 0 && priceSelect[0] == 0)
+			return true;*/
 		return false;
 	}
 
@@ -431,146 +471,63 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		}
 	};
 
+	
 	protected OnClickListener subCategoryClickListener = new OnClickListener()
 	{
 		@Override
 		public void onClick(View v)
-		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setSingleChoiceItems(subCatName,
-					subCatPosition, new DialogInterface.OnClickListener()
-					{
-
-						@Override
-						public void onClick(DialogInterface dialog, int position)
-						{
-							subCatPosition = position;
-							if (subCatPosition < 0|| subCatPosition >= subCatKey.length)
-							{
-								return;
-							}
-
-							// TODO support multiple selection
-							subCatSelectKey = new int[1];
-							subCatSelectKey[0] = subCatKey[subCatPosition];
-							filterPlaceList();
-							dialog.dismiss();
-						}
-					}).setTitle(
-					CommonPlaceActivity.this.getResources().getString(
-							R.string.sub_category));
-			dialog = builder.create();
-			dialog.show();
+		{		
+			String filterTitle = getCategoryName()+getString(R.string.sub_category);
+			filterWindow(v, subCatName,subCatKey, subCateIsSelected,true,subCateType,filterTitle);
 
 		}
 	};
-
+	
 	protected OnClickListener priceClickListener = new OnClickListener()
 	{
 		@Override
 		public void onClick(View v)
 		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setSingleChoiceItems(price,
-					pricePosition, new DialogInterface.OnClickListener()
-					{
-
-						@Override
-						public void onClick(DialogInterface dialog, int position)
-						{
-							pricePosition = position;
-							if (pricePosition < 0|| pricePosition >= price.length)
-							{
-								return;
-							}
-
-							// TODO support multiple selection
-							priceSelect = new int[1];
-							priceSelect[0] = pricePosition;
-							filterPlaceList();
-							dialog.dismiss();
-						}
-					}).setTitle(
-					CommonPlaceActivity.this.getResources().getString(
-							R.string.price));
-			dialog = builder.create();
-			dialog.show();
-
+			String filterTitle = getCategoryName()+getString(R.string.price);
+			filterWindow(v, price, priceId,priceIsSelected,true,priceType,filterTitle);
 		}
 	};
-
+	
 	protected OnClickListener areaClickListener = new OnClickListener()
 	{
 		@Override
 		public void onClick(View v)
 		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setSingleChoiceItems(areaName,
-					areaPosition, new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int position)
-						{
-							areaPosition = position;
-							if (areaPosition < 0|| areaPosition >= areaName.length)
-							{
-								return;
-							}
-
-							// TODO support multiple selection
-							areaSelect = new int[1];
-							areaSelect[0] = areaID[areaPosition];
-							filterPlaceList();
-							dialog.dismiss();
-						}
-					}).setTitle(
-					CommonPlaceActivity.this.getResources().getString(
-							R.string.area));
-			dialog = builder.create();
-			dialog.show();
-
+			String filterTitle = getCategoryName()+getString(R.string.area);
+			filterWindow(v, areaName,areaID, areaIsSelected,true,areaType,filterTitle);
 		}
 	};
-
+	
+	
 	protected OnClickListener serviceClickListener = new OnClickListener()
 	{
 		@Override
 		public void onClick(View v)
 		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setSingleChoiceItems(serviceName,
-					servicePosition, new DialogInterface.OnClickListener()
-					{
-
-						@Override
-						public void onClick(DialogInterface dialog, int position)
-						{
-							servicePosition = position;
-							if (servicePosition < 0|| servicePosition >= serviceName.length)
-							{
-								return;
-							}
-
-							// TODO support multiple selection
-							serviceSelect = new int[1];
-							serviceSelect[0] = serviceID[servicePosition];
-							filterPlaceList();
-							dialog.dismiss();
-						}
-					}).setTitle(
-					CommonPlaceActivity.this.getResources().getString(
-							R.string.service));
-			dialog = builder.create();
-			dialog.show();
+			String filterTitle = getCategoryName()+getString(R.string.service);
+			filterWindow(v, serviceName,serviceID, serviceIsSelected,true,serviceType,filterTitle);
 
 		}
 	};
-
+	
 	protected OnClickListener sortClickListener = new OnClickListener()
+	{
+
+		@Override
+		public void onClick(View v)
+		{
+			String sortTitle = getCategoryName()+getString(R.string.sort);
+			sortWindow(v, sortDisplayName, sortSelected,sortTitle);
+		}
+	};
+	
+
+	/*protected OnClickListener sortClickListener = new OnClickListener()
 	{
 
 		@Override
@@ -596,32 +553,9 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			dialog.show();
 		}
 	};
+	*/
 	
 	
-	/*protected OnClickListener sortClickListener = new OnClickListener()
-	{
-
-		boolean [] sss = new boolean[]{true,true,false ,false};
-		@Override
-		public void onClick(View v)
-		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setMultiChoiceItems(sortDisplayName, sss, new DialogInterface.OnMultiChoiceClickListener()
-					{
-						
-						@Override
-						public void onClick(DialogInterface dialog, int which, boolean isChecked)
-						{
-							Log.i(TAG,"multi choice which="+ which);
-							Log.i(TAG,"multi choice isCheck="+ isChecked);
-						}
-					});
-			//builder.setPositiveButton(text, listener);
-			dialog = builder.create();		
-			dialog.show();
-		}
-	};*/
 
 	private OnClickListener mapViewOnClickListener = new OnClickListener()
 	{
@@ -855,35 +789,454 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	
 	
 	
-    private void filterWindow(View parent,List<String> filterTitleList,HashMap<Integer, Boolean> isSelected,boolean isSelectAll) {  
-        if (filterWindow == null) {  
-            LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
-            View v = lay.inflate(R.layout.filter_place_popup, null);  
-            v.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
+    private void filterWindow(View parent,String[] filterTitleName,int[] filterKey,HashMap<Integer, Boolean> isSelected,boolean isSelectAll,int filterType,String filterTitle) {  
+    	this.filterType = filterType;
+    	
+    	String[] titleName = countPlaceByfilterType(filterType, filterTitleName, filterKey);
+        
+        LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
+        View v = lay.inflate(R.layout.filter_place_popup, null); 
+        v.setPadding(0, statusBarHeight, 0, 0);
+        v.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
 
-            ListView filterList=(ListView)v.findViewById(R.id.filter_listview);  
-            FilterAdapter adapter=new FilterAdapter(CommonPlaceActivity.this,filterTitleList,isSelected);  
-            filterList.setAdapter(adapter);  
-            filterList.setItemsCanFocus(false);  
-            filterList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
-            filterList.setOnItemClickListener(listClickListener);  
-              
-            filterWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);  
-        }  
+        ListView filterList=(ListView)v.findViewById(R.id.filter_listview);  
+        ImageButton cancelButton = (ImageButton) v.findViewById(R.id.cancel_button);
+        ImageButton filterButton = (ImageButton) v.findViewById(R.id.ok_button);
+        TextView titleTextView = (TextView) v.findViewById(R.id.filter_title);
+        titleTextView.setText(filterTitle);
+        cancelButton.setOnClickListener(cancelFilterOnClickListener);
+        filterButton.setOnClickListener(filterOnClickListener);
+        selectAllViewGroup = (ViewGroup) v.findViewById(R.id.select_all_group);
+        selectAllViewGroup.setOnClickListener(selectAllOnClickListener);
+        selectAllCheckBox = (CheckBox) v.findViewById(R.id.select_all_checkbox);
+        if(isSelected.size()>0)
+        {
+        	selectAllCheckBox.setChecked(false);
+        }else {
+			selectAllCheckBox.setChecked(true);
+		}
+        filterAdapter=new FilterAdapter(CommonPlaceActivity.this,titleName);
+        filterAdapter.setIsSelected(isSelected);
+        filterList.setAdapter(filterAdapter);  
+        filterAdapter.notifyDataSetChanged();
+        filterList.setItemsCanFocus(false);  
+        filterList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
+        filterList.setOnItemClickListener(listClickListener);  
+       
+        filterWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT,true);  
           
+        IsSelectedTemp = filterAdapter.getIsSelected();
         filterWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
         filterWindow.setFocusable(true);  
         filterWindow.update();  
-        filterWindow.showAtLocation(parent, Gravity.CENTER_VERTICAL, 0, 0);  
+        filterWindow.showAtLocation(parent, Gravity.TOP, 0, 0);  
     }  
   
-    OnItemClickListener listClickListener = new OnItemClickListener() {  
+    
+    
+    
+   private  OnItemClickListener listClickListener = new OnItemClickListener() {  
         @Override  
         public void onItemClick(AdapterView<?> parent, View view, int position,  
                 long id) {  
+        	if(selectAllCheckBox.isChecked())
+        	{
+        		selectAllCheckBox.setChecked(false);
+        	}      	
             ViewHolder vHollder = (ViewHolder) view.getTag();    
-            vHollder.cBox.toggle();  
-            FilterAdapter.isSelected.put(position, vHollder.cBox.isChecked());  
+            vHollder.cBox.toggle();
+            IsSelectedTemp.put(position, vHollder.cBox.isChecked());
+            filterAdapter.setIsSelected(IsSelectedTemp);
+	        filterAdapter.notifyDataSetChanged();
         }  
     };  
+    
+    private OnClickListener selectAllOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			selectAllCheckBox.toggle();
+			HashMap<Integer, Boolean> isSelected = filterAdapter.getIsSelected();
+	        isSelected.clear();
+            filterAdapter.setIsSelected(isSelected);
+	        filterAdapter.notifyDataSetChanged();			
+		}
+	};
+    
+	
+	private OnClickListener filterOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			 IsSelectedTemp = filterAdapter.getIsSelected(); 
+			 isSelectAll = selectAllCheckBox.isChecked();
+			 int[] position = null;
+			 List<Integer> keyList = new ArrayList<Integer>();
+			 if(isSelectAll)
+			 {
+				 position = null;
+			 }else {
+				for(int key:IsSelectedTemp.keySet())
+				{
+					if(!IsSelectedTemp.get(key))
+					{
+						keyList.add(key);
+					}
+				}
+				
+				for(int key :keyList)
+				{
+					IsSelectedTemp.remove(key);
+				}
+				position = new int[IsSelectedTemp.size()];
+				int i = 0;
+				for(int key:IsSelectedTemp.keySet())
+				{
+					position[i] = key;
+					i++;
+				}
+			}
+			 setFilterPosition(filterType, position,IsSelectedTemp);
+			 filterPlaceList();
+			 if(filterWindow !=null)
+			{
+				filterWindow.dismiss();
+			}
+		}
+	};
+	
+	private OnClickListener cancelFilterOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			if(filterWindow !=null)
+			{
+				filterWindow.dismiss();
+			}
+			
+		}
+	};
+	
+	
+	private void setFilterPosition(int filterType,int[] position,HashMap<Integer, Boolean> selected)
+	{
+		switch (filterType)
+		{
+		case subCateType:
+			if(position!=null&&position.length>0)
+			{
+				subCatSelectKey = new int[position.length];
+				for(int i=0;i<position.length;i++)
+				{
+					subCatSelectKey[i] = subCatKey[position[i]];
+				}
+			}else
+			{
+				subCatSelectKey = null;
+			}
+			
+			subCateIsSelected = selected;
+			break;
+		case serviceType:
+			if(position!=null&&position.length>0)
+			{
+				serviceSelect = new int[position.length];
+				for(int i=0;i<position.length;i++)
+				{
+					serviceSelect[i] = serviceID[position[i]];
+				}
+			}else
+			{
+				serviceSelect = null;
+			}
+			
+			serviceIsSelected = selected;
+			break;
+		case priceType:
+			if(position!=null&&position.length>0)
+			{
+				priceSelect = new int[position.length];
+				for(int i=0;i<position.length;i++)
+				{
+					priceSelect[i] = position[i]+1;
+				}
+				
+				
+			}else
+			{
+				priceSelect = null;
+			}
+			
+			priceIsSelected = selected;
+			break;
+		case areaType:
+			if(position!=null&&position.length>0)
+			{
+				areaSelect = new int[position.length];
+				for(int i=0;i<position.length;i++)
+				{
+					areaSelect[i] = areaID[position[i]];
+				}
+			}else
+			{
+				areaSelect = null;
+			}			
+			areaIsSelected = selected;
+			break;
+
+		default:
+			break;
+		}
+	}
+	
+	
+	
+	private String[] countPlaceByfilterType(int filterType,String[] Name,int[]key)
+	{
+		switch (filterType)
+		{
+		case subCateType:
+			return PlaceMission.getInstance().countPlaceBySubcate(Name,key);
+		case priceType:
+			return PlaceMission.getInstance().countPlaceByPrice(Name,key);
+		case areaType:
+			return PlaceMission.getInstance().countPlaceByArea(Name,key);
+		case serviceType:
+			return PlaceMission.getInstance().countPlaceByService(Name,key);
+		}
+		return null;
+		
+	}
+	
+	
+	
+	 private void sortWindow(View parent,String[] sortTitleName,HashMap<Integer, Boolean> isSelected,String filterTitle) {  
+
+        
+        LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
+        View v = lay.inflate(R.layout.filter_place_popup, null); 
+        v.setPadding(0, statusBarHeight, 0, 0);
+        v.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
+        v.findViewById(R.id.select_all_group).setVisibility(View.GONE);        
+        ListView sortList=(ListView)v.findViewById(R.id.filter_listview);
+        v.findViewById(R.id.listview_group).setPadding(0, (int)getResources().getDimension(R.dimen.sort_list_padding_top), 0, 0);
+        
+        ImageButton cancelButton = (ImageButton) v.findViewById(R.id.cancel_button);
+        ImageButton filterButton = (ImageButton) v.findViewById(R.id.ok_button);
+        TextView titleTextView = (TextView) v.findViewById(R.id.filter_title);
+        titleTextView.setText(filterTitle);
+        cancelButton.setOnClickListener(cancelFilterOnClickListener);
+        filterButton.setOnClickListener(sortOnClickListener);
+    
+       
+        sortAdapter=new SortAdapter(CommonPlaceActivity.this,sortTitleName);
+        sortAdapter.setIsSelected(isSelected);
+        sortList.setAdapter(sortAdapter);  
+       
+        sortAdapter.notifyDataSetChanged();
+        sortList.setItemsCanFocus(false);  
+        sortList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
+        sortList.setOnItemClickListener(sortListClickListener);  
+       
+        filterWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.WRAP_CONTENT,true);  
+          
+        IsSelectedTemp = sortAdapter.getIsSelected();
+        filterWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
+        filterWindow.setFocusable(true);  
+        filterWindow.update();  
+        filterWindow.showAtLocation(parent, Gravity.TOP, 0, 0);  
+	  }  
+	  
+	    
+	    
+	    
+	   private  OnItemClickListener sortListClickListener = new OnItemClickListener() {  
+	        @Override  
+	        public void onItemClick(AdapterView<?> parent, View view, int position,  
+	                long id) {  
+	        	
+	        	SortViewHolder vHollder = (SortViewHolder) view.getTag();    
+	            vHollder.cBox.toggle();
+	            IsSelectedTemp.clear();
+	            IsSelectedTemp.put(position, vHollder.cBox.isChecked());
+	            sortAdapter.setIsSelected(IsSelectedTemp);
+	            sortAdapter.notifyDataSetChanged();
+	        }  
+	    };  
+	    
+	    
+	    
+		
+		private OnClickListener sortOnClickListener = new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				 IsSelectedTemp = sortAdapter.getIsSelected(); 
+				for( int key:IsSelectedTemp.keySet())
+				{
+					sortPosition = key;
+				}
+				 filterPlaceList();
+				 if(filterWindow !=null)
+				{
+					filterWindow.dismiss();
+				}
+			}
+		};
+	
+	
+	
+	
+	/*protected OnClickListener subCategoryClickListener = new OnClickListener()
+	{
+		@Override
+		public void onClick(View v)
+		{
+			final AlertDialog dialog;
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					CommonPlaceActivity.this).setSingleChoiceItems(subCatName,
+					subCatPosition, new DialogInterface.OnClickListener()
+					{
+
+						@Override
+						public void onClick(DialogInterface dialog, int position)
+						{
+							subCatPosition = position;
+							if (subCatPosition < 0|| subCatPosition >= subCatKey.length)
+							{
+								return;
+							}
+
+							// TODO support multiple selection
+							subCatSelectKey = new int[1];
+							subCatSelectKey[0] = subCatKey[subCatPosition];
+							filterPlaceList();
+							dialog.dismiss();
+						}
+					}).setTitle(
+					CommonPlaceActivity.this.getResources().getString(
+							R.string.sub_category));
+			dialog = builder.create();
+			dialog.show();
+
+		}
+	};*/
+	
+	
+	
+	
+
+	/*protected OnClickListener priceClickListener = new OnClickListener()
+	{
+		@Override
+		public void onClick(View v)
+		{
+			final AlertDialog dialog;
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					CommonPlaceActivity.this).setSingleChoiceItems(price,
+					pricePosition, new DialogInterface.OnClickListener()
+					{
+
+						@Override
+						public void onClick(DialogInterface dialog, int position)
+						{
+							pricePosition = position;
+							if (pricePosition < 0|| pricePosition >= price.length)
+							{
+								return;
+							}
+
+							// TODO support multiple selection
+							priceSelect = new int[1];
+							priceSelect[0] = pricePosition;
+							filterPlaceList();
+							dialog.dismiss();
+						}
+					}).setTitle(
+					CommonPlaceActivity.this.getResources().getString(
+							R.string.price));
+			dialog = builder.create();
+			dialog.show();
+
+		}
+	};*/
+	
+	
+
+	/*protected OnClickListener areaClickListener = new OnClickListener()
+	{
+		@Override
+		public void onClick(View v)
+		{
+			final AlertDialog dialog;
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					CommonPlaceActivity.this).setSingleChoiceItems(areaName,
+					areaPosition, new DialogInterface.OnClickListener()
+					{
+						@Override
+						public void onClick(DialogInterface dialog, int position)
+						{
+							areaPosition = position;
+							if (areaPosition < 0|| areaPosition >= areaName.length)
+							{
+								return;
+							}
+
+							// TODO support multiple selection
+							areaSelect = new int[1];
+							areaSelect[0] = areaID[areaPosition];
+							filterPlaceList();
+							dialog.dismiss();
+						}
+					}).setTitle(
+					CommonPlaceActivity.this.getResources().getString(R.string.area));
+			dialog = builder.create();
+			dialog.show();
+
+		}
+	};*/
+	
+
+	/*protected OnClickListener serviceClickListener = new OnClickListener()
+	{
+		@Override
+		public void onClick(View v)
+		{
+			final AlertDialog dialog;
+			AlertDialog.Builder builder = new AlertDialog.Builder(
+					CommonPlaceActivity.this).setSingleChoiceItems(serviceName,
+					servicePosition, new DialogInterface.OnClickListener()
+					{
+
+						@Override
+						public void onClick(DialogInterface dialog, int position)
+						{
+							servicePosition = position;
+							if (servicePosition < 0|| servicePosition >= serviceName.length)
+							{
+								return;
+							}
+
+							// TODO support multiple selection
+							serviceSelect = new int[1];
+							serviceSelect[0] = serviceID[servicePosition];
+							filterPlaceList();
+							dialog.dismiss();
+						}
+					}).setTitle(
+					CommonPlaceActivity.this.getResources().getString(
+							R.string.service));
+			dialog = builder.create();
+			dialog.show();
+
+		}
+	};*/
 }

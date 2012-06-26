@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/half_transparent"
+    android:gravity="center|bottom"
+    android:layout_marginBottom="50dp"
+    android:orientation="vertical" >
+    <Button 
+        android:id="@+id/share_by_message_btn"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text="@string/share_2_by_message"/>
+    <Button 
+        android:id="@+id/share_2_sina_btn"
+	   android:layout_width="150dp"
+	   android:layout_height="wrap_content"
+	   android:textSize="15sp"
+	   android:text="@string/share_2_sina_title"/>
+    <Button 
+        android:id="@+id/share_2_qq_btn"
+	   android:layout_width="150dp"
+	   android:layout_height="wrap_content"
+	   android:textSize="15sp"
+	   android:text="@string/share_2_qq_title"/>
+</LinearLayout>

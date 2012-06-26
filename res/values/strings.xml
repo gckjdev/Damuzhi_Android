@@ -3,6 +3,7 @@
 
     <string name="hello">Hello World, DaMuZhiActivity!</string>
     <string name="app_name">大拇指旅行</string>
+    <string name="ok">确定</string>
     <!-- indexInfo-->
 	<string name="damuzhi">大拇指旅行 - </string>
 	<string name="scenery">景点</string>
@@ -139,6 +140,11 @@
         非常适合我们外出旅游使用，快下载来看看吧：
    http://trip8888.com/iphone
    </string>
+   <string name="share_2_by_message">短信</string>
+   <string name="share_2_sina_title">分享到新浪微博</string>
+   <string name="share_2_qq_title">分享到腾讯微博</string>
+    <string name="share_success">分享成功</string>
+     <string name="share_fail">分享失败</string>
      <!--collect -->   
     <string name="my_collected">我的收藏</string>
     <string name="collect_rank">收藏排行榜</string>

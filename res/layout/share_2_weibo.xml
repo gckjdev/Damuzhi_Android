@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
     	<TextView 
-    	    android:id="@+id/filter_title"
+    	    android:id="@+id/share_title"
     	    android:layout_width="wrap_content"
     	    android:layout_height="wrap_content"
     	    android:gravity="center"
@@ -50,7 +50,7 @@
     	    android:layout_centerVertical="true"
     	    android:layout_marginRight="10dp">
 	    	<ImageButton 
-	    	    android:id="@+id/ok_button"
+	    	    android:id="@+id/send_button"
 	    	    android:layout_width="48dp"
 	    	    android:layout_height="32dp"
 	    	    android:background="@null"
@@ -66,51 +66,25 @@
 	    	    />	
     	  </FrameLayout>
     </RelativeLayout>
-     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/listview_group" 
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:background="@color/transparent"
-	    android:orientation="vertical" >
-    	 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		    android:layout_width="fill_parent"
-		    android:background="@drawable/select_bg_top"
-		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="15dp"
-    	    android:layout_marginRight="15dp"
-    	    android:layout_marginTop="30dp"
-    	    android:id="@+id/select_all_group"
-		    android:orientation="horizontal">
-	    	  <CheckBox  
-		         android:id="@+id/select_all_checkbox"  
-		         android:layout_width="wrap_content"  
-		         android:layout_height="wrap_content"  
-		         android:focusable="false"  
-		         android:focusableInTouchMode="false"  
-		         android:clickable="false"         
-		         android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>  
-		      <TextView   
-		         android:id="@+id/filter_all_title"  
-		         android:textSize="14sp"  
-		         android:text="@string/all_place"
-		         android:gravity="center_vertical"
-		         android:layout_gravity="center_vertical"
-		         android:textColor="@color/black"
-		         android:paddingLeft="20dp"
-		         android:layout_width="wrap_content"  
-		         android:layout_height="wrap_content"/>
-	    	 </LinearLayout>
-    	<ListView
-    	    android:id="@+id/filter_listview"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="fill_parent"
-    	    android:background="@color/transparent"
-    	    android:layout_marginLeft="15dp"
-    	    android:layout_marginRight="15dp"
-    	    android:layout_marginBottom="35dp"
-    	    android:focusable="true"
-    	    android:scrollbars="none"
-    	    android:cacheColorHint="@color/listview_bg"
-    	    android:scrollingCache="true"/>
-    </LinearLayout> 
+     <ImageView 
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="10dp"
+         android:id="@+id/share_image"
+         android:src="@drawable/sina_weibo_logo"
+         android:scaleType="fitCenter"/>
+      <EditText
+         android:id="@+id/share_content"  
+         android:textSize="14sp"
+         android:gravity="left|top"  
+         android:text="@string/share_content"
+         android:textColor="@color/black"
+         android:paddingLeft="10dp"
+         android:paddingRight="10dp"
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"         
+         android:maxLines="140"
+         android:background="@drawable/feedback_bg2"
+         android:layout_width="wrap_content"  
+         android:layout_height="150dp"/> 	
 </LinearLayout>

@@ -14,6 +14,7 @@
          android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>  
       <TextView   
          android:id="@+id/filter_title"  
+         android:textColor="@color/black"
          android:textSize="14sp"  
          android:paddingLeft="20dp"
          android:layout_width="wrap_content"  
