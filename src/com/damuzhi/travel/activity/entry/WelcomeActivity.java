@@ -40,6 +40,7 @@ public class WelcomeActivity extends TravelActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startup);	
+		TravelApplication.getInstance().addActivity(this);
 		/*AppMission.getInstance().initAppData(this);
 		AppMission.getInstance().updateAppData(this);*/
 		// load place data by current city

@@ -58,7 +58,7 @@
         <activity android:name=".activity.more.FeedBackActivity" android:screenOrientation="portrait" />     
         <activity android:name=".activity.more.RecommendedAppActivity" android:screenOrientation="portrait" />  
         <activity android:name=".activity.favorite.FavoriteActivity" android:screenOrientation="portrait" /> 
-        <activity android:name=".activity.common.Share2Weibo" android:screenOrientation="portrait" >
+        <activity android:name=".activity.share.Share2Weibo" android:screenOrientation="portrait" >
           <intent-filter>
                 <data android:scheme="weibo4andriod" android:host="OAuthActivity" />
             </intent-filter>

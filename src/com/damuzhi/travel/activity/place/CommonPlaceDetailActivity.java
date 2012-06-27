@@ -47,6 +47,7 @@ import com.damuzhi.travel.activity.adapter.place.NearbyPlaceListAdapter;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.NearbyPlaceMap;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
@@ -100,6 +101,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		TravelApplication.getInstance().addActivity(this);
 		init();
 		getNearbyList();
 		getPlaceFavoriteCount();

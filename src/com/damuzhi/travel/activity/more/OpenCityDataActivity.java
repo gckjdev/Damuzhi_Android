@@ -25,6 +25,7 @@ import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -41,6 +42,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.download.DownloadDataListAdapter;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.download.IDownloadCallback;
@@ -85,6 +87,7 @@ public class OpenCityDataActivity extends MenuActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		TravelApplication.getInstance().addActivity(this);
 		Log.i(TAG, "onCreate");
 		setContentView(R.layout.open_city);
 		
@@ -177,10 +180,10 @@ public class OpenCityDataActivity extends MenuActivity
 				{					
 					downloadBar.setMax((int)downloadInfo.getTotalBytes());
 					downloadBar.setProgress((int)downloadInfo.getCurrentPosition());
-					downloadBar.incrementProgressBy((int)downloadInfo.getSpeed());	
+					//downloadBar.incrementProgressBy((int)downloadInfo.getSpeed());	
 					int persent = (int) (((float)downloadInfo.getCurrentPosition()/(float)downloadInfo.getTotalBytes())*100);
 					resultView.setText(persent+"%");
-					if(persent == 100){
+					if(!downloadInfo.isNotFinish()){
 						
 						Toast.makeText(OpenCityDataActivity.this, R.string.success, 1).show();
 						String downloadURL = downloadInfo.getUrl();
@@ -200,10 +203,11 @@ public class OpenCityDataActivity extends MenuActivity
 						String zipTempFilePath = ConstantField.DOWNLOAD_TEMP_PATH+HttpTool.getTempFileName(HttpTool.getConnection(downloadURL), downloadURL);
 						String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(downloadURL), downloadURL);
 						File tempFile = new File(zipTempFilePath);
+						Log.i(TAG, "<downloadInfoHandler> download save file path = "+tempFile.getAbsolutePath());
 						File zipFile = new File(zipFilePath);
 						String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
-						//boolean reulst = tempFile.renameTo(zipFile);
-						boolean reulst = true;
+						boolean reulst = tempFile.renameTo(zipFile);
+						//boolean reulst = true;
 						if(reulst)
 						{														
 							try
@@ -215,7 +219,9 @@ public class OpenCityDataActivity extends MenuActivity
 									openCtiyDataListView.findViewWithTag("installed"+position).setVisibility(View.VISIBLE);
 								}else
 								{
-									openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.VISIBLE);									
+									openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.VISIBLE);	
+									openCtiyDataListView.findViewWithTag("installing"+position).setVisibility(View.GONE);
+									openCtiyDataListView.findViewWithTag("installed"+position).setVisibility(View.GONE);
 									//FileUtil.deleteFolder(zipFilePath);
 									//FileUtil.deleteFolder(upZipFilePath);
 								}	
@@ -228,7 +234,9 @@ public class OpenCityDataActivity extends MenuActivity
 							
 						}else
 						{
-							openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.VISIBLE);									
+							openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.VISIBLE);
+							openCtiyDataListView.findViewWithTag("installing"+position).setVisibility(View.GONE);
+							openCtiyDataListView.findViewWithTag("installed"+position).setVisibility(View.GONE);
 							//FileUtil.deleteFolder(zipFilePath);
 							//FileUtil.deleteFolder(upZipFilePath);
 						}	
@@ -266,9 +274,9 @@ public class OpenCityDataActivity extends MenuActivity
 		
 		
 		@Override
-		public void onTaskProcessStatusChanged(int cityId,String downloadURL, long speed,long totalBytes, long curPos) throws RemoteException
+		public void onTaskProcessStatusChanged(int cityId,String downloadURL, long speed,long totalBytes, long curPos,boolean notFinish) throws RemoteException
 		{ 
-            final  DownloadInfos dl = new DownloadInfos(cityId,downloadURL,speed,totalBytes,curPos);  	           
+            final  DownloadInfos dl = new DownloadInfos(cityId,downloadURL,speed,totalBytes,curPos,notFinish);  	           
             Thread thread = new Thread(new Runnable()
     		{    			
     			@Override
@@ -746,7 +754,21 @@ public class OpenCityDataActivity extends MenuActivity
 
 
 
-
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		if (  keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
+			 Intent intent = new Intent(this, MoreActivity.class);
+			    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			    startActivity(intent);
+	        return true;
+	    }
+		else
+		{
+			  return super.onKeyDown(keyCode, event);	
+		}
+	  
+	}
 
 
 

@@ -13,6 +13,7 @@ package com.damuzhi.travel.activity.place;
 import android.util.Log;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
@@ -33,6 +34,7 @@ public class CommonRestaurantDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public Place getPlaceById()
 	{
+		TravelApplication.getInstance().addActivity(this);
 		Place place = null;
 		try
 		{

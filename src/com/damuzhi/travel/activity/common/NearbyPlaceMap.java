@@ -75,6 +75,7 @@ public class NearbyPlaceMap extends MapActivity
 	{
 		super.onCreate(icicle);
 		setContentView(R.layout.nearby_place_map);
+		TravelApplication.getInstance().addActivity(this);
 		try
 		{
 			targetPlace = Place.parseFrom(getIntent().getByteArrayExtra(ConstantField.PLACE_DETAIL));	

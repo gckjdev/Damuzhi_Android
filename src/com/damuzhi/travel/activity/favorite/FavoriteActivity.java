@@ -101,6 +101,7 @@ public class FavoriteActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favorite);
+		TravelApplication.getInstance().addActivity(this);
 		loadingDialog = new ProgressDialog(this);
 		init();
 		loadFavorite(favoriteConfigure,currentPlaceCategory);

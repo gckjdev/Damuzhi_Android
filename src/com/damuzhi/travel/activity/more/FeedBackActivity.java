@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.common.UserMission;
 import com.damuzhi.travel.mission.more.FeedbackMission;
 import com.damuzhi.travel.model.common.UserManager;
@@ -41,6 +42,7 @@ public class FeedBackActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.feedback);
+		TravelApplication.getInstance().addActivity(this);
 		contentEditText = (EditText) findViewById(R.id.feedback_content);
 		contactEditText = (EditText) findViewById(R.id.feedback_contact);
 		ImageButton submit = (ImageButton) findViewById(R.id.submit);

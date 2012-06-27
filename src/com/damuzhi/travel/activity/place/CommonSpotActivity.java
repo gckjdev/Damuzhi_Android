@@ -57,6 +57,7 @@ public class CommonSpotActivity extends CommonPlaceActivity
 	@Override
 	public List<Place> getAllPlace(Activity activity)
 	{
+		TravelApplication.getInstance().addActivity(this);
 		return PlaceMission.getInstance().getAllPlace(PlaceCategoryType.PLACE_SPOT_VALUE,activity);
 	}
 	

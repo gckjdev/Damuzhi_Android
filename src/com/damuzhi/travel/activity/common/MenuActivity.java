@@ -33,6 +33,7 @@ public class MenuActivity extends Activity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// TODO Auto-generated method stub
+		TravelApplication.getInstance().addActivity(this);
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -66,8 +67,7 @@ public class MenuActivity extends Activity
 			startActivity(intent);
 			break;
 		case R.id.menu_exit:
-			android.os.Process.killProcess(android.os.Process.myPid());
-			System.exit(0);
+			TravelApplication.getInstance().exit();
 			break;
 
 		default:

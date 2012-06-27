@@ -33,6 +33,7 @@ public class TravelGuidesDetailActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.travel_tips_detail);
+		TravelApplication.getInstance().addActivity(this);
 		byte[] travelInfo = getIntent().getByteArrayExtra(ConstantField.TRAVEL_TIPS_INFO);
 		CommonTravelTip commonTravelTip = null;
 		try

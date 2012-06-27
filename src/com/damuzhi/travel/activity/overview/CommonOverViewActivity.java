@@ -71,7 +71,8 @@ public abstract class CommonOverViewActivity extends MenuActivity
 	protected void onCreate(Bundle arg0)
 	{
 		
-		super.onCreate(arg0);					
+		super.onCreate(arg0);	
+		TravelApplication.getInstance().addActivity(this);
 		refresh();
 		loadCityOverView();	
 		}

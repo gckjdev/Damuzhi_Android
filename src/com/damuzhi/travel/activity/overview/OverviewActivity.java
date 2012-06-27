@@ -79,6 +79,7 @@ public class OverviewActivity extends TravelActivity implements PlaceActivity
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		MainService.allActivity.add(this);
+		TravelApplication.getInstance().addActivity(this);
 		application = TravelApplication.getInstance();
 		loadFlag = 0;
 	}

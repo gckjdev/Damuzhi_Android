@@ -46,6 +46,7 @@ public class CommonRestaurantActivity extends CommonPlaceActivity
 	@Override
 	public List<Place> getAllPlace(Activity activity)
 	{
+		TravelApplication.getInstance().addActivity(this);
 		return PlaceMission.getInstance().getAllPlace(PlaceCategoryType.PLACE_RESTRAURANT_VALUE,activity);
 	}
 

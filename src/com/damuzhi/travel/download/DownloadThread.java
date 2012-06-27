@@ -41,30 +41,33 @@ public class DownloadThread extends Thread {
 				int startPos = block * (threadId - 1) + downLength;
 				int endPos = block * threadId -1;
 				InputStream inStream = HttpTool.getDownloadInputStream(downUrl, startPos, endPos);
-				byte[] buffer = new byte[1024];
-				int offset = 0;
-				Log.d(TAG, "Thread " + this.threadId + " start download from position "+ startPos);
-				RandomAccessFile threadfile = new RandomAccessFile(this.saveFile, "rwd");
-				threadfile.seek(startPos);
-				while ((offset = inStream.read(buffer, 0, 1024)) != -1) {
-					while (getrunflag())
-					{
-						threadfile.write(buffer, 0, offset);
-						downLength += offset;
-						downloader.update(this.threadId, downLength);
-						downloader.saveLogFile();
-						downloader.append(offset);
-						downloader.downloadSpeed(offset);					
+				if(inStream !=null)
+				{
+					byte[] buffer = new byte[1024];
+					int offset = 0;
+					Log.i(TAG, "Thread " + this.threadId + " start download from position "+ startPos);
+					RandomAccessFile threadfile = new RandomAccessFile(this.saveFile, "rwd");
+					threadfile.seek(startPos);
+					while (getrunflag()){
+						while ((offset = inStream.read(buffer, 0, 1024)) != -1) {					
+							threadfile.write(buffer, 0, offset);
+							downLength += offset;
+							downloader.update(this.threadId, downLength);
+							downloader.saveLogFile();
+							downloader.append(offset);
+							downloader.downloadSpeed(offset);	
+							//Log.d(TAG,"Thread " + this.threadId + " download length"+downLength);
+						}
+						runflag = false;
 					}
-					
-				}
-				threadfile.close();
-				inStream.close();			
-				Log.d(TAG,"Thread " + this.threadId + " download finish");
-				this.finish = true;
+					threadfile.close();
+					inStream.close();			
+					Log.i(TAG,"Thread " + this.threadId + " download finish");
+					this.finish = true;
+				}				
 			} catch (Exception e) {
 				this.downLength = -1;
-				Log.i(TAG, "Thread "+ this.threadId+ ":"+ e);
+				Log.e(TAG, "Thread "+ this.threadId+ ":"+ e.toString(),e);
 			}
 		}
 	}

@@ -117,8 +117,8 @@ public class FileDownloader
 					throw new RuntimeException("Unkown file size ");
 				}
 				flag = true;
-				String filename = HttpTool.getFileName(conn, downloadURL);
-				//String filename = HttpTool.getTempFileName(conn, downloadURL);
+				//String filename = HttpTool.getFileName(conn, downloadURL);
+				String filename = HttpTool.getTempFileName(conn, downloadURL);
 				this.saveFile = new File(fileSaveDir, filename);
 				Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
 				if (logdata.size() > 0)
@@ -140,6 +140,7 @@ public class FileDownloader
 				}
 			} else
 			{
+				flag = false;
 				Log.e(TAG, "<FileDownloaderCheeck> download service get conn fail,response code = "+conn.getResponseCode());
 			}
 			return flag;
@@ -206,7 +207,8 @@ public class FileDownloader
 				}
 				if (listener != null&&getrunflag())
 				{
-					listener.onDownloadSize(cityId, downloadURL,this.downloadSpeed,this.downloadSize, fileSize);
+					listener.onDownloadSize(cityId, downloadURL,this.downloadSpeed,this.downloadSize, fileSize,notFinish);
+					//Log.i(TAG, "has download size = "+downloadSize);
 				}
 			}
 			
@@ -277,183 +279,5 @@ public class FileDownloader
 			Log.i(TAG, key + entry.getValue());
 		}
 	}
-
-	
-	/*public void startDownload(final IDownloadCallback iDownloadCallback)
-	{
-		File saveDownloadDataFile = new File(this.savePath);
-		if(FileDownloaderCheeck(downloadURL, saveDownloadDataFile))
-		{
-			download(new DownloadProgressListener()
-			{
-				
-				@Override
-				public void onDownloadSize(int cityId, String downloadURL,
-						long downloadSpeed, long downloadLength, long fileLength)
-				{
-					try
-					{
-						iDownloadCallback.onTaskProcessStatusChanged(downloadURL,downloadSpeed , fileLength, downloadLength);
-						if(downloadLength == fileLength)
-						{
-							String zipFilePath = String.format(ConstantField.DOWNLOAD_CITY_ZIP_DATA_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(downloadURL), downloadURL);
-							String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
-							boolean zipSuccess = ZipUtil.upZipFile(zipFilePath,upZipFilePath );
-							Log.i(TAG, "upZipFile success = "+zipSuccess);
-							if(zipSuccess)
-							{
-								FileDBHelper fileDBHelper = new FileDBHelper(context);
-								fileDBHelper.delete(downloadURL);
-								//downloadTask.remove(downloadURL);
-							}else
-							{
-								
-							}	
-						} 
-					} catch (Exception e)
-					{
-						e.printStackTrace();
-					}
-					
-					
-				}
-			});
-		}else {
-			
-		}
-	
-	}*/
-
-	/*public boolean FileDownloaderCheeck()
-	{
-		try
-		{
-			boolean flag = false;
-			this.downloadURL = downloadURL;
-			//fileDBHelper = new FileDBHelper(this.context);		
-			conn = HttpTool.getConnection(downloadURL);
-			conn.connect();
-			printResponseHeader(conn);
-			if (conn.getResponseCode() == 200)
-			{
-				this.fileSize = conn.getContentLength();
-				if (this.fileSize <= 0)
-				{
-					throw new RuntimeException("Unkown file size ");
-				}
-				flag = true;
-			} else
-			{
-				throw new RuntimeException("server no response ");
-			}
-			return flag;
-		} catch (Exception e)
-		{
-			Log.e(TAG,"download city data but catch exception :" + e.toString(),e);
-			return false;
-		}
-	}
-	
-	
-	public int download(DownloadProgressListener listener) 
-	{
-		try
-		{
-			File saveDownloadDataFile = new File(this.savePath);
-			if (!saveDownloadDataFile.exists())
-				saveDownloadDataFile.mkdirs();
-			
-			String filename = HttpTool.getTempFileName(conn, downloadURL);
-			this.saveFile = new File(saveDownloadDataFile, filename);
-			Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
-			
-			if (logdata.size() > 0)
-			{
-				for (Map.Entry<Integer, Integer> entry : logdata.entrySet())
-				{
-					data.put(entry.getKey(), entry.getValue());
-				}
-			}
-			
-			this.block = (this.fileSize % this.threads.length) == 0 ? this.fileSize/ this.threads.length: this.fileSize / this.threads.length + 1;
-			
-			RandomAccessFile randOut = new RandomAccessFile(this.saveFile, "rw");
-			if (this.fileSize > 0)
-				randOut.setLength(this.fileSize);
-			randOut.close();
-			
-			if (this.data.size() == this.threads.length)
-			{
-				for (int i = 0; i < this.threads.length; i++)
-				{
-					this.downloadSize += this.data.get(i + 1);
-				}
-				Log.d(TAG, "downsize = " + this.downloadSize);
-
-			}
-			
-			
-			
-			
-			if (this.data.size() != this.threads.length)
-			{
-				this.data.clear();
-				for (int i = 0; i < this.threads.length; i++)
-				{
-					this.data.put(i + 1, 0);
-				}
-			}
-			
-			URL url = new URL(this.downloadURL);
-			for (int i = 0; i < this.threads.length; i++)
-			{
-				int downLength = this.data.get(i + 1);
-				if (downLength < this.block&& this.downloadSize < this.fileSize)
-				{
-					this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block, this.data.get(i + 1),i + 1);
-					this.threads[i].setPriority(7);
-					this.threads[i].setName(url.toString() + i);
-					this.threads[i].start();
-				} else
-				{
-					this.threads[i] = null;
-				}
-			}
-			
-			downloadManager.saveDownloadInfo(cityId, downloadURL, savePath, tempPath, 1, this.fileSize, this.data);
-			notFinish = true;
-			
-			while (notFinish)
-			{
-				Thread.sleep(900);
-				notFinish = false;
-				for (int i = 0; i < this.threads.length; i++)
-				{
-					if (this.threads[i] != null && !this.threads[i].isFinish())
-					{
-						notFinish = true;
-						if (this.threads[i].getDownLength() == -1)
-						{
-							this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block,this.data.get(i + 1), i + 1);
-							this.threads[i].setPriority(7);
-							this.threads[i].setName(url.toString() + i);
-							this.threads[i].start();
-						}
-					}
-				}
-				if (listener != null&&getrunflag())
-				{
-					listener.onDownloadSize(cityId, downloadURL,this.downloadSpeed,this.downloadSize, fileSize);
-				}
-			}
-			
-		} catch (Exception e)
-		{
-			Log.e(TAG,"file download fail but catch exception :" + e.toString(),e);
-		}
-		return this.downloadSize;
-	}*/
-	
-	
 	
 }

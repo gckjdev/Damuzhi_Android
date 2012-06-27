@@ -16,6 +16,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -35,6 +36,7 @@ public class MoreActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.more);
+		TravelApplication.getInstance().addActivity(this);
 		MobclickAgent.updateOnlineConfig(this);
 		openCtiyGroup = (ViewGroup) findViewById(R.id.open_city_group);
 		browseHistoryGroup = (ViewGroup) findViewById(R.id.browser_history_group);

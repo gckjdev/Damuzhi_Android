@@ -6,14 +6,17 @@
         * @update 2012-6-26 下午2:43:40  
         * @version V1.0  
  */
-package com.damuzhi.travel.activity.common;
+package com.damuzhi.travel.activity.share;
 
 
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+import org.json.JSONObject;
+
 import com.android.utils.TokenStore;
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.qweibo.MyWebView;
 import com.tencent.weibo.api.T_API;
 import com.tencent.weibo.beans.OAuth;
@@ -39,6 +42,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -58,7 +62,7 @@ public class Share2Weibo extends Activity implements RequestListener
 
 	private static final String SINA_CONSUMER_KEY = "1119244700";
 	private static final String SINA_CONSUMER_SECRET = "b396a07bb97c4b92c9476896a5a76c66";
-	private static final String TAG = "Share2SinaWeibo";
+	private static final String TAG = "Share2Weibo";
 	
 
 	
@@ -78,15 +82,20 @@ public class Share2Weibo extends Activity implements RequestListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		TravelApplication.getInstance().addActivity(this);
 		setContentView(R.layout.share_2_weibo);
 		shareConfig = getIntent().getIntExtra(SHARE_CONFIG,0);
+		ImageView shareImageView = (ImageView) findViewById(R.id.share_image);
 		String title ;
 		if (shareConfig == SHARE_2_SINA)
 		{
 			title = getString(R.string.share_2_sina_title);
+			getSinaOauthToken();
 		}else
 		{
+			shareImageView.setImageDrawable(getResources().getDrawable(R.drawable.qq_weibo_logo));
 			title = getString(R.string.share_2_qq_title);
+			getQQOauthToken();			
 		}
 		TextView shareTitle = (TextView) findViewById(R.id.share_title);
 		shareTitle.setText(title);
@@ -94,6 +103,7 @@ public class Share2Weibo extends Activity implements RequestListener
 		cancelButton = (ImageButton) this.findViewById(R.id.cancel_button);
 		shareContent = (EditText) this.findViewById(R.id.share_content);		
 		sendButton.setOnClickListener(sendOnClickListener);
+		
 	}
 
 	public void onResume() {
@@ -108,12 +118,10 @@ public class Share2Weibo extends Activity implements RequestListener
 		{
 			String content = shareContent.getText().toString();
 			if (shareConfig == SHARE_2_SINA)
-			{
-				getOauthToken();
+			{				
 				share2sinaWeibo(content);
 			}else
 			{
-				qq_oauth = new OAuth("801094267", "17a7d99b68bc2e786313319a3fc25b80","null");
 				share2qqWeibo(content);
 			}
 			
@@ -121,7 +129,7 @@ public class Share2Weibo extends Activity implements RequestListener
 	};
 	
 	
-	private void getOauthToken()
+	private void getSinaOauthToken()
 	{
 		Weibo weibo = Weibo.getInstance();
 		weibo.setupConsumerConfig(SINA_CONSUMER_KEY, SINA_CONSUMER_SECRET);						
@@ -190,7 +198,7 @@ public class Share2Weibo extends Activity implements RequestListener
 
 	            @Override
 	            public void run() {
-	                Toast.makeText(Share2Weibo.this, R.string.share_success, Toast.LENGTH_LONG).show();
+	                Toast.makeText(Share2Weibo.this, R.string.share_success, Toast.LENGTH_SHORT).show();
 	            }
 	        });
 
@@ -212,7 +220,7 @@ public class Share2Weibo extends Activity implements RequestListener
 	            @Override
 	            public void run() {
 	                Toast.makeText(Share2Weibo.this,String.format(Share2Weibo.this.getString(R.string.send_failed) + ":%s",
-	                                e.getMessage()), Toast.LENGTH_LONG).show();
+	                                e.getMessage()), Toast.LENGTH_SHORT).show();
 	            }
 	        });
 		
@@ -228,52 +236,58 @@ public class Share2Weibo extends Activity implements RequestListener
 	
 	
 	private void share2qqWeibo(String content)
-	{
-
-		qq_oauth_token_array = TokenStore.fetch(Share2Weibo.this);
-		qq_oauth_token = qq_oauth_token_array[0];
-		qq_oauth_token_secret = qq_oauth_token_array[1];
-
-		if (qq_oauth_token != null && qq_oauth_token_secret != null) { 
-																	
+	{					
+			qq_oauth_token_array = TokenStore.fetch(Share2Weibo.this);
+			qq_oauth_token = qq_oauth_token_array[0];
+			qq_oauth_token_secret = qq_oauth_token_array[1];
 			qq_oauth.setOauth_token(qq_oauth_token);
 			qq_oauth.setOauth_token_secret(qq_oauth_token_secret);
 			T_API tapi = new T_API();
 			try {
 				if (!content.equals("")) {
-					tapi.add(qq_oauth, "json", content, "", "", "");
-					Toast.makeText(Share2Weibo.this, R.string.share_success,Toast.LENGTH_LONG).show();
+					String result = tapi.add(qq_oauth, "json", content, "", "", "");
+					JSONObject registerData = new JSONObject(result);
+					if (registerData == null || registerData.getInt("ret")!= 0){
+						Toast.makeText(Share2Weibo.this, R.string.share_fail, Toast.LENGTH_SHORT).show();
+					}else
+					{
+						Toast.makeText(Share2Weibo.this, R.string.share_success,Toast.LENGTH_SHORT).show();
+					}
+					Log.i(TAG, "qq share result code = "+result);					
 				}
 			} catch (Exception e) {
 				Log.e(TAG, "<share2qqWeibo> but catch exception :"+e.toString(),e);
 			}
-			return;
-		}
-		Toast.makeText(Share2Weibo.this, R.string.share_fail, Toast.LENGTH_LONG).show();
-		try {
-
-			qq_auth = new OAuthClient();
-			qq_oauth = qq_auth.requestToken(qq_oauth);
-
-			if (qq_oauth.getStatus() == 1) {
-				Log.i(TAG, "Get Request Token failed!");
-				return;
-			} else {
-				qq_oauth_token = qq_oauth.getOauth_token();
-				String url = "http://open.t.qq.com/cgi-bin/authorize?oauth_token="+ qq_oauth_token;
-				Intent intent = new Intent(Share2Weibo.this,MyWebView.class);
-				intent.putExtra("URL", url);
-				startActivity(intent);
-
-			}
-
-		} catch (Exception e) {
-			Log.e(TAG, "<share2qqWeibo> but catch exception :"+e.toString(),e);
-		}
-	
 	}
 	
-	public void setToken(String oauth_token, String oauth_token_secret) {
+	private void getQQOauthToken()
+	{
+		try {
+			qq_oauth = new OAuth("801157911", "78eb11cc37feb6325c8d5e4409b598a9","null");			
+			qq_oauth_token_array = TokenStore.fetch(Share2Weibo.this);
+			qq_oauth_token = qq_oauth_token_array[0];
+			qq_oauth_token_secret = qq_oauth_token_array[1];
+			if (qq_oauth_token == null || qq_oauth_token_secret == null) 
+			{
+				qq_auth = new OAuthClient();
+				qq_oauth = qq_auth.requestToken(qq_oauth);
+				if (qq_oauth.getStatus() == 1) {
+					Log.i(TAG, "Get Request Token failed!");
+					return;
+				} else {
+					qq_oauth_token = qq_oauth.getOauth_token();
+					String url = "http://open.t.qq.com/cgi-bin/authorize?oauth_token="+ qq_oauth_token;
+					Intent intent = new Intent(Share2Weibo.this,MyWebView.class);
+					intent.putExtra("URL", url);
+					startActivity(intent);
+				}
+			}		
+		} catch (Exception e) {
+			Log.e(TAG, "<getQQOauthToken> but catch exception :"+e.toString(),e);
+		}
+	}
+	
+	public void setQQToken(String oauth_token, String oauth_token_secret) {
 
 		qq_oauth.setOauth_token(oauth_token);
 		qq_oauth.setOauth_token_secret(oauth_token_secret);

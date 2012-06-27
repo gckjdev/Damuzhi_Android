@@ -11,6 +11,7 @@ package com.damuzhi.travel.activity.overview;
 import android.app.Activity;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.overview.OverviewMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -30,6 +31,7 @@ public class CommonTravelTransportationActivity extends CommonOverViewActivity
 	@Override
 	public CommonOverview loadData(Activity activity)
 	{
+		TravelApplication.getInstance().addActivity(this);
 		return OverviewMission.getInstance().getOverview(CommonOverviewType.TRAVEL_TRANSPORTATION_VALUE,AppManager.getInstance().getCurrentCityId(),activity);
 
 	}

@@ -25,6 +25,7 @@ import android.widget.ListView;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.more.BrowseHistoryAdapter;
 import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
 import com.damuzhi.travel.mission.more.BrowseHistoryMission;
@@ -43,6 +44,7 @@ public class BrowseHistoryActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.browse_history);
+		TravelApplication.getInstance().addActivity(this);
 		ListView historyListView = (ListView) findViewById(R.id.history_listview);
 		ImageButton clearButton = (ImageButton) findViewById(R.id.clear_button);
 		clearButton.setOnClickListener(clearListener);

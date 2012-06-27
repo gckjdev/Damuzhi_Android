@@ -23,6 +23,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -30,6 +31,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.Spinner;
@@ -39,7 +41,6 @@ import android.widget.Toast;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
-import com.damuzhi.travel.activity.common.Share2Weibo;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.favorite.FavoriteActivity;
@@ -65,6 +66,7 @@ import com.damuzhi.travel.activity.place.RestaurantActivity;
 import com.damuzhi.travel.activity.place.SceneryActivity;
 import com.damuzhi.travel.activity.place.ShoppingActivity;
 import com.damuzhi.travel.activity.place.CommonSpotActivity;
+import com.damuzhi.travel.activity.share.Share2Weibo;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -106,6 +108,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		TravelApplication.getInstance().addActivity(this);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		setContentView(R.layout.index);
 		setProgressBarIndeterminateVisibility(true);
@@ -369,15 +372,29 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 	        Button shareByMessageButton = (Button) v.findViewById(R.id.share_by_message_btn);
 	        Button share2sinaButton = (Button) v.findViewById(R.id.share_2_sina_btn);
 	        Button share2qqButton = (Button) v.findViewById(R.id.share_2_qq_btn);
+	        Button shareCancelButton = (Button) v.findViewById(R.id.share_cancel);
+	        LinearLayout shareGroup = (LinearLayout) v.findViewById(R.id.share_view_group);        
 	        shareByMessageButton.setOnClickListener(shareByMessage);
 	        share2sinaButton.setOnClickListener(share2sinaWeiboOnClickListener);
 	        share2qqButton.setOnClickListener(share2qqWeiboOnClickListener);
+	        shareCancelButton.setOnClickListener(shareCancelOnClickListener);
 	        //shareWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,(int)getResources().getDimension(R.dimen.share_popup_height)); 
-	        shareWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,true);   
-	        shareWindow.setBackgroundDrawable(null);
+	        shareWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);   
 	        shareWindow.setFocusable(true);  
 	        shareWindow.update();  
-	        shareWindow.showAtLocation(parent, Gravity.BOTTOM, 0, 0);  
+	        shareWindow.showAtLocation(findViewById(R.id.share), Gravity.CENTER, 0, 0);  
+	        shareGroup.setOnKeyListener(new OnKeyListener()
+	        		{
+
+						@Override
+						public boolean onKey(View v, int keyCode, KeyEvent event)
+						{
+							if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK)
+								shareWindow.dismiss();
+							return false;
+						}
+	        		 
+	        		});
 	}
 	
 	
@@ -418,6 +435,20 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 			intent.putExtra(SHARE_CONFIG, SHARE_2_QQ);
 			intent.setClass(IndexActivity.this, Share2Weibo.class);
 			startActivity(intent);
+		}
+	};
+	
+	
+	private OnClickListener shareCancelOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			if(shareWindow !=null)
+			{
+				shareWindow.dismiss();
+			}
 		}
 	};
 

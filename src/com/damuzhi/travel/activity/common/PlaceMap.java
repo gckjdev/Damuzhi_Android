@@ -58,6 +58,7 @@ public class PlaceMap extends MapActivity
 	{
 		super.onCreate(icicle);
 		setContentView(R.layout.map);
+		TravelApplication.getInstance().addActivity(this);
 		MainService.allActivity.add(this);
 		application = (TravelApplication) this.getApplication();		
 		mapView = (MapView) findViewById(R.id.placeMap);

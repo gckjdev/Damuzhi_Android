@@ -26,6 +26,7 @@ public class HelpActiviy extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);
+		TravelApplication.getInstance().addActivity(this);
 		String title = getIntent().getStringExtra(ConstantField.HELP_TITLE);
 		TextView textView = (TextView) findViewById(R.id.place_title);
 		textView.setText(title);

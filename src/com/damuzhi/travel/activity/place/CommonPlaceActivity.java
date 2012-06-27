@@ -161,6 +161,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		TravelApplication.getInstance().addActivity(this);
 		setContentView(R.layout.common_place);
 		if(statusBarHeight == 0)
 		{

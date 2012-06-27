@@ -60,6 +60,7 @@ public class RecommendedAppActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.recommended_app);
+		TravelApplication.getInstance().addActivity(this);
 		listView = (ListView) findViewById(R.id.recommended_app_listview);
 		listView.setOnItemClickListener(clickListener);
 		adapter = new RecommenedAppAdapter(recommendedApps, this);

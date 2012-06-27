@@ -62,6 +62,7 @@ public class TravelRoutesActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.travel_route);
+		TravelApplication.getInstance().addActivity(this);
 		listView = (ListView) findViewById(R.id.travel_route_listview);
 		listView.setOnItemClickListener(clickListener);
 		adapter = new TravelRoutesAdapter(commonTravelTips, this);

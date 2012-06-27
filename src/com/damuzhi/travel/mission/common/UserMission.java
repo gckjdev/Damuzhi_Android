@@ -58,8 +58,7 @@ public class UserMission
 		SharedPreferences userSharedPreferences = context.getSharedPreferences(ConstantField.USER_ID, 0);
 		Editor editor = userSharedPreferences.edit();
 		String userId = registerDevice(deviceId);
-		Log.i(TAG, "<register> save userId = "+userId);
-		
+		Log.i(TAG, "<register> save userId = "+userId);		
 		editor.putString(ConstantField.USER_ID, userId);
 		editor.commit();
 		

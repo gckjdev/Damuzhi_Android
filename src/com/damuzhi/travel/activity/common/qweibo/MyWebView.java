@@ -11,7 +11,7 @@ import android.webkit.WebView;
 import android.widget.Toast;
 
 import com.android.utils.TokenStore;
-import com.damuzhi.travel.activity.common.Share2Weibo;
+import com.damuzhi.travel.activity.share.Share2Weibo;
 import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.utils.OAuthClient;
 

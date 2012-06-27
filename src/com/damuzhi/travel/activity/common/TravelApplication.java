@@ -2,6 +2,7 @@ package com.damuzhi.travel.activity.common;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.http.HttpVersion;
@@ -33,6 +34,7 @@ import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.util.LocationUtil;
 
 import android.R.integer;
+import android.app.Activity;
 import android.app.Application;
 import android.os.DeadObjectException;
 import android.util.Log;
@@ -61,7 +63,7 @@ public class TravelApplication extends Application
 	private static TravelApplication travelApplication;
 	private int task;
 	
-	
+	private List<Activity> activityList = new LinkedList<Activity>();
 	
 	public static TravelApplication getInstance()
 	{
@@ -129,8 +131,17 @@ public class TravelApplication extends Application
 		}
 	}
 	
-	
-	
+	 
+    public void addActivity(Activity activity){  
+        activityList.add(activity);  
+    }  
+        
+    public void exit(){  
+        for(Activity activity:activityList){  
+            activity.finish();  
+        }  
+        System.exit(0);  
+    }  
 
 	public Place getPlace()
 	{

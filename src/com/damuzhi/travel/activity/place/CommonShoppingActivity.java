@@ -44,6 +44,7 @@ public class CommonShoppingActivity extends CommonPlaceActivity
 	@Override
 	public List<Place> getAllPlace(Activity activity)
 	{
+		TravelApplication.getInstance().addActivity(this);
 		return PlaceMission.getInstance().getAllPlace(PlaceCategoryType.PLACE_SHOPPING_VALUE,activity);
 	}
 

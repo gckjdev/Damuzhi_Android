@@ -70,6 +70,7 @@
          android:layout_width="wrap_content"
          android:layout_height="wrap_content"
          android:layout_marginLeft="10dp"
+         android:layout_marginTop="20dp"
          android:id="@+id/share_image"
          android:src="@drawable/sina_weibo_logo"
          android:scaleType="fitCenter"/>
@@ -82,7 +83,8 @@
          android:paddingLeft="10dp"
          android:paddingRight="10dp"
          android:layout_marginLeft="10dp"
-         android:layout_marginRight="10dp"         
+         android:layout_marginRight="10dp"    
+         android:layout_marginTop="15dp"     
          android:maxLines="140"
          android:background="@drawable/feedback_bg2"
          android:layout_width="wrap_content"  
