@@ -20,6 +20,7 @@ import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
+import com.damuzhi.travel.util.TravelUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 
@@ -48,7 +49,8 @@ public class TravelGuidesDetailActivity extends MenuActivity
 		textView.setText(commonTravelTip.getName());	
 		if(commonTravelTip.getHtml() != null)
 		{
-			webView.loadUrl(commonTravelTip.getHtml());
+			String htmlUrl = TravelUtil.getHtmlUrl(commonTravelTip.getHtml());
+			webView.loadUrl(htmlUrl);
 		}
 	}
 

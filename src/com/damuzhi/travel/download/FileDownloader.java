@@ -73,7 +73,7 @@ public class FileDownloader
 		downloadSpeed = speed;
 	}
 	
-	protected void update(int threadId, int pos)
+	protected synchronized void update(int threadId, int pos)
 	{
 		this.data.put(threadId, pos);
 	}

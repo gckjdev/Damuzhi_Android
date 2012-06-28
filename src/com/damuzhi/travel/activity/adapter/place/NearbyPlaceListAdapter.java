@@ -11,8 +11,8 @@ package com.damuzhi.travel.activity.adapter.place;
 import java.util.List;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.adapter.common.NearListViewCache;
-import com.damuzhi.travel.activity.adapter.common.PlaceViewCache;
+import com.damuzhi.travel.activity.adapter.viewcache.NearListViewCache;
+import com.damuzhi.travel.activity.adapter.viewcache.PlaceViewCache;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
 

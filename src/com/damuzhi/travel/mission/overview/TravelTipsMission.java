@@ -63,9 +63,6 @@ public class TravelTipsMission
 				retTravelTips = localTravelTipsManager.getTravelGuides();
 			}else if (travelTipType == TravelTipType.ROUTE_VALUE) {
 				retTravelTips = localTravelTipsManager.getTravelRoutes();
-			}else
-			{
-				
 			}
 		}
 		else{

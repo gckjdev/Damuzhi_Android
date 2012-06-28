@@ -43,6 +43,7 @@ import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.util.TravelUtil;
 
 /**  
  * @description   
@@ -121,7 +122,8 @@ public abstract class CommonOverViewActivity extends MenuActivity
 				main.findViewById(R.id.image_group).setVisibility(View.VISIBLE);
 			}
 			overviewWebview = (WebView) main.findViewById(R.id.overview_webview);
-			overviewWebview.loadUrl(commonOverview.getHtml());			
+			String url = TravelUtil.getHtmlUrl(commonOverview.getHtml());
+			overviewWebview.loadUrl(url);			
 			setContentView(main);
 			TextView textView = (TextView) findViewById(R.id.overview_title);
 			titleName = setTitleName();

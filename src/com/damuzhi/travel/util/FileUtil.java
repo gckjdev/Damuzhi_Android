@@ -57,8 +57,7 @@ public class FileUtil
 	 */
 
 	
-	public ArrayList<FileInputStream> getFileInputStreams(String Path,
-			String type, String Extension, boolean IsIterative) 
+	public ArrayList<FileInputStream> getFileInputStreams(String Path,String type, String Extension, boolean IsIterative) 
 	{
 
 		File[] files = new File(Path).listFiles();
@@ -68,10 +67,12 @@ public class FileUtil
 		for (int i = 0; i < files.length; i++)
 		{
 			File f = files[i];
+			
 			if (f.isFile())
 			{
 				String fileExtension = f.getPath().substring(f.getPath().length() - Extension.length());
 				String fileType = f.getPath().substring(f.getPath().lastIndexOf("/") + 1,f.getPath().lastIndexOf("."));
+				
 				if (fileExtension.equals(Extension) && fileType.contains(type))
 				{
 					FileInputStream fileInputStream = null;
@@ -79,22 +80,25 @@ public class FileUtil
 					{
 						fileInputStream = new FileInputStream(new File(f.getPath()));
 						fileInput.add(fileInputStream);
-						fileInputStream.close();
-						fileInputStream = null;
+						//fileInputStream.close();
+						//fileInputStream = null;
 					} catch (Exception e)
 					{					
 						Log.e(TAG, "<getFileInputStreams> but catch exception "+e.toString(),e);
 					}
-					finally
+					/*finally
 					{
 						try
 						{
-							fileInputStream.close();
+							if(fileInputStream != null)
+							{
+								fileInputStream.close();
+							}							
 						} catch (IOException e)
 						{
 						}
 					}
-					
+					*/
 				}
 				if (!IsIterative)
 					break;
@@ -211,15 +215,10 @@ public class FileUtil
 			myOutput.flush();
 			myInput.close();
 			myOutput.close();
-		} catch (FileNotFoundException e)
+		} catch (Exception e)
 		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+			Log.e(TAG, "<writeFile> but catch exception :"+e.toString(),e);
+		} 
 
 		return flag;
 	}

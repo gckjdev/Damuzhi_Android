@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/td_bg"
+    android:descendantFocusability="blocksDescendants"
     android:id="@+id/listview_item_group"
     android:orientation="horizontal">
     <ImageView 
@@ -27,15 +28,13 @@
 	    	android:layout_alignParentTop="true"
 	    	android:layout_marginTop="8dp"
 	    	android:textColor="@color/place_sort_color"
-	    	android:textSize="15sp"
-	    	android:focusable="false"/>
+	    	android:textSize="15sp"/>
 		<TextView	
 		    android:id="@+id/data_size"
 	    	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
 	    	android:layout_below="@id/data_city_name"
-	    	android:textSize="13sp"
-	    	android:focusable="false"/>
+	    	android:textSize="13sp"/>
 	<RelativeLayout 
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
@@ -95,6 +94,8 @@
 		        android:id="@+id/online_button"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
+		        android:focusable="false"
+       		  	android:clickable="true"
 		        android:background="@null"
 		        android:scaleType="fitCenter"
 		        android:src="@drawable/del"/>
@@ -121,6 +122,8 @@
 		        android:id="@+id/start_download_button"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
+		        android:focusable="false"
+       		 	android:clickable="true"
 		        android:background="@null"
 		        android:scaleType="fitCenter"
 		        android:src="@drawable/download_btn"/>
@@ -146,6 +149,8 @@
 		        android:id="@+id/cancel_download_button"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
+		        android:focusable="false"
+       		  	android:clickable="true"
 		        android:background="@null"
 		        android:scaleType="fitCenter"
 		        android:src="@drawable/del"/>

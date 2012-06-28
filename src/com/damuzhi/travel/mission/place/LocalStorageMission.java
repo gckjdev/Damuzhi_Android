@@ -19,7 +19,9 @@ import com.damuzhi.travel.mission.overview.TravelTipsMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CityOverview;
+import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
+import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.protos.TravelTipsProtos.TravelTips;
 import com.damuzhi.travel.util.FileUtil;
 
@@ -50,7 +52,7 @@ public class LocalStorageMission
 	
 	public boolean hasLocalCityData(int cityId)
 	{
-		String dataPath = String.format(ConstantField.DATA_PATH,cityId);
+		String dataPath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH,cityId);
 		boolean result =  FileUtil.checkFileIsExits(dataPath);
 		return result;
 	}
@@ -59,7 +61,7 @@ public class LocalStorageMission
 	
 	public String getCityDataPath(int cityId)
 	{
-		String dataPath = String.format(ConstantField.DATA_PATH,cityId);
+		String dataPath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH,cityId);
 		return dataPath;
 	}
 	
@@ -89,13 +91,13 @@ public class LocalStorageMission
 			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.PLACE_TAG, ConstantField.EXTENSION, true);
 			if(fileInputStreams ==null || fileInputStreams.size()==0)
 			return ;
-			
 			for(FileInputStream fileInputStream : fileInputStreams)
 			{
+				
 				PlaceList placeList = PlaceList.parseFrom(fileInputStream);
 				if (placeList != null){				
 					placeMission.addLocalPlaces(placeList.getListList());
-					Log.i(TAG, "<loadCityPlaceData> read "+placeList.getListCount()+" place");
+					//Log.i(TAG, "<loadCityPlaceData> read "+placeList.getListCount()+" place");
 				}
 				fileInputStream.close();
 			}
@@ -130,16 +132,29 @@ public class LocalStorageMission
 			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.GUIDE_TAG, ConstantField.EXTENSION, true);
 			if(fileInputStreams ==null || fileInputStreams.size()==0)
 			return ;
-			
+			TravelTips.Builder travelTips = TravelTips.newBuilder();
 			for(FileInputStream fileInputStream : fileInputStreams)
 			{
-				TravelTips travelTips = TravelTips.parseFrom(fileInputStream);
-				if (travelTips != null){				
-					tipsMission.addLocalTravelGuide(travelTips.getGuideListList());
-					Log.i(TAG, "<loadCityTravelGuideData> read "+travelTips.getRouteListCount()+" travelGuide");
+				/*TravelTips travelTips = TravelTips.parseFrom(fileInputStream);
+				if (travelTips != null){
+					if(travelTips.getGuideListCount()>0)
+					{
+						tipsMission.addLocalTravelGuide(travelTips.getGuideListList());
+					}
+					
+					//Log.i(TAG, "<loadCityTravelGuideData> read "+travelTips.getRouteListCount()+" travelGuide");
+				}*/
+				CommonTravelTip commonTravelTip = CommonTravelTip.parseFrom(fileInputStream);
+				if (commonTravelTip != null){
+					travelTips.addGuideList(commonTravelTip);
 				}
 				fileInputStream.close();
 			}
+			if(travelTips.getGuideListCount()>0)
+			{
+				tipsMission.addLocalTravelGuide(travelTips.getGuideListList());
+			}
+			
 			
 		} catch (Exception e)
 		{
@@ -163,16 +178,28 @@ public class LocalStorageMission
 			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.ROUTE_TAG, ConstantField.EXTENSION, true);
 			if(fileInputStreams ==null || fileInputStreams.size()==0)
 			return ;
-			
+			TravelTips.Builder travelTips = TravelTips.newBuilder();
 			for(FileInputStream fileInputStream : fileInputStreams)
 			{
-				TravelTips travelTips = TravelTips.parseFrom(fileInputStream);
-				if (travelTips != null){				
-					tipsMission.addLocalTravelRoute(travelTips.getRouteListList());
-					Log.i(TAG, "<loadCityTravelRouteData> read "+travelTips.getRouteListCount()+" travelRoute");
+				/*TravelTips travelTips = TravelTips.parseFrom(fileInputStream);
+				if (travelTips != null){
+					if(travelTips.getRouteListCount()>0)
+					{
+						tipsMission.addLocalTravelRoute(travelTips.getRouteListList());
+					}					
+					//Log.i(TAG, "<loadCityTravelRouteData> read "+travelTips.getRouteListCount()+" travelRoute");
+				}*/
+				CommonTravelTip commonTravelTip = CommonTravelTip.parseFrom(fileInputStream);
+				if (commonTravelTip != null){
+					travelTips.addRouteList(commonTravelTip);
 				}
 				fileInputStream.close();
 			}
+			if(travelTips.getRouteListCount()>0)
+			{
+				tipsMission.addLocalTravelRoute(travelTips.getRouteListList());
+			}
+			
 			
 		} catch (Exception e)
 		{
@@ -203,7 +230,7 @@ public class LocalStorageMission
 				CityOverview cityOverview = CityOverview.parseFrom(fileInputStream);
 				if (cityOverview != null){				
 					overviewMission.addLocalCityOverview(cityOverview);
-					Log.i(TAG, "<loadCityOverviewData> read  overview");
+					//Log.i(TAG, "<loadCityOverviewData> read  overview");
 				}
 				fileInputStream.close();
 			}
@@ -213,4 +240,7 @@ public class LocalStorageMission
 			Log.e(TAG, "<loadCityOverviewData> read local cityOverview data but catch exception="+e.toString(), e);
 		} 
 	}
+	
+	
+	
 }

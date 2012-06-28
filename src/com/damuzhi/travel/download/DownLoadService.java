@@ -148,7 +148,7 @@ public class DownloadService extends Service
 	}  
 	
 	
-	public void onDownloading(FileDownloader downloader)  
+	/*public void onDownloading(FileDownloader downloader)  
 	{  	
 		if(iDownloadCallback == null )
 		{
@@ -176,6 +176,9 @@ public class DownloadService extends Service
 								downloadTask.remove(downloadURL);
 								
 							} 
+						}else
+						{
+							Log.i(TAG, "download url = "+downloadURL+"pause");
 						}						
 					}catch (Exception e)
 					{
@@ -187,13 +190,13 @@ public class DownloadService extends Service
 		{
 			 callbackList.finishBroadcast();  
 		}   
-	}  
+	}  */
 	
 	
 	
 	
 	
-	/*public void onDownloading()  
+	public void onDownloading()  
 	{  	
 		if(iDownloadCallback == null )
 		{
@@ -224,6 +227,7 @@ public class DownloadService extends Service
 								downloadTask.remove(downloadURL);
 								
 							} 
+						}else {
 						}						
 					}catch (Exception e)
 					{
@@ -236,7 +240,7 @@ public class DownloadService extends Service
 		{
 			 callbackList.finishBroadcast();  
 		}   
-	}  */
+	}  
 	
 	
 	
@@ -253,8 +257,8 @@ public class DownloadService extends Service
 			downloadTask.put(downloadURL, fileDownloader);
 			DownloadStatus dlState = new DownloadStatus(DOWNLOADING, downloadURL);
 			downloadStstudTask.put(downloadURL, dlState);
-			//onDownloading();
-			onDownloading(fileDownloader);
+			onDownloading();
+			//onDownloading(fileDownloader);
 		}else
 		{
 		}
@@ -267,6 +271,7 @@ public class DownloadService extends Service
 	{
 		DownloadStatus downloadStatus = downloadStstudTask.get(downloadURL);
 		downloadStatus.mStatus = PAUSE;
+		downloadStstudTask.put(downloadURL, downloadStatus);
 		FileDownloader fileDownloader = downloadTask.get(downloadURL);
 		fileDownloader.pauseDownload();
 	}
@@ -313,5 +318,30 @@ public class DownloadService extends Service
 		
 		super.onCreate();
 		
+	}
+
+
+	public static Map<String, FileDownloader> getDownloadTask()
+	{
+		return downloadTask;
+	}
+
+
+	public static void setDownloadTask(Map<String, FileDownloader> downloadTask)
+	{
+		DownloadService.downloadTask = downloadTask;
+	}
+
+
+	public static Map<String, DownloadStatus> getDownloadStstudTask()
+	{
+		return downloadStstudTask;
+	}
+
+
+	public static void setDownloadStstudTask(
+			Map<String, DownloadStatus> downloadStstudTask)
+	{
+		DownloadService.downloadStstudTask = downloadStstudTask;
 	}
 }

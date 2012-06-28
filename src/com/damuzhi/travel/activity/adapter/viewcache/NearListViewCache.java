@@ -6,7 +6,7 @@
         * @update 2012-5-31 下午12:26:51  
         * @version V1.0  
  */
-package com.damuzhi.travel.activity.adapter.common;
+package com.damuzhi.travel.activity.adapter.viewcache;
 
 import android.view.View;
 import android.view.ViewGroup;

@@ -253,6 +253,16 @@ public class PlaceManager
 	{
 		nearbyPlaceList.clear();
 	}
+
+	public List<Place> getPlaceLists()
+	{
+		return placeLists;
+	}
+
+	public void setPlaceLists(List<Place> placeLists)
+	{
+		this.placeLists = placeLists;
+	}
 	
 	
 }

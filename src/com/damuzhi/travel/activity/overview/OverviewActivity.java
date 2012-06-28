@@ -49,6 +49,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
+import com.damuzhi.travel.util.TravelUtil;
 
 /**  
  * @description   
@@ -145,8 +146,9 @@ public class OverviewActivity extends TravelActivity implements PlaceActivity
 			textView.setText(getString(R.string.travel_transportaion));
 		}
 		citybaseWebview = (WebView) findViewById(R.id.overview_webview);
-		Log.d(TAG, "html = "+commonOverview.getHtml());
-		citybaseWebview.loadUrl(commonOverview.getHtml());
+		String url = TravelUtil.getHtmlUrl(commonOverview.getHtml());
+		Log.d(TAG, "html = "+url);
+		citybaseWebview.loadUrl(url);
 	}
 
 	

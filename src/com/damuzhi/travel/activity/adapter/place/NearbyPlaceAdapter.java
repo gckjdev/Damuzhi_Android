@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.adapter.common.PlaceViewCache;
+import com.damuzhi.travel.activity.adapter.viewcache.PlaceViewCache;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;

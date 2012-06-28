@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.more.OpenCityDataActivity;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
@@ -21,6 +22,7 @@ import com.damuzhi.travel.util.TravelUtil;
 
 import android.R.raw;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -122,9 +124,38 @@ public class DownloadDataListAdapter extends BaseAdapter
 			City city = AppManager.getInstance().getCityByCityId(cityId);
 			String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(city.getDownloadURL()), city.getDownloadURL());
 			String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
-			FileUtil.deleteFolder(zipFilePath);
-			FileUtil.deleteFolder(upZipFilePath);
+			/*FileUtil.deleteFolder(zipFilePath);
+			FileUtil.deleteFolder(upZipFilePath);*/
+			deleteFile(zipFilePath,upZipFilePath);
+			installedCityList.remove(position);
+			OpenCityDataActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
+			OpenCityDataActivity.downloadDataListAdapter.notifyDataSetChanged();
+			OpenCityDataActivity.installCityData.remove(position);
 		}
 	};
+
+
+	private void deleteFile(String zipFilePath, String folderPath)
+	{
+		String[] params = new String[]{zipFilePath,folderPath};
+		
+		AsyncTask<String, Void, Void> task = new AsyncTask<String, Void, Void>()
+		{
+
+			@Override
+			protected Void doInBackground(String... params)
+			{
+				String zipFilePath = params[0];
+				String upZipFilePath = params[1];				
+				FileUtil.deleteFolder(zipFilePath);
+				FileUtil.deleteFolder(upZipFilePath);
+				return null;
+			}
+
+			
+		};
+		task.execute(params);
+	}
+	
 	
 }

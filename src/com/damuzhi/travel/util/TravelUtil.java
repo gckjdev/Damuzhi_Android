@@ -718,4 +718,26 @@ public class TravelUtil
 	}
 	
 	
+	public static String getCityDataPath()
+	{
+		int cityId = AppManager.getInstance().getCurrentCityId();
+		String dataPath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH,cityId);
+		return dataPath;
+	}
+
+	
+	public static String getHtmlUrl(String url)
+	{
+		String htmlUrl = "";
+		if(!url.contains("http://"))
+		{
+			htmlUrl = "file:///"+getCityDataPath()+url;
+		}else
+		{
+			htmlUrl = url;
+		}
+		return htmlUrl;
+	}
+	
+	
 }

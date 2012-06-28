@@ -48,7 +48,7 @@ public class DownloadThread extends Thread {
 					Log.i(TAG, "Thread " + this.threadId + " start download from position "+ startPos);
 					RandomAccessFile threadfile = new RandomAccessFile(this.saveFile, "rwd");
 					threadfile.seek(startPos);
-					while (getrunflag()){
+					/*while (getrunflag()){
 						while ((offset = inStream.read(buffer, 0, 1024)) != -1) {					
 							threadfile.write(buffer, 0, offset);
 							downLength += offset;
@@ -59,7 +59,22 @@ public class DownloadThread extends Thread {
 							//Log.d(TAG,"Thread " + this.threadId + " download length"+downLength);
 						}
 						runflag = false;
-					}
+					}*/
+						while ((offset = inStream.read(buffer, 0, 1024)) != -1) {	
+							if(!getrunflag())
+							{
+								return;
+							}
+							threadfile.write(buffer, 0, offset);
+							downLength += offset;
+							downloader.update(this.threadId, downLength);
+							downloader.saveLogFile();
+							downloader.append(offset);
+							downloader.downloadSpeed(offset);	
+							//Log.d(TAG,"Thread " + this.threadId + " download length"+downLength);
+							
+						}
+						runflag = false;
 					threadfile.close();
 					inStream.close();			
 					Log.i(TAG,"Thread " + this.threadId + " download finish");

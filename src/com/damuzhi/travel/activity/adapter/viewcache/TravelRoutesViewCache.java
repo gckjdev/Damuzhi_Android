@@ -6,7 +6,7 @@
         * @update 2012-5-23 ����1:39:29  
         * @version V1.0  
         */
-package com.damuzhi.travel.activity.adapter.common;
+package com.damuzhi.travel.activity.adapter.viewcache;
 
 import android.graphics.drawable.Drawable;
 import android.view.View;

@@ -81,6 +81,7 @@
 	    	    android:id="@+id/travel_routes_detail_intro"
 	    	    android:layout_width="fill_parent"
 	    	    android:layout_height="wrap_content"
+	    	    android:padding="10dp"
 	    	    android:textColor="@color/place_name_color"
 	    	    android:layout_marginBottom="10dp"
 	    	    android:gravity="left"

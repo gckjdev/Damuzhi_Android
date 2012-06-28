@@ -68,7 +68,7 @@ public class PlaceMission
 		int cityId = AppManager.getInstance().getCurrentCityId();		
 		if (LocalStorageMission.getInstance().hasLocalCityData(cityId)){
 			// read local
-			retPlaceList = localPlaceManager.getPlaceDataList();
+			retPlaceList = localPlaceManager.getPlaceLists();
 		}
 		else{
 			// send remote

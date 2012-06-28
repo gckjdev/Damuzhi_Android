@@ -6,6 +6,7 @@ package com.damuzhi.travel.activity.more;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -175,6 +177,18 @@ public class MoreActivity extends MenuActivity
 		MobclickAgent.onPause(this);
 	}
 	
-	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		if (  keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
+			 Intent intent = new Intent(this, IndexActivity.class);
+			    startActivity(intent);
+	        return false;
+	    }
+		else
+		{
+			  return super.onKeyDown(keyCode, event);	
+		}
+	}
 
 }

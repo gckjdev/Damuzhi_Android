@@ -11,6 +11,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.imageCache.ImageLoader.ImageCallback;
 import com.damuzhi.travel.activity.common.imageCache.PortraitLodar.PortraitImgCallback;
 import com.damuzhi.travel.mission.more.MoreMission;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.TravelUtil;
 
@@ -60,7 +61,8 @@ public class Anseylodar {
 				FileInputStream fileInputStream = null;
 				try
 				{
-					fileInputStream = new FileInputStream(new File(url));
+					String dataPath = TravelUtil.getCityDataPath()+url;
+					fileInputStream = new FileInputStream(new File(dataPath));
 					bitmap = BitmapFactory.decodeStream(fileInputStream);
 					fileInputStream.close();
 					//imageView.setImageBitmap(bitmap);

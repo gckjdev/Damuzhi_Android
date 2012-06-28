@@ -6,7 +6,7 @@
         * @update 2012-5-22 ����4:22:00  
         * @version V1.0  
         */
-package com.damuzhi.travel.activity.adapter.common;
+package com.damuzhi.travel.activity.adapter.viewcache;
 
 import com.damuzhi.travel.R;
 

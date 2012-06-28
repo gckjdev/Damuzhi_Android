@@ -1,4 +1,4 @@
-package com.damuzhi.travel.activity.adapter.common;
+package com.damuzhi.travel.activity.adapter.viewcache;
 
 import com.damuzhi.travel.R;
 

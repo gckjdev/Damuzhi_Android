@@ -11,7 +11,7 @@ package com.damuzhi.travel.activity.adapter.more;
 import java.util.List;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.adapter.common.TravelRoutesViewCache;
+import com.damuzhi.travel.activity.adapter.viewcache.TravelRoutesViewCache;
 import com.damuzhi.travel.protos.AppProtos.RecommendedApp;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.util.PicUtill;
