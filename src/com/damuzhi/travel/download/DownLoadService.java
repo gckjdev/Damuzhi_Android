@@ -16,12 +16,14 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.db.FileDBHelper;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.downlaod.DownloadManager;
 import com.damuzhi.travel.model.entity.DownloadStatus;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.util.FileUtil;
+import com.damuzhi.travel.util.LocationUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
 public class DownloadService extends Service
@@ -315,7 +317,6 @@ public class DownloadService extends Service
 	@Override
 	public void onCreate()
 	{
-		
 		super.onCreate();
 		
 	}

@@ -142,6 +142,7 @@
     <TextView 
      android:layout_width="fill_parent"
      android:layout_height="wrap_content"
+     android:layout_marginTop="20dp"
      android:text="@string/data_not_found"
      android:layout_below="@id/collect_bar"
      android:gravity="center"

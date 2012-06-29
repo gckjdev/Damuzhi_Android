@@ -31,6 +31,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
@@ -43,19 +44,16 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.adapter.place.NearbyAdapter;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceAdapter;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity.PlaceMapViewOverlay;
-import com.damuzhi.travel.activity.place.NearbyActivity.PlaceLoaction;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
@@ -68,7 +66,7 @@ import com.google.android.maps.MapView.LayoutParams;
 
 
 
-public class NearbyPlaceActivity extends TravelActivity
+public class CommonNearbyPlaceActivity extends TravelActivity
 {
 	private static final String TAG = "Nearby";
 	private ImageButton startButton;
@@ -270,6 +268,10 @@ public class NearbyPlaceActivity extends TravelActivity
 			currentDistance = ConstantField.HALF_KILOMETER;		
 			getOffSet(redStart,startPosition);
 			float endSet = screenW*-0.18f;
+			if(startPosition>0)
+			{
+				offset = offset - screenW*0.18f;
+			}
 			startPosition = 0;			
 			animation = new TranslateAnimation(offset,endSet, 0, 0);
 			animation.setDuration(500);		
@@ -289,7 +291,11 @@ public class NearbyPlaceActivity extends TravelActivity
 				Animation animation = null;
 				currentDistance = ConstantField.ONE_KILOMETER;				
 				getOffSet(redStart,startPosition);
-				float endSet = screenW*0f;											
+				float endSet = screenW*0f;		
+				if(startPosition>1)
+				{
+					offset = offset - screenW*0.18f;
+				}
 				startPosition = 1;				
 				animation = new TranslateAnimation(offset,endSet, 0, 0);
 				animation.setDuration(500);		
@@ -310,7 +316,11 @@ public class NearbyPlaceActivity extends TravelActivity
 					Animation animation = null;
 					currentDistance = ConstantField.FIVE_KILOMETER;					
 					getOffSet(redStart,startPosition);
-					float endSet = screenW*0.25f;							
+					float endSet = screenW*0.25f;	
+					if(startPosition>1)
+					{
+						offset = offset - screenW*0.18f;
+					}
 					startPosition = 2;					
 					animation = new TranslateAnimation(offset,endSet, 0, 0);
 					animation.setDuration(500);		
@@ -332,6 +342,10 @@ public class NearbyPlaceActivity extends TravelActivity
 					currentDistance = ConstantField.TEN_KILOMETER;
 					getOffSet(redStart,startPosition);
 					float endSet = screenW*0.64f;
+					if(startPosition>3)
+					{
+						offset = offset - screenW*0.18f;
+					}
 					startPosition = 3;
 					animation = new TranslateAnimation(offset,endSet, 0, 0);
 					animation.setDuration(500);		
@@ -530,7 +544,7 @@ public class NearbyPlaceActivity extends TravelActivity
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
-			intent.setClass(NearbyPlaceActivity.this, detailPlaceClass);
+			intent.setClass(CommonNearbyPlaceActivity.this, detailPlaceClass);
 			startActivity(intent);
 			
 		}
@@ -548,7 +562,7 @@ public class NearbyPlaceActivity extends TravelActivity
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
-			intent.setClass(NearbyPlaceActivity.this, detailPlaceClass);
+			intent.setClass(CommonNearbyPlaceActivity.this, detailPlaceClass);
 			startActivity(intent);
 			popupView.setVisibility(View.GONE);
 		}
@@ -651,7 +665,7 @@ public class NearbyPlaceActivity extends TravelActivity
 						&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(NearbyPlaceActivity.this,IndexActivity.class);
+					Intent intent = new Intent(CommonNearbyPlaceActivity.this,IndexActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;
@@ -747,4 +761,19 @@ public class NearbyPlaceActivity extends TravelActivity
 			}
 		}
 	};
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())	
+		{		
+		case R.id.menu_refresh:
+			loadPlace();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 }

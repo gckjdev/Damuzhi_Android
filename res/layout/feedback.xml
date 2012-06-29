@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/feedback_group"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/all_page_bg2"
@@ -51,11 +52,12 @@
 	        android:id="@+id/feedback_icon"
 	        android:layout_width="225dp"
 	        android:layout_height="47dp"
+	        android:layout_marginTop="10dp"
 	        android:src="@drawable/feedback_logo"
 	        android:layout_centerHorizontal="true"/>
 	    <TextView android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
-	        android:layout_marginTop="15dp"
+	        android:layout_marginTop="8dp"
 	        android:id="@+id/feedback_content_tips"
 	        android:layout_below="@id/feedback_icon"
 	        android:text="@string/feedback_content_tips"
@@ -64,8 +66,9 @@
          <EditText 
              android:id="@+id/feedback_content"
              android:layout_width="fill_parent"
-             android:layout_height="150dp"
-             android:layout_marginTop="10dp"
+             android:layout_height="140dp"
+             android:layout_marginTop="8dp"
+             android:padding="5dp"
              android:background="@drawable/feedback_bg2"
              android:layout_below="@id/feedback_content_tips"
              android:hint="@string/feedback_content_hint"
@@ -79,24 +82,24 @@
 	        android:layout_height="wrap_content"
 	        android:id="@+id/feedback_contact_tips"
 	        android:layout_below="@id/feedback_content"
-	        android:layout_marginTop="10dp"
+	        android:layout_marginTop="8dp"
 	        android:text="@string/feedback_conn_tips"
 	        android:textSize="13sp"
 	        android:textColor="@color/black"/>
          <EditText 
              android:id="@+id/feedback_contact"
              android:layout_width="fill_parent"
-             android:layout_height="35dp"
+             android:padding="5dp"
+             android:layout_height="30dp"
              android:background="@drawable/feedback_bg"
              android:layout_below="@id/feedback_contact_tips"
              android:hint="@string/feedback_conn_hint"
-             android:layout_marginTop="10dp"
+             android:layout_marginTop="8dp"
              android:maxLength="80"
              android:textSize="14sp"
              android:textColor="@color/black"
              android:gravity="left|top"
-             android:singleLine="false"
-             />
+             android:singleLine="false"/>
     </RelativeLayout>
     
 </LinearLayout>

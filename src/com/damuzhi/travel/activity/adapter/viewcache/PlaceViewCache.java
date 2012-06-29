@@ -70,14 +70,7 @@ public class PlaceViewCache
 		return placeTag;
 	}
 	
-	public TextView getPlaceLevel()
-	{
-		if(placeLevel == null)
-		{
-			placeLevel = (TextView) convertView.findViewById(R.id.place_level);
-		}
-		return placeLevel;
-	}
+	
 	
 	
 	
@@ -137,14 +130,7 @@ public class PlaceViewCache
 		return serviceGroup;
 	}
 	
-	public TextView getFoodType()
-	{
-		if(foodType == null)
-		{
-			foodType = (TextView) convertView.findViewById(R.id.food_type);
-		}
-		return foodType;
-	}
+	
 	
 	
 	public ImageView getHeart()

@@ -15,7 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.more.OpenCityDataActivity;
+import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.City;

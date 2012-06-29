@@ -37,7 +37,7 @@ public class UserManager
 	public String getUserId(Context context)
 	{
 		SharedPreferences userInfo = context.getSharedPreferences(ConstantField.USER_ID, 0);
-		String userId = userInfo.getString(ConstantField.USER_ID, "null");
+		String userId = userInfo.getString(ConstantField.USER_ID, "");
 		Log.i(TAG, "<getUserId> userId = "+userId);
 		return userId;
 	}

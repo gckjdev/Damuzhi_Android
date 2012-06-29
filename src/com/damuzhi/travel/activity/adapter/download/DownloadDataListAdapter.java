@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.more.OpenCityDataActivity;
+import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
@@ -128,9 +128,9 @@ public class DownloadDataListAdapter extends BaseAdapter
 			FileUtil.deleteFolder(upZipFilePath);*/
 			deleteFile(zipFilePath,upZipFilePath);
 			installedCityList.remove(position);
-			OpenCityDataActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
-			OpenCityDataActivity.downloadDataListAdapter.notifyDataSetChanged();
-			OpenCityDataActivity.installCityData.remove(position);
+			OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
+			OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
+			OpenCityActivity.installCityData.remove(position);
 		}
 	};
 

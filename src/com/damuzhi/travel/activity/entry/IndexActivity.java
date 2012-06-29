@@ -45,12 +45,11 @@ import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.favorite.FavoriteActivity;
 import com.damuzhi.travel.activity.more.MoreActivity;
-import com.damuzhi.travel.activity.more.OpenCityDataActivity;
+import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.activity.overview.CommonCtiyBaseActivity;
 import com.damuzhi.travel.activity.overview.CommonTravelPreprationActivity;
 import com.damuzhi.travel.activity.overview.CommonTravelTransportationActivity;
 import com.damuzhi.travel.activity.overview.CommonTravelUtilityActivity;
-import com.damuzhi.travel.activity.overview.OverviewActivity;
 import com.damuzhi.travel.activity.overview.TravelRoutesActivity;
 import com.damuzhi.travel.activity.overview.TravelGuidesActivity;
 import com.damuzhi.travel.activity.place.CommonEntertainmentActivity;
@@ -58,20 +57,14 @@ import com.damuzhi.travel.activity.place.CommonHotelActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonRestaurantActivity;
 import com.damuzhi.travel.activity.place.CommonShoppingActivity;
-import com.damuzhi.travel.activity.place.EntertainmentActivity;
-import com.damuzhi.travel.activity.place.HotelActivity;
-import com.damuzhi.travel.activity.place.NearbyActivity;
-import com.damuzhi.travel.activity.place.NearbyPlaceActivity;
-import com.damuzhi.travel.activity.place.RestaurantActivity;
-import com.damuzhi.travel.activity.place.SceneryActivity;
-import com.damuzhi.travel.activity.place.ShoppingActivity;
+
+import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonSpotActivity;
 import com.damuzhi.travel.activity.share.Share2Weibo;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
-import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
 import com.google.android.maps.MapView.LayoutParams;
 
@@ -112,7 +105,6 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		setContentView(R.layout.index);
 		setProgressBarIndeterminateVisibility(true);
-		MainService.allActivity.add(this);
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
 		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);
 		application = TravelApplication.getInstance();		
@@ -206,7 +198,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		case R.id.nearby:	
 			Log.d(TAG, "nearby");
 			Intent nearbyIntent = new Intent();
-			nearbyIntent.setClass(IndexActivity.this, NearbyPlaceActivity.class);		
+			nearbyIntent.setClass(IndexActivity.this, CommonNearbyPlaceActivity.class);		
 			startActivity(nearbyIntent);
 			break;
 		case R.id.city_base:
@@ -256,7 +248,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		public void onClick(View v)
 		{
 			Intent intent = new Intent();
-			intent.setClass(IndexActivity.this, OpenCityDataActivity.class);
+			intent.setClass(IndexActivity.this, OpenCityActivity.class);
 			startActivity(intent);
 		}
 	};
@@ -275,7 +267,7 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 				public void onClick(DialogInterface dialog, int which)
 				{
 					AppMission.getInstance().saveCurrentCityId(IndexActivity.this);
-					MainService.exitAPP(IndexActivity.this);				
+					TravelApplication.getInstance().exit();				
 				}
 			} );
 			leaveAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()

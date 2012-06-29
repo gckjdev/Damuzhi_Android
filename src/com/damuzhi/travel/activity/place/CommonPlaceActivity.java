@@ -31,6 +31,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -52,10 +53,11 @@ import com.damuzhi.travel.activity.adapter.common.SortAdapter;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter.SortViewHolder;
 import com.damuzhi.travel.activity.adapter.place.CommonPlaceListAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
-import com.damuzhi.travel.activity.common.PlaceMap;
+import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
@@ -204,6 +206,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		placeTitle.setText(getCategoryName());
 		placeSize.setText(getCategorySize());
 		
+		sortSelected.put(0, true);
 		
 		
 		loadPlace();
@@ -460,7 +463,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		placeSize.setText(getCategorySize());
 	}
 
-	protected OnClickListener mapViewClickListener = new OnClickListener()
+	/*protected OnClickListener mapViewClickListener = new OnClickListener()
 	{
 		@Override
 		public void onClick(View v)
@@ -470,7 +473,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			Intent intent = new Intent(CommonPlaceActivity.this, PlaceMap.class);
 			startActivity(intent);
 		}
-	};
+	};*/
 
 	
 	protected OnClickListener subCategoryClickListener = new OnClickListener()
@@ -528,33 +531,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	};
 	
 
-	/*protected OnClickListener sortClickListener = new OnClickListener()
-	{
-
-		@Override
-		public void onClick(View v)
-		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setSingleChoiceItems(
-					sortDisplayName, sortPosition,
-					new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int position)
-						{
-							sortPosition = position;
-							filterPlaceList();
-							dialog.cancel();
-						}
-					}).setTitle(
-					CommonPlaceActivity.this.getResources().getString(
-							R.string.sort));
-			dialog = builder.create();
-			dialog.show();
-		}
-	};
-	*/
+	
 	
 	
 
@@ -644,7 +621,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		}
 	};
 
-	// TODO move this method to common
 	private String getCategorySize()
 	{
 		int size = 0;
@@ -1093,151 +1069,20 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			}
 		};
 	
-	
-	
-	
-	/*protected OnClickListener subCategoryClickListener = new OnClickListener()
-	{
 		@Override
-		public void onClick(View v)
+		public boolean onOptionsItemSelected(MenuItem item)
 		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setSingleChoiceItems(subCatName,
-					subCatPosition, new DialogInterface.OnClickListener()
-					{
-
-						@Override
-						public void onClick(DialogInterface dialog, int position)
-						{
-							subCatPosition = position;
-							if (subCatPosition < 0|| subCatPosition >= subCatKey.length)
-							{
-								return;
-							}
-
-							// TODO support multiple selection
-							subCatSelectKey = new int[1];
-							subCatSelectKey[0] = subCatKey[subCatPosition];
-							filterPlaceList();
-							dialog.dismiss();
-						}
-					}).setTitle(
-					CommonPlaceActivity.this.getResources().getString(
-							R.string.sub_category));
-			dialog = builder.create();
-			dialog.show();
-
+			switch (item.getItemId())	
+			{		
+			case R.id.menu_refresh:
+				loadPlace();
+				break;
+			default:
+				break;
+			}
+			return super.onOptionsItemSelected(item);
 		}
-	};*/
 	
 	
 	
-	
-
-	/*protected OnClickListener priceClickListener = new OnClickListener()
-	{
-		@Override
-		public void onClick(View v)
-		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setSingleChoiceItems(price,
-					pricePosition, new DialogInterface.OnClickListener()
-					{
-
-						@Override
-						public void onClick(DialogInterface dialog, int position)
-						{
-							pricePosition = position;
-							if (pricePosition < 0|| pricePosition >= price.length)
-							{
-								return;
-							}
-
-							// TODO support multiple selection
-							priceSelect = new int[1];
-							priceSelect[0] = pricePosition;
-							filterPlaceList();
-							dialog.dismiss();
-						}
-					}).setTitle(
-					CommonPlaceActivity.this.getResources().getString(
-							R.string.price));
-			dialog = builder.create();
-			dialog.show();
-
-		}
-	};*/
-	
-	
-
-	/*protected OnClickListener areaClickListener = new OnClickListener()
-	{
-		@Override
-		public void onClick(View v)
-		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setSingleChoiceItems(areaName,
-					areaPosition, new DialogInterface.OnClickListener()
-					{
-						@Override
-						public void onClick(DialogInterface dialog, int position)
-						{
-							areaPosition = position;
-							if (areaPosition < 0|| areaPosition >= areaName.length)
-							{
-								return;
-							}
-
-							// TODO support multiple selection
-							areaSelect = new int[1];
-							areaSelect[0] = areaID[areaPosition];
-							filterPlaceList();
-							dialog.dismiss();
-						}
-					}).setTitle(
-					CommonPlaceActivity.this.getResources().getString(R.string.area));
-			dialog = builder.create();
-			dialog.show();
-
-		}
-	};*/
-	
-
-	/*protected OnClickListener serviceClickListener = new OnClickListener()
-	{
-		@Override
-		public void onClick(View v)
-		{
-			final AlertDialog dialog;
-			AlertDialog.Builder builder = new AlertDialog.Builder(
-					CommonPlaceActivity.this).setSingleChoiceItems(serviceName,
-					servicePosition, new DialogInterface.OnClickListener()
-					{
-
-						@Override
-						public void onClick(DialogInterface dialog, int position)
-						{
-							servicePosition = position;
-							if (servicePosition < 0|| servicePosition >= serviceName.length)
-							{
-								return;
-							}
-
-							// TODO support multiple selection
-							serviceSelect = new int[1];
-							serviceSelect[0] = serviceID[servicePosition];
-							filterPlaceList();
-							dialog.dismiss();
-						}
-					}).setTitle(
-					CommonPlaceActivity.this.getResources().getString(
-							R.string.service));
-			dialog = builder.create();
-			dialog.show();
-
-		}
-	};*/
 }

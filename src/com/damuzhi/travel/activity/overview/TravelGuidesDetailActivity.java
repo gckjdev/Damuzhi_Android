@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
-import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
@@ -33,7 +32,7 @@ public class TravelGuidesDetailActivity extends MenuActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.travel_tips_detail);
+		setContentView(R.layout.travel_guides_detail);
 		TravelApplication.getInstance().addActivity(this);
 		byte[] travelInfo = getIntent().getByteArrayExtra(ConstantField.TRAVEL_TIPS_INFO);
 		CommonTravelTip commonTravelTip = null;

@@ -69,7 +69,7 @@ import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
 
-public class OpenCityDataActivity extends Activity 
+public class OpenCityActivity extends Activity 
 {
 	private static String TAG = "OpenCityDataActivity";	
 	private ListView openCtiyDataListView,downloadListView;
@@ -101,17 +101,17 @@ public class OpenCityDataActivity extends Activity
 		Log.i(TAG, "onCreate");
 		setContentView(R.layout.open_city);
 		
-		downloadManager = new DownloadManager(OpenCityDataActivity.this);
+		downloadManager = new DownloadManager(OpenCityActivity.this);
 				
-		downloadListView = (ListView) findViewById(R.id.download_data_listview);
+		
 		findViewById(R.id.open_city_tips_download).setSelected(true);
 		
 		cityList = AppManager.getInstance().getCityList();
-				
-		openCtiyDataListView = (ListView) findViewById(R.id.open_city_data_listview);
 		installCityData = DownloadManager.getInstallCity();
-		cityListAdapter = new OpenCityDataAdapter(cityList, OpenCityDataActivity.this);
 		installedCityList.addAll(installCityData.values());
+		openCtiyDataListView = (ListView) findViewById(R.id.open_city_data_listview);
+		downloadListView = (ListView) findViewById(R.id.download_data_listview);				
+		cityListAdapter = new OpenCityDataAdapter(cityList, OpenCityActivity.this);		
 		downloadDataListAdapter = new DownloadDataListAdapter(installedCityList, this);
 		
 		View listViewFooter = getLayoutInflater().inflate(R.layout.open_data_listview_footer, null, false);
@@ -122,9 +122,11 @@ public class OpenCityDataActivity extends Activity
 		openCtiyDataListView.addFooterView(listViewFooter);
 		openCtiyDataListView.setFooterDividersEnabled(false);
 		openCtiyDataListView.setDrawingCacheEnabled(false);
+		
 		openCtiyDataListView.setAdapter(cityListAdapter);
-		openCtiyDataListView.setOnItemClickListener(onItemClickListener);
 		downloadListView.setAdapter(downloadDataListAdapter);
+		openCtiyDataListView.setOnItemClickListener(onItemClickListener);
+		
 		
 		dataListGroup = (ViewGroup) findViewById(R.id.data_list_group);
 		downloadListGroup = (ViewGroup) findViewById(R.id.download_list_group);
@@ -134,7 +136,7 @@ public class OpenCityDataActivity extends Activity
 		dataListGroup.setOnClickListener(dataListOnClickListener);
 		downloadListGroup.setOnClickListener(downloadListOnClickListener);
 		
-		bindService(new Intent(OpenCityDataActivity.this, DownloadService.class), conn, Context.BIND_AUTO_CREATE);
+		bindService(new Intent(OpenCityActivity.this, DownloadService.class), conn, Context.BIND_AUTO_CREATE);
 	}
 	
 		
@@ -149,7 +151,7 @@ public class OpenCityDataActivity extends Activity
 		@Override
 		public void onServiceDisconnected(ComponentName name)
 		{
-			//Log.i(TAG, "ServiceDisConnection -> onServiceDisConnected");
+			Log.i(TAG, "ServiceDisConnection -> onServiceDisConnected");
 			iDownloadService = null;
 		}
 		
@@ -195,7 +197,7 @@ public class OpenCityDataActivity extends Activity
 					resultView.setText(persent+"%");
 					if(!downloadInfo.isNotFinish()){
 						
-						Toast.makeText(OpenCityDataActivity.this, R.string.success, 1).show();
+						Toast.makeText(OpenCityActivity.this, R.string.success, 1).show();
 						String downloadURL = downloadInfo.getUrl();
 						cancelDownload(downloadURL);
 						progressBarMap.remove(downloadURL);
@@ -220,7 +222,7 @@ public class OpenCityDataActivity extends Activity
 							try
 							{
 								upZipFile(zipFilePath, upZipFilePath, position);
-								DownloadManager downloadManager = new DownloadManager(OpenCityDataActivity.this);
+								DownloadManager downloadManager = new DownloadManager(OpenCityActivity.this);
 								downloadManager.deleteDownloadInfo(downloadURL);
 							} catch (Exception e)
 							{
@@ -243,7 +245,7 @@ public class OpenCityDataActivity extends Activity
 				}				
 				break;
 			case -1:
-				Toast.makeText(OpenCityDataActivity.this, R.string.error, 1).show();
+				Toast.makeText(OpenCityActivity.this, R.string.error, 1).show();
 				break;
 			default:
 				
@@ -308,10 +310,14 @@ public class OpenCityDataActivity extends Activity
 			downloadListTitle.setTextColor(getResources().getColor(R.color.white));
 			installCityData = DownloadManager.getInstallCity();
 			installedCityList.clear();
-			installedCityList.addAll(installCityData.values());
+			installedCityList.addAll(installCityData.values());			
 			downloadDataListAdapter.setInstalledCityList(installedCityList);
 			downloadDataListAdapter.notifyDataSetChanged();
-			/*downloadListView.findViewById(R.id.delete_button).setOnClickListener(deleteOnClickListener);*/
+			if(installedCityList.size() == 0)
+			{
+				downloadListView.setVisibility(View.GONE);
+			}
+			
 		}
 	};
 	
@@ -444,7 +450,7 @@ public class OpenCityDataActivity extends Activity
 			int cityId = (Integer)v.getTag();
 			AppManager.getInstance().setCurrentCityId(cityId);
 			Intent intent = new Intent();
-			intent.setClass(OpenCityDataActivity.this, IndexActivity.class);
+			intent.setClass(OpenCityActivity.this, IndexActivity.class);
 			startActivity(intent);
 			
 		}
@@ -462,7 +468,7 @@ public class OpenCityDataActivity extends Activity
 			City city = cityList.get(arg2);
 			AppManager.getInstance().setCurrentCityId(city.getCityId());
 			Intent intent = new Intent();
-			intent.setClass(OpenCityDataActivity.this, IndexActivity.class);
+			intent.setClass(OpenCityActivity.this, IndexActivity.class);
 			startActivity(intent);
 			
 		}
@@ -489,7 +495,7 @@ public class OpenCityDataActivity extends Activity
 					if(!result)
 					{
 						Looper.prepare();
-						Toast.makeText(OpenCityDataActivity.this, getResources().getString(R.string.download_connection_error), Toast.LENGTH_LONG).show();
+						Toast.makeText(OpenCityActivity.this, getResources().getString(R.string.download_connection_error), Toast.LENGTH_LONG).show();
 						Looper.loop();
 					}
 				} catch (RemoteException e)

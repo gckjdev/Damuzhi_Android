@@ -23,6 +23,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -244,5 +245,19 @@ public abstract class CommonOverViewActivity extends MenuActivity
 		loadingDialog.setCancelable(true);
 		loadingDialog.setOnKeyListener(keyListener);
 		loadingDialog.show();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())	
+		{		
+		case R.id.menu_refresh:
+			loadCityOverView();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

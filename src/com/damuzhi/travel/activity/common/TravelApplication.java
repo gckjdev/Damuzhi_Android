@@ -43,26 +43,8 @@ public class TravelApplication extends Application
 {
 	private static final String TAG = "TravelApplication";
 	private DefaultHttpClient defaultHttpClient;
-	private int dataFlag;
-	private int cityID;
-	private HashMap<Integer, CityArea> cityAreaMap = new HashMap<Integer, CityArea>();
-	private HashMap<Integer, List<CityArea>> cityAreaList = new HashMap<Integer, List<CityArea>>();
-	private HashMap<String, Integer> cityNameMap = new HashMap<String,Integer>();
-	private HashMap<Integer, String> symbolMap = new HashMap<Integer, String>();
-	private HashMap<PlaceCategoryType, PlaceMeta> PlaceMetaMap = new HashMap<PlaceCategoryType, PlaceMeta>();
-	private HashMap<Integer, String> subCatNameMap = new HashMap<Integer, String>();
-	private HashMap<PlaceCategoryType, List<NameIdPair>> subCategoryMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();
-	private HashMap<PlaceCategoryType, List<NameIdPair>> providedServiceMap = new HashMap<PlaceCategoryType, List<NameIdPair>>();
-	//private HashMap<PlaceCategoryType, HashMap<Integer, String>> providedServiceIconMap = new HashMap<PlaceCategoryType, HashMap<Integer,String>>();
-	private ArrayList<Place> placeData;
-	private HashMap<String, Double> location = new HashMap<String, Double>();
-	private Place place;
-	private int placeCategoryID;
-	private String overviewType;
-	private CommonTravelTip commonTravelTip;
+	private HashMap<String, Double> location = new HashMap<String, Double>();	
 	private static TravelApplication travelApplication;
-	private int task;
-	
 	private List<Activity> activityList = new LinkedList<Activity>();
 	
 	public static TravelApplication getInstance()
@@ -76,19 +58,17 @@ public class TravelApplication extends Application
 	@Override
 	public void onCreate()
 	{
-		// TODO Auto-generated method stub
 		super.onCreate();
 		travelApplication = this;
 		defaultHttpClient = createHttpClient();
 		AppMission.getInstance().initAppData(this);
 		AppMission.getInstance().updateAppData(this);
-		
+		TravelApplication.getInstance().setLocation(LocationUtil.getLocationByTower(this));
 	}
 	
 	@Override
 	public void onLowMemory()
 	{
-		// TODO Auto-generated method stub
 		super.onLowMemory();
 		shutdownHttpClient();
 	}
@@ -97,7 +77,6 @@ public class TravelApplication extends Application
 	@Override
 	public void onTerminate()
 	{
-		// TODO Auto-generated method stub
 		super.onTerminate();
 		shutdownHttpClient();
 	}
@@ -130,7 +109,6 @@ public class TravelApplication extends Application
 			defaultHttpClient.getConnectionManager().shutdown();
 		}
 	}
-	
 	 
     public void addActivity(Activity activity){  
         activityList.add(activity);  
@@ -143,46 +121,7 @@ public class TravelApplication extends Application
         System.exit(0);  
     }  
 
-	public Place getPlace()
-	{
-		return place;
-	}
-
-	public void setPlace(Place place)
-	{
-		this.place = place;
-	}
-
-	public int getCityID()
-	{
-		return cityID;
-	}
-
-	public void setCityID(int cityID)
-	{
-		this.cityID = cityID;
-	}
-
-	public ArrayList<Place> getPlaceData()
-	{
-		return placeData;
-	}
-
-	public void setPlaceData(ArrayList<Place> placeData)
-	{
-		this.placeData = placeData;
-	}
-
-	public int getDataFlag()
-	{
-		return dataFlag;
-	}
-
-	public void setDataFlag(int dataFlag)
-	{
-		this.dataFlag = dataFlag;
-	}
-
+	
 	public HashMap<String, Double> getLocation()
 	{
 		return location;
@@ -192,198 +131,5 @@ public class TravelApplication extends Application
 	{
 		this.location = location;
 	}
-
-
-
-	public HashMap<PlaceCategoryType, List<NameIdPair>> getSubCategoryMap()
-	{
-		return subCategoryMap;
-	}
-
-
-
-
-	public HashMap<PlaceCategoryType, List<NameIdPair>> getProvidedServiceMap()
-	{
-		return AppManager.getInstance().getProSerMap();
-	}
-
-
-
-	/*public HashMap<Integer, CityArea> getCityAreaMap()
-	{
-		return cityAreaMap;
-	}
-*/
-
-
-
-
-
-
-
-	/*public void setCityAreaMap(HashMap<Integer, CityArea> cityAreaMap)
-	{
-		this.cityAreaMap = cityAreaMap;
-	}*/
-
-
-
-
-	public HashMap<String, Integer> getCityNameMap()
-	{
-		return AppManager.getInstance().getCityNameMap();
-	}
-
-
-
-
-
-	public HashMap<PlaceCategoryType, PlaceMeta> getPlaceMetaMap()
-	{
-		return AppManager.getInstance().getPlaceMeta();
-	}
-
-
-
-
-	
-
-
-
-
-	public HashMap<Integer, String> getSymbolMap()
-	{
-		return AppManager.getInstance().getSymbolMap();
-	}
-
-
-
-
-	
-
-
-
-
-	public HashMap<Integer, List<CityArea>> getCityAreaList()
-	{
-		return AppManager.getInstance().getCityAreaList();
-	}
-
-
-
-
-	
-
-
-
-	public HashMap<Integer, String> getSubCatNameMap()
-	{
-		return subCatNameMap;
-	}
-
-
-
-
-	public void setSubCatNameMap(HashMap<Integer, String> subCatNameMap)
-	{
-		this.subCatNameMap = subCatNameMap;
-	}
-
-
-
-
-	public int getPlaceCategoryID()
-	{
-		return placeCategoryID;
-	}
-
-
-
-
-	public void setPlaceCategoryID(int placeCategoryID)
-	{
-		this.placeCategoryID = placeCategoryID;
-	}
-
-
-
-
-	public String getOverviewType()
-	{
-		return overviewType;
-	}
-
-
-
-
-	public void setOverviewType(String overviewType)
-	{
-		this.overviewType = overviewType;
-	}
-
-
-
-
-	public CommonTravelTip getCommonTravelTip()
-	{
-		return commonTravelTip;
-	}
-
-
-
-
-	public void setCommonTravelTip(CommonTravelTip commonTravelTip)
-	{
-		this.commonTravelTip = commonTravelTip;
-	}
-
-
-
-
-	public int getTask()
-	{
-		return task;
-	}
-
-
-
-
-	public void setTask(int task)
-	{
-		this.task = task;
-	}
-
-
-
-
-
-
-	
-
-
-
-
-/*	public HashMap<PlaceCategoryType, HashMap<Integer, String>> getProvidedServiceIconMap()
-	{
-		return providedServiceIconMap;
-	}
-
-
-
-
-	public void setProvidedServiceIconMap(
-			HashMap<PlaceCategoryType, HashMap<Integer, String>> providedServiceIconMap)
-	{
-		this.providedServiceIconMap = providedServiceIconMap;
-	}*/
-
-
-
-
-	
-
-	
-
 	
 }

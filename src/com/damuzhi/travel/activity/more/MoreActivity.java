@@ -67,7 +67,7 @@ public class MoreActivity extends MenuActivity
 		public void onClick(View v)
 		{
 			Intent intent = new Intent();			
-			intent.setClass(MoreActivity.this, OpenCityDataActivity.class);
+			intent.setClass(MoreActivity.this, OpenCityActivity.class);
 			startActivity(intent);
 		}
 	};

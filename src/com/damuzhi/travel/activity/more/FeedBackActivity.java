@@ -8,9 +8,13 @@
  */
 package com.damuzhi.travel.activity.more;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -45,9 +49,14 @@ public class FeedBackActivity extends MenuActivity
 		TravelApplication.getInstance().addActivity(this);
 		contentEditText = (EditText) findViewById(R.id.feedback_content);
 		contactEditText = (EditText) findViewById(R.id.feedback_contact);
+		ViewGroup feedbackGroup = (ViewGroup) findViewById(R.id.feedback_group);
 		ImageButton submit = (ImageButton) findViewById(R.id.submit);
 		submit.setOnClickListener(submitOnClickListener);
-		
+		feedbackGroup.setOnClickListener(feedbackGroupOnClickListener);
+		InputMethodManager imm = (InputMethodManager)feedbackGroup.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+		if(imm.isActive()){ 
+		imm.hideSoftInputFromWindow(feedbackGroup.getApplicationWindowToken(), 0 );   
+		}  
 	}
 
 	private OnClickListener submitOnClickListener = new OnClickListener()
@@ -85,6 +94,19 @@ public class FeedBackActivity extends MenuActivity
 				}
 			}
 			
+		}
+	};
+	
+	private OnClickListener feedbackGroupOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			InputMethodManager imm = (InputMethodManager)v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+			if(imm.isActive()){ 
+			imm.hideSoftInputFromWindow(v.getApplicationWindowToken(), 0 );   
+			}   
 		}
 	};
 	

@@ -25,8 +25,6 @@ import com.damuzhi.travel.mission.place.LocalStorageMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.service.DataService;
-import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.LocationUtil;
 import com.damuzhi.travel.util.ZipUtil;
@@ -46,7 +44,7 @@ public class WelcomeActivity extends TravelActivity
 		// load place data by current city
 		int cityId = AppManager.getInstance().getCurrentCityId();
 		LocalStorageMission.getInstance().loadLocalData(cityId);
-		//TravelApplication.getInstance().setLocation(LocationUtil.getLocationByTower(this));
+		
 		String userId = UserManager.getInstance().getUserId(this);		
 		if(userId==null ||userId.equals(""))
 		{

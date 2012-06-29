@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
@@ -34,7 +35,6 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.overview.TravelTipsAdapter;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
-import com.damuzhi.travel.activity.common.PlaceActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.mission.overview.TravelTipsMission;
@@ -44,16 +44,10 @@ import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList;
 import com.damuzhi.travel.protos.TravelTipsProtos.TravelTipType;
-import com.damuzhi.travel.service.MainService;
 import com.damuzhi.travel.service.Task;
 import com.damuzhi.travel.util.CornerListView;
 
-/**  
- * @description   
- * @version 1.0  
- * @author liuxiaokun  
- * @update 2012-5-22 ����3:53:27  
- */
+
 
 public class TravelGuidesActivity extends MenuActivity
 {
@@ -67,7 +61,7 @@ public class TravelGuidesActivity extends MenuActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.travel_tips);
+		setContentView(R.layout.travel_guides);
 		TravelApplication.getInstance().addActivity(this);
 		listView = (ListView) findViewById(R.id.travel_tips_listview);
 		listView.setOnItemClickListener(clickListener);
@@ -183,5 +177,18 @@ public class TravelGuidesActivity extends MenuActivity
 			 startActivity(intent);
 		}
 	};
-
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())	
+		{		
+		case R.id.menu_refresh:
+			loadTravelTips();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 }

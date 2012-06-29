@@ -73,7 +73,7 @@ public class TravelTipsAdapter extends BaseAdapter
 		TravelTipsViewCache viewCache; 
 		if(convertView == null)
 		{
-			convertView = LayoutInflater.from(context).inflate(R.layout.travel_tips_list_item, null);
+			convertView = LayoutInflater.from(context).inflate(R.layout.travel_guides_list_item, null);
 			viewCache = new TravelTipsViewCache(convertView);
 			convertView.setTag(viewCache);
 		}else {

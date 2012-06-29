@@ -44,7 +44,7 @@ import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
-import com.damuzhi.travel.activity.place.NearbyPlaceActivity;
+import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -235,7 +235,7 @@ public class FavoriteActivity extends MenuActivity
 			favoriteRankGroup.setBackgroundResource(R.drawable.citybtn_off2);
 			myFavoriteTitle.setTextColor(getResources().getColor(R.color.white));
 			favoriteRankTitle.setTextColor(getResources().getColor(R.color.black));
-			
+			delete.setVisibility(View.VISIBLE);
 			isShowDeleteBtn = false;
 			
 			

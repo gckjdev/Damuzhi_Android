@@ -198,8 +198,7 @@
      android:layout_below="@id/nearbyBar"
      android:background="#ffffff"
      android:orientation="vertical"
-     android:visibility="gone"
-    >   
+     android:visibility="gone">   
 	    <ListView 
 	        android:id="@+id/nearby_list"
 	        android:layout_width="fill_parent"
