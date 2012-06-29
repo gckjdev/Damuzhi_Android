@@ -18,9 +18,12 @@ import com.android.utils.TokenStore;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.qweibo.MyWebView;
+import com.damuzhi.travel.activity.more.MoreActivity;
+import com.damuzhi.travel.model.constant.ConstantField;
 import com.tencent.weibo.api.T_API;
 import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.utils.OAuthClient;
+import com.umeng.analytics.MobclickAgent;
 import com.weibo.net.AccessToken;
 import com.weibo.net.AsyncWeiboRunner;
 import com.weibo.net.AsyncWeiboRunner.RequestListener;
@@ -60,8 +63,11 @@ public class Share2Weibo extends Activity implements RequestListener
 	private ImageButton cancelButton;
 	private EditText shareContent;
 
-	private static final String SINA_CONSUMER_KEY = "1119244700";
-	private static final String SINA_CONSUMER_SECRET = "b396a07bb97c4b92c9476896a5a76c66";
+	private  String SINA_CONSUMER_KEY = "";
+	private  String SINA_CONSUMER_SECRET = "";
+	private  String QQ_CONSUMER_KEY = "";
+	private  String QQ_CONSUMER_SECRET = "";
+	private String CALL_BACK_URL = "";
 	private static final String TAG = "Share2Weibo";
 	
 
@@ -84,6 +90,12 @@ public class Share2Weibo extends Activity implements RequestListener
 		super.onCreate(savedInstanceState);
 		TravelApplication.getInstance().addActivity(this);
 		setContentView(R.layout.share_2_weibo);
+		MobclickAgent.updateOnlineConfig(this);
+		SINA_CONSUMER_KEY = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_SINA_CONSUMER_KEY);
+		SINA_CONSUMER_SECRET = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_SINA_CONSUMER_SECRET);
+		QQ_CONSUMER_KEY = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_QQ_CONSUMER_KEY);
+		QQ_CONSUMER_SECRET = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_QQ_CONSUMER_SECRET);
+		CALL_BACK_URL = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_CALL_BACK_URL);
 		shareConfig = getIntent().getIntExtra(SHARE_CONFIG,0);
 		ImageView shareImageView = (ImageView) findViewById(R.id.share_image);
 		String title ;
@@ -133,7 +145,7 @@ public class Share2Weibo extends Activity implements RequestListener
 	{
 		Weibo weibo = Weibo.getInstance();
 		weibo.setupConsumerConfig(SINA_CONSUMER_KEY, SINA_CONSUMER_SECRET);						
-		weibo.setRedirectUrl("http://trip8888.com");
+		weibo.setRedirectUrl(CALL_BACK_URL);
 		weibo.authorize(Share2Weibo.this,new AuthDialogListener());
 	}
 	
@@ -263,7 +275,7 @@ public class Share2Weibo extends Activity implements RequestListener
 	private void getQQOauthToken()
 	{
 		try {
-			qq_oauth = new OAuth("801157911", "78eb11cc37feb6325c8d5e4409b598a9","null");			
+			qq_oauth = new OAuth(QQ_CONSUMER_KEY, QQ_CONSUMER_SECRET,"null");			
 			qq_oauth_token_array = TokenStore.fetch(Share2Weibo.this);
 			qq_oauth_token = qq_oauth_token_array[0];
 			qq_oauth_token_secret = qq_oauth_token_array[1];

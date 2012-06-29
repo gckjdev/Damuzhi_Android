@@ -65,7 +65,6 @@
 		     android:paddingLeft="10dp"
 		     android:paddingRight="10dp"
        		 android:background="@drawable/main_bottom"
-       		 android:paddingTop="15dp"
        		 android:textSize="13.0sp"
        		 android:text="@string/open_city_tips1"/>
    <TextView android:id="@+id/empty_tips"

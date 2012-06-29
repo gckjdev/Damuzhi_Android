@@ -139,5 +139,10 @@ public class ConstantField
 	public static final String HELP_TITLE = "help_title";
 	public static final String SHOW_LIST_IMAGE = "show_list_image";
 	public static final String U_MENG_DOWNLOAD_CONFIGURE = "download_website_android";
+	public static final String U_MENG_SINA_CONSUMER_KEY = "sina_weibo_app_key";
+	public static final String U_MENG_SINA_CONSUMER_SECRET = "sina_weibo_app_secret";
+	public static final String U_MENG_QQ_CONSUMER_KEY = "qq_weibo_app_key";
+	public static final String U_MENG_QQ_CONSUMER_SECRET = "qq_weibo_app_secret";
+	public static final String U_MENG_CALL_BACK_URL = "call_back_url";
 
 }

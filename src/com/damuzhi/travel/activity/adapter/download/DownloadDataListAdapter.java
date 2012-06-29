@@ -124,13 +124,12 @@ public class DownloadDataListAdapter extends BaseAdapter
 			City city = AppManager.getInstance().getCityByCityId(cityId);
 			String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(city.getDownloadURL()), city.getDownloadURL());
 			String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
-			/*FileUtil.deleteFolder(zipFilePath);
-			FileUtil.deleteFolder(upZipFilePath);*/
 			deleteFile(zipFilePath,upZipFilePath);
 			installedCityList.remove(position);
+			OpenCityActivity.installCityData.remove(position);
 			OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
 			OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
-			OpenCityActivity.installCityData.remove(position);
+			
 		}
 	};
 
