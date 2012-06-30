@@ -212,7 +212,7 @@
 	         android:layout_height="fill_parent"
 	         android:visibility="gone"
 	         android:clickable="true"
-	         android:apiKey="00drkb-fVMRRdSoct48qrn8K7RpgKDO0CDpm76w"
+	         android:apiKey="00drkb-fVMRRqPn4hzYyq8XgYwcJno_fRyM-rqA"
 	         />
 	</LinearLayout>
     </RelativeLayout>
