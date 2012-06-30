@@ -7,7 +7,7 @@
    <application
        android:name=".activity.common.TravelApplication" android:icon="@drawable/dmzlogo" android:label="@string/app_name" 
         android:theme="@android:style/Theme.NoTitleBar" android:debuggable="true">
-        <uses-library android:name="com.google.android.maps"/>
+        <uses-library android:name="com.google.android.maps" android:required="false"/>
         <activity android:label="@string/app_name" android:name=".activity.entry.WelcomeActivity"  android:screenOrientation="portrait">
             <intent-filter >
                 <action android:name="android.intent.action.MAIN" />

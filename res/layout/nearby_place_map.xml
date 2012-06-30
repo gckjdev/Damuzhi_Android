@@ -35,7 +35,7 @@
 		      android:id="@+id/cancel_locate"
 		      android:layout_width="31dp"
 		      android:layout_height="31dp"
-		      android:src="@drawable/locate_back2"
+		      android:src="@drawable/locate_jt"
 		      android:layout_alignParentRight="true"
 		      android:layout_alignParentBottom="true"
 		      android:visibility="gone"

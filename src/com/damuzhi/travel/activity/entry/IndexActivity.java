@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
+import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.favorite.FavoriteActivity;
@@ -68,7 +69,7 @@ import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.service.Task;
 import com.google.android.maps.MapView.LayoutParams;
 
-public class IndexActivity extends TravelActivity implements OnClickListener
+public class IndexActivity extends MenuActivity implements OnClickListener
 {
 	private static final String TAG = "IndexActivity";
 	private ImageButton moreButton;
@@ -104,6 +105,15 @@ public class IndexActivity extends TravelActivity implements OnClickListener
 		TravelApplication.getInstance().addActivity(this);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		setContentView(R.layout.index);
+		
+		/*try {
+		    Class.forName("com.google.android.maps.MapActivity");
+		} catch (Exception e) {
+		    Toast.makeText(IndexActivity.this, "因你手机系统缺少com.google.android.maps.jar这个包，地图功能将无法使用，请手动为手机系统安装这个包", Toast.LENGTH_LONG).show();
+		    return;
+		}*/
+		
+		
 		setProgressBarIndeterminateVisibility(true);
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
 		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);

@@ -111,7 +111,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		int placeCategoryType = place.getCategoryId();
 		if(convertView == null)
 		{
-			convertView = inflater.inflate(R.layout.nearby_place_listview_item, null);
+			convertView = inflater.inflate(R.layout.common_nearby_place_listview_item, null);
 			viewCache = new PlaceViewCache(convertView);
 			convertView.setTag(viewCache);
 		}else {

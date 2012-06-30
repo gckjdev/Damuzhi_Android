@@ -19,6 +19,7 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import com.damuzhi.travel.activity.entry.WelcomeActivity;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -61,9 +62,7 @@ public class TravelApplication extends Application
 		super.onCreate();
 		travelApplication = this;
 		defaultHttpClient = createHttpClient();
-		AppMission.getInstance().initAppData(this);
-		AppMission.getInstance().updateAppData(this);
-		TravelApplication.getInstance().setLocation(LocationUtil.getLocationByTower(this));
+		TravelApplication.getInstance().setLocation(LocationUtil.getLocation(this));
 	}
 	
 	@Override

@@ -292,7 +292,7 @@ public class TravelUtil
 		{
 			if (placeCategoryID == ConstantField.ALL_PLACE_CATEGORY_ID)
 			{
-				double distan = LocationUtil.GetDistance(
+				double distan = TravelUtil.GetDistance(
 						location.get(ConstantField.LONGITUDE),
 						location.get(ConstantField.LATITUDE),
 						place.getLongitude(), place.getLatitude());
@@ -304,7 +304,7 @@ public class TravelUtil
 			{
 				if (place.getCategoryId() == placeCategoryID)
 				{
-					double distan = LocationUtil.GetDistance(
+					double distan = TravelUtil.GetDistance(
 							location.get(ConstantField.LONGITUDE),
 							location.get(ConstantField.LATITUDE),
 							place.getLongitude(), place.getLatitude());
@@ -529,8 +529,8 @@ public class TravelUtil
 		{
 			if(longitude!=0&&latitude!=0)
 			{
-				double lhsDistance = LocationUtil.GetDistance(longitude,latitude, lhs.getLongitude(),lhs.getLatitude());
-				double rhsDistance = LocationUtil.GetDistance(longitude,latitude, rhs.getLongitude(),rhs.getLatitude());
+				double lhsDistance = TravelUtil.GetDistance(longitude,latitude, lhs.getLongitude(),lhs.getLatitude());
+				double rhsDistance = TravelUtil.GetDistance(longitude,latitude, rhs.getLongitude(),rhs.getLatitude());
 				int flag = Double.valueOf(lhsDistance).compareTo(Double.valueOf(rhsDistance));
 				return flag;
 			}else {
@@ -551,7 +551,7 @@ public class TravelUtil
 			HashMap<String, Double> location = TravelApplication.getInstance().getLocation();			
 			locationLonggitude = location.get(ConstantField.LONGITUDE);
 			locationLatitude = location.get(ConstantField.LATITUDE);
-			int distance = (int) LocationUtil.GetDistance(longitude, latitude,
+			int distance = (int) TravelUtil.GetDistance(longitude, latitude,
 					locationLonggitude, locationLatitude);
 			if (distance > 1000)
 			{
@@ -569,7 +569,7 @@ public class TravelUtil
 	public static String getDistance(double targetLongitude, double targetLatitude,double longitude, double latitude)
 	{
 		String distanceStr = "";		
-			int distance = (int) LocationUtil.GetDistance(longitude, latitude,
+			int distance = (int) TravelUtil.GetDistance(longitude, latitude,
 					targetLongitude, targetLatitude);
 			if (distance > 1000)
 			{
@@ -739,5 +739,26 @@ public class TravelUtil
 		return htmlUrl;
 	}
 	
+	
+	
+	private static final double EARTH_RADIUS = 6378137;
+
+    private static double rad(double d)
+    {
+       return d * Math.PI / 180.0;
+    }
+    
+   
+    public static double GetDistance(double lng1, double lat1, double lng2, double lat2)
+    {
+       double radLat1 = rad(lat1);
+       double radLat2 = rad(lat2);
+       double a = radLat1 - radLat2;
+       double b = rad(lng1) - rad(lng2);
+       double s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a/2),2) + Math.cos(radLat1)*Math.cos(radLat2)*Math.pow(Math.sin(b/2),2)));
+       s = s * EARTH_RADIUS;
+       s = Math.round(s * 10000) / 10000;
+       return s;
+    }
 	
 }

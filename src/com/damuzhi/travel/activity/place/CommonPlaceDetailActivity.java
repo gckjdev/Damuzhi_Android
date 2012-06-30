@@ -225,6 +225,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		}else {
 			main.findViewById(R.id.transport_group).setVisibility(View.VISIBLE);
 			TextView transport = (TextView) main.findViewById(R.id.transport);
+			transport.setSelected(true);
 			transport.setText(place.getTransportation());
 		}
 		
@@ -402,6 +403,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			}
 			phoneNum.setText(getString(R.string.phone_number)+phoneNumber);
 			phoneCall.setOnClickListener(phoneCallOnClickListener);
+			phoneGroup.setOnClickListener(phoneCallOnClickListener);
 		}
 		
 		if(place.getAddressList().size()>0)
@@ -419,6 +421,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			}
 			address.setText(getString(R.string.address)+addressStr);
 			addressMapView.setOnClickListener(addressLocateOnClickListener);
+			addressGroup.setOnClickListener(addressLocateOnClickListener);
 		}
 		
 		if(place.getWebsite()!=null &&!place.getWebsite().equals(""))
