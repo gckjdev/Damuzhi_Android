@@ -17,8 +17,19 @@ import android.database.sqlite.SQLiteDatabase;
 public class FileDBHelper {
 	private DBOpenHelper openHelper;
 
+	private static FileDBHelper instance;
+
+   /* public static synchronized FileDBHelper getFileDBHelper(Context context)
+    {
+        if (instance == null)
+            instance = new FileDBHelper(context);
+
+        return instance;
+    }
+	*/
+	
 	public FileDBHelper(Context context) {
-		openHelper = new DBOpenHelper(context);
+		openHelper = DBOpenHelper.getHelper(context);
 	}
 	
 	
@@ -36,7 +47,7 @@ public class FileDBHelper {
 		finally
 		{
 			cursor.close();
-			db.close();
+			//db.close();
 		}
 		
 		return data;
@@ -60,7 +71,7 @@ public class FileDBHelper {
 		finally
 		{
 			cursor.close();
-			db.close();
+			//db.close();
 		}
 		
 		return downloadBean;
@@ -77,8 +88,9 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
+			//db.close();
 		}
-		db.close();
+		
 	}
 	
 	
@@ -92,8 +104,9 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
+			//db.close();
 		}
-		db.close();
+		
 	}
 	
 	

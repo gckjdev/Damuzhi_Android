@@ -33,6 +33,7 @@ import com.damuzhi.travel.util.FileUtil;
 
 public class AppManager
 {
+	private Context context;
 	private static final String TAG = "AppManager";
 	private App app;
 	private static AppManager instance = null;
@@ -55,6 +56,7 @@ public class AppManager
 	public void load()
 	{
 		String dataPath = ConstantField.APP_DATA_FILE;
+		//String dataPath = ConstantField.LOCAL_APP_DATA_PATH;
 		if (!FileUtil.checkFileIsExits(dataPath))
 		{
 			Log.e(TAG, "load app data from file = " + dataPath+ " but file not found");
@@ -88,18 +90,58 @@ public class AppManager
 	
 	
 	
+	public void load(Context context)
+	{
+		this.context = context;
+		FileInputStream fileInputStream = null;
+		try
+		{
+			fileInputStream = context.openFileInput(ConstantField.APP_FILE);
+		if (fileInputStream == null)
+		{
+			Log.e(TAG, "load app data from file = " + ConstantField.LOCAL_APP_DATA_PATH+ " but file not found");
+			return;
+		}
+		
+			app = App.parseFrom(fileInputStream);
+		} catch (Exception e)
+		{
+			Log.e(TAG, "load app data from file = " + ConstantField.LOCAL_APP_DATA_PATH+ " but catch exception = " + e.toString(), e);
+		}
+		finally
+		{
+			try
+			{
+				fileInputStream.close();
+			} catch (Exception e)
+			{
+			}
+		}
+		// TODO current city Id should be persistented
+		Log.i(TAG, "current city id is "+currentCityId);
+	}
 	
 	
-	/**
-	 * 
-	 * @description reload app data from local file
-	 * @version 1.0
-	 * @author liuxiaokun
-	 * @update 2012-5-24 下午2:14:10
-	 */
+	
+	
+	
 	public void reloadData()
 	{
-		load();
+		boolean sdcardEnable = FileUtil.sdcardEnable();
+		if(sdcardEnable)
+		{
+			load();
+		}else
+		{
+			load(context);
+		}
+		
+	}
+	
+	
+	public void reloadData(Context context)
+	{
+		load(context);
 	}
 
 	public HashMap<Integer, City> getCityMap()

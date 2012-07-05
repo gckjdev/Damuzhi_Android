@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:background="@color/white"
     android:orientation="vertical" >
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -32,7 +33,7 @@
    		      android:id="@+id/map_view"
    		      android:layout_height="wrap_content"
    		      android:layout_width="wrap_content"
-   		      android:paddingRight="5dp"
+   		      android:layout_marginRight="5dp"
    		      android:layout_alignParentRight="true"
    		      android:layout_centerVertical="true"
    		      android:background="@null"
@@ -42,7 +43,7 @@
    		      android:id="@+id/list_view"
    		      android:layout_height="wrap_content"
    		      android:layout_width="wrap_content"
-   		      android:paddingRight="5dp"
+   		      android:layout_marginRight="5dp"
    		      android:layout_alignParentRight="true"
    		      android:layout_centerVertical="true"
    		      android:visibility="gone"
@@ -186,6 +187,7 @@
      android:layout_height="wrap_content"
      android:text="@string/data_not_found"
      android:layout_below="@id/nearbyBar"
+     android:layout_marginTop="20dp"
      android:gravity="center"
      android:id="@+id/data_not_found"
      android:visibility="gone"
@@ -196,7 +198,6 @@
      android:layout_height="fill_parent"
      android:layout_alignParentLeft="true"
      android:layout_below="@id/nearbyBar"
-     android:background="#ffffff"
      android:orientation="vertical"
      android:visibility="gone">   
 	    <ListView 
@@ -206,6 +207,12 @@
 	        android:scrollbars="none"
 	        android:cacheColorHint="@color/listview_bg"
 	        android:divider="#FFCC00"/>
+	   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/mapview_group"
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:visibility="gone"
+	    android:orientation="vertical" >
 	     <com.google.android.maps.MapView
 	         android:id="@+id/placeMap"
 	         android:layout_width="fill_parent"
@@ -214,6 +221,26 @@
 	         android:clickable="true"
 	         android:apiKey="00drkb-fVMRRqPn4hzYyq8XgYwcJno_fRyM-rqA"
 	         />
+	      <ImageView
+		      android:id="@+id/my_locate"
+		      android:layout_width="31dp"
+		      android:layout_height="31dp"
+		      android:src="@drawable/locate"
+		      android:layout_alignParentRight="true"
+		      android:layout_alignParentBottom="true"
+		      android:layout_marginRight="20dp"
+		      android:layout_marginBottom="20dp"/>
+    	  <ImageView
+		      android:id="@+id/cancel_locate"
+		      android:layout_width="31dp"
+		      android:layout_height="31dp"
+		      android:src="@drawable/locate_jt"
+		      android:layout_alignParentRight="true"
+		      android:layout_alignParentBottom="true"
+		      android:visibility="gone"
+		      android:layout_marginRight="20dp"
+		      android:layout_marginBottom="20dp"/>
+    	  </RelativeLayout>
 	</LinearLayout>
     </RelativeLayout>
 </LinearLayout>

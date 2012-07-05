@@ -8,35 +8,26 @@
         */
 package com.damuzhi.travel.mission.place;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
-import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.place.CommonPlaceActivity;
+import com.damuzhi.travel.R;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.place.PlaceManager;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.network.PlaceNetworkHandler;
-import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
-import com.damuzhi.travel.util.FileUtil;
-import com.damuzhi.travel.util.TravelUtil;
-import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
-import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
 
 /**  
  * @description   
@@ -72,23 +63,23 @@ public class PlaceMission
 		}
 		else{
 			// send remote
-			final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
-			retPlaceList = remotePlaceList;
 			
-			// TODO save data in UI thread
-			if (remotePlaceList != null || remotePlaceList.size() > 0){
-				activity.runOnUiThread(new Runnable()
-				{				
-					@Override
-					public void run()
-					{
-						remotePlaceManager.clear();
-						remotePlaceManager.addPlaces(remotePlaceList);
-					}
-				});				
-			}
-		}
-						
+				final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
+				retPlaceList = remotePlaceList;
+				
+				// TODO save data in UI thread
+				if (remotePlaceList != null && remotePlaceList.size() > 0){
+					activity.runOnUiThread(new Runnable()
+					{				
+						@Override
+						public void run()
+						{
+							remotePlaceManager.clear();
+							remotePlaceManager.addPlaces(remotePlaceList);
+						}
+					});				
+				}		
+		}					
 		return retPlaceList;
 	}
 	
@@ -96,7 +87,7 @@ public class PlaceMission
 	public List<Place> getPlaceNearby(Place place,int num)
 	{
 		List<Place> nearbyPlaceList = Collections.emptyList();
-		if (LocalStorageMission.getInstance().currentCityHasLocalData()){
+		/*if (LocalStorageMission.getInstance().currentCityHasLocalData()){
 			//return localPlaceManager.getPlaceNearBy(place);
 		}
 		else{
@@ -105,7 +96,11 @@ public class PlaceMission
 			nearbyPlaceList = getNearByPlaceListByUrl(url);	
 			//remotePlaceManager.clearNearbyList();
 			//remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
-		}
+		}*/
+		
+		int cityId = AppManager.getInstance().getCurrentCityId();
+		String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST, cityId, place.getPlaceId(),null,null,num,null,ConstantField.LANG_HANS,null);
+		nearbyPlaceList = getNearByPlaceListByUrl(url);		
 		return nearbyPlaceList;
 	}
 	
@@ -113,7 +108,7 @@ public class PlaceMission
 	public List<Place> getPlaceNearbyInDistance(Place place,float distance)
 	{
 		List<Place> nearbyPlaceList = Collections.emptyList();
-		if (LocalStorageMission.getInstance().currentCityHasLocalData()){
+		/*if (LocalStorageMission.getInstance().currentCityHasLocalData()){
 			//return localPlaceManager.getPlaceNearBy(place);
 		}
 		else{
@@ -122,23 +117,35 @@ public class PlaceMission
 			nearbyPlaceList = getNearByPlaceListByUrl(url);	
 			//remotePlaceManager.clearNearbyList();
 			//remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
-		}
+		}*/
+		int cityId = AppManager.getInstance().getCurrentCityId();
+		String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE, cityId, place.getPlaceId(),null,null,null,distance,ConstantField.LANG_HANS,null);
+		nearbyPlaceList = getNearByPlaceListByUrl(url);	
 		return nearbyPlaceList;
 	}
 	
 	
-	public List<Place> getPlaceNearbyInDistance(HashMap<String, Double> location,String distance,String placeCategory )
+	public List<Place> getPlaceNearbyInDistance(HashMap<String, Double> location,String distance,String placeCategory)
 	{
 		List<Place> nearbyPlaceList = Collections.emptyList();
-		if (LocalStorageMission.getInstance().currentCityHasLocalData()){
+		/*if (LocalStorageMission.getInstance().currentCityHasLocalData()){
 			//return localPlaceManager.getPlaceNearBy(place);
 		}
 		else{
+			if(location !=null && location.size()>0)
+			{
+				int cityId = AppManager.getInstance().getCurrentCityId();
+				String url = String.format(ConstantField.PLACE_LIST_NEARBY, placeCategory, cityId, null,location.get(ConstantField.LATITUDE),location.get(ConstantField.LONGITUDE),null,distance,ConstantField.LANG_HANS,null);
+				nearbyPlaceList = getNearByPlaceListByUrl(url);				
+				//remotePlaceManager.clearNearbyList();
+				//remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
+			}
+		}*/		
+		if(location !=null && location.size()>0)
+		{
 			int cityId = AppManager.getInstance().getCurrentCityId();
 			String url = String.format(ConstantField.PLACE_LIST_NEARBY, placeCategory, cityId, null,location.get(ConstantField.LATITUDE),location.get(ConstantField.LONGITUDE),null,distance,ConstantField.LANG_HANS,null);
 			nearbyPlaceList = getNearByPlaceListByUrl(url);				
-			//remotePlaceManager.clearNearbyList();
-			//remotePlaceManager.setNearbyPlaceList(nearbyPlaceList);
 		}
 		return nearbyPlaceList;
 	}
@@ -150,29 +157,19 @@ public class PlaceMission
 		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
 		String url = String.format(ConstantField.PLACElIST, objectType, cityId, ConstantField.LANG_HANS);
 		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);
-		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;
 		try
 		{
-			inputStream = httpTool.sendGetRequest(url);
+			inputStream = HttpTool.sendGetRequest(url);
 			if(inputStream !=null)
-			{
-				try
-				{
-					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-					if (travelResponse == null || travelResponse.getResultCode() != 0 ||
-							travelResponse.getPlaceList() == null){
-						return Collections.emptyList();
-					}
-					
-					inputStream.close();
-					inputStream = null;					
-					return travelResponse.getPlaceList().getListList();
-				} catch (Exception e)
-				{					
-					Log.e(TAG, "<getPlaceListByUrl> catch exception = "+e.toString(), e);
+			{				
+				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
+				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
 					return Collections.emptyList();
-				}				
+				}					
+				inputStream.close();
+				inputStream = null;					
+				return travelResponse.getPlaceList().getListList();			
 			}
 			else{
 				return Collections.emptyList();
@@ -198,29 +195,21 @@ public class PlaceMission
 	private List<Place> getNearByPlaceListByUrl(String url)
 	{
 		Log.d(TAG, "<getNearByPlaceListByUrl> load place data from http ,url = "+url);
-		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;
 		try
 		{
-			inputStream = httpTool.sendGetRequest(url);
+			inputStream = HttpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
-				try
+				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
+				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null)
 				{
-					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-					if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null)
-					{
-						return Collections.emptyList();
-					}
-					
-					inputStream.close();
-					inputStream = null;
-					return travelResponse.getPlaceList().getListList();
-				} catch (Exception e)
-				{					
-					Log.e(TAG, "<getNearByPlaceListByUrl> catch exception = "+e.toString(), e);
 					return Collections.emptyList();
-				}				
+				}
+				
+				inputStream.close();
+				inputStream = null;
+				return travelResponse.getPlaceList().getListList();						
 			}
 			else{
 				return Collections.emptyList();

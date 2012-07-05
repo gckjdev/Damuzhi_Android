@@ -2,21 +2,26 @@
 package com.damuzhi.travel.mission.app;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 
+import android.R.bool;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.entry.WelcomeActivity;
 import com.damuzhi.travel.download.DownloadProgressListener;
 import com.damuzhi.travel.download.FileDownloader;
@@ -41,7 +46,7 @@ import com.damuzhi.travel.util.ZipUtil;
 public class AppMission
 {
 	private static final String TAG = "AppMission";	
-	
+	private Context context;
 	private static AppMission instance = null;
 	private AppMission() {
 	}
@@ -53,33 +58,37 @@ public class AppMission
 	}
 
 	public void initAppData(Context context){
-		
+		this.context = context;
 		final AssetManager assets = context.getAssets();
-		
-		File appFileFolder = new File(ConstantField.APP_DATA_PATH);
-		File appFile = new File(ConstantField.APP_DATA_FILE);
-		InputStream appInputStream = null;
-		
-		if(!appFileFolder.exists())
+		try
 		{
-			appFileFolder.mkdirs();
-		}
-		
-		if(!appFile.exists())
-		{				
-			try
+			InputStream appInputStream  = assets.open(ConstantField.APP_FILE);		
+			boolean sdcardEnable = FileUtil.sdcardEnable();
+			if(sdcardEnable)
 			{
-				appInputStream = assets.open(ConstantField.APP_FILE);
-				FileUtil.copyFile(appInputStream, ConstantField.APP_DATA_FILE);	
-				appInputStream.close();				
-			} catch (IOException e)
-			{
-				Log.e(TAG, "<initAppData> but catch exception while read app data from apk, exception = "
-						+e.toString(), e);
-			}			
-		}	
+				File appFileFolder = new File(ConstantField.APP_DATA_PATH);
+				File appFile = new File(ConstantField.APP_DATA_FILE);				
+				if(!appFileFolder.exists())
+				{
+					appFileFolder.mkdirs();
+				}			
+				if(!appFile.exists())
+				{								
+					FileUtil.copyFile(appInputStream, ConstantField.APP_DATA_FILE);	
+					appInputStream.close();										
+				}				
+				AppManager.getInstance().load();
+			}else {
+				FileOutputStream outputStream = null;
+				outputStream = context.openFileOutput(ConstantField.APP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
+				FileUtil.copyFile(appInputStream, outputStream);
+				outputStream.close();
+				AppManager.getInstance().load(context);	
+			}
+		}catch (Exception e) {
+			Log.e(TAG, "<initAppData> but catch exception while read app data from apk, exception = "+e.toString(), e);
+		}		
 		
-		AppManager.getInstance().load();
 		int cityId = getCurrentCityId(context);
 		if(cityId == -1)
 		{
@@ -123,14 +132,12 @@ public class AppMission
         {
           tempFile.mkdirs();
         }
-        
-		HttpTool httpTool = new HttpTool();
 		InputStream appInputStream = null;
 		FileOutputStream output = null;
 		try
 		{
 			String url = String.format(ConstantField.APP, ConstantField.LANG_HANS);
-			appInputStream =  httpTool.sendGetRequest(url);
+			appInputStream =  HttpTool.sendGetRequest(url);
 			if(appInputStream != null)
 			{
 				TravelResponse travelResponse = TravelResponse.parseFrom(appInputStream);	
@@ -140,27 +147,92 @@ public class AppMission
 					App.Builder appBuilder = App.newBuilder();
 					appBuilder.mergeFrom(app);
 					appBuilder.build().writeTo(output);		
-					result = true;					
-					try
-					{
-						output.close();
-						appInputStream.close();
-					} catch (IOException e)
-					{
-					}	
-				}
-				
+					result = true;								
+					output.close();
+					appInputStream.close();					
+				}				
+			}else {
+				result = false;
+				//Toast.makeText(context, context.getString(R.string.conn_fail_exception), Toast.LENGTH_LONG).show();
 			}
 			
 		} catch (Exception e)
 		{
-			Log.e(TAG, "<downloadAppData> catch exception = "
-					+e.toString(), e);
+			Log.e(TAG, "<downloadAppData> catch exception = "+e.toString(), e);
 			result = false;
-		}
-		
-		
-		
+		}finally
+		{
+			try
+			{
+				if(output != null)
+				{
+					output.close();
+				}
+				if(appInputStream != null)
+				{
+					appInputStream.close();
+				}
+			} catch (IOException e)
+			{
+			}
+			
+		}	
+		return result;
+				
+	}
+	
+	
+	
+	private boolean downloadAppDataToLocal()
+	{				
+		boolean result = false;
+		InputStream appInputStream = null;
+		FileOutputStream output = null;
+		try
+		{
+			String url = String.format(ConstantField.APP, ConstantField.LANG_HANS);
+			appInputStream =  HttpTool.sendGetRequest(url);
+			if(appInputStream != null)
+			{
+				TravelResponse travelResponse = TravelResponse.parseFrom(appInputStream);	
+				if (travelResponse != null && travelResponse.getResultCode() == 0){
+					output = context.openFileOutput(ConstantField.APP_TEMP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
+					App app = travelResponse.getAppInfo();
+					App.Builder appBuilder = App.newBuilder();
+					appBuilder.mergeFrom(app);
+					appBuilder.build().writeTo(output);		
+					result = true;					
+					output.close();
+					appInputStream.close();
+				}
+				
+			}else {
+				result = false;
+				//Toast.makeText(context, context.getString(R.string.conn_fail_exception), Toast.LENGTH_LONG).show();
+			}
+			
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<downloadAppDataToLocal> catch exception = "+e.toString(), e);
+			result = false;
+		}finally
+		{
+			try
+			{
+				if(output != null)
+				{
+					output.close();
+				}
+				if(appInputStream != null)
+				{
+					appInputStream.close();
+				}
+				
+			} catch (IOException e)
+			{
+			}
+			
+		}	
 		return result;
 				
 	}
@@ -174,44 +246,103 @@ public class AppMission
         if (!tempFile.exists())
         {
           tempFile.mkdirs();
-        }
-        
-		HttpTool httpTool = new HttpTool();
+        }      
 		InputStream helpInputStream = null;
 		TravelResponse travelResponse = null;
 		FileOutputStream output = null;
+		String url = String.format(ConstantField.HELP, ConstantField.LANG_HANS);
 		try
 		{
-			helpInputStream =  httpTool.sendGetRequest(String.format(ConstantField.HELP, ConstantField.LANG_HANS));
-			travelResponse = TravelResponse.parseFrom(helpInputStream);	
-			if (travelResponse != null && travelResponse.getResultCode() == 0){
-				output = new FileOutputStream(ConstantField.HELP_DATA_TEMP_FILE);
-				HelpInfo help = travelResponse.getHelpInfo();
-				HelpInfo.Builder helpBuilder = HelpInfo.newBuilder();
-				helpBuilder.mergeFrom(help);
-				helpBuilder.build().writeTo(output);		
-				result = true;
-			}
+			helpInputStream =  HttpTool.sendGetRequest(url);
+			if(helpInputStream !=null)
+			{
+				travelResponse = TravelResponse.parseFrom(helpInputStream);	
+				if (travelResponse != null && travelResponse.getResultCode() == 0){
+					output = new FileOutputStream(ConstantField.HELP_DATA_TEMP_FILE);
+					HelpInfo help = travelResponse.getHelpInfo();
+					HelpInfo.Builder helpBuilder = HelpInfo.newBuilder();
+					helpBuilder.mergeFrom(help);
+					helpBuilder.build().writeTo(output);		
+					result = true;
+				}
+			}else
+			{
+				result = false;
+				//Toast.makeText(context, context.getString(R.string.conn_fail_exception), Toast.LENGTH_LONG).show();
+			}			
 		} catch (Exception e)
 		{
-			Log.e(TAG, "<downloadHelpProtoData> catch exception = "
-					+e.toString(), e);
+			Log.e(TAG, "<downloadHelpProtoData> catch exception = "+e.toString(), e);
 			result = false;
 		}
-		
-		try
+		finally
 		{
-			output.close();
-		} catch (IOException e)
-		{
+			try
+			{
+				if(output != null)
+				{
+					output.close();
+				}
+				if(helpInputStream != null)
+				{
+					helpInputStream.close();
+				}
+			} catch (IOException e)
+			{
+			}				
 		}
 		
+		return result;
+	}
+	
+	
+	private boolean downloadHelpProtoDataToLocal()
+	{		
+		boolean result = false;    
+		InputStream helpInputStream = null;
+		TravelResponse travelResponse = null;
+		FileOutputStream output = null;
+		String url = String.format(ConstantField.HELP, ConstantField.LANG_HANS);
 		try
 		{
-			helpInputStream.close();
-		} catch (IOException e)
+			helpInputStream =  HttpTool.sendGetRequest(url);
+			if(helpInputStream !=null)
+			{
+				travelResponse = TravelResponse.parseFrom(helpInputStream);	
+				if (travelResponse != null && travelResponse.getResultCode() == 0){
+					output = context.openFileOutput(ConstantField.HELP_TEMP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
+					HelpInfo help = travelResponse.getHelpInfo();
+					HelpInfo.Builder helpBuilder = HelpInfo.newBuilder();
+					helpBuilder.mergeFrom(help);
+					helpBuilder.build().writeTo(output);		
+					result = true;
+				}
+			}else
+			{
+				result = false;
+				//Toast.makeText(context, context.getString(R.string.conn_fail_exception), Toast.LENGTH_LONG).show();
+			}			
+		} catch (Exception e)
 		{
-		}	
+			Log.e(TAG, "<downloadHelpProtoDataToLocal> catch exception = "+e.toString(), e);
+			result = false;
+		}
+		finally
+		{
+			try
+			{
+				if(output != null)
+				{
+					output.close();
+				}
+				if(helpInputStream != null)
+				{
+					helpInputStream.close();
+				}			
+			} catch (IOException e)
+			{
+			}				
+		}
 		
 		return result;
 				
@@ -227,7 +358,9 @@ public class AppMission
         String url = AppManager.getInstance().getHelpURL();
         if(url != null)
 		{
-    		File helpFolder = new File(ConstantField.HELP_HTML_PATH);       
+    		File helpFolder = new File(ConstantField.HELP_HTML_PATH);  
+    		InputStream inStream = null;
+    		RandomAccessFile threadfile = null;
             if (!helpFolder.exists())
             {
             	helpFolder.mkdirs();
@@ -237,21 +370,104 @@ public class AppMission
     			File helpFile = new File(helpFolder ,HttpTool.getFileName(HttpTool.getConnection(url), url));
     			URL helpURL = new URL(url);
     			int fileSize = HttpTool.getConnection(url).getContentLength();
-    			InputStream inStream = HttpTool.getDownloadInputStream(helpURL, 0, fileSize);
-    			byte[] buffer = new byte[1024];
-    			int offset = 0;
-    			RandomAccessFile threadfile = new RandomAccessFile(helpFile, "rwd");
-    			while ((offset = inStream.read(buffer, 0, 1024)) != -1) {					
-    				threadfile.write(buffer, 0, offset);										
+    			inStream = HttpTool.getDownloadInputStream(helpURL, 0, fileSize);
+    			if(inStream !=null)
+    			{
+    				byte[] buffer = new byte[1024];
+        			int offset = 0;
+        			threadfile = new RandomAccessFile(helpFile, "rwd");
+        			while ((offset = inStream.read(buffer, 0, 1024)) != -1) {					
+        				threadfile.write(buffer, 0, offset);										
+        			}
+        			threadfile.close();
+        			inStream.close();	
+        			result = true;
     			}
-    			threadfile.close();
-    			inStream.close();	
-    			result = true;
+    			
     		} catch (Exception e)
     		{
-    			Log.e(TAG, "<downloadHelpZipData> catch exception = "
-    					+e.toString(), e);
+    			Log.e(TAG, "<downloadHelpZipData> catch exception = "+e.toString(), e);
     			result = false;
+    		}finally
+    		{
+    			try
+				{
+    				if(threadfile != null)
+    				{
+    					threadfile.close();
+    				}
+					if(inStream != null)
+					{
+						inStream.close();
+					}
+				} catch (IOException e)
+				{
+				}
+    			
+    		}		
+		}
+		
+		return result;
+				
+	}
+	
+	
+	
+	private boolean downloadHelpZipDataToLocal()
+	{		
+		boolean result = false;
+		
+        String url = AppManager.getInstance().getHelpURL();
+        if(url != null)
+		{ 
+    		InputStream inStream = null;
+    		RandomAccessFile threadfile = null;  
+    		FileOutputStream outputStream = null;
+    		try
+    		{  			
+    			URL helpURL = new URL(url);
+    			int fileSize = HttpTool.getConnection(url).getContentLength();
+    			inStream = HttpTool.getDownloadInputStream(helpURL, 0, fileSize);
+    			if(inStream !=null)
+    			{
+    				String fileName = HttpTool.getFileName(HttpTool.getConnection(url), url);
+        			outputStream = context.openFileOutput(fileName, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
+        			//File helpFile = new File(android.os.Environment.getDataDirectory() ,fileName);
+    				byte[] buffer = new byte[1024];
+        			int offset = 0;
+        			threadfile = new RandomAccessFile(fileName, "rwd");
+        			while ((offset = inStream.read(buffer, 0, 1024)) != -1) {					
+        				threadfile.write(buffer, 0, offset);										
+        			}
+        			threadfile.close();
+        			inStream.close();	
+        			result = true;
+    			}
+    			
+    		} catch (Exception e)
+    		{
+    			Log.e(TAG, "<downloadHelpZipData> catch exception = "+e.toString(), e);
+    			result = false;
+    		}finally
+    		{
+    			try
+				{
+    				if(threadfile != null)
+    				{
+    					threadfile.close();
+    				}
+					if(inStream != null)
+					{
+						inStream.close();
+					}	
+					if(outputStream != null)
+					{
+						outputStream.close();
+					}
+				} catch (IOException e)
+				{
+				}
+    			
     		}		
 		}
 		
@@ -265,21 +481,33 @@ public class AppMission
 		@Override
 		protected Boolean doInBackground(String... params)
 		{
-			boolean result = downloadAppData();
+			boolean sdcardEnable = FileUtil.sdcardEnable();
+			boolean result = false;
+			if(sdcardEnable)
+			{
+				result = downloadAppData();
+			}else {
+				result = downloadAppDataToLocal();
+			}
 			if (result){
 				try
-				{
-					result = FileUtil.copyFile(ConstantField.APP_DATA_TEMP_FILE, ConstantField.APP_DATA_FILE);			
+				{			
+					if(sdcardEnable)
+					{
+						result = FileUtil.copyFile(ConstantField.APP_DATA_TEMP_FILE, ConstantField.APP_DATA_FILE);	
+					}else {
+						FileOutputStream fileOutputStream = context.openFileOutput(ConstantField.APP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
+						FileInputStream fileInputStream = context.openFileInput(ConstantField.APP_TEMP_FILE);
+						result = FileUtil.copyFile(fileInputStream,fileOutputStream);
+					}					
 					if (!result){						
 						return Boolean.valueOf(false);
-					}
-					
+					}					
 					Log.i(TAG, "<updateAppData> new data load, try update...");				
 					
 				} catch (Exception e)
 				{
-					Log.e(TAG, "<updateAppData> catch exception = "
-							+e.toString(), e);
+					Log.e(TAG, "<updateAppData> catch exception = "+e.toString(), e);
 				}
 			}
 			
@@ -302,11 +530,15 @@ public class AppMission
 		@Override
 		protected Boolean doInBackground(Void... params)
 		{
+			boolean sdcardEnable = FileUtil.sdcardEnable(); 
 			boolean isExits = FileUtil.checkFileIsExits(ConstantField.HELP_DATA_ZIP_FILE);
 			boolean result = false;
 			if(!isExits)
 			{
-				result = downloadHelpProtoData();
+				if(sdcardEnable)
+				{
+					result = downloadHelpProtoData();
+				}				
 				if(result)
 				{
 					result =  FileUtil.copyFile(ConstantField.HELP_DATA_TEMP_FILE, ConstantField.HELP_DATA_FILE);
@@ -323,8 +555,11 @@ public class AppMission
 				float httpVersion = getHelpHttpVersion();
 				boolean checkVersion = TravelUtil.checkHelpIsNeedUpdate(localDataPath,httpVersion);
 				if(checkVersion)
-				{
-					result = downloadHelpProtoData();
+				{				
+					if(sdcardEnable)
+					{
+						result = downloadHelpProtoData();
+					}
 					if(result)
 					{
 						result =  FileUtil.copyFile(ConstantField.HELP_DATA_TEMP_FILE, ConstantField.HELP_DATA_FILE);
@@ -359,28 +594,38 @@ public class AppMission
 	private float getHelpHttpVersion()
 	{
 		float version = 0f;	
-  		HttpTool httpTool = new HttpTool();
 		InputStream helpInputStream = null;
 		TravelResponse travelResponse = null;
+		String url = String.format(ConstantField.HELP, ConstantField.LANG_HANS);
 		try
 		{
-			helpInputStream =  httpTool.sendGetRequest(String.format(ConstantField.HELP, ConstantField.LANG_HANS));
-			travelResponse = TravelResponse.parseFrom(helpInputStream);	
-			if (travelResponse != null && travelResponse.getResultCode() == 0){
-				HelpInfo help = travelResponse.getHelpInfo();
-				String versionString = help.getVersion();
-				version = Float.valueOf(versionString);
+			helpInputStream =  HttpTool.sendGetRequest(url);
+			if(helpInputStream != null)
+			{
+				travelResponse = TravelResponse.parseFrom(helpInputStream);	
+				if (travelResponse != null && travelResponse.getResultCode() == 0){
+					HelpInfo help = travelResponse.getHelpInfo();
+					String versionString = help.getVersion();
+					version = Float.valueOf(versionString);
+				}
 			}
+			
 		} catch (Exception e)
 		{
 			Log.e(TAG, "<getHelpHttpVersion> catch exception = "+e.toString(), e);
 		}	
-		try
+		finally
 		{
-			helpInputStream.close();
-		} catch (IOException e)
-		{
-		}	
+			try{
+				if(helpInputStream != null)
+				{
+					helpInputStream.close();
+				}				
+			} catch (IOException e)
+			{
+			}	
+		}
+			
 		
 		return version;
 	}

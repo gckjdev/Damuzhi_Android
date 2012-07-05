@@ -654,7 +654,7 @@ public class OpenCityActivity extends Activity
 
 
 
-	@Override
+	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		if (  keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
@@ -667,7 +667,7 @@ public class OpenCityActivity extends Activity
 			  return super.onKeyDown(keyCode, event);	
 		}
 	  
-	}
+	}*/
 
 
 

@@ -34,6 +34,7 @@
 	<string name="more_good_commend">精彩应用推荐</string>
 	<string name="submit">提交</string>
 	<string name="clear">清空</string>
+	<string name="clear_title">确定要清空浏览记录</string>
 	<string name="feedback_content_tips">请输入您的意见或建议：（不超过250字）</string>
 	<string name="feedback_content_hint">请输入您的建议或意见！</string>
 	<string name="feedback_conn_tips">您的E-mail或手机号码（不超过80字）</string>
@@ -62,11 +63,10 @@
 	<string name="installed">已安装</string>
 	<string name="delete">删除</string>
 	<string name="download_connection_error">下载链接失败</string>
+	<string name="did_not_download_anything">您还没有下载离线数据包</string>
     <!-- exception -->
     <string name="main_fetch_fail">网络异常</string>
-	<string name="NoSignalException">无法连接到网络，请检查网络配置</string>
-	<string name="apn_is_wrong1_exit">退出</string>
-	<string name="apn_is_wrong1_setnet">网络设置</string>
+	<string name="conn_fail_exception">无法连接到网络，请检查网络配置</string>
     <!-- placeListView -->
     <string name="scenery_title">景点(0)</string>
     <string name="loading">数据加载中...</string>
@@ -135,8 +135,7 @@
     <string name="leave_alert_dilaog">退出大拇指旅行</string>
     
     <!--share -->    
-    <string name="share_content">   
-        朋友们，我发现了一款非常专业的旅游指南《大拇指旅游》，
+    <string name="share_content">我发现了一款非常专业的旅游指南《大拇指旅游》，
         非常适合我们外出旅游使用，快下载来看看吧：
    http://trip8888.com/iphone
    </string>
@@ -145,11 +144,14 @@
    <string name="share_2_qq_title">分享到腾讯微博</string>
     <string name="share_success">分享成功</string>
      <string name="share_fail">分享失败</string>
-     <!--collect -->   
+     <!--favorite -->   
     <string name="my_collected">我的收藏</string>
     <string name="collect_rank">收藏排行</string>
+    <string name="no_favorite">暂无收藏信息</string>
+    
     <!--map --> 
     <string name="get_location_fail">定位失败</string>
+    <string name="open_gps_tips">请打开GPS定位</string>
     	<!-- 拖拽 -->
 	<string name="pull_to_refresh_pull_label">下拉可以刷新...</string>
     <string name="pull_to_refresh_release_label">松手可以刷新...</string>

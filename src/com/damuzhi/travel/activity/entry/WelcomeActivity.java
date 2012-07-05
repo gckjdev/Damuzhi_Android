@@ -44,6 +44,8 @@ public class WelcomeActivity extends MenuActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startup);	
 		TravelApplication.getInstance().addActivity(this);
+		HashMap<String, Double> location = LocationUtil.getLocation(this);
+		TravelApplication.getInstance().setLocation(location);
 		init();
 	}
 	

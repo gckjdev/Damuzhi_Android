@@ -86,45 +86,37 @@ public class OverviewMission
 		String CityOverviewType = TravelUtil.getOverviewType(overviewType);
 		String url = String.format(ConstantField.OVERVIEW, CityOverviewType,cityId,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getOverviewByUrl> load place data from http ,url = "+url);
-		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;
 		try
 		{
-			inputStream = httpTool.sendGetRequest(url);
+			inputStream = HttpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
-				try
-				{
-					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-					if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getOverview() == null){
-						return null;
-					}
-					
-					inputStream.close();
-					inputStream = null;					
-					return travelResponse.getOverview();
-				} catch (Exception e)
-				{					
-					Log.e(TAG, "<getOverviewByUrl> catch exception = "+e.toString(), e);
+				
+				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
+				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getOverview() == null){
 					return null;
-				}				
+				}					
+				inputStream.close();
+				inputStream = null;					
+				return travelResponse.getOverview();		
 			}
 			else{
 				return null;
-			}
-			
+			}			
 		} 
 		catch (Exception e)
 		{
 			Log.e(TAG, "<getOverviewByUrl> catch exception = "+e.toString(), e);
-			if (inputStream != null){
+			
 				try
 				{
-					inputStream.close();
+					if (inputStream != null){
+						inputStream.close();
+					}
 				} catch (IOException e1)
 				{
 				}
-			}
 			return null;
 		}
 	}

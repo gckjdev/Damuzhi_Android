@@ -546,19 +546,28 @@ public class TravelUtil
 		String distanceStr = "";
 		double locationLonggitude = 0;
 		double locationLatitude = 0;
-		if(TravelApplication.getInstance().getLocation().size() >0)
-		{
-			HashMap<String, Double> location = TravelApplication.getInstance().getLocation();			
+		HashMap<String, Double> location = TravelApplication.getInstance().getLocation();	
+		if(location!=null&&location.size() >0)
+		{					
 			locationLonggitude = location.get(ConstantField.LONGITUDE);
 			locationLatitude = location.get(ConstantField.LATITUDE);
 			int distance = (int) TravelUtil.GetDistance(longitude, latitude,
 					locationLonggitude, locationLatitude);
 			if (distance > 1000)
 			{
-				distanceStr = distance / 1000 + "km";
+				distance = distance / 1000;
+				if(distance >100)
+				{
+					distanceStr = ">100km";					
+				}else {
+					distanceStr =  distance+ "km";
+				}
+				return distanceStr;
+				
 			} else
 			{
 				distanceStr = distance + "m";
+				return distanceStr;
 			}
 			
 		}
@@ -569,16 +578,23 @@ public class TravelUtil
 	public static String getDistance(double targetLongitude, double targetLatitude,double longitude, double latitude)
 	{
 		String distanceStr = "";		
-			int distance = (int) TravelUtil.GetDistance(longitude, latitude,
-					targetLongitude, targetLatitude);
+			int distance = (int) TravelUtil.GetDistance(longitude, latitude,targetLongitude, targetLatitude);
 			if (distance > 1000)
 			{
-				distanceStr = distance / 1000 + "km";
+				distance = distance / 1000;
+				if(distance >100)
+				{
+					distanceStr = ">100km";					
+				}else {
+					distanceStr =  distance+ "km";
+				}
+				return distanceStr;
+				
 			} else
 			{
 				distanceStr = distance + "m";
+				return distanceStr;
 			}
-		return distanceStr;
 	}
 
 	
@@ -683,7 +699,7 @@ public class TravelUtil
 	}
 	
 	public static boolean isNumber(String strNumber) { 
-	    String strPattern = "^[0-9]*$";
+	    String strPattern = "^1[0-9]{10}$";
 	    Pattern p = Pattern.compile(strPattern);
 	    Matcher m = p.matcher(strNumber);
 	    return m.matches();

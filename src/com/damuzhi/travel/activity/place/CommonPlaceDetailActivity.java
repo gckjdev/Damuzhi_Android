@@ -19,6 +19,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.CursorJoiner.Result;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -95,7 +96,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	private ImageView coolectBtn;
 	private List<Place> nearbyPlaceList = new ArrayList<Place>();
 	private AsyncTask<Void, Void, List<Place>> nearbyAsyncTask;
-	ViewGroup nearbyListGroup;
+	ViewGroup placeDetailGroup,nearbyListGroup;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -431,14 +432,15 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			TextView website = (TextView) findViewById(R.id.website);
 			website.setText(getString(R.string.website)+place.getWebsite());
 		}
+		//placeDetailGroup = (ViewGroup) findViewById(R.id.place_detail_group);
 		nearbyListGroup = (ViewGroup) findViewById(R.id.nearby_list_group);
 		favoriteCount = (TextView) findViewById(R.id.favorite_count);
 		collect = (TextView) findViewById(R.id.collect);
 		coolectBtn = (ImageView) findViewById(R.id.collect_btn);
 		coolectBtn.setOnClickListener(addFavoriteOnClickListener);
-		ImageButton helpButton = (ImageButton) findViewById(R.id.help_button);
+		ImageButton locationButton = (ImageButton) findViewById(R.id.location_button);
 		ImageView help2Button = (ImageView) findViewById(R.id.help2);
-		helpButton.setOnClickListener(helpOnClickListener);
+		locationButton.setOnClickListener(locationOnClickListener);
 		help2Button.setOnClickListener(helpOnClickListener);
 	  }
 	}
@@ -449,19 +451,19 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		@Override
 		public void onPageSelected(int arg0)
 		{
-			for (int i = 0; i < imageViews.length; i++) {
-				imageViews[arg0].setBackgroundResource(R.drawable.guide_dot_white);
-				if (arg0 != i) {
-					imageViews[i].setBackgroundResource(R.drawable.guide_dot_black);
-				}
-			}
+			
 			
 		}
 		
 		@Override
 		public void onPageScrolled(int arg0, float arg1, int arg2)
 		{
-			// TODO Auto-generated method stub
+			for (int i = 0; i < imageViews.length; i++) {
+				imageViews[arg0].setBackgroundResource(R.drawable.guide_dot_white);
+				if (arg0 != i) {
+					imageViews[i].setBackgroundResource(R.drawable.guide_dot_black);
+				}
+			}
 		}
 		
 		@Override
@@ -469,6 +471,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		{
 			// TODO Auto-generated method stub		
 		}
+		
 	};
 
 
@@ -492,6 +495,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
+			openGPSSettings();
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			intent.setClass(CommonPlaceDetailActivity.this, NearbyPlaceMap.class);
@@ -719,6 +723,31 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		}
 	};
 	
+	private OnClickListener locationOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			openGPSSettings();
+			Intent intent = new Intent();
+			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
+			intent.setClass(CommonPlaceDetailActivity.this, NearbyPlaceMap.class);
+			startActivity(intent);	
+			
+		}
+	};
 	
+	
+	
+	
+	private void openGPSSettings() {
+
+		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+			return;
+		}
+			Toast.makeText(this, getString(R.string.open_gps_tips), Toast.LENGTH_SHORT).show();
+	}
 	
 }

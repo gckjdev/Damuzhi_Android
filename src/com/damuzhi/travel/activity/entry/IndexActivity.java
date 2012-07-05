@@ -176,37 +176,32 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			startActivity(intent);
 			break;
 		case R.id.scenery:	
-			Log.d(TAG, "scenery");
 			Intent sceneryIntent = new Intent();
 			sceneryIntent.setClass(IndexActivity.this, CommonSpotActivity.class);	
 			startActivity(sceneryIntent);
 			break;
 		case R.id.hotel:
-			Log.d(TAG, "hotel");
 			Intent hotelIntent = new Intent();
 			hotelIntent.setClass(IndexActivity.this, CommonHotelActivity.class);		
 			startActivity(hotelIntent);
 			break;
 		case R.id.restaurant:	
-			Log.d(TAG, "restaurant");
 			Intent restaurantIntent = new Intent();
 			restaurantIntent.setClass(IndexActivity.this, CommonRestaurantActivity.class);		
 			startActivity(restaurantIntent);
 			break;
 		case R.id.shopping:	
-			Log.d(TAG, "shopping");
 			Intent shoppingIntent = new Intent();
 			shoppingIntent.setClass(IndexActivity.this, CommonShoppingActivity.class);		
 			startActivity(shoppingIntent);
 			break;
 		case R.id.entertainment:	
-			Log.d(TAG, "shopping");
 			Intent entertainmentIntent = new Intent();
 			entertainmentIntent.setClass(IndexActivity.this, CommonEntertainmentActivity.class);		
 			startActivity(entertainmentIntent);
 			break;
 		case R.id.nearby:	
-			Log.d(TAG, "nearby");
+			openGPSSettings();
 			Intent nearbyIntent = new Intent();
 			nearbyIntent.setClass(IndexActivity.this, CommonNearbyPlaceActivity.class);		
 			startActivity(nearbyIntent);
@@ -232,13 +227,11 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			startActivity(travelTransportationIntent);
 			break;
 		case R.id.travel_tips:	
-			Log.d(TAG, "travel_tips");
 			Intent travelTipsIntent = new Intent();
 			travelTipsIntent.setClass(IndexActivity.this, TravelGuidesActivity.class);		
 			startActivity(travelTipsIntent);
 			break;
 		case R.id.travel_commend:	
-			Log.d(TAG, "travel_commend");
 			Intent travelRoutesIntent = new Intent();
 			travelRoutesIntent.setClass(IndexActivity.this, TravelRoutesActivity.class);		
 			startActivity(travelRoutesIntent);
@@ -454,4 +447,13 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		}
 	};
 
+	
+	
+	private void openGPSSettings() {
+		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+			return;
+		}
+			Toast.makeText(this, getString(R.string.open_gps_tips), Toast.LENGTH_SHORT).show();
+	}
 }

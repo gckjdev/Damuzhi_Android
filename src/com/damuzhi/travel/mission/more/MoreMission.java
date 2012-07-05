@@ -70,16 +70,17 @@ public class MoreMission
 	{
 		float version = 0f;
 		String url = ConstantField.ANDROID_VERSION;
-		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;
+		InputStreamReader inputStreamReader = null;
+		BufferedReader br = null;
 		try
 		{
-			inputStream = httpTool.sendGetRequest(url);
+			inputStream = HttpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
-				try
-				{
-					BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+				
+					inputStreamReader = new InputStreamReader(inputStream);
+					br = new BufferedReader(inputStreamReader);
 					StringBuffer sb = new StringBuffer();
 					String result = br.readLine();
 					Log.i(TAG, "<getNewVersion> result "+result);
@@ -98,30 +99,42 @@ public class MoreMission
 						version = Float.parseFloat(versionData.getString("app_version"));
 						return version;
 					}					
-													
-				} catch (Exception e)
-				{					
-					Log.e(TAG, "<getNewVersion> catch exception = "+e.toString(), e);
-					return version;
-				}				
-			}
-			else{
-				return version;
-			}
-			
+			}		
 		} 
 		catch (Exception e)
 		{
 			Log.e(TAG, "<getNewVersion> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
+			try
+			{
+				if (inputStream != null){				
+						inputStream.close();
 				}
+				if (inputStreamReader != null){
+						inputStreamReader.close();
+				}
+				if (br != null){				
+						br.close();
+				}
+			} catch (IOException e1)
+			{
 			}
 			return version;
+		}finally
+		{
+			try
+			{
+				if (inputStream != null){				
+						inputStream.close();
+				}
+				if (inputStreamReader != null){
+						inputStreamReader.close();
+				}
+				if (br != null){				
+						br.close();
+				}
+			} catch (IOException e1)
+			{
+			}
 		}
 		return version;
 	}

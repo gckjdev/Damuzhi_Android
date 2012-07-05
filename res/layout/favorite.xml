@@ -139,25 +139,23 @@
             </RelativeLayout>
         </RelativeLayout>
         </LinearLayout>
-    <TextView 
-     android:layout_width="fill_parent"
-     android:layout_height="wrap_content"
-     android:layout_marginTop="20dp"
-     android:text="@string/data_not_found"
-     android:layout_below="@id/collect_bar"
-     android:gravity="center"
-     android:id="@+id/data_not_found"
-     android:visibility="gone"
-     android:textSize="13sp"/>
     <LinearLayout 
      android:id="@+id/page"
      android:layout_width="fill_parent"
      android:layout_height="fill_parent"
      android:layout_alignParentLeft="true"
      android:layout_below="@id/collect_bar"
-     android:background="#ffffff"
-     android:orientation="vertical"
-     android:visibility="gone">   
+     android:background="@color/white"
+     android:orientation="vertical">   
+	     <TextView 
+		     android:layout_width="fill_parent"
+		     android:layout_height="wrap_content"
+		     android:text="@string/no_favorite"
+		     android:layout_marginTop="20dp"
+		     android:gravity="center"
+		     android:id="@+id/data_not_found"
+		     android:visibility="gone"
+		     android:textSize="14sp"/>
 	    <ListView 
 	        android:id="@+id/collect_list"
 	        android:layout_width="fill_parent"

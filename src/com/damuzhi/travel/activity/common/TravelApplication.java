@@ -19,10 +19,12 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
 
+import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.entry.WelcomeActivity;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.protos.AppProtos.CityArea;
@@ -38,7 +40,9 @@ import android.R.integer;
 import android.app.Activity;
 import android.app.Application;
 import android.os.DeadObjectException;
+import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 public class TravelApplication extends Application
 {
@@ -62,7 +66,6 @@ public class TravelApplication extends Application
 		super.onCreate();
 		travelApplication = this;
 		defaultHttpClient = createHttpClient();
-		TravelApplication.getInstance().setLocation(LocationUtil.getLocation(this));
 	}
 	
 	@Override
@@ -129,6 +132,32 @@ public class TravelApplication extends Application
 	public void setLocation(HashMap<String, Double> location)
 	{
 		this.location = location;
+	}
+	
+	public  boolean checkNetworkConnection()
+	{
+		return HttpTool.checkNetworkConnection(travelApplication);
+	}
+	
+	public void makeToast()
+	{
+		Thread thread = new Thread(new Runnable()
+		{
+			
+			@Override
+			public void run()
+			{
+				 int size = activityList.size();
+				 if(size>0)
+				 {
+					 Looper.prepare();
+					 Toast.makeText(activityList.get(size-1), travelApplication.getString(R.string.conn_fail_exception), Toast.LENGTH_SHORT).show();
+					 Looper.loop();
+				 }				
+			}
+		});
+		thread.start();
+		
 	}
 	
 }

@@ -21,22 +21,13 @@
     	    android:layout_height="wrap_content"
     	    android:layout_alignParentRight="true"
     	    android:layout_centerVertical="true"
-    	    android:layout_marginRight="10dp">
+    	    android:layout_marginRight="5dp">
 	    	<ImageButton 
-	    	    android:id="@+id/help_button"
+	    	    android:id="@+id/location_button"
 	    	    android:layout_width="48dp"
 	    	    android:layout_height="32dp"
 	    	    android:background="@null"
-	    	    android:src="@drawable/help_mini_button"/>	
-	    	 <TextView 
-	    	    android:layout_width="wrap_content"
-	    	    android:layout_height="wrap_content"
-	    	    android:text="@string/help"
-	    	    android:layout_gravity="center"
-	    	    android:gravity="center"
-	    	    android:textColor="@color/white"
-	    	    android:textSize="13sp"
-	    	    />	
+	    	    android:src="@drawable/select_map_button"/>
     	</FrameLayout>
     </RelativeLayout>
      <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -86,10 +77,11 @@
 	        android:layout_marginRight="8.0dp"			        
 	        android:scaleType="fitCenter"/>	   	
     </RelativeLayout>
-   	<ScrollView 
+   	<com.damuzhi.travel.activity.common.CommonScrollView 
    	    xmlns:android="http://schemas.android.com/apk/res/android"
    	    android:layout_width="fill_parent"
    	    android:layout_height="wrap_content"
+   	    android:id="@+id/place_detail_group"
    	    android:background="@color/white"
    	    android:fillViewport="true"
    	    android:scrollbars="none">
@@ -103,7 +95,7 @@
 	   	     android:layout_width="320dp"
 	   	     android:layout_height="190dp"
 	   	     android:orientation="vertical">
-	   	      <android.support.v4.view.ViewPager  
+	   	      <android.support.v4.view.ViewPager
 	   	          android:id="@+id/place_images"
 	   	          android:layout_width="fill_parent"
 	   	          android:layout_height="fill_parent"/>
@@ -134,7 +126,7 @@
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:gravity="center_vertical"
 	   	  		    android:paddingLeft="10.0dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:background="@drawable/detail_shadow"
 	   	  		    />  
@@ -144,7 +136,7 @@
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:paddingLeft="10.0dp"
 	   	  		    android:paddingRight="10.0dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		    android:textColor="@color/place_price_color"
 	   	  		    android:background="@color/placeIntro_bg"
 	   	  		    android:paddingBottom="15dp"/>
@@ -168,7 +160,7 @@
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/ticketsPrice"/>
 	   	  		 <TextView
@@ -176,8 +168,7 @@
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_marginLeft="10dp"
-	   	  		    android:gravity="center"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		     android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		  <ImageView
@@ -200,7 +191,7 @@
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/hotelStart"
 	   	  		    />
@@ -222,7 +213,7 @@
 		   	  		    android:layout_height="wrap_content"
 		   	  		    android:layout_marginLeft="10dp"
 		   	  		    android:gravity="center"
-		   	  		    android:textSize="14.0sp"
+		   	  		    android:textSize="15.0sp"
 		   	  		    android:textColor="@color/place_price_color"/>
 	   	  		 </LinearLayout>
 	   	  		  <ImageView
@@ -245,7 +236,7 @@
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/food_type"/>  
 	   	  		 <TextView
@@ -253,7 +244,7 @@
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_marginLeft="10.0dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		    android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		 <ImageView
@@ -276,7 +267,7 @@
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/open_time"/>  
 	   	  		 <TextView
@@ -284,7 +275,7 @@
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_marginLeft="10.0dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		    android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		 <ImageView
@@ -307,7 +298,7 @@
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/avg_price"/>  
 	   	  		 <TextView
@@ -315,7 +306,7 @@
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_marginLeft="10.0dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		    android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		 <ImageView
@@ -338,7 +329,7 @@
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/key_word"/>  
 	   	  		 <TextView
@@ -346,7 +337,7 @@
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_marginLeft="10.0dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		    android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		 <ImageView
@@ -369,7 +360,7 @@
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/special_food"/>  
 	   	  		 <TextView
@@ -377,7 +368,7 @@
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_marginLeft="10.0dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		    android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		 <ImageView
@@ -397,7 +388,7 @@
 	   	  		    android:id="@+id/room_price_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
@@ -410,7 +401,7 @@
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:singleLine="true"
 	   	  		    android:layout_marginLeft="10.0dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		     android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		  <ImageView
@@ -433,7 +424,7 @@
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/park"/>  
 	   	  		 <TextView
@@ -441,7 +432,7 @@
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_marginLeft="10.0dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		    android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		 <ImageView
@@ -461,7 +452,7 @@
 	   	  		    android:id="@+id/transport_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
@@ -477,7 +468,7 @@
 			        android:marqueeRepeatLimit="marquee_forever"
 			        android:scrollHorizontally="true"
 	   	  		    android:layout_marginLeft="10.0dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		    android:paddingBottom="15dp"
 	   	  		    android:textColor="@color/place_price_color"/>
 	   	  		  <ImageView
@@ -499,7 +490,7 @@
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"	   	  		    
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/trafficInfo"
 	   	  		    />
@@ -524,7 +515,7 @@
 			   	  		    android:layout_height="wrap_content"
 			   	  		    android:layout_marginLeft="20dp"
 			   	  		    android:layout_alignParentLeft="true"		   	  		    
-			   	  		    android:textSize="14.0sp"
+			   	  		    android:textSize="15.0sp"
 			   	  		    android:textColor="@color/place_title_color"
 			   	  		    android:text="@string/trafficLocation"/>
 	   	  		      <TextView	
@@ -533,7 +524,7 @@
 			   	  		    android:layout_height="wrap_content"
 			   	  		    android:layout_alignParentLeft="true"
 			   	  		    android:layout_marginLeft="200dp"
-			   	  		    android:textSize="14sp"
+			   	  		    android:textSize="15sp"
 			   	  		    android:textColor="@color/place_title_color"
 			   	  		    android:text="@string/trafficDistance"/>
 	   	  		    </RelativeLayout>
@@ -555,7 +546,7 @@
 	   	  		    android:id="@+id/tips_title"
 	   	  		    android:layout_width="wrap_content"
 	   	  		    android:layout_height="wrap_content"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
 	   	  		    android:layout_marginBottom="5dp"
@@ -569,7 +560,7 @@
 	   	  		    android:singleLine="false"
 	   	  		    android:layout_marginLeft="10.0dp"
 	   	  		    android:paddingBottom="15dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
  	  			   	android:textColor="@color/place_price_color"/>
 	   	  		  <ImageView
 	   	  		     android:layout_width="fill_parent"
@@ -588,7 +579,7 @@
 	   	  		    android:id="@+id/nearby_title"
 	   	  		    android:layout_width="fill_parent"
 	   	  		    android:layout_height="wrap_content"
-	   	  		    android:textSize="15sp"
+	   	  		    android:textSize="16sp"
 	   	  		    android:gravity="left"
 	   	  		    android:layout_marginTop="5dp"
 	   	  		    android:layout_marginLeft="10dp"
@@ -622,7 +613,7 @@
 			        android:ellipsize="marquee"
 			        android:marqueeRepeatLimit="marquee_forever"
 			        android:scrollHorizontally="true"
-	   	  		    android:textSize="15sp"
+	   	  		    android:textSize="16sp"
 	   	  		    android:textColor="@color/connect_info"
 	   	  		    />  
 	   	  		 <ImageView
@@ -655,7 +646,7 @@
 	   	  		    android:gravity="center_vertical"
 	   	  		    android:layout_marginLeft="30.0dp"
 	   	  		    android:layout_marginRight="10dp"
-	   	  		    android:textSize="15sp"
+	   	  		    android:textSize="16sp"
 	   	  		    android:textColor="@color/connect_info"
 	   	  		    />  
 	   	  		 <ImageView
@@ -682,7 +673,7 @@
 	   	  		    android:gravity="left|center_vertical"
 	   	  		    android:layout_alignParentLeft="true"
 	   	  		    android:layout_marginLeft="30.0dp"
-	   	  		    android:textSize="15sp"
+	   	  		    android:textSize="16sp"
 	   	  		    android:textColor="@color/connect_info"
 	   	  		    />  
 	   	  </RelativeLayout>
@@ -708,7 +699,7 @@
 	   	  		    android:layout_centerHorizontal="true"
 	   	  		    android:paddingLeft="30dp"
 	   	  		    android:layout_marginTop="12dp"
-	   	  		    android:textSize="15.0sp"
+	   	  		    android:textSize="16.0sp"
 	   	  		    android:textColor="@android:color/black"
 	   	  		    android:text="@string/collect"/>  
 	   	  		<TextView	
@@ -719,12 +710,12 @@
 	   	  		    android:layout_below="@id/collect"
 	   	  		    android:layout_centerHorizontal="true"
 	   	  		    android:layout_marginTop="5dp"
-	   	  		    android:textSize="14.0sp"
+	   	  		    android:textSize="15.0sp"
 	   	  		    android:textColor="@color/place_price_color"
 	   	  		    android:paddingBottom="15dp"
 	   	  		    />  
 	   	  </RelativeLayout>
    	  </LinearLayout>
-   	</ScrollView>	
+   	</com.damuzhi.travel.activity.common.CommonScrollView>	
     
 </LinearLayout>

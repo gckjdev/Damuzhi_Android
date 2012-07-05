@@ -101,47 +101,50 @@ public class FileDownloader
 		{
 			boolean flag = false;
 			HttpURLConnection conn = HttpTool.getConnection(downloadURL);
-			conn.connect();
-			printResponseHeader(conn);
-			if (conn.getResponseCode() == 200)
+			if(conn !=null)
 			{
-				File fileSaveDir = new File(this.tempPath);
-				//File fileSaveDir = new File(this.savePath);
-				downloadManager = new DownloadManager(this.context);
-				if (!fileSaveDir.exists())
-					fileSaveDir.mkdirs();
-				this.threads = new DownloadThread[threadNum];
-				this.fileSize = conn.getContentLength();
-				if (this.fileSize <= 0)
+				conn.connect();
+				printResponseHeader(conn);
+				if (conn.getResponseCode() == 200)
 				{
-					throw new RuntimeException("Unkown file size ");
-				}
-				flag = true;
-				//String filename = HttpTool.getFileName(conn, downloadURL);
-				String filename = HttpTool.getTempFileName(conn, downloadURL);
-				this.saveFile = new File(fileSaveDir, filename);
-				Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
-				if (logdata.size() > 0)
-				{
-					for (Map.Entry<Integer, Integer> entry : logdata.entrySet())
+					File fileSaveDir = new File(this.tempPath);
+					//File fileSaveDir = new File(this.savePath);
+					downloadManager = new DownloadManager(this.context);
+					if (!fileSaveDir.exists())
+						fileSaveDir.mkdirs();
+					this.threads = new DownloadThread[threadNum];
+					this.fileSize = conn.getContentLength();
+					if (this.fileSize <= 0)
 					{
-						data.put(entry.getKey(), entry.getValue());
+						throw new RuntimeException("Unkown file size ");
 					}
-				}
-				this.block = (this.fileSize % this.threads.length) == 0 ? this.fileSize/ this.threads.length: this.fileSize / this.threads.length + 1;
-				if (this.data.size() == this.threads.length)
-				{
-					for (int i = 0; i < this.threads.length; i++)
+					flag = true;
+					//String filename = HttpTool.getFileName(conn, downloadURL);
+					String filename = HttpTool.getTempFileName(conn, downloadURL);
+					this.saveFile = new File(fileSaveDir, filename);
+					Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
+					if (logdata.size() > 0)
 					{
-						this.downloadSize += this.data.get(i + 1);
+						for (Map.Entry<Integer, Integer> entry : logdata.entrySet())
+						{
+							data.put(entry.getKey(), entry.getValue());
+						}
 					}
-					Log.d(TAG, "downsize = " + this.downloadSize);
-
+					this.block = (this.fileSize % this.threads.length) == 0 ? this.fileSize/ this.threads.length: this.fileSize / this.threads.length + 1;
+					if (this.data.size() == this.threads.length)
+					{
+						for (int i = 0; i < this.threads.length; i++)
+						{
+							this.downloadSize += this.data.get(i + 1);
+						}
+						Log.d(TAG, "downsize = " + this.downloadSize);
+	
+					}
+				} else
+				{
+					flag = false;
+					Log.e(TAG, "<FileDownloaderCheeck> download service get conn fail,response code = "+conn.getResponseCode());
 				}
-			} else
-			{
-				flag = false;
-				Log.e(TAG, "<FileDownloaderCheeck> download service get conn fail,response code = "+conn.getResponseCode());
 			}
 			return flag;
 		} catch (Exception e)

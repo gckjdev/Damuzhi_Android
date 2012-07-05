@@ -183,23 +183,16 @@ public class FavoriteActivity extends MenuActivity
 			@Override
 			protected void onPostExecute(List<Place> resultList)
 			{
-				loadingDialog.dismiss();
+				//loadingDialog.dismiss();
 				favoritePlaceList = resultList;	
 				refreshPlaceView(favoritePlaceList);
-				if(favoritePlaceList.size()>0)
-				{
-					findViewById(R.id.page).setVisibility(View.VISIBLE);					
-				}else
-				{
-					findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
-				}
 				super.onPostExecute(resultList);
 			}
 
 			@Override
 			protected void onPreExecute()
 			{
-				showRoundProcessDialog();
+				//showRoundProcessDialog();
 				super.onPreExecute();
 			}
 
@@ -213,11 +206,19 @@ public class FavoriteActivity extends MenuActivity
 	
 	private void refreshPlaceView(List<Place> list)
 	{
-		List<Place> origList = new ArrayList<Place>();
-		origList.addAll(list);
-		adapter.setList(origList);
-		adapter.setShowDeleteBtn(isShowDeleteBtn);
-		adapter.notifyDataSetChanged();		
+		if(list!=null && list.size()>0)
+		{
+			listView.setVisibility(View.VISIBLE);
+			findViewById(R.id.data_not_found).setVisibility(View.GONE);
+			adapter.setList(list);
+			adapter.setShowDeleteBtn(isShowDeleteBtn);
+			adapter.notifyDataSetChanged();
+		}else
+		{
+			listView.setVisibility(View.GONE);
+			findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
+		}
+				
 
 	}
 	
@@ -305,11 +306,32 @@ public class FavoriteActivity extends MenuActivity
 				isShowDeleteBtn = true;
 			}		
 			refreshPlaceView(favoritePlaceList);
+			for(int i=0;i<favoritePlaceList.size();i++)
+			{
+				ImageView deleteItemButton =  (ImageView) listView.findViewWithTag(i);
+				deleteItemButton.setOnClickListener(deleteItemOnClickListener);
+			}		
 		}
 	};
 
 	 
-	
+	private OnClickListener deleteItemOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			int position = (Integer)v.getTag();
+			Place place = favoritePlaceList.get(position);
+			//ArrayList<Place> placeList = new ArrayList<Place>();
+			//placeList.addAll(favoritePlaceList);
+			boolean result = FavoriteMission.getInstance().deleteFavorite(place.getPlaceId());
+			if (result)
+			{
+				loadFavorite(favoriteConfigure,currentPlaceCategory);
+			}
+		}
+	};
 				
 				
 		 private OnClickListener allPlaceOnClickListener = new OnClickListener()
@@ -602,6 +624,8 @@ public class FavoriteActivity extends MenuActivity
 		loadingDialog.setOnKeyListener(keyListener);
 		loadingDialog.show();
 	}
+
+	
 	
 	
 	

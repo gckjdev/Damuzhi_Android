@@ -110,28 +110,31 @@ public class NearbyPlaceMap extends MapActivity
 			nearbyPlaceList = result;
 			Drawable marker = getResources().getDrawable(R.drawable.locate_back1);
 			marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
-			PlaceLoaction placeLoaction = new PlaceLoaction( marker,targetPlace, nearbyPlaceList);
-			mapView.getOverlays().add(placeLoaction);		
-			GeoPoint pt = placeLoaction.getCenter();
-			mapc.setCenter(pt);
-			
-			targetPlaceView = LayoutInflater.from(NearbyPlaceMap.this).inflate(R.layout.overlay_popup, null);
-			GeoPoint geoPoint = new GeoPoint((int)(targetPlace.getLatitude()*1e6),(int)(targetPlace.getLongitude()*1e6));
-			TextView titleView = (TextView) targetPlaceView.findViewById(R.id.map_bubbleTitle);
-			titleView.setText(targetPlace.getName());
-			mapView.addView(targetPlaceView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, geoPoint, MapView.LayoutParams.BOTTOM_CENTER));
-			
-			
-			popupView = LayoutInflater.from(NearbyPlaceMap.this).inflate(R.layout.overlay_popup, null);
-			mapView.addView(popupView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.BOTTOM_CENTER));
-			popupView.setVisibility(View.GONE);
-			placeLoaction.setOnFocusChangeListener(changeListener);
-			popupView.setOnClickListener(mapviewPopupItemOnClickListener);
-			myLocateButton = (ImageView) findViewById(R.id.my_locate);
-			canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
-			myLocateButton.setOnClickListener(myLocateOnClickListener);
-			canceLocateButton.setOnClickListener(cancelLocateOnClickListener);
-			targetPlaceView.setOnClickListener(tragetPopupItemOnClickListener);
+			if(targetPlace!=null&&nearbyPlaceList.size()>0)
+			{
+				PlaceLoaction placeLoaction = new PlaceLoaction( marker,targetPlace, nearbyPlaceList);
+				mapView.getOverlays().add(placeLoaction);		
+				GeoPoint pt = placeLoaction.getCenter();
+				mapc.setCenter(pt);
+				
+				targetPlaceView = LayoutInflater.from(NearbyPlaceMap.this).inflate(R.layout.overlay_popup, null);
+				GeoPoint geoPoint = new GeoPoint((int)(targetPlace.getLatitude()*1e6),(int)(targetPlace.getLongitude()*1e6));
+				TextView titleView = (TextView) targetPlaceView.findViewById(R.id.map_bubbleTitle);
+				titleView.setText(targetPlace.getName());
+				mapView.addView(targetPlaceView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, geoPoint, MapView.LayoutParams.BOTTOM_CENTER));
+				
+				
+				popupView = LayoutInflater.from(NearbyPlaceMap.this).inflate(R.layout.overlay_popup, null);
+				mapView.addView(popupView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.BOTTOM_CENTER));
+				popupView.setVisibility(View.GONE);
+				placeLoaction.setOnFocusChangeListener(changeListener);
+				popupView.setOnClickListener(mapviewPopupItemOnClickListener);
+				myLocateButton = (ImageView) findViewById(R.id.my_locate);
+				canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
+				myLocateButton.setOnClickListener(myLocateOnClickListener);
+				canceLocateButton.setOnClickListener(cancelLocateOnClickListener);
+				targetPlaceView.setOnClickListener(tragetPopupItemOnClickListener);
+			}			
 		}
 		
 	}
@@ -302,73 +305,4 @@ public class NearbyPlaceMap extends MapActivity
 			
 		}
 	};
-		
-
-
-
-
-
-	/*@Override
-	protected void onPause()
-	{
-		super.onPause();
-		if(popupView!=null)
-		{
-			popupView.setVisibility(View.GONE);
-		}
-		
-	}*/
-
-	
-	
-	/*public void init()
-	{	
-		nearbyPlaceList = PlaceMission.getInstance().getPlaceNearbyInDistance(targetPlace, 10f);
-		mapView = (MapView) findViewById(R.id.commendPlaceMap);
-		mapc = mapView.getController();
-		Drawable marker = getResources().getDrawable(R.drawable.locate_back1);
-		marker.setBounds(0, 0, marker.getIntrinsicWidth(), marker.getIntrinsicHeight());
-		PlaceLoaction placeLoaction = new PlaceLoaction( marker,targetPlace, nearbyPlaceList);
-		mapView.getOverlays().add(placeLoaction);
-		mapView.setStreetView(true);
-		GeoPoint pt = placeLoaction.getCenter();
-		mapc.setCenter(pt);
-		mapc.setZoom(20);		
-		
-		targetPlaceView = LayoutInflater.from(NearbyPlaceMap.this).inflate(R.layout.overlay_popup, null);
-		GeoPoint geoPoint = new GeoPoint((int)(targetPlace.getLatitude()*1e6),(int)(targetPlace.getLongitude()*1e6));
-		TextView titleView = (TextView) targetPlaceView.findViewById(R.id.map_bubbleTitle);
-		titleView.setText(targetPlace.getName());
-		mapView.addView(targetPlaceView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, geoPoint, MapView.LayoutParams.BOTTOM_CENTER));
-		
-		
-		popupView = LayoutInflater.from(NearbyPlaceMap.this).inflate(R.layout.overlay_popup, null);
-		mapView.addView(popupView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.BOTTOM_CENTER));
-		popupView.setVisibility(View.GONE);
-		placeLoaction.setOnFocusChangeListener(changeListener);
-		
-		
-		
-	}*/
-	
-	
-	/*@Override
-	public void draw(Canvas canvas, MapView mapView, boolean shadow)
-	{
-		// TODO Auto-generated method stub
-		super.draw(canvas, mapView, shadow);			
-		Projection projection = mapView.getProjection();
-		Double latitude = targetPlace.getLatitude()*1e6;
-		Double longitude = targetPlace.getLongitude()*1e6;
-		GeoPoint geoPoint = new GeoPoint(latitude.intValue(), longitude.intValue());
-		Point myPoint = new Point();
-		projection.toPixels(geoPoint, myPoint);
-		Paint paint = new Paint();
-		paint.setTextAlign(Align.CENTER);
-		paint.setTextSize(CommendPlaceMap.this.getResources().getDimension(R.dimen.location_info));
-		paint.setColor(CommendPlaceMap.this.getResources().getColor(R.color.white));
-		canvas.drawText(targetPlace.getName(), myPoint.x+(marker.getIntrinsicWidth()/2), myPoint.y+(marker.getIntrinsicHeight()/2), paint);
-		
-	}*/
-	
 }

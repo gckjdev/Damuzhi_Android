@@ -82,12 +82,11 @@ public class TravelTipsManager
 	
 	public static List<CommonTravelTip> getTravelTipsByUrl(String url)
 	{
-		HttpTool httpTool = new HttpTool();
 		InputStream inputStream;
 		List<CommonTravelTip> list = null;
 		try
 		{
-			inputStream = httpTool.sendGetRequest(url);
+			inputStream = HttpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
 				try

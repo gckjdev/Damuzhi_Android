@@ -29,42 +29,33 @@ public class FeedbackMission
 	public boolean submitFeedback(String url)
 	{
 		Log.i(TAG, "<submitFeedback> submit feedback ,url = "+url);
-		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;
+		BufferedReader br = null;
+		InputStreamReader inputStreamReader = null;
 		String userId = "";
 		try
 		{
-			inputStream = httpTool.sendGetRequest(url);
+			inputStream = HttpTool.sendGetRequest(url);
 			if(inputStream !=null)
-			{
-				try
-				{
-					BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-					StringBuffer sb = new StringBuffer();
-					String result = br.readLine();
-					Log.i(TAG, "<submitFeedback> result "+result);
-					while (result != null) {
-						sb.append(result);
-						result = br.readLine();
-					}
-					if(sb.length() <= 1){
-						return false;
-					}
-					JSONObject submitData = new JSONObject(sb.toString());
-					if (submitData == null || submitData.getInt("result")!= 0){
-						return false;
-					}else if (submitData.getInt("result") == 0) {
-						return true;
-					}
-					
-					inputStream.close();
-					br.close();
-					inputStream = null;
-				} catch (Exception e)
-				{					
-					Log.e(TAG, "<registerDevice> catch exception = "+e.toString(), e);
+			{				
+				inputStreamReader = new InputStreamReader(inputStream);
+				br = new BufferedReader(inputStreamReader);
+				StringBuffer sb = new StringBuffer();
+				String result = br.readLine();
+				Log.i(TAG, "<submitFeedback> result "+result);
+				while (result != null) {
+					sb.append(result);
+					result = br.readLine();
+				}
+				if(sb.length() <= 1){
 					return false;
-				}				
+				}
+				JSONObject submitData = new JSONObject(sb.toString());
+				if (submitData == null || submitData.getInt("result")!= 0){
+					return false;
+				}else if (submitData.getInt("result") == 0) {
+					return true;
+				}			
 			}
 			else{
 				return false;
@@ -74,15 +65,37 @@ public class FeedbackMission
 		catch (Exception e)
 		{
 			Log.e(TAG, "<registerDevice> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
+			try
+			{
+				if (inputStream != null){				
+						inputStream.close();
 				}
+				if (inputStreamReader != null){
+						inputStreamReader.close();
+				}
+				if (br != null){				
+						br.close();
+				}
+			} catch (IOException e1)
+			{
 			}
 			return false;
+		}finally
+		{
+			try
+			{
+				if (inputStream != null){				
+						inputStream.close();
+				}
+				if (inputStreamReader != null){
+						inputStreamReader.close();
+				}
+				if (br != null){				
+						br.close();
+				}
+			} catch (IOException e1)
+			{
+			}
 		}
 		return false;
 	}

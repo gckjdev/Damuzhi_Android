@@ -23,6 +23,7 @@ import android.content.Intent;
 import android.content.DialogInterface.OnKeyListener;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,6 +42,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
 import com.damuzhi.travel.R;
@@ -61,6 +63,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
+import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.OverlayItem;
 import com.google.android.maps.MapView.LayoutParams;
 
@@ -99,7 +102,8 @@ public class CommonNearbyPlaceActivity extends TravelActivity
     private TravelApplication application;
     private ImageButton selectMapViewButton;
     private ImageButton selectListViewButton;
-    
+    private ImageView myLocateButton ;
+	private ImageView canceLocateButton;
     private PlaceLoaction placeLoaction;
     
     private String currentDistance ="";
@@ -123,10 +127,14 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		listView = (ListView) findViewById(R.id.nearby_list);
 		mapView = (MapView) findViewById(R.id.placeMap);
 		mapc = mapView.getController();
-		mapc.setZoom(18);
+		mapc.setZoom(16);
 		mapView.setStreetView(true);
 		selectMapViewButton = (ImageButton) findViewById(R.id.map_view);
 		selectListViewButton = (ImageButton)findViewById(R.id.list_view);
+		myLocateButton = (ImageView) findViewById(R.id.my_locate);
+		canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
+		myLocateButton.setOnClickListener(myLocateOnClickListener);
+		canceLocateButton.setOnClickListener(cancelLocateOnClickListener);
 		selectListViewButton.setOnClickListener(selectListViewOnClickListener);
 		selectMapViewButton.setOnClickListener(selectMapViewOncClickListener);
 		listView.setOnItemClickListener(listviewOnItemClickListener);
@@ -225,11 +233,11 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			adapter.setList(origList);
 			adapter.notifyDataSetChanged();
 		}else
-		{
-			mapView.getOverlays().clear();
-			placeLoaction = new PlaceLoaction( null, origList);						
+		{							
 			if(origList.size()!=0)
 			{
+				mapView.getOverlays().clear();
+				placeLoaction = new PlaceLoaction( null, origList);	
 				mapView.removeAllViews();
 				mapView.getOverlays().add(placeLoaction);
 				mapc.setCenter(placeLoaction.getCenter());	
@@ -514,19 +522,23 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		@Override
 		public void onClick(View v)
 		{
+			openGPSSettings();
 			listView.setVisibility(View.GONE);
 			selectMapViewButton.setVisibility(View.GONE);		
+			findViewById(R.id.mapview_group).setVisibility(View.VISIBLE);
 			mapView.setVisibility(View.VISIBLE);
-			selectListViewButton.setVisibility(View.VISIBLE);	
 			mapView.removeAllViews();
+			selectListViewButton.setVisibility(View.VISIBLE);				
 			mapView.addView(popupView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT, MapView.LayoutParams.WRAP_CONTENT, null, MapView.LayoutParams.BOTTOM_CENTER));
 			popupView.setVisibility(View.GONE);	
 			popupView.setOnClickListener(popupViewOnClickListener);
-			placeLoaction = new PlaceLoaction( null, placeList);
-			mapView.getOverlays().add(placeLoaction);
-			mapc.setCenter(placeLoaction.getCenter());
-			placeLoaction.setOnFocusChangeListener(changeListener);
-			
+			if(placeList !=null && placeList.size()>0)
+			{
+				placeLoaction = new PlaceLoaction( null, placeList);
+				mapView.getOverlays().add(placeLoaction);
+				mapc.setCenter(placeLoaction.getCenter());
+				placeLoaction.setOnFocusChangeListener(changeListener);
+			}			
 		}
 	};
 
@@ -566,7 +578,46 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			startActivity(intent);
 			popupView.setVisibility(View.GONE);
 		}
-		};
+	};
+	
+	private OnClickListener myLocateOnClickListener = new OnClickListener()
+	{
+
+		@Override
+		public void onClick(View v)
+		{
+			//HashMap<String, Double> location = LocationUtil.getLocation(CommonPlaceActivity.this);
+			HashMap<String, Double> location = TravelApplication.getInstance().getLocation();
+			if (location != null&&location.size()>0)
+			{
+				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
+				mapc.animateTo(geoPoint);	
+				MyLocationOverlay myLocationOverlay = new MyLocationOverlay(CommonNearbyPlaceActivity.this,mapView);
+				myLocationOverlay.enableMyLocation();
+				mapView.getOverlays().add(myLocationOverlay);
+			}else
+			{
+				Toast.makeText(CommonNearbyPlaceActivity.this, getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
+			}
+			myLocateButton.setVisibility(View.GONE);
+			canceLocateButton.setVisibility(View.VISIBLE);
+		}
+	};
+	
+	private OnClickListener cancelLocateOnClickListener = new OnClickListener()
+	{
+
+		@Override
+		public void onClick(View v)
+		{
+			canceLocateButton.setVisibility(View.GONE);
+			myLocateButton.setVisibility(View.VISIBLE);
+			Place place = adapter.getPlaceList().get(0);
+			GeoPoint geoPoint = new GeoPoint((int) (place.getLongitude()* 1E6),(int) (place.getLatitude() * 1E6));
+			mapc.animateTo(geoPoint);
+			mapView.invalidate();
+		}
+	};
 	
 	private void getOffSet(ImageView imageView,int startPosition) {
 	
@@ -706,7 +757,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 				Drawable markerIcon = getResources().getDrawable(icon);
 				GeoPoint geoPoint = new GeoPoint((int)(place.getLatitude()*1e6),(int)(place.getLongitude()*1e6));
 				OverlayItem overlayItem = new OverlayItem(geoPoint, place.getName(), Integer.toString(i));
-				markerIcon.setBounds(0, 0, markerIcon.getIntrinsicWidth(), markerIcon.getIntrinsicHeight());
+				markerIcon.setBounds(0, 0, (int) ((markerIcon.getIntrinsicWidth() / 2) * 1.5),(int) ((markerIcon.getIntrinsicHeight() / 2) * 1.5));
 				overlayItem.setMarker(markerIcon);
 				placeOverlayItems.add(overlayItem);
 				i++;
@@ -775,5 +826,15 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	
+	private void openGPSSettings() {
+
+		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+			return;
+		}
+			Toast.makeText(this, getString(R.string.open_gps_tips), Toast.LENGTH_SHORT).show();
 	}
 }

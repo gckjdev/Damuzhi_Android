@@ -4,21 +4,19 @@ import java.security.PublicKey;
 
 public class ConstantField
 {
-	public static final String MAIN_SERVICE = "damuzhi.travel.service.MainService";
-	public static final String SCENERY_ACTION = "damuzhi.activity.place.SceneryActivity";
-	public static final String HOTEL_ACTION = "damuzhi.activity.place.HotelActivity";
-	public static final String RESTAURANT_ACTION = "damuzhi.activity.place.RestaurantActivity";
-	public static final String APP_DATA_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app/";
-	public static final String DATA_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/%s/";
-	public static final String IMAGE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/%s/data/";
-	public static final String APP_DATA_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app/app.dat";
-	public static final String HELP_DATA_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app/help.dat";
-	public static final String APP_DATA_TEMP_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp";
-	public static final String HELP_HTML_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/help/";
+	public static final String LOCAL_APP_DATA_PATH = android.os.Environment.getDataDirectory() + "/app.dat";
+	public static final String LOCAL_HELP_DATA_PATH = android.os.Environment.getDataDirectory() + "/help.dat";
+	public static final String APP_DATA_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/";
+	public static final String DATA_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/%s/";
+	public static final String IMAGE_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/%s/data/";
+	public static final String APP_DATA_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/app.dat";
+	public static final String HELP_DATA_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/help.dat";
+	public static final String APP_DATA_TEMP_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp";
+	public static final String HELP_HTML_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/";
 	public static final String HELP_HTML_FILE_PATH = "file:///mnt/sdcard/damuzhi/data/help/helpinfo.html";
-	public static final String APP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp/temp.dat";
-	public static final String HELP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/temp/Helptemp.dat";
-	public static final String HELP_DATA_ZIP_FILE = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/help/help.zip";
+	public static final String APP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp/temp.dat";
+	public static final String HELP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp/Helptemp.dat";
+	public static final String HELP_DATA_ZIP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/help.zip";
 	public static final String PLACE_PATH ="/data/place/";
 	public static final int DATA_LOCAL = 0;
 	public static final int DATA_HTTP = 1;
@@ -26,6 +24,10 @@ public class ConstantField
 	/*local data*/
 	public static final String LAST_CITY_ID = "last_city_id";
 	public static final String APP_FILE = "app.dat";
+	public static final String APP_TEMP_FILE = "temp.dat";
+	public static final String HELP_TEMP_FILE = "Helptemp.dat";
+	public static final String HELP_FILE = "help.dat";
+	public static final String HELP_ZIP_FILE = "help.zip";
 	public static final String PLACE_TAG = "place";
 	public static final String GUIDE_TAG = "guide";
 	public static final String OVERVIEW_TAG = "overview";
@@ -96,12 +98,6 @@ public class ConstantField
 	public static final String TEN_KILOMETER = "10";
 	
 	
-	
-	/*public static final int HALF_KILOMETER = 1;
-	public static final int ONE_KILOMETER = 2;
-	public static final int FIVE_KILOMETER = 2;
-	public static final int TEN_KILOMETER = 1;*/
-	
 	/* commonPlaceDetail*/
 	public static final String PLACE_DETAIL = "PLACE_DETAIL";
 	/* collect */
@@ -109,10 +105,10 @@ public class ConstantField
 	public static final String ADD_FAVORITE = "http://api.trip8888.com/service/addFavorite.aspx?userId=%s&placeId=%s";
 	public static final String DELETE_FAVORITE = "http://api.trip8888.com/service/deleteFavorite.aspx?userId=%s&placeId=%s";
 	public static final String FAVORITE_COUNT_STR = "已有%s人收藏";
-	public static final String FAVORITE_FILE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/favorite.dat";
+	public static final String FAVORITE_FILE_PATH = android.os.Environment.getExternalStorageDirectory()+ "/damuzhi/data/favorite.dat";
 	
 	/* history*/
-	public static final String HISTORY_FILE_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/app/history.dat";
+	public static final String HISTORY_FILE_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/history.dat";
 	
 	/* register*/
 	public static final String REGISTER = "http://api.trip8888.com/service/registerUser.aspx?type=2&deviceId=%s";
@@ -120,10 +116,10 @@ public class ConstantField
 	
 	/* download*/
 	
-	public static final String DOWNLOAD_TEMP_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/city/temp/";
-	public static final String DOWNLOAD_CITY_DATA_FOLDER_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/city/data/";
-	public static final String DOWNLOAD_CITY_ZIP_DATA_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/city/data/%s/zip/";
-	public static final String DOWNLOAD_CITY_DATA_PATH = android.os.Environment.getExternalStorageDirectory().getAbsolutePath() + "/damuzhi/data/city/data/%s/";
+	public static final String DOWNLOAD_TEMP_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/city/temp/";
+	public static final String DOWNLOAD_CITY_DATA_FOLDER_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/city/data/";
+	public static final String DOWNLOAD_CITY_ZIP_DATA_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/city/data/%s/zip/";
+	public static final String DOWNLOAD_CITY_DATA_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/city/data/%s/";
 	
 	public static final int DOWNLOAD_INIT = 1;
 	public static final int DOWNLOAD_RESTART = 2;
@@ -144,5 +140,6 @@ public class ConstantField
 	public static final String U_MENG_QQ_CONSUMER_KEY = "qq_weibo_app_key";
 	public static final String U_MENG_QQ_CONSUMER_SECRET = "qq_weibo_app_secret";
 	public static final String U_MENG_CALL_BACK_URL = "call_back_url";
+	
 
 }

@@ -1,6 +1,7 @@
 package com.damuzhi.travel.util;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -80,7 +81,7 @@ public class LocationUtil
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 		String provider = locationManager.getBestProvider(criteria, true);
 		HashMap<String, Double> location = new HashMap<String, Double>();
-		if(locationManager.isProviderEnabled(provider))
+		if(provider !=null&&locationManager.isProviderEnabled(provider))
 		{			
 			loc = locationManager.getLastKnownLocation(provider);
 			locationManager.requestLocationUpdates(provider, 20000, 5, locationListener);
@@ -94,6 +95,10 @@ public class LocationUtil
 		if(loc ==null )
 		{
 			location = getLocationByTower(context);
+		}
+		if(location ==null||location.size()==0)
+		{
+			Toast.makeText(context, context.getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
 		}
 		return location;
 	}
@@ -120,7 +125,7 @@ public class LocationUtil
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 		String provider = locationManager.getBestProvider(criteria, true);
 		HashMap<String, Double> location = new HashMap<String, Double>();
-		if(locationManager.isProviderEnabled(provider))
+		if(provider!=null&&locationManager.isProviderEnabled(provider))
 		{			
 			loc = locationManager.getLastKnownLocation(provider);
 			if(loc == null)
@@ -149,7 +154,7 @@ public class LocationUtil
 		criteria.setCostAllowed(true); 
 		criteria.setPowerRequirement(Criteria.POWER_LOW); 
 		String provider = locationManager.getBestProvider(criteria, true); 		
-		if(locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER))
+		if(provider!=null&&locationManager.isProviderEnabled(android.location.LocationManager.NETWORK_PROVIDER))
 		{
 			locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 20000, 1, locationListener);
 			loc = locationManager.getLastKnownLocation(android.location.LocationManager.NETWORK_PROVIDER);
@@ -160,7 +165,6 @@ public class LocationUtil
 			Double longitude = loc.getLongitude() * 1E6; 
 			locationMap.put(ConstantField.LATITUDE, latitude);
 			locationMap.put(ConstantField.LONGITUDE, longitude);
-			//Toast.makeText(context, "gps ok", Toast.LENGTH_LONG).show();
 		}		
 		return locationMap;
 	}
@@ -206,60 +210,73 @@ public class LocationUtil
 		if (type == TelephonyManager.NETWORK_TYPE_EVDO_A || type == TelephonyManager.NETWORK_TYPE_CDMA || type ==TelephonyManager.NETWORK_TYPE_1xRTT)
 		{
 			CdmaCellLocation location = (CdmaCellLocation) tm.getCellLocation();
-			int cellIDs = location.getBaseStationId();
-			int networkID = location.getNetworkId();
-			StringBuilder nsb = new StringBuilder();
-			nsb.append(location.getSystemId());
-		    CellIDInfo info = new CellIDInfo();
-		    info.cellId = cellIDs;
-		    info.locationAreaCode = networkID; 
-		    info.mobileNetworkCode = nsb.toString();
-		    String countryCode = tm.getNetworkOperator();
-		    if(countryCode!=null&&!countryCode.trim().equals(""))
-		     {
-		    	 info.mobileCountryCode = tm.getNetworkOperator().substring(0, 3);
-		     }else
-		     {
-		    	 Toast.makeText(context, context.getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
-		    	// return null;
-		     }
-		    info.radioType = "cdma";
-		    CellID.add(info);
+			if(location != null)
+			{
+				int cellIDs = location.getBaseStationId();
+				int networkID = location.getNetworkId();
+				StringBuilder nsb = new StringBuilder();
+				nsb.append(location.getSystemId());
+			    CellIDInfo info = new CellIDInfo();
+			    info.cellId = cellIDs;
+			    info.locationAreaCode = networkID; 
+			    info.mobileNetworkCode = nsb.toString();
+			    String countryCode = tm.getNetworkOperator();
+			    if(countryCode!=null&&!countryCode.trim().equals(""))
+			     {
+			    	 info.mobileCountryCode = tm.getNetworkOperator().substring(0, 3);
+			     }else
+			     {
+			    	 Toast.makeText(context, context.getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
+			    	// return null;
+			     }
+			    info.radioType = "cdma";
+			    CellID.add(info);
+			}
+			
 		}
 		else if(type == TelephonyManager.NETWORK_TYPE_EDGE)
 		{
-			GsmCellLocation location = (GsmCellLocation)tm.getCellLocation();  
-			int cellIDs = location.getCid();  
-			int lac = location.getLac(); 
-			CellIDInfo info = new CellIDInfo();
-		    info.cellId = cellIDs;
-		    info.locationAreaCode = lac;
-		    info.mobileNetworkCode = tm.getNetworkOperator().substring(3, 5);   
-		    info.mobileCountryCode = tm.getNetworkOperator().substring(0, 3);
-		    info.radioType = "gsm";
-		    CellID.add(info);
+			GsmCellLocation location = (GsmCellLocation)tm.getCellLocation();
+			if(location !=null)
+			{
+				int cellIDs = location.getCid();  
+				int lac = location.getLac(); 
+				CellIDInfo info = new CellIDInfo();
+			    info.cellId = cellIDs;
+			    info.locationAreaCode = lac;
+			    info.mobileNetworkCode = tm.getNetworkOperator().substring(3, 5);   
+			    info.mobileCountryCode = tm.getNetworkOperator().substring(0, 3);
+			    info.radioType = "gsm";
+			    CellID.add(info);
+			}
+			
 		}
 		else if(type == TelephonyManager.NETWORK_TYPE_GPRS)
 		{
 			GsmCellLocation location = (GsmCellLocation)tm.getCellLocation();  
-			int cellIDs = location.getCid();  
-			int lac = location.getLac(); 
-			CellIDInfo info = new CellIDInfo();
-		    info.cellId = cellIDs;
-		    info.locationAreaCode = lac;
-		    String countryCode = tm.getNetworkOperator();
-		    if(countryCode!=null&&!countryCode.trim().equals(""))
-		     {
-		    	info.mobileNetworkCode = tm.getNetworkOperator().substring(3, 5);   
-			    info.mobileCountryCode = tm.getNetworkOperator().substring(0, 3);			  
-		     }else
-		     {
-		    	 Toast.makeText(context, context.getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
-		    	// return null;
-		     }	   
-		    
-		    info.radioType = "gsm";
-		    CellID.add(info);
+			if(location != null)
+			{
+				int cellIDs = location.getCid();  
+				int lac = location.getLac(); 
+				CellIDInfo info = new CellIDInfo();
+			    info.cellId = cellIDs;
+			    info.locationAreaCode = lac;
+			    String countryCode = tm.getNetworkOperator();
+			    if(countryCode!=null&&!countryCode.trim().equals(""))
+			     {
+			    	info.mobileNetworkCode = tm.getNetworkOperator().substring(3, 5);   
+				    info.mobileCountryCode = tm.getNetworkOperator().substring(0, 3);			  
+			     }else
+			     {
+			    	 Toast.makeText(context, context.getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
+			    	// return null;
+			     }	   
+			    info.mobileNetworkCode = tm.getNetworkOperator().substring(3, 5);   
+			    info.mobileCountryCode = tm.getNetworkOperator().substring(0, 3);
+			    info.radioType = "gsm";
+			    CellID.add(info);
+			}
+			
 		}
 		HashMap<String, Double> location = callGear(CellID,context);
 		return location;
@@ -271,11 +288,12 @@ public class LocationUtil
 	private static HashMap<String, Double> callGear(ArrayList<CellIDInfo> cellID,Context context) {
 		if (cellID == null || cellID.size() == 0)
 		{
-			Toast.makeText(context, context.getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
 			return null;
 		} 		
 			HttpPost post = new HttpPost("http://www.google.com/loc/json");
 			JSONObject holder = new JSONObject();
+			InputStreamReader inputStream = null;
+			BufferedReader br = null; 
 		try {
 			holder.put("version", "1.1.0");
 			holder.put("host", "maps.google.com");
@@ -310,13 +328,13 @@ public class LocationUtil
 			}
 			holder.put("cell_towers", array);
 			StringEntity se = new StringEntity(holder.toString());
-			Log.e("Location send", holder.toString());
+			Log.i("Location send", holder.toString());
 			post.setEntity(se);
 			DefaultHttpClient client = TravelApplication.getInstance().getHttpClient();
 			HttpResponse resp = client.execute(post);
 			HttpEntity entity = resp.getEntity();
-			
-			BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
+			inputStream = new InputStreamReader(entity.getContent());
+			br = new BufferedReader(inputStream);
 			StringBuffer sb = new StringBuffer();
 			String result = br.readLine();
 			while (result != null) {
@@ -336,9 +354,30 @@ public class LocationUtil
 			return locationMap;
 		} catch (Exception e) {
 			Log.e(TAG, "<getLocationByTower> but catch exception :"+e.toString(),e);
-			Toast.makeText(context, context.getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
+			//Toast.makeText(context, context.getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
 			return null;
-		} 
+		} finally
+		{
+			if(inputStream != null)
+			{
+				try
+				{
+					inputStream.close();
+				} catch (IOException e)
+				{
+				}
+			}
+			if (br != null)
+			{
+				try
+				{
+					br.close();
+				} catch (IOException e)
+				{
+				}
+			}
+			
+		}
 	}
 	
 	

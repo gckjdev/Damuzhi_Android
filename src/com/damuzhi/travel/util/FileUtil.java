@@ -80,25 +80,10 @@ public class FileUtil
 					{
 						fileInputStream = new FileInputStream(new File(f.getPath()));
 						fileInput.add(fileInputStream);
-						//fileInputStream.close();
-						//fileInputStream = null;
 					} catch (Exception e)
 					{					
 						Log.e(TAG, "<getFileInputStreams> but catch exception "+e.toString(),e);
 					}
-					/*finally
-					{
-						try
-						{
-							if(fileInputStream != null)
-							{
-								fileInputStream.close();
-							}							
-						} catch (IOException e)
-						{
-						}
-					}
-					*/
 				}
 				if (!IsIterative)
 					break;
@@ -110,10 +95,7 @@ public class FileUtil
 		return fileInput;
 	}
 
-	public void updateAppFile()
-	{
-
-	}
+	
 
 	public static boolean copyFile(String srcFile, String targetFile)
 	{
@@ -129,8 +111,7 @@ public class FileUtil
 				fileInputStream = new FileInputStream(new File(srcFile));
 
 				myOutput = new FileOutputStream(targetFile);
-				myInput = new BufferedInputStream(
-						fileInputStream);
+				myInput = new BufferedInputStream(fileInputStream);
 				byte[] buffer = new byte[1024];
 				int length;
 				while ((length = myInput.read(buffer)) != -1)
@@ -180,23 +161,144 @@ public class FileUtil
 		
 		return result;
 	}
-
-	public static void copyFile(InputStream inputStream, String targetFile)
-			throws IOException
+	
+	public static boolean copyFile(String srcFile, FileOutputStream myOutput)
 	{
-		OutputStream myOutput = new FileOutputStream(targetFile);
+		FileInputStream fileInputStream = null;
+		BufferedInputStream myInput = null;
+		boolean result = false;
+		try
+		{
+			if (FileUtil.checkFileIsExits(srcFile))
+			{
+
+				fileInputStream = new FileInputStream(new File(srcFile));
+				myInput = new BufferedInputStream(fileInputStream);
+				byte[] buffer = new byte[1024];
+				int length;
+				while ((length = myInput.read(buffer)) != -1)
+				{
+					myOutput.write(buffer, 0, length);
+				}
+				myOutput.flush();	
+				result = true;
+			} else
+			{
+				result = false;
+			}
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<copyFile> srcFile="+srcFile+", to dest file , but catch exception "+e.toString(), e);
+			result = false;
+		} finally
+		{
+			if (myOutput != null){
+				try
+				{
+					myOutput.close();
+				} catch (IOException e)
+				{
+				}
+			}
+			
+			if (myInput != null){
+				try
+				{
+					myInput.close();
+				} catch (IOException e)
+				{
+				}
+			}
+			
+			if (fileInputStream != null){
+				try
+				{
+					fileInputStream.close();
+				} catch (IOException e)
+				{				
+				}
+			}
+		}
+		
+		return result;
+	}
+
+	public static boolean copyFile(InputStream inputStream, String targetFile)
+	{
+		OutputStream myOutput;
+		boolean result = false;
+		try
+		{
+			myOutput = new FileOutputStream(targetFile);
+			if(!FileUtil.checkFileIsExits(targetFile))
+			{
+				File file = new File(targetFile);
+				file.mkdirs();
+			}
+			BufferedInputStream myInput = new BufferedInputStream(inputStream);
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = myInput.read(buffer)) != -1)
+			{
+				myOutput.write(buffer, 0, length);
+			}
+			myOutput.flush();
+			myInput.close();
+			myOutput.close();
+			result = true;
+		} catch(Exception e)
+		{
+			Log.e(TAG, "<copyFile>  to dest file "+targetFile +", but catch exception "+e.toString(), e);
+			result = false;
+		}
+		return result;
+		
+	}
+	
+	
+	
+	public static boolean copyFile(InputStream inputStream, FileOutputStream outputStream)
+	{
+		boolean result = false;
 		BufferedInputStream myInput = new BufferedInputStream(inputStream);
 		byte[] buffer = new byte[1024];
 		int length;
-		while ((length = myInput.read(buffer)) != -1)
+		try
 		{
-			myOutput.write(buffer, 0, length);
+			while ((length = myInput.read(buffer)) != -1)
+			{
+				outputStream.write(buffer, 0, length);
+			}
+			result = true;
+			
+		} catch (IOException e)
+		{
+			e.printStackTrace();
+		}finally
+		{
+			try
+			{
+				outputStream.flush();
+				myInput.close();
+				outputStream.close();
+				inputStream.close();
+			} catch (IOException e)
+			{
+				e.printStackTrace();
+			}
+			
 		}
-		myOutput.flush();
-		myInput.close();
-		myOutput.close();
+		return result;
+		
 	}
+	
+	
+	
 
+	
+	
+	
+	
 	public boolean writeFile(String targetFile, InputStream inputStream)
 	{
 		boolean flag = true;
@@ -318,10 +420,14 @@ public class FileUtil
 	
 	public static int freeSpaceOnSd()
 	{
-		StatFs stat = new StatFs(Environment.getExternalStorageDirectory()
-				.getPath());
-		double sdFreeMB = ((double) stat.getAvailableBlocks() * (double) stat
-				.getBlockSize()) / 1024;
+		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+		double sdFreeMB = ((double) stat.getAvailableBlocks() * (double) stat.getBlockSize()) / 1024;
 		return (int) sdFreeMB;
+	}
+	
+	
+	public static boolean  sdcardEnable()
+	{
+		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
 	}
 }

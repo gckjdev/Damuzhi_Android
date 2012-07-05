@@ -18,6 +18,7 @@ import com.android.utils.TokenStore;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.qweibo.MyWebView;
+import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.tencent.weibo.api.T_API;
@@ -115,7 +116,7 @@ public class Share2Weibo extends Activity implements RequestListener
 		cancelButton = (ImageButton) this.findViewById(R.id.cancel_button);
 		shareContent = (EditText) this.findViewById(R.id.share_content);		
 		sendButton.setOnClickListener(sendOnClickListener);
-		
+		cancelButton.setOnClickListener(cancelOnClickListener);
 	}
 
 	public void onResume() {
@@ -137,6 +138,18 @@ public class Share2Weibo extends Activity implements RequestListener
 				share2qqWeibo(content);
 			}
 			
+		}
+	};
+	
+	private OnClickListener cancelOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.setClass(Share2Weibo.this, IndexActivity.class);
+			startActivity(intent);
 		}
 	};
 	

@@ -69,42 +69,31 @@ public class UserMission
 	{
 		String url = String.format(ConstantField.REGISTER,deviceId);
 		Log.i(TAG, "<registerDevice> register device ,url = "+url);
-		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;
+		BufferedReader br = null;
 		String userId = "";
 		try
 		{
-			inputStream = httpTool.sendGetRequest(url);
+			inputStream = HttpTool.sendGetRequest(url);
 			if(inputStream !=null)
-			{
-				try
-				{
-					BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-					StringBuffer sb = new StringBuffer();
-					String result = br.readLine();
-					Log.i(TAG, "<registerDevice> result "+result);
-					while (result != null) {
-						sb.append(result);
-						result = br.readLine();
-					}
-					if(sb.length() <= 1){
-						return userId;
-					}
-					JSONObject registerData = new JSONObject(sb.toString());
-					if (registerData == null || registerData.getInt("result")!= 0){
-						return userId;
-					}
-					
-					inputStream.close();
-					br.close();
-					inputStream = null;
-					userId = registerData.getString("userId");
+			{				
+				br = new BufferedReader(new InputStreamReader(inputStream));
+				StringBuffer sb = new StringBuffer();
+				String result = br.readLine();
+				Log.i(TAG, "<registerDevice> result "+result);
+				while (result != null) {
+					sb.append(result);
+					result = br.readLine();
+				}
+				if(sb.length() <= 1){
 					return userId;
-				} catch (Exception e)
-				{					
-					Log.e(TAG, "<registerDevice> catch exception = "+e.toString(), e);
+				}
+				JSONObject registerData = new JSONObject(sb.toString());
+				if (registerData == null || registerData.getInt("result")!= 0){
 					return userId;
 				}				
+				userId = registerData.getString("userId");
+				return userId;						
 			}
 			else{
 				return userId;
@@ -114,15 +103,32 @@ public class UserMission
 		catch (Exception e)
 		{
 			Log.e(TAG, "<registerDevice> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
+			try
+			{
+				if (inputStream != null){
 					inputStream.close();
-				} catch (IOException e1)
-				{
 				}
+				if (br != null){
+					br.close();
+				}
+			} catch (IOException e1)
+			{
 			}
 			return userId;
-		}
+		}finally
+		{
+			try
+			{
+				if (inputStream != null){
+					inputStream.close();
+				}
+				if (br != null){
+					br.close();
+				}
+			} catch (IOException e1)
+			{
+			}
+			
+		}		
 	}
 }

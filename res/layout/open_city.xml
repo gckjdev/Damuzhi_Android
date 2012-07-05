@@ -76,14 +76,14 @@
        		 android:singleLine="true"
        		 android:paddingTop="15dp"
        		 android:textSize="13.0sp"
-       		 android:text="@string/data_not_found"/>  		 
+       		 android:text="@string/did_not_download_anything"/>  		 
    <ListView android:id="@+id/open_city_data_listview"
        		 android:layout_width="fill_parent"
        		 android:layout_height="fill_parent"
        		 android:layout_below="@id/open_city_tips_download"
        		 android:footerDividersEnabled="false"
        		 android:background="@drawable/topmenu_bg"
-       		 android:cacheColorHint="@color/transparent"
+       		 android:cacheColorHint="@color/listview_bg"
        		 android:scrollbars="none" >
    </ListView> 
    <ListView android:id="@+id/download_data_listview"
@@ -93,7 +93,7 @@
        		 android:clickable="false"
        		 android:footerDividersEnabled="false"
        		 android:background="@drawable/topmenu_bg"
-       		 android:cacheColorHint="@color/download_listview_bg"
+       		 android:cacheColorHint="@color/transparent"
        		 android:visibility="gone"
        		 android:scrollbars="none" >	  
    </ListView> 

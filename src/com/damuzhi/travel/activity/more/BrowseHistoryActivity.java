@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,8 +28,10 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.more.BrowseHistoryAdapter;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
+import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
@@ -82,10 +86,36 @@ public class BrowseHistoryActivity extends MenuActivity
 		@Override
 		public void onClick(View v)
 		{
-			BrowseHistoryMission.getInstance().clearHistory();
-			list.clear();
-			adapter.setList(list);
-			adapter.notifyDataSetChanged();
+
+			if(list!=null&&list.size()>0)
+			{
+				AlertDialog leaveAlertDialog = new AlertDialog.Builder(BrowseHistoryActivity.this).create();
+				leaveAlertDialog.setMessage(getBaseContext().getString(R.string.clear_title));
+				leaveAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getBaseContext().getString(R.string.ok),new DialogInterface.OnClickListener()
+				{
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						BrowseHistoryMission.getInstance().clearHistory();
+						list.clear();
+						adapter.setList(list);
+						adapter.notifyDataSetChanged();				
+					}
+				} );
+				leaveAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
+				{
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which)
+					{
+						dialog.cancel();
+						
+					}
+				} );
+				leaveAlertDialog.show();	
+			}
+			
 		}
 	};
 

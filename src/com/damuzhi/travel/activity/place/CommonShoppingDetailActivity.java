@@ -121,7 +121,7 @@ public class CommonShoppingDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public boolean isSupportPark()
 	{
-		return true;
+		return false;
 	}
 
 }

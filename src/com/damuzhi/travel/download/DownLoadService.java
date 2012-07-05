@@ -3,6 +3,7 @@ package com.damuzhi.travel.download;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.zip.ZipException;
 
@@ -226,8 +227,18 @@ public class DownloadService extends Service
 							{
 								DownloadManager downloadManager = new DownloadManager(DownloadService.this);
 								downloadManager.deleteDownloadInfo(downloadURL);
-								downloadTask.remove(downloadURL);
 								
+								Iterator<String> keys = downloadTask.keySet().iterator();
+								while(keys.hasNext()){
+									String key = keys.next();
+									if(key.equals(downloadURL))
+									{										
+										downloadTask.remove(downloadURL);
+										downloadStstudTask.remove(downloadURL);
+										keys.remove();
+									}
+									//downloadTask.remove(downloadURL);
+								}
 							} 
 						}else {
 						}						

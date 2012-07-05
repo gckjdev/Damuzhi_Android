@@ -23,9 +23,14 @@
 		        android:id="@+id/current_city_name"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
-		        android:text="@string/damuzhi"
 		        android:textColor="@color/white"
 		        android:textSize="20.0sp"/>
+		   <ImageView 
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content"
+		       android:layout_marginLeft="5dp"
+		       android:scaleType="fitCenter"
+		       android:src="@drawable/top_arrow"/>
 		 </LinearLayout>
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    android:layout_width="fill_parent"
@@ -39,6 +44,29 @@
 				    android:layout_margin="10.0dp"
 				    android:gravity="center">
 				    <TableRow android:layout_gravity="center">
+				         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="fill_parent"
+				           			android:layout_height="fill_parent"
+				           			android:layout_weight="1"	
+								    android:orientation="vertical"
+								    android:gravity="center">   	
+				           <ImageButton
+				               android:id="@+id/nearby"
+				               android:layout_width="92.0dp"
+				               android:layout_height="108.0dp"
+				               android:layout_gravity="center"
+				               android:background="@null"
+				               android:scaleType="fitCenter"
+				               android:src="@drawable/round_button" />	
+				            <TextView 
+						        android:id="@+id/nearby_title"
+						        android:layout_gravity="bottom|center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/nearby"
+						         android:textColor="@color/white"
+					            android:textSize="17.0sp"/>		
+				          </FrameLayout>
 				        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 								    android:layout_width="fill_parent"
 				           			android:layout_height="fill_parent"
@@ -85,6 +113,10 @@
 						        android:textColor="@color/white"
 					            android:textSize="17.0sp"/>
 				         </FrameLayout>
+				    </TableRow>
+				    <TableRow 
+				        android:layout_gravity="center" 
+				        android:layout_marginTop="8dp">
 				         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 								    android:layout_width="fill_parent"
 				           			android:layout_height="fill_parent"
@@ -109,10 +141,6 @@
 						        android:textColor="@color/white"
 					            android:textSize="17.0sp"/>
 				          </FrameLayout>
-				    </TableRow>
-				    <TableRow 
-				        android:layout_gravity="center" 
-				        android:layout_marginTop="8dp">
 				        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 								    android:layout_width="fill_parent"
 				           			android:layout_height="fill_parent"
@@ -160,29 +188,6 @@
 						        android:text="@string/entertainment"
 						        android:textColor="@color/white"
 					            android:textSize="17.0sp"/>
-				          </FrameLayout>
-				         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-								    android:layout_width="fill_parent"
-				           			android:layout_height="fill_parent"
-				           			android:layout_weight="1"	
-								    android:orientation="vertical"
-								    android:gravity="center">   	
-				           <ImageButton
-				               android:id="@+id/nearby"
-				               android:layout_width="92.0dp"
-				               android:layout_height="108.0dp"
-				               android:layout_gravity="center"
-				               android:background="@null"
-				               android:scaleType="fitCenter"
-				               android:src="@drawable/round_button" />	
-				            <TextView 
-						        android:id="@+id/nearby_title"
-						        android:layout_gravity="bottom|center"
-						        android:layout_height="wrap_content"
-						        android:layout_width="wrap_content"
-						        android:text="@string/nearby"
-						         android:textColor="@color/white"
-					            android:textSize="17.0sp"/>		
 				          </FrameLayout>
 				    </TableRow>
 				</TableLayout>

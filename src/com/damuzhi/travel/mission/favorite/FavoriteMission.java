@@ -61,41 +61,34 @@ public class FavoriteMission
 	{
 		String url = String.format(ConstantField.QUERY_PLACE_FAVORITE_COUNT,null,placeId);
 		Log.i(TAG, "<getFavoriteCountByUrl> load collect data from http ,url = "+url);
-		HttpTool httpTool = new HttpTool();
 		InputStream inputStream = null;
+		BufferedReader br = null;
 		int count = 0;
 		try
 		{
-			inputStream = httpTool.sendGetRequest(url);
+			inputStream = HttpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
-				try
-				{
-					BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-					StringBuffer sb = new StringBuffer();
-					String result = br.readLine();
-					while (result != null) {
-						sb.append(result);
-						result = br.readLine();
-					}
-					if(sb.length() <= 1){
-						return count;
-					}
-					JSONObject favoriteData = new JSONObject(sb.toString());
-					if (favoriteData == null || favoriteData.getInt("result")!= 0){
-						return count;
-					}
-					
-					inputStream.close();
-					br.close();
-					inputStream = null;
-					count = favoriteData.getInt("placeFavoriteCount");
+				br = new BufferedReader(new InputStreamReader(inputStream));
+				StringBuffer sb = new StringBuffer();
+				String result = br.readLine();
+				while (result != null) {
+					sb.append(result);
+					result = br.readLine();
+				}
+				if(sb.length() <= 1){
 					return count;
-				} catch (Exception e)
-				{					
-					Log.e(TAG, "<getFavoriteCountByUrl> catch exception = "+e.toString(), e);
+				}
+				JSONObject favoriteData = new JSONObject(sb.toString());
+				if (favoriteData == null || favoriteData.getInt("result")!= 0){
 					return count;
-				}				
+				}
+				
+				inputStream.close();
+				br.close();
+				inputStream = null;
+				count = favoriteData.getInt("placeFavoriteCount");
+				return count;						
 			}
 			else{
 				return count;
@@ -105,15 +98,31 @@ public class FavoriteMission
 		catch (Exception e)
 		{
 			Log.e(TAG, "<getFavoriteCountByUrl> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
+			try
+			{
+				if (inputStream != null){
 					inputStream.close();
-				} catch (IOException e1)
-				{
 				}
+				if (br != null){
+					br.close();
+				}
+			} catch (IOException e1)
+			{
 			}
 			return count;
+		}finally
+		{
+			try
+			{
+				if (inputStream != null){
+					inputStream.close();
+				}
+				if (br != null){
+					br.close();
+				}
+			} catch (IOException e1)
+			{
+			}
 		}
 	}
 

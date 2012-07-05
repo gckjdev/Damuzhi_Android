@@ -16,6 +16,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.viewcache.PlaceViewCache;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.favorite.FavoriteActivity;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -125,7 +126,7 @@ public class FavoriteAdapter extends BaseAdapter
 		deleteBtn = viewCache.getDelete();
 		heart = viewCache.getHeart();
 		deleteBtn.setTag(position);
-		deleteBtn.setOnClickListener(deleteOnClickListener);
+		//deleteBtn.setOnClickListener(deleteOnClickListener);
 		if(isShowDeleteBtn)
 		{
 			deleteBtn.setVisibility(View.VISIBLE);
@@ -239,7 +240,7 @@ public class FavoriteAdapter extends BaseAdapter
 	}
 
 
-	private OnClickListener deleteOnClickListener = new OnClickListener()
+	/*private OnClickListener deleteOnClickListener = new OnClickListener()
 	{
 		
 		@Override
@@ -255,6 +256,6 @@ public class FavoriteAdapter extends BaseAdapter
 				FavoriteAdapter.this.notifyDataSetChanged();
 			}
 		}
-	};
+	};*/
 	
 }
