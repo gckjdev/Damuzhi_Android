@@ -36,15 +36,20 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -107,8 +112,10 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	abstract Comparator<Place> getSortComparator(int index);
 
 	ListView placeListView = null;
-	List<Place> allPlaceList = null;
+	ArrayList<Place> allPlaceList = new ArrayList<Place>();
 	CommonPlaceListAdapter placeListAdapter = null;
+	//CommonPlaceListPageAdapter placeListPageAdapter = null;
+	//CommonPlaceAdapter placeListAdapter = null;
 	private ProgressDialog loadingDialog;
 	// sort condition
 	protected String[] sortDisplayName;
@@ -161,7 +168,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private static final int serviceType = 2;
 	private static final int areaType = 3;
 	private static final int priceType = 4;
-	
+	private View loadMoreView;
+	private ProgressBar loadMoreProgressBar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -199,11 +207,18 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		mapViewButton = (ImageView) findViewById(R.id.map_view);
 		listViewButton = (ImageView) findViewById(R.id.list_view);
 		placeListView = (ListView) findViewById(R.id.place_listview);
+		loadMoreView = getLayoutInflater().inflate(R.layout.load_more_view, null);
+		loadMoreView.setVisibility(View.GONE);
+		//loadMoreButton = (TextView) loadMoreView.findViewById(R.id.load_more_btn);
+		loadMoreProgressBar = (ProgressBar) loadMoreView.findViewById(R.id.footprogress);
+		loadMoreView.setOnClickListener(loadMoreOnClickListener);
 		placeListAdapter = new CommonPlaceListAdapter(this, null,getCategoryType());
+		placeListView.addFooterView(loadMoreView,null,false);
 		placeListView.setAdapter(placeListAdapter);
 		placeListView.setOnItemClickListener(listViewOnItemClickListener);
+		placeListView.setOnScrollListener(onScrollListener);
 		mapViewButton.setOnClickListener(mapViewOnClickListener);
-		listViewButton.setOnClickListener(listViewOnClickListener);
+		listViewButton.setOnClickListener(listViewOnClickListener);		
 		helpButton.setOnClickListener(helpOnClickListener);
 		createFilterButtons(spinner);
 		placeTitle.setText(getCategoryName());
@@ -242,7 +257,9 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				// TODO Auto-generated method stub
 				// hide loading dialog
 				loadingDialog.dismiss();
-				allPlaceList = resultList;
+				//allPlaceList = resultList;
+				allPlaceList.clear();
+				allPlaceList.addAll(resultList);
 				// set data and reload place list
 				//refreshPlaceView(allPlaceList);
 				filterPlaceList();
@@ -450,6 +467,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			placeListAdapter.setList(list);
 			placeListAdapter.notifyDataSetChanged();
+			/*placeListPageAdapter.setPlaceList(list);
+			placeListPageAdapter.notifyDataSetChanged();*/
 			if (mapView != null)
 			{
 				mapView.getOverlays().clear();
@@ -567,6 +586,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			mapView.setStreetView(true);
 			mapc = mapView.getController();
 			List<Place> placeList = placeListAdapter.getPlaceList();
+			//List<Place> placeList = placeListPageAdapter.getPlaceList();
 			if(placeList!=null&&placeList.size()>0)
 			{
 				placeOverlay = new PlaceMapViewOverlay(null,placeList);
@@ -636,6 +656,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			canceLocateButton.setVisibility(View.GONE);
 			myLocateButton.setVisibility(View.VISIBLE);
 			Place place = placeListAdapter.getPlaceList().get(0);
+			//Place place = placeListPageAdapter.getPlaceList().get(0);
 			GeoPoint geoPoint = new GeoPoint((int) (place.getLongitude()* 1E6),(int) (place.getLatitude() * 1E6));
 			mapc.animateTo(geoPoint);
 			mapView.invalidate();
@@ -647,6 +668,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		int size = 0;
 		if (placeListAdapter.getPlaceList() != null)
 			size = placeListAdapter.getPlaceList().size();
+		/*if (placeListPageAdapter.getPlaceList() != null)
+			size = placeListPageAdapter.getPlaceList().size();*/
 
 		String sizeString = "(" + size + ")";
 		return sizeString;
@@ -755,6 +778,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				long arg3)
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
+			//Place place = placeListPageAdapter.getPlaceList().get(arg2);
 			BrowseHistoryMission.getInstance().addBrowseHistory(place);
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
@@ -788,6 +812,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			String tag = (String)v.getTag();
 			int position = Integer.parseInt(tag);
 			Place place = placeListAdapter.getPlaceList().get(position);
+			//Place place = placeListPageAdapter.getPlaceList().get(position);
 			BrowseHistoryMission.getInstance().addBrowseHistory(place);
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
@@ -1126,4 +1151,122 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				Toast.makeText(this, getString(R.string.open_gps_tips), Toast.LENGTH_SHORT).show();
 		}
 	
+		
+		private OnClickListener loadMoreOnClickListener = new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				loadMoreProgressBar.setVisibility(View.VISIBLE); 
+				setProgressBarVisibility(true);
+				loadMore();
+			}
+		};
+		
+		private OnScrollListener onScrollListener = new OnScrollListener()
+		{
+			
+			@Override
+			public void onScrollStateChanged(AbsListView view, int scrollState)
+			{
+				loadMoreView.setVisibility(View.VISIBLE);
+				
+			}
+			
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount)
+			{
+				//loadMoreView.setVisibility(View.VISIBLE);
+				
+			}
+		};
+		
+		
+		
+		private void loadMore()
+		{
+			// TODO Auto-generated method stub
+			AsyncTask<String, Void, List<Place>> task = new AsyncTask<String, Void, List<Place>>()
+			{
+
+				@Override
+				protected List<Place> doInBackground(String... params)
+				{
+					List<Place> placeList = PlaceMission.getInstance().getMorePlace(getCategoryType(),CommonPlaceActivity.this);
+					return placeList;
+				}
+				@Override
+				protected void onPostExecute(List<Place> resultList)
+				{
+					setProgressBarVisibility(false);
+					loadMoreProgressBar.setVisibility(View.GONE);
+					addMoreData(resultList);
+					super.onPostExecute(resultList);
+				}
+
+				
+
+			};
+
+			task.execute();		
+		}
+		
+		private void addMoreData(List<Place> placeList)
+		{
+			List<Place> newMoreList = new ArrayList<Place>();
+			allPlaceList.addAll(placeList);
+			// step 1 : filter place
+			for (Place place : placeList)
+			{
+				// check sub category match
+				if (!isMatchSubCategory(place))
+				{
+					continue;
+				} else if (!isMatchPrice(place))
+				{
+					continue;
+				} else if (!isMatchArea(place))
+				{
+					continue;
+				} else if (!isMatchService(place))
+				{
+					continue;
+				}
+
+				// check
+
+				newMoreList.add(place);
+			}
+
+			// step 2 : sort places by conditions
+			Comparator<Place> comparator = getSortComparator(sortPosition);
+			if (comparator != null)
+			{
+				Collections.sort(newMoreList, comparator);
+			}
+
+			if(newMoreList.size()>0)
+			{
+				placeListAdapter.addPlaceList(newMoreList);
+				placeListAdapter.notifyDataSetChanged();
+				if (mapView != null)
+				{
+					mapView.getOverlays().clear();
+					placeOverlay = new PlaceMapViewOverlay(null, newMoreList);
+					mapView.getOverlays().add(placeOverlay);
+					mapView.invalidate();
+					placeOverlay.setOnFocusChangeListener(changeListener);
+				}
+				updateTitle();
+			}else
+			{
+				findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
+				listViewGroup.setVisibility(View.GONE);
+				mapviewGroup.setVisibility(View.GONE);
+			}
+			return;
+		}
+		
 }

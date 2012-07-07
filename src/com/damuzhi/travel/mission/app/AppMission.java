@@ -90,7 +90,7 @@ public class AppMission
 		}		
 		
 		int cityId = getCurrentCityId(context);
-		if(cityId == -1)
+		if(cityId == -1||cityId ==0)
 		{
 			cityId =  AppManager.getInstance().getDefaulCityId();
 		}

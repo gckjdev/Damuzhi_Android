@@ -121,8 +121,9 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
+			//db.close();
 		}
-		db.close();
+		
 	}
 	
 	public void updateDownloadStatus(String downloadURL,Map<Integer, Integer> map)
@@ -136,15 +137,16 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
+			//db.close();
 		}
-		db.close();
+		
 	}
 	
 	
 	public void delete(String path){
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		db.execSQL("delete from FileDownloadLog where downloadurl=?", new Object[]{path});
-		db.close();
+		//db.close();
 	}
 
 
@@ -163,7 +165,7 @@ public class FileDBHelper {
 		finally
 		{
 			cursor.close();
-			db.close();
+			//db.close();
 		}
 		return false;
 	}

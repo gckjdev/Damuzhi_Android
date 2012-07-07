@@ -341,6 +341,36 @@ public class PlaceMission
 			}
 			return name;
 		}
+
+		
+		public List<Place> getMorePlace(int categoryId,Activity activity)
+		{
+			int cityId = AppManager.getInstance().getCurrentCityId();		
+			if (LocalStorageMission.getInstance().hasLocalCityData(cityId)){
+				// read local
+				return retPlaceList ;
+			}
+			else{
+				// send remote
+				
+					final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
+					retPlaceList = remotePlaceList;
+					
+					// TODO save data in UI thread
+					if (remotePlaceList != null && remotePlaceList.size() > 0){
+						activity.runOnUiThread(new Runnable()
+						{				
+							@Override
+							public void run()
+							{
+								remotePlaceManager.clear();
+								remotePlaceManager.addPlaces(remotePlaceList);
+							}
+						});				
+					}		
+			}					
+			return retPlaceList;
+		}
 		
 
 		

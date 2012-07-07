@@ -114,7 +114,7 @@ public class OpenCityActivity extends Activity
 		SpannableString tips = new SpannableString(getString(R.string.open_city_tips2));
 		tips.setSpan(new StyleSpan(android.graphics.Typeface.BOLD_ITALIC), 0, tips.length()-1, Spannable.SPAN_EXCLUSIVE_INCLUSIVE);
 		tipsTextView.setText(tips);
-		openCtiyDataListView.addFooterView(listViewFooter);
+		openCtiyDataListView.addFooterView(listViewFooter,cityList,false);
 		openCtiyDataListView.setFooterDividersEnabled(false);
 		openCtiyDataListView.setDrawingCacheEnabled(false);
 		

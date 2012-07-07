@@ -224,6 +224,11 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	{
 		return placeList;
 	}
+
+	public void addPlaceList(List<Place> newPlaceList)
+	{
+		placeList.addAll(newPlaceList);
+	}
 	
 
 }
