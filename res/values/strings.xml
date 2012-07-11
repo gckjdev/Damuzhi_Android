@@ -5,6 +5,7 @@
     <string name="app_name">大拇指旅行</string>
     <string name="ok">确定</string>
     <!-- indexInfo-->
+    <string name="index">首页</string>
 	<string name="damuzhi">大拇指旅行 - </string>
 	<string name="scenery">景点</string>
 	<string name="hotel">酒店</string>

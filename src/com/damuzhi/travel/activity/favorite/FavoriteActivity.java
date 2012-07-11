@@ -306,11 +306,14 @@ public class FavoriteActivity extends MenuActivity
 				isShowDeleteBtn = true;
 			}		
 			refreshPlaceView(favoritePlaceList);
-			for(int i=0;i<favoritePlaceList.size();i++)
+			if(favoritePlaceList!=null&&favoritePlaceList.size()>0)
 			{
-				ImageView deleteItemButton =  (ImageView) listView.findViewWithTag(i);
-				deleteItemButton.setOnClickListener(deleteItemOnClickListener);
-			}		
+				for(int i=0;i<favoritePlaceList.size();i++)
+				{
+					ImageView deleteItemButton =  (ImageView) listView.findViewWithTag(i);
+					deleteItemButton.setOnClickListener(deleteItemOnClickListener);
+				}	
+			}				
 		}
 	};
 

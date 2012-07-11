@@ -80,11 +80,11 @@ public class LocationUtil
 		criteria.setCostAllowed(true); 
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
 		String provider = locationManager.getBestProvider(criteria, true);
+		locationManager.requestLocationUpdates(provider, 20000, 5, locationListener);
 		HashMap<String, Double> location = new HashMap<String, Double>();
 		if(provider !=null&&locationManager.isProviderEnabled(provider))
 		{			
 			loc = locationManager.getLastKnownLocation(provider);
-			locationManager.requestLocationUpdates(provider, 20000, 5, locationListener);
 			if(loc != null)
 			{
 				location.put(ConstantField.LONGITUDE, loc.getLongitude());

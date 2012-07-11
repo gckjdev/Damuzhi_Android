@@ -49,6 +49,7 @@ import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -439,6 +440,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		coolectBtn = (ImageView) findViewById(R.id.collect_btn);
 		coolectBtn.setOnClickListener(addFavoriteOnClickListener);
 		ImageButton locationButton = (ImageButton) findViewById(R.id.location_button);
+		ImageButton indexButton = (ImageButton) findViewById(R.id.index_button);
+		indexButton.setOnClickListener(indexOnClickListener);
 		ImageView help2Button = (ImageView) findViewById(R.id.help2);
 		locationButton.setOnClickListener(locationOnClickListener);
 		help2Button.setOnClickListener(helpOnClickListener);
@@ -738,7 +741,18 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		}
 	};
 	
-	
+	private OnClickListener indexOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.setClass(CommonPlaceDetailActivity.this, IndexActivity.class);
+			startActivity(intent);	
+			
+		}
+	};
 	
 	
 	private void openGPSSettings() {

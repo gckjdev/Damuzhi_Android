@@ -235,7 +235,7 @@ public class DownloadService extends Service
 									{										
 										downloadTask.remove(downloadURL);
 										downloadStstudTask.remove(downloadURL);
-										keys.remove();
+										//keys.remove();
 									}
 									//downloadTask.remove(downloadURL);
 								}

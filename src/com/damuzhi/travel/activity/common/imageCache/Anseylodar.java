@@ -28,11 +28,7 @@ public class Anseylodar {
 		imageLoader=new ImageLoader();
 	}
 	
-	/**
-	 * ��������ͼƬICON
-	 * @param imageView
-	 * @param url
-	 *//*
+	/*
 	public  void showimgAnsy(ImageView imageView,String url,boolean isstar){
 		imageView.setTag(url);
 		Bitmap bitmap=null;

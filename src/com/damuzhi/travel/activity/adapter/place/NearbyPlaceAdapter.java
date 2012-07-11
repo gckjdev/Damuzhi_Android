@@ -85,8 +85,9 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
 		this.anseylodar = new Anseylodar();
-		cityAreaMap = AppManager.getInstance().getCityAreaMap(AppManager.getInstance().getCurrentCityId());
-		symbol = AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId());
+		int cityId = AppManager.getInstance().getCurrentCityId();
+		cityAreaMap = AppManager.getInstance().getCityAreaMap(cityId);
+		symbol = AppManager.getInstance().getSymbolMap().get(cityId);
 		
 	}
 

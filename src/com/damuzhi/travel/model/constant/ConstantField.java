@@ -1,5 +1,6 @@
 package com.damuzhi.travel.model.constant;
 
+import java.io.File;
 import java.security.PublicKey;
 
 public class ConstantField
@@ -140,6 +141,7 @@ public class ConstantField
 	public static final String U_MENG_QQ_CONSUMER_KEY = "qq_weibo_app_key";
 	public static final String U_MENG_QQ_CONSUMER_SECRET = "qq_weibo_app_secret";
 	public static final String U_MENG_CALL_BACK_URL = "call_back_url";
+	public static final String LOCATION_FILE = android.os.Environment.getExternalStorageDirectory()+"/damuzhi/data/";
 	
 
 }

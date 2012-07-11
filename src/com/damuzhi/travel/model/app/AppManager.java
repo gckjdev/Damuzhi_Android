@@ -35,7 +35,7 @@ public class AppManager
 {
 	private Context context;
 	private static final String TAG = "AppManager";
-	private App app;
+	private static App app;
 	private static AppManager instance = null;
 	private int currentCityId;
 	private String currentCityName;
@@ -67,7 +67,7 @@ public class AppManager
 		FileInputStream inputStream = null;
 		try
 		{
-			 inputStream = new FileInputStream(appData);
+			inputStream = new FileInputStream(appData);
 			Log.i(TAG, "load app data from file = " + dataPath);
 			app = App.parseFrom(inputStream);
 		} catch (Exception e)
@@ -557,10 +557,13 @@ public class AppManager
 		HashMap<Integer, List<CityArea>> cityAreaList = AppManager.getInstance().getCityAreaList();
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
 		List<CityArea> ctiyAreas = cityAreaList.get(cityID);
-		for (CityArea cityArea : ctiyAreas)
+		if(ctiyAreas.size()>0)
 		{
-			map.put(cityArea.getAreaId(), cityArea.getAreaName());
-		}
+			for (CityArea cityArea : ctiyAreas)
+			{
+				map.put(cityArea.getAreaId(), cityArea.getAreaName());
+			}
+		}		
 		return map;
 	}
 

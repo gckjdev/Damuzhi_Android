@@ -92,11 +92,16 @@ public class Share2Weibo extends Activity implements RequestListener
 		TravelApplication.getInstance().addActivity(this);
 		setContentView(R.layout.share_2_weibo);
 		MobclickAgent.updateOnlineConfig(this);
-		SINA_CONSUMER_KEY = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_SINA_CONSUMER_KEY);
-		SINA_CONSUMER_SECRET = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_SINA_CONSUMER_SECRET);
-		QQ_CONSUMER_KEY = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_QQ_CONSUMER_KEY);
-		QQ_CONSUMER_SECRET = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_QQ_CONSUMER_SECRET);
-		CALL_BACK_URL = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_CALL_BACK_URL);
+		while (SINA_CONSUMER_KEY == null||SINA_CONSUMER_KEY.equals("") )
+		{
+			SINA_CONSUMER_KEY = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_SINA_CONSUMER_KEY);
+			SINA_CONSUMER_SECRET = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_SINA_CONSUMER_SECRET);
+			QQ_CONSUMER_KEY = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_QQ_CONSUMER_KEY);
+			QQ_CONSUMER_SECRET = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_QQ_CONSUMER_SECRET);
+			CALL_BACK_URL = MobclickAgent.getConfigParams(Share2Weibo.this, ConstantField.U_MENG_CALL_BACK_URL);
+			
+		}
+		
 		shareConfig = getIntent().getIntExtra(SHARE_CONFIG,0);
 		ImageView shareImageView = (ImageView) findViewById(R.id.share_image);
 		String title ;
@@ -156,10 +161,15 @@ public class Share2Weibo extends Activity implements RequestListener
 	
 	private void getSinaOauthToken()
 	{
-		Weibo weibo = Weibo.getInstance();
-		weibo.setupConsumerConfig(SINA_CONSUMER_KEY, SINA_CONSUMER_SECRET);						
-		weibo.setRedirectUrl(CALL_BACK_URL);
-		weibo.authorize(Share2Weibo.this,new AuthDialogListener());
+		
+		if(SINA_CONSUMER_KEY!=null&&!SINA_CONSUMER_KEY.equals("")&&SINA_CONSUMER_SECRET!=null&&!SINA_CONSUMER_SECRET.equals("")&&CALL_BACK_URL!=null&&!CALL_BACK_URL.equals(""))
+		{
+			Weibo weibo = Weibo.getInstance();
+			weibo.setupConsumerConfig(SINA_CONSUMER_KEY, SINA_CONSUMER_SECRET);						
+			weibo.setRedirectUrl(CALL_BACK_URL);
+			weibo.authorize(Share2Weibo.this,new AuthDialogListener());
+		}
+		
 	}
 	
 	
@@ -288,24 +298,27 @@ public class Share2Weibo extends Activity implements RequestListener
 	private void getQQOauthToken()
 	{
 		try {
-			qq_oauth = new OAuth(QQ_CONSUMER_KEY, QQ_CONSUMER_SECRET,"null");			
-			qq_oauth_token_array = TokenStore.fetch(Share2Weibo.this);
-			qq_oauth_token = qq_oauth_token_array[0];
-			qq_oauth_token_secret = qq_oauth_token_array[1];
-			if (qq_oauth_token == null || qq_oauth_token_secret == null) 
+			if (QQ_CONSUMER_KEY!=null&&!QQ_CONSUMER_KEY.equals("")&&QQ_CONSUMER_SECRET!=null&&!QQ_CONSUMER_SECRET.equals(""))
 			{
-				qq_auth = new OAuthClient();
-				qq_oauth = qq_auth.requestToken(qq_oauth);
-				if (qq_oauth.getStatus() == 1) {
-					Log.i(TAG, "Get Request Token failed!");
-					return;
-				} else {
-					qq_oauth_token = qq_oauth.getOauth_token();
-					String url = "http://open.t.qq.com/cgi-bin/authorize?oauth_token="+ qq_oauth_token;
-					Intent intent = new Intent(Share2Weibo.this,MyWebView.class);
-					intent.putExtra("URL", url);
-					startActivity(intent);
-				}
+				qq_oauth = new OAuth(QQ_CONSUMER_KEY, QQ_CONSUMER_SECRET,"null");			
+				qq_oauth_token_array = TokenStore.fetch(Share2Weibo.this);
+				qq_oauth_token = qq_oauth_token_array[0];
+				qq_oauth_token_secret = qq_oauth_token_array[1];
+				if (qq_oauth_token == null || qq_oauth_token_secret == null) 
+				{
+					qq_auth = new OAuthClient();
+					qq_oauth = qq_auth.requestToken(qq_oauth);
+					if (qq_oauth.getStatus() == 1) {
+						Log.i(TAG, "Get Request Token failed!");
+						return;
+					} else {
+						qq_oauth_token = qq_oauth.getOauth_token();
+						String url = "http://open.t.qq.com/cgi-bin/authorize?oauth_token="+ qq_oauth_token;
+						Intent intent = new Intent(Share2Weibo.this,MyWebView.class);
+						intent.putExtra("URL", url);
+						startActivity(intent);
+					}
+				}		
 			}		
 		} catch (Exception e) {
 			Log.e(TAG, "<getQQOauthToken> but catch exception :"+e.toString(),e);

@@ -36,6 +36,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -203,9 +204,7 @@ public class OpenCityActivity extends Activity
 						openCtiyDataListView.findViewWithTag("installing"+position).setVisibility(View.VISIBLE);
 						progressBarMap.remove(downloadURL);
 						resultTextMap.remove(downloadURL);
-						
-						
-						
+					
 						
 						int cityId = downloadInfo.getCityId();						
 						String zipTempFilePath = ConstantField.DOWNLOAD_TEMP_PATH+HttpTool.getTempFileName(HttpTool.getConnection(downloadURL), downloadURL);
@@ -262,11 +261,23 @@ public class OpenCityActivity extends Activity
 		@Override
 		public void onTaskProcessStatusChanged(int cityId,String downloadURL, long speed,long totalBytes, long curPos,boolean notFinish) 
 		{ 
-             final  DownloadInfos dl = new DownloadInfos(cityId,downloadURL,speed,totalBytes,curPos,notFinish);  	           
-			 Message msg = Message.obtain();
-			 msg.what = PROCESS_CHANGED;
-			 msg.obj = dl;
-		     downloadInfoHandler.sendMessage(msg);  
+             final  DownloadInfos dl = new DownloadInfos(cityId,downloadURL,speed,totalBytes,curPos,notFinish);  	
+             Thread thread = new Thread(new Runnable(
+            		 )
+			{
+				
+				@Override
+				public void run()
+				{
+					 Message msg = Message.obtain();
+					 msg.what = PROCESS_CHANGED;
+					 msg.obj = dl;
+				     downloadInfoHandler.sendMessage(msg);
+					
+				}
+			});
+             thread.start(); 
+			  
 		}
 	};
 	
@@ -303,14 +314,15 @@ public class OpenCityActivity extends Activity
 			downloadListGroup.setBackgroundResource(R.drawable.citybtn_on2);
 			dataListTitle.setTextColor(getResources().getColor(R.color.black));
 			downloadListTitle.setTextColor(getResources().getColor(R.color.white));
-			//installCityData = DownloadManager.getInstallCity();
 			installedCityList.clear();
-			installedCityList.addAll(installCityData.values());			
-			downloadDataListAdapter.setInstalledCityList(installedCityList);
-			downloadDataListAdapter.notifyDataSetChanged();
+			installedCityList.addAll(installCityData.values());
 			if(installedCityList.size() == 0)
 			{
 				downloadListView.setVisibility(View.GONE);
+			}else{
+				
+				downloadDataListAdapter.setInstalledCityList(installedCityList);
+				downloadDataListAdapter.notifyDataSetChanged();
 			}
 			
 		}
@@ -471,7 +483,24 @@ public class OpenCityActivity extends Activity
 	};
 	
 
-	
+	private OnClickListener deleteOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			int position = (Integer) v.getTag();
+			int cityId = installedCityList.get(position);
+			City city = AppManager.getInstance().getCityByCityId(cityId);
+			String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(city.getDownloadURL()), city.getDownloadURL());
+			String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);			
+			installedCityList.remove(position);
+			installCityData.remove(position);
+			downloadDataListAdapter.setInstalledCityList(installedCityList);
+			downloadDataListAdapter.notifyDataSetChanged();
+			deleteFile(zipFilePath,upZipFilePath);		
+		}
+	};
 	
 	
 	

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.common.FilterAdapter.ViewHolder;
 import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -29,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 
 /**  
@@ -79,22 +81,30 @@ public class DownloadDataListAdapter extends BaseAdapter
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent)
 	{
+		ViewHolder holder ;
 		if(convertView == null)
 		{
 			convertView = LayoutInflater.from(context).inflate(R.layout.open_download_city_list_item, null);
+			holder = new ViewHolder();
+			holder.delete = (Button) convertView.findViewById(R.id.delete_button);
+			holder.dataCityName = (TextView) convertView.findViewById(R.id.data_city_name);
+			holder.dataCitySize = (TextView) convertView.findViewById(R.id.data_size);
+			convertView.setTag(holder);
+		}else {
+			 holder = (ViewHolder) convertView.getTag();  
 		}
 		if(installedCityList.size()>0)
 		{
 			convertView.findViewById(R.id.delete_group).setVisibility(View.VISIBLE);
 			int cityId = installedCityList.get(position);
 			City city = AppManager.getInstance().getCityByCityId(cityId);
-			Button deleteButton = (Button) convertView.findViewById(R.id.delete_button);
+			/*Button deleteButton = (Button) convertView.findViewById(R.id.delete_button);
 			TextView dataCityName = (TextView) convertView.findViewById(R.id.data_city_name);
-			TextView dataCitySize = (TextView) convertView.findViewById(R.id.data_size);
-			deleteButton.setTag(position);
-			dataCityName.setText(city.getCountryName()+"."+city.getCityName());
-			dataCitySize.setText(TravelUtil.getDataSize(city.getDataSize()));
-			deleteButton.setOnClickListener(deleteOnClickListener);
+			TextView dataCitySize = (TextView) convertView.findViewById(R.id.data_size);*/
+			holder.delete.setTag(position);
+			holder.dataCityName.setText(city.getCountryName()+"."+city.getCityName());
+			holder.dataCitySize.setText(TravelUtil.getDataSize(city.getDataSize()));
+			holder.delete.setOnClickListener(deleteOnClickListener);
 		}else {
 			convertView.findViewById(R.id.open_city_tips_download).setVisibility(View.VISIBLE);
 		}
@@ -123,12 +133,12 @@ public class DownloadDataListAdapter extends BaseAdapter
 			int cityId = installedCityList.get(position);
 			City city = AppManager.getInstance().getCityByCityId(cityId);
 			String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(city.getDownloadURL()), city.getDownloadURL());
-			String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
-			deleteFile(zipFilePath,upZipFilePath);
+			String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);			
 			installedCityList.remove(position);
-			OpenCityActivity.installCityData.remove(position);
+			OpenCityActivity.installCityData.remove(cityId);
 			OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
 			OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
+			deleteFile(zipFilePath,upZipFilePath);
 			
 		}
 	};
@@ -155,6 +165,13 @@ public class DownloadDataListAdapter extends BaseAdapter
 		};
 		task.execute(params);
 	}
+	
+	public final class ViewHolder {  
+        public Button delete;
+        public TextView dataCityName;
+        public TextView dataCitySize;
+    }
+	
 	
 	
 }

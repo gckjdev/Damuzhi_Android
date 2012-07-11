@@ -1,5 +1,6 @@
 package com.damuzhi.travel.activity.entry;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import android.R.integer;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
@@ -16,6 +18,7 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,6 +41,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.commonsware.cwac.locpoll.LocationPoller;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
@@ -67,6 +71,7 @@ import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.service.Task;
+import com.damuzhi.travel.util.LocationReceiver;
 import com.google.android.maps.MapView.LayoutParams;
 
 public class IndexActivity extends MenuActivity implements OnClickListener
@@ -97,7 +102,9 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	private static final String SHARE_CONFIG = "share_config";
 	private static final  int SHARE_2_SINA = 1;
 	private static final  int SHARE_2_QQ = 2;
-	//private Spinner citySpinner;
+	 private static final int PERIOD=1800000;  // 30 minutes
+	  private PendingIntent pi=null;
+	  private AlarmManager mgr=null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -298,6 +305,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		
 		super.onResume();
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
+		//initLocation();
 	}
 
 	
@@ -447,7 +455,21 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		}
 	};
 
+	/*private void initLocation()
+	{
+		mgr=(AlarmManager)getSystemService(ALARM_SERVICE);	    
+	    Intent i=new Intent(this, LocationPoller.class);		    
+	    i.putExtra(LocationPoller.EXTRA_INTENT,new Intent(this, LocationReceiver.class));
+	    i.putExtra(LocationPoller.EXTRA_PROVIDER, LocationManager.GPS_PROVIDER);		    
+	    pi=PendingIntent.getBroadcast(this, 0, i, 0);
+	    mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime(),PERIOD,pi);		    
+	   // Toast.makeText(this,"Location polling every 30 minutes begun",Toast.LENGTH_LONG).show();
+	}*/
 	
+	/*public void omgPleaseStop(View v) {
+	    mgr.cancel(pi);
+	    finish();
+	  }*/
 	
 	private void openGPSSettings() {
 		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);

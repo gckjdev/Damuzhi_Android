@@ -111,7 +111,7 @@
 	    android:layout_height="fill_parent"
 	    android:visibility="gone"
 	    android:orientation="vertical" >
-    	<com.google.android.maps.MapView
+    	<com.readystatesoftware.maps.TapControlledMapView
          android:id="@+id/common_place_mapview"
          android:layout_width="fill_parent"
          android:layout_height="fill_parent"

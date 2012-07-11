@@ -54,6 +54,7 @@ public class HttpTool
 			        {
 			        	if (urlConnection.getResponseCode() != 200)
 				        {
+			        		urlConnection.disconnect();
 				        	Log.d(TAG, "<sendGetRequest> can not get http connection");
 				        	return null;
 				        }			          
@@ -66,6 +67,7 @@ public class HttpTool
 			} catch (Exception e)
 			{			
 				Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
+				urlConnection.disconnect();
 				return null;
 			}
 		 }else {
@@ -105,13 +107,12 @@ public class HttpTool
 	
 	public static InputStream getDownloadInputStream(URL url,int startPos,int endPos) 
 	{
-			// HttpURLConnection urlConnection = null;
+			HttpURLConnection conn = null;
 			 try{
-				 	HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+				 	conn = (HttpURLConnection) url.openConnection();
 					conn.setConnectTimeout(5 * 1000);
 					conn.setRequestMethod("GET");
 					conn.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
-					//conn.setRequestProperty("Accept", "*/*");
 					conn.setRequestProperty("Accept-Language", "zh-CN");
 					conn.setRequestProperty("Referer", url.toString()); 
 					conn.setRequestProperty("Charset", "UTF-8");
@@ -122,6 +123,7 @@ public class HttpTool
 										
 			} catch (Exception e)
 			{			
+				conn.disconnect();
 				Log.e(TAG, "<getDownloadInputStream> but catch exception = "+e.toString(),e);
 				return null;
 			}

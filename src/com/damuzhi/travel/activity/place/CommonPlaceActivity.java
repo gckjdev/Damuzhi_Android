@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
 import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,6 +32,7 @@ import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -63,6 +63,8 @@ import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
+import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.mission.app.AppMission;
@@ -79,7 +81,10 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.MapView.LayoutParams;
+import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
+import com.readystatesoftware.maps.OnSingleTapListener;
+import com.readystatesoftware.maps.TapControlledMapView;
 
 /**
  * @description
@@ -123,14 +128,14 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	// mapview
 	private ViewGroup mapviewGroup;
 	private ViewGroup listViewGroup;
-	private MapView mapView;
+	private TapControlledMapView mapView;
 	private View popupView;
 	private ImageView mapViewButton;
 	private ImageView listViewButton;
 	private ImageView myLocateButton;
 	private ImageView canceLocateButton;
 	private ViewGroup sortSpinner;
-	private PlaceMapViewOverlay placeOverlay;
+	//private PlaceMapViewOverlay placeOverlay;
 	// sub category name
 	protected String[] subCatName;
 	protected int[] subCatKey;
@@ -170,6 +175,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private static final int priceType = 4;
 	private View loadMoreView;
 	private ProgressBar loadMoreProgressBar;
+	private CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -207,13 +213,16 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		mapViewButton = (ImageView) findViewById(R.id.map_view);
 		listViewButton = (ImageView) findViewById(R.id.list_view);
 		placeListView = (ListView) findViewById(R.id.place_listview);
+		mapView = (TapControlledMapView) findViewById(R.id.common_place_mapview);
+		mapc = mapView.getController();
+		mapc.setZoom(18);
 		loadMoreView = getLayoutInflater().inflate(R.layout.load_more_view, null);
 		loadMoreView.setVisibility(View.GONE);
 		//loadMoreButton = (TextView) loadMoreView.findViewById(R.id.load_more_btn);
 		loadMoreProgressBar = (ProgressBar) loadMoreView.findViewById(R.id.footprogress);
-		loadMoreView.setOnClickListener(loadMoreOnClickListener);
+		//loadMoreView.setOnClickListener(loadMoreOnClickListener);
 		placeListAdapter = new CommonPlaceListAdapter(this, null,getCategoryType());
-		placeListView.addFooterView(loadMoreView,null,false);
+		//placeListView.addFooterView(loadMoreView,null,false);
 		placeListView.setAdapter(placeListAdapter);
 		placeListView.setOnItemClickListener(listViewOnItemClickListener);
 		placeListView.setOnScrollListener(onScrollListener);
@@ -223,7 +232,11 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		createFilterButtons(spinner);
 		placeTitle.setText(getCategoryName());
 		placeSize.setText(getCategorySize());
-		
+		mapView.setOnSingleTapListener(onSingleTapListener);
+		myLocateButton = (ImageView) findViewById(R.id.my_locate);
+		canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
+		myLocateButton.setOnClickListener(myLocateOnClickListener);
+		canceLocateButton.setOnClickListener(cancelLocateOnClickListener);
 		sortSelected.put(0, true);
 		
 		
@@ -467,15 +480,9 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			placeListAdapter.setList(list);
 			placeListAdapter.notifyDataSetChanged();
-			/*placeListPageAdapter.setPlaceList(list);
-			placeListPageAdapter.notifyDataSetChanged();*/
 			if (mapView != null)
 			{
-				mapView.getOverlays().clear();
-				placeOverlay = new PlaceMapViewOverlay(null, list);
-				mapView.getOverlays().add(placeOverlay);
-				mapView.invalidate();
-				placeOverlay.setOnFocusChangeListener(changeListener);
+				initMapView();
 			}
 			updateTitle();
 		}else
@@ -493,17 +500,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		placeSize.setText(getCategorySize());
 	}
 
-	/*protected OnClickListener mapViewClickListener = new OnClickListener()
-	{
-		@Override
-		public void onClick(View v)
-		{
-			// TODO check correctness
-			TravelApplication.getInstance().setPlaceCategoryID(PlaceCategoryType.PLACE_SPOT_VALUE);
-			Intent intent = new Intent(CommonPlaceActivity.this, PlaceMap.class);
-			startActivity(intent);
-		}
-	};*/
+	
 
 	
 	protected OnClickListener subCategoryClickListener = new OnClickListener()
@@ -571,7 +568,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		@Override
 		public void onClick(View v)
 		{
-			openGPSSettings();
 			sortSpinner = (ViewGroup) findViewById(R.id.sort_spinner);
 			if (sortSpinner != null)
 			{
@@ -581,31 +577,11 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			mapViewButton.setVisibility(View.GONE);
 			listViewButton.setVisibility(View.VISIBLE);
 			mapviewGroup.setVisibility(View.VISIBLE);
-			mapView = (MapView) findViewById(R.id.common_place_mapview);
+			
 
 			mapView.setStreetView(true);
 			mapc = mapView.getController();
-			List<Place> placeList = placeListAdapter.getPlaceList();
-			//List<Place> placeList = placeListPageAdapter.getPlaceList();
-			if(placeList!=null&&placeList.size()>0)
-			{
-				placeOverlay = new PlaceMapViewOverlay(null,placeList);
-				mapView.getOverlays().add(placeOverlay);
-				myLocateButton = (ImageView) findViewById(R.id.my_locate);
-				canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
-				myLocateButton.setOnClickListener(myLocateOnClickListener);
-				canceLocateButton.setOnClickListener(cancelLocateOnClickListener);
-				mapc.setCenter(placeOverlay.getCenter());
-				mapc.setZoom(16);
-				popupView = LayoutInflater.from(CommonPlaceActivity.this).inflate(R.layout.overlay_popup, null);
-				mapView.addView(popupView, new MapView.LayoutParams(MapView.LayoutParams.WRAP_CONTENT,MapView.LayoutParams.WRAP_CONTENT, null,MapView.LayoutParams.BOTTOM_CENTER));
-				popupView.setVisibility(View.GONE);
-				placeOverlay.setOnFocusChangeListener(changeListener);
-				popupView.setOnClickListener(mapviewPopupItemOnClickListener);
-			}
-			
-			// selectListButton.setOnClickListener(listClickListener);
-
+			initMapView();			
 		}
 	};
 
@@ -622,14 +598,37 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			mapViewButton.setVisibility(View.VISIBLE);
 		}
 	};
-
+	
+	
+	private OnSingleTapListener onSingleTapListener = new OnSingleTapListener() {		
+		@Override
+		public boolean onSingleTap(MotionEvent e) {
+			itemizedOverlay.hideAllBalloons();
+			return true;
+		}
+	};
+	
+	
+	private void initMapView()
+	{
+		openGPSSettings();
+		List<Place> placeList = placeListAdapter.getPlaceList();
+		if(placeList!=null&&placeList.size()>0)
+		{
+			mapView.getOverlays().clear();
+			mapView.removeAllViews();
+			initMapOverlayView(placeList);
+		}
+		
+	}
+	
+	
 	private OnClickListener myLocateOnClickListener = new OnClickListener()
 	{
 
 		@Override
 		public void onClick(View v)
 		{
-			//HashMap<String, Double> location = LocationUtil.getLocation(CommonPlaceActivity.this);
 			HashMap<String, Double> location = TravelApplication.getInstance().getLocation();
 			if (location != null&&location.size()>0)
 			{
@@ -655,11 +654,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			canceLocateButton.setVisibility(View.GONE);
 			myLocateButton.setVisibility(View.VISIBLE);
-			Place place = placeListAdapter.getPlaceList().get(0);
-			//Place place = placeListPageAdapter.getPlaceList().get(0);
-			GeoPoint geoPoint = new GeoPoint((int) (place.getLongitude()* 1E6),(int) (place.getLatitude() * 1E6));
-			mapc.animateTo(geoPoint);
-			mapView.invalidate();
+			initMapView();
+			
 		}
 	};
 
@@ -668,9 +664,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		int size = 0;
 		if (placeListAdapter.getPlaceList() != null)
 			size = placeListAdapter.getPlaceList().size();
-		/*if (placeListPageAdapter.getPlaceList() != null)
-			size = placeListPageAdapter.getPlaceList().size();*/
-
 		String sizeString = "(" + size + ")";
 		return sizeString;
 	}
@@ -707,68 +700,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		loadingDialog.show();
 	}
 
-	class PlaceMapViewOverlay extends ItemizedOverlay
-	{
-		private List<OverlayItem> locaions = new ArrayList<OverlayItem>();
-		private Drawable markerIcon;
 
-		public PlaceMapViewOverlay(Drawable marker, List<Place> placeList)
-		{
-			super(marker);
-			this.markerIcon = getResources().getDrawable(TravelUtil.getForecastImage(getCategoryType()));
-			markerIcon.setBounds(0, 0,
-					(int) ((markerIcon.getIntrinsicWidth() / 2) * 1.5),
-					(int) ((markerIcon.getIntrinsicHeight() / 2) * 1.5));
-			int i = 0;
-			for (Place place : placeList)
-			{
-				GeoPoint geoPoint = new GeoPoint((int) (place.getLatitude() * 1e6),(int) (place.getLongitude() * 1e6));
-				OverlayItem overlayItem = new OverlayItem(geoPoint,place.getName(), Integer.toString(i));
-				overlayItem.setMarker(markerIcon);
-				locaions.add(overlayItem);
-				i++;
-			}
-			populate();
-		}
-
-		@Override
-		protected OverlayItem createItem(int i)
-		{
-			return locaions.get(i);
-		}
-
-		@Override
-		public int size()
-		{
-			return locaions.size();
-		}
-		
-
-	}
-
-	private final ItemizedOverlay.OnFocusChangeListener changeListener = new ItemizedOverlay.OnFocusChangeListener()
-	{
-
-		@Override
-		public void onFocusChanged(ItemizedOverlay overlay, OverlayItem newFocus)
-		{
-			if (popupView != null)
-			{
-				popupView.setVisibility(View.GONE);
-			}
-			if (newFocus != null)
-			{
-
-				MapView.LayoutParams geoLP = (LayoutParams) popupView.getLayoutParams();
-				geoLP.point = newFocus.getPoint();
-				TextView titleView = (TextView) popupView.findViewById(R.id.map_bubbleTitle);
-				titleView.setText(newFocus.getTitle());
-				popupView.setTag(newFocus.getSnippet());
-				mapView.updateViewLayout(popupView, geoLP);
-				popupView.setVisibility(View.VISIBLE);
-			}
-		}
-	};
 	
 	private OnItemClickListener listViewOnItemClickListener = new OnItemClickListener()
 	{
@@ -778,7 +710,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				long arg3)
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
-			//Place place = placeListPageAdapter.getPlaceList().get(arg2);
 			BrowseHistoryMission.getInstance().addBrowseHistory(place);
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
@@ -801,28 +732,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			
 		}
 	};
-	
-	
-	private OnClickListener mapviewPopupItemOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			String tag = (String)v.getTag();
-			int position = Integer.parseInt(tag);
-			Place place = placeListAdapter.getPlaceList().get(position);
-			//Place place = placeListPageAdapter.getPlaceList().get(position);
-			BrowseHistoryMission.getInstance().addBrowseHistory(place);
-			Intent intent = new Intent();
-			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
-			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
-			intent.setClass(CommonPlaceActivity.this, detailPlaceClass);
-			startActivity(intent);
-			
-		}
-	};
-	
 	
 	
     private void filterWindow(View parent,String[] filterTitleName,int[] filterKey,HashMap<Integer, Boolean> isSelected,boolean isSelectAll,int filterType,String filterTitle) {  
@@ -1177,9 +1086,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			@Override
 			public void onScroll(AbsListView view, int firstVisibleItem,
 					int visibleItemCount, int totalItemCount)
-			{
-				//loadMoreView.setVisibility(View.VISIBLE);
-				
+			{				
 			}
 		};
 		
@@ -1187,7 +1094,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		
 		private void loadMore()
 		{
-			// TODO Auto-generated method stub
 			AsyncTask<String, Void, List<Place>> task = new AsyncTask<String, Void, List<Place>>()
 			{
 
@@ -1217,10 +1123,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			List<Place> newMoreList = new ArrayList<Place>();
 			allPlaceList.addAll(placeList);
-			// step 1 : filter place
 			for (Place place : placeList)
 			{
-				// check sub category match
 				if (!isMatchSubCategory(place))
 				{
 					continue;
@@ -1234,13 +1138,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				{
 					continue;
 				}
-
-				// check
-
 				newMoreList.add(place);
 			}
-
-			// step 2 : sort places by conditions
 			Comparator<Place> comparator = getSortComparator(sortPosition);
 			if (comparator != null)
 			{
@@ -1254,10 +1153,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				if (mapView != null)
 				{
 					mapView.getOverlays().clear();
-					placeOverlay = new PlaceMapViewOverlay(null, newMoreList);
-					mapView.getOverlays().add(placeOverlay);
-					mapView.invalidate();
-					placeOverlay.setOnFocusChangeListener(changeListener);
+					initMapOverlayView(newMoreList);
 				}
 				updateTitle();
 			}else
@@ -1268,5 +1164,25 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			}
 			return;
 		}
+		
+		private void initMapOverlayView(List<Place> placeList)
+		{	
+			Drawable markerIcon = getResources().getDrawable(TravelUtil.getForecastImage(getCategoryType()));
+			itemizedOverlay = new CommonItemizedOverlay<CommonOverlayItem>(markerIcon, mapView);
+			for (Place place : placeList)
+			{
+				GeoPoint geoPoint = new GeoPoint((int) (place.getLatitude() * 1e6),(int) (place.getLongitude() * 1e6));
+				CommonOverlayItem commonOverlayItem = new CommonOverlayItem(geoPoint,place.getName(), null,place);
+				itemizedOverlay.addOverlay(commonOverlayItem);
+			}
+			if(itemizedOverlay.size()>0)
+			{
+				mapc.setCenter(itemizedOverlay.getCenter());
+			}
+			List<Overlay> mapOverlays = mapView.getOverlays();		
+			mapOverlays.add(itemizedOverlay);
+		}
+		
+		
 		
 }
