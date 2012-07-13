@@ -2,8 +2,8 @@
  <LinearLayout
 	   	      xmlns:android="http://schemas.android.com/apk/res/android" 
 	          android:layout_width="fill_parent"  
-	          android:layout_height="wrap_content"  
-	          android:background="@color/placeIntro_bg"
+	          android:layout_height="fill_parent"  
+	          android:background="@color/white"
 	          android:orientation="vertical">
     	<TextView 
     	    android:id="@+id/place_title"
@@ -14,10 +14,20 @@
     	    android:gravity="center"
     	    android:textSize="20.0sp"
     	    android:textColor="@color/white"/>
+    	<TextView 
+	     android:layout_width="fill_parent"
+	     android:layout_height="wrap_content"
+	     android:text="@string/data_not_found"
+	     android:layout_marginTop="20dp"
+	     android:gravity="center"
+	     android:id="@+id/data_not_found"
+	     android:visibility="gone"
+    	 android:textSize="13sp"/>
 	   	  <WebView
 	   	      android:id="@+id/help_webview"
 	   	      android:layout_width="fill_parent"
 	   	      android:layout_height="wrap_content"
+	   	      android:background="@color/white"
 	   	      android:scrollbars="none"
 	   	      />
 </LinearLayout>	

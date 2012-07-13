@@ -77,6 +77,7 @@ public class OpenCityActivity extends Activity
 	private IDownloadService iDownloadService;
 	private static final int PROCESS_CHANGED = 1;
 	private static final int TASK_CHANGED = 2;
+	private static final int DOWNLOAD_STATUS_PAUSE  = 2;
 	private OpenCityDataAdapter cityListAdapter;
 	public static DownloadDataListAdapter downloadDataListAdapter;
 	private List<City> cityList;
@@ -196,7 +197,7 @@ public class OpenCityActivity extends Activity
 						Toast.makeText(OpenCityActivity.this, R.string.success, 1).show();
 						String downloadURL = downloadInfo.getUrl();
 						int position = positionMap.get(downloadURL);
-						cancelDownload(downloadURL);
+						
 						
 						
 						openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.GONE);
@@ -204,7 +205,7 @@ public class OpenCityActivity extends Activity
 						openCtiyDataListView.findViewWithTag("installing"+position).setVisibility(View.VISIBLE);
 						progressBarMap.remove(downloadURL);
 						resultTextMap.remove(downloadURL);
-					
+						cancelDownload(downloadURL);
 						
 						int cityId = downloadInfo.getCityId();						
 						String zipTempFilePath = ConstantField.DOWNLOAD_TEMP_PATH+HttpTool.getTempFileName(HttpTool.getConnection(downloadURL), downloadURL);
@@ -507,6 +508,7 @@ public class OpenCityActivity extends Activity
 	
 	private void download(final int cityId,final String downloadURL, final String downloadSavePath,final String tempPath)
 	{
+		Log.d(TAG, "download url = "+downloadURL);
 		Thread thread = new Thread(new Runnable()
 		{
 			
@@ -819,7 +821,7 @@ public class OpenCityActivity extends Activity
 				buttonGroup.setVisibility(View.VISIBLE);
 				installedTextView.setVisibility(View.GONE);
 				/*if(downloadStstudTask.containsKey(city.getDownloadURL()) && downloadDataStatus.get(city.getDownloadURL()) == DOWNLOAD_ING)*/
-			 if(downloadStstudTask.containsKey(downloadURL))
+			 if(downloadStstudTask.containsKey(downloadURL)&&downloadStstudTask.get(downloadURL).mStatus != DOWNLOAD_STATUS_PAUSE&&downloadBean !=null)
 				{
 					dataDownloadMangerGroup.setVisibility(View.VISIBLE);
 					restartDownloadBtn.setVisibility(View.GONE);

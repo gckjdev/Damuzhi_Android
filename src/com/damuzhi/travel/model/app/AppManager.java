@@ -56,7 +56,6 @@ public class AppManager
 	public void load()
 	{
 		String dataPath = ConstantField.APP_DATA_FILE;
-		//String dataPath = ConstantField.LOCAL_APP_DATA_PATH;
 		if (!FileUtil.checkFileIsExits(dataPath))
 		{
 			Log.e(TAG, "load app data from file = " + dataPath+ " but file not found");

@@ -53,11 +53,25 @@ public class TravelTipsMission
 	}
 
 	
-	public List<CommonTravelTip> getTravelTips(int travelTipType,int currentCityId,Activity activity)
+	public List<CommonTravelTip> getTravelTips(final int travelTipType,final int currentCityId,Activity activity)
 	{
 		List<CommonTravelTip> retTravelTips = null;		
 		if (LocalStorageMission.getInstance().hasLocalCityData(currentCityId)){
 			// read local
+			activity.runOnUiThread(new Runnable()
+			{				
+				@Override
+				public void run()
+				{					
+					if(travelTipType == TravelTipType.GUIDE_VALUE)
+					{
+						LocalStorageMission.getInstance().loadCityTravelGuideData(currentCityId);	
+					}else if (travelTipType == TravelTipType.ROUTE_VALUE) {
+						LocalStorageMission.getInstance().loadCityTravelRouteData(currentCityId);	
+					}
+									
+				}
+			});	
 			if(travelTipType == TravelTipType.GUIDE_VALUE)
 			{
 				retTravelTips = localTravelTipsManager.getTravelGuides();

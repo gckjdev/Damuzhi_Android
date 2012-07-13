@@ -12,6 +12,7 @@ import java.util.Map;
 
 import android.content.Context;
 
+import com.damuzhi.travel.db.DBOpenHelper;
 import com.damuzhi.travel.db.FileDBHelper;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -24,11 +25,22 @@ public class DownloadManager
 	private Context context;
 	private FileDBHelper fileDBHelper;
 	
+	private static DownloadManager instance;
+
+    public static  DownloadManager getDownloadManager(Context context)
+    {
+        if (instance == null){
+            instance = new DownloadManager(context);
+        }
+        return instance;
+    }
+	
+	
 	public DownloadManager(Context context)
 	{
 		super();
 		this.context = context;
-		fileDBHelper = new FileDBHelper(this.context);
+		fileDBHelper = FileDBHelper.getFileDBHelper(this.context);
 	}
 
 

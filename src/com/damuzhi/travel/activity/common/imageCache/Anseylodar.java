@@ -13,6 +13,7 @@ import com.damuzhi.travel.activity.common.imageCache.PortraitLodar.PortraitImgCa
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
 
 import android.graphics.Bitmap;
@@ -58,9 +59,14 @@ public class Anseylodar {
 				try
 				{
 					String dataPath = TravelUtil.getCityDataPath()+url;
-					fileInputStream = new FileInputStream(new File(dataPath));
-					bitmap = BitmapFactory.decodeStream(fileInputStream);
-					fileInputStream.close();
+					if(FileUtil.checkFileIsExits(dataPath))
+					{
+						File file = new File(dataPath);
+						fileInputStream = new FileInputStream(file);
+						bitmap = BitmapFactory.decodeStream(fileInputStream);
+						fileInputStream.close();
+					}
+					
 					//imageView.setImageBitmap(bitmap);
 				} catch (Exception e)
 				{
@@ -83,9 +89,7 @@ public class Anseylodar {
 		}else
 		{
 			imageView.setImageResource(R.drawable.default_s);
-		}
-		
-		
+		}		
 	}
 	
 	
@@ -121,4 +125,10 @@ public class Anseylodar {
 			}
 		};
 	};
+	
+	
+	public void distoryBitmap(Bitmap bmp){
+		if(null!=bmp&&!bmp.isRecycled())
+			bmp.recycle();
+		} 
 }

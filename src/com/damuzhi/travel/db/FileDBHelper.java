@@ -6,30 +6,33 @@ import java.util.List;
 import java.util.Map;
 
 import com.damuzhi.travel.model.downlaod.DownloadBean;
+import com.damuzhi.travel.model.downlaod.DownloadManager;
 
 import android.R.integer;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 
 
 public class FileDBHelper {
+	private static final String TAG = "FileDBHelper";
 	private DBOpenHelper openHelper;
-
 	private static FileDBHelper instance;
 
-   /* public static synchronized FileDBHelper getFileDBHelper(Context context)
+    public static  FileDBHelper getFileDBHelper(Context context)
     {
-        if (instance == null)
+        if (instance == null){
             instance = new FileDBHelper(context);
-
+        }
         return instance;
     }
-	*/
+	
 	
 	public FileDBHelper(Context context) {
 		openHelper = DBOpenHelper.getHelper(context);
+		//openHelper = new DBOpenHelper(context);
 	}
 	
 	

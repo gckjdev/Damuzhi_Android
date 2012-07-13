@@ -65,9 +65,10 @@ public class HttpTool
 			        
 			
 			} catch (Exception e)
-			{			
+			{	
+				TravelApplication.getInstance().downloadFailToast();
 				Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
-				urlConnection.disconnect();
+				//urlConnection.disconnect();
 				return null;
 			}
 		 }else {

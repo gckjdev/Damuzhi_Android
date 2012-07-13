@@ -199,7 +199,7 @@ public class DownloadService extends Service
 	
 	
 	
-	public void onDownloading()  
+	/*public void onDownloading()  
 	{  	
 		if(iDownloadCallback == null )
 		{
@@ -253,8 +253,61 @@ public class DownloadService extends Service
 		{
 			 callbackList.finishBroadcast();  
 		}   
-	}  
+	}  */
 	
+	public void onDownloading(FileDownloader fileDownloader)  
+	{  	
+		if(iDownloadCallback == null )
+		{
+			 int n = callbackList.beginBroadcast();  
+		   	 for(int i = 0;i < n ;i++) 
+		   	 {
+		   		 iDownloadCallback = callbackList.getBroadcastItem(0);
+		   	 }		   	 
+	   }	   	    
+		
+			//FileDownloader downloader = entry.getValue();
+		fileDownloader.download(new DownloadProgressListener()
+			{									
+				@Override
+				public void onDownloadSize(int cityId,String downloadURL, long downloadSpeed,long size, long fileLength,boolean notFinish)
+				{
+					try
+					{
+						DownloadStatus downloadStatus = downloadStstudTask.get(downloadURL);
+						if( downloadStatus != null && downloadStatus.mStatus != PAUSE)
+						{
+							iDownloadCallback.onTaskProcessStatusChanged(cityId,downloadURL,downloadSpeed , fileLength, size,notFinish);
+							if(!notFinish)
+							{
+								DownloadManager downloadManager = new DownloadManager(DownloadService.this);
+								downloadManager.deleteDownloadInfo(downloadURL);
+								
+								Iterator<String> keys = downloadTask.keySet().iterator();
+								while(keys.hasNext()){
+									String key = keys.next();
+									if(key.equals(downloadURL))
+									{										
+										downloadTask.remove(downloadURL);
+										downloadStstudTask.remove(downloadURL);
+										//keys.remove();
+									}
+									//downloadTask.remove(downloadURL);
+								}
+							} 
+						}else {
+						}						
+					}catch (Exception e)
+					{
+						Log.e(TAG, "<onProcessChanged> but catch exception :"+e.toString(),e);
+					}
+				}
+			});
+		if(downloadTask.size() == 0)
+		{
+			 callbackList.finishBroadcast();  
+		}   
+	}  
 	
 	
 	
@@ -270,8 +323,8 @@ public class DownloadService extends Service
 			downloadTask.put(downloadURL, fileDownloader);
 			DownloadStatus dlState = new DownloadStatus(DOWNLOADING, downloadURL);
 			downloadStstudTask.put(downloadURL, dlState);
-			onDownloading();
-			//onDownloading(fileDownloader);
+			//onDownloading();
+			onDownloading(fileDownloader);
 		}else
 		{
 		}

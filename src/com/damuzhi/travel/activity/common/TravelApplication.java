@@ -160,4 +160,26 @@ public class TravelApplication extends Application
 		
 	}
 	
+	
+	public void downloadFailToast()
+	{
+		Thread thread = new Thread(new Runnable()
+		{
+			
+			@Override
+			public void run()
+			{
+				 int size = activityList.size();
+				 if(size>0)
+				 {
+					 Looper.prepare();
+					 Toast.makeText(activityList.get(size-1), travelApplication.getString(R.string.download_connection_error), Toast.LENGTH_SHORT).show();
+					 Looper.loop();
+				 }				
+			}
+		});
+		thread.start();
+		
+	}
+	
 }

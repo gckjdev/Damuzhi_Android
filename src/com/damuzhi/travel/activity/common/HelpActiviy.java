@@ -8,11 +8,15 @@
  */
 package com.damuzhi.travel.activity.common;
 
+import java.io.File;
+
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.util.FileUtil;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
 
@@ -30,8 +34,16 @@ public class HelpActiviy extends Activity
 		String title = getIntent().getStringExtra(ConstantField.HELP_TITLE);
 		TextView textView = (TextView) findViewById(R.id.place_title);
 		textView.setText(title);
-		WebView helpView = (WebView) findViewById(R.id.help_webview); 
-		helpView.loadUrl(ConstantField.HELP_HTML_FILE_PATH);
+		WebView helpView = (WebView) findViewById(R.id.help_webview);
+		if(FileUtil.checkFileIsExits(ConstantField.HELP_HTML_FILE_PATH));
+		{	 
+			helpView.loadUrl(ConstantField.HELP_HTML_FILE_PATH);
+		}
+		if(!FileUtil.checkFileIsExits(ConstantField.HELP_HTML_FILE_PATH)){
+			helpView.setVisibility(View.GONE);
+			findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
+		}
+		
 	}
 
 }

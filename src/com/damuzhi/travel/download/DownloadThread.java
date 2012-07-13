@@ -43,12 +43,13 @@ public class DownloadThread extends Thread {
 				InputStream inStream = HttpTool.getDownloadInputStream(downUrl, startPos, endPos);
 				if(inStream !=null)
 				{
-					byte[] buffer = new byte[1024];
+					byte[] buffer = new byte[4096];
 					int offset = 0;
+					//Log.i(TAG, "download url = "+downUrl);
 					Log.i(TAG, "Thread " + this.threadId + " start download from position "+ startPos);
 					RandomAccessFile threadfile = new RandomAccessFile(this.saveFile, "rwd");
 					threadfile.seek(startPos);
-						while ((offset = inStream.read(buffer, 0, 1024)) != -1) {	
+						while ((offset = inStream.read(buffer, 0, 4096)) != -1) {	
 							if(!getrunflag())
 							{
 								return;

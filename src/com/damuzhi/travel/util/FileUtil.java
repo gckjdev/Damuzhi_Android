@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.Subject;
+
 import com.damuzhi.travel.model.constant.ConstantField;
 
 import android.R.integer;
@@ -192,31 +194,19 @@ public class FileUtil
 			result = false;
 		} finally
 		{
-			if (myOutput != null){
-				try
-				{
-					myOutput.close();
-				} catch (IOException e)
-				{
-				}
-			}
-			
-			if (myInput != null){
-				try
-				{
+			try
+			{
+				if (myOutput != null){
+					myOutput.close();			
+				}			
+				if (myInput != null){
 					myInput.close();
-				} catch (IOException e)
-				{
 				}
-			}
-			
-			if (fileInputStream != null){
-				try
-				{
+				if (fileInputStream != null){
 					fileInputStream.close();
-				} catch (IOException e)
-				{				
 				}
+			} catch (IOException e)
+			{
 			}
 		}
 		
@@ -225,17 +215,13 @@ public class FileUtil
 
 	public static boolean copyFile(InputStream inputStream, String targetFile)
 	{
-		OutputStream myOutput;
+		OutputStream myOutput = null;
+		BufferedInputStream myInput = null;
 		boolean result = false;
 		try
-		{
+		{	
 			myOutput = new FileOutputStream(targetFile);
-			if(!FileUtil.checkFileIsExits(targetFile))
-			{
-				File file = new File(targetFile);
-				file.mkdirs();
-			}
-			BufferedInputStream myInput = new BufferedInputStream(inputStream);
+			myInput = new BufferedInputStream(inputStream);
 			byte[] buffer = new byte[1024];
 			int length;
 			while ((length = myInput.read(buffer)) != -1)
@@ -248,6 +234,17 @@ public class FileUtil
 			result = true;
 		} catch(Exception e)
 		{
+			try
+			{
+				if (myOutput != null){
+					myOutput.close();			
+				}			
+				if (myInput != null){
+					myInput.close();
+				}
+			} catch (IOException e1)
+			{
+			}
 			Log.e(TAG, "<copyFile>  to dest file "+targetFile +", but catch exception "+e.toString(), e);
 			result = false;
 		}
@@ -260,7 +257,11 @@ public class FileUtil
 	public static boolean copyFile(InputStream inputStream, FileOutputStream outputStream)
 	{
 		boolean result = false;
-		BufferedInputStream myInput = new BufferedInputStream(inputStream);
+		BufferedInputStream myInput = null;
+		if(inputStream !=null)
+		{
+			myInput = new BufferedInputStream(inputStream);
+		}
 		byte[] buffer = new byte[1024];
 		int length;
 		try
@@ -274,14 +275,24 @@ public class FileUtil
 		} catch (IOException e)
 		{
 			e.printStackTrace();
+			return false;
 		}finally
 		{
 			try
 			{
-				outputStream.flush();
-				myInput.close();
-				outputStream.close();
-				inputStream.close();
+				if(outputStream != null)
+				{
+					outputStream.flush();
+					outputStream.close();
+				}
+				if(myInput != null)
+				{
+					myInput.close();
+				}
+				if(inputStream != null)
+				{
+					inputStream.close();
+				}		
 			} catch (IOException e)
 			{
 				e.printStackTrace();
@@ -406,7 +417,7 @@ public class FileUtil
 			for (int i = 0; i < files.length; i++)
 			{
 				File f = files[i];
-				if (!f.isFile())
+				if (!f.isFile()&&!f.getName().contains("gc"))
 				{
 					int cityId = Integer.parseInt(f.getName());
 					map.put(cityId,cityId);

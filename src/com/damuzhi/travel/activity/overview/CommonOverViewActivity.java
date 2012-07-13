@@ -124,6 +124,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 			}
 			overviewWebview = (WebView) main.findViewById(R.id.overview_webview);
 			String url = TravelUtil.getHtmlUrl(commonOverview.getHtml());
+			Log.d(TAG, "<refresh> url = "+url);
 			overviewWebview.loadUrl(url);			
 			setContentView(main);
 			TextView textView = (TextView) findViewById(R.id.overview_title);
@@ -226,8 +227,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 						&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(CommonOverViewActivity.this,
-							IndexActivity.class);
+					Intent intent = new Intent(CommonOverViewActivity.this,IndexActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;

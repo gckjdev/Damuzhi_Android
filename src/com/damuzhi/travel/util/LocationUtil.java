@@ -79,11 +79,11 @@ public class LocationUtil
 		criteria.setBearingRequired(false); 
 		criteria.setCostAllowed(true); 
 		criteria.setPowerRequirement(Criteria.POWER_LOW);
-		String provider = locationManager.getBestProvider(criteria, true);
-		locationManager.requestLocationUpdates(provider, 20000, 5, locationListener);
+		String provider = locationManager.getBestProvider(criteria, true);	
 		HashMap<String, Double> location = new HashMap<String, Double>();
 		if(provider !=null&&locationManager.isProviderEnabled(provider))
 		{			
+			locationManager.requestLocationUpdates(provider, 20000, 5, locationListener);
 			loc = locationManager.getLastKnownLocation(provider);
 			if(loc != null)
 			{

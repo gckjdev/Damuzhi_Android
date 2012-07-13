@@ -478,6 +478,13 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	{
 		if(list.size()>0)
 		{
+			findViewById(R.id.data_not_found).setVisibility(View.GONE);
+			if(listViewButton.getVisibility() == View.VISIBLE)
+			{
+				mapviewGroup.setVisibility(View.VISIBLE);
+			}else {
+				listViewGroup.setVisibility(View.VISIBLE);
+			}		
 			placeListAdapter.setList(list);
 			placeListAdapter.notifyDataSetChanged();
 			if (mapView != null)
@@ -612,6 +619,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private void initMapView()
 	{
 		openGPSSettings();
+		//mapviewGroup.setVisibility(View.VISIBLE);
 		List<Place> placeList = placeListAdapter.getPlaceList();
 		if(placeList!=null&&placeList.size()>0)
 		{

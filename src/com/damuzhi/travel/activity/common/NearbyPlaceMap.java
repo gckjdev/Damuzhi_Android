@@ -176,7 +176,10 @@ public class NearbyPlaceMap extends MapActivity
 	private OnSingleTapListener onSingleTapListener = new OnSingleTapListener() {		
 		@Override
 		public boolean onSingleTap(MotionEvent e) {
-			itemizedOverlay.hideAllBalloons();
+			if(itemizedOverlay.size()>0)
+			{
+				itemizedOverlay.hideAllBalloons();
+			}		
 			return true;
 		}
 	};

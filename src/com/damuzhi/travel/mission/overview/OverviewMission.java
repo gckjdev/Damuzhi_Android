@@ -10,6 +10,7 @@ package com.damuzhi.travel.mission.overview;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -49,11 +50,19 @@ public class OverviewMission
 	}
 
 	
-	public CommonOverview getOverview(int commonOverviewType,int currentCityId,Activity activity)
+	public CommonOverview getOverview(int commonOverviewType,final int currentCityId,Activity activity)
 	{
-		CommonOverview retCommonOverview = null;		
+		 CommonOverview retCommonOverview = null;		
 		if (LocalStorageMission.getInstance().hasLocalCityData(currentCityId)){
 			// read local
+			activity.runOnUiThread(new Runnable()
+			{				
+				@Override
+				public void run()
+				{					
+					LocalStorageMission.getInstance().loadCityOverviewData(currentCityId);					
+				}
+			});	
 			retCommonOverview = localOverviewManager.getCityCommonOverview(commonOverviewType);
 		}
 		else{

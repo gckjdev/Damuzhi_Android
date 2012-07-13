@@ -60,8 +60,8 @@ public class WelcomeActivity extends MenuActivity
 			{
 				AppMission.getInstance().initAppData(WelcomeActivity.this);
 				AppMission.getInstance().updateAppData(WelcomeActivity.this);
-				int cityId = AppManager.getInstance().getCurrentCityId();
-				LocalStorageMission.getInstance().loadLocalData(cityId);
+				//int cityId = AppManager.getInstance().getCurrentCityId();
+				//LocalStorageMission.getInstance().loadLocalData(cityId);
 				
 				String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
 				if(userId==null ||userId.equals(""))

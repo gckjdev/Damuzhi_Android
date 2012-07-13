@@ -10,6 +10,7 @@ package com.damuzhi.travel.mission.place;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -53,13 +54,31 @@ public class PlaceMission
 		return instance;
 	}
 	
-	public List<Place> getAllPlace(int categoryId,Activity activity)
+	public List<Place> getAllPlace(final int categoryId, Activity activity)
 	{
 		retPlaceList = Collections.emptyList();
-		int cityId = AppManager.getInstance().getCurrentCityId();		
+		final int cityId = AppManager.getInstance().getCurrentCityId();		
 		if (LocalStorageMission.getInstance().hasLocalCityData(cityId)){
-			// read local
-			retPlaceList = localPlaceManager.getPlaceLists();
+			retPlaceList = new ArrayList<Place>();
+			activity.runOnUiThread(new Runnable()
+			{				
+				@Override
+				public void run()
+				{					
+					LocalStorageMission.getInstance().loadCityPlaceData(cityId);
+					// read local
+					List<Place> localPlaceList= localPlaceManager.getPlaceLists();
+					for(Place place:localPlaceList)
+					{
+						if(place.getCategoryId() == categoryId)
+						{
+							retPlaceList.add(place);
+						}
+					}
+					//retPlaceList = localPlaceManager.getPlaceLists();
+				}
+			});	
+			
 		}
 		else{
 			// send remote

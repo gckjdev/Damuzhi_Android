@@ -109,18 +109,24 @@ public class OverViewManager
 	
 	public CommonOverview getCityCommonOverview(int commonOverviewType)
 	{
-		switch (commonOverviewType)
+		if(cityOverview != null)
 		{
-		case CommonOverviewType.CITY_BASIC_VALUE:
-			return cityOverview.getCityBasic();
-		case CommonOverviewType.TRAVEL_PREPRATION_VALUE:
-			return cityOverview.getTravelPrepration();
-		case CommonOverviewType.TRAVEL_UTILITY_VALUE:
-			return cityOverview.getTravelUtility();
-		case CommonOverviewType.TRAVEL_TRANSPORTATION_VALUE:
-			return cityOverview.getTravelTransportation();
+			switch (commonOverviewType)
+			{
+			case CommonOverviewType.CITY_BASIC_VALUE:
+				return cityOverview.getCityBasic();
+			case CommonOverviewType.TRAVEL_PREPRATION_VALUE:
+				return cityOverview.getTravelPrepration();
+			case CommonOverviewType.TRAVEL_UTILITY_VALUE:
+				return cityOverview.getTravelUtility();
+			case CommonOverviewType.TRAVEL_TRANSPORTATION_VALUE:
+				return cityOverview.getTravelTransportation();
+			}
+			return null;
+		}else {
+			return null;
 		}
-		return null;
+		
 	}
 	
 	

@@ -109,7 +109,8 @@ public class FileDownloader
 				{
 					File fileSaveDir = new File(this.tempPath);
 					//File fileSaveDir = new File(this.savePath);
-					downloadManager = new DownloadManager(this.context);
+					//downloadManager = new DownloadManager(this.context);
+					downloadManager = DownloadManager.getDownloadManager(this.context);
 					if (!fileSaveDir.exists())
 						fileSaveDir.mkdirs();
 					this.threads = new DownloadThread[threadNum];
@@ -122,6 +123,7 @@ public class FileDownloader
 					//String filename = HttpTool.getFileName(conn, downloadURL);
 					String filename = HttpTool.getTempFileName(conn, downloadURL);
 					this.saveFile = new File(fileSaveDir, filename);
+					Log.d(TAG, "load data from db url = "+downloadURL);
 					Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
 					if (logdata.size() > 0)
 					{
@@ -179,6 +181,7 @@ public class FileDownloader
 				int downLength = this.data.get(i + 1);
 				if (downLength < this.block&& this.downloadSize < this.fileSize)
 				{
+					Log.d(TAG, "<download> url ="+url);
 					this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block, this.data.get(i + 1),i + 1);
 					this.threads[i].setPriority(7);
 					this.threads[i].setName(url.toString() + i);

@@ -8,6 +8,7 @@
  */
 package com.damuzhi.travel.activity.adapter.download;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -134,12 +135,18 @@ public class DownloadDataListAdapter extends BaseAdapter
 			City city = AppManager.getInstance().getCityByCityId(cityId);
 			String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(city.getDownloadURL()), city.getDownloadURL());
 			String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);			
-			installedCityList.remove(position);
-			OpenCityActivity.installCityData.remove(cityId);
-			OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
-			OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
-			deleteFile(zipFilePath,upZipFilePath);
-			
+			String gcZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId+"gc");
+			File upZipFile = new File(upZipFilePath);
+			File gcZipFile = new File(gcZipFilePath);
+			boolean reulst = upZipFile.renameTo(gcZipFile);
+			if(reulst)
+			{
+				installedCityList.remove(position);
+				OpenCityActivity.installCityData.remove(cityId);
+				OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
+				OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
+				deleteFile(zipFilePath,gcZipFilePath);
+			}			
 		}
 	};
 
@@ -155,9 +162,9 @@ public class DownloadDataListAdapter extends BaseAdapter
 			protected Void doInBackground(String... params)
 			{
 				String zipFilePath = params[0];
-				String upZipFilePath = params[1];				
+				String gcZipFilePath = params[1];				
 				FileUtil.deleteFolder(zipFilePath);
-				FileUtil.deleteFolder(upZipFilePath);
+				FileUtil.deleteFolder(gcZipFilePath);
 				return null;
 			}
 
