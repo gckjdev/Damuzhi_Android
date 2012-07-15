@@ -230,7 +230,6 @@ public class LocalStorageMission
 				CityOverview cityOverview = CityOverview.parseFrom(fileInputStream);
 				if (cityOverview != null){				
 					overviewMission.addLocalCityOverview(cityOverview);
-					//Log.i(TAG, "<loadCityOverviewData> read  overview");
 				}
 				fileInputStream.close();
 			}

@@ -38,6 +38,7 @@ import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.common.mapview.CommonOverlayView;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
@@ -75,7 +76,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 		
 		super.onCreate(arg0);	
 		TravelApplication.getInstance().addActivity(this);
-		refresh();
+		//refresh();
 		loadCityOverView();	
 		}
 		
@@ -149,7 +150,8 @@ public abstract class CommonOverViewActivity extends MenuActivity
 			@Override
 			protected CommonOverview doInBackground(Void... params)
 			{
-				return loadData(CommonOverViewActivity.this);
+				CommonOverview commonOverview = loadData(CommonOverViewActivity.this);
+				return commonOverview;
 			}
 
 			@Override

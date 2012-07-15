@@ -55,14 +55,15 @@ public class OverviewMission
 		 CommonOverview retCommonOverview = null;		
 		if (LocalStorageMission.getInstance().hasLocalCityData(currentCityId)){
 			// read local
-			activity.runOnUiThread(new Runnable()
+			LocalStorageMission.getInstance().loadCityOverviewData(currentCityId);
+			/*activity.runOnUiThread(new Runnable()
 			{				
 				@Override
 				public void run()
 				{					
 					LocalStorageMission.getInstance().loadCityOverviewData(currentCityId);					
 				}
-			});	
+			});	*/
 			retCommonOverview = localOverviewManager.getCityCommonOverview(commonOverviewType);
 		}
 		else{

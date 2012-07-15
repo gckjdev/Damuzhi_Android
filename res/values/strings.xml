@@ -131,7 +131,7 @@
     <string name="cancel">取消</string>
     <string name="meter">米</string>
     <string name="kilometer">公里</string>
-    <string name="make_phone_call">你确定要拨打此号码</string>
+    <string name="make_phone_call">你确定要拨打此号码?</string>
     <string name="call">拨打</string>
     <string name="leave_alert_dilaog">退出大拇指旅行</string>
     

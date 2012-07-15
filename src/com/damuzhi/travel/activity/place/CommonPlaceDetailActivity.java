@@ -361,7 +361,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		TextView placeIntro = (TextView) findViewById(R.id.place_intro);
 		placeDetailTitle.setText(place.getName());
 		placeIntroTitle.setText(getPlaceIntroTitle());
-		placeIntro.setText("	"+place.getIntroduction());
+		placeIntro.setText("		"+place.getIntroduction());
 		
 		
 		int rank = place.getRank();

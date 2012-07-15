@@ -353,6 +353,7 @@
 				        android:gravity="center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
+				        android:layout_marginBottom="3dp"
 				        android:text="@string/help"
 				        android:textSize="13.0sp"/>
 		         </FrameLayout>
@@ -374,6 +375,7 @@
 				        android:layout_gravity="bottom|center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
+				        android:layout_marginBottom="3dp"
 				        android:text="@string/collection"
 				        android:textSize="13.0sp"/>
 		          </FrameLayout>
@@ -395,6 +397,7 @@
 				        android:layout_gravity="bottom|center"
 				        android:layout_height="wrap_content"
 				        android:layout_width="wrap_content"
+				        android:layout_marginBottom="3dp"
 				        android:text="@string/share"
 				        android:textSize="13.0sp"/>
 		          </FrameLayout>
@@ -415,6 +418,7 @@
 				        android:id="@+id/more_title"
 				        android:layout_gravity="bottom|center"
 				        android:layout_height="wrap_content"
+				        android:layout_marginBottom="3dp"
 				        android:layout_width="wrap_content"
 				        android:text="@string/more"
 				        android:textSize="13.0sp"/>
