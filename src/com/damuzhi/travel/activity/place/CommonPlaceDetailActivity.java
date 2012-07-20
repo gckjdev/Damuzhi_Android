@@ -240,116 +240,164 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		//ticket
 		if(isSupportTicket())
 		{
-			findViewById(R.id.ticket_group).setVisibility(View.VISIBLE);
-			TextView ticket = (TextView) findViewById(R.id.ticket);			
-			ticket.setText(place.getPriceDescription());
+			String priceDescription = place.getPriceDescription();
+			if(priceDescription !=null && !priceDescription.equals(""))
+			{
+				findViewById(R.id.ticket_group).setVisibility(View.VISIBLE);
+				TextView ticket = (TextView) findViewById(R.id.ticket);			
+				ticket.setText(priceDescription);
+			}
+			
 		}
 		
 		//food
 		if(isSupportFood())
 		{
-			findViewById(R.id.food_group).setVisibility(View.VISIBLE);
-			TextView food = (TextView) findViewById(R.id.food);			
-			food.setText(AppManager.getInstance().getAllSubCatMap().get(place.getSubCategoryId()));
+			String footCate = AppManager.getInstance().getAllSubCatMap().get(place.getSubCategoryId());
+			if(footCate !=null && !footCate.equals(""))
+			{
+				findViewById(R.id.food_group).setVisibility(View.VISIBLE);
+				TextView food = (TextView) findViewById(R.id.food);			
+				food.setText(footCate);
+			}
+			
 		}
 		
 		//openTime
 		if(isSupportOpenTime())
 		{
-			findViewById(R.id.open_time_group).setVisibility(View.VISIBLE);
-			if(place.getCategoryId()!=PlaceCategoryType.PLACE_SPOT_VALUE)
+			String openTimeString = place.getOpenTime();
+			if(openTimeString != null && !openTimeString.equals(""))
 			{
-				TextView openTimeTitle = (TextView) findViewById(R.id.open_time_title);
-				openTimeTitle.setText(getString(R.string.open_time1));
+				findViewById(R.id.open_time_group).setVisibility(View.VISIBLE);
+				if(place.getCategoryId()!=PlaceCategoryType.PLACE_SPOT_VALUE)
+				{
+					TextView openTimeTitle = (TextView) findViewById(R.id.open_time_title);
+					openTimeTitle.setText(getString(R.string.open_time1));
+				}
+				
+				TextView openTime = (TextView) findViewById(R.id.open_time);			
+				openTime.setText(openTimeString);	
 			}
-			
-			TextView openTime = (TextView) findViewById(R.id.open_time);			
-			openTime.setText(place.getOpenTime());
 		}
+		
 		//avgPrice
 		if(isSupportAvgPrice())
 		{
-			findViewById(R.id.avg_price_group).setVisibility(View.VISIBLE);
-			TextView avgPrice = (TextView) findViewById(R.id.avg_price);			
-			StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId()));
-			avgPrice.setText(symbol+place.getAvgPrice());
+			String avePriceString =  place.getAvgPrice();
+			if(avePriceString != null && !avePriceString.equals(""))
+			{
+				findViewById(R.id.avg_price_group).setVisibility(View.VISIBLE);
+				TextView avgPrice = (TextView) findViewById(R.id.avg_price);			
+				StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId()));
+				avgPrice.setText(symbol+avePriceString);
+			}
+			
 		}
 		
 		//specialFood
 		if(isSupportSpecialFood())
 		{
-			findViewById(R.id.special_food_group).setVisibility(View.VISIBLE);
-			TextView specialFood = (TextView) findViewById(R.id.special_food);		
-			StringBuffer typicalDishes = new StringBuffer();
-			for(String typcial:place.getTypicalDishesList())
+			List<String> typcialDisList = place.getTypicalDishesList();
+			if(typcialDisList != null && typcialDisList.size()>0)
 			{
-				typicalDishes.append(typcial);
-				typicalDishes.append("  ");
-			}
-			specialFood.setText(typicalDishes);
+				findViewById(R.id.special_food_group).setVisibility(View.VISIBLE);
+				TextView specialFood = (TextView) findViewById(R.id.special_food);		
+				StringBuffer typicalDishes = new StringBuffer();
+				for(String typcial:typcialDisList)
+				{
+					typicalDishes.append(typcial);
+					typicalDishes.append("  ");
+				}
+				specialFood.setText(typicalDishes);
+			}		
 		}
 				
 		//tips
 		if(isSupportTips())
 		{
-			findViewById(R.id.tips_group).setVisibility(View.VISIBLE);
-			TextView tipsTitles = (TextView) findViewById(R.id.tips_title);
-			TextView tips = (TextView) findViewById(R.id.tips);
-			tipsTitles.setText(tipsTitle);
-			tips.setText(place.getTips());
+			String tipsString = place.getTips();
+			if(tipsString != null && !tipsString.equals(""))
+			{
+				findViewById(R.id.tips_group).setVisibility(View.VISIBLE);
+				TextView tipsTitles = (TextView) findViewById(R.id.tips_title);
+				TextView tips = (TextView) findViewById(R.id.tips);
+				tipsTitles.setText(tipsTitle);
+				tips.setText(tipsString);
+			}
+			
 		}
 		
 		//park
-				if(isSupportPark())
-				{
-					findViewById(R.id.park_group).setVisibility(View.VISIBLE);
-					TextView park = (TextView) findViewById(R.id.park);
-					park.setText(place.getParkingGuide());
-				}
+		if(isSupportPark())
+		{
+			String parkGuideString = place.getParkingGuide();
+			if(parkGuideString !=null && !parkGuideString.equals(""))
+			{
+				findViewById(R.id.park_group).setVisibility(View.VISIBLE);
+				TextView park = (TextView) findViewById(R.id.park);
+				park.setText(place.getParkingGuide());
+			}
+			
+		}
 				
 		//hotelStart
 		if(isSupportHotelStart())
 		{
-			findViewById(R.id.hotel_start_group).setVisibility(View.VISIBLE);
-			TextView hotelStart = (TextView) findViewById(R.id.hotel_start);
-			hotelStart.setText(TravelUtil.getHotelStar(this,place.getHotelStar()));
-			ViewGroup hotelStartImageGroup = (ViewGroup) findViewById(R.id.hotel_start_image);
-			for(int i=0;i<place.getHotelStar();i++)
+			int hotelStartLevel = place.getHotelStar();
+			if(hotelStartLevel>0)
 			{
-				
-				 ImageView hotelStartImage = new ImageView(CommonPlaceDetailActivity.this);  
-				 hotelStartImage.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.service_icon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
-				 //serviceImageView.setPadding(10, 0, 10, 0);  
-				 hotelStartImage.setScaleType(ScaleType.FIT_CENTER);
-				 hotelStartImage.setImageResource(R.drawable.star_ico);
-				 hotelStartImageGroup.addView(hotelStartImage);
+				findViewById(R.id.hotel_start_group).setVisibility(View.VISIBLE);
+				TextView hotelStart = (TextView) findViewById(R.id.hotel_start);
+				hotelStart.setText(TravelUtil.getHotelStar(this,hotelStartLevel));
+				ViewGroup hotelStartImageGroup = (ViewGroup) findViewById(R.id.hotel_start_image);
+				for(int i=0;i<place.getHotelStar();i++)
+				{
+					
+					 ImageView hotelStartImage = new ImageView(CommonPlaceDetailActivity.this);  
+					 hotelStartImage.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.service_icon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
+					 //serviceImageView.setPadding(10, 0, 10, 0);  
+					 hotelStartImage.setScaleType(ScaleType.FIT_CENTER);
+					 hotelStartImage.setImageResource(R.drawable.star_ico);
+					 hotelStartImageGroup.addView(hotelStartImage);
+				}
 			}
+			
 		}
 		
 		//keyword
 		if(isSupportKeyWords())
 		{
-			findViewById(R.id.keyword_group).setVisibility(View.VISIBLE);
-			TextView keyword = (TextView) findViewById(R.id.place_keyword);
-			StringBuffer keywordStr = new StringBuffer();
-			for(String key:place.getKeywordsList())
+			List<String> keyList = place.getKeywordsList();
+			if(keyList != null && !keyList.equals(""))
 			{
-				keywordStr.append(key);
-				keywordStr.append("、");
+				findViewById(R.id.keyword_group).setVisibility(View.VISIBLE);
+				TextView keyword = (TextView) findViewById(R.id.place_keyword);
+				StringBuffer keywordStr = new StringBuffer();
+				for(String key:keyList)
+				{
+					keywordStr.append(key);
+					keywordStr.append("、");
+				}
+				keyword.setText(keywordStr.substring(0, keywordStr.length()-1));	
 			}
-			keyword.setText(keywordStr.substring(0, keywordStr.length()-1));
 		}
 		
 		
 		//roomprice
 		if(isSupportRoomPrice())
 		{
-			findViewById(R.id.room_price_group).setVisibility(View.VISIBLE);
-			TextView roomPrice = (TextView) findViewById(R.id.room_price);
-			StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId()));
-			symbol.append(place.getPrice());
-			symbol.append("起");
-			roomPrice.setText(symbol);
+			String  priceString = place.getPrice();
+			if(priceString !=null && !priceString.equals(""))
+			{
+				findViewById(R.id.room_price_group).setVisibility(View.VISIBLE);
+				TextView roomPrice = (TextView) findViewById(R.id.room_price);
+				StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId()));
+				symbol.append(priceString);
+				symbol.append("起");
+				roomPrice.setText(symbol);
+			}
+			
 		}
 		
 		ImageView recommendImage1 = (ImageView) findViewById(R.id.place_detail_recommend_image1);
@@ -361,7 +409,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		TextView placeIntro = (TextView) findViewById(R.id.place_intro);
 		placeDetailTitle.setText(place.getName());
 		placeIntroTitle.setText(getPlaceIntroTitle());
-		placeIntro.setText("		"+place.getIntroduction());
+		String introduction = TravelUtil.handlerString(place.getIntroduction());
+		placeIntro.setText("		"+introduction);
 		
 		
 		int rank = place.getRank();

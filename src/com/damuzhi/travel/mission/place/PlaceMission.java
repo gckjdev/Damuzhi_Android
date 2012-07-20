@@ -40,6 +40,7 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 public class PlaceMission
 {
 	private static final String TAG = "PlaceMission";
+	private static final int count = 20;
 	private static PlaceMission instance = null;
 	private PlaceManager localPlaceManager = new PlaceManager();
 	private PlaceManager remotePlaceManager = new PlaceManager();
@@ -56,10 +57,11 @@ public class PlaceMission
 	
 	public List<Place> getAllPlace(final int categoryId, Activity activity)
 	{
-		retPlaceList = Collections.emptyList();
+		//retPlaceList = Collections.emptyList();
+		retPlaceList = new ArrayList<Place>();
+		retPlaceList.clear();
 		final int cityId = AppManager.getInstance().getCurrentCityId();		
 		if (LocalStorageMission.getInstance().hasLocalCityData(cityId)){
-			retPlaceList = new ArrayList<Place>();
 			activity.runOnUiThread(new Runnable()
 			{				
 				@Override
@@ -84,8 +86,11 @@ public class PlaceMission
 			// send remote
 			
 				final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
-				retPlaceList = remotePlaceList;
-				
+				if(remotePlaceList != null && remotePlaceList.size() > 0)
+				{
+					retPlaceList.addAll(remotePlaceList);
+				}
+								
 				// TODO save data in UI thread
 				if (remotePlaceList != null && remotePlaceList.size() > 0){
 					activity.runOnUiThread(new Runnable()
@@ -171,7 +176,7 @@ public class PlaceMission
 	
 	
 	
-	private List<Place> getPlaceListByUrl(int cityId, int categoryId)
+	/*private List<Place> getPlaceListByUrl(int cityId, int categoryId)
 	{
 		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
 		String url = String.format(ConstantField.PLACElIST, objectType, cityId, ConstantField.LANG_HANS);
@@ -208,7 +213,49 @@ public class PlaceMission
 			}
 			return Collections.emptyList();
 		}
+	}*/
+	
+	
+	private List<Place> getPlaceListByUrl(int cityId, int categoryId)
+	{
+		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
+		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
+		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);
+		InputStream inputStream = null;
+		try
+		{
+			inputStream = HttpTool.sendGetRequest(url);
+			if(inputStream !=null)
+			{				
+				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
+				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
+					return Collections.emptyList();
+				}					
+				inputStream.close();
+				inputStream = null;					
+				return travelResponse.getPlaceList().getListList();			
+			}
+			else{
+				return Collections.emptyList();
+			}
+			
+		} 
+		catch (Exception e)
+		{
+			Log.e(TAG, "<getPlaceListByUrl> catch exception = "+e.toString(), e);
+			if (inputStream != null){
+				try
+				{
+					inputStream.close();
+				} catch (IOException e1)
+				{
+				}
+			}
+			return Collections.emptyList();
+		}
 	}
+	
+	
 	
 		
 	private List<Place> getNearByPlaceListByUrl(String url)
@@ -362,40 +409,49 @@ public class PlaceMission
 		}
 
 		
-		public List<Place> getMorePlace(int categoryId,Activity activity)
+		public List<Place> loadMorePlace(int categoryId,Activity activity,int start,String subcategoryId,String areaId,String serviceId,String priceRankId,String sortType)
 		{
-			int cityId = AppManager.getInstance().getCurrentCityId();		
-			if (LocalStorageMission.getInstance().hasLocalCityData(cityId)){
-				// read local
-				return retPlaceList ;
-			}
-			else{
-				// send remote
+			int cityId = AppManager.getInstance().getCurrentCityId();
+			int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
+			String url = String.format(ConstantField.PLACE_PAGE_LOAD_MORE_URL, objectType, cityId,subcategoryId,areaId,serviceId, priceRankId,sortType,start,count,ConstantField.LANG_HANS);
+			Log.i(TAG, "<loadMorePlace> load place data from http ,url = "+url);
+			InputStream inputStream = null;
+			try
+			{
+				inputStream = HttpTool.sendGetRequest(url);
+				if(inputStream !=null)
+				{				
+					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
+					if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
+						return Collections.emptyList();
+					}					
+					inputStream.close();
+					inputStream = null;	
+					List<Place> placeList = travelResponse.getPlaceList().getListList(); 
+					if(placeList!=null &&placeList.size()>0)
+					{
+						retPlaceList.addAll(placeList);	
+					}
+					return placeList;			
+				}
+				else{
+					return Collections.emptyList();
+				}
 				
-					final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
-					retPlaceList = remotePlaceList;
-					
-					// TODO save data in UI thread
-					if (remotePlaceList != null && remotePlaceList.size() > 0){
-						activity.runOnUiThread(new Runnable()
-						{				
-							@Override
-							public void run()
-							{
-								remotePlaceManager.clear();
-								remotePlaceManager.addPlaces(remotePlaceList);
-							}
-						});				
-					}		
-			}					
-			return retPlaceList;
+			} 
+			catch (Exception e)
+			{
+				Log.e(TAG, "<loadMorePlace> catch exception = "+e.toString(), e);
+				if (inputStream != null){
+					try
+					{
+						inputStream.close();
+					} catch (IOException e1)
+					{
+					}
+				}
+				return Collections.emptyList();
+			}
 		}
-		
-
-		
-		
-		
-		
 	
-
 }

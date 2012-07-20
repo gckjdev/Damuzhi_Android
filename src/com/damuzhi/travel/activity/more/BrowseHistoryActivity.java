@@ -89,9 +89,9 @@ public class BrowseHistoryActivity extends MenuActivity
 
 			if(list!=null&&list.size()>0)
 			{
-				AlertDialog leaveAlertDialog = new AlertDialog.Builder(BrowseHistoryActivity.this).create();
-				leaveAlertDialog.setMessage(getBaseContext().getString(R.string.clear_title));
-				leaveAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getBaseContext().getString(R.string.ok),new DialogInterface.OnClickListener()
+				AlertDialog clearAlertDialog = new AlertDialog.Builder(BrowseHistoryActivity.this).create();
+				clearAlertDialog.setMessage(getBaseContext().getString(R.string.clear_title));
+				clearAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getBaseContext().getString(R.string.ok),new DialogInterface.OnClickListener()
 				{
 					
 					@Override
@@ -103,7 +103,7 @@ public class BrowseHistoryActivity extends MenuActivity
 						adapter.notifyDataSetChanged();				
 					}
 				} );
-				leaveAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
+				clearAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
 				{
 					
 					@Override
@@ -113,7 +113,7 @@ public class BrowseHistoryActivity extends MenuActivity
 						
 					}
 				} );
-				leaveAlertDialog.show();	
+				clearAlertDialog.show();	
 			}
 			
 		}

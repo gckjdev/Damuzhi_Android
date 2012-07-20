@@ -137,6 +137,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 			TextView textView = (TextView) findViewById(R.id.overview_title);
 			titleName = setTitleName();
 			textView.setText(titleName);
+			findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
 		}
 	}
 	

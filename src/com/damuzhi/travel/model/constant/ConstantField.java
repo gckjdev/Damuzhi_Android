@@ -5,7 +5,9 @@ import java.security.PublicKey;
 
 public class ConstantField
 {
+	/*local data path*/
 	public static final String LOCAL_APP_DATA_PATH = android.os.Environment.getDataDirectory() + "/app.dat";
+	public static final String LOCAL_APP_DATA_FILE = "/data/data/com.damuzhi.travel/files/" + "/app.dat";
 	public static final String LOCAL_HELP_DATA_PATH = android.os.Environment.getDataDirectory() + "/help.dat";
 	public static final String APP_DATA_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/";
 	public static final String DATA_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/%s/";
@@ -15,6 +17,7 @@ public class ConstantField
 	public static final String APP_DATA_TEMP_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp";
 	public static final String HELP_HTML_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/";
 	public static final String HELP_HTML_FILE_PATH = "file:///mnt/sdcard/damuzhi/data/help/helpinfo.html";
+	public static final String HELP_HTML_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/helpinfo.html";;
 	public static final String APP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp/temp.dat";
 	public static final String HELP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp/Helptemp.dat";
 	public static final String HELP_DATA_ZIP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/help.zip";
@@ -22,6 +25,8 @@ public class ConstantField
 	public static final int DATA_LOCAL = 0;
 	public static final int DATA_HTTP = 1;
 	public static final int DISTANCE = 10000;
+	
+	
 	/*local data*/
 	public static final String LAST_CITY_ID = "last_city_id";
 	public static final String APP_FILE = "app.dat";
@@ -34,10 +39,14 @@ public class ConstantField
 	public static final String OVERVIEW_TAG = "overview";
 	public static final String ROUTE_TAG = "route";
 	public static final String EXTENSION = ".dat"; 
-	public static final String LATITUDE = "latitude";
-	public static final String LONGITUDE = "longitude";
 	public static final String CHECK_NET = "com.damuzhi.travel.network.CheckNet";
 	public static final String UTF ="UTF-8";
+	
+	/*location*/
+	public static final String LATITUDE = "latitude";
+	public static final String LONGITUDE = "longitude";
+	public static final String CITY = "city";
+	
 	/* http data url */
 	public static final String PLACE_INFO = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = "http://api.trip8888.com/service/feedback.aspx?userId=%s&contact=%s&content=%s";
@@ -48,6 +57,12 @@ public class ConstantField
 	//public static final String APP = "http://59.34.17.68:8012/service/queryList.aspx?type=10&lang=%s&os=2";
 	public static final String HELP = "http://api.trip8888.com/service/queryObject.aspx?type=8&lang=%s";
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
+	
+	
+	/* page url*/
+	public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+	
 	/* http data type */
 	public static final String RESULT_OK = "0";
 	public static final String LANG_HANS = "1";
@@ -90,7 +105,7 @@ public class ConstantField
 	public static final String NEARBY_SHOPPING_LIST_IN_DISTANCE = "64";
 	public static final String NEARBY_ENTERTRAINMENT_LIST_IN_DISTANCE = "65";
 	
-	
+	/*distance*/
 	public static final String ALL_PLACE = "全部";
 	public static final int ALL_PLACE_CATEGORY_ID = -1;
 	public static final String HALF_KILOMETER = "0.5";
@@ -101,6 +116,7 @@ public class ConstantField
 	
 	/* commonPlaceDetail*/
 	public static final String PLACE_DETAIL = "PLACE_DETAIL";
+	
 	/* collect */
 	public static final String QUERY_PLACE_FAVORITE_COUNT = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String ADD_FAVORITE = "http://api.trip8888.com/service/addFavorite.aspx?userId=%s&placeId=%s";

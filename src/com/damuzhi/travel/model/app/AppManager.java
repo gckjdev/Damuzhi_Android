@@ -55,7 +55,7 @@ public class AppManager
 
 	public void load()
 	{
-		String dataPath = ConstantField.APP_DATA_FILE;
+		String dataPath = ConstantField.LOCAL_APP_DATA_FILE;
 		if (!FileUtil.checkFileIsExits(dataPath))
 		{
 			Log.e(TAG, "load app data from file = " + dataPath+ " but file not found");
@@ -124,7 +124,7 @@ public class AppManager
 	
 	
 	
-	public void reloadData()
+	/*public void reloadData()
 	{
 		boolean sdcardEnable = FileUtil.sdcardEnable();
 		if(sdcardEnable)
@@ -135,7 +135,7 @@ public class AppManager
 			load(context);
 		}
 		
-	}
+	}*/
 	
 	
 	public void reloadData(Context context)
@@ -150,6 +150,10 @@ public class AppManager
 		{
 			cityMap = new HashMap<Integer, City>();
 			for (City city : app.getCitiesList())
+			{
+				cityMap.put(city.getCityId(), city);
+			}
+			for (City city : app.getTestCitiesList())
 			{
 				cityMap.put(city.getCityId(), city);
 			}
@@ -181,6 +185,10 @@ public class AppManager
 			{
 				cityNameMap.put(city.getCityName(), city.getCityId());
 			}
+			for (City city : app.getTestCitiesList())
+			{
+				cityNameMap.put(city.getCityName(), city.getCityId());
+			}
 		}
 		return cityNameMap;
 	}
@@ -207,6 +215,10 @@ public class AppManager
 		{
 			cityMap = new HashMap<Integer, City>();
 			for (City city : app.getCitiesList())
+			{
+				cityMap.put(city.getCityId(), city);
+			}
+			for (City city : app.getTestCitiesList())
 			{
 				cityMap.put(city.getCityId(), city);
 			}
@@ -526,43 +538,59 @@ public class AppManager
 	public  String[] getCityAreaNameList(int cityID)
 	{
 		int i = 0;
-		HashMap<Integer, List<CityArea>> ctiyAreaList = AppManager.getInstance().getCityAreaList();
-		List<CityArea> ctiyAreas = ctiyAreaList.get(cityID);
-		String[] ctiyAreasName = new String[ctiyAreas.size()];
-		for (CityArea cityArea : ctiyAreas)
-		{
-			ctiyAreasName[i] = cityArea.getAreaName();
-			i++;
+		HashMap<Integer, List<CityArea>> cityAreaList = AppManager.getInstance().getCityAreaList();
+		if(cityAreaList.containsKey(cityID)){
+			List<CityArea> cityAreas = cityAreaList.get(cityID);
+			String[] ctiyAreasName = new String[cityAreas.size()];
+			if(cityAreas!=null&&cityAreas.size()>0)
+			{
+				for (CityArea cityArea : cityAreas)
+				{
+					ctiyAreasName[i] = cityArea.getAreaName();
+					i++;
+				}
+			}		
+			return ctiyAreasName;
 		}
-		return ctiyAreasName;
+		return null;
 	}
 
 	public int[] getCityAreaKeyList(int cityID)
 	{
 		int i = 0;
 		HashMap<Integer, List<CityArea>> cityAreaList = AppManager.getInstance().getCityAreaList();
-		List<CityArea> ctiyAreas = cityAreaList.get(cityID);
-		int[] ctiyAreasKey = new int[ctiyAreas.size()];
-		for (CityArea cityArea : ctiyAreas)
-		{
-			ctiyAreasKey[i] = cityArea.getAreaId();
-			i++;
+		if(cityAreaList.containsKey(cityID)){
+			List<CityArea> cityAreas = cityAreaList.get(cityID);
+			int[] ctiyAreasKey = new int[cityAreas.size()];
+			if(cityAreas!=null&&cityAreas.size()>0)
+			{
+				for (CityArea cityArea : cityAreas)
+				{
+					ctiyAreasKey[i] = cityArea.getAreaId();
+					i++;
+				}
+			}	
+			return ctiyAreasKey;
 		}
-		return ctiyAreasKey;
+		return null;
 	}
 	
 	public HashMap<Integer, String> getCityAreaMap(int cityID)
 	{
 		HashMap<Integer, List<CityArea>> cityAreaList = AppManager.getInstance().getCityAreaList();
 		HashMap<Integer, String> map = new HashMap<Integer, String>();
-		List<CityArea> ctiyAreas = cityAreaList.get(cityID);
-		if(ctiyAreas.size()>0)
+		if(cityAreaList.containsKey(cityID))
 		{
-			for (CityArea cityArea : ctiyAreas)
+			List<CityArea> ctiyAreas = cityAreaList.get(cityID);
+			if(cityAreaList!=null &&ctiyAreas.size()>0)
 			{
-				map.put(cityArea.getAreaId(), cityArea.getAreaName());
-			}
-		}		
+				for (CityArea cityArea : ctiyAreas)
+				{
+					map.put(cityArea.getAreaId(), cityArea.getAreaName());
+				}
+			}	
+		}
+			
 		return map;
 	}
 
@@ -636,6 +664,13 @@ public class AppManager
 					currentCityName = city.getCityName();
 				}
 			}
+			for (City city : app.getTestCitiesList())
+			{
+				if(city.getCityId() == currentCityId)
+				{
+					currentCityName = city.getCityName();
+				}
+			}
 		}
 		return currentCityName;
 	}
@@ -648,11 +683,18 @@ public class AppManager
 	
 	public List<City> getCityList()
 	{
-		if (app != null)
+		List<City> citylList = new ArrayList<City>();
+		/*if (app != null)
 		{
 			return app.getCitiesList();
 		}		
-		return null;
+		return null;*/
+		if(app != null)
+		{
+			citylList.addAll(app.getCitiesList());
+			citylList.addAll(app.getTestCitiesList());
+		}
+		return citylList;
 	}
 
 	public int getDefaulCityId()

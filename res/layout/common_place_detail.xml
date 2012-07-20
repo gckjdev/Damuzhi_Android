@@ -662,6 +662,7 @@
 	   	  		    android:layout_height="wrap_content"
 	   	  		    android:layout_alignParentLeft="true"
 	   	  		    android:layout_centerVertical="true"
+	   	  		    android:paddingRight="10dp"
 	   	  		    android:singleLine="false"
 	   	  		    android:gravity="center_vertical"
 	   	  		    android:layout_marginLeft="30.0dp"

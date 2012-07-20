@@ -66,6 +66,15 @@
 	          android:layout_height="wrap_content"  
 	          android:background="@color/placeIntro_bg"
 	          android:orientation="vertical">
+	   	   <TextView 
+			     android:layout_width="fill_parent"
+			     android:layout_height="wrap_content"
+			     android:text="@string/data_not_found"
+			     android:layout_marginTop="20dp"
+			     android:gravity="center"
+			     android:id="@+id/data_not_found"
+			     android:visibility="gone"
+		    	 android:textSize="13sp"/>
 	   	  <WebView
 	   	      android:id="@+id/overview_webview"
 	   	      android:layout_width="fill_parent"

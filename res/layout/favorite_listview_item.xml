@@ -86,11 +86,12 @@
 				    <ImageView 
 				        android:id="@+id/place_favorite_delete"
 				        android:layout_height="wrap_content"
-				        android:layout_width="wrap_content"
+				        android:layout_width="30dp"
 				       	android:layout_marginRight="10.0dp"
 				       	android:src="@drawable/delete2"
 				       	android:focusable="false"
 				       	android:clickable="true"
+				       	android:scaleType="fitCenter"
 				        android:layout_centerVertical="true"
 				        android:layout_alignParentRight="true"
 				   		android:visibility="gone"/>

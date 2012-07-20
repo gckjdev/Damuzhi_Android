@@ -4,6 +4,8 @@
     <string name="hello">Hello World, DaMuZhiActivity!</string>
     <string name="app_name">大拇指旅行</string>
     <string name="ok">确定</string>
+    <string name="connection_error">链接失败</string>
+    <string name="not_more_data">暂时没有更多更新信息</string>
     <!-- indexInfo-->
     <string name="index">首页</string>
 	<string name="damuzhi">大拇指旅行 - </string>
@@ -33,6 +35,7 @@
 	<string name="more_positive_criticism">给我们一个好评吧</string>
 	<string name="more_list_image">列表中显示图片</string>
 	<string name="more_good_commend">精彩应用推荐</string>
+	<string name="no_good_commend">暂没有推荐的应用</string>
 	<string name="submit">提交</string>
 	<string name="clear">清空</string>
 	<string name="clear_title">确定要清空浏览记录</string>
@@ -149,10 +152,13 @@
     <string name="my_collected">我的收藏</string>
     <string name="collect_rank">收藏排行</string>
     <string name="no_favorite">暂无收藏信息</string>
+    <string name="delete_favorite">确定要删除收藏信息?</string>
     
     <!--map --> 
     <string name="get_location_fail">定位失败</string>
     <string name="open_gps_tips">请打开GPS定位</string>
+    <string name="open_gps_tips2">您未开启GPS定位功能，请到手机设置</string>
+    <string name="open_gps_tips3">您未开启GPS定位功能，无法获取当前位置，请到手机设置</string> 	
     	<!-- 拖拽 -->
 	<string name="pull_to_refresh_pull_label">下拉可以刷新...</string>
     <string name="pull_to_refresh_release_label">松手可以刷新...</string>

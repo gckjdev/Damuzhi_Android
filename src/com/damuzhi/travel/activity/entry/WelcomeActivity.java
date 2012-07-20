@@ -11,12 +11,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.AssetManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
@@ -31,21 +36,20 @@ import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.FileUtil;
-import com.damuzhi.travel.util.LocationUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
 public class WelcomeActivity extends MenuActivity
 {	
 	private static final String TAG = "WelcomeActivity";
-
+	private LocationClient mLocClient;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startup);	
 		TravelApplication.getInstance().addActivity(this);
-		HashMap<String, Double> location = LocationUtil.getLocation(this);
-		TravelApplication.getInstance().setLocation(location);
+		boolean gpsEnable = checkGPSisOpen();
 		init();
 	}
 	
@@ -62,7 +66,6 @@ public class WelcomeActivity extends MenuActivity
 				AppMission.getInstance().updateAppData(WelcomeActivity.this);
 				//int cityId = AppManager.getInstance().getCurrentCityId();
 				//LocalStorageMission.getInstance().loadLocalData(cityId);
-				
 				String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
 				if(userId==null ||userId.equals(""))
 				{
@@ -70,6 +73,7 @@ public class WelcomeActivity extends MenuActivity
 					String deviceId = telephonyManager.getDeviceId();
 					UserMission.getInstance().register(deviceId,WelcomeActivity.this);
 				}		
+				getLocation(WelcomeActivity.this);
 				return null;
 			}
 
@@ -79,6 +83,7 @@ public class WelcomeActivity extends MenuActivity
 				super.onPostExecute(result);
 				Intent intent = new Intent();
 				intent.setClass(WelcomeActivity.this, IndexActivity.class);
+				overridePendingTransition(android.R.anim.accelerate_interpolator, android.R.anim.fade_out);
 				startActivity(intent);
 				finish();		
 			}
@@ -90,6 +95,45 @@ public class WelcomeActivity extends MenuActivity
 
 		task.execute();
 	}
+	
+	private boolean checkGPSisOpen() {
+		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+			return true;
+		}
+			Toast.makeText(this, getString(R.string.open_gps_tips2), Toast.LENGTH_SHORT).show();
+			return false;
+	}
+	
+	
+	public  void getLocation(Context context)
+	{
+		
+		LocationClientOption option = new LocationClientOption();
+		option.setOpenGps(true);	
+		option.setAddrType("detail");
+		option.setCoorType("bd09ll");		
+		option.setScanSpan(10000);
+		mLocClient = TravelApplication.getInstance().mLocationClient;
+		mLocClient.setLocOption(option);
+		mLocClient.start();
+		if (mLocClient != null && mLocClient.isStarted())
+			mLocClient.requestLocation();
+		else 
+			Log.d(TAG, " baidu locationSDK locClient is null or not started");
+	}
+
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		/*if(mLocClient !=null)
+		{
+			mLocClient.stop();
+		}*/
+	}
+	
 	
 	
 }

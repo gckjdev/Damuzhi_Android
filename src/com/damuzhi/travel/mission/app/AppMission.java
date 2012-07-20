@@ -65,8 +65,32 @@ public class AppMission
 		try
 		{
 			appInputStream  = assets.open(ConstantField.APP_FILE);		
+			outputStream = context.openFileOutput(ConstantField.APP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
+			FileUtil.copyFile(appInputStream, outputStream);
+			AppManager.getInstance().load(context);
+		}catch (Exception e) {
+			Log.e(TAG, "<initAppData> but catch exception while read app data from apk, exception = "+e.toString(), e);
+		}		
+		
+		int cityId = getCurrentCityId(context);
+		if(cityId == -1||cityId ==0)
+		{
+			cityId =  AppManager.getInstance().getDefaulCityId();
+		}
+		AppManager.getInstance().setCurrentCityId(cityId);
+	}
+	
+	
+	/*public void initAppData(Context context){
+		this.context = context;
+		final AssetManager assets = context.getAssets();
+		FileOutputStream outputStream = null;
+		InputStream appInputStream =null;
+		try
+		{
+			appInputStream  = assets.open(ConstantField.APP_FILE);		
 			boolean sdcardEnable = FileUtil.sdcardEnable();
-			/*if(sdcardEnable)
+			if(sdcardEnable)
 			{		
 				if(!FileUtil.checkFileIsExits(ConstantField.APP_DATA_PATH))
 				{						
@@ -81,7 +105,7 @@ public class AppMission
 				FileUtil.copyFile(appInputStream, outputStream);
 				//outputStream.close();
 				AppManager.getInstance().load(context);	
-			}*/
+			}
 			outputStream = context.openFileOutput(ConstantField.APP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
 			FileUtil.copyFile(appInputStream, outputStream);
 			//outputStream.close();
@@ -96,8 +120,7 @@ public class AppMission
 			cityId =  AppManager.getInstance().getDefaulCityId();
 		}
 		AppManager.getInstance().setCurrentCityId(cityId);
-	}
-	
+	}*/
 	
 	public int getCurrentCityId(Context context)
 	{
@@ -482,26 +505,64 @@ public class AppMission
 		@Override
 		protected Boolean doInBackground(String... params)
 		{
-			boolean sdcardEnable = FileUtil.sdcardEnable();
 			boolean result = false;
-			/*if(sdcardEnable)
-			{
-				result = downloadAppData();
-			}else {
-				result = downloadAppDataToLocal();
-			}*/
 			result = downloadAppDataToLocal();
 			if (result){
 				try
 				{			
-					/*if(sdcardEnable)
+					FileOutputStream fileOutputStream = context.openFileOutput(ConstantField.APP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
+					FileInputStream fileInputStream = context.openFileInput(ConstantField.APP_TEMP_FILE);
+					result = FileUtil.copyFile(fileInputStream,fileOutputStream);
+					if (!result){						
+						return Boolean.valueOf(false);
+					}					
+					Log.i(TAG, "<updateAppData> new data load, try update...");				
+					
+				} catch (Exception e)
+				{
+					Log.e(TAG, "<updateAppData> catch exception = "+e.toString(), e);
+				}
+			}
+			
+			return Boolean.valueOf(result);
+		}
+		
+		@Override
+		protected void onPostExecute(Boolean result)
+		{
+			super.onPostExecute(result);
+			if (result.booleanValue()){
+				AppManager.getInstance().reloadData(context);
+			}
+		}
+	}
+	
+	
+	/*private class UpdateAppTask extends AsyncTask<String, Void, Boolean>{
+
+		@Override
+		protected Boolean doInBackground(String... params)
+		{
+			boolean sdcardEnable = FileUtil.sdcardEnable();
+			boolean result = false;
+			if(sdcardEnable)
+			{
+				result = downloadAppData();
+			}else {
+				result = downloadAppDataToLocal();
+			}
+			result = downloadAppDataToLocal();
+			if (result){
+				try
+				{			
+					if(sdcardEnable)
 					{
 						result = FileUtil.copyFile(ConstantField.APP_DATA_TEMP_FILE, ConstantField.APP_DATA_FILE);	
 					}else {
 						FileOutputStream fileOutputStream = context.openFileOutput(ConstantField.APP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
 						FileInputStream fileInputStream = context.openFileInput(ConstantField.APP_TEMP_FILE);
 						result = FileUtil.copyFile(fileInputStream,fileOutputStream);
-					}	*/
+					}	
 					FileOutputStream fileOutputStream = context.openFileOutput(ConstantField.APP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
 					FileInputStream fileInputStream = context.openFileInput(ConstantField.APP_TEMP_FILE);
 					result = FileUtil.copyFile(fileInputStream,fileOutputStream);
@@ -527,7 +588,7 @@ public class AppMission
 				AppManager.getInstance().reloadData();
 			}
 		}
-	}
+	}*/
 	
 	
 	private class UpdateHelpTask extends AsyncTask<Void, Void, Boolean>{

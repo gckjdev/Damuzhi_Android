@@ -19,6 +19,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.ContactsContract.Settings;
 import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.Gravity;
@@ -71,7 +72,6 @@ import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.service.Task;
-import com.damuzhi.travel.util.LocationReceiver;
 import com.google.android.maps.MapView.LayoutParams;
 
 public class IndexActivity extends MenuActivity implements OnClickListener
@@ -95,7 +95,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	private ImageButton favoriteButton;
 	private ImageButton shareButton;
 	private HashMap<String, Integer> cityNameMap;
-	private HashMap<Integer, Integer> citySpinnerPositionMap = new HashMap<Integer, Integer>();
+	//private HashMap<Integer, Integer> citySpinnerPositionMap = new HashMap<Integer, Integer>();
 	private List<String> list;
 	TextView currentCityName;
 	private PopupWindow shareWindow;
@@ -208,10 +208,17 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			startActivity(entertainmentIntent);
 			break;
 		case R.id.nearby:	
-			openGPSSettings();
-			Intent nearbyIntent = new Intent();
-			nearbyIntent.setClass(IndexActivity.this, CommonNearbyPlaceActivity.class);		
-			startActivity(nearbyIntent);
+			boolean gpsEnable = checkGPSisOpen();
+			if(gpsEnable)
+			{
+				Intent nearbyIntent = new Intent();
+				nearbyIntent.setClass(IndexActivity.this, CommonNearbyPlaceActivity.class);		
+				startActivity(nearbyIntent);
+			}else {
+				 Intent gpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				 startActivity(gpsIntent);
+			}
+			
 			break;
 		case R.id.city_base:
 			Intent cityBaseIntent = new Intent();
@@ -314,9 +321,10 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 
 		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-		return;
+		return ;
 		}
-	    Intent gpsIntent = new Intent();
+		Toast.makeText(this, getString(R.string.open_gps_tips2), Toast.LENGTH_SHORT).show();
+		Intent gpsIntent = new Intent();
 	    gpsIntent.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
 	    gpsIntent.addCategory("android.intent.category.ALTERNATIVE");
 	    gpsIntent.setData(Uri.parse("custom:3"));
@@ -455,27 +463,13 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		}
 	};
 
-	/*private void initLocation()
-	{
-		mgr=(AlarmManager)getSystemService(ALARM_SERVICE);	    
-	    Intent i=new Intent(this, LocationPoller.class);		    
-	    i.putExtra(LocationPoller.EXTRA_INTENT,new Intent(this, LocationReceiver.class));
-	    i.putExtra(LocationPoller.EXTRA_PROVIDER, LocationManager.GPS_PROVIDER);		    
-	    pi=PendingIntent.getBroadcast(this, 0, i, 0);
-	    mgr.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,SystemClock.elapsedRealtime(),PERIOD,pi);		    
-	   // Toast.makeText(this,"Location polling every 30 minutes begun",Toast.LENGTH_LONG).show();
-	}*/
 	
-	/*public void omgPleaseStop(View v) {
-	    mgr.cancel(pi);
-	    finish();
-	  }*/
-	
-	private void openGPSSettings() {
+	private boolean checkGPSisOpen() {
 		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-			return;
+			return true;
 		}
-			Toast.makeText(this, getString(R.string.open_gps_tips), Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.open_gps_tips2), Toast.LENGTH_SHORT).show();
+			return false;
 	}
 }

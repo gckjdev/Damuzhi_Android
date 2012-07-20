@@ -20,7 +20,7 @@
          android:layout_width="fill_parent"
          android:layout_height="fill_parent"
          android:clickable="true"
-         android:apiKey="00drkb-fVMRRqPn4hzYyq8XgYwcJno_fRyM-rqA"
+        android:apiKey="00drkb-fVMRRdSoct48qrn8K7RpgKDO0CDpm76w"
          />
     	 <ImageView
 		      android:id="@+id/my_locate"

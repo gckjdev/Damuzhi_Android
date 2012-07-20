@@ -24,7 +24,6 @@ import com.damuzhi.travel.model.downlaod.DownloadManager;
 import com.damuzhi.travel.model.entity.DownloadStatus;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.util.FileUtil;
-import com.damuzhi.travel.util.LocationUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
 public class DownloadService extends Service

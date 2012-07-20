@@ -72,8 +72,14 @@ public class RecommendedAppActivity extends MenuActivity
 	
 	private void refresh(List<RecommendedApp> list)
 	{
-		adapter.setRecommendApp(list);
-		adapter.notifyDataSetChanged();
+		if(list !=null &&list.size()>0)
+		{
+			adapter.setRecommendApp(list);
+			adapter.notifyDataSetChanged();
+		}else {
+			findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
+		}
+		
 	}
 	
 	

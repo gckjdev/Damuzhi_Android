@@ -47,6 +47,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
+import com.baidu.location.BDLocation;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceAdapter;
 import com.damuzhi.travel.activity.common.TravelActivity;
@@ -114,6 +117,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
     private CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay;
     private String currentDistance ="";
     private String currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
+    private LocationClient mLocClient;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -121,7 +125,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		setContentView(R.layout.nearby_place);
 		currentDistance = ConstantField.ONE_KILOMETER;
 		currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
-		location = TravelApplication.getInstance().getLocation();
+		boolean gpsEnable = checkGPSisOpen();
 		loadingDialog = new ProgressDialog(this);
 		init();
 		loadPlace();		
@@ -195,6 +199,11 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			@Override
 			protected List<Place> doInBackground(String... params)
 			{
+				location = TravelApplication.getInstance().getLocation();
+				if(TravelApplication.getInstance().mLocationClient !=null)
+				{
+					TravelApplication.getInstance().mLocationClient.stop();
+				}
 				return PlaceMission.getInstance().getPlaceNearbyInDistance(location, currentDistance,currentPlaceCategory);
 			}
 
@@ -244,10 +253,10 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			adapter.setList(origList);
 			adapter.notifyDataSetChanged();
 		}else
-		{							
+		{	
+			mapView.getOverlays().clear();
 			if(origList.size()!=0)
 			{
-				mapView.getOverlays().clear();
 				initMapOverlayView(origList);
 			}
 			mapView.postInvalidate();						
@@ -532,7 +541,6 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		@Override
 		public void onClick(View v)
 		{
-			openGPSSettings();
 			listView.setVisibility(View.GONE);
 			selectMapViewButton.setVisibility(View.GONE);		
 			findViewById(R.id.mapview_group).setVisibility(View.VISIBLE);
@@ -568,14 +576,15 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		@Override
 		public void onClick(View v)
 		{
-			HashMap<String, Double> location = TravelApplication.getInstance().getLocation();
 			if (location != null&&location.size()>0)
 			{
 				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
-				mapc.animateTo(geoPoint);	
-				MyLocationOverlay myLocationOverlay = new MyLocationOverlay(CommonNearbyPlaceActivity.this,mapView);
-				myLocationOverlay.enableMyLocation();
-				mapView.getOverlays().add(myLocationOverlay);
+				Drawable drawable = getResources().getDrawable(R.drawable.my_location);
+				CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null);
+				CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
+				itemizedOverlay3.addOverlay(overlayItem);
+				mapView.getOverlays().add(itemizedOverlay3);
+				mapc.animateTo(geoPoint);
 			}else
 			{
 				Toast.makeText(CommonNearbyPlaceActivity.this, getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
@@ -735,13 +744,13 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	}
 	
 	
-	private void openGPSSettings() {
-
+	private boolean checkGPSisOpen() {
 		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-			return;
+			return true;
 		}
-			Toast.makeText(this, getString(R.string.open_gps_tips), Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.open_gps_tips2), Toast.LENGTH_SHORT).show();
+			return false;
 	}
 	
 	
@@ -765,6 +774,28 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			}
 			
 		}
+	}
+	
+	public  void getLocation(Context context)
+	{
 		
+		LocationClientOption option = new LocationClientOption();
+		option.setOpenGps(true);				
+		option.setCoorType("bd09ll");		
+		option.setScanSpan(10000);
+		mLocClient = TravelApplication.getInstance().mLocationClient;
+		mLocClient.setLocOption(option);
+		mLocClient.start();
+		if (mLocClient != null && mLocClient.isStarted())
+			mLocClient.requestLocation();
+		else 
+			Log.d(TAG, " baidu locationSDK locClient is null or not started");
+	}
+
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
 	}
 }

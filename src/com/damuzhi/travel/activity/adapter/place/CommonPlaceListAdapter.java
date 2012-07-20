@@ -23,7 +23,6 @@ import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import com.damuzhi.travel.util.LocationUtil;
 import com.damuzhi.travel.util.TravelUtil;
 
 import android.content.Context;

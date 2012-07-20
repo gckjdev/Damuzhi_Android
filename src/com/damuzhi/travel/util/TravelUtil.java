@@ -776,5 +776,12 @@ public class TravelUtil
        s = Math.round(s * 10000) / 10000;
        return s;
     }
+
+	
+	public static String handlerString(String introduction)
+	{
+		String newString = introduction.replace("\n", "\n\t\t");
+		return newString;
+	}
 	
 }

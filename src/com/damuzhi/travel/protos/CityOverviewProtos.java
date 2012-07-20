@@ -1478,6 +1478,1254 @@ public final class CityOverviewProtos {
     // @@protoc_insertion_point(class_scope:damuzhi.CityOverview)
   }
   
+  public interface CityImageListOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // repeated .damuzhi.CityImage cityImages = 1;
+    java.util.List<com.damuzhi.travel.protos.CityOverviewProtos.CityImage> 
+        getCityImagesList();
+    com.damuzhi.travel.protos.CityOverviewProtos.CityImage getCityImages(int index);
+    int getCityImagesCount();
+    java.util.List<? extends com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder> 
+        getCityImagesOrBuilderList();
+    com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder getCityImagesOrBuilder(
+        int index);
+  }
+  public static final class CityImageList extends
+      com.google.protobuf.GeneratedMessage
+      implements CityImageListOrBuilder {
+    // Use CityImageList.newBuilder() to construct.
+    private CityImageList(Builder builder) {
+      super(builder);
+    }
+    private CityImageList(boolean noInit) {}
+    
+    private static final CityImageList defaultInstance;
+    public static CityImageList getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public CityImageList getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CityImageList_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CityImageList_fieldAccessorTable;
+    }
+    
+    // repeated .damuzhi.CityImage cityImages = 1;
+    public static final int CITYIMAGES_FIELD_NUMBER = 1;
+    private java.util.List<com.damuzhi.travel.protos.CityOverviewProtos.CityImage> cityImages_;
+    public java.util.List<com.damuzhi.travel.protos.CityOverviewProtos.CityImage> getCityImagesList() {
+      return cityImages_;
+    }
+    public java.util.List<? extends com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder> 
+        getCityImagesOrBuilderList() {
+      return cityImages_;
+    }
+    public int getCityImagesCount() {
+      return cityImages_.size();
+    }
+    public com.damuzhi.travel.protos.CityOverviewProtos.CityImage getCityImages(int index) {
+      return cityImages_.get(index);
+    }
+    public com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder getCityImagesOrBuilder(
+        int index) {
+      return cityImages_.get(index);
+    }
+    
+    private void initFields() {
+      cityImages_ = java.util.Collections.emptyList();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      for (int i = 0; i < getCityImagesCount(); i++) {
+        if (!getCityImages(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      for (int i = 0; i < cityImages_.size(); i++) {
+        output.writeMessage(1, cityImages_.get(i));
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      for (int i = 0; i < cityImages_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(1, cityImages_.get(i));
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImageList parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.damuzhi.travel.protos.CityOverviewProtos.CityImageList prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.damuzhi.travel.protos.CityOverviewProtos.CityImageListOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CityImageList_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CityImageList_fieldAccessorTable;
+      }
+      
+      // Construct using com.damuzhi.travel.protos.CityOverviewProtos.CityImageList.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getCityImagesFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        if (cityImagesBuilder_ == null) {
+          cityImages_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+        } else {
+          cityImagesBuilder_.clear();
+        }
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.damuzhi.travel.protos.CityOverviewProtos.CityImageList.getDescriptor();
+      }
+      
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImageList getDefaultInstanceForType() {
+        return com.damuzhi.travel.protos.CityOverviewProtos.CityImageList.getDefaultInstance();
+      }
+      
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImageList build() {
+        com.damuzhi.travel.protos.CityOverviewProtos.CityImageList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.damuzhi.travel.protos.CityOverviewProtos.CityImageList buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.damuzhi.travel.protos.CityOverviewProtos.CityImageList result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImageList buildPartial() {
+        com.damuzhi.travel.protos.CityOverviewProtos.CityImageList result = new com.damuzhi.travel.protos.CityOverviewProtos.CityImageList(this);
+        int from_bitField0_ = bitField0_;
+        if (cityImagesBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            cityImages_ = java.util.Collections.unmodifiableList(cityImages_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
+          result.cityImages_ = cityImages_;
+        } else {
+          result.cityImages_ = cityImagesBuilder_.build();
+        }
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.damuzhi.travel.protos.CityOverviewProtos.CityImageList) {
+          return mergeFrom((com.damuzhi.travel.protos.CityOverviewProtos.CityImageList)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.damuzhi.travel.protos.CityOverviewProtos.CityImageList other) {
+        if (other == com.damuzhi.travel.protos.CityOverviewProtos.CityImageList.getDefaultInstance()) return this;
+        if (cityImagesBuilder_ == null) {
+          if (!other.cityImages_.isEmpty()) {
+            if (cityImages_.isEmpty()) {
+              cityImages_ = other.cityImages_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureCityImagesIsMutable();
+              cityImages_.addAll(other.cityImages_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.cityImages_.isEmpty()) {
+            if (cityImagesBuilder_.isEmpty()) {
+              cityImagesBuilder_.dispose();
+              cityImagesBuilder_ = null;
+              cityImages_ = other.cityImages_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              cityImagesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getCityImagesFieldBuilder() : null;
+            } else {
+              cityImagesBuilder_.addAllMessages(other.cityImages_);
+            }
+          }
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        for (int i = 0; i < getCityImagesCount(); i++) {
+          if (!getCityImages(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 10: {
+              com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder subBuilder = com.damuzhi.travel.protos.CityOverviewProtos.CityImage.newBuilder();
+              input.readMessage(subBuilder, extensionRegistry);
+              addCityImages(subBuilder.buildPartial());
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // repeated .damuzhi.CityImage cityImages = 1;
+      private java.util.List<com.damuzhi.travel.protos.CityOverviewProtos.CityImage> cityImages_ =
+        java.util.Collections.emptyList();
+      private void ensureCityImagesIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          cityImages_ = new java.util.ArrayList<com.damuzhi.travel.protos.CityOverviewProtos.CityImage>(cityImages_);
+          bitField0_ |= 0x00000001;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.CityOverviewProtos.CityImage, com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder, com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder> cityImagesBuilder_;
+      
+      public java.util.List<com.damuzhi.travel.protos.CityOverviewProtos.CityImage> getCityImagesList() {
+        if (cityImagesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(cityImages_);
+        } else {
+          return cityImagesBuilder_.getMessageList();
+        }
+      }
+      public int getCityImagesCount() {
+        if (cityImagesBuilder_ == null) {
+          return cityImages_.size();
+        } else {
+          return cityImagesBuilder_.getCount();
+        }
+      }
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImage getCityImages(int index) {
+        if (cityImagesBuilder_ == null) {
+          return cityImages_.get(index);
+        } else {
+          return cityImagesBuilder_.getMessage(index);
+        }
+      }
+      public Builder setCityImages(
+          int index, com.damuzhi.travel.protos.CityOverviewProtos.CityImage value) {
+        if (cityImagesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCityImagesIsMutable();
+          cityImages_.set(index, value);
+          onChanged();
+        } else {
+          cityImagesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      public Builder setCityImages(
+          int index, com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder builderForValue) {
+        if (cityImagesBuilder_ == null) {
+          ensureCityImagesIsMutable();
+          cityImages_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          cityImagesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addCityImages(com.damuzhi.travel.protos.CityOverviewProtos.CityImage value) {
+        if (cityImagesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCityImagesIsMutable();
+          cityImages_.add(value);
+          onChanged();
+        } else {
+          cityImagesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      public Builder addCityImages(
+          int index, com.damuzhi.travel.protos.CityOverviewProtos.CityImage value) {
+        if (cityImagesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCityImagesIsMutable();
+          cityImages_.add(index, value);
+          onChanged();
+        } else {
+          cityImagesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      public Builder addCityImages(
+          com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder builderForValue) {
+        if (cityImagesBuilder_ == null) {
+          ensureCityImagesIsMutable();
+          cityImages_.add(builderForValue.build());
+          onChanged();
+        } else {
+          cityImagesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addCityImages(
+          int index, com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder builderForValue) {
+        if (cityImagesBuilder_ == null) {
+          ensureCityImagesIsMutable();
+          cityImages_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          cityImagesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAllCityImages(
+          java.lang.Iterable<? extends com.damuzhi.travel.protos.CityOverviewProtos.CityImage> values) {
+        if (cityImagesBuilder_ == null) {
+          ensureCityImagesIsMutable();
+          super.addAll(values, cityImages_);
+          onChanged();
+        } else {
+          cityImagesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      public Builder clearCityImages() {
+        if (cityImagesBuilder_ == null) {
+          cityImages_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
+          onChanged();
+        } else {
+          cityImagesBuilder_.clear();
+        }
+        return this;
+      }
+      public Builder removeCityImages(int index) {
+        if (cityImagesBuilder_ == null) {
+          ensureCityImagesIsMutable();
+          cityImages_.remove(index);
+          onChanged();
+        } else {
+          cityImagesBuilder_.remove(index);
+        }
+        return this;
+      }
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder getCityImagesBuilder(
+          int index) {
+        return getCityImagesFieldBuilder().getBuilder(index);
+      }
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder getCityImagesOrBuilder(
+          int index) {
+        if (cityImagesBuilder_ == null) {
+          return cityImages_.get(index);  } else {
+          return cityImagesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder> 
+           getCityImagesOrBuilderList() {
+        if (cityImagesBuilder_ != null) {
+          return cityImagesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(cityImages_);
+        }
+      }
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder addCityImagesBuilder() {
+        return getCityImagesFieldBuilder().addBuilder(
+            com.damuzhi.travel.protos.CityOverviewProtos.CityImage.getDefaultInstance());
+      }
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder addCityImagesBuilder(
+          int index) {
+        return getCityImagesFieldBuilder().addBuilder(
+            index, com.damuzhi.travel.protos.CityOverviewProtos.CityImage.getDefaultInstance());
+      }
+      public java.util.List<com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder> 
+           getCityImagesBuilderList() {
+        return getCityImagesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.CityOverviewProtos.CityImage, com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder, com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder> 
+          getCityImagesFieldBuilder() {
+        if (cityImagesBuilder_ == null) {
+          cityImagesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.damuzhi.travel.protos.CityOverviewProtos.CityImage, com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder, com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder>(
+                  cityImages_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
+                  getParentForChildren(),
+                  isClean());
+          cityImages_ = null;
+        }
+        return cityImagesBuilder_;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:damuzhi.CityImageList)
+    }
+    
+    static {
+      defaultInstance = new CityImageList(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:damuzhi.CityImageList)
+  }
+  
+  public interface CityImageOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // required int32 cityImageId = 1;
+    boolean hasCityImageId();
+    int getCityImageId();
+    
+    // optional string url = 2;
+    boolean hasUrl();
+    String getUrl();
+    
+    // optional string introduce = 3;
+    boolean hasIntroduce();
+    String getIntroduce();
+    
+    // optional int32 priceCount = 7;
+    boolean hasPriceCount();
+    int getPriceCount();
+    
+    // optional string detail = 10;
+    boolean hasDetail();
+    String getDetail();
+  }
+  public static final class CityImage extends
+      com.google.protobuf.GeneratedMessage
+      implements CityImageOrBuilder {
+    // Use CityImage.newBuilder() to construct.
+    private CityImage(Builder builder) {
+      super(builder);
+    }
+    private CityImage(boolean noInit) {}
+    
+    private static final CityImage defaultInstance;
+    public static CityImage getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public CityImage getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CityImage_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CityImage_fieldAccessorTable;
+    }
+    
+    private int bitField0_;
+    // required int32 cityImageId = 1;
+    public static final int CITYIMAGEID_FIELD_NUMBER = 1;
+    private int cityImageId_;
+    public boolean hasCityImageId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getCityImageId() {
+      return cityImageId_;
+    }
+    
+    // optional string url = 2;
+    public static final int URL_FIELD_NUMBER = 2;
+    private java.lang.Object url_;
+    public boolean hasUrl() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public String getUrl() {
+      java.lang.Object ref = url_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          url_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getUrlBytes() {
+      java.lang.Object ref = url_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        url_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string introduce = 3;
+    public static final int INTRODUCE_FIELD_NUMBER = 3;
+    private java.lang.Object introduce_;
+    public boolean hasIntroduce() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    public String getIntroduce() {
+      java.lang.Object ref = introduce_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          introduce_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getIntroduceBytes() {
+      java.lang.Object ref = introduce_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        introduce_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional int32 priceCount = 7;
+    public static final int PRICECOUNT_FIELD_NUMBER = 7;
+    private int priceCount_;
+    public boolean hasPriceCount() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    public int getPriceCount() {
+      return priceCount_;
+    }
+    
+    // optional string detail = 10;
+    public static final int DETAIL_FIELD_NUMBER = 10;
+    private java.lang.Object detail_;
+    public boolean hasDetail() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    public String getDetail() {
+      java.lang.Object ref = detail_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          detail_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getDetailBytes() {
+      java.lang.Object ref = detail_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        detail_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    private void initFields() {
+      cityImageId_ = 0;
+      url_ = "";
+      introduce_ = "";
+      priceCount_ = 0;
+      detail_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasCityImageId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, cityImageId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getUrlBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getIntroduceBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeInt32(7, priceCount_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeBytes(10, getDetailBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, cityImageId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getUrlBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getIntroduceBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(7, priceCount_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(10, getDetailBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.CityOverviewProtos.CityImage parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.damuzhi.travel.protos.CityOverviewProtos.CityImage prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.damuzhi.travel.protos.CityOverviewProtos.CityImageOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CityImage_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.damuzhi.travel.protos.CityOverviewProtos.internal_static_damuzhi_CityImage_fieldAccessorTable;
+      }
+      
+      // Construct using com.damuzhi.travel.protos.CityOverviewProtos.CityImage.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        cityImageId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        url_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        introduce_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        priceCount_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000008);
+        detail_ = "";
+        bitField0_ = (bitField0_ & ~0x00000010);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.damuzhi.travel.protos.CityOverviewProtos.CityImage.getDescriptor();
+      }
+      
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImage getDefaultInstanceForType() {
+        return com.damuzhi.travel.protos.CityOverviewProtos.CityImage.getDefaultInstance();
+      }
+      
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImage build() {
+        com.damuzhi.travel.protos.CityOverviewProtos.CityImage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.damuzhi.travel.protos.CityOverviewProtos.CityImage buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.damuzhi.travel.protos.CityOverviewProtos.CityImage result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.damuzhi.travel.protos.CityOverviewProtos.CityImage buildPartial() {
+        com.damuzhi.travel.protos.CityOverviewProtos.CityImage result = new com.damuzhi.travel.protos.CityOverviewProtos.CityImage(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.cityImageId_ = cityImageId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.url_ = url_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.introduce_ = introduce_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.priceCount_ = priceCount_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.detail_ = detail_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.damuzhi.travel.protos.CityOverviewProtos.CityImage) {
+          return mergeFrom((com.damuzhi.travel.protos.CityOverviewProtos.CityImage)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.damuzhi.travel.protos.CityOverviewProtos.CityImage other) {
+        if (other == com.damuzhi.travel.protos.CityOverviewProtos.CityImage.getDefaultInstance()) return this;
+        if (other.hasCityImageId()) {
+          setCityImageId(other.getCityImageId());
+        }
+        if (other.hasUrl()) {
+          setUrl(other.getUrl());
+        }
+        if (other.hasIntroduce()) {
+          setIntroduce(other.getIntroduce());
+        }
+        if (other.hasPriceCount()) {
+          setPriceCount(other.getPriceCount());
+        }
+        if (other.hasDetail()) {
+          setDetail(other.getDetail());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasCityImageId()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              cityImageId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              url_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              introduce_ = input.readBytes();
+              break;
+            }
+            case 56: {
+              bitField0_ |= 0x00000008;
+              priceCount_ = input.readInt32();
+              break;
+            }
+            case 82: {
+              bitField0_ |= 0x00000010;
+              detail_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required int32 cityImageId = 1;
+      private int cityImageId_ ;
+      public boolean hasCityImageId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getCityImageId() {
+        return cityImageId_;
+      }
+      public Builder setCityImageId(int value) {
+        bitField0_ |= 0x00000001;
+        cityImageId_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearCityImageId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        cityImageId_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional string url = 2;
+      private java.lang.Object url_ = "";
+      public boolean hasUrl() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public String getUrl() {
+        java.lang.Object ref = url_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          url_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setUrl(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        url_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearUrl() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        url_ = getDefaultInstance().getUrl();
+        onChanged();
+        return this;
+      }
+      void setUrl(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000002;
+        url_ = value;
+        onChanged();
+      }
+      
+      // optional string introduce = 3;
+      private java.lang.Object introduce_ = "";
+      public boolean hasIntroduce() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public String getIntroduce() {
+        java.lang.Object ref = introduce_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          introduce_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setIntroduce(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        introduce_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearIntroduce() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        introduce_ = getDefaultInstance().getIntroduce();
+        onChanged();
+        return this;
+      }
+      void setIntroduce(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000004;
+        introduce_ = value;
+        onChanged();
+      }
+      
+      // optional int32 priceCount = 7;
+      private int priceCount_ ;
+      public boolean hasPriceCount() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      public int getPriceCount() {
+        return priceCount_;
+      }
+      public Builder setPriceCount(int value) {
+        bitField0_ |= 0x00000008;
+        priceCount_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearPriceCount() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        priceCount_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // optional string detail = 10;
+      private java.lang.Object detail_ = "";
+      public boolean hasDetail() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      public String getDetail() {
+        java.lang.Object ref = detail_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          detail_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setDetail(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000010;
+        detail_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearDetail() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        detail_ = getDefaultInstance().getDetail();
+        onChanged();
+        return this;
+      }
+      void setDetail(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000010;
+        detail_ = value;
+        onChanged();
+      }
+      
+      // @@protoc_insertion_point(builder_scope:damuzhi.CityImage)
+    }
+    
+    static {
+      defaultInstance = new CityImage(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:damuzhi.CityImage)
+  }
+  
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_damuzhi_CommonOverview_descriptor;
   private static
@@ -1488,6 +2736,16 @@ public final class CityOverviewProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_damuzhi_CityOverview_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_damuzhi_CityImageList_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_damuzhi_CityImageList_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_damuzhi_CityImage_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_damuzhi_CityImage_fieldAccessorTable;
   
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -1504,11 +2762,15 @@ public final class CityOverviewProtos {
       " \001(\0132\027.damuzhi.CommonOverview\022.\n\rtravelU" +
       "tility\030\003 \001(\0132\027.damuzhi.CommonOverview\0225\n" +
       "\024travelTransportation\030\004 \001(\0132\027.damuzhi.Co" +
-      "mmonOverview*j\n\022CommonOverviewType\022\016\n\nCI" +
-      "TY_BASIC\020\001\022\025\n\021TRAVEL_PREPRATION\020\002\022\022\n\016TRA" +
-      "VEL_UTILITY\020\003\022\031\n\025TRAVEL_TRANSPORTATION\020\004",
-      "B(\n\022com.damuzhi.travel.protosB\022CityOverviewProt" +
-      "os"
+      "mmonOverview\"7\n\rCityImageList\022&\n\ncityIma" +
+      "ges\030\001 \003(\0132\022.damuzhi.CityImage\"d\n\tCityIma" +
+      "ge\022\023\n\013cityImageId\030\001 \002(\005\022\013\n\003url\030\002 \001(\t\022\021\n\t",
+      "introduce\030\003 \001(\t\022\022\n\npriceCount\030\007 \001(\005\022\016\n\006d" +
+      "etail\030\n \001(\t*j\n\022CommonOverviewType\022\016\n\nCIT" +
+      "Y_BASIC\020\001\022\025\n\021TRAVEL_PREPRATION\020\002\022\022\n\016TRAV" +
+      "EL_UTILITY\020\003\022\031\n\025TRAVEL_TRANSPORTATION\020\004B" +
+      "(\n\022com.damuzhi.travel.protosB\022CityOverviewProto" +
+      "s"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -1531,6 +2793,22 @@ public final class CityOverviewProtos {
               new java.lang.String[] { "CityBasic", "TravelPrepration", "TravelUtility", "TravelTransportation", },
               com.damuzhi.travel.protos.CityOverviewProtos.CityOverview.class,
               com.damuzhi.travel.protos.CityOverviewProtos.CityOverview.Builder.class);
+          internal_static_damuzhi_CityImageList_descriptor =
+            getDescriptor().getMessageTypes().get(2);
+          internal_static_damuzhi_CityImageList_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_damuzhi_CityImageList_descriptor,
+              new java.lang.String[] { "CityImages", },
+              com.damuzhi.travel.protos.CityOverviewProtos.CityImageList.class,
+              com.damuzhi.travel.protos.CityOverviewProtos.CityImageList.Builder.class);
+          internal_static_damuzhi_CityImage_descriptor =
+            getDescriptor().getMessageTypes().get(3);
+          internal_static_damuzhi_CityImage_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_damuzhi_CityImage_descriptor,
+              new java.lang.String[] { "CityImageId", "Url", "Introduce", "PriceCount", "Detail", },
+              com.damuzhi.travel.protos.CityOverviewProtos.CityImage.class,
+              com.damuzhi.travel.protos.CityOverviewProtos.CityImage.Builder.class);
           return null;
         }
       };

@@ -44,7 +44,6 @@ import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList;
 import com.damuzhi.travel.protos.TravelTipsProtos.TravelTipType;
 import com.damuzhi.travel.service.Task;
-import com.damuzhi.travel.util.CornerListView;
 
 
 
@@ -73,8 +72,14 @@ public class TravelRoutesActivity extends MenuActivity
 	
 	private void refresh(List<CommonTravelTip> list)
 	{
-		adapter.setCommonTravelTips(list);
-		adapter.notifyDataSetChanged();
+		if(list!=null &&list.size()>0)
+		{
+			adapter.setCommonTravelTips(list);
+			adapter.notifyDataSetChanged();
+		}else
+		{
+			findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
+		}		
 	}
 	
 	

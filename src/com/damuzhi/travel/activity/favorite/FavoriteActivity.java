@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.R.integer;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -43,9 +44,11 @@ import com.damuzhi.travel.activity.adapter.place.NearbyPlaceAdapter;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.more.BrowseHistoryActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
 import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
+import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.downlaod.DownloadManager;
@@ -183,7 +186,7 @@ public class FavoriteActivity extends MenuActivity
 			@Override
 			protected void onPostExecute(List<Place> resultList)
 			{
-				//loadingDialog.dismiss();
+				loadingDialog.dismiss();
 				favoritePlaceList = resultList;	
 				refreshPlaceView(favoritePlaceList);
 				super.onPostExecute(resultList);
@@ -192,7 +195,7 @@ public class FavoriteActivity extends MenuActivity
 			@Override
 			protected void onPreExecute()
 			{
-				//showRoundProcessDialog();
+				showRoundProcessDialog();
 				super.onPreExecute();
 			}
 
@@ -313,7 +316,7 @@ public class FavoriteActivity extends MenuActivity
 					ImageView deleteItemButton =  (ImageView) listView.findViewWithTag(i);
 					deleteItemButton.setOnClickListener(deleteItemOnClickListener);
 				}	
-			}				
+			}									
 		}
 	};
 
@@ -324,15 +327,35 @@ public class FavoriteActivity extends MenuActivity
 		@Override
 		public void onClick(View v)
 		{
-			int position = (Integer)v.getTag();
-			Place place = favoritePlaceList.get(position);
-			//ArrayList<Place> placeList = new ArrayList<Place>();
-			//placeList.addAll(favoritePlaceList);
-			boolean result = FavoriteMission.getInstance().deleteFavorite(place.getPlaceId());
-			if (result)
+			final int position = (Integer)v.getTag();
+			AlertDialog deleteAlertDialog = new AlertDialog.Builder(FavoriteActivity.this).create();
+			deleteAlertDialog.setMessage(getBaseContext().getString(R.string.delete_favorite));
+			deleteAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getBaseContext().getString(R.string.ok),new DialogInterface.OnClickListener()
 			{
-				loadFavorite(favoriteConfigure,currentPlaceCategory);
-			}
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					
+					Place place = favoritePlaceList.get(position);
+					boolean result = FavoriteMission.getInstance().deleteFavorite(place.getPlaceId());
+					if (result)
+					{
+						loadFavorite(favoriteConfigure,currentPlaceCategory);
+					}
+				}	
+			} );
+			deleteAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
+			{
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					dialog.cancel();
+					
+				}
+			} );
+			deleteAlertDialog.show();	
 		}
 	};
 				

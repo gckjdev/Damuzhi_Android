@@ -13,6 +13,15 @@
     	    android:text="@string/more_good_commend"
     	    android:textSize="20.0sp"
     	    android:textColor="@color/white"/> 
+    <TextView 
+	     android:layout_width="fill_parent"
+	     android:layout_height="wrap_content"
+	     android:text="@string/no_good_commend"
+	     android:layout_marginTop="20dp"
+	     android:gravity="center"
+	     android:id="@+id/data_not_found"
+	     android:visibility="gone"
+    	 android:textSize="16sp"/>	
     <ListView
         android:id="@+id/recommended_app_listview"
         android:layout_width="fill_parent"
