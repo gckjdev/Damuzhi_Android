@@ -56,34 +56,12 @@ public class OverviewMission
 		if (LocalStorageMission.getInstance().hasLocalCityData(currentCityId)){
 			// read local
 			LocalStorageMission.getInstance().loadCityOverviewData(currentCityId);
-			/*activity.runOnUiThread(new Runnable()
-			{				
-				@Override
-				public void run()
-				{					
-					LocalStorageMission.getInstance().loadCityOverviewData(currentCityId);					
-				}
-			});	*/
 			retCommonOverview = localOverviewManager.getCityCommonOverview(commonOverviewType);
 		}
 		else{
 			// send remote
 			final CommonOverview remoteCommonOverview = getOverviewByUrl(commonOverviewType, currentCityId);
 			retCommonOverview = remoteCommonOverview;
-			
-			// TODO save data in UI thread
-			/*if (retCommonOverview != null ){
-				activity.runOnUiThread(new Runnable()
-				{				
-					@Override
-					public void run()
-					{
-						// TODO Auto-generated method stub
-						remotePlaceManager.clear();
-						remotePlaceManager.addPlaces(remotePlaceList);
-					}
-				});				
-			}*/
 		}
 						
 		return retCommonOverview;

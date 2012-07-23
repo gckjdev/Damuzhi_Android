@@ -6,10 +6,16 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.google.android.maps.MapActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.util.AttributeSet;
+import android.view.InflateException;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 
 public class TravelActivity extends MapActivity
 {
@@ -66,6 +72,30 @@ public class TravelActivity extends MapActivity
 		return false;
 	}
 
+	protected void setMenuBackground() {  
+        this.getLayoutInflater().setFactory(new android.view.LayoutInflater.Factory() {  
+    
+            public View onCreateView(String name, Context context, AttributeSet attrs) {  
+                if (name.equalsIgnoreCase("com.android.internal.view.menu.IconMenuItemView")) {  
+                    try {  
+                        LayoutInflater f = getLayoutInflater();  
+                        final View view = f.createView(name, null, attrs);  
+                        new Handler().post(new Runnable() {  
+                            public void run() {    
+                                view.setBackgroundResource(R.color.listview_bg);  
+                            }  
+                        });  
+                        return view;  
+                    } catch (InflateException e) {  
+                        e.printStackTrace();  
+                    } catch (ClassNotFoundException e) {  
+                        e.printStackTrace();  
+                    }  
+                }  
+                return null;  
+            }  
+        });  
+    }  
 	
 
 }

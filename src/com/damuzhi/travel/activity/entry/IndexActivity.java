@@ -102,24 +102,14 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	private static final String SHARE_CONFIG = "share_config";
 	private static final  int SHARE_2_SINA = 1;
 	private static final  int SHARE_2_QQ = 2;
-	 private static final int PERIOD=1800000;  // 30 minutes
-	  private PendingIntent pi=null;
-	  private AlarmManager mgr=null;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		TravelApplication.getInstance().addActivity(this);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
-		setContentView(R.layout.index);
-		
-		/*try {
-		    Class.forName("com.google.android.maps.MapActivity");
-		} catch (Exception e) {
-		    Toast.makeText(IndexActivity.this, "因你手机系统缺少com.google.android.maps.jar这个包，地图功能将无法使用，请手动为手机系统安装这个包", Toast.LENGTH_LONG).show();
-		    return;
-		}*/
-		
+		setContentView(R.layout.index);		
 		
 		setProgressBarIndeterminateVisibility(true);
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
@@ -146,6 +136,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		helpButton = (ImageButton) findViewById(R.id.help);
 		favoriteButton = (ImageButton) findViewById(R.id.favorite);
 		shareButton = (ImageButton) findViewById(R.id.share);
+		
 		sceneryButton.setOnClickListener(this);
 		hotelButton.setOnClickListener(this);
 		restaurantButton.setOnClickListener(this);
@@ -165,7 +156,6 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		Intent intent = new Intent();
 		intent.setAction(ConstantField.CHECK_NET);
 		sendBroadcast(intent);
-		//openGPSSettings();
 	}
 
 	

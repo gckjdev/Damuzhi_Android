@@ -8,26 +8,22 @@
  */
 package com.damuzhi.travel.activity.common;
 
-import java.util.List;
-
-import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.entry.IndexActivity;
-import com.damuzhi.travel.activity.more.FeedBackActivity;
-import com.damuzhi.travel.activity.more.MoreActivity;
-import com.damuzhi.travel.activity.place.CommonPlaceActivity;
-import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.protos.PlaceListProtos.Place;
-
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
-import android.content.DialogInterface.OnKeyListener;
-import android.os.AsyncTask;
-import android.view.KeyEvent;
+import android.os.Handler;
+import android.util.AttributeSet;
+import android.view.InflateException;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+
+import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.more.FeedBackActivity;
+import com.damuzhi.travel.model.constant.ConstantField;
 
 /**  
  * @description   
@@ -86,6 +82,32 @@ public class MenuActivity extends Activity
 		return super.onOptionsItemSelected(item);
 	}
 	
+	
+	
+	protected void setMenuBackground() {  
+        this.getLayoutInflater().setFactory(new android.view.LayoutInflater.Factory() {  
+    
+            public View onCreateView(String name, Context context, AttributeSet attrs) {  
+                if (name.equalsIgnoreCase("com.android.internal.view.menu.IconMenuItemView")) {  
+                    try {  
+                        LayoutInflater f = getLayoutInflater();  
+                        final View view = f.createView(name, null, attrs);  
+                        new Handler().post(new Runnable() {  
+                            public void run() {    
+                                view.setBackgroundResource(R.color.listview_bg);  
+                            }  
+                        });  
+                        return view;  
+                    } catch (InflateException e) {  
+                        e.printStackTrace();  
+                    } catch (ClassNotFoundException e) {  
+                        e.printStackTrace();  
+                    }  
+                }  
+                return null;  
+            }  
+        });  
+    }  
 	
 	/*private void loadPlace()
 	{

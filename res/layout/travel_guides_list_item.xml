@@ -15,7 +15,10 @@
 		    android:layout_height="fill_parent"
 		    android:layout_width="wrap_content"
 		    android:textColor="@color/black"
-		    android:layout_marginLeft="18sp"
+		    android:layout_marginLeft="18dp"
+		    android:layout_marginRight="20dp"
+		    android:paddingLeft="10dp"
+		    android:paddingRight="10dp"
 		    android:layout_centerVertical="true"
 		    android:singleLine="true"
 		    android:layout_toRightOf="@id/travel_tips_icon"/>    

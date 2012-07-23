@@ -127,8 +127,8 @@ public class Anseylodar {
 	};
 	
 	
-	public void distoryBitmap(Bitmap bmp){
-		if(null!=bmp&&!bmp.isRecycled())
-			bmp.recycle();
-		} 
+	public void recycleBitmap()
+	{
+		imageLoader.destoryBitmap();
+	}
 }

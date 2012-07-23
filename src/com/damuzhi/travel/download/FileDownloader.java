@@ -108,8 +108,6 @@ public class FileDownloader
 				if (conn.getResponseCode() == 200)
 				{
 					File fileSaveDir = new File(this.tempPath);
-					//File fileSaveDir = new File(this.savePath);
-					//downloadManager = new DownloadManager(this.context);
 					downloadManager = DownloadManager.getDownloadManager(this.context);
 					if (!fileSaveDir.exists())
 						fileSaveDir.mkdirs();
@@ -120,7 +118,6 @@ public class FileDownloader
 						throw new RuntimeException("Unkown file size ");
 					}
 					flag = true;
-					//String filename = HttpTool.getFileName(conn, downloadURL);
 					String filename = HttpTool.getTempFileName(conn, downloadURL);
 					this.saveFile = new File(fileSaveDir, filename);
 					Log.d(TAG, "load data from db url = "+downloadURL);
@@ -181,7 +178,6 @@ public class FileDownloader
 				int downLength = this.data.get(i + 1);
 				if (downLength < this.block&& this.downloadSize < this.fileSize)
 				{
-					Log.d(TAG, "<download> url ="+url);
 					this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block, this.data.get(i + 1),i + 1);
 					this.threads[i].setPriority(7);
 					this.threads[i].setName(url.toString() + i);
@@ -214,7 +210,6 @@ public class FileDownloader
 				if (listener != null&&getrunflag())
 				{
 					listener.onDownloadSize(cityId, downloadURL,this.downloadSpeed,this.downloadSize, fileSize,notFinish);
-					//Log.i(TAG, "has download size = "+downloadSize);
 				}
 			}
 			

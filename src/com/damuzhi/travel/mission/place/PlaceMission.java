@@ -44,7 +44,7 @@ public class PlaceMission
 	private static PlaceMission instance = null;
 	private PlaceManager localPlaceManager = new PlaceManager();
 	private PlaceManager remotePlaceManager = new PlaceManager();
-	private List<Place> retPlaceList;
+	private List<Place> retPlaceList = new ArrayList<Place>();;
 	private PlaceMission() {
 	}
 	
@@ -58,28 +58,19 @@ public class PlaceMission
 	public List<Place> getAllPlace(final int categoryId, Activity activity)
 	{
 		//retPlaceList = Collections.emptyList();
-		retPlaceList = new ArrayList<Place>();
 		retPlaceList.clear();
 		final int cityId = AppManager.getInstance().getCurrentCityId();		
 		if (LocalStorageMission.getInstance().hasLocalCityData(cityId)){
-			activity.runOnUiThread(new Runnable()
-			{				
-				@Override
-				public void run()
-				{					
-					LocalStorageMission.getInstance().loadCityPlaceData(cityId);
-					// read local
-					List<Place> localPlaceList= localPlaceManager.getPlaceLists();
-					for(Place place:localPlaceList)
-					{
-						if(place.getCategoryId() == categoryId)
-						{
-							retPlaceList.add(place);
-						}
-					}
-					//retPlaceList = localPlaceManager.getPlaceLists();
+			LocalStorageMission.getInstance().loadCityPlaceData(cityId);
+			// read local
+			List<Place> localPlaceList= localPlaceManager.getPlaceLists();
+			for(Place place:localPlaceList)
+			{
+				if(place.getCategoryId() == categoryId)
+				{
+					retPlaceList.add(place);
 				}
-			});	
+			}
 			
 		}
 		else{
@@ -92,16 +83,9 @@ public class PlaceMission
 				}
 								
 				// TODO save data in UI thread
-				if (remotePlaceList != null && remotePlaceList.size() > 0){
-					activity.runOnUiThread(new Runnable()
-					{				
-						@Override
-						public void run()
-						{
-							remotePlaceManager.clear();
-							remotePlaceManager.addPlaces(remotePlaceList);
-						}
-					});				
+				if (remotePlaceList != null && remotePlaceList.size() > 0){	
+					remotePlaceManager.clear();
+					remotePlaceManager.addPlaces(remotePlaceList);
 				}		
 		}					
 		return retPlaceList;

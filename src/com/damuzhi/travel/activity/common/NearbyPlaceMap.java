@@ -165,6 +165,22 @@ public class NearbyPlaceMap extends MapActivity
 		@Override
 		public void onClick(View v)
 		{
+			boolean gpsEnable = checkGPSisOpen();
+			if(location == null || location.size()==0)
+			{
+				getLocation(NearbyPlaceMap.this);
+				location = TravelApplication.getInstance().getLocation();
+			}
+			String address = TravelApplication.getInstance().address;
+			if (address == null||address.equals(""))
+			{
+				location = null;
+				return;
+			}
+			if(mLocClient !=null)
+			{
+				mLocClient.stop();
+			}				
 			if (location != null&&location.size()>0)
 			{
 				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
@@ -193,7 +209,7 @@ public class NearbyPlaceMap extends MapActivity
 			myLocateButton.setVisibility(View.VISIBLE);
 			/*MapInitAsynTask asynTask = new MapInitAsynTask();
 			asynTask.execute();*/
-			nearbyPlaceList = PlaceMission.getInstance().getPlaceNearbyInDistance(targetPlace, 10f);
+			//nearbyPlaceList = PlaceMission.getInstance().getPlaceNearbyInDistance(targetPlace, 10f);
 			if(targetPlace!=null&&nearbyPlaceList.size()>0)
 			{
 				initMapView(targetPlace ,nearbyPlaceList);	

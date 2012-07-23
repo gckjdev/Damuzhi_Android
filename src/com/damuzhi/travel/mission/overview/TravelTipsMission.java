@@ -58,20 +58,12 @@ public class TravelTipsMission
 		List<CommonTravelTip> retTravelTips = null;		
 		if (LocalStorageMission.getInstance().hasLocalCityData(currentCityId)){
 			// read local
-			activity.runOnUiThread(new Runnable()
-			{				
-				@Override
-				public void run()
-				{					
-					if(travelTipType == TravelTipType.GUIDE_VALUE)
-					{
-						LocalStorageMission.getInstance().loadCityTravelGuideData(currentCityId);	
-					}else if (travelTipType == TravelTipType.ROUTE_VALUE) {
-						LocalStorageMission.getInstance().loadCityTravelRouteData(currentCityId);	
-					}
-									
-				}
-			});	
+			if(travelTipType == TravelTipType.GUIDE_VALUE)
+			{
+				LocalStorageMission.getInstance().loadCityTravelGuideData(currentCityId);	
+			}else if (travelTipType == TravelTipType.ROUTE_VALUE) {
+				LocalStorageMission.getInstance().loadCityTravelRouteData(currentCityId);	
+			}
 			if(travelTipType == TravelTipType.GUIDE_VALUE)
 			{
 				retTravelTips = localTravelTipsManager.getTravelGuides();
@@ -83,20 +75,6 @@ public class TravelTipsMission
 			// send remote
 			final List<CommonTravelTip> remoteTravelTips = getTravelTipsByUrl(travelTipType, currentCityId);
 			retTravelTips = remoteTravelTips;
-			
-			// TODO save data in UI thread
-			/*if (retCommonOverview != null ){
-				activity.runOnUiThread(new Runnable()
-				{				
-					@Override
-					public void run()
-					{
-						// TODO Auto-generated method stub
-						remotePlaceManager.clear();
-						remotePlaceManager.addPlaces(remotePlaceList);
-					}
-				});				
-			}*/
 		}
 						
 		return retTravelTips;

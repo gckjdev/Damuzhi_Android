@@ -15,6 +15,7 @@ import java.util.Map;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.FilterAdapter.ViewHolder;
 import com.damuzhi.travel.activity.more.OpenCityActivity;
+import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
@@ -99,9 +100,6 @@ public class DownloadDataListAdapter extends BaseAdapter
 			convertView.findViewById(R.id.delete_group).setVisibility(View.VISIBLE);
 			int cityId = installedCityList.get(position);
 			City city = AppManager.getInstance().getCityByCityId(cityId);
-			/*Button deleteButton = (Button) convertView.findViewById(R.id.delete_button);
-			TextView dataCityName = (TextView) convertView.findViewById(R.id.data_city_name);
-			TextView dataCitySize = (TextView) convertView.findViewById(R.id.data_size);*/
 			holder.delete.setTag(position);
 			holder.dataCityName.setText(city.getCountryName()+"."+city.getCityName());
 			holder.dataCitySize.setText(TravelUtil.getDataSize(city.getDataSize()));
@@ -145,6 +143,7 @@ public class DownloadDataListAdapter extends BaseAdapter
 				OpenCityActivity.installCityData.remove(cityId);
 				OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
 				OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
+				DownloadPreference.deleteDownloadInfo(context, Integer.toString(cityId));
 				deleteFile(zipFilePath,gcZipFilePath);
 			}			
 		}

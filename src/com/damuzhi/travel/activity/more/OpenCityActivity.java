@@ -53,6 +53,7 @@ import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
+import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.download.IDownloadCallback;
 import com.damuzhi.travel.download.IDownloadService;
@@ -104,8 +105,9 @@ public class OpenCityActivity extends Activity
 		findViewById(R.id.open_city_tips_download).setSelected(true);
 		
 		cityList = AppManager.getInstance().getCityList();
-		installCityData = DownloadManager.getInstallCity();
-		installedCityList.addAll(installCityData.values());
+		//installCityData = DownloadManager.getInstallCity();
+		installCityData = DownloadPreference.getAllDownloadInfo(OpenCityActivity.this);
+		//installedCityList.addAll(installCityData.values());
 		openCtiyDataListView = (ListView) findViewById(R.id.open_city_data_listview);
 		downloadListView = (ListView) findViewById(R.id.download_data_listview);				
 		cityListAdapter = new OpenCityDataAdapter(cityList, OpenCityActivity.this);		
@@ -197,7 +199,7 @@ public class OpenCityActivity extends Activity
 						Toast.makeText(OpenCityActivity.this, R.string.success, 1).show();
 						String downloadURL = downloadInfo.getUrl();
 						int position = positionMap.get(downloadURL);
-						
+		
 						
 						
 						openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.GONE);
@@ -218,7 +220,7 @@ public class OpenCityActivity extends Activity
 						{														
 							try
 							{
-								upZipFile(zipFilePath, upZipFilePath, position);
+								upZipFile(zipFilePath, upZipFilePath,Integer.toString(cityId), position);
 								DownloadManager downloadManager = new DownloadManager(OpenCityActivity.this);
 								downloadManager.deleteDownloadInfo(downloadURL);
 							} catch (Exception e)
@@ -316,7 +318,7 @@ public class OpenCityActivity extends Activity
 			dataListTitle.setTextColor(getResources().getColor(R.color.black));
 			downloadListTitle.setTextColor(getResources().getColor(R.color.white));
 			installedCityList.clear();
-			installedCityList.addAll(installCityData.values());
+			installedCityList.addAll(installCityData.keySet());
 			if(installedCityList.size() == 0)
 			{
 				downloadListView.setVisibility(View.GONE);
@@ -484,25 +486,6 @@ public class OpenCityActivity extends Activity
 	};
 	
 
-	private OnClickListener deleteOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			int position = (Integer) v.getTag();
-			int cityId = installedCityList.get(position);
-			City city = AppManager.getInstance().getCityByCityId(cityId);
-			String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(city.getDownloadURL()), city.getDownloadURL());
-			String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);			
-			installedCityList.remove(position);
-			installCityData.remove(position);
-			downloadDataListAdapter.setInstalledCityList(installedCityList);
-			downloadDataListAdapter.notifyDataSetChanged();
-			deleteFile(zipFilePath,upZipFilePath);		
-		}
-	};
-	
 	
 	
 	
@@ -610,9 +593,9 @@ public class OpenCityActivity extends Activity
 	
 	
 	
-	private void upZipFile(String zipFilePath, String folderPath,final int position)
+	private void upZipFile(String zipFilePath, String folderPath,String cityId,final int position)
 	{
-		String[] params = new String[]{zipFilePath,folderPath};
+		String[] params = new String[]{zipFilePath,folderPath,cityId};
 		AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>()
 		{
 
@@ -621,9 +604,16 @@ public class OpenCityActivity extends Activity
 			{
 				String zipFilePath = params[0];
 				String upZipFilePath = params[1];
+				String cityId = params[2];
+				DownloadPreference.insertDownloadInfo(OpenCityActivity.this, cityId, 0);
 				boolean result = ZipUtil.upZipFile(zipFilePath,upZipFilePath );	
-				if(!result)
+				if(result)
 				{
+					DownloadPreference.insertDownloadInfo(OpenCityActivity.this, cityId, 1);
+					int installCityId = Integer.parseInt(cityId);
+					installCityData.put(installCityId, installCityId);
+				}else {
+					DownloadPreference.deleteDownloadInfo(OpenCityActivity.this, cityId);
 					FileUtil.deleteFolder(zipFilePath);
 					FileUtil.deleteFolder(upZipFilePath);
 				}
@@ -669,7 +659,6 @@ public class OpenCityActivity extends Activity
 		if(zipResult)
 		{	
 			int cityId = cityList.get(position).getCityId();
-			installCityData.put(cityId, cityId);
 			openCtiyDataListView.findViewWithTag("installing"+position).setVisibility(View.GONE);
 			openCtiyDataListView.findViewWithTag("installed"+position).setVisibility(View.VISIBLE);
 		}else
@@ -680,29 +669,6 @@ public class OpenCityActivity extends Activity
 		}	
 	}
 	
-	
-	
-
-
-
-	/*@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)
-	{
-		if (  keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
-			 Intent intent = new Intent(this, MoreActivity.class);
-			    startActivity(intent);
-	        return false;
-	    }
-		else
-		{
-			  return super.onKeyDown(keyCode, event);	
-		}
-	  
-	}*/
-
-
-
-
 
 
 	@Override
@@ -810,11 +776,13 @@ public class OpenCityActivity extends Activity
 			ViewGroup cancelGroup = viewCache.getCancelGroup();
 			downloadBar = viewCache.getDownloadBar();
 			resultTextView = viewCache.getResultTextView();
+			//int downloadStatus = DownloadPreference.getDownloadInfo(context, downloadURL);
 			if(installCityData!=null && installCityData.containsKey(city.getCityId()))
 			{
 				installedTextView.setVisibility(View.VISIBLE);
 				buttonGroup.setVisibility(View.GONE);
 				dataDownloadMangerGroup.setVisibility(View.GONE);
+				installedCityList.add(city.getCityId());
 				
 			}else
 			{				
@@ -887,18 +855,6 @@ public class OpenCityActivity extends Activity
 			}			
 			return convertView;
 		}
-
-		
-
-		/*public Map<String, Integer> getDownloadDataStatus()
-		{
-			return downloadDataStatus;
-		}
-
-		public void setDownloadDataStatus(Map<String, Integer> downloadDataStatus)
-		{
-			this.downloadDataStatus = downloadDataStatus;
-		}*/
 
 		public List<City> getCityDataList()
 		{

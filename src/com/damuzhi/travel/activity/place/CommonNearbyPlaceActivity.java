@@ -558,7 +558,8 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
 		{
-			Place place = placeList.get(arg2);
+			List<Place> list = adapter.getPlaceList();
+			Place place = list.get(arg2);
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
@@ -576,6 +577,22 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		@Override
 		public void onClick(View v)
 		{
+			boolean gpsEnable = checkGPSisOpen();
+			if(location == null || location.size()==0)
+			{
+				getLocation(CommonNearbyPlaceActivity.this);
+				location = TravelApplication.getInstance().getLocation();
+			}
+			String address = TravelApplication.getInstance().address;
+			if (address == null||address.equals(""))
+			{
+				location = null;
+				return;
+			}
+			if(mLocClient !=null)
+			{
+				mLocClient.stop();
+			}				
 			if (location != null&&location.size()>0)
 			{
 				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));

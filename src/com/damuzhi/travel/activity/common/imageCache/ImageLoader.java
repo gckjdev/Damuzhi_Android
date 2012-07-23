@@ -3,6 +3,10 @@ package com.damuzhi.travel.activity.common.imageCache;
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 
 
@@ -122,4 +126,16 @@ public class ImageLoader {
 			
 			
 		}
+		
+		public void destoryBitmap(){
+			Iterator iter = caches.entrySet().iterator();
+			while (iter.hasNext()) {
+				Map.Entry entry = (Map.Entry) iter.next();
+				SoftReference<Bitmap> rf  = (SoftReference<Bitmap>) entry.getValue();
+				Bitmap bitmap = rf.get();
+				if(null!=bitmap&&!bitmap.isRecycled())
+					bitmap.recycle();
+			}
+			
+			} 
 }

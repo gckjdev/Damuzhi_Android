@@ -219,7 +219,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			loadMoreView = getLayoutInflater().inflate(R.layout.load_more_view, null);
 			loadMoreView.setVisibility(View.GONE);
-		//	loadMoreButton = (TextView) loadMoreView.findViewById(R.id.load_more_btn);
 			loadMoreProgressBar = (ProgressBar) loadMoreView.findViewById(R.id.footprogress);
 			loadMoreView.setOnClickListener(loadMoreOnClickListener);
 			placeListView.addFooterView(loadMoreView,null,false);
@@ -660,8 +659,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			{
 				mLocClient.stop();
 			}				
-			mapView.getOverlays().clear();
-			mapView.removeAllViews();
 			if (location != null&&location.size()>0)
 			{
 				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));	
@@ -1280,7 +1277,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		@Override
 		protected void onDestroy()
 		{
-			super.onDestroy();			
+			super.onDestroy();		
+			placeListAdapter.recycleBitmap();
 		}	
 		
 		

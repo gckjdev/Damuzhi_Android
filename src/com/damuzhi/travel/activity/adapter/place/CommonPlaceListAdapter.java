@@ -229,5 +229,10 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		placeList.addAll(newPlaceList);
 	}
 	
+	
+	public void recycleBitmap()
+	{
+		anseylodar.recycleBitmap();
+	}
 
 }

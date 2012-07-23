@@ -34,7 +34,12 @@
     	    android:id="@+id/place_detail_title"
     	    android:layout_width="fill_parent"
     	    android:layout_height="wrap_content"
+    	    android:layout_marginLeft="60dp"
+    	    android:layout_marginRight="55dp"
     	    android:layout_centerInParent="true"
+    	    android:singleLine="true"
+    	    android:paddingLeft="10dp"
+    	    android:paddingRight="10dp"
     	    android:textColor="@color/white"
     	    android:gravity="center"
     	    android:textSize="20.0sp"/>
