@@ -6,24 +6,10 @@
     descendantFocusability="blocksDescendants"
     android:id="@+id/listview_item_group"
     android:orientation="horizontal">
-    <TextView android:id="@+id/open_city_tips_download"
-       		 android:layout_width="fill_parent"
-       		 android:layout_height="wrap_content"
-       		 android:paddingLeft="10dp"
-       		 android:paddingRight="10dp"
-       		 android:textColor="@color/white"
-       		 android:visibility="gone"
-       		 android:gravity="center"
-       		 android:singleLine="true"
-		     android:ellipsize="marquee"
-		     android:marqueeRepeatLimit="marquee_forever"
-		     android:scrollHorizontally="true"
-       		 android:background="@drawable/main_bottom"
-       		 android:textSize="13.0sp"
-       		 android:text="@string/open_city_tips1"/>  	
     <RelativeLayout 
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_centerVertical="true"
     android:visibility="gone"
     android:id="@+id/delete_group"
     android:orientation="horizontal">   		 

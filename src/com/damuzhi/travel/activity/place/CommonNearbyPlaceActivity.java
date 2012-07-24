@@ -587,6 +587,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			if (address == null||address.equals(""))
 			{
 				location = null;
+				Toast.makeText(CommonNearbyPlaceActivity.this, getString(R.string.get_location_ing), Toast.LENGTH_LONG).show();
 				return;
 			}
 			if(mLocClient !=null)

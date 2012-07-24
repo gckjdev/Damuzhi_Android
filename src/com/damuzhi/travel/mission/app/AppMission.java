@@ -6,31 +6,23 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.RandomAccessFile;
-import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
-import android.R.bool;
+import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
-import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.entry.WelcomeActivity;
-import com.damuzhi.travel.download.DownloadProgressListener;
-import com.damuzhi.travel.download.FileDownloader;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.HelpInfo;
-import com.damuzhi.travel.protos.AppProtos.RecommendedApp;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
@@ -66,8 +58,21 @@ public class AppMission
 		{
 			appInputStream  = assets.open(ConstantField.APP_FILE);		
 			outputStream = context.openFileOutput(ConstantField.APP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
-			FileUtil.copyFile(appInputStream, outputStream);
-			AppManager.getInstance().load(context);
+			ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+			ActivityManager.MemoryInfo minfo = new ActivityManager.MemoryInfo();
+			activityManager.getMemoryInfo(minfo);
+			long sysMemo = minfo.availMem;
+			long fileLength = appInputStream.available();
+			if(sysMemo>fileLength){
+				FileUtil.copyFile(appInputStream, outputStream);
+				AppManager.getInstance().load(context);
+			}else
+			{
+				TravelApplication.getInstance().notEnoughMemoryToast();
+				AppManager.getInstance().load(appInputStream);
+				Log.e(TAG, "<initAppData> init  app file fail,cause  memory not enough ");
+			}
+			
 		}catch (Exception e) {
 			Log.e(TAG, "<initAppData> but catch exception while read app data from apk, exception = "+e.toString(), e);
 		}		
@@ -109,62 +114,6 @@ public class AppMission
 		helpTask.execute();
 	}
 	
-	private boolean downloadAppData()
-	{		
-		boolean result = false;
-		File tempFile = new File(ConstantField.APP_DATA_TEMP_PATH);       
-        if (!tempFile.exists())
-        {
-          tempFile.mkdirs();
-        }
-		InputStream appInputStream = null;
-		FileOutputStream output = null;
-		try
-		{
-			String url = String.format(ConstantField.APP, ConstantField.LANG_HANS);
-			appInputStream =  HttpTool.sendGetRequest(url);
-			if(appInputStream != null)
-			{
-				TravelResponse travelResponse = TravelResponse.parseFrom(appInputStream);	
-				if (travelResponse != null && travelResponse.getResultCode() == 0){
-					output = new FileOutputStream(ConstantField.APP_DATA_TEMP_FILE);
-					App app = travelResponse.getAppInfo();
-					App.Builder appBuilder = App.newBuilder();
-					appBuilder.mergeFrom(app);
-					appBuilder.build().writeTo(output);		
-					result = true;								
-					output.close();
-					appInputStream.close();					
-				}				
-			}else {
-				result = false;
-				//Toast.makeText(context, context.getString(R.string.conn_fail_exception), Toast.LENGTH_LONG).show();
-			}
-			
-		} catch (Exception e)
-		{
-			Log.e(TAG, "<downloadAppData> catch exception = "+e.toString(), e);
-			result = false;
-		}finally
-		{
-			try
-			{
-				if(output != null)
-				{
-					output.close();
-				}
-				if(appInputStream != null)
-				{
-					appInputStream.close();
-				}
-			} catch (IOException e)
-			{
-			}
-			
-		}	
-		return result;
-				
-	}
 	
 	
 	
@@ -179,21 +128,32 @@ public class AppMission
 			appInputStream =  HttpTool.sendGetRequest(url);
 			if(appInputStream != null)
 			{
-				TravelResponse travelResponse = TravelResponse.parseFrom(appInputStream);	
-				if (travelResponse != null && travelResponse.getResultCode() == 0){
-					output = context.openFileOutput(ConstantField.APP_TEMP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
-					App app = travelResponse.getAppInfo();
-					App.Builder appBuilder = App.newBuilder();
-					appBuilder.mergeFrom(app);
-					appBuilder.build().writeTo(output);		
-					result = true;					
-					output.close();
-					appInputStream.close();
-				}
+				ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+				ActivityManager.MemoryInfo minfo = new ActivityManager.MemoryInfo();
+				activityManager.getMemoryInfo(minfo);
+				long sysMemo = minfo.availMem;
+				long fileLength = appInputStream.available();
+				if(sysMemo>fileLength){
+					TravelResponse travelResponse = TravelResponse.parseFrom(appInputStream);	
+					if (travelResponse != null && travelResponse.getResultCode() == 0){
+						output = context.openFileOutput(ConstantField.APP_TEMP_FILE, Context.MODE_WORLD_READABLE|Context.MODE_WORLD_WRITEABLE);
+						App app = travelResponse.getAppInfo();
+						App.Builder appBuilder = App.newBuilder();
+						appBuilder.mergeFrom(app);
+						appBuilder.build().writeTo(output);		
+						result = true;					
+						output.close();
+						appInputStream.close();
+					}
+				}else
+				{
+					TravelApplication.getInstance().notEnoughMemoryToast();
+					Log.e(TAG, "<downloadAppDataToLocal> download  app file fail,cause  memory not enough ");
+					result = false;
+				}				
 				
 			}else {
 				result = false;
-				//Toast.makeText(context, context.getString(R.string.conn_fail_exception), Toast.LENGTH_LONG).show();
 			}
 			
 		} catch (Exception e)
@@ -241,15 +201,25 @@ public class AppMission
 			helpInputStream =  HttpTool.sendGetRequest(url);
 			if(helpInputStream !=null)
 			{
-				travelResponse = TravelResponse.parseFrom(helpInputStream);	
-				if (travelResponse != null && travelResponse.getResultCode() == 0){
-					output = new FileOutputStream(ConstantField.HELP_DATA_TEMP_FILE);
-					HelpInfo help = travelResponse.getHelpInfo();
-					HelpInfo.Builder helpBuilder = HelpInfo.newBuilder();
-					helpBuilder.mergeFrom(help);
-					helpBuilder.build().writeTo(output);		
-					result = true;
+				long sdFreeM = FileUtil.freeSpaceOnSd();
+				long fileLength = helpInputStream.available();
+				if(sdFreeM >fileLength)
+				{
+					travelResponse = TravelResponse.parseFrom(helpInputStream);	
+					if (travelResponse != null && travelResponse.getResultCode() == 0){
+						output = new FileOutputStream(ConstantField.HELP_DATA_TEMP_FILE);
+						HelpInfo help = travelResponse.getHelpInfo();
+						HelpInfo.Builder helpBuilder = HelpInfo.newBuilder();
+						helpBuilder.mergeFrom(help);
+						helpBuilder.build().writeTo(output);		
+						result = true;
+					}
+				}else {
+					TravelApplication.getInstance().notEnoughMemoryToast();
+					Log.e(TAG, "<downloadHelpProtoData> download help proto file fail,cause sdcard memory not enough ");
+					result = false;
 				}
+				
 			}else
 			{
 				result = false;
@@ -306,7 +276,8 @@ public class AppMission
     			URL helpURL = new URL(url);
     			int fileSize = HttpTool.getConnection(url).getContentLength();
     			inStream = HttpTool.getDownloadInputStream(helpURL, 0, fileSize);
-    			if(inStream !=null)
+    			long sdFreeM = FileUtil.freeSpaceOnSd();
+    			if(inStream !=null && sdFreeM > fileSize)
     			{
     				byte[] buffer = new byte[1024];
         			int offset = 0;
@@ -317,7 +288,11 @@ public class AppMission
         			threadfile.close();
         			inStream.close();	
         			result = true;
-    			}
+    			}else {
+					TravelApplication.getInstance().notEnoughMemoryToast();
+					Log.e(TAG, "<downloadHelpZipData> download help zip file fail,cause sdcard memory not enough ");
+					result = false;
+				}
     			
     		} catch (Exception e)
     		{
@@ -708,5 +683,64 @@ public class AppMission
 		return result;
 				
 	}*/
+	
+	
+	/*private boolean downloadAppData()
+	{		
+		boolean result = false;
+		File tempFile = new File(ConstantField.APP_DATA_TEMP_PATH);       
+        if (!tempFile.exists())
+        {
+          tempFile.mkdirs();
+        }
+		InputStream appInputStream = null;
+		FileOutputStream output = null;
+		try
+		{
+			String url = String.format(ConstantField.APP, ConstantField.LANG_HANS);
+			appInputStream =  HttpTool.sendGetRequest(url);
+			if(appInputStream != null)
+			{
+				TravelResponse travelResponse = TravelResponse.parseFrom(appInputStream);	
+				if (travelResponse != null && travelResponse.getResultCode() == 0){
+					output = new FileOutputStream(ConstantField.APP_DATA_TEMP_FILE);
+					App app = travelResponse.getAppInfo();
+					App.Builder appBuilder = App.newBuilder();
+					appBuilder.mergeFrom(app);
+					appBuilder.build().writeTo(output);		
+					result = true;								
+					output.close();
+					appInputStream.close();					
+				}				
+			}else {
+				result = false;
+				//Toast.makeText(context, context.getString(R.string.conn_fail_exception), Toast.LENGTH_LONG).show();
+			}
+			
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<downloadAppData> catch exception = "+e.toString(), e);
+			result = false;
+		}finally
+		{
+			try
+			{
+				if(output != null)
+				{
+					output.close();
+				}
+				if(appInputStream != null)
+				{
+					appInputStream.close();
+				}
+			} catch (IOException e)
+			{
+			}
+			
+		}	
+		return result;
+				
+	}*/
+	
 
 }

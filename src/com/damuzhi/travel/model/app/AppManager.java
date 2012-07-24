@@ -120,7 +120,33 @@ public class AppManager
 		Log.i(TAG, "current city id is "+currentCityId);
 	}
 	
-	
+	public void load(InputStream inputStream)
+	{
+		try
+		{
+		if (inputStream == null)
+		{
+			Log.e(TAG, "load app data from assest  but file not found");
+			return;
+		}
+		
+			app = App.parseFrom(inputStream);
+		} catch (Exception e)
+		{
+			Log.e(TAG, "load app data from assest  but catch exception = " + e.toString(), e);
+		}
+		finally
+		{
+			try
+			{
+				inputStream.close();
+			} catch (Exception e)
+			{
+			}
+		}
+		// TODO current city Id should be persistented
+		Log.i(TAG, "current city id is "+currentCityId);
+	}
 	
 	
 	

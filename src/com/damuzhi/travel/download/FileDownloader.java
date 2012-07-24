@@ -18,10 +18,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.db.FileDBHelper;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.downlaod.DownloadManager;
 import com.damuzhi.travel.network.HttpTool;
+import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
 public class FileDownloader
@@ -113,32 +115,40 @@ public class FileDownloader
 						fileSaveDir.mkdirs();
 					this.threads = new DownloadThread[threadNum];
 					this.fileSize = conn.getContentLength();
-					if (this.fileSize <= 0)
+					long sdFreeM = FileUtil.freeSpaceOnSd();
+					if(sdFreeM>fileSize)
 					{
-						throw new RuntimeException("Unkown file size ");
-					}
-					flag = true;
-					String filename = HttpTool.getTempFileName(conn, downloadURL);
-					this.saveFile = new File(fileSaveDir, filename);
-					Log.d(TAG, "load data from db url = "+downloadURL);
-					Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
-					if (logdata.size() > 0)
-					{
-						for (Map.Entry<Integer, Integer> entry : logdata.entrySet())
+						if (this.fileSize <= 0)
 						{
-							data.put(entry.getKey(), entry.getValue());
-						}
-					}
-					this.block = (this.fileSize % this.threads.length) == 0 ? this.fileSize/ this.threads.length: this.fileSize / this.threads.length + 1;
-					if (this.data.size() == this.threads.length)
-					{
-						for (int i = 0; i < this.threads.length; i++)
+							throw new RuntimeException("Unkown file size ");
+						}					
+						String filename = HttpTool.getTempFileName(conn, downloadURL);
+						this.saveFile = new File(fileSaveDir, filename);
+						Log.d(TAG, "download data from  url = "+downloadURL);
+						Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
+						if (logdata.size() > 0)
 						{
-							this.downloadSize += this.data.get(i + 1);
+							for (Map.Entry<Integer, Integer> entry : logdata.entrySet())
+							{
+								data.put(entry.getKey(), entry.getValue());
+							}
 						}
-						Log.d(TAG, "downsize = " + this.downloadSize);
-	
-					}
+						this.block = (this.fileSize % this.threads.length) == 0 ? this.fileSize/ this.threads.length: this.fileSize / this.threads.length + 1;
+						if (this.data.size() == this.threads.length)
+						{
+							for (int i = 0; i < this.threads.length; i++)
+							{
+								this.downloadSize += this.data.get(i + 1);
+							}
+							Log.d(TAG, "downsize = " + this.downloadSize);
+		
+						}
+						flag = true;
+					}else {
+						TravelApplication.getInstance().notEnoughMemoryToast();
+						Log.e(TAG, "<FileDownloaderCheeck> download file fail,cause sdcard memory not enough ");
+						flag = false;
+					}				
 				} else
 				{
 					flag = false;

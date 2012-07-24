@@ -84,30 +84,7 @@ public class MenuActivity extends Activity
 	
 	
 	
-	protected void setMenuBackground() {  
-        this.getLayoutInflater().setFactory(new android.view.LayoutInflater.Factory() {  
-    
-            public View onCreateView(String name, Context context, AttributeSet attrs) {  
-                if (name.equalsIgnoreCase("com.android.internal.view.menu.IconMenuItemView")) {  
-                    try {  
-                        LayoutInflater f = getLayoutInflater();  
-                        final View view = f.createView(name, null, attrs);  
-                        new Handler().post(new Runnable() {  
-                            public void run() {    
-                                view.setBackgroundResource(R.color.listview_bg);  
-                            }  
-                        });  
-                        return view;  
-                    } catch (InflateException e) {  
-                        e.printStackTrace();  
-                    } catch (ClassNotFoundException e) {  
-                        e.printStackTrace();  
-                    }  
-                }  
-                return null;  
-            }  
-        });  
-    }  
+	
 	
 	/*private void loadPlace()
 	{

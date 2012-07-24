@@ -429,11 +429,12 @@ public class FileUtil
     
     
 	
-	public static int freeSpaceOnSd()
+	public static long freeSpaceOnSd()
 	{
 		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
-		double sdFreeMB = ((double) stat.getAvailableBlocks() * (double) stat.getBlockSize()) / 1024;
-		return (int) sdFreeMB;
+		//double sdFreeMB = ((double) stat.getAvailableBlocks() * (double) stat.getBlockSize()) / 1024;
+		long sdFreeM= stat.getAvailableBlocks() * stat.getBlockSize();
+		return  sdFreeM;
 	}
 	
 	

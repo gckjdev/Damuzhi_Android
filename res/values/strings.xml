@@ -6,6 +6,7 @@
     <string name="ok">确定</string>
     <string name="connection_error">链接失败</string>
     <string name="not_more_data">暂时没有更多更新信息</string>
+    <string name="not_enough_memory">剩余内存不足，请删除部分文件</string>
     <!-- indexInfo-->
     <string name="index">首页</string>
 	<string name="damuzhi">大拇指旅行 - </string>
@@ -159,6 +160,7 @@
     <string name="open_gps_tips">请打开GPS定位</string>
     <string name="open_gps_tips2">您未开启GPS定位功能，请到手机设置</string>
     <string name="open_gps_tips3">您未开启GPS定位功能，无法获取当前位置，请到手机设置</string> 	
+    <string name="get_location_ing">获取当前位置中，请稍后...</string>
     	<!-- 拖拽 -->
 	<string name="pull_to_refresh_pull_label">下拉可以刷新...</string>
     <string name="pull_to_refresh_release_label">松手可以刷新...</string>
