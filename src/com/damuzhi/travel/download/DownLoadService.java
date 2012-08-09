@@ -150,109 +150,6 @@ public class DownloadService extends Service
 	}  
 	
 	
-	/*public void onDownloading(FileDownloader downloader)  
-	{  	
-		if(iDownloadCallback == null )
-		{
-			 int n = callbackList.beginBroadcast();  
-		   	 for(int i = 0;i < n ;i++) 
-		   	 {
-		   		 iDownloadCallback = callbackList.getBroadcastItem(0);
-		   	 }		   	 
-	   }	   	    			
-			downloader.download(new DownloadProgressListener()
-			{									
-				@Override
-				public void onDownloadSize(int cityId,String downloadURL, long downloadSpeed,long size, long fileLength,boolean notFinish)
-				{
-					try
-					{
-						DownloadStatus downloadStatus = downloadStstudTask.get(downloadURL);
-						if( downloadStatus != null && downloadStatus.mStatus != PAUSE)
-						{
-							iDownloadCallback.onTaskProcessStatusChanged(cityId,downloadURL,downloadSpeed , fileLength, size,notFinish);
-							if(!notFinish)
-							{
-								DownloadManager downloadManager = new DownloadManager(DownloadService.this);
-								downloadManager.deleteDownloadInfo(downloadURL);
-								downloadTask.remove(downloadURL);
-								
-							} 
-						}else
-						{
-							Log.i(TAG, "download url = "+downloadURL+"pause");
-						}						
-					}catch (Exception e)
-					{
-						Log.e(TAG, "<onProcessChanged> but catch exception :"+e.toString(),e);
-					}
-				}
-			});
-		if(downloadTask.size() == 0)
-		{
-			 callbackList.finishBroadcast();  
-		}   
-	}  */
-	
-	
-	
-	
-	
-	/*public void onDownloading()  
-	{  	
-		if(iDownloadCallback == null )
-		{
-			 int n = callbackList.beginBroadcast();  
-		   	 for(int i = 0;i < n ;i++) 
-		   	 {
-		   		 iDownloadCallback = callbackList.getBroadcastItem(0);
-		   	 }		   	 
-	   }	   	    
-		for(Map.Entry<String, FileDownloader> entry:downloadTask.entrySet())
-		{
-			FileDownloader downloader = entry.getValue();
-			downloader.download(new DownloadProgressListener()
-			{									
-				@Override
-				public void onDownloadSize(int cityId,String downloadURL, long downloadSpeed,long size, long fileLength,boolean notFinish)
-				{
-					try
-					{
-						DownloadStatus downloadStatus = downloadStstudTask.get(downloadURL);
-						if( downloadStatus != null && downloadStatus.mStatus != PAUSE)
-						{
-							iDownloadCallback.onTaskProcessStatusChanged(cityId,downloadURL,downloadSpeed , fileLength, size,notFinish);
-							if(!notFinish)
-							{
-								DownloadManager downloadManager = new DownloadManager(DownloadService.this);
-								downloadManager.deleteDownloadInfo(downloadURL);
-								
-								Iterator<String> keys = downloadTask.keySet().iterator();
-								while(keys.hasNext()){
-									String key = keys.next();
-									if(key.equals(downloadURL))
-									{										
-										downloadTask.remove(downloadURL);
-										downloadStstudTask.remove(downloadURL);
-										//keys.remove();
-									}
-									//downloadTask.remove(downloadURL);
-								}
-							} 
-						}else {
-						}						
-					}catch (Exception e)
-					{
-						Log.e(TAG, "<onProcessChanged> but catch exception :"+e.toString(),e);
-					}
-				}
-			});
-		}
-		if(downloadTask.size() == 0)
-		{
-			 callbackList.finishBroadcast();  
-		}   
-	}  */
 	
 	public void onDownloading(FileDownloader fileDownloader)  
 	{  	
@@ -263,9 +160,7 @@ public class DownloadService extends Service
 		   	 {
 		   		 iDownloadCallback = callbackList.getBroadcastItem(0);
 		   	 }		   	 
-	   }	   	    
-		
-			//FileDownloader downloader = entry.getValue();
+	   }	   	    		
 		fileDownloader.download(new DownloadProgressListener()
 			{									
 				@Override
@@ -289,9 +184,7 @@ public class DownloadService extends Service
 									{										
 										downloadTask.remove(downloadURL);
 										downloadStstudTask.remove(downloadURL);
-										//keys.remove();
 									}
-									//downloadTask.remove(downloadURL);
 								}
 							} 
 						}else {
@@ -304,7 +197,7 @@ public class DownloadService extends Service
 			});
 		if(downloadTask.size() == 0)
 		{
-			 callbackList.finishBroadcast();  
+			// callbackList.finishBroadcast();  
 		}   
 	}  
 	
@@ -315,17 +208,14 @@ public class DownloadService extends Service
 	{
 		
 		boolean flag = true;
+		DownloadStatus dlState = new DownloadStatus(DOWNLOADING, downloadURL);
+		downloadStstudTask.put(downloadURL, dlState);
 		FileDownloader fileDownloader = new FileDownloader(this, 3,cityId,downloadSavePath,tempPath,downloadURL);
 		flag = fileDownloader.FileDownloaderCheeck();
+		downloadTask.put(downloadURL, fileDownloader);
 		if(flag)
 		{
-			downloadTask.put(downloadURL, fileDownloader);
-			DownloadStatus dlState = new DownloadStatus(DOWNLOADING, downloadURL);
-			downloadStstudTask.put(downloadURL, dlState);
-			//onDownloading();
 			onDownloading(fileDownloader);
-		}else
-		{
 		}
 		return flag;
 	}
@@ -358,8 +248,6 @@ public class DownloadService extends Service
 			fileDownloader.cancelDownload();
 			downloadTask.remove(downloadURL);
 			downloadStstudTask.remove(downloadURL);
-			DownloadManager downloadManager = new DownloadManager(DownloadService.this);
-			downloadManager.deleteDownloadInfo(downloadURL);
 		}
 		
 	}

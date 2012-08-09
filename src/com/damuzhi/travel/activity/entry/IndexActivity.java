@@ -41,14 +41,13 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.commonsware.cwac.locpoll.LocationPoller;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.favorite.FavoriteActivity;
 import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.activity.more.OpenCityActivity;
@@ -68,9 +67,11 @@ import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonSpotActivity;
 import com.damuzhi.travel.activity.share.Share2Weibo;
 import com.damuzhi.travel.mission.app.AppMission;
+import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
+import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.service.Task;
 import com.google.android.maps.MapView.LayoutParams;
 
@@ -85,7 +86,6 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	private ImageButton entertainmentButton;
 	private ImageButton nearbyButton;
 	private ImageButton helpButton;
-	private TravelApplication application;
 	private ImageButton citybaseButton;
 	private ImageButton travelPreprationButton;
 	private ImageButton travelUtilityButton;
@@ -94,8 +94,6 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	private ImageButton routeTipsButton;
 	private ImageButton favoriteButton;
 	private ImageButton shareButton;
-	private HashMap<String, Integer> cityNameMap;
-	//private HashMap<Integer, Integer> citySpinnerPositionMap = new HashMap<Integer, Integer>();
 	private List<String> list;
 	TextView currentCityName;
 	private PopupWindow shareWindow;
@@ -111,10 +109,8 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		setContentView(R.layout.index);		
 		
-		setProgressBarIndeterminateVisibility(true);
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
-		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);
-		application = TravelApplication.getInstance();		
+		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);	
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		currentCitygGroup.setOnClickListener(currentGroupOnClickListener);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_layout_item,android.R.id.text1, list);
@@ -205,37 +201,42 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 				nearbyIntent.setClass(IndexActivity.this, CommonNearbyPlaceActivity.class);		
 				startActivity(nearbyIntent);
 			}else {
-				 Intent gpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-				 startActivity(gpsIntent);
+				setGPSDialog();
 			}
 			
 			break;
 		case R.id.city_base:
+			LocationUtil.stop();
 			Intent cityBaseIntent = new Intent();
 			cityBaseIntent.setClass(IndexActivity.this, CommonCtiyBaseActivity.class);		
 			startActivity(cityBaseIntent);
 			break;
 		case R.id.travel_prepration:	
+			LocationUtil.stop();
 			Intent travelPreprationIntent = new Intent();
 			travelPreprationIntent.setClass(IndexActivity.this, CommonTravelPreprationActivity.class);		
 			startActivity(travelPreprationIntent);
 			break;
 		case R.id.travel_utility:	
+			LocationUtil.stop();
 			Intent travelUtilityIntent = new Intent();
 			travelUtilityIntent.setClass(IndexActivity.this, CommonTravelUtilityActivity.class);		
 			startActivity(travelUtilityIntent);
 			break;
 		case R.id.travel_transportation:	
+			LocationUtil.stop();
 			Intent travelTransportationIntent = new Intent();
 			travelTransportationIntent.setClass(IndexActivity.this, CommonTravelTransportationActivity.class);		
 			startActivity(travelTransportationIntent);
 			break;
 		case R.id.travel_tips:	
+			LocationUtil.stop();
 			Intent travelTipsIntent = new Intent();
 			travelTipsIntent.setClass(IndexActivity.this, TravelGuidesActivity.class);		
 			startActivity(travelTipsIntent);
 			break;
 		case R.id.travel_commend:	
+			LocationUtil.stop();
 			Intent travelRoutesIntent = new Intent();
 			travelRoutesIntent.setClass(IndexActivity.this, TravelRoutesActivity.class);		
 			startActivity(travelRoutesIntent);
@@ -301,29 +302,19 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	{
 		
 		super.onResume();
-		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
-		//initLocation();
+		String cityName = AppManager.getInstance().getCurrentCityName();
+		if(cityName == null||cityName.equals(""))
+		{
+			int defaultCityId = AppManager.getInstance().getDefaulCityId();
+			AppManager.getInstance().setCurrentCityId(defaultCityId);
+			cityName = AppManager.getInstance().getCurrentCityName();
+		}
+		currentCityName.setText(cityName);
 	}
 
 	
 	
-	/*private void openGPSSettings() {
-
-		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-		return ;
-		}
-		Toast.makeText(this, getString(R.string.open_gps_tips2), Toast.LENGTH_SHORT).show();
-		Intent gpsIntent = new Intent();
-	    gpsIntent.setClassName("com.android.settings", "com.android.settings.widget.SettingsAppWidgetProvider");
-	    gpsIntent.addCategory("android.intent.category.ALTERNATIVE");
-	    gpsIntent.setData(Uri.parse("custom:3"));
-	    try {
-	        PendingIntent.getBroadcast(IndexActivity.this, 0, gpsIntent, 0).send();
-	    } catch (CanceledException e) {
-	        e.printStackTrace();
-	    }
-		}*/
+	
 	
 	private OnClickListener helpOnClickListener = new OnClickListener()
 	{
@@ -379,7 +370,6 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	        share2sinaButton.setOnClickListener(share2sinaWeiboOnClickListener);
 	        share2qqButton.setOnClickListener(share2qqWeiboOnClickListener);
 	        shareCancelButton.setOnClickListener(shareCancelOnClickListener);
-	        //shareWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,(int)getResources().getDimension(R.dimen.share_popup_height)); 
 	        shareWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);   
 	        shareWindow.setFocusable(true);  
 	        shareWindow.update();  
@@ -462,4 +452,33 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			Toast.makeText(this, getString(R.string.open_gps_tips2), Toast.LENGTH_SHORT).show();
 			return false;
 	}
+	
+	private void setGPSDialog()
+	{
+		AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this).create();
+		alertDialog.setMessage(getBaseContext().getString(R.string.go_to_gps_setting_tips));
+		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getBaseContext().getString(R.string.ok),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				 Intent gpsIntent = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+				 startActivity(gpsIntent);
+				
+			}	
+		} );
+		alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.cancel();
+				
+			}
+		} );
+		alertDialog.show();	
+	}
+	
 }

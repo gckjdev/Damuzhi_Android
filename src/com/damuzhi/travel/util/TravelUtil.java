@@ -600,7 +600,10 @@ public class TravelUtil
 	
 	public static String getPriceStr(String price,String symbol)
 	{
-		// TODO Auto-generated method stub
+		if(symbol == null ||symbol.equals(""))
+		{
+			symbol = "￥";
+		}
 		String priceStr = "";
 		if(price.equals("")||price==null)
 		{
@@ -734,13 +737,19 @@ public class TravelUtil
 	}
 	
 	
+	public static String getCityDataPath(int cityId)
+	{
+		//int cityId = AppManager.getInstance().getCurrentCityId();
+		String dataPath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH,cityId);
+		return dataPath;
+	}
+
 	public static String getCityDataPath()
 	{
 		int cityId = AppManager.getInstance().getCurrentCityId();
 		String dataPath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH,cityId);
 		return dataPath;
 	}
-
 	
 	public static String getHtmlUrl(String url)
 	{

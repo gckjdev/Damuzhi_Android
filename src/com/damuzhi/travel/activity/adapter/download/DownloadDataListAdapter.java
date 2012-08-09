@@ -14,17 +14,22 @@ import java.util.Map;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.FilterAdapter.ViewHolder;
+import com.damuzhi.travel.activity.favorite.FavoriteActivity;
 import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.db.DownloadPreference;
+import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.City;
+import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
 
 import android.R.raw;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -97,11 +102,12 @@ public class DownloadDataListAdapter extends BaseAdapter
 		}
 		if(installedCityList.size()>0)
 		{
-			convertView.findViewById(R.id.delete_group).setVisibility(View.VISIBLE);
+			convertView.findViewById(R.id.installed_data_group).setVisibility(View.VISIBLE);
 			int cityId = installedCityList.get(position);
 			City city = AppManager.getInstance().getCityByCityId(cityId);
+			String dataName = city.getCountryName()+"."+city.getCityName();
 			holder.delete.setTag(position);
-			holder.dataCityName.setText(city.getCountryName()+"."+city.getCityName());
+			holder.dataCityName.setText(dataName);
 			holder.dataCitySize.setText(TravelUtil.getDataSize(city.getDataSize()));
 			holder.delete.setOnClickListener(deleteOnClickListener);
 		}else {
@@ -128,31 +134,68 @@ public class DownloadDataListAdapter extends BaseAdapter
 		@Override
 		public void onClick(View v)
 		{
-			int position = (Integer) v.getTag();
-			int cityId = installedCityList.get(position);
-			City city = AppManager.getInstance().getCityByCityId(cityId);
-			String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(city.getDownloadURL()), city.getDownloadURL());
-			String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);			
-			String gcZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId+"gc");
-			File upZipFile = new File(upZipFilePath);
-			File gcZipFile = new File(gcZipFilePath);
-			boolean reulst = upZipFile.renameTo(gcZipFile);
-			if(reulst)
+			
+			final int position = (Integer) v.getTag();
+			AlertDialog deleteAlertDialog = new AlertDialog.Builder(context).create();
+			deleteAlertDialog.setMessage(context.getString(R.string.delete_download_data));
+			deleteAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,context.getString(R.string.ok),new DialogInterface.OnClickListener()
 			{
-				installedCityList.remove(position);
-				OpenCityActivity.installCityData.remove(cityId);
-				OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
-				OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
-				DownloadPreference.deleteDownloadInfo(context, Integer.toString(cityId));
-				deleteFile(zipFilePath,gcZipFilePath);
-			}			
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{					
+					int cityId = installedCityList.get(position);
+					City city = AppManager.getInstance().getCityByCityId(cityId);
+					//String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(city.getDownloadURL()), city.getDownloadURL());
+					String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);			
+					//String gcZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId+"gc");
+					//File upZipFile = new File(upZipFilePath);
+					installedCityList.remove(position);
+					OpenCityActivity.installCityData.remove(cityId);
+					OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
+					OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
+					DownloadPreference.deleteDownloadInfo(context, Integer.toString(cityId));
+					deleteFile(upZipFilePath);
+					//File gcZipFile = new File(gcZipFilePath);
+					//boolean reulst = upZipFile.renameTo(gcZipFile);
+					/*if(reulst)
+					{
+						installedCityList.remove(position);
+						OpenCityActivity.installCityData.remove(cityId);
+						OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
+						OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
+						DownloadPreference.deleteDownloadInfo(context, Integer.toString(cityId));
+						deleteFile(gcZipFilePath);
+					}	*/	
+					
+				}	
+			} );
+			deleteAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+context.getString(R.string.cancel),new DialogInterface.OnClickListener()
+			{
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					dialog.cancel();
+					
+				}
+			} );
+			deleteAlertDialog.show();
+			
+			
+			
+			
+			
+			
+				
+			
 		}
 	};
 
 
-	private void deleteFile(String zipFilePath, String folderPath)
+	private void deleteFile( String folderPath)
 	{
-		String[] params = new String[]{zipFilePath,folderPath};
+		String[] params = new String[]{folderPath};
 		
 		AsyncTask<String, Void, Void> task = new AsyncTask<String, Void, Void>()
 		{
@@ -160,9 +203,9 @@ public class DownloadDataListAdapter extends BaseAdapter
 			@Override
 			protected Void doInBackground(String... params)
 			{
-				String zipFilePath = params[0];
-				String gcZipFilePath = params[1];				
-				FileUtil.deleteFolder(zipFilePath);
+				//String zipFilePath = params[0];
+				String gcZipFilePath = params[0];				
+				//FileUtil.deleteFolder(zipFilePath);
 				FileUtil.deleteFolder(gcZipFilePath);
 				return null;
 			}

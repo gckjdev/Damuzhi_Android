@@ -37,7 +37,7 @@ public class CommonItemizedOverlay<Item extends OverlayItem> extends BalloonItem
 	private ArrayList<CommonOverlayItem> m_overlays = new ArrayList<CommonOverlayItem>();
 	private Context c;
 	
-	public CommonItemizedOverlay(Drawable defaultMarker, MapView mapView) {
+	public CommonItemizedOverlay(Drawable defaultMarker, MapView mapView) {	
 		super(boundCenter(defaultMarker), mapView);
 		c = mapView.getContext();
 	}
@@ -60,18 +60,27 @@ public class CommonItemizedOverlay<Item extends OverlayItem> extends BalloonItem
 	@Override
 	protected boolean onBalloonTap(int index, CommonOverlayItem item) {
 		Place place = item.getPlace();
-		BrowseHistoryMission.getInstance().addBrowseHistory(place);
-		Intent intent = new Intent();
-		intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
-		Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
-		intent.setClass(c, detailPlaceClass);
-		c.startActivity(intent);
+		if(place !=null)
+		{
+			BrowseHistoryMission.getInstance().addBrowseHistory(place);
+			Intent intent = new Intent();
+			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
+			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
+			intent.setClass(c, detailPlaceClass);
+			c.startActivity(intent);
+		}	
 		return true;
 	}
 
 	@Override
 	protected BalloonOverlayView<CommonOverlayItem> createBalloonOverlayView() {
-		return new CommonOverlayView<CommonOverlayItem>(getMapView().getContext(), getBalloonBottomOffset());
+		int index = getBalloonBottomOffset();
+		CommonOverlayItem commonOverlayItem= m_overlays.get(index);
+		//if(commonOverlayItem.getPlace() != null)
+		
+			return new CommonOverlayView<CommonOverlayItem>(getMapView().getContext(), getBalloonBottomOffset());
+		
+		
 	}
 
 

@@ -104,15 +104,8 @@ public class CommonHotelActivity extends CommonPlaceActivity
 		sortParams.addRule(RelativeLayout.RIGHT_OF,R.id.service_spinner);
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);
-		int cityID = AppManager.getInstance().getCurrentCityId();
-		sortDisplayName = getResources().getStringArray(R.array.hotel);
 		
-		price = AppManager.getInstance().getPriceRank(cityID);
-		priceId = AppManager.getInstance().getPriceId(cityID);
-		areaID = AppManager.getInstance().getCityAreaKeyList(cityID);
-		areaName = AppManager.getInstance().getCityAreaNameList(cityID);
-		serviceID = AppManager.getInstance().getProvidedServiceKeyList(PlaceCategoryType.PLACE_HOTEL);
-		serviceName = AppManager.getInstance().getProvidedServiceNameList(PlaceCategoryType.PLACE_HOTEL);
+		
 		spinner.addView(priceSpinner);
 		spinner.addView(areaSpinner);
 		spinner.addView(serviceSpinner);
@@ -175,6 +168,29 @@ public class CommonHotelActivity extends CommonPlaceActivity
 	boolean isSupportService()
 	{
 		return true;
+	}
+
+
+	@Override
+	public void initFilterButtonsData()
+	{
+		int cityID = AppManager.getInstance().getCurrentCityId();
+		sortDisplayName = getResources().getStringArray(R.array.hotel);		
+		price = PlaceMission.getInstance().getPriceRank(cityID);
+		priceId = PlaceMission.getInstance().getPriceId(cityID);
+		areaID = PlaceMission.getInstance().getCityAreaKeyList(cityID);
+		areaName = PlaceMission.getInstance().getCityAreaNameList(cityID);
+		serviceID = PlaceMission.getInstance().getProvidedServiceKeyList(PlaceCategoryType.PLACE_HOTEL);
+		serviceName = PlaceMission.getInstance().getProvidedServiceNameList(PlaceCategoryType.PLACE_HOTEL);
+		
+	}
+
+
+	@Override
+	public int getPlaceTotalCount()
+	{
+		int totalCount = PlaceMission.getInstance().getPlaceTotalCount();
+		return totalCount;
 	}
 
 }

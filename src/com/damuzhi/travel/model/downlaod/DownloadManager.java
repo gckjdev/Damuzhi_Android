@@ -29,9 +29,9 @@ public class DownloadManager
 
     public static  DownloadManager getDownloadManager(Context context)
     {
-        if (instance == null){
+        if (instance == null)
             instance = new DownloadManager(context);
-        }
+        
         return instance;
     }
 	

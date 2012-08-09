@@ -82,6 +82,13 @@ public class FileDBHelper {
 	
 	public void save(int cityid, String downloadURL, String savePath,String tempPath, int status,int filelength,Map<Integer, Integer> map){//int threadid, int position
 		SQLiteDatabase db = openHelper.getWritableDatabase();
+		while (openHelper.getWritableDatabase().isDbLockedByOtherThreads()) {   
+            try {  
+                Thread.sleep(10);  
+            } catch (InterruptedException e) {  
+               Log.e(TAG, "<save> but catch exception :"+e.toString(),e);  
+            }
+		}
 		db.beginTransaction();
 		try{
 			for(Map.Entry<Integer, Integer> entry : map.entrySet()){
@@ -99,6 +106,13 @@ public class FileDBHelper {
 	
 	public void update(String downloadURL, Map<Integer, Integer> map){
 		SQLiteDatabase db = openHelper.getWritableDatabase();
+		while (openHelper.getWritableDatabase().isDbLockedByOtherThreads()) {   
+            try {  
+                Thread.sleep(10);  
+            } catch (InterruptedException e) {  
+            	 Log.e(TAG, "<save> but catch exception :"+e.toString(),e);  
+            }
+		}
 		db.beginTransaction();
 		try{
 			for(Map.Entry<Integer, Integer> entry : map.entrySet()){

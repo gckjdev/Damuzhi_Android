@@ -52,12 +52,12 @@ public class HttpTool
 			        urlConnection.setRequestMethod("GET");
 			        if(urlConnection !=null&&urlConnection.getDoInput())
 			        {
-			        	if (urlConnection.getResponseCode() != 200)
+			        	/*if (urlConnection.getResponseCode() != 200)
 				        {
 			        		urlConnection.disconnect();
 				        	Log.d(TAG, "<sendGetRequest> can not get http connection");
 				        	return null;
-				        }			          
+				        }*/			          
 				        return urlConnection.getInputStream();
 			        }else {
 						return null;
@@ -68,7 +68,6 @@ public class HttpTool
 			{	
 				TravelApplication.getInstance().downloadFailToast();
 				Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
-				//urlConnection.disconnect();
 				return null;
 			}
 		 }else {
@@ -124,9 +123,8 @@ public class HttpTool
 										
 			} catch (Exception e)
 			{			
-				conn.disconnect();
 				Log.e(TAG, "<getDownloadInputStream> but catch exception = "+e.toString(),e);
-				return null;
+				throw new RuntimeException("get downloadURL inputStream fail,conn error",e);
 			}
 	}
 	
@@ -212,10 +210,7 @@ public class HttpTool
                 {
                     haveConnectedWifi = true;
                     Log.i(TAG,"<haveNetworkConnection> WIFI CONNECTION ----> AVAILABLE");
-                } else
-                {
-                	Log.i(TAG,"<haveNetworkConnection> WIFI CONNECTION ----> NOT AVAILABLE");
-                }
+                } 
             }
             if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
             {
@@ -223,10 +218,7 @@ public class HttpTool
                 {
                     haveConnectedMobile = true;
                     Log.i(TAG,"<haveNetworkConnection> MOBILE INTERNET CONNECTION ----> AVAILABLE");
-                } else
-                {
-                    Log.i(TAG,"<haveNetworkConnection> MOBILE INTERNET CONNECTION ----> NOT AVAILABLE");
-                }
+                } 
             }
         }
         return haveConnectedWifi || haveConnectedMobile;

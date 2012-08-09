@@ -20,6 +20,7 @@ import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
 
+import android.R.integer;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,6 +102,7 @@ public class BrowseHistoryAdapter extends BaseAdapter
 	{
 		PlaceViewCache viewCache; 
 		Place place = placeList.get(position);
+		int cityId = place.getCityId();
 		int placeCategoryType = place.getCategoryId();
 		if(convertView == null)
 		{
@@ -147,7 +149,7 @@ public class BrowseHistoryAdapter extends BaseAdapter
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
 		url = place.getIcon();
-		anseylodar.showimgAnsy(imageView,url);		
+		anseylodar.showimgAnsy(imageView,url,cityId);		
 		
 		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		

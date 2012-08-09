@@ -57,6 +57,9 @@ public class BrowseHistoryActivity extends MenuActivity
 		{
 			adapter = new BrowseHistoryAdapter(this, list);
 			historyListView.setAdapter(adapter);
+		}else
+		{
+			findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
 		}
 		historyListView.setOnItemClickListener(itemClickListener);
 	}
@@ -100,7 +103,8 @@ public class BrowseHistoryActivity extends MenuActivity
 						BrowseHistoryMission.getInstance().clearHistory();
 						list.clear();
 						adapter.setList(list);
-						adapter.notifyDataSetChanged();				
+						adapter.notifyDataSetChanged();			
+						findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
 					}
 				} );
 				clearAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()

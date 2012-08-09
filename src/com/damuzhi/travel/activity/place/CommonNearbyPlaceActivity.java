@@ -54,9 +54,11 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceAdapter;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.WelcomeActivity;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -67,6 +69,7 @@ import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
+import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
 import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MyLocationOverlay;
@@ -108,16 +111,18 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	private View popupView;//
 	long lasttime = -1;
     MapController mapc;
-    private TravelApplication application;
-    private ImageButton selectMapViewButton;
-    private ImageButton selectListViewButton;
-    private ImageView myLocateButton ;
-	private ImageView canceLocateButton;
+  //  private ImageButton selectMapViewButton;
+  //  private ImageButton selectListViewButton;
+  //  private ImageView myLocateButton ;
+	//private ImageView canceLocateButton;
    // private PlaceLoaction placeLoaction;
+    private ImageButton modelButton;
+    private TextView modelTextView;
     private CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay;
     private String currentDistance ="";
     private String currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
     private LocationClient mLocClient;
+    private int model = 1;//1== map,2= list
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -125,7 +130,6 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		setContentView(R.layout.nearby_place);
 		currentDistance = ConstantField.ONE_KILOMETER;
 		currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
-		boolean gpsEnable = checkGPSisOpen();
 		loadingDialog = new ProgressDialog(this);
 		init();
 		loadPlace();		
@@ -137,19 +141,18 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		listView = (ListView) findViewById(R.id.nearby_list);
 		mapView = (TapControlledMapView) findViewById(R.id.placeMap);
 		mapc = mapView.getController();
-		mapc.setZoom(18);
+		mapc.setZoom(16);
 		mapView.setStreetView(true);
 		mapView.setOnSingleTapListener(onSingleTapListener);
-		selectMapViewButton = (ImageButton) findViewById(R.id.map_view);
+		
+		modelButton = (ImageButton) findViewById(R.id.model_button);
+		modelTextView = (TextView) findViewById(R.id.model_text);
+		modelButton.setOnClickListener(modelOnClickListener);
+		/*selectMapViewButton = (ImageButton) findViewById(R.id.map_view);
 		selectListViewButton = (ImageButton)findViewById(R.id.list_view);
 		
-		myLocateButton = (ImageView) findViewById(R.id.my_locate);
-		canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
-		myLocateButton.setOnClickListener(myLocateOnClickListener);
-		canceLocateButton.setOnClickListener(cancelLocateOnClickListener);
-		
 		selectListViewButton.setOnClickListener(selectListViewOnClickListener);
-		selectMapViewButton.setOnClickListener(selectMapViewOncClickListener);
+		selectMapViewButton.setOnClickListener(selectMapViewOncClickListener);*/
 		listView.setOnItemClickListener(listviewOnItemClickListener);
 		
 		
@@ -183,7 +186,6 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		move.setTextColor(getResources().getColor(R.color.white));
 		
 		popupView = LayoutInflater.from(this).inflate(R.layout.overlay_popup, null);
-		application= TravelApplication.getInstance();	
 		adapter = new NearbyPlaceAdapter(this, placeList);
 		listView.setAdapter(adapter);
 	}
@@ -199,11 +201,12 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			@Override
 			protected List<Place> doInBackground(String... params)
 			{
-				location = TravelApplication.getInstance().getLocation();
+				/*location = TravelApplication.getInstance().getLocation();
 				if(TravelApplication.getInstance().mLocationClient !=null)
 				{
 					TravelApplication.getInstance().mLocationClient.stop();
-				}
+				}*/
+				myLocation();
 				return PlaceMission.getInstance().getPlaceNearbyInDistance(location, currentDistance,currentPlaceCategory);
 			}
 
@@ -258,6 +261,8 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			if(origList.size()!=0)
 			{
 				initMapOverlayView(origList);
+			}else {
+				initMyLocationOverlayView();
 			}
 			mapView.postInvalidate();						
 		}
@@ -518,7 +523,35 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	 
 		
 			
-	private OnClickListener selectListViewOnClickListener = new OnClickListener()
+	private OnClickListener modelOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			if(model == 1)
+			{
+				modelTextView.setText(getString(R.string.list));
+				listView.setVisibility(View.GONE);		
+				findViewById(R.id.mapview_group).setVisibility(View.VISIBLE);
+				mapView.setVisibility(View.VISIBLE);
+				initMapOverlayView(placeList);
+				model = 2;
+			}else
+			{
+				modelTextView.setText(getString(R.string.map));
+				mapView.setVisibility(View.GONE);
+				listView.setVisibility(View.VISIBLE);					
+				adapter.setList(placeList);
+				adapter.notifyDataSetChanged();	
+				model = 1;
+			}
+			
+		}
+	};		
+			
+			
+	/*private OnClickListener selectListViewOnClickListener = new OnClickListener()
 	{
 		
 		@Override
@@ -549,7 +582,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			initMapOverlayView(placeList);
 		}
 	};
-
+*/
 	
 	private OnItemClickListener listviewOnItemClickListener = new OnItemClickListener()
 	{
@@ -558,6 +591,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
 		{
+			initMyLocationOverlayView();
 			List<Place> list = adapter.getPlaceList();
 			Place place = list.get(arg2);
 			Intent intent = new Intent();
@@ -570,59 +604,20 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	};
 			
 	
-	
-	private OnClickListener myLocateOnClickListener = new OnClickListener()
+	private void myLocation()
 	{
-
-		@Override
-		public void onClick(View v)
+		boolean gpsEnable = checkGPSisOpen();	
+		//getLocation(CommonNearbyPlaceActivity.this);		
+		LocationUtil.getLocation(CommonNearbyPlaceActivity.this);
+		location = TravelApplication.getInstance().getLocation();
+		/*if(mLocClient !=null)
 		{
-			boolean gpsEnable = checkGPSisOpen();
-			if(location == null || location.size()==0)
-			{
-				getLocation(CommonNearbyPlaceActivity.this);
-				location = TravelApplication.getInstance().getLocation();
-			}
-			String address = TravelApplication.getInstance().address;
-			if (address == null||address.equals(""))
-			{
-				location = null;
-				Toast.makeText(CommonNearbyPlaceActivity.this, getString(R.string.get_location_ing), Toast.LENGTH_LONG).show();
-				return;
-			}
-			if(mLocClient !=null)
-			{
-				mLocClient.stop();
-			}				
-			if (location != null&&location.size()>0)
-			{
-				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
-				Drawable drawable = getResources().getDrawable(R.drawable.my_location);
-				CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null);
-				CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
-				itemizedOverlay3.addOverlay(overlayItem);
-				mapView.getOverlays().add(itemizedOverlay3);
-				mapc.animateTo(geoPoint);
-			}else
-			{
-				Toast.makeText(CommonNearbyPlaceActivity.this, getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
-			}
-			myLocateButton.setVisibility(View.GONE);
-			canceLocateButton.setVisibility(View.VISIBLE);
-		}
-	};
+			mLocClient.stop();
+		}	*/			
+	}
 	
-	private OnClickListener cancelLocateOnClickListener = new OnClickListener()
-	{
+	
 
-		@Override
-		public void onClick(View v)
-		{
-			canceLocateButton.setVisibility(View.GONE);
-			myLocateButton.setVisibility(View.VISIBLE);
-			initMapOverlayView(placeList);
-		}
-	};
 	
 	private void getOffSet(ImageView imageView,int startPosition) {
 	
@@ -767,13 +762,14 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
 			return true;
 		}
-			Toast.makeText(this, getString(R.string.open_gps_tips2), Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, getString(R.string.open_gps_tips3), Toast.LENGTH_SHORT).show();
 			return false;
 	}
 	
 	
 	private void initMapOverlayView(List<Place> placeList)
 	{	
+		initMyLocationOverlayView();
 		List<Overlay> mapOverlays = mapView.getOverlays();
 		int i =0;
 		for (Place place : placeList)
@@ -794,26 +790,49 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		}
 	}
 	
-	public  void getLocation(Context context)
+	private void initMyLocationOverlayView()
 	{
-		
-		LocationClientOption option = new LocationClientOption();
-		option.setOpenGps(true);				
-		option.setCoorType("bd09ll");		
-		option.setScanSpan(10000);
-		mLocClient = TravelApplication.getInstance().mLocationClient;
-		mLocClient.setLocOption(option);
-		mLocClient.start();
-		if (mLocClient != null && mLocClient.isStarted())
-			mLocClient.requestLocation();
-		else 
-			Log.d(TAG, " baidu locationSDK locClient is null or not started");
+		if (location != null&&location.size()>0)
+		{
+			GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
+			Drawable drawable = getResources().getDrawable(R.drawable.my_location);
+			CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null);
+			CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
+			itemizedOverlay3.addOverlay(overlayItem);
+			itemizedOverlay3.setOnFocusChangeListener(onFocusChangeListener);
+			mapView.getOverlays().add(itemizedOverlay3);
+			mapc.animateTo(geoPoint);
+		}else
+		{
+			Toast.makeText(CommonNearbyPlaceActivity.this, getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
+		}
 	}
+	
+	
+	private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener()
+	{
 
+		
+		@Override
+		public void onFocusChanged(ItemizedOverlay overlay, OverlayItem newFocus)
+		{
+			if(newFocus != null)
+			{
+				if(newFocus.getSnippet().equals("") &&newFocus.getTitle().equals(""))
+				{
+					Toast.makeText(CommonNearbyPlaceActivity.this, getString(R.string.current_location), Toast.LENGTH_LONG).show();		
+				}	
+			}
+			
+		}
+	};
+	
 
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		adapter.recycleBitmap();
+		LocationUtil.stop();
 	}
 }

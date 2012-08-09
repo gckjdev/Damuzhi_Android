@@ -8,18 +8,24 @@
         */
 package com.damuzhi.travel.mission.place;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
+import android.R.integer;
+import android.content.Context;
 import android.util.Log;
 
+import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.mission.overview.OverviewMission;
 import com.damuzhi.travel.mission.overview.TravelTipsMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CityOverview;
-import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.protos.PackageProtos.Package;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.protos.TravelTipsProtos.TravelTips;
@@ -50,16 +56,22 @@ public class LocalStorageMission
 	}
 	
 	
-	public boolean hasLocalCityData(int cityId)
+	public boolean hasLocalCityData(Context context,int cityId)
 	{
-		String dataPath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH,cityId);
-		boolean result =  FileUtil.checkFileIsExits(dataPath);
+		boolean result = false;
+		int downloadStatus = DownloadPreference.getDownloadInfo(context, Integer.toString(cityId));
+		if(downloadStatus == 1)
+		{
+			result = true;
+		}
+		/*String dataPath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH,cityId);
+		boolean result =  FileUtil.checkFileIsExits(dataPath);*/
 		return result;
 	}
 	
 	
 	
-	public String getCityDataPath(int cityId)
+	public  String getCityDataPath(int cityId)
 	{
 		String dataPath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH,cityId);
 		return dataPath;
@@ -110,10 +122,10 @@ public class LocalStorageMission
 	
 	
 	
-	public boolean currentCityHasLocalData()
+	public boolean currentCityHasLocalData(Context context)
 	{
 		int cityId = AppManager.getInstance().getCurrentCityId();		
-		return LocalStorageMission.getInstance().hasLocalCityData(cityId);
+		return LocalStorageMission.getInstance().hasLocalCityData(context,cityId);
 	}
 	
 	
@@ -238,6 +250,42 @@ public class LocalStorageMission
 		{
 			Log.e(TAG, "<loadCityOverviewData> read local cityOverview data but catch exception="+e.toString(), e);
 		} 
+	}
+	
+	
+	public HashMap<Integer, Float> getDataVersion(List<Integer> installedCityList)
+	{
+		HashMap<Integer, Float> dataVersion = new HashMap<Integer, Float>();
+		try
+		{	
+			for(int cityId:installedCityList)
+			{
+				String dataPath = getCityDataPath(cityId);
+				Log.i(TAG, "<getDataVersion> load package data from "+dataPath+" for city "+cityId);
+				dataPath = dataPath+ConstantField.PACKAGE_FILE;
+				if(!FileUtil.checkFileIsExits(dataPath))
+				{
+					Log.e(TAG, "load package data from file = " +dataPath+ " but file not found");
+					return null;
+				}
+				File packageFile = new File(dataPath);
+				FileInputStream fileInputStream = new FileInputStream(packageFile);
+				if(fileInputStream != null)
+				{
+					Package packageData = com.damuzhi.travel.protos.PackageProtos.Package.parseFrom(fileInputStream);
+					if (packageData != null){				
+						float version = Float.parseFloat(packageData.getVersion());
+						dataVersion.put(packageData.getCityId(), version);
+					}
+					fileInputStream.close();
+				}					
+					
+			}
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<loadCityPlaceData> read local city data but catch exception="+e.toString(), e);
+		} 
+		return dataVersion;
 	}
 	
 	

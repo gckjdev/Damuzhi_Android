@@ -75,7 +75,10 @@ public class FilterAdapter extends BaseAdapter
         } else {  
             holder = (ViewHolder) convertView.getTag();  
         } 
-        if(position==mData.length-1)
+        if(position == 0)
+        {
+        	convertView.setBackgroundResource(R.drawable.select_bg_top);
+        }else if(position==mData.length-1)
         {
         	convertView.setBackgroundResource(R.drawable.select_bg_down);
         }else

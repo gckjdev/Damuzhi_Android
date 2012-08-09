@@ -70,6 +70,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 	private ViewGroup main,group;
 	private WebView overviewWebview;
 	 CommonOverview commonOverview;
+	 Anseylodar anseylodar;
 	@Override
 	protected void onCreate(Bundle arg0)
 	{
@@ -93,7 +94,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 				int size=imagePath.size();
 				for(int i=0;i<size;i++)
 				{
-					Anseylodar anseylodar = new Anseylodar();
+					anseylodar = new Anseylodar();
 					View view = inflater.inflate(R.layout.place_detail_image, null);
 					ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
 					String url  = imagePath.get(i);
@@ -125,7 +126,6 @@ public abstract class CommonOverViewActivity extends MenuActivity
 			}
 			overviewWebview = (WebView) main.findViewById(R.id.overview_webview);
 			String url = TravelUtil.getHtmlUrl(commonOverview.getHtml());
-			Log.d(TAG, "<refresh> url = "+url);
 			overviewWebview.loadUrl(url);			
 			setContentView(main);
 			TextView textView = (TextView) findViewById(R.id.overview_title);
@@ -262,5 +262,14 @@ public abstract class CommonOverViewActivity extends MenuActivity
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	@Override
+	protected void onDestroy()
+	{
+		if(anseylodar != null)
+		{
+			anseylodar.recycleBitmap();
+		}	
+		super.onDestroy();
 	}
 }

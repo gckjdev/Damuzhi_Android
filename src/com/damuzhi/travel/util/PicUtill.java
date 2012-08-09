@@ -3,6 +3,7 @@ package com.damuzhi.travel.util;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -10,15 +11,21 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+
+import com.damuzhi.travel.activity.common.TravelApplication;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.util.Log;
 
 public class PicUtill {
 	
+	private static final String TAG = "PicUtill";
+
 	public static BitmapDrawable getfriendicon(URL imageUri) {
 
 		BitmapDrawable icon = null;
@@ -78,13 +85,42 @@ public class PicUtill {
 			bitmap = BitmapFactory.decodeStream(is);
 			is.close();
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e(TAG, "<getbitmap> but catch exception :"+e.toString(),e);
 			return null;
 						
 		}
 		return bitmap;
 	}
 	
+	
+	public static Bitmap getLocalBitmap(String imageUri)
+	{
+		Bitmap bitmap = null;
+		FileInputStream fileInputStream = null;
+		try
+		{
+			if(FileUtil.checkFileIsExits(imageUri))
+			{
+				File file = new File(imageUri);
+				fileInputStream = new FileInputStream(file);
+				bitmap = BitmapFactory.decodeStream(fileInputStream);
+				fileInputStream.close();
+			}
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<getLocalBitmap> but catch exception :"+e.toString(),e);
+		}			
+		finally
+		{
+			try
+			{
+				fileInputStream.close();
+			} catch (Exception e)
+			{
+			}
+		}
+		return bitmap;
+	}
 	
 	
 	public static Drawable getDrawable(String imageUri)  {

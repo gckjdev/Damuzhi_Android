@@ -7,6 +7,11 @@
     <string name="connection_error">链接失败</string>
     <string name="not_more_data">暂时没有更多更新信息</string>
     <string name="not_enough_memory">剩余内存不足，请删除部分文件</string>
+    <string name="get_sdcard_fail">SD卡读取失败</string>
+    <string name="no_history_data">暂没有您浏览过的内容</string>
+    <string name="map">地图</string>
+    <string name="list">列表</string>
+    <string name="set_ctiy_tips">您已设置查看</string>
     <!-- indexInfo-->
     <string name="index">首页</string>
 	<string name="damuzhi">大拇指旅行 - </string>
@@ -69,7 +74,12 @@
 	<string name="delete">删除</string>
 	<string name="download_connection_error">下载链接失败</string>
 	<string name="did_not_download_anything">您还没有下载离线数据包</string>
-    <!-- exception -->
+	<string name="delete_download_data">你确定要删除离线数据包</string>
+	<string name="update">更新</string>
+	<string name="update_now">立即更新</string>
+	<string name="update_later">以后再说</string>
+	<string name="data_has_new_version">离线数据包有更新</string>
+	<!-- exception -->
     <string name="main_fetch_fail">网络异常</string>
 	<string name="conn_fail_exception">无法连接到网络，请检查网络配置</string>
     <!-- placeListView -->
@@ -142,7 +152,7 @@
     <!--share -->    
     <string name="share_content">我发现了一款非常专业的旅游指南《大拇指旅游》，
         非常适合我们外出旅游使用，快下载来看看吧：
-   http://trip8888.com/iphone
+   http://trip8888.com/android
    </string>
    <string name="share_2_by_message">短信</string>
    <string name="share_2_sina_title">分享到新浪微博</string>
@@ -161,11 +171,8 @@
     <string name="open_gps_tips2">您未开启GPS定位功能，请到手机设置</string>
     <string name="open_gps_tips3">您未开启GPS定位功能，无法获取当前位置，请到手机设置</string> 	
     <string name="get_location_ing">获取当前位置中，请稍后...</string>
-    	<!-- 拖拽 -->
-	<string name="pull_to_refresh_pull_label">下拉可以刷新...</string>
-    <string name="pull_to_refresh_release_label">松手可以刷新...</string>
-    <string name="pull_to_refresh_refreshing_label">刷新中...</string>
-    <string name="pull_to_refresh_tap_label">Tap to refresh...</string>
-    
+    <string name="go_to_gps_setting_tips">是否跳到GPS设置页面</string>
+    <string name="current_location">当前位置</string>
+
     
 </resources>

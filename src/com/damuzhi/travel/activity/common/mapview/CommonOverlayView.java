@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.mapviewballoons.BalloonOverlayView;
 import com.readystatesoftware.mapviewballoons.R;
@@ -57,7 +58,14 @@ public class CommonOverlayView<Item extends OverlayItem> extends BalloonOverlayV
 	@Override
 	protected void setBalloonData(CommonOverlayItem item, ViewGroup parent)
 	{
-		title.setText(item.getTitle());
+		Place place = item.getPlace();
+		if(place!=null)
+		{
+			title.setText(item.getTitle());
+		}else {
+			parent.getChildAt(0).setVisibility(View.GONE);
+		}
+		
 	}
 
 }

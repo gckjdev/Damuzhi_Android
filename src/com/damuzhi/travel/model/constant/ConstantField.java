@@ -8,34 +8,40 @@ public class ConstantField
 	/*local data path*/
 	public static final String LOCAL_APP_DATA_PATH = android.os.Environment.getDataDirectory() + "/app.dat";
 	public static final String LOCAL_APP_DATA_FILE = "/data/data/com.damuzhi.travel/files/" + "/app.dat";
-	public static final String LOCAL_HELP_DATA_PATH = android.os.Environment.getDataDirectory() + "/help.dat";
+	public static final String APP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp/temp.dat";
 	public static final String APP_DATA_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/";
 	public static final String DATA_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/%s/";
 	public static final String IMAGE_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/%s/data/";
 	public static final String APP_DATA_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/app.dat";
-	public static final String HELP_DATA_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/help.dat";
 	public static final String APP_DATA_TEMP_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp";
-	public static final String HELP_HTML_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/";
-	public static final String HELP_HTML_FILE_PATH = "file:///mnt/sdcard/damuzhi/data/help/helpinfo.html";
-	public static final String HELP_HTML_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/helpinfo.html";;
-	public static final String APP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp/temp.dat";
-	public static final String HELP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp/Helptemp.dat";
-	public static final String HELP_DATA_ZIP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/help.zip";
+	
 	public static final String PLACE_PATH ="/data/place/";
 	public static final int DATA_LOCAL = 0;
 	public static final int DATA_HTTP = 1;
 	public static final int DISTANCE = 10000;
 	
-	
-	/*local data*/
+	/*help data */
+	public static final String LOCAL_HELP_DATA_PATH = android.os.Environment.getDataDirectory() + "/help.dat";
+	public static final String HELP_DATA_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/help.dat";
+	public static final String HELP_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/";
+	public static final String HELP_HTML_FILE_PATH = "file:///mnt/sdcard/damuzhi/data/help/helpinfo.html";
+	public static final String HELP_HTML_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/helpinfo.html";
+	public static final String HELP_JPG_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/help.jpg";
+	public static final String HELP_DATA_TEMP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp/Helptemp.dat";
+	public static final String HELP_DATA_ZIP_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/help/help.zip";
+	/*local file*/
 	public static final String LAST_CITY_ID = "last_city_id";
 	public static final String APP_FILE = "app.dat";
 	public static final String APP_TEMP_FILE = "temp.dat";
 	public static final String HELP_TEMP_FILE = "Helptemp.dat";
 	public static final String HELP_FILE = "help.dat";
+	public static final String LOCAL_HELP_HTML_FILE = "helpinfo.html";
+	public static final String LOCAL_HELP_JPG_FILE = "help.jpg";
 	public static final String HELP_ZIP_FILE = "help.zip";
+	public static final String PACKAGE_FILE = "package.dat";
 	public static final String PLACE_TAG = "place";
 	public static final String GUIDE_TAG = "guide";
+	public static final String PACKAGE_TAG = "package";
 	public static final String OVERVIEW_TAG = "overview";
 	public static final String ROUTE_TAG = "route";
 	public static final String EXTENSION = ".dat"; 
@@ -47,7 +53,11 @@ public class ConstantField
 	public static final String LONGITUDE = "longitude";
 	public static final String CITY = "city";
 	
+	
+	
 	/* http data url */
+	public static final String FORMAT_HTTP_URL = "http://api.trip8888.com/";
+	public static final String TEST_HTTP_URL = "http://59.34.17.68:8012/";
 	public static final String PLACE_INFO = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = "http://api.trip8888.com/service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
@@ -57,13 +67,25 @@ public class ConstantField
 	//public static final String APP = "http://59.34.17.68:8012/service/queryList.aspx?type=10&lang=%s&os=2";
 	public static final String HELP = "http://api.trip8888.com/service/queryObject.aspx?type=8&lang=%s";
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
+	/*public static final String PLACE_INFO = TEST_HTTP_URL+"service/queryPlace.aspx?userId=%s&placeId=%s";
+	public static final String FEED_BACK = TEST_HTTP_URL+"service/feedback.aspx?userId=%s&contact=%s&content=%s";
+	public static final String OVERVIEW = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
+	public static final String PLACElIST = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&lang=%s";
+	public static final String PLACE_LIST_NEARBY = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&placeId=%s&latitude=%s&longitude=%s&num=%s&distance=%s&lang=%s&os=%s";
+	public static final String APP = TEST_HTTP_URL+"service/queryList.aspx?type=10&lang=%s&os=2";
+*/	//public static final String APP = "http://59.34.17.68:8012/service/queryList.aspx?type=10&lang=%s&os=2";
+	/*public static final String HELP = TEST_HTTP_URL+"service/queryObject.aspx?type=8&lang=%s";
+	public static final String ANDROID_VERSION = TEST_HTTP_URL+"service/androidVersion.txt";*/
 	
 	
 	/* page url*/
 	public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
-	
-	/* http data type */
+	public static final String PLACE_PAGE_FILTER_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+	/*public static final String PLACE_PAGE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+	public static final String PLACE_PAGE_FILTER_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+*/	/* http data type */
 	public static final String RESULT_OK = "0";
 	public static final String LANG_HANS = "1";
 	public static final String LANG_HANT = "2";

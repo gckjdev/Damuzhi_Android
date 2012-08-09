@@ -70,11 +70,11 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public boolean isSupportTips()
 	{
 		return false;
-	}
+	}*/
 
 	@Override
 	public boolean isSupportHotelStart()

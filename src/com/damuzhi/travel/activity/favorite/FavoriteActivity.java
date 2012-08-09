@@ -235,7 +235,7 @@ public class FavoriteActivity extends MenuActivity
 		{
 			favoriteConfigure = MY_FAVORITE;
 			currentPlaceCategory = ConstantField.ALL_PLACE_CATEGORY_ID;
-			myFavoriteGroup.setBackgroundResource(R.drawable.citybtn_on);
+			myFavoriteGroup.setBackgroundResource(R.drawable.citybtn_on2);
 			favoriteRankGroup.setBackgroundResource(R.drawable.citybtn_off2);
 			myFavoriteTitle.setTextColor(getResources().getColor(R.color.white));
 			favoriteRankTitle.setTextColor(getResources().getColor(R.color.black));
@@ -271,7 +271,7 @@ public class FavoriteActivity extends MenuActivity
 			currentPlaceCategory = Integer.parseInt(ConstantField.ALL_PLACE_ORDER_BY_RANK);
 			delete.setVisibility(View.GONE);
 			myFavoriteGroup.setBackgroundResource(R.drawable.citybtn_off);
-			favoriteRankGroup.setBackgroundResource(R.drawable.citybtn_on2);
+			favoriteRankGroup.setBackgroundResource(R.drawable.citybtn_on);
 			myFavoriteTitle.setTextColor(getResources().getColor(R.color.black));
 			favoriteRankTitle.setTextColor(getResources().getColor(R.color.white));
 			

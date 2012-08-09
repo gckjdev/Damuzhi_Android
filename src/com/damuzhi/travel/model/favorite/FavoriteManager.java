@@ -55,6 +55,7 @@ public class FavoriteManager
 		try
 		{
 			if (place != null){
+				//File favoriteFile = new File(ConstantField.FAVORITE_FILE_PATH);
 				output = new FileOutputStream(ConstantField.FAVORITE_FILE_PATH,true);
 				PlaceList.Builder placeBuilder = PlaceList.newBuilder();
 				placeBuilder.addList(place);
@@ -81,8 +82,7 @@ public class FavoriteManager
 	{
 		if(!FileUtil.checkFileIsExits(ConstantField.FAVORITE_FILE_PATH))
 		{
-			Log.e(TAG, "load favorite data from file = " + ConstantField.FAVORITE_FILE_PATH
-					+ " but file not found");
+			//Log.e(TAG, "load favorite data from file = " + ConstantField.FAVORITE_FILE_PATH+ " but file not found");
 			return false;
 			
 		}

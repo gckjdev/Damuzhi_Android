@@ -88,12 +88,6 @@ public class CommonEntertainmentActivity extends CommonPlaceActivity
 		sortParams.addRule(RelativeLayout.RIGHT_OF,R.id.area_spinner);
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);
-		int cityID = AppManager.getInstance().getCurrentCityId();
-		sortDisplayName = getResources().getStringArray(R.array.entertainment);
-		subCatName = AppManager.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_ENTERTAINMENT);
-		subCatKey = AppManager.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_ENTERTAINMENT);
-		areaID = AppManager.getInstance().getCityAreaKeyList(cityID);
-		areaName = AppManager.getInstance().getCityAreaNameList(cityID);
 		spinner.addView(subCategorySpinner);
 		spinner.addView(areaSpinner);
 		spinner.addView(sortSpinner);
@@ -143,6 +137,24 @@ public class CommonEntertainmentActivity extends CommonPlaceActivity
 			return new ComparatorDistance(TravelApplication.getInstance().getLocation());
 		}
 		return null;
+	}
+
+	@Override
+	public void initFilterButtonsData()
+	{
+		int cityID = AppManager.getInstance().getCurrentCityId();
+		sortDisplayName = getResources().getStringArray(R.array.entertainment);
+		subCatName = PlaceMission.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_ENTERTAINMENT);
+		subCatKey = PlaceMission.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_ENTERTAINMENT);
+		areaID = PlaceMission.getInstance().getCityAreaKeyList(cityID);
+		areaName = PlaceMission.getInstance().getCityAreaNameList(cityID);	
+	}
+
+	@Override
+	public int getPlaceTotalCount()
+	{
+		int totalCount = PlaceMission.getInstance().getPlaceTotalCount();
+		return totalCount;
 	}
 
 }

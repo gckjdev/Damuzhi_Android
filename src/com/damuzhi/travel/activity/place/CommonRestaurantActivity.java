@@ -104,14 +104,7 @@ public class CommonRestaurantActivity extends CommonPlaceActivity
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);
 		
-		int cityID = AppManager.getInstance().getCurrentCityId();
-		sortDisplayName = getResources().getStringArray(R.array.restaurant);
-		subCatName = AppManager.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_RESTRAURANT);
-		subCatKey = AppManager.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
-		areaID = AppManager.getInstance().getCityAreaKeyList(cityID);
-		areaName = AppManager.getInstance().getCityAreaNameList(cityID);
-		serviceID = AppManager.getInstance().getProvidedServiceKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
-		serviceName = AppManager.getInstance().getProvidedServiceNameList(PlaceCategoryType.PLACE_RESTRAURANT);
+		
 		
 		spinner.addView(subCategorySpinner);
 		spinner.addView(areaSpinner);
@@ -170,4 +163,31 @@ public class CommonRestaurantActivity extends CommonPlaceActivity
 		return null;
 	}
 
+
+	@Override
+	public void initFilterButtonsData()
+	{
+		int cityID = AppManager.getInstance().getCurrentCityId();
+		sortDisplayName = getResources().getStringArray(R.array.restaurant);
+		/*subCatName = AppManager.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_RESTRAURANT);
+		subCatKey = AppManager.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
+		areaID = AppManager.getInstance().getCityAreaKeyList(cityID);
+		areaName = AppManager.getInstance().getCityAreaNameList(cityID);
+		serviceID = AppManager.getInstance().getProvidedServiceKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
+		serviceName = AppManager.getInstance().getProvidedServiceNameList(PlaceCategoryType.PLACE_RESTRAURANT);*/
+		subCatName = PlaceMission.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_RESTRAURANT);
+		subCatKey = PlaceMission.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
+		areaID = PlaceMission.getInstance().getCityAreaKeyList(cityID);
+		areaName = PlaceMission.getInstance().getCityAreaNameList(cityID);
+		serviceID = PlaceMission.getInstance().getProvidedServiceKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
+		serviceName = PlaceMission.getInstance().getProvidedServiceNameList(PlaceCategoryType.PLACE_RESTRAURANT);
+		
+	}
+
+	@Override
+	public int getPlaceTotalCount()
+	{
+		int totalCount = PlaceMission.getInstance().getPlaceTotalCount();
+		return totalCount;
+	}
 }

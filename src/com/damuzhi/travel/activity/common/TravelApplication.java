@@ -10,6 +10,7 @@ import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -32,6 +33,7 @@ import org.json.JSONObject;
 
 import android.app.Activity;
 import android.app.Application;
+import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
@@ -54,6 +56,7 @@ public class TravelApplication extends Application
 	public MyLocationListenner myListener = new MyLocationListenner();
 	public String address = "";
 	public BDLocation bdLocation;
+	public Map<String, Integer> downloadStatusMap = new HashMap<String, Integer>();
 	public static TravelApplication getInstance()
 	{
 		return travelApplication;
@@ -144,7 +147,9 @@ public class TravelApplication extends Application
 	
 	public  boolean checkNetworkConnection()
 	{
-		return HttpTool.checkNetworkConnection(travelApplication);
+		int size = activityList.size();
+		Activity activity = activityList.get(size-1);
+		return HttpTool.checkNetworkConnection(activity);
 	}
 	
 	public void makeToast()
@@ -212,6 +217,28 @@ public class TravelApplication extends Application
 		
 	}
 	
+	
+	public void getSDcardFailToast()
+	{
+		Thread thread = new Thread(new Runnable()
+		{
+			
+			@Override
+			public void run()
+			{
+				 int size = activityList.size();
+				 if(size>0)
+				 {
+					 Looper.prepare();
+					 Toast.makeText(activityList.get(size-1), travelApplication.getString(R.string.get_sdcard_fail), Toast.LENGTH_LONG).show();
+					 Looper.loop();
+				 }				
+			}
+		});
+		thread.start();
+		
+	}
+	
 	/*baidu location */
 	
 	
@@ -221,15 +248,20 @@ public class TravelApplication extends Application
 			if (location == null)
 				return ;
 			bdLocation = location;
-			address = location.getAddrStr();
-			Double latitude = location.getLatitude();
-			Double longitude = location.getLongitude();
-			initLocation(latitude, longitude);	
-			if(address !=null)
+			address = location.getAddrStr();	
+			/*if(address !=null)
 			{
 				getCoordinate(address);
+			}else
+			{
+				Double latitude = location.getLatitude()-0.0060;
+				Double longitude = location.getLongitude()-0.0065;
+				initLocation(latitude, longitude);
 			}
-			
+			*/
+			Double latitude = location.getLatitude()-0.0060;
+			Double longitude = location.getLongitude()-0.0065;
+			initLocation(latitude, longitude);
 		}
 		
 		public void onReceivePoi(BDLocation poiLocation) {
@@ -307,7 +339,7 @@ public class TravelApplication extends Application
 	        	insr.close();  
 	        	}  
 	     	} catch (Exception e) {  
-	     		Log.e(TAG, "<> but catch exception = "+e.toString(),e);
+	     		Log.e(TAG, "<getCoordinate> but catch exception = "+e.toString(),e);
 	     	}        
 	 }  
 	

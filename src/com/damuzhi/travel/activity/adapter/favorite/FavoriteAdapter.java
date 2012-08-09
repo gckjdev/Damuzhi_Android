@@ -104,6 +104,7 @@ public class FavoriteAdapter extends BaseAdapter
 	{
 		PlaceViewCache viewCache; 
 		Place place = placeList.get(position);
+		int cityId = place.getCityId();
 		int placeCategoryType = place.getCategoryId();
 		if(convertView == null)
 		{
@@ -167,7 +168,7 @@ public class FavoriteAdapter extends BaseAdapter
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
 		url = place.getIcon();
-		anseylodar.showimgAnsy(imageView,url);		
+		anseylodar.showimgAnsy(imageView,url,cityId);		
 		
 		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		

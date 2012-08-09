@@ -10,6 +10,7 @@ package com.damuzhi.travel.activity.place;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 
 import android.R.bool;
@@ -77,7 +78,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	abstract public boolean isSupportSpecialTrafficStyle();
 	abstract public boolean isSupportTicket();
 	abstract public boolean isSupportKeyWords();
-	abstract public boolean isSupportTips();
+	//abstract public boolean isSupportTips();
 	abstract public boolean isSupportHotelStart();
 	abstract public boolean isSupportService();
 	abstract public boolean isSupportRoomPrice();
@@ -88,7 +89,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	abstract public boolean isSupportPark();
 	
 	
-	private NearbyPlaceListAdapter nearbyAdapter;
+	//private NearbyPlaceListAdapter nearbyAdapter;
 	int placeId;
 	Place place;
 	ImageView[] imageViews;
@@ -98,6 +99,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	private List<Place> nearbyPlaceList = new ArrayList<Place>();
 	private AsyncTask<Void, Void, List<Place>> nearbyAsyncTask;
 	ViewGroup placeDetailGroup,nearbyListGroup;
+	private Anseylodar anseylodar;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -116,16 +118,15 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		{
 			List<String> imagePath = place.getImagesList();
 			LayoutInflater inflater = getLayoutInflater();
-			ArrayList<View> imageViewlist = new ArrayList<View>();		
+			ArrayList<View> imageViewlist = new ArrayList<View>();	
+			anseylodar = new Anseylodar();
 			int size=imagePath.size();
 			for(int i=0;i<size;i++)
 			{
-				Anseylodar anseylodar = new Anseylodar();
 				View view = inflater.inflate(R.layout.place_detail_image, null);
 				ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
 				String url ;
 				url = imagePath.get(i);	
-				// update anseylodar.showimgAnsy judge http or local
 				anseylodar.showimgAnsy(imageView, url);
 				imageViewlist.add(view);
 			}
@@ -218,8 +219,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 						row.addView(locationTextView);
 						row.addView(distanceTextView);
 						specialTrans.addView(row,i);
-						i++;
 					}
+					i++;
 					
 				}
 			}		
@@ -314,7 +315,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		}
 				
 		//tips
-		if(isSupportTips())
+		/*if(isSupportTips())
 		{
 			String tipsString = place.getTips();
 			if(tipsString != null && !tipsString.equals(""))
@@ -326,7 +327,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				tips.setText(tipsString);
 			}
 			
-		}
+		}*/
 		
 		//park
 		if(isSupportPark())
@@ -392,7 +393,14 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			{
 				findViewById(R.id.room_price_group).setVisibility(View.VISIBLE);
 				TextView roomPrice = (TextView) findViewById(R.id.room_price);
-				StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId()));
+				int currentCityId = AppManager.getInstance().getCurrentCityId();
+				HashMap<Integer, String> symbolHashMap = AppManager.getInstance().getSymbolMap();
+				StringBuffer symbol = new StringBuffer();
+				if(symbolHashMap.containsKey(currentCityId))
+				{
+					String symbolStr = symbolHashMap.get(currentCityId);	
+					symbol.append(symbolStr);
+				}
 				symbol.append(priceString);
 				symbol.append("起");
 				roomPrice.setText(symbol);
@@ -811,6 +819,12 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			return;
 		}
 			Toast.makeText(this, getString(R.string.open_gps_tips), Toast.LENGTH_SHORT).show();
+	}
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		anseylodar.recycleBitmap();
 	}
 	
 }

@@ -10,7 +10,9 @@ import java.util.Set;
 
 
 
+import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.PicUtill;
+import com.damuzhi.travel.util.TravelUtil;
 
 import android.R;
 import android.content.Context;
@@ -45,7 +47,7 @@ public class ImageLoader {
 				while(true){
 					while(taskQueue.size()>0){
 						Task task = taskQueue.remove(0);
-						task.bitmap=PicUtill.getbitmap(task.path);
+						task.bitmap = PicUtill.getbitmap(task.path);					
 						caches.put(task.path, new SoftReference<Bitmap>(task.bitmap));
 						if(handler!=null){
 							Message msg = handler.obtainMessage();
@@ -89,7 +91,6 @@ public class ImageLoader {
 				if(bitmap==null){
 					caches.remove(path);				
 				}else{
-					 //Log.i("size", "-------------------"+caches.size());
 					return bitmap;
 				}
 			}
@@ -123,8 +124,6 @@ public class ImageLoader {
 			public boolean equals(Object o) {				
 				return ((Task)o).path.equals(path);
 			}
-			
-			
 		}
 		
 		public void destoryBitmap(){
@@ -135,7 +134,7 @@ public class ImageLoader {
 				Bitmap bitmap = rf.get();
 				if(null!=bitmap&&!bitmap.isRecycled())
 					bitmap.recycle();
-			}
-			
-			} 
+			}		
+			System.gc() ;
+		} 
 }

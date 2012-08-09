@@ -109,15 +109,16 @@ public class FileDownloader
 				printResponseHeader(conn);
 				if (conn.getResponseCode() == 200)
 				{
-					File fileSaveDir = new File(this.tempPath);
-					downloadManager = DownloadManager.getDownloadManager(this.context);
-					if (!fileSaveDir.exists())
-						fileSaveDir.mkdirs();
-					this.threads = new DownloadThread[threadNum];
-					this.fileSize = conn.getContentLength();
-					long sdFreeM = FileUtil.freeSpaceOnSd();
-					if(sdFreeM>fileSize)
-					{
+					boolean sdCardEnable = FileUtil.sdcardEnable();
+					//if(sdCardEnable)
+					//{
+						File fileSaveDir = new File(this.tempPath);
+						downloadManager = DownloadManager.getDownloadManager(this.context);
+						if (!fileSaveDir.exists())
+							fileSaveDir.mkdirs();
+						this.threads = new DownloadThread[threadNum];
+						this.fileSize = conn.getContentLength();
+						//long sdFreeM = FileUtil.freeSpaceOnSd();
 						if (this.fileSize <= 0)
 						{
 							throw new RuntimeException("Unkown file size ");
@@ -144,11 +145,18 @@ public class FileDownloader
 		
 						}
 						flag = true;
-					}else {
-						TravelApplication.getInstance().notEnoughMemoryToast();
-						Log.e(TAG, "<FileDownloaderCheeck> download file fail,cause sdcard memory not enough ");
+						/*if(sdFreeM>fileSize)
+						{
+							
+						}else {
+							TravelApplication.getInstance().getSDcardFailToast();
+							Log.e(TAG, "<FileDownloaderCheeck> get sdcard fail ");
+							flag = false;
+						}*/
+					/*}else {
 						flag = false;
-					}				
+						Log.e(TAG, "<FileDownloaderCheeck> download service get conn fail,response code = "+conn.getResponseCode());
+					}*/				
 				} else
 				{
 					flag = false;
@@ -237,47 +245,54 @@ public class FileDownloader
 	
 	public synchronized void pauseDownload()
 	{
-		for (int i = 0, size = threads.length; i < size; i++)
+		if(threads != null && threads.length>0)
 		{
-			if (this.threads[i] != null && !this.threads[i].isFinish())
+			for (int i = 0, size = threads.length; i < size; i++)
 			{
-				threads[i].pause();
+				if (this.threads[i] != null && !this.threads[i].isFinish())
+				{
+					threads[i].pause();
+				}
 			}
-
+			runflag = false;
+			saveLogFile();	
 		}
-		runflag = false;
-		saveLogFile();
 	}
 
 	
 	
 	public synchronized void restartDownload()
 	{
-		for (int i = 0, size = threads.length; i < size; i++)
+		if(threads != null && threads.length>0)
 		{
-			if (this.threads[i] != null && !this.threads[i].isFinish())
+			for (int i = 0, size = threads.length; i < size; i++)
 			{
-				threads[i].restart();
+				if (this.threads[i] != null && !this.threads[i].isFinish())
+				{
+					threads[i].restart();
+				}
 			}
-
+			runflag = true;
 		}
-		runflag = true;
 	}
 
 	
 	
 	public synchronized void cancelDownload()
 	{
-		for (int i = 0, size = threads.length; i < size; i++)
+		if(threads != null && threads.length>0)
 		{
-			if (this.threads[i] != null && !this.threads[i].isFinish())
+			for (int i = 0, size = threads.length; i < size; i++)
 			{
-				threads[i].cancel();
+				if (this.threads[i] != null && !this.threads[i].isFinish())
+				{
+					threads[i].cancel();
+				}
 			}
-
-		}
-		notFinish = false;
-		runflag = false;
+			notFinish = false;
+			runflag = false;
+			downloadManager.deleteDownloadInfo(downloadURL);
+		}	
 	}
 	
 	

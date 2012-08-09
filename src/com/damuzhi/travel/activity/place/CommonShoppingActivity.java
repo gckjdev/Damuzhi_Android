@@ -79,12 +79,8 @@ public class CommonShoppingActivity extends CommonPlaceActivity
 		sortParams.addRule(RelativeLayout.RIGHT_OF,R.id.area_spinner);
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);
-		sortDisplayName = getResources().getStringArray(R.array.shopping);
+		areaLayout.setLayoutParams(areaParams);
 		
-		areaLayout.setLayoutParams(areaParams);	
-		int cityID = AppManager.getInstance().getCurrentCityId();
-		areaID = AppManager.getInstance().getCityAreaKeyList(cityID);
-		areaName = AppManager.getInstance().getCityAreaNameList(cityID);
 		spinner.addView(areaSpinner);		
 		spinner.addView(sortSpinner);
 		areaSpinner.setOnClickListener(areaClickListener);
@@ -129,4 +125,21 @@ public class CommonShoppingActivity extends CommonPlaceActivity
 			return null;
 	}
 
+	@Override
+	public void initFilterButtonsData()
+	{
+		sortDisplayName = getResources().getStringArray(R.array.shopping);		
+		int cityID = AppManager.getInstance().getCurrentCityId();
+		areaID = PlaceMission.getInstance().getCityAreaKeyList(cityID);
+		areaName = PlaceMission.getInstance().getCityAreaNameList(cityID);
+		
+	}
+
+	
+	@Override
+	public int getPlaceTotalCount()
+	{
+		int totalCount = PlaceMission.getInstance().getPlaceTotalCount();
+		return totalCount;
+	}
 }

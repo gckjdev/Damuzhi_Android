@@ -29,7 +29,7 @@
     	    android:textSize="20.0sp"
     	    android:textColor="@color/white"/>
     	</LinearLayout>
-    	 <ImageButton 
+    	<!--  <ImageButton 
    		      android:id="@+id/map_view"
    		      android:layout_height="wrap_content"
    		      android:layout_width="wrap_content"
@@ -49,7 +49,30 @@
    		      android:visibility="gone"
    		      android:background="@null"
    		      android:scaleType="fitCenter"
-   		      android:src="@drawable/select_list_button"/>
+   		      android:src="@drawable/select_list_button"/> -->
+   		  <FrameLayout 
+    	    android:layout_width="wrap_content"
+    	    android:layout_height="wrap_content"
+    	    android:layout_alignParentRight="true"
+    	    android:layout_centerVertical="true"
+    	    android:layout_marginRight="10dp">
+	    	<ImageButton 
+	    	    android:id="@+id/model_button"
+	    	    android:layout_width="48dp"
+	    	    android:layout_height="32dp"
+	    	    android:background="@null"
+	    	    android:src="@drawable/help_mini_button"/>	
+	    	 <TextView 
+	    	    android:id="@+id/model_text"
+	    	    android:layout_width="wrap_content"
+	    	    android:layout_height="wrap_content"
+	    	    android:text="@string/map"
+	    	    android:layout_gravity="center"
+	    	    android:gravity="center"
+	    	    android:textColor="@color/white"
+	    	    android:textSize="14sp"
+	    	    />	
+    	  </FrameLayout>
     </RelativeLayout>
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -219,27 +242,8 @@
 	         android:layout_height="fill_parent"
 	         android:visibility="gone"
 	         android:clickable="true"
-	         android:apiKey="00drkb-fVMRRdSoct48qrn8K7RpgKDO0CDpm76w"
+	         android:apiKey="00drkb-fVMRRqPn4hzYyq8XgYwcJno_fRyM-rqA"
 	         />
-	      <ImageView
-		      android:id="@+id/my_locate"
-		      android:layout_width="31dp"
-		      android:layout_height="31dp"
-		      android:src="@drawable/locate"
-		      android:layout_alignParentRight="true"
-		      android:layout_alignParentBottom="true"
-		      android:layout_marginRight="20dp"
-		      android:layout_marginBottom="20dp"/>
-    	  <ImageView
-		      android:id="@+id/cancel_locate"
-		      android:layout_width="31dp"
-		      android:layout_height="31dp"
-		      android:src="@drawable/locate_jt"
-		      android:layout_alignParentRight="true"
-		      android:layout_alignParentBottom="true"
-		      android:visibility="gone"
-		      android:layout_marginRight="20dp"
-		      android:layout_marginBottom="20dp"/>
     	  </RelativeLayout>
 	</LinearLayout>
     </RelativeLayout>

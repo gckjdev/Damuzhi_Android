@@ -53,7 +53,7 @@ public class OverviewMission
 	public CommonOverview getOverview(int commonOverviewType,final int currentCityId,Activity activity)
 	{
 		 CommonOverview retCommonOverview = null;		
-		if (LocalStorageMission.getInstance().hasLocalCityData(currentCityId)){
+		if (LocalStorageMission.getInstance().hasLocalCityData(activity,currentCityId)){
 			// read local
 			LocalStorageMission.getInstance().loadCityOverviewData(currentCityId);
 			retCommonOverview = localOverviewManager.getCityCommonOverview(commonOverviewType);

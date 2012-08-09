@@ -70,12 +70,12 @@ public class CommonEntertainmentDetailActivity extends
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public boolean isSupportTips()
 	{
 		tipsTitle = getString(R.string.entertainment_tips);
 		return true;
-	}
+	}*/
 
 	@Override
 	public boolean isSupportHotelStart()

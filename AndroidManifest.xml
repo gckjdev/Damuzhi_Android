@@ -3,7 +3,7 @@
     package="com.damuzhi.travel"
     android:versionCode="1"
     android:versionName="1.0" >
-    
+    <supports-screens android:anyDensity="true" />
     <permission android:name="android.permission.BAIDU_LOCATION_SERVICE"></permission>
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE"></uses-permission>
     <uses-permission android:name="android.permission.INTERNET"/>  
@@ -25,7 +25,7 @@
     
    <application
        android:name=".activity.common.TravelApplication" android:icon="@drawable/dmzlogo" android:label="@string/app_name" 
-        android:theme="@android:style/Theme.NoTitleBar" android:debuggable="true">
+        android:theme="@android:style/Theme.Light.NoTitleBar" android:debuggable="true">
         <uses-library android:name="com.google.android.maps" />
         
         
@@ -35,7 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.entry.IndexActivity"  android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.entry.IndexActivity"  android:screenOrientation="portrait" android:launchMode="standard"/>
         <activity android:name=".activity.more.MoreActivity" android:screenOrientation="portrait" />
         <activity android:name=".activity.more.OpenCityActivity"  android:screenOrientation="portrait" android:launchMode="singleTask"/>       
         <activity android:name=".activity.overview.TravelGuidesActivity" android:screenOrientation="portrait" />          
@@ -82,21 +82,12 @@
 		
           <!--  注册服务 -->
          <service android:name=".download.DownloadService"/>
-<!--          <receiver android:name=".util.LocationReceiver" />
-         <receiver android:name="com.commonsware.cwac.locpoll.LocationPoller" />
-         <service android:name="com.commonsware.cwac.locpoll.LocationPollerService" /> -->
          <service android:name="com.baidu.location.f" android:enabled="true"
 			android:process=":remote" android:permission="android.permission.BAIDU_LOCATION_SERVICE">
 			<intent-filter>
 				<action android:name="com.baidu.location.service_v2.3"></action>
 			</intent-filter>
 		</service>
-        <!-- <receiver android:name=".network.CheckNet">
-            <intent-filter >
-                <action android:name="com.damuzhi.travel.network.CheckNet"/>
-            </intent-filter>
-        </receiver> -->
-        
         
         <!-- Umeng_key -->
         <meta-data android:value="4fe182a95270156dc4000074" android:name="UMENG_APPKEY"></meta-data>

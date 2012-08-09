@@ -12,6 +12,7 @@
 		        android:id="@+id/place_image"
 		        android:layout_width="fill_parent"
 		        android:layout_height="fill_parent"
+		        android:src="@drawable/default_s"
 		        android:scaleType="fitXY"/>
 		    </LinearLayout>
 		    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

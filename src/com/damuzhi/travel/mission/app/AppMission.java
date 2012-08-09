@@ -88,6 +88,8 @@ public class AppMission
 	
 	
 	
+	
+	
 	public int getCurrentCityId(Context context)
 	{
 		SharedPreferences userSharedPreferences = context.getSharedPreferences(ConstantField.LAST_CITY_ID, 0);
@@ -110,8 +112,6 @@ public class AppMission
 	{
 		UpdateAppTask task = new UpdateAppTask();
 		task.execute();
-		UpdateHelpTask helpTask = new UpdateHelpTask();
-		helpTask.execute();
 	}
 	
 	
@@ -184,142 +184,7 @@ public class AppMission
 	
 	
 	
-	private boolean downloadHelpProtoData()
-	{		
-		boolean result = false;
-		File tempFile = new File(ConstantField.APP_DATA_TEMP_PATH);       
-        if (!tempFile.exists())
-        {
-          tempFile.mkdirs();
-        }      
-		InputStream helpInputStream = null;
-		TravelResponse travelResponse = null;
-		FileOutputStream output = null;
-		String url = String.format(ConstantField.HELP, ConstantField.LANG_HANS);
-		try
-		{
-			helpInputStream =  HttpTool.sendGetRequest(url);
-			if(helpInputStream !=null)
-			{
-				long sdFreeM = FileUtil.freeSpaceOnSd();
-				long fileLength = helpInputStream.available();
-				if(sdFreeM >fileLength)
-				{
-					travelResponse = TravelResponse.parseFrom(helpInputStream);	
-					if (travelResponse != null && travelResponse.getResultCode() == 0){
-						output = new FileOutputStream(ConstantField.HELP_DATA_TEMP_FILE);
-						HelpInfo help = travelResponse.getHelpInfo();
-						HelpInfo.Builder helpBuilder = HelpInfo.newBuilder();
-						helpBuilder.mergeFrom(help);
-						helpBuilder.build().writeTo(output);		
-						result = true;
-					}
-				}else {
-					TravelApplication.getInstance().notEnoughMemoryToast();
-					Log.e(TAG, "<downloadHelpProtoData> download help proto file fail,cause sdcard memory not enough ");
-					result = false;
-				}
-				
-			}else
-			{
-				result = false;
-				//Toast.makeText(context, context.getString(R.string.conn_fail_exception), Toast.LENGTH_LONG).show();
-			}			
-		} catch (Exception e)
-		{
-			Log.e(TAG, "<downloadHelpProtoData> catch exception = "+e.toString(), e);
-			result = false;
-		}
-		finally
-		{
-			try
-			{
-				if(output != null)
-				{
-					output.close();
-				}
-				if(helpInputStream != null)
-				{
-					helpInputStream.close();
-				}
-			} catch (IOException e)
-			{
-			}				
-		}
-		
-		return result;
-	}
 	
-	
-
-	
-	
-	
-	
-	private boolean downloadHelpZipData()
-	{		
-		boolean result = false;
-		
-        String url = AppManager.getInstance().getHelpURL();
-        if(url != null)
-		{
-    		File helpFolder = new File(ConstantField.HELP_HTML_PATH);  
-    		InputStream inStream = null;
-    		RandomAccessFile threadfile = null;
-            if (!helpFolder.exists())
-            {
-            	helpFolder.mkdirs();
-            }        
-    		try
-    		{
-    			File helpFile = new File(helpFolder ,HttpTool.getFileName(HttpTool.getConnection(url), url));
-    			URL helpURL = new URL(url);
-    			int fileSize = HttpTool.getConnection(url).getContentLength();
-    			inStream = HttpTool.getDownloadInputStream(helpURL, 0, fileSize);
-    			long sdFreeM = FileUtil.freeSpaceOnSd();
-    			if(inStream !=null && sdFreeM > fileSize)
-    			{
-    				byte[] buffer = new byte[1024];
-        			int offset = 0;
-        			threadfile = new RandomAccessFile(helpFile, "rwd");
-        			while ((offset = inStream.read(buffer, 0, 1024)) != -1) {					
-        				threadfile.write(buffer, 0, offset);										
-        			}
-        			threadfile.close();
-        			inStream.close();	
-        			result = true;
-    			}else {
-					TravelApplication.getInstance().notEnoughMemoryToast();
-					Log.e(TAG, "<downloadHelpZipData> download help zip file fail,cause sdcard memory not enough ");
-					result = false;
-				}
-    			
-    		} catch (Exception e)
-    		{
-    			Log.e(TAG, "<downloadHelpZipData> catch exception = "+e.toString(), e);
-    			result = false;
-    		}finally
-    		{
-    			try
-				{
-    				if(threadfile != null)
-    				{
-    					threadfile.close();
-    				}
-					if(inStream != null)
-					{
-						inStream.close();
-					}
-				} catch (IOException e)
-				{
-				}
-    			
-    		}		
-		}
-		
-		return result;
-				
-	}
 	
 	
 	
@@ -367,112 +232,7 @@ public class AppMission
 	
 	
 	
-	private class UpdateHelpTask extends AsyncTask<Void, Void, Boolean>{
-
-		@Override
-		protected Boolean doInBackground(Void... params)
-		{
-			boolean sdcardEnable = FileUtil.sdcardEnable(); 
-			boolean isExits = FileUtil.checkFileIsExits(ConstantField.HELP_DATA_ZIP_FILE);
-			boolean result = false;
-			if(!isExits)
-			{
-				File file = new File(ConstantField.APP_DATA_PATH);
-				file.mkdirs();
-				if(sdcardEnable)
-				{
-					result = downloadHelpProtoData();
-				}				
-				if(result)
-				{
-					result =  FileUtil.copyFile(ConstantField.HELP_DATA_TEMP_FILE, ConstantField.HELP_DATA_FILE);
-					if(result)
-					{
-						result = downloadHelpZipData();
-						Log.i(TAG, "<UpdateHelpTask> init data load, try download...");					
-					}
-					
-				}	
-			}else
-			{
-				String localDataPath = ConstantField.HELP_DATA_FILE;
-				float httpVersion = getHelpHttpVersion();
-				boolean checkVersion = TravelUtil.checkHelpIsNeedUpdate(localDataPath,httpVersion);
-				if(checkVersion)
-				{				
-					if(sdcardEnable)
-					{
-						result = downloadHelpProtoData();
-					}
-					if(result)
-					{
-						result =  FileUtil.copyFile(ConstantField.HELP_DATA_TEMP_FILE, ConstantField.HELP_DATA_FILE);
-						if(result)
-						{
-							result = downloadHelpZipData();	
-							Log.i(TAG, "<UpdateHelpTask> update data load, try download...");				
-						}
-						
-					}	
-				}else
-				{
-					return Boolean.valueOf(result);
-				}
-			}			
-			return Boolean.valueOf(result);
-		}
-		
-		@Override
-		protected void onPostExecute(Boolean result)
-		{
-			super.onPostExecute(result);
-			if (result.booleanValue()){
-				ZipUtil.upZipFile(ConstantField.HELP_DATA_ZIP_FILE, ConstantField.HELP_HTML_PATH);
-			}
-		}
-	}
 	
-	
-	
-	
-	private float getHelpHttpVersion()
-	{
-		float version = 0f;	
-		InputStream helpInputStream = null;
-		TravelResponse travelResponse = null;
-		String url = String.format(ConstantField.HELP, ConstantField.LANG_HANS);
-		try
-		{
-			helpInputStream =  HttpTool.sendGetRequest(url);
-			if(helpInputStream != null)
-			{
-				travelResponse = TravelResponse.parseFrom(helpInputStream);	
-				if (travelResponse != null && travelResponse.getResultCode() == 0){
-					HelpInfo help = travelResponse.getHelpInfo();
-					String versionString = help.getVersion();
-					version = Float.valueOf(versionString);
-				}
-			}
-			
-		} catch (Exception e)
-		{
-			Log.e(TAG, "<getHelpHttpVersion> catch exception = "+e.toString(), e);
-		}	
-		finally
-		{
-			try{
-				if(helpInputStream != null)
-				{
-					helpInputStream.close();
-				}				
-			} catch (IOException e)
-			{
-			}	
-		}
-			
-		
-		return version;
-	}
 	
 	/*public void initAppData(Context context){
 	this.context = context;

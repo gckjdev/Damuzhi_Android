@@ -20,6 +20,7 @@ import javax.security.auth.Subject;
 import com.damuzhi.travel.model.constant.ConstantField;
 
 import android.R.integer;
+import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
@@ -440,6 +441,18 @@ public class FileUtil
 	
 	public static boolean  sdcardEnable()
 	{
-		return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+		//return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+		boolean mExternalStorageAvailable = false;
+		boolean mExternalStorageWriteable = false;
+		String state = Environment.getExternalStorageState();
+		if (Environment.MEDIA_MOUNTED.equals(state)) {
+		    mExternalStorageAvailable = mExternalStorageWriteable = true;
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
+		    mExternalStorageAvailable = true;
+		    mExternalStorageWriteable = false;
+		} else {
+		    mExternalStorageAvailable = mExternalStorageWriteable = false;
+		}
+		return mExternalStorageWriteable;
 	}
 }

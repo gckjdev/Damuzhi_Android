@@ -34,6 +34,7 @@ import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
@@ -86,9 +87,7 @@ public class CommonSpotActivity extends CommonPlaceActivity
 		sortParams.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 		sortLayout.setLayoutParams(sortParams);
 		
-		sortDisplayName = getResources().getStringArray(R.array.spot);
-		subCatName = AppManager.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_SPOT);
-		subCatKey = AppManager.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_SPOT);
+		
 		spinner.addView(subCategorySpinner);
 		spinner.addView(sortSpinner);
 		subCategorySpinner.setOnClickListener(subCategoryClickListener);
@@ -147,7 +146,22 @@ public class CommonSpotActivity extends CommonPlaceActivity
 		return false;
 	}
 
+	@Override
+	public void initFilterButtonsData()
+	{
+		sortDisplayName = getResources().getStringArray(R.array.spot);
+		subCatName = PlaceMission.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_SPOT);
+		subCatKey = PlaceMission.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_SPOT);
+		
+	}
 
+
+	@Override
+	public int getPlaceTotalCount()
+	{
+		int totalCount = PlaceMission.getInstance().getPlaceTotalCount();
+		return totalCount;
+	}
 	
 	
 	

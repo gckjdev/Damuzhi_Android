@@ -56,7 +56,7 @@ public class TravelTipsMission
 	public List<CommonTravelTip> getTravelTips(final int travelTipType,final int currentCityId,Activity activity)
 	{
 		List<CommonTravelTip> retTravelTips = null;		
-		if (LocalStorageMission.getInstance().hasLocalCityData(currentCityId)){
+		if (LocalStorageMission.getInstance().hasLocalCityData(activity,currentCityId)){
 			// read local
 			if(travelTipType == TravelTipType.GUIDE_VALUE)
 			{

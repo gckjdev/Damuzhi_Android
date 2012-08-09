@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="45dp"
     android:background="@drawable/td_bg"
     descendantFocusability="blocksDescendants"
-    android:id="@+id/listview_item_group"
-    android:orientation="horizontal">
-    <RelativeLayout 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:layout_centerVertical="true"
-    android:visibility="gone"
-    android:id="@+id/delete_group"
-    android:orientation="horizontal">   		 
+    android:id="@+id/installed_data_group"
+    android:orientation="horizontal"> 		 
      <Button
         android:id="@+id/delete_button" 
         android:text="@string/delete"
@@ -48,6 +41,77 @@
 			    	android:layout_below="@id/data_city_name"
 			    	android:textSize="13sp"
 			    	android:focusable="false"/>
-			</RelativeLayout>
-		</RelativeLayout>
+				<RelativeLayout 
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:layout_centerVertical="true"
+				    android:id="@+id/update_status_group"
+				    android:layout_below="@id/data_city_name"
+				    android:visibility="gone">	
+					 <ProgressBar 
+					     android:id="@+id/update_bar"
+					     android:layout_width="100dp" 
+					     android:layout_height="15.0dip"
+					     style="?android:attr/progressBarStyleHorizontal"
+					     android:layout_below="@id/data_city_name"
+					     android:layout_centerVertical="true"/> 
+					 <TextView	android:id="@+id/update_persent"
+					    	android:layout_width="wrap_content"
+					    	android:layout_height="wrap_content"
+					    	android:padding="5dp"
+					    	android:layout_below="@id/data_city_name"
+					    	android:layout_toRightOf="@id/update_bar"
+					    	android:layout_centerVertical="true"
+					    	android:textColor="@color/place_sort_color"
+					    	android:textSize="13.0sp"/>  
+					  <ImageView 
+					      android:id="@+id/restart_update_btn"
+					      android:layout_width="40dp"
+					      android:layout_height="wrap_content"
+					      android:layout_toRightOf="@id/update_persent"
+					      android:layout_centerVertical="true"
+					      android:visibility="gone"
+					      android:src="@drawable/play"/>
+					   <ImageView 
+					      android:id="@+id/stop_update_btn"
+					      android:layout_width="40dp"
+					      android:layout_height="wrap_content"
+					      android:layout_toRightOf="@id/update_persent"
+					      android:layout_centerVertical="true"
+					      android:visibility="visible"
+					      android:src="@drawable/stop"/>
+				</RelativeLayout>	
+			</RelativeLayout>	    
+	<Button
+        android:id="@+id/update_button" 
+        android:text="@string/update"
+        android:layout_centerVertical="true"
+	    android:layout_alignParentRight="true"
+	    android:visibility="visible"
+	    android:focusable="false"
+	    android:layout_marginRight="15dp"
+        android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"	
+    	android:textColor="@color/blue"
+        android:background="@drawable/del"/>
+	<TextView 
+		    android:id="@+id/updating"
+		    android:layout_height="wrap_content"
+		    android:layout_width="wrap_content"
+		    android:layout_centerVertical="true"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginRight="10dp"
+		    android:textSize="15.0sp"
+		    android:text="@string/installing"		    
+		    android:visibility="gone"/>
+	<TextView 
+		    android:id="@+id/updated"
+		    android:layout_height="wrap_content"
+		    android:layout_width="wrap_content"
+		    android:layout_centerVertical="true"
+		    android:layout_alignParentRight="true"
+		    android:layout_marginRight="10dp"
+		    android:textSize="13.0sp"
+		    android:text="@string/installed"		    
+		    android:visibility="gone"/>
 </RelativeLayout>

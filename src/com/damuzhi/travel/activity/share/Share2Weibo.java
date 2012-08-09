@@ -187,17 +187,17 @@ public class Share2Weibo extends Activity implements RequestListener
 
 		@Override
 		public void onError(DialogError e) {
-			Toast.makeText(getApplicationContext(),"Auth error : " + e.getMessage(), Toast.LENGTH_LONG).show();
+			//Toast.makeText(getApplicationContext(),"Auth error : " + e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 
 		@Override
 		public void onCancel() {
-			Toast.makeText(getApplicationContext(), "Auth cancel",Toast.LENGTH_LONG).show();
+			//Toast.makeText(getApplicationContext(), "Auth cancel",Toast.LENGTH_LONG).show();
 		}
 
 		@Override
 		public void onWeiboException(WeiboException e) {
-			Toast.makeText(getApplicationContext(),"Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
+			//Toast.makeText(getApplicationContext(),"Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 
 	}

@@ -701,20 +701,12 @@ public class AppManager
 		return currentCityName;
 	}
 
-	/*public void setCurrentCityName(String currentCityName)
-	{
-		this.currentCityName = currentCityName;
-	}*/
+
 
 	
 	public List<City> getCityList()
 	{
 		List<City> citylList = new ArrayList<City>();
-		/*if (app != null)
-		{
-			return app.getCitiesList();
-		}		
-		return null;*/
 		if(app != null)
 		{
 			citylList.addAll(app.getCitiesList());
@@ -854,6 +846,37 @@ public class AppManager
 		}
 		return priceId;
 	}
+
 	
+	public HashMap<Integer, Float> getlatestVersion()
+	{
+		HashMap<Integer, Float> latestVersion = new HashMap<Integer, Float>();
+		if (app != null)
+		{
+			for (City city : app.getCitiesList())
+			{
+				int cityId = city.getCityId();
+				float version = Float.parseFloat(city.getLatestVersion());
+				latestVersion.put(cityId, version);
+			}
+		}
+		return latestVersion;
+	}
+	
+	
+	public HashMap<Integer, String> getlatestDataDownloadURL()
+	{
+		HashMap<Integer, String> latestDataURL = new HashMap<Integer, String>();
+		if (app != null)
+		{
+			for (City city : app.getCitiesList())
+			{
+				int cityId = city.getCityId();
+				String downloadURL = city.getDownloadURL();
+				latestDataURL.put(cityId, downloadURL);
+			}
+		}
+		return latestDataURL;
+	}
 	
 }

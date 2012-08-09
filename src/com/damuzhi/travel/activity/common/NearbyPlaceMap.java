@@ -36,9 +36,11 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.WelcomeActivity;
 import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
@@ -95,11 +97,13 @@ public class NearbyPlaceMap extends MapActivity
 		try
 		{
 			targetPlace = Place.parseFrom(getIntent().getByteArrayExtra(ConstantField.PLACE_DETAIL));	
+			/*TextView titleTextView = (TextView) findViewById(R.id.place_title);
+			titleTextView.setText(targetPlace.getName());*/
 			mapView = (TapControlledMapView) findViewById(R.id.commendPlaceMap);
 			mapc = mapView.getController();			
 			mapView.setStreetView(true);
 			mapView.setOnSingleTapListener(onSingleTapListener);
-			mapc.setZoom(20);		
+			mapc.setZoom(18);		
 			myLocateButton = (ImageView) findViewById(R.id.my_locate);
 			canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
 			myLocateButton.setOnClickListener(myLocateOnClickListener);
@@ -166,9 +170,12 @@ public class NearbyPlaceMap extends MapActivity
 		public void onClick(View v)
 		{
 			boolean gpsEnable = checkGPSisOpen();
-			if(location == null || location.size()==0)
+			LocationUtil.getLocation(NearbyPlaceMap.this);
+			location = TravelApplication.getInstance().getLocation();
+			/*if(location == null || location.size()==0)
 			{
-				getLocation(NearbyPlaceMap.this);
+				//getLocation(NearbyPlaceMap.this);
+				LocationUtil.getLocation(NearbyPlaceMap.this);
 				location = TravelApplication.getInstance().getLocation();
 			}
 			String address = TravelApplication.getInstance().address;
@@ -181,7 +188,7 @@ public class NearbyPlaceMap extends MapActivity
 			if(mLocClient !=null)
 			{
 				mLocClient.stop();
-			}				
+			}				*/
 			if (location != null&&location.size()>0)
 			{
 				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
@@ -278,7 +285,7 @@ public class NearbyPlaceMap extends MapActivity
 			return false;
 	}
 	
-	public  void getLocation(Context context)
+	/*public  void getLocation(Context context)
 	{
 		
 		LocationClientOption option = new LocationClientOption();
@@ -292,13 +299,14 @@ public class NearbyPlaceMap extends MapActivity
 			mLocClient.requestLocation();
 		else 
 			Log.d(TAG, " baidu locationSDK locClient is null or not started");
-	}
+	}*/
 
 
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		LocationUtil.stop();
 	}
 	
 	
