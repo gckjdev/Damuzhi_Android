@@ -102,8 +102,8 @@ public class NearbyPlaceMap extends MapActivity
 			mapView = (TapControlledMapView) findViewById(R.id.commendPlaceMap);
 			mapc = mapView.getController();			
 			mapView.setStreetView(true);
-			mapView.setOnSingleTapListener(onSingleTapListener);
-			mapc.setZoom(18);		
+			//mapView.setOnSingleTapListener(onSingleTapListener);
+			mapc.setZoom(16);		
 			myLocateButton = (ImageView) findViewById(R.id.my_locate);
 			canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
 			myLocateButton.setOnClickListener(myLocateOnClickListener);
@@ -172,23 +172,6 @@ public class NearbyPlaceMap extends MapActivity
 			boolean gpsEnable = checkGPSisOpen();
 			LocationUtil.getLocation(NearbyPlaceMap.this);
 			location = TravelApplication.getInstance().getLocation();
-			/*if(location == null || location.size()==0)
-			{
-				//getLocation(NearbyPlaceMap.this);
-				LocationUtil.getLocation(NearbyPlaceMap.this);
-				location = TravelApplication.getInstance().getLocation();
-			}
-			String address = TravelApplication.getInstance().address;
-			if (address == null||address.equals(""))
-			{
-				location = null;
-				Toast.makeText(NearbyPlaceMap.this, getString(R.string.get_location_ing), Toast.LENGTH_LONG).show();
-				return;
-			}
-			if(mLocClient !=null)
-			{
-				mLocClient.stop();
-			}				*/
 			if (location != null&&location.size()>0)
 			{
 				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
@@ -215,9 +198,6 @@ public class NearbyPlaceMap extends MapActivity
 		{
 			canceLocateButton.setVisibility(View.GONE);
 			myLocateButton.setVisibility(View.VISIBLE);
-			/*MapInitAsynTask asynTask = new MapInitAsynTask();
-			asynTask.execute();*/
-			//nearbyPlaceList = PlaceMission.getInstance().getPlaceNearbyInDistance(targetPlace, 10f);
 			if(targetPlace!=null&&nearbyPlaceList.size()>0)
 			{
 				initMapView(targetPlace ,nearbyPlaceList);	
@@ -225,16 +205,16 @@ public class NearbyPlaceMap extends MapActivity
 		}
 	};
 	
-	private OnSingleTapListener onSingleTapListener = new OnSingleTapListener() {		
+	/*private OnSingleTapListener onSingleTapListener = new OnSingleTapListener() {		
 		@Override
 		public boolean onSingleTap(MotionEvent e) {
-			if(itemizedOverlay.size()>0)
+			if(itemizedOverlay != null &&itemizedOverlay.size()>0)
 			{
 				itemizedOverlay.hideAllBalloons();
 			}		
 			return true;
 		}
-	};
+	};*/
 	
 	
 	
@@ -266,14 +246,7 @@ public class NearbyPlaceMap extends MapActivity
 		mapOverlays.add(itemizedOverlay);
 	}
 	
-	/*private void openGPSSettings() {
-
-		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-			return;
-		}
-			Toast.makeText(this, getString(R.string.open_gps_tips3), Toast.LENGTH_SHORT).show();
-	}*/
+	
 	
 	
 	private boolean checkGPSisOpen() {
@@ -285,21 +258,7 @@ public class NearbyPlaceMap extends MapActivity
 			return false;
 	}
 	
-	/*public  void getLocation(Context context)
-	{
-		
-		LocationClientOption option = new LocationClientOption();
-		option.setOpenGps(true);				
-		option.setCoorType("bd09ll");		
-		option.setScanSpan(10000);
-		mLocClient = TravelApplication.getInstance().mLocationClient;
-		mLocClient.setLocOption(option);
-		mLocClient.start();
-		if (mLocClient != null && mLocClient.isStarted())
-			mLocClient.requestLocation();
-		else 
-			Log.d(TAG, " baidu locationSDK locClient is null or not started");
-	}*/
+	
 
 
 	@Override

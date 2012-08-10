@@ -227,7 +227,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		placeListView = refreshPlaceListView.getRefreshableView();
 		mapView = (TapControlledMapView) findViewById(R.id.common_place_mapview);
 		mapc = mapView.getController();
-		mapc.setZoom(17);
+		mapc.setZoom(14);
 		mapView.setStreetView(true);
 	
 				

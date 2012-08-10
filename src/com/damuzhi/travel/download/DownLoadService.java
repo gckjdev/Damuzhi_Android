@@ -228,7 +228,10 @@ public class DownloadService extends Service
 		downloadStatus.mStatus = PAUSE;
 		downloadStstudTask.put(downloadURL, downloadStatus);
 		FileDownloader fileDownloader = downloadTask.get(downloadURL);
-		fileDownloader.pauseDownload();
+		if(fileDownloader != null)
+		{
+			fileDownloader.pauseDownload();
+		}
 	}
 	
 	public void restartDownloadTask(String downloadURL)
@@ -236,7 +239,10 @@ public class DownloadService extends Service
 		DownloadStatus dlState = downloadStstudTask.get(downloadURL);
 		dlState.mStatus = RESTART;
 		FileDownloader fileDownloader = downloadTask.get(downloadURL);
-		fileDownloader.restartDownload();
+		if(fileDownloader != null)
+		{
+			fileDownloader.restartDownload();
+		}
 	}
 	
 	

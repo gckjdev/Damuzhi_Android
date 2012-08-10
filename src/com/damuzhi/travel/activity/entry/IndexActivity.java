@@ -66,8 +66,10 @@ import com.damuzhi.travel.activity.place.CommonShoppingActivity;
 import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonSpotActivity;
 import com.damuzhi.travel.activity.share.Share2Weibo;
+import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
+import com.damuzhi.travel.mission.more.DownloadMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
@@ -152,8 +154,51 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		Intent intent = new Intent();
 		intent.setAction(ConstantField.CHECK_NET);
 		sendBroadcast(intent);
+		
+		Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(IndexActivity.this);
+		Map<Integer, String> newVersionCityData = new HashMap<Integer, String>();
+		List<Integer> installedCityList = new ArrayList<Integer>();
+		installedCityList.clear();
+		installedCityList.addAll(installCityData.keySet());
+		if(installCityData != null&&installCityData.size()>0)
+		{
+			newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
+		}
+		int currentCityId = AppManager.getInstance().getCurrentCityId();
+		if(newVersionCityData.containsKey(currentCityId))
+		{
+			checkDataVersion();
+		}
+		
 	}
 
+	
+	private void checkDataVersion()
+	{
+		AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this).create();
+		alertDialog.setMessage(IndexActivity.this.getString(R.string.data_has_new_version));
+		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,IndexActivity.this.getString(R.string.update_now),new DialogInterface.OnClickListener()
+		{					
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{	
+				Intent intent = new Intent();
+				intent.setClass(IndexActivity.this, OpenCityActivity.class);
+				startActivity(intent);
+			}	
+		} );
+		alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+IndexActivity.this.getString(R.string.update_later),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.cancel();
+			}
+		} );
+		alertDialog.show();
+	}
+	
 	
 	
 	@Override

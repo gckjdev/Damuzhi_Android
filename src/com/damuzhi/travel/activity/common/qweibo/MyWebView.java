@@ -8,14 +8,17 @@ import android.util.Log;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.android.utils.TokenStore;
+import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.share.Share2Weibo;
 import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.utils.OAuthClient;
 
 public class MyWebView extends Activity {
+	protected static final String TAG = "MyWebView";
 	private WebView wb;
 	private OAuth oauth;
 	private OAuthClient auth;
@@ -24,16 +27,17 @@ public class MyWebView extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.qq_weibo_webview);
 		Intent intent=getIntent();
 		String url=intent.getStringExtra("URL");
-		wb=new WebView(this);
-		inti(wb);
+		//wb=new WebView(this);
+		wb = (WebView) findViewById(R.id.qq_weibo_webview);	
 		wb.loadUrl(url);
-		
+		inti(wb);
 		oauth = Share2Weibo.qq_oauth;
 		auth = Share2Weibo.qq_auth;
 		
-		setContentView(wb);
+		//setContentView(wb);
 	}
 
 	private void inti(WebView wv) {
@@ -42,16 +46,14 @@ public class MyWebView extends Activity {
 
 			@Override
 			public void onProgressChanged(WebView view, int newProgress) {
-				if(newProgress==100){
-					
+				if(newProgress==100){					
 					String url=wb.getUrl();
-					System.out.println("get::"+url);
-					
+					QQWebViewClient client = new QQWebViewClient();			
+					wb.setWebViewClient(client);
+					Log.i(TAG, "qq_open url = "+url);
 					if(url.contains("&checkType=verifycode")){
-						wb.setVisibility(View.INVISIBLE);
-						
+						wb.setVisibility(View.INVISIBLE);					
 						Uri uri=Uri.parse(url);
-						//String value=url.substring(url.lastIndexOf("v=")+2,url.length());
 						String value=uri.getQueryParameter("v");
 						String orValue=uri.getQueryParameter("vcode");
 
@@ -63,18 +65,15 @@ public class MyWebView extends Activity {
 							orVerifycode=Integer.parseInt(orValue);
 						
 						if( (verifycode>100000)&&(verifycode<999999) ){
-							System.out.println("<><><><"+value);
+							Log.i(TAG, "<><><><"+value);
 							getToken(value, oauth.getOauth_token());
 						}else if( (orVerifycode>100000)&&(orVerifycode<999999) ){
-							System.out.println("<><><><"+orValue);
+							Log.i(TAG,"<><><><"+orValue);
 							getToken(orValue, oauth.getOauth_token());
 						}else{
-							System.out.println("verify wrong!!!!!!!!!!");
+							Log.i(TAG,"verify wrong!!!!!!!!!!");
 							return;
-						}
-						
-						
-						
+						}						
 						Toast.makeText(MyWebView.this, "绑定成功", Toast.LENGTH_LONG).show();
 						MyWebView.this.finish();
 					}
@@ -86,6 +85,16 @@ public class MyWebView extends Activity {
 		});
 	}
 
+	
+	private class QQWebViewClient extends WebViewClient {
+	    @Override
+	    public boolean shouldOverrideUrlLoading(WebView view, String url) {
+	        view.loadUrl(url);
+	        return true;
+	    }
+	}
+
+	
 	/**
 	 * get token from verifier code
 	 * @param oauth_verifier
@@ -102,7 +111,7 @@ public class MyWebView extends Activity {
 		}
 
 		if (oauth.getStatus() == 2) {
-			System.out.println("Get Access Token failed!");
+			Log.e(TAG,"Get Access Token failed!");
 			return;
 		} else {			
 			TokenStore.store(this, oauth);

@@ -242,6 +242,7 @@ public class OpenCityActivity extends Activity
 				if(newVersionCityData.containsKey(cityId))
 				{
 					downloadListView.findViewWithTag("installing"+downloadURL).setVisibility(View.VISIBLE);
+					downloadListView.findViewWithTag("group"+downloadURL).setVisibility(View.GONE);
 				}else
 				{
 					position = positionMap.get(downloadURL);
@@ -386,6 +387,10 @@ public class OpenCityActivity extends Activity
 			
 			if(zipResult)
 			{
+				if(newVersionCityData.containsKey(cityId))
+				{
+					newVersionCityData.remove(cityId);
+				}
 				if(installingTextView != null)
 				{
 					installingTextView.setVisibility(View.GONE);
@@ -807,7 +812,8 @@ public class OpenCityActivity extends Activity
 			downloadStatusMap.put(downloadURL, DOWNLOAD_ING);	
 			dataSize.setVisibility(View.GONE);
 			updateStatusGroup.setVisibility(View.VISIBLE);
-			downloadListView.findViewWithTag(cityId).setVisibility(View.GONE);
+			//downloadListView.findViewWithTag(cityId).setVisibility(View.GONE);
+			v.setVisibility(View.GONE);
 		}
 	};
 	
@@ -888,9 +894,9 @@ public class OpenCityActivity extends Activity
 			intent.setClass(OpenCityActivity.this, IndexActivity.class);
 			if(newVersionCityData.containsKey(cityId))
 			{
-				AlertDialog deleteAlertDialog = new AlertDialog.Builder(OpenCityActivity.this).create();
-				deleteAlertDialog.setMessage(OpenCityActivity.this.getString(R.string.data_has_new_version));
-				deleteAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,OpenCityActivity.this.getString(R.string.update_now),new DialogInterface.OnClickListener()
+				AlertDialog alertDialog = new AlertDialog.Builder(OpenCityActivity.this).create();
+				alertDialog.setMessage(OpenCityActivity.this.getString(R.string.data_has_new_version));
+				alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,OpenCityActivity.this.getString(R.string.update_now),new DialogInterface.OnClickListener()
 				{					
 					@Override
 					public void onClick(DialogInterface dialog, int which)
@@ -898,7 +904,7 @@ public class OpenCityActivity extends Activity
 						initDownloadListview();
 					}	
 				} );
-				deleteAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+OpenCityActivity.this.getString(R.string.update_later),new DialogInterface.OnClickListener()
+				alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+OpenCityActivity.this.getString(R.string.update_later),new DialogInterface.OnClickListener()
 				{
 					
 					@Override
@@ -909,7 +915,7 @@ public class OpenCityActivity extends Activity
 						setCityToast(cityName);
 					}
 				} );
-				deleteAlertDialog.show();
+				alertDialog.show();
 			}else
 			{
 				startActivity(intent);
@@ -1129,7 +1135,6 @@ public class OpenCityActivity extends Activity
 	public class DownloadDataListAdapter extends BaseAdapter
 	{
 		private List<Integer> installedCityList;
-		private HashMap<Integer, String> newVersionCityData = new HashMap<Integer, String>();
 		private Context context;
 		
 		
@@ -1200,10 +1205,10 @@ public class OpenCityActivity extends Activity
 					{
 						String downloadURL = newVersionCityData.get(cityId);
 						updateButton.setVisibility(View.VISIBLE);
-						DownloadBean downloadBean = downloadManager.getUnfinishDownTask(downloadURL);
-						
+						DownloadBean downloadBean = downloadManager.getUnfinishDownTask(downloadURL);					
 						if(downloadStatusTask.containsKey(downloadURL)&&downloadStatusTask.get(downloadURL).mStatus != DOWNLOAD_STATUS_PAUSE)
 						{
+							updateButton.setVisibility(View.GONE);
 							updateStatusGroup.setVisibility(View.VISIBLE);
 							restartUpdateBtn.setVisibility(View.GONE);
 							stopUpdateBtn.setVisibility(View.VISIBLE);
@@ -1221,6 +1226,7 @@ public class OpenCityActivity extends Activity
 						{			
 							if(downloadBean != null)
 							{	
+								updateButton.setVisibility(View.GONE);
 								citySize.setVisibility(View.GONE);
 								updateStatusGroup.setVisibility(View.VISIBLE);
 								restartUpdateBtn.setVisibility(View.VISIBLE);
@@ -1289,9 +1295,23 @@ public class OpenCityActivity extends Activity
 					{					
 						int cityId = installedCityList.get(position);
 						City city = AppManager.getInstance().getCityByCityId(cityId);
+						String downloadURL = city.getDownloadURL();
 						String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);			
 						installedCityList.remove(position);
-						newVersionCityData.remove(cityId);
+						if(newVersionCityData.containsKey(cityId))
+						{
+							newVersionCityData.remove(cityId);					
+						}			
+						if(progressBarMap.containsKey(downloadURL))
+						{
+							progressBarMap.remove(downloadURL);
+							resultTextMap.remove(downloadURL);
+						}
+						if(downloadStatusTask.containsKey(downloadURL))
+						{
+							downloadStatusTask.remove(downloadURL);
+							cancelDownload(downloadURL);
+						}
 						OpenCityActivity.installCityData.remove(cityId);
 						OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
 						OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
