@@ -5,7 +5,7 @@
     android:background="@color/placeIntro_bg"
     android:orientation="vertical" >
 	 <LinearLayout 
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:background="@drawable/topmenu_bg">
@@ -19,16 +19,16 @@
     	    android:textColor="@color/white"/>
     	</LinearLayout>
     	<LinearLayout
-    	    android:layout_width="310dp"
+    	    android:layout_width="fill_parent"
     	    android:layout_height="400dp"
     	    android:layout_gravity="center_horizontal"
     	    android:paddingLeft="15dp"
     	    android:paddingRight="15dp"
     	    android:orientation="vertical"
-    	    android:layout_marginTop="5dp"
-    	    android:gravity="center">
+    	    android:layout_marginTop="3dp"
+    	    android:gravity="center_horizontal">
 	    	 <RelativeLayout 
-		        android:layout_width="fill_parent"
+		        android:layout_width="wrap_content"
 		        android:layout_height="50dp"
 		        android:background="@drawable/more_top"
 		        android:id="@+id/open_city_group">
@@ -61,7 +61,7 @@
 		    	    android:textColor="@color/blue"/>
 	    	</RelativeLayout>
 	    	 <RelativeLayout 
-		        android:layout_width="fill_parent"
+		        android:layout_width="wrap_content"
 		        android:layout_height="50dp"
 		        android:background="@drawable/more_middle"
 		        android:id="@+id/browser_history_group">
@@ -84,7 +84,7 @@
 		    	    android:scaleType="fitCenter"/>
 	    	</RelativeLayout>
 	    	 <RelativeLayout 
-		        android:layout_width="fill_parent"
+		        android:layout_width="wrap_content"
 		        android:layout_height="50dp"
 		        android:background="@drawable/more_middle"
 		        android:id="@+id/feedback_group">
@@ -107,7 +107,7 @@
 		    	    android:scaleType="fitCenter"/>
 	    	</RelativeLayout>
 	    	<RelativeLayout 
-		        android:layout_width="fill_parent"
+		        android:layout_width="wrap_content"
 		        android:layout_height="50dp"
 		        android:background="@drawable/more_middle"
 		        android:id="@+id/update_version_group">
@@ -130,7 +130,7 @@
 		    	    android:scaleType="fitCenter"/>
 	    	</RelativeLayout>
 	    	<RelativeLayout 
-		        android:layout_width="fill_parent"
+		        android:layout_width="wrap_content"
 		        android:layout_height="50dp"
 		        android:background="@drawable/more_middle"
 		        android:id="@+id/about_damuzhi_group">
@@ -177,7 +177,7 @@
 		    	    android:scaleType="fitCenter"/>
 	    	</RelativeLayout> -->
 	    	<RelativeLayout 
-		        android:layout_width="fill_parent"
+		        android:layout_width="wrap_content"
 		        android:layout_height="50dp"
 		        android:background="@drawable/more_middle"
 		        android:id="@+id/list_image_group">
@@ -199,7 +199,7 @@
 		            android:layout_alignParentRight="true" />
 	    	</RelativeLayout>
 	    	<RelativeLayout 
-		        android:layout_width="fill_parent"
+		        android:layout_width="wrap_content"
 		        android:layout_height="50dp"
 		        android:background="@drawable/more_bottom"
 		        android:id="@+id/recommended_app_group">

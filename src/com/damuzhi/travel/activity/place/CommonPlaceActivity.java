@@ -722,11 +722,11 @@ public abstract class CommonPlaceActivity extends TravelActivity
 
 	private String getCategorySize()
 	{
-		if(filterFlag != 0)
+		/*if(filterFlag != 0)
 		{
 			if (placeListAdapter.getPlaceList() != null)
 				totalCount = placeListAdapter.getPlaceList().size();
-		}
+		}*/
 		String sizeString = "(" + totalCount + ")";
 		return sizeString;
 	}
@@ -758,7 +758,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loadingDialog.setMessage(getResources().getString(R.string.loading));
 		loadingDialog.setIndeterminate(false);
-		loadingDialog.setCancelable(true);
+		loadingDialog.setCancelable(false);
 		loadingDialog.setOnKeyListener(keyListener);
 		loadingDialog.show();
 	}
@@ -1156,6 +1156,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 					String priceType = getPriceType();
 					String sortType = Integer.toString(sortPosition+1);
 					List<Place> placeList = PlaceMission.getInstance().filterPlace(getCategoryType(),CommonPlaceActivity.this,  subcateType, areaType, serviceType, priceType, sortType,start);
+					totalCount = getPlaceTotalCount();
 					return placeList;
 				}
 				@Override
@@ -1209,7 +1210,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 						initMapOverlayView(newMoreList);
 					}
 				}
-				updateTitle();
+				//updateTitle();
 			}	
 			return;
 		}

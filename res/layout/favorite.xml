@@ -162,8 +162,7 @@
 	        android:layout_height="fill_parent"
 	        android:scrollbars="none"
 	        android:cacheColorHint="@color/listview_bg"
-	        android:descendantFocusability="blocksDescendants"
-	        android:divider="#FFCC00"/>
+	        android:descendantFocusability="blocksDescendants"/>
 	</LinearLayout>
     </RelativeLayout>
 </LinearLayout>

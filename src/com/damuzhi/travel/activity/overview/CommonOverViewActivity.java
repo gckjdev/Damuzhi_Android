@@ -245,7 +245,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loadingDialog.setMessage(getResources().getString(R.string.loading));
 		loadingDialog.setIndeterminate(false);
-		loadingDialog.setCancelable(true);
+		loadingDialog.setCancelable(false);
 		loadingDialog.setOnKeyListener(keyListener);
 		loadingDialog.show();
 	}

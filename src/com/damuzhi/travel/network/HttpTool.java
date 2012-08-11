@@ -51,13 +51,7 @@ public class HttpTool
 			        urlConnection.setConnectTimeout(5000);
 			        urlConnection.setRequestMethod("GET");
 			        if(urlConnection !=null&&urlConnection.getDoInput())
-			        {
-			        	/*if (urlConnection.getResponseCode() != 200)
-				        {
-			        		urlConnection.disconnect();
-				        	Log.d(TAG, "<sendGetRequest> can not get http connection");
-				        	return null;
-				        }*/			          
+			        {		          
 				        return urlConnection.getInputStream();
 			        }else {
 						return null;

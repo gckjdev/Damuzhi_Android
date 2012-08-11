@@ -135,9 +135,9 @@
     <string name="open_time">开放时间</string>
     <string name="trafficInfo">交通信息</string>
     <string name="tour_tips">游览贴士</string>
-    <string name="phone_number">电话:</string>
-    <string name="website">网站:</string>
-    <string name="address">地址:</string>
+    <string name="phone_number">电话: </string>
+    <string name="website">网站: </string>
+    <string name="address">地址: </string>
     <string name="refresh">刷新</string>
     <string name="feedback">反馈</string>
     <string name="about">关于</string>

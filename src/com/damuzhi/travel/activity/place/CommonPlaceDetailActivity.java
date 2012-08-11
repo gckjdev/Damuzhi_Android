@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.text.TextUtils.TruncateAt;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -100,11 +101,13 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	private AsyncTask<Void, Void, List<Place>> nearbyAsyncTask;
 	ViewGroup placeDetailGroup,nearbyListGroup;
 	private Anseylodar anseylodar;
+	private int currentCityId;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		TravelApplication.getInstance().addActivity(this);
+		currentCityId = AppManager.getInstance().getCurrentCityId();
 		init();
 		getNearbyList();
 		getPlaceFavoriteCount();
@@ -120,7 +123,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			LayoutInflater inflater = getLayoutInflater();
 			ArrayList<View> imageViewlist = new ArrayList<View>();	
 			anseylodar = new Anseylodar();
-			int size=imagePath.size();
+			int size=imagePath.size();	
 			for(int i=0;i<size;i++)
 			{
 				View view = inflater.inflate(R.layout.place_detail_image, null);
@@ -200,7 +203,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 					{
 						TextView  locationTextView = new TextView(CommonPlaceDetailActivity.this); 
 						TextView  distanceTextView = new TextView(CommonPlaceDetailActivity.this);
-						RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+						RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams((int)getResources().getDimension(R.dimen.special_traffic_loaction),LayoutParams.WRAP_CONTENT);
 						RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 						params1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 						params1.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
@@ -212,6 +215,11 @@ public abstract class CommonPlaceDetailActivity extends Activity
 						distanceTextView.setLayoutParams(params2);  
 						locationTextView.setTextColor(getResources().getColor(R.color.place_title_color));
 						locationTextView.setTextSize(getResources().getDimension(R.dimen.transport_text_size));
+						locationTextView.setSingleLine(true);
+						locationTextView.setMarqueeRepeatLimit(-1);
+						locationTextView.setEllipsize(TruncateAt.MARQUEE);
+						locationTextView.setHorizontallyScrolling(true);
+						locationTextView.setSelected(true);
 						distanceTextView.setTextColor(getResources().getColor(R.color.place_title_color));
 						distanceTextView.setTextSize(getResources().getDimension(R.dimen.transport_text_size));
 						locationTextView.setText(trafficDetail[0]);
@@ -289,8 +297,14 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			if(avePriceString != null && !avePriceString.equals(""))
 			{
 				findViewById(R.id.avg_price_group).setVisibility(View.VISIBLE);
-				TextView avgPrice = (TextView) findViewById(R.id.avg_price);			
-				StringBuffer symbol = new StringBuffer(AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId()));
+				TextView avgPrice = (TextView) findViewById(R.id.avg_price);	
+				HashMap<Integer, String> symbolHashMap = AppManager.getInstance().getSymbolMap();
+				StringBuffer symbol = new StringBuffer();
+				if(symbolHashMap.containsKey(currentCityId))
+				{
+					String symbolStr = symbolHashMap.get(currentCityId);	
+					symbol.append(symbolStr);
+				}
 				avgPrice.setText(symbol+avePriceString);
 			}
 			
@@ -370,7 +384,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		if(isSupportKeyWords())
 		{
 			List<String> keyList = place.getKeywordsList();
-			if(keyList != null && !keyList.equals(""))
+			if(keyList != null&&keyList.size()>0 )
 			{
 				findViewById(R.id.keyword_group).setVisibility(View.VISIBLE);
 				TextView keyword = (TextView) findViewById(R.id.place_keyword);
@@ -380,7 +394,11 @@ public abstract class CommonPlaceDetailActivity extends Activity
 					keywordStr.append(key);
 					keywordStr.append("、");
 				}
-				keyword.setText(keywordStr.substring(0, keywordStr.length()-1));	
+				if(keywordStr.length()>1)
+				{
+					keyword.setText(keywordStr.substring(0, keywordStr.length()-1));
+				}
+					
 			}
 		}
 		
@@ -393,7 +411,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			{
 				findViewById(R.id.room_price_group).setVisibility(View.VISIBLE);
 				TextView roomPrice = (TextView) findViewById(R.id.room_price);
-				int currentCityId = AppManager.getInstance().getCurrentCityId();
 				HashMap<Integer, String> symbolHashMap = AppManager.getInstance().getSymbolMap();
 				StringBuffer symbol = new StringBuffer();
 				if(symbolHashMap.containsKey(currentCityId))
@@ -460,7 +477,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				phoneNumber.append(telephone);
 				phoneNumber.append(" ");
 			}
-			phoneNum.setText(getString(R.string.phone_number)+phoneNumber);
+			phoneNum.setText(getString(R.string.phone_number)+" "+phoneNumber);
 			phoneCall.setOnClickListener(phoneCallOnClickListener);
 			phoneGroup.setOnClickListener(phoneCallOnClickListener);
 		}
@@ -478,7 +495,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				addressStr.append(addres);
 				addressStr.append(" ");
 			}
-			address.setText(getString(R.string.address)+addressStr);
+			address.setText(getString(R.string.address)+" "+addressStr);
 			addressMapView.setOnClickListener(addressLocateOnClickListener);
 			addressGroup.setOnClickListener(addressLocateOnClickListener);
 		}
@@ -488,7 +505,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			ViewGroup websiteGroup = (ViewGroup) findViewById(R.id.website_group);
 			websiteGroup.setVisibility(View.VISIBLE);
 			TextView website = (TextView) findViewById(R.id.website);
-			website.setText(getString(R.string.website)+place.getWebsite());
+			website.setText(getString(R.string.website)+" "+place.getWebsite());
 		}
 		//placeDetailGroup = (ViewGroup) findViewById(R.id.place_detail_group);
 		nearbyListGroup = (ViewGroup) findViewById(R.id.nearby_list_group);

@@ -183,6 +183,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			public void onClick(DialogInterface dialog, int which)
 			{	
 				Intent intent = new Intent();
+				intent.putExtra("updateData", 1);
 				intent.setClass(IndexActivity.this, OpenCityActivity.class);
 				startActivity(intent);
 			}	

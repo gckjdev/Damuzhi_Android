@@ -35,7 +35,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activity.entry.IndexActivity"  android:screenOrientation="portrait" android:launchMode="standard"/>
+        <activity android:name=".activity.entry.IndexActivity"  android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.more.MoreActivity" android:screenOrientation="portrait" />
         <activity android:name=".activity.more.OpenCityActivity"  android:screenOrientation="portrait" android:launchMode="singleTask"/>       
         <activity android:name=".activity.overview.TravelGuidesActivity" android:screenOrientation="portrait" />          

@@ -736,6 +736,7 @@ public class PlaceMission
 					}					
 					inputStream.close();
 					inputStream = null;	
+					totalCount = travelResponse.getTotalCount();
 					List<Place> placeList = travelResponse.getPlaceList().getListList(); 
 					if(placeList!=null &&placeList.size()>0)
 					{

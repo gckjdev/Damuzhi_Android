@@ -138,6 +138,13 @@ public class OpenCityActivity extends Activity
 		dataListGroup.setOnClickListener(dataListOnClickListener);
 		downloadListGroup.setOnClickListener(downloadListOnClickListener);
 		
+		int flag = getIntent().getIntExtra("updateData", -1);
+		if(flag == 1)
+		{
+			openCtiyDataListView.setVisibility(View.GONE);
+			downloadListView.setVisibility(View.VISIBLE);
+		}
+		
 		bindService(new Intent(OpenCityActivity.this, DownloadService.class), conn, Context.BIND_AUTO_CREATE);
 	}
 	

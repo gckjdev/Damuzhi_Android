@@ -12,18 +12,19 @@
         android:layout_centerVertical="true"
 	    android:layout_alignParentLeft="true"
 	    android:focusable="false"
+	    android:gravity="center"
 	    android:layout_marginLeft="15dp"
         android:layout_width="wrap_content"
     	android:layout_height="wrap_content"	
     	android:textColor="@color/blue"
         android:background="@drawable/del"/>
 		    <RelativeLayout
-	        android:id="@+id/download_data_info_group"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_toRightOf="@id/delete_button"
-	        android:layout_marginLeft="8dp"
-	        android:layout_centerVertical="true">
+		        android:id="@+id/download_data_info_group"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_toRightOf="@id/delete_button"
+		        android:layout_marginLeft="8dp"
+		        android:layout_centerVertical="true">
 				<TextView	
 				    android:id="@+id/data_city_name"
 			    	android:layout_width="wrap_content"
@@ -85,6 +86,7 @@
 	<Button
         android:id="@+id/update_button" 
         android:text="@string/update"
+        android:gravity="center"
         android:layout_centerVertical="true"
 	    android:layout_alignParentRight="true"
 	    android:visibility="visible"
