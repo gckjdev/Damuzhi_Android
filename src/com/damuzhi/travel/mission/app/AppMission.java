@@ -76,13 +76,6 @@ public class AppMission
 		}catch (Exception e) {
 			Log.e(TAG, "<initAppData> but catch exception while read app data from apk, exception = "+e.toString(), e);
 		}		
-		
-		int cityId = getCurrentCityId(context);
-		if(cityId == -1||cityId ==0)
-		{
-			cityId =  AppManager.getInstance().getDefaulCityId();
-		}
-		AppManager.getInstance().setCurrentCityId(cityId);
 	}
 	
 	
@@ -110,6 +103,13 @@ public class AppMission
 	
 	public void updateAppData(Context context)
 	{
+		int cityId = getCurrentCityId(context);
+		if(cityId == -1||cityId ==0)
+		{
+			cityId =  AppManager.getInstance().getDefaulCityId();
+		}
+		AppManager.getInstance().setCurrentCityId(cityId);
+		this.context = context;
 		UpdateAppTask task = new UpdateAppTask();
 		task.execute();
 	}

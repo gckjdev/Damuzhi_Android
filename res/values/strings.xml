@@ -4,7 +4,7 @@
     <string name="hello">Hello World, DaMuZhiActivity!</string>
     <string name="app_name">大拇指旅行</string>
     <string name="ok">确定</string>
-    <string name="connection_error">链接失败</string>
+    <string name="connection_error">无法连接到网络，请检查网络配置</string>
     <string name="not_more_data">暂时没有更多更新信息</string>
     <string name="not_enough_memory">剩余内存不足，请删除部分文件</string>
     <string name="get_sdcard_fail">SD卡读取失败</string>

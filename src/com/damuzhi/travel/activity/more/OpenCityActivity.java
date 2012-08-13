@@ -81,10 +81,11 @@ public class OpenCityActivity extends Activity
 	private static Map<String, TextView> resultTextMap = new HashMap<String, TextView>();
 	private Map<String, Integer> positionMap = new HashMap<String, Integer>();
 	private Map<String, Integer> downloadStatusMap ;
-	private Map<String, Integer> udpateStatusMap;
+	private Map<String, Integer> updateStatusMap;
 	private Map<String, DownloadStatus> downloadStatusTask;
 	private Map<String, DownloadStatus> updateStatusTask;
 	public static Map<Integer, Integer> installCityData = new HashMap<Integer, Integer>();
+	private static Map<String, Integer> updateCityData = new HashMap<String, Integer>();
 	private Map<Integer, String> newVersionCityData = new HashMap<Integer, String>();
 	List<Integer> installedCityList = new ArrayList<Integer>();
 	
@@ -437,8 +438,7 @@ public class OpenCityActivity extends Activity
 		public void onTaskProcessStatusChanged(int cityId,String downloadURL, long speed,long totalBytes, long curPos,boolean notFinish) 
 		{ 
              final  DownloadInfos dl = new DownloadInfos(cityId,downloadURL,speed,totalBytes,curPos,notFinish);  	
-             Thread thread = new Thread(new Runnable(
-            		 )
+             Thread thread = new Thread(new Runnable()
 			{
 				
 				@Override
@@ -481,6 +481,7 @@ public class OpenCityActivity extends Activity
 						Looper.prepare();
 						Toast.makeText(OpenCityActivity.this, getResources().getString(R.string.download_connection_error), Toast.LENGTH_LONG).show();
 						Looper.loop();
+						pauseDownload(cityId, downloadURL);
 					}
 				} catch (RemoteException e)
 				{
@@ -932,6 +933,41 @@ public class OpenCityActivity extends Activity
 	};
 	
 	
+	private void pauseDownload(int cityId,String downloadURL)
+	{
+		ImageView pasueBtn;
+		ImageView restartBtn;
+		if(newVersionCityData.containsKey(downloadURL))
+		{
+			pasueBtn = (ImageView) downloadListView.findViewWithTag("pause"+cityId);
+			if(pasueBtn != null)
+			{
+				pasueBtn.setVisibility(View.GONE);
+			}	
+			 restartBtn = (ImageView) downloadListView.findViewWithTag("restart"+cityId);
+			if(restartBtn != null)
+			{
+				restartBtn.setVisibility(View.VISIBLE);
+			}else
+			{
+				int position = positionMap.get(downloadURL);
+				pasueBtn = (ImageView) downloadListView.findViewWithTag("pause"+cityId);
+				if(pasueBtn != null)
+				{
+					pasueBtn.setVisibility(View.GONE);
+				}
+				 restartBtn = (ImageView) openCtiyDataListView.findViewWithTag("restart"+position);
+				if(restartBtn != null)
+				{
+					restartBtn.setVisibility(View.VISIBLE);
+				}		
+			}
+		}
+		pauseDownload(downloadURL);
+		downloadStatusMap.put(downloadURL, DOWNLOAD_PAUSE);
+	}
+	
+	
 	
 	public class OpenCityDataAdapter extends BaseAdapter
 	{
@@ -1243,6 +1279,14 @@ public class OpenCityActivity extends Activity
 								String result = (int)((float)downloadBean.getDownloadLength()/(float)downloadBean.getFileLength()*100)+"%";
 								updateTextView.setText(result);
 							}else {	
+								
+								if(installedTextView.getVisibility() == View.VISIBLE ||installingTextView.getVisibility() == View.VISIBLE)
+								{
+									updateButton.setVisibility(View.GONE);
+								}else
+								{
+									updateButton.setVisibility(View.VISIBLE);
+								}					
 								citySize.setText(TravelUtil.getDataSize(city.getDataSize()));
 								citySize.setVisibility(View.VISIBLE);
 								updateStatusGroup.setVisibility(View.GONE);

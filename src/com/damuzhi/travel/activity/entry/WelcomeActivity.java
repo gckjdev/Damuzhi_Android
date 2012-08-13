@@ -65,7 +65,11 @@ public class WelcomeActivity extends MenuActivity
 			@Override
 			protected Void doInBackground(Void... params)
 			{
-				AppMission.getInstance().initAppData(WelcomeActivity.this);
+				boolean initFlag = FileUtil.checkFileIsExits(ConstantField.LOCAL_APP_DATA_FILE);
+				if(!initFlag)
+				{
+					AppMission.getInstance().initAppData(WelcomeActivity.this);
+				}			
 				AppMission.getInstance().updateAppData(WelcomeActivity.this);
 				HelpMission.getInstance().updateHelpData(WelcomeActivity.this);     
 				String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
