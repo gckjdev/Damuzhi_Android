@@ -71,7 +71,7 @@ public class DownloadService extends Service
 		@Override
 		public void pauseDownload(String downloadURL) throws RemoteException
 		{
-			pauseDownloadTask(downloadURL);
+			stopDownloadTask(downloadURL);
 		}
 		
 		@Override
@@ -164,14 +164,14 @@ public class DownloadService extends Service
 		fileDownloader.download(new DownloadProgressListener()
 			{									
 				@Override
-				public void onDownloadSize(int cityId,String downloadURL, long downloadSpeed,long size, long fileLength,boolean notFinish)
+				public void onDownloadSize(int cityId,String downloadURL, long downloadSpeed,long size, long fileLength,boolean notFinish,boolean connectionError)
 				{
 					try
 					{
 						DownloadStatus downloadStatus = downloadStstudTask.get(downloadURL);
 						if( downloadStatus != null && downloadStatus.mStatus != PAUSE)
 						{
-							iDownloadCallback.onTaskProcessStatusChanged(cityId,downloadURL,downloadSpeed , fileLength, size,notFinish);
+							iDownloadCallback.onTaskProcessStatusChanged(cityId,downloadURL,downloadSpeed , fileLength, size,notFinish,connectionError);
 							if(!notFinish)
 							{
 								DownloadManager downloadManager = new DownloadManager(DownloadService.this);
@@ -211,7 +211,7 @@ public class DownloadService extends Service
 		DownloadStatus dlState = new DownloadStatus(DOWNLOADING, downloadURL);
 		downloadStstudTask.put(downloadURL, dlState);
 		FileDownloader fileDownloader = new FileDownloader(this, 3,cityId,downloadSavePath,tempPath,downloadURL);
-		flag = fileDownloader.FileDownloaderCheeck();
+		flag = fileDownloader.FileDownloaderCheck();
 		downloadTask.put(downloadURL, fileDownloader);
 		if(flag)
 		{
@@ -222,22 +222,26 @@ public class DownloadService extends Service
 	
 	
 	
-	public void pauseDownloadTask(String downloadURL)
+	public void stopDownloadTask(String downloadURL)
 	{
-		DownloadStatus downloadStatus = downloadStstudTask.get(downloadURL);
-		downloadStatus.mStatus = PAUSE;
-		downloadStstudTask.put(downloadURL, downloadStatus);
-		FileDownloader fileDownloader = downloadTask.get(downloadURL);
-		if(fileDownloader != null)
+		if(downloadStstudTask.containsKey(downloadURL))
 		{
-			fileDownloader.pauseDownload();
-		}
+			DownloadStatus downloadStatus = downloadStstudTask.get(downloadURL);
+			downloadStatus.mStatus = PAUSE;
+			downloadStstudTask.put(downloadURL, downloadStatus);
+			FileDownloader fileDownloader = downloadTask.get(downloadURL);
+			if(fileDownloader != null)
+			{
+				fileDownloader.pauseDownload();
+			}
+		}		
 	}
 	
 	public void restartDownloadTask(String downloadURL)
 	{
 		DownloadStatus dlState = downloadStstudTask.get(downloadURL);
 		dlState.mStatus = RESTART;
+		downloadStstudTask.put(downloadURL, dlState);
 		FileDownloader fileDownloader = downloadTask.get(downloadURL);
 		if(fileDownloader != null)
 		{
@@ -254,8 +258,7 @@ public class DownloadService extends Service
 			fileDownloader.cancelDownload();
 			downloadTask.remove(downloadURL);
 			downloadStstudTask.remove(downloadURL);
-		}
-		
+		}	
 	}
 	
 	

@@ -64,9 +64,10 @@ public class FavoriteMission
 		InputStream inputStream = null;
 		BufferedReader br = null;
 		int count = 0;
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
 				br = new BufferedReader(new InputStreamReader(inputStream));
@@ -112,6 +113,7 @@ public class FavoriteMission
 			return count;
 		}finally
 		{
+			httpTool.stopConnection();
 			try
 			{
 				if (inputStream != null){
@@ -199,6 +201,9 @@ public class FavoriteMission
 				}
 			}
 			return resultCode;
+		}finally
+		{
+			httpTool.stopConnection();
 		}
 	}
 

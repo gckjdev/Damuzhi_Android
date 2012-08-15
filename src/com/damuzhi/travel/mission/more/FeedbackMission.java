@@ -33,9 +33,10 @@ public class FeedbackMission
 		BufferedReader br = null;
 		InputStreamReader inputStreamReader = null;
 		String userId = "";
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{				
 				inputStreamReader = new InputStreamReader(inputStream);
@@ -82,6 +83,7 @@ public class FeedbackMission
 			return false;
 		}finally
 		{
+			httpTool.stopConnection();
 			try
 			{
 				if (inputStream != null){				

@@ -8,6 +8,7 @@ public class DownloadInfos {
 	private  long totalBytes;//
 	private  long currentPosition;
 	private boolean notFinish;
+	private boolean connectionError;
 	
 	
 	
@@ -59,7 +60,7 @@ public class DownloadInfos {
 	* @param notFinish  
 	*/
 	public DownloadInfos(int cityId, String url, long speed, long totalBytes,
-			long currentPosition, boolean notFinish)
+			long currentPosition, boolean notFinish,boolean connectionError)
 	{
 		super();
 		this.cityId = cityId;
@@ -68,6 +69,7 @@ public class DownloadInfos {
 		this.totalBytes = totalBytes;
 		this.currentPosition = currentPosition;
 		this.notFinish = notFinish;
+		this.connectionError = connectionError;
 	}
 	
 	
@@ -114,6 +116,14 @@ public class DownloadInfos {
 	public void setNotFinish(boolean notFinish)
 	{
 		this.notFinish = notFinish;
+	}
+	public boolean isConnectionError()
+	{
+		return connectionError;
+	}
+	public void setConnectionError(boolean connectionError)
+	{
+		this.connectionError = connectionError;
 	}
 	
 	

@@ -75,9 +75,10 @@ public class OverviewMission
 		String url = String.format(ConstantField.OVERVIEW, CityOverviewType,cityId,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getOverviewByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
 				
@@ -96,7 +97,6 @@ public class OverviewMission
 		catch (Exception e)
 		{
 			Log.e(TAG, "<getOverviewByUrl> catch exception = "+e.toString(), e);
-			
 				try
 				{
 					if (inputStream != null){
@@ -106,6 +106,17 @@ public class OverviewMission
 				{
 				}
 			return null;
+		}finally
+		{
+			httpTool.stopConnection();
+			try
+			{
+				if (inputStream != null){
+					inputStream.close();
+				}
+			} catch (IOException e1)
+			{
+			}
 		}
 	}
 

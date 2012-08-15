@@ -72,9 +72,10 @@ public class UserMission
 		InputStream inputStream = null;
 		BufferedReader br = null;
 		String userId = "";
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{				
 				br = new BufferedReader(new InputStreamReader(inputStream));
@@ -117,6 +118,7 @@ public class UserMission
 			return userId;
 		}finally
 		{
+			httpTool.stopConnection();
 			try
 			{
 				if (inputStream != null){

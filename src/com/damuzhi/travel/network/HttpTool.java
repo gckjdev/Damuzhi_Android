@@ -1,5 +1,6 @@
 package com.damuzhi.travel.network;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -31,15 +32,15 @@ public class HttpTool
 {
 
 	private static final String TAG = "HttpTool";
+	private  HttpURLConnection urlConnection = null;
 	
 	// TODO move all http handling here
 	
-	public  static InputStream sendGetRequest(String url) 
+	public  InputStream sendGetRequest(String url) 
 	{
 		 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
 		 if(connEnable)
 		 {
-			 HttpURLConnection urlConnection = null;
 			 try{
 				 	URL url2 = new URL(url);
 				 	urlConnection = (HttpURLConnection)url2.openConnection();
@@ -48,16 +49,16 @@ public class HttpTool
 					urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
 					urlConnection.setRequestProperty("Connection", "Keep-Alive");// 
 					urlConnection.setRequestProperty("Charset", "UTF-8"); 
+					urlConnection.setRequestProperty("Accept-Encoding", "identity");
 			        urlConnection.setConnectTimeout(5000);
 			        urlConnection.setRequestMethod("GET");
 			        if(urlConnection !=null&&urlConnection.getDoInput())
 			        {		          
-				        return urlConnection.getInputStream();
+			        	InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+				        return inputStream;
 			        }else {
 						return null;
-					}
-			        
-			
+					}	
 			} catch (Exception e)
 			{	
 				TravelApplication.getInstance().downloadFailToast();
@@ -72,25 +73,25 @@ public class HttpTool
 	}
 	
 	
-	public static HttpURLConnection getConnection(String url) 
+	public  HttpURLConnection getConnection(String url) 
 	{
-			 HttpURLConnection conn = null;
 			 try{
 				 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
 				 if(connEnable)
 				 {
 					 URL connUrl = new URL(url);
-					 conn = (HttpURLConnection)connUrl.openConnection();
-					 conn.setConnectTimeout(5*1000);
-					 conn.setRequestMethod("GET");
-					 conn.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
-					 conn.setRequestProperty("Accept-Language", "zh-CN");
-					 conn.setRequestProperty("Referer", url); 
-					 conn.setRequestProperty("Charset", "UTF-8");
-					 conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
-					 conn.setRequestProperty("Connection", "Keep-Alive");
+					 urlConnection = (HttpURLConnection)connUrl.openConnection();
+					 urlConnection.setConnectTimeout(10*1000);
+					 urlConnection.setRequestMethod("GET");
+					 urlConnection.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
+					 urlConnection.setRequestProperty("Accept-Language", "zh-CN");
+					 urlConnection.setRequestProperty("Accept-Encoding", "identity");
+					 urlConnection.setRequestProperty("Referer", url); 
+					 urlConnection.setRequestProperty("Charset", "UTF-8");
+					 urlConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
+					 urlConnection.setRequestProperty("Connection", "Keep-Alive");
 				 }
-		         return conn ;
+		         return urlConnection ;
 			
 			} catch (Exception e)
 			{			
@@ -99,21 +100,22 @@ public class HttpTool
 			}
 	}
 	
-	public static InputStream getDownloadInputStream(URL url,int startPos,int endPos) 
+	public  InputStream getDownloadInputStream(URL url,int startPos,int endPos) 
 	{
-			HttpURLConnection conn = null;
 			 try{
-				 	conn = (HttpURLConnection) url.openConnection();
-					conn.setConnectTimeout(5 * 1000);
-					conn.setRequestMethod("GET");
-					conn.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
-					conn.setRequestProperty("Accept-Language", "zh-CN");
-					conn.setRequestProperty("Referer", url.toString()); 
-					conn.setRequestProperty("Charset", "UTF-8");
-					conn.setRequestProperty("Range", "bytes=" + startPos + "-"+ endPos);
-					conn.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
-					conn.setRequestProperty("Connection", "Keep-Alive");
-					return conn.getInputStream();
+				 urlConnection = (HttpURLConnection) url.openConnection();
+				 urlConnection.setConnectTimeout(5 * 1000);
+				 urlConnection.setRequestMethod("GET");
+				 urlConnection.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
+				 urlConnection.setRequestProperty("Accept-Language", "zh-CN");
+				 urlConnection.setRequestProperty("Referer", url.toString()); 
+				 urlConnection.setRequestProperty("Charset", "UTF-8");
+				 urlConnection.setRequestProperty("Accept-Encoding", "identity");
+				 urlConnection.setRequestProperty("Range", "bytes=" + startPos + "-"+ endPos);
+				 urlConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
+				 urlConnection.setRequestProperty("Connection", "Keep-Alive");
+				 InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+				 return inputStream;
 										
 			} catch (Exception e)
 			{			
@@ -122,6 +124,14 @@ public class HttpTool
 			}
 	}
 	
+	
+	public   void stopConnection()
+	{
+		if(urlConnection != null)
+		{
+			urlConnection.disconnect();
+		}
+	}
 	
 	
 	public static Map<String, String> getHttpResponseHeader(HttpURLConnection http) {
@@ -203,7 +213,7 @@ public class HttpTool
                 if (ni.isConnected())
                 {
                     haveConnectedWifi = true;
-                    Log.i(TAG,"<haveNetworkConnection> WIFI CONNECTION ----> AVAILABLE");
+                   // Log.i(TAG,"<haveNetworkConnection> WIFI CONNECTION ----> AVAILABLE");
                 } 
             }
             if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
@@ -211,7 +221,7 @@ public class HttpTool
                 if (ni.isConnected())
                 {
                     haveConnectedMobile = true;
-                    Log.i(TAG,"<haveNetworkConnection> MOBILE INTERNET CONNECTION ----> AVAILABLE");
+                   // Log.i(TAG,"<haveNetworkConnection> MOBILE INTERNET CONNECTION ----> AVAILABLE");
                 } 
             }
         }

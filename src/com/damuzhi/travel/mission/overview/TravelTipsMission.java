@@ -88,9 +88,10 @@ public class TravelTipsMission
 		String url = String.format(ConstantField.PLACElIST, tipsType,cityId,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getTravelTipsByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{				
 				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
@@ -119,6 +120,17 @@ public class TravelTipsMission
 				}
 			}
 			return null;
+		}finally
+		{
+			httpTool.stopConnection();
+			if (inputStream != null){
+				try
+				{
+					inputStream.close();
+				} catch (IOException e1)
+				{
+				}
+			}	
 		}
 	}
 

@@ -73,9 +73,10 @@ public class MoreMission
 		InputStream inputStream = null;
 		InputStreamReader inputStreamReader = null;
 		BufferedReader br = null;
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
 				
@@ -121,6 +122,7 @@ public class MoreMission
 			return version;
 		}finally
 		{
+			httpTool.stopConnection();
 			try
 			{
 				if (inputStream != null){				

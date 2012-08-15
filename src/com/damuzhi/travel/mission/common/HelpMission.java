@@ -133,9 +133,10 @@ public class HelpMission
 		TravelResponse travelResponse = null;
 		FileOutputStream output = null;
 		String url = String.format(ConstantField.HELP, ConstantField.LANG_HANS);
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			helpInputStream =  HttpTool.sendGetRequest(url);
+			helpInputStream =  httpTool.sendGetRequest(url);
 			if(helpInputStream !=null)
 			{
 				/*long sdFreeM = FileUtil.freeSpaceOnSd();
@@ -178,6 +179,7 @@ public class HelpMission
 		}
 		finally
 		{
+			httpTool.stopConnection();
 			try
 			{
 				if(output != null)
@@ -216,12 +218,13 @@ public class HelpMission
             {
             	helpFolder.mkdirs();
             }        
+            HttpTool httpTool = new HttpTool();
     		try
     		{
-    			File helpFile = new File(helpFolder ,HttpTool.getFileName(HttpTool.getConnection(url), url));
+    			File helpFile = new File(helpFolder ,HttpTool.getFileName(httpTool.getConnection(url), url));
     			URL helpURL = new URL(url);
-    			int fileSize = HttpTool.getConnection(url).getContentLength();
-    			inStream = HttpTool.getDownloadInputStream(helpURL, 0, fileSize);
+    			int fileSize = httpTool.getConnection(url).getContentLength();
+    			inStream = httpTool.getDownloadInputStream(helpURL, 0, fileSize);
     			//long sdFreeM = FileUtil.freeSpaceOnSd();
     			if(inStream !=null )
     			{
@@ -246,6 +249,7 @@ public class HelpMission
     			result = false;
     		}finally
     		{
+    			httpTool.stopConnection();
     			try
 				{
     				if(threadfile != null)
@@ -327,9 +331,10 @@ public class HelpMission
 		InputStream helpInputStream = null;
 		TravelResponse travelResponse = null;
 		String url = String.format(ConstantField.HELP, ConstantField.LANG_HANS);
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			helpInputStream =  HttpTool.sendGetRequest(url);
+			helpInputStream =  httpTool.sendGetRequest(url);
 			if(helpInputStream != null)
 			{
 				travelResponse = TravelResponse.parseFrom(helpInputStream);	
@@ -346,6 +351,7 @@ public class HelpMission
 		}	
 		finally
 		{
+			httpTool.stopConnection();
 			try{
 				if(helpInputStream != null)
 				{

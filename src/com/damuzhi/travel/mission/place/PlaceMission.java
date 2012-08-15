@@ -216,9 +216,10 @@ public class PlaceMission
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{				
 				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
@@ -247,6 +248,17 @@ public class PlaceMission
 				}
 			}
 			return Collections.emptyList();
+		}finally
+		{
+			httpTool.stopConnection();
+			if (inputStream != null){
+				try
+				{
+					inputStream.close();
+				} catch (IOException e1)
+				{
+				}
+			}
 		}
 	}
 	
@@ -262,9 +274,10 @@ public class PlaceMission
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getPlaceStatisticsByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{				
 				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
@@ -292,6 +305,17 @@ public class PlaceMission
 				}
 			}
 			return null;
+		}finally
+		{
+			httpTool.stopConnection();
+			if (inputStream != null){
+				try
+				{
+					inputStream.close();
+				} catch (IOException e1)
+				{
+				}
+			}
 		}
 	}
 	
@@ -300,9 +324,10 @@ public class PlaceMission
 	{
 		Log.d(TAG, "<getNearByPlaceListByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
 				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
@@ -332,6 +357,17 @@ public class PlaceMission
 				}
 			}
 			return Collections.emptyList();
+		}finally
+		{
+			httpTool.stopConnection();
+			if (inputStream != null){
+				try
+				{
+					inputStream.close();
+				} catch (IOException e1)
+				{
+				}
+			}
 		}
 	}
 	
@@ -469,9 +505,10 @@ public class PlaceMission
 			String url = String.format(ConstantField.PLACE_PAGE_LOAD_MORE_URL, objectType, cityId,subcategoryId,areaId,serviceId, priceRankId,sortType,start,count,ConstantField.LANG_HANS);
 			Log.i(TAG, "<loadMorePlace> load place data from http ,url = "+url);
 			InputStream inputStream = null;
+			HttpTool httpTool = new HttpTool();
 			try
 			{
-				inputStream = HttpTool.sendGetRequest(url);
+				inputStream = httpTool.sendGetRequest(url);
 				if(inputStream !=null)
 				{				
 					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
@@ -504,6 +541,17 @@ public class PlaceMission
 					}
 				}
 				return Collections.emptyList();
+			}finally
+			{
+				httpTool.stopConnection();
+				if (inputStream != null){
+					try
+					{
+						inputStream.close();
+					} catch (IOException e1)
+					{
+					}
+				}
 			}
 		}
 
@@ -725,9 +773,10 @@ public class PlaceMission
 			String url = String.format(ConstantField.PLACE_PAGE_FILTER_URL, objectType, cityId,subcateType,areaId,serviceId, priceRankId,sortType,start,count,ConstantField.LANG_HANS);
 			Log.i(TAG, "<filterPlace> load place data from http ,url = "+url);
 			InputStream inputStream = null;
+			HttpTool httpTool = new HttpTool();
 			try
 			{
-				inputStream = HttpTool.sendGetRequest(url);
+				inputStream = httpTool.sendGetRequest(url);
 				if(inputStream !=null)
 				{				
 					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
@@ -761,6 +810,17 @@ public class PlaceMission
 					}
 				}
 				return Collections.emptyList();
+			}finally
+			{
+				httpTool.stopConnection();
+				if (inputStream != null){
+					try
+					{
+						inputStream.close();
+					} catch (IOException e1)
+					{
+					}
+				}
 			}
 		}
 

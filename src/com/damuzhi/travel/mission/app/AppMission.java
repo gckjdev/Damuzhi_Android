@@ -122,10 +122,11 @@ public class AppMission
 		boolean result = false;
 		InputStream appInputStream = null;
 		FileOutputStream output = null;
+		HttpTool httpTool = new HttpTool();
 		try
 		{
 			String url = String.format(ConstantField.APP, ConstantField.LANG_HANS);
-			appInputStream =  HttpTool.sendGetRequest(url);
+			appInputStream =  httpTool.sendGetRequest(url);
 			if(appInputStream != null)
 			{
 				ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -162,6 +163,7 @@ public class AppMission
 			result = false;
 		}finally
 		{
+			httpTool.stopConnection();
 			try
 			{
 				if(output != null)

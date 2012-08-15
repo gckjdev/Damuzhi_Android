@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.IllegalFormatCodePointException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -23,6 +24,7 @@ import com.damuzhi.travel.db.FileDBHelper;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.downlaod.DownloadManager;
 import com.damuzhi.travel.network.HttpTool;
+import com.damuzhi.travel.util.BufferedRandomAccessFile;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.ZipUtil;
 
@@ -54,7 +56,7 @@ public class FileDownloader
 	private HttpURLConnection conn;
 	private volatile  boolean runflag = true;
 	private volatile  boolean notFinish;
-
+	private boolean connectionError = false;
 	public int getThreadSize()
 	{
 		return threads.length;
@@ -97,70 +99,56 @@ public class FileDownloader
 		
 	}
 
-	public boolean FileDownloaderCheeck()
+	public boolean FileDownloaderCheck()
 	{
+		HttpTool httpTool = new HttpTool();
 		try
 		{
 			boolean flag = false;
-			HttpURLConnection conn = HttpTool.getConnection(downloadURL);
+			HttpURLConnection conn = httpTool.getConnection(downloadURL);
 			if(conn !=null)
 			{
 				conn.connect();
 				printResponseHeader(conn);
 				if (conn.getResponseCode() == 200)
 				{
-					boolean sdCardEnable = FileUtil.sdcardEnable();
-					//if(sdCardEnable)
-					//{
-						File fileSaveDir = new File(this.tempPath);
-						downloadManager = DownloadManager.getDownloadManager(this.context);
-						if (!fileSaveDir.exists())
-							fileSaveDir.mkdirs();
-						this.threads = new DownloadThread[threadNum];
-						this.fileSize = conn.getContentLength();
-						//long sdFreeM = FileUtil.freeSpaceOnSd();
-						if (this.fileSize <= 0)
+					//boolean sdCardEnable = FileUtil.sdcardEnable();
+					File fileSaveDir = new File(this.tempPath);
+					downloadManager = new DownloadManager(this.context);
+					if (!fileSaveDir.exists())
+						fileSaveDir.mkdirs();
+					this.threads = new DownloadThread[threadNum];
+					this.fileSize = conn.getContentLength();
+					if (this.fileSize <= 0)
+					{
+						throw new RuntimeException("Unkown file size ");
+					}					
+					String filename = HttpTool.getTempFileName(conn, downloadURL);
+					this.saveFile = new File(fileSaveDir, filename);
+					Log.d(TAG, "download data from  url = "+downloadURL);
+					Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
+					if (logdata.size() > 0)
+					{
+						for (Map.Entry<Integer, Integer> entry : logdata.entrySet())
 						{
-							throw new RuntimeException("Unkown file size ");
-						}					
-						String filename = HttpTool.getTempFileName(conn, downloadURL);
-						this.saveFile = new File(fileSaveDir, filename);
-						Log.d(TAG, "download data from  url = "+downloadURL);
-						Map<Integer, Integer> logdata = downloadManager.getData(downloadURL);
-						if (logdata.size() > 0)
-						{
-							for (Map.Entry<Integer, Integer> entry : logdata.entrySet())
-							{
-								data.put(entry.getKey(), entry.getValue());
-							}
+							data.put(entry.getKey(), entry.getValue());
 						}
-						this.block = (this.fileSize % this.threads.length) == 0 ? this.fileSize/ this.threads.length: this.fileSize / this.threads.length + 1;
-						if (this.data.size() == this.threads.length)
+					}
+					this.block = (this.fileSize % this.threads.length) == 0 ? this.fileSize/ this.threads.length: this.fileSize / this.threads.length + 1;
+					if (this.data.size() == this.threads.length)
+					{
+						for (int i = 0; i < this.threads.length; i++)
 						{
-							for (int i = 0; i < this.threads.length; i++)
-							{
-								this.downloadSize += this.data.get(i + 1);
-							}
-							Log.d(TAG, "downsize = " + this.downloadSize);
-		
+							this.downloadSize += this.data.get(i + 1);
 						}
-						flag = true;
-						/*if(sdFreeM>fileSize)
-						{
-							
-						}else {
-							TravelApplication.getInstance().getSDcardFailToast();
-							Log.e(TAG, "<FileDownloaderCheeck> get sdcard fail ");
-							flag = false;
-						}*/
-					/*}else {
-						flag = false;
-						Log.e(TAG, "<FileDownloaderCheeck> download service get conn fail,response code = "+conn.getResponseCode());
-					}*/				
+						Log.d(TAG, "downsize = " + this.downloadSize);
+	
+					}
+					flag = true;		
 				} else
 				{
 					flag = false;
-					Log.e(TAG, "<FileDownloaderCheeck> download service get conn fail,response code = "+conn.getResponseCode());
+					Log.e(TAG, "<FileDownloaderCheck> download service get conn fail,response code = "+conn.getResponseCode());
 				}
 			}
 			return flag;
@@ -168,6 +156,9 @@ public class FileDownloader
 		{
 			Log.e(TAG,"<FileDownloaderCheeck> download city data but catch exception :" + e.toString(),e);
 			return false;
+		}finally
+		{
+			httpTool.stopConnection();
 		}
 	}
 
@@ -179,6 +170,7 @@ public class FileDownloader
 		try
 		{
 			RandomAccessFile randOut = new RandomAccessFile(this.saveFile, "rw");
+			//BufferedRandomAccessFile randOut = new BufferedRandomAccessFile(this.saveFile, "rw");
 			if (this.fileSize > 0)
 				randOut.setLength(this.fileSize);
 			randOut.close();
@@ -216,18 +208,27 @@ public class FileDownloader
 					if (this.threads[i] != null && !this.threads[i].isFinish())
 					{
 						notFinish = true;
-						if (this.threads[i].getDownLength() == -1)
+						boolean networkEnable = TravelApplication.getInstance().checkNetworkConnection();
+						if(networkEnable)
 						{
-							this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block,this.data.get(i + 1), i + 1);
-							this.threads[i].setPriority(7);
-							this.threads[i].setName(url.toString() + i);
-							this.threads[i].start();
+							
+							if (this.threads[i].getDownLength() == -1)
+							{
+								this.threads[i] = new DownloadThread(this, url,this.saveFile, this.block,this.data.get(i + 1), i + 1);
+								this.threads[i].setPriority(7);
+								this.threads[i].setName(url.toString() + i);
+								this.threads[i].start();
+							}
+						}else
+						{
+							connectionError = true;
 						}
+						
 					}
 				}
 				if (listener != null&&getrunflag())
 				{
-					listener.onDownloadSize(cityId, downloadURL,this.downloadSpeed,this.downloadSize, fileSize,notFinish);
+					listener.onDownloadSize(cityId, downloadURL,this.downloadSpeed,this.downloadSize, fileSize,notFinish,connectionError);
 				}
 			}
 			

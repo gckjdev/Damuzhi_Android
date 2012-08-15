@@ -1,12 +1,16 @@
 package com.damuzhi.travel.download;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
 
 import com.damuzhi.travel.network.HttpTool;
+import com.damuzhi.travel.util.BufferedRandomAccessFile;
 
 import android.util.Log;
 
@@ -37,31 +41,34 @@ public class DownloadThread extends Thread {
 	@Override
 	public void run() {
 		if(downLength < block){
+			
+			HttpTool httpTool = new HttpTool();
+			RandomAccessFile threadfile = null;
 			try {
 				int startPos = block * (threadId - 1) + downLength;
-				int endPos = block * threadId -1;
-				InputStream inStream = HttpTool.getDownloadInputStream(downUrl, startPos, endPos);
+				int endPos = block * threadId -1;			
+				InputStream inStream = httpTool.getDownloadInputStream(downUrl, startPos, endPos);
 				if(inStream !=null)
 				{
 					byte[] buffer = new byte[10240];
 					int offset = 0;
 					//Log.i(TAG, "download url = "+downUrl);
 					Log.i(TAG, "Thread " + this.threadId + " start download from position "+ startPos);
-					RandomAccessFile threadfile = new RandomAccessFile(this.saveFile, "rwd");
+					threadfile = new RandomAccessFile(this.saveFile, "rwd");
 					threadfile.seek(startPos);
-						while ((offset = inStream.read(buffer, 0, 10240)) != -1) {	
-							if(!getrunflag())
-							{
-								return;
-							}
-							threadfile.write(buffer, 0, offset);
-							downLength += offset;
-							downloader.update(this.threadId, downLength);
-							downloader.saveLogFile();
-							downloader.append(offset);
-							downloader.downloadSpeed(offset);								
-						}
-						runflag = false;
+					while ((offset = inStream.read(buffer, 0, 10240)) != -1) {	
+						if(!getrunflag())
+						{
+							return;
+						}	
+						threadfile.write(buffer, 0, offset);
+						downLength += offset;
+						downloader.update(this.threadId, downLength);
+						downloader.saveLogFile();
+						downloader.append(offset);
+						downloader.downloadSpeed(offset);								
+					}
+					runflag = false;
 					threadfile.close();
 					inStream.close();			
 					Log.i(TAG,"Thread " + this.threadId + " download finish");
@@ -70,6 +77,19 @@ public class DownloadThread extends Thread {
 			} catch (Exception e) {
 				this.downLength = -1;
 				Log.e(TAG, "Thread "+ this.threadId+ ":"+ e.toString(),e);
+			}finally
+			{
+				httpTool.stopConnection();		
+				try
+				{
+					if(threadfile != null)
+					{
+						threadfile.close();
+					}
+				} catch (IOException e)
+				{
+					e.printStackTrace();
+				}
 			}
 		}
 	}

@@ -27,20 +27,21 @@ public class DownloadManager
 	
 	private static DownloadManager instance;
 
-    public static  DownloadManager getDownloadManager(Context context)
+    /*public static  DownloadManager getDownloadManager(Context context)
     {
         if (instance == null)
             instance = new DownloadManager(context);
         
         return instance;
-    }
+    }*/
 	
 	
 	public DownloadManager(Context context)
 	{
 		super();
 		this.context = context;
-		fileDBHelper = FileDBHelper.getFileDBHelper(this.context);
+		//fileDBHelper = FileDBHelper.getFileDBHelper(this.context);
+		fileDBHelper = new FileDBHelper(this.context);
 	}
 
 

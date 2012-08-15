@@ -1,6 +1,7 @@
 package com.damuzhi.travel.activity.more;
 
 import java.io.File;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -81,11 +82,8 @@ public class OpenCityActivity extends Activity
 	private static Map<String, TextView> resultTextMap = new HashMap<String, TextView>();
 	private Map<String, Integer> positionMap = new HashMap<String, Integer>();
 	private Map<String, Integer> downloadStatusMap ;
-	private Map<String, Integer> updateStatusMap;
 	private Map<String, DownloadStatus> downloadStatusTask;
-	private Map<String, DownloadStatus> updateStatusTask;
 	public static Map<Integer, Integer> installCityData = new HashMap<Integer, Integer>();
-	private static Map<String, Integer> updateCityData = new HashMap<String, Integer>();
 	private Map<Integer, String> newVersionCityData = new HashMap<Integer, String>();
 	List<Integer> installedCityList = new ArrayList<Integer>();
 	
@@ -185,6 +183,35 @@ public class OpenCityActivity extends Activity
 	
 	
 	
+	private IDownloadCallback callback = new IDownloadCallback.Stub()
+	{
+		
+		@Override
+		public void onTaskStatusChanged(String strkey, int status)throws RemoteException
+		{
+		}
+			
+		@Override
+		public void onTaskProcessStatusChanged(int cityId,String downloadURL, long speed,long totalBytes, long curPos,boolean notFinish,boolean connectionError) 
+		{ 
+             final  DownloadInfos dl = new DownloadInfos(cityId,downloadURL,speed,totalBytes,curPos,notFinish,connectionError);  	
+             Thread thread = new Thread(new Runnable()
+			{
+				
+				@Override
+				public void run()
+				{
+					 Message msg = Message.obtain();
+					 msg.what = PROCESS_CHANGED;
+					 msg.obj = dl;
+				     downloadInfoHandler.sendMessage(msg);				
+				}
+			});
+             thread.start(); 
+			  
+		}
+	};
+	
 	private Handler downloadInfoHandler = new Handler(){		
 		@Override
 		public void handleMessage(Message msg)
@@ -197,11 +224,7 @@ public class OpenCityActivity extends Activity
 				downloadInfo = (DownloadInfos) msg.obj;
 				refresh(downloadInfo);
 				break;
-			case -1:
-				Toast.makeText(OpenCityActivity.this, R.string.error, 1).show();
-				break;
-			default:
-				
+			default:				
 				break;
 			}
 		}
@@ -211,101 +234,131 @@ public class OpenCityActivity extends Activity
 	private void refresh(Object object)
 	{
 		AsyncTask<Object, Void, Object> task = new AsyncTask<Object, Void, Object>()
-				{
+		{
 
-					@Override
-					protected Object doInBackground(Object... params)
-					{
-						Object downloadInfo =  params[0];						
-						return downloadInfo;	
-					}
+			@Override
+			protected Object doInBackground(Object... params)
+			{
+				Object downloadInfo =  params[0];						
+				return downloadInfo;	
+			}
 
-					@Override
-					protected void onPostExecute(Object result)
-					{
-						DownloadInfos downloadInfo = (DownloadInfos) result;
-						refreshDownloadProgress(downloadInfo);
-						super.onPostExecute(result);
-					}
-				};
-				Object[] params = new Object[]{object};
-				task.execute(params);
+			@Override
+			protected void onPostExecute(Object result)
+			{
+				DownloadInfos downloadInfo = (DownloadInfos) result;
+				refreshDownloadProgress(downloadInfo);
+				super.onPostExecute(result);
+			}
+		};
+		Object[] params = new Object[]{object};
+		task.execute(params);
 	}
 	
 		
 	private void refreshDownloadProgress( DownloadInfos downloadInfo)
 	{
-		ProgressBar downloadBar = progressBarMap.get(downloadInfo.getUrl());
-		TextView resultView = resultTextMap.get(downloadInfo.getUrl());
-		if(downloadBar != null)
-		{					
-			downloadBar.setMax((int)downloadInfo.getTotalBytes());
-			downloadBar.setProgress((int)downloadInfo.getCurrentPosition());
-			int persent = (int) (((float)downloadInfo.getCurrentPosition()/(float)downloadInfo.getTotalBytes())*100);
-			resultView.setText(persent+"%");
-			if(!downloadInfo.isNotFinish()){	
-				String downloadURL = downloadInfo.getUrl();
-				int cityId = downloadInfo.getCityId();
-				int position = 0;
-				if(newVersionCityData.containsKey(cityId))
+		if(downloadInfo != null)
+		{
+		
+			String downloadURL = downloadInfo.getUrl();
+			boolean connectionError = downloadInfo.isConnectionError();
+			ProgressBar downloadBar = progressBarMap.get(downloadURL);
+			TextView resultView = resultTextMap.get(downloadURL);
+			if(downloadBar != null)
+			{		
+				if(connectionError)
 				{
-					downloadListView.findViewWithTag("installing"+downloadURL).setVisibility(View.VISIBLE);
-					downloadListView.findViewWithTag("group"+downloadURL).setVisibility(View.GONE);
-				}else
-				{
-					position = positionMap.get(downloadURL);
-					openCtiyDataListView.invalidate();
-					TextView installingTextView = (TextView) openCtiyDataListView.findViewWithTag("installing"+position);
-					if(installingTextView != null)
+					TravelApplication.getInstance().makeToast();
+					if(newVersionCityData.containsKey(downloadURL))
 					{
-						openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.GONE);
-						openCtiyDataListView.findViewWithTag("group"+position).setVisibility(View.GONE);
-						installingTextView.setVisibility(View.VISIBLE);				
-					}
-				}				
-				progressBarMap.remove(downloadURL);
-				resultTextMap.remove(downloadURL);
-				//cancelDownload(downloadURL);
-				
-										
-				String zipTempFilePath = ConstantField.DOWNLOAD_TEMP_PATH+HttpTool.getTempFileName(HttpTool.getConnection(downloadURL), downloadURL);
-				String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(HttpTool.getConnection(downloadURL), downloadURL);
-				File tempFile = new File(zipTempFilePath);
-				File zipFile = new File(zipFilePath);
-				String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
-				boolean reulst = tempFile.renameTo(zipFile);
-				if(reulst)
-				{														
-					try
-					{
-						upZipFile(zipFilePath, upZipFilePath,Integer.toString(cityId),downloadURL);
-						DownloadManager downloadManager = new DownloadManager(OpenCityActivity.this);
-						downloadManager.deleteDownloadInfo(downloadURL);
-					} catch (Exception e)
-					{
-						Log.e(TAG, "<downloadInfoHandler.handleMessage> but catch exception:"+e.toString(),e);
-					}				
-				}else
-				{
-					if(newVersionCityData.containsKey(cityId))
-					{
-						downloadListView.findViewWithTag("installing"+downloadURL).setVisibility(View.GONE);
-						downloadListView.findViewWithTag("installed"+downloadURL).setVisibility(View.GONE);
+						int cityId = downloadInfo.getCityId();
+						pauseDownload(downloadURL);
+						downloadStatusMap.put(downloadURL, DOWNLOAD_PAUSE);
+						ImageView restartBtn = (ImageView) downloadListView.findViewWithTag("restart"+cityId);
+						ImageView stopBtn = (ImageView) downloadListView.findViewWithTag("pause"+cityId);
+						restartBtn.setVisibility(View.VISIBLE);
+						stopBtn.setVisibility(View.GONE);
 					}else
 					{
-						openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.VISIBLE);
-						openCtiyDataListView.findViewWithTag("installing"+position).setVisibility(View.GONE);
-						openCtiyDataListView.findViewWithTag("installed"+position).setVisibility(View.GONE);
-					}		
-					deleteFile(zipFilePath,upZipFilePath);
-				}	
-			}else
-			{
-				return ;
-			}					
-		}							
-
-					
+						int position = positionMap.get(downloadURL);
+						pauseDownload(downloadURL);
+						downloadStatusMap.put(downloadURL, DOWNLOAD_PAUSE);
+						ImageView restartBtn = (ImageView) openCtiyDataListView.findViewWithTag("restart"+position);
+						ImageView stopBtn = (ImageView) openCtiyDataListView.findViewWithTag("pause"+position);
+						restartBtn.setVisibility(View.VISIBLE);
+						stopBtn.setVisibility(View.GONE);
+					}
+			}else{
+					downloadBar.setMax((int)downloadInfo.getTotalBytes());
+					downloadBar.setProgress((int)downloadInfo.getCurrentPosition());
+					int persent = (int) (((float)downloadInfo.getCurrentPosition()/(float)downloadInfo.getTotalBytes())*100);
+					resultView.setText(persent+"%");
+					if(!downloadInfo.isNotFinish()){					
+						int cityId = downloadInfo.getCityId();
+						int position = 0;
+						if(newVersionCityData.containsKey(cityId))
+						{
+							downloadListView.findViewWithTag("installing"+downloadURL).setVisibility(View.VISIBLE);
+							downloadListView.findViewWithTag("group"+downloadURL).setVisibility(View.GONE);
+						}else
+						{
+							position = positionMap.get(downloadURL);
+							openCtiyDataListView.invalidate();
+							TextView installingTextView = (TextView) openCtiyDataListView.findViewWithTag("installing"+position);
+							if(installingTextView != null)
+							{
+								openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.GONE);
+								openCtiyDataListView.findViewWithTag("group"+position).setVisibility(View.GONE);
+								installingTextView.setVisibility(View.VISIBLE);				
+							}
+						}				
+						progressBarMap.remove(downloadURL);
+						resultTextMap.remove(downloadURL);
+						//cancelDownload(downloadURL);
+						
+						HttpTool httpTool = new HttpTool();
+						HttpURLConnection urlConnnection = httpTool.getConnection(downloadURL);						
+						String zipTempFilePath = ConstantField.DOWNLOAD_TEMP_PATH+HttpTool.getTempFileName(urlConnnection, downloadURL);
+						String zipFilePath = String.format(ConstantField.DOWNLOAD_TEMP_PATH, cityId)+HttpTool.getFileName(urlConnnection, downloadURL);
+						httpTool.stopConnection();
+						File tempFile = new File(zipTempFilePath);
+						File zipFile = new File(zipFilePath);
+						String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);
+						boolean reulst = tempFile.renameTo(zipFile);
+						if(reulst)
+						{														
+							try
+							{
+								upZipFile(zipFilePath, upZipFilePath,Integer.toString(cityId),downloadURL);
+								DownloadManager downloadManager = new DownloadManager(OpenCityActivity.this);
+								downloadManager.deleteDownloadInfo(downloadURL);
+							} catch (Exception e)
+							{
+								Log.e(TAG, "<downloadInfoHandler.handleMessage> but catch exception:"+e.toString(),e);
+							}				
+						}else
+						{
+							if(newVersionCityData.containsKey(cityId))
+							{
+								downloadListView.findViewWithTag("installing"+downloadURL).setVisibility(View.GONE);
+								downloadListView.findViewWithTag("installed"+downloadURL).setVisibility(View.GONE);
+							}else
+							{
+								openCtiyDataListView.findViewWithTag("button"+position).setVisibility(View.VISIBLE);
+								openCtiyDataListView.findViewWithTag("installing"+position).setVisibility(View.GONE);
+								openCtiyDataListView.findViewWithTag("installed"+position).setVisibility(View.GONE);
+							}		
+							deleteFile(zipFilePath,upZipFilePath);
+						}	
+					}else
+					{
+						return ;
+					}	
+				}
+								
+			}	
+		}		
 	}
 	
 	
@@ -359,7 +412,6 @@ public class OpenCityActivity extends Activity
 		
 		AsyncTask<String, Void, Void> task = new AsyncTask<String, Void, Void>()
 		{
-
 			@Override
 			protected Void doInBackground(String... params)
 			{
@@ -368,9 +420,7 @@ public class OpenCityActivity extends Activity
 				FileUtil.deleteFolder(zipFilePath);
 				FileUtil.deleteFolder(upZipFilePath);
 				return null;
-			}
-
-			
+			}	
 		};
 		task.execute(params);
 	}
@@ -426,34 +476,7 @@ public class OpenCityActivity extends Activity
 	
 	
 	
-	private IDownloadCallback callback = new IDownloadCallback.Stub()
-	{
-		
-		@Override
-		public void onTaskStatusChanged(String strkey, int status)throws RemoteException
-		{
-		}
-			
-		@Override
-		public void onTaskProcessStatusChanged(int cityId,String downloadURL, long speed,long totalBytes, long curPos,boolean notFinish) 
-		{ 
-             final  DownloadInfos dl = new DownloadInfos(cityId,downloadURL,speed,totalBytes,curPos,notFinish);  	
-             Thread thread = new Thread(new Runnable()
-			{
-				
-				@Override
-				public void run()
-				{
-					 Message msg = Message.obtain();
-					 msg.what = PROCESS_CHANGED;
-					 msg.obj = dl;
-				     downloadInfoHandler.sendMessage(msg);				
-				}
-			});
-             thread.start(); 
-			  
-		}
-	};
+	
 	
 	
 	
@@ -481,7 +504,24 @@ public class OpenCityActivity extends Activity
 						Looper.prepare();
 						Toast.makeText(OpenCityActivity.this, getResources().getString(R.string.download_connection_error), Toast.LENGTH_LONG).show();
 						Looper.loop();
-						pauseDownload(cityId, downloadURL);
+						if(newVersionCityData.containsKey(downloadURL))
+						{
+							pauseDownload(downloadURL);
+							downloadStatusMap.put(downloadURL, DOWNLOAD_PAUSE);
+							ImageView restartBtn = (ImageView) downloadListView.findViewWithTag("restart"+cityId);
+							ImageView stopBtn = (ImageView) downloadListView.findViewWithTag("pause"+cityId);
+							restartBtn.setVisibility(View.VISIBLE);
+							stopBtn.setVisibility(View.GONE);
+						}else
+						{
+							int position = positionMap.get(downloadURL);
+							pauseDownload(downloadURL);
+							downloadStatusMap.put(downloadURL, DOWNLOAD_PAUSE);
+							ImageView restartBtn = (ImageView) openCtiyDataListView.findViewWithTag("restart"+position);
+							ImageView stopBtn = (ImageView) openCtiyDataListView.findViewWithTag("pause"+position);
+							restartBtn.setVisibility(View.VISIBLE);
+							stopBtn.setVisibility(View.GONE);
+						}
 					}
 				} catch (RemoteException e)
 				{
@@ -675,6 +715,8 @@ public class OpenCityActivity extends Activity
 				dataSize.setVisibility(View.GONE);
 				cancleGroup.setVisibility(View.VISIBLE);
 				dataDownloadMangerGroup.setVisibility(View.VISIBLE);
+				String startDownload = getString(R.string.start_download);
+				downloadToast(startDownload);
 		}
 	};
 	
@@ -697,7 +739,8 @@ public class OpenCityActivity extends Activity
 			v.setVisibility(View.GONE);
 			ImageView btn = (ImageView) openCtiyDataListView.findViewWithTag("restart"+position);
 			btn.setVisibility(View.VISIBLE);
-			
+			String stopDownload = getString(R.string.stop_download);
+			downloadToast(stopDownload);
 		}
 	};
 	
@@ -733,6 +776,8 @@ public class OpenCityActivity extends Activity
 			ImageView pauseButton = (ImageView) openCtiyDataListView.findViewWithTag("pause"+position);					
 			v.setVisibility(View.GONE);
 			pauseButton.setVisibility(View.VISIBLE);
+			String restsrtDownload = getString(R.string.start_download);
+			downloadToast(restsrtDownload);
 		}
 	};
 	
@@ -743,34 +788,58 @@ public class OpenCityActivity extends Activity
 		public void onClick(View v)
 		{
 			String tag = (String) v.getTag();
-			int position = Integer.parseInt(tag.substring(tag.lastIndexOf("l")+1));
-			City city = cityList.get(position);
+			final int position = Integer.parseInt(tag.substring(tag.lastIndexOf("l")+1));
 			
-			downloadManager.deleteDownloadInfo(city.getDownloadURL());
-			String downloadURL = city.getDownloadURL();	
-			ViewGroup cancleGroup = (ViewGroup) openCtiyDataListView.findViewWithTag("cancelGroup"+position);
-			ViewGroup startGroup = (ViewGroup) openCtiyDataListView.findViewWithTag("startGroup"+position);
-			ViewGroup dataDownloadMangerGroup = (ViewGroup) openCtiyDataListView.findViewWithTag("group"+position);
-			TextView dataSize = (TextView) openCtiyDataListView.findViewWithTag("datasize"+position);
-			ProgressBar downloadBar = progressBarMap.get(downloadURL);
-			TextView resultView = resultTextMap.get(downloadURL);
 			
-			if(downloadBar!=null)
+			AlertDialog deleteAlertDialog = new AlertDialog.Builder(OpenCityActivity.this).create();
+			deleteAlertDialog.setMessage(OpenCityActivity.this.getString(R.string.delete_download_data));
+			deleteAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,OpenCityActivity.this.getString(R.string.ok),new DialogInterface.OnClickListener()
+			{					
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{	
+					City city = cityList.get(position);
+					
+					downloadManager.deleteDownloadInfo(city.getDownloadURL());
+					String downloadURL = city.getDownloadURL();	
+					ViewGroup cancleGroup = (ViewGroup) openCtiyDataListView.findViewWithTag("cancelGroup"+position);
+					ViewGroup startGroup = (ViewGroup) openCtiyDataListView.findViewWithTag("startGroup"+position);
+					ViewGroup dataDownloadMangerGroup = (ViewGroup) openCtiyDataListView.findViewWithTag("group"+position);
+					TextView dataSize = (TextView) openCtiyDataListView.findViewWithTag("datasize"+position);
+					ProgressBar downloadBar = progressBarMap.get(downloadURL);
+					TextView resultView = resultTextMap.get(downloadURL);
+					
+					if(downloadBar!=null)
+					{
+						downloadBar.setMax(0);
+						downloadBar.setProgress(0);
+						resultView.setText("");
+						progressBarMap.remove(downloadURL);
+						resultTextMap.remove(downloadURL);
+						downloadStatusTask.remove(downloadURL);
+						cityListAdapter.notifyDataSetChanged();
+					}				
+					downloadStatusMap.remove(downloadURL);
+					startGroup.setVisibility(View.VISIBLE);
+					dataSize.setVisibility(View.VISIBLE);
+					cancleGroup.setVisibility(View.GONE);
+					dataDownloadMangerGroup.setVisibility(View.GONE);
+					cancelDownload(downloadURL);
+				}	
+			} );
+			deleteAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+OpenCityActivity.this.getString(R.string.cancel),new DialogInterface.OnClickListener()
 			{
-				downloadBar.setMax(0);
-				downloadBar.setProgress(0);
-				resultView.setText("");
-				progressBarMap.remove(downloadURL);
-				resultTextMap.remove(downloadURL);
-				downloadStatusTask.remove(downloadURL);
-				cityListAdapter.notifyDataSetChanged();
-			}				
-			downloadStatusMap.remove(downloadURL);
-			startGroup.setVisibility(View.VISIBLE);
-			dataSize.setVisibility(View.VISIBLE);
-			cancleGroup.setVisibility(View.GONE);
-			dataDownloadMangerGroup.setVisibility(View.GONE);
-			cancelDownload(downloadURL);
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					dialog.cancel();					
+				}
+			} );
+			deleteAlertDialog.show();	
+			
+			
+			
 		}
 	};
 	
@@ -966,6 +1035,16 @@ public class OpenCityActivity extends Activity
 		pauseDownload(downloadURL);
 		downloadStatusMap.put(downloadURL, DOWNLOAD_PAUSE);
 	}
+	
+	
+	private void downloadToast(String title)
+	{
+		Toast.makeText(OpenCityActivity.this,title, Toast.LENGTH_SHORT).show();
+	}
+	
+	
+	
+	
 	
 	
 	
@@ -1402,11 +1481,6 @@ public class OpenCityActivity extends Activity
 			};
 			task.execute(params);
 		}
-		
-		
-		
-		
-		
 	}
 	
 

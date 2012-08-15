@@ -21,18 +21,18 @@ public class FileDBHelper {
 	private DBOpenHelper openHelper;
 	private static FileDBHelper instance;
 
-    public static  FileDBHelper getFileDBHelper(Context context)
+    /*public static  FileDBHelper getFileDBHelper(Context context)
     {
         if (instance == null){
             instance = new FileDBHelper(context);
         }
         return instance;
-    }
+    }*/
 	
 	
 	public FileDBHelper(Context context) {
-		openHelper = DBOpenHelper.getHelper(context);
-		//openHelper = new DBOpenHelper(context);
+		//openHelper = DBOpenHelper.getHelper(context);
+		openHelper = new DBOpenHelper(context);
 	}
 	
 	
@@ -50,7 +50,7 @@ public class FileDBHelper {
 		finally
 		{
 			cursor.close();
-			//db.close();
+			db.close();
 		}
 		
 		return data;
@@ -74,7 +74,7 @@ public class FileDBHelper {
 		finally
 		{
 			cursor.close();
-			//db.close();
+			db.close();
 		}
 		
 		return downloadBean;
@@ -98,7 +98,7 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
-			//db.close();
+			db.close();
 		}
 		
 	}
@@ -121,7 +121,7 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
-			//db.close();
+			db.close();
 		}
 		
 	}
@@ -138,7 +138,7 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
-			//db.close();
+			db.close();
 		}
 		
 	}
@@ -154,7 +154,7 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
-			//db.close();
+			db.close();
 		}
 		
 	}
@@ -163,7 +163,7 @@ public class FileDBHelper {
 	public void delete(String path){
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		db.execSQL("delete from FileDownloadLog where downloadurl=?", new Object[]{path});
-		//db.close();
+		db.close();
 	}
 
 
@@ -182,7 +182,7 @@ public class FileDBHelper {
 		finally
 		{
 			cursor.close();
-			//db.close();
+			db.close();
 		}
 		return false;
 	}

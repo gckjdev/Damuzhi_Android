@@ -66,9 +66,10 @@ public class ZipUtil
 	        String str = folderPath + File.separator + strEntry; 
 	        File entryFile = new File(new String(str.getBytes("8859_1"), "GB2312"));
 	        if (entry.isDirectory()) {
-		            if (!entryFile.exists()) {
+		            if (!entryFile.exists()) 
+		            {
 		                entryFile.mkdirs();
-		            	}
+		            }
 	    		} 
 	        else{
 	    			if (!entryFile.getParentFile().exists())

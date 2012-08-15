@@ -82,11 +82,12 @@ public class TravelTipsManager
 	
 	public static List<CommonTravelTip> getTravelTipsByUrl(String url)
 	{
-		InputStream inputStream;
+		InputStream inputStream = null;
 		List<CommonTravelTip> list = null;
+		HttpTool httpTool = new HttpTool();
 		try
 		{
-			inputStream = HttpTool.sendGetRequest(url);
+			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{
 				try
@@ -96,7 +97,6 @@ public class TravelTipsManager
 					
 				} catch (IOException e)
 				{
-					// TODO Auto-generated catch block
 					Log.d(TAG, "getData from http error...");
 					e.printStackTrace();
 				}
@@ -104,8 +104,28 @@ public class TravelTipsManager
 			
 		} catch (Exception e1)
 		{
-			// TODO Auto-generated catch block
+			if(inputStream != null)
+			{
+				try
+				{
+					inputStream.close();
+				} catch (Exception e)
+				{
+				}
+			}
 			e1.printStackTrace();
+		}finally
+		{
+			httpTool.stopConnection();
+			if(inputStream != null)
+			{
+				try
+				{
+					inputStream.close();
+				} catch (Exception e)
+				{
+				}
+			}
 		}
 		return list;
 	}
