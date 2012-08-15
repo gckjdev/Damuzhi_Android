@@ -197,7 +197,7 @@ public class FileDownloader
 					this.threads[i] = null;
 				}
 			}
-			downloadManager.saveDownloadInfo(cityId, downloadURL, savePath, tempPath, 1, this.fileSize, this.data);
+			//downloadManager.saveDownloadInfo(cityId, downloadURL, savePath, tempPath, 1, this.fileSize, this.data);
 			notFinish = true;
 			while (notFinish)
 			{

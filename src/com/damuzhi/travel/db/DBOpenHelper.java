@@ -10,13 +10,13 @@ public class DBOpenHelper extends SQLiteOpenHelper {
 	
 	private static DBOpenHelper instance;
 
-   /* public static synchronized DBOpenHelper getHelper(Context context)
+    public static synchronized DBOpenHelper getHelper(Context context)
     {
         if (instance == null){
             instance = new DBOpenHelper(context);
         }
         return instance;
-    }*/
+    }
 	
 	
 	

@@ -27,26 +27,26 @@ public class DownloadManager
 	
 	private static DownloadManager instance;
 
-    /*public static  DownloadManager getDownloadManager(Context context)
+    public static  DownloadManager getDownloadManager(Context context)
     {
         if (instance == null)
             instance = new DownloadManager(context);
         
         return instance;
-    }*/
+    }
 	
 	
 	public DownloadManager(Context context)
 	{
 		super();
 		this.context = context;
-		//fileDBHelper = FileDBHelper.getFileDBHelper(this.context);
-		fileDBHelper = new FileDBHelper(this.context);
+		fileDBHelper = FileDBHelper.getFileDBHelper(this.context);
+		//fileDBHelper = new FileDBHelper(this.context);
 	}
 
 
 
-	public void saveDownloadInfo(int cityId, String downloadURL,String savePath, String tempPath, int i, int fileSize,Map<Integer, Integer> data)
+	/*public void saveDownloadInfo(int cityId, String downloadURL,String savePath, String tempPath, int i, int fileSize,Map<Integer, Integer> data)
 	{
 		if(!fileDBHelper.check(downloadURL))
 		{
@@ -55,9 +55,20 @@ public class DownloadManager
 		{
 			fileDBHelper.update(downloadURL, data);
 		}
-		//fileDBHelper.save(cityId,downloadURL,savePath,tempPath,1,fileSize, data);
-	}
+		fileDBHelper.save(cityId,downloadURL,savePath,tempPath,1,fileSize, data);
+	}*/
 
+	
+	public void saveDownloadInfo(int cityId, String downloadURL,String savePath, String tempPath, int i, int fileSize,int downloadLength)
+	{
+		if(!fileDBHelper.check(downloadURL))
+		{
+			fileDBHelper.saveDownloadInfo(cityId, downloadURL, savePath, tempPath, 1, fileSize, downloadLength);
+		}else
+		{
+			fileDBHelper.updateDownloadInfo(downloadURL, downloadLength);
+		}
+	}
 
 
 	

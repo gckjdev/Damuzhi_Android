@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ComponentName;
@@ -16,6 +19,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Debug;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -145,6 +149,7 @@ public class OpenCityActivity extends Activity
 		}
 		
 		bindService(new Intent(OpenCityActivity.this, DownloadService.class), conn, Context.BIND_AUTO_CREATE);
+		Debug.startMethodTracing("download");
 	}
 	
 		
@@ -204,7 +209,7 @@ public class OpenCityActivity extends Activity
 					 Message msg = Message.obtain();
 					 msg.what = PROCESS_CHANGED;
 					 msg.obj = dl;
-				     downloadInfoHandler.sendMessage(msg);				
+				     downloadHandler.sendMessage(msg);				
 				}
 			});
              thread.start(); 
@@ -212,7 +217,7 @@ public class OpenCityActivity extends Activity
 		}
 	};
 	
-	private Handler downloadInfoHandler = new Handler(){		
+	public  Handler downloadHandler = new Handler(){		
 		@Override
 		public void handleMessage(Message msg)
 		{
@@ -222,7 +227,9 @@ public class OpenCityActivity extends Activity
 			{
 			case PROCESS_CHANGED:
 				downloadInfo = (DownloadInfos) msg.obj;
-				refresh(downloadInfo);
+				//save(downloadInfo);
+				refreshDownloadProgress(downloadInfo);
+				//refresh(downloadInfo);
 				break;
 			default:				
 				break;
@@ -231,7 +238,21 @@ public class OpenCityActivity extends Activity
 		
 	};
 
-	private void refresh(Object object)
+	private void save(final DownloadInfos downloadInfo)
+	{
+				int cityId = downloadInfo.getCityId();
+				String downloadURL = downloadInfo.getUrl();
+				int fileTotalLength = (int)downloadInfo.getTotalBytes();
+				int downloadLength = (int)downloadInfo.getCurrentPosition();
+				if (fileTotalLength == downloadLength ||downloadLength%(1024*100) == 0
+					){
+					downloadManager.saveDownloadInfo(cityId, downloadURL, "", "", 0, fileTotalLength, downloadLength);
+				}
+				return;
+	}
+	
+	
+	/*private void refresh(Object object)
 	{
 		AsyncTask<Object, Void, Object> task = new AsyncTask<Object, Void, Object>()
 		{
@@ -253,7 +274,7 @@ public class OpenCityActivity extends Activity
 		};
 		Object[] params = new Object[]{object};
 		task.execute(params);
-	}
+	}*/
 	
 		
 	private void refreshDownloadProgress( DownloadInfos downloadInfo)
@@ -628,6 +649,7 @@ public class OpenCityActivity extends Activity
 	@Override
 	protected void onDestroy()
 	{
+		Debug.stopMethodTracing();
 		unbindService(conn);
 		super.onDestroy();
 	}
@@ -689,6 +711,7 @@ public class OpenCityActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
+				DownloadService.setDownloadHandler(downloadHandler);
 			
 				int position = (Integer) v.getTag();	
 				final City city = cityList.get(position);

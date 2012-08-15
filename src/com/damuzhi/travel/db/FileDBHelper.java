@@ -21,18 +21,18 @@ public class FileDBHelper {
 	private DBOpenHelper openHelper;
 	private static FileDBHelper instance;
 
-    /*public static  FileDBHelper getFileDBHelper(Context context)
+    public static  FileDBHelper getFileDBHelper(Context context)
     {
         if (instance == null){
             instance = new FileDBHelper(context);
         }
         return instance;
-    }*/
+    }
 	
 	
 	public FileDBHelper(Context context) {
-		//openHelper = DBOpenHelper.getHelper(context);
-		openHelper = new DBOpenHelper(context);
+		openHelper = DBOpenHelper.getHelper(context);
+		//openHelper = new DBOpenHelper(context);
 	}
 	
 	
@@ -50,7 +50,7 @@ public class FileDBHelper {
 		finally
 		{
 			cursor.close();
-			db.close();
+			//db.close();
 		}
 		
 		return data;
@@ -74,7 +74,7 @@ public class FileDBHelper {
 		finally
 		{
 			cursor.close();
-			db.close();
+			//db.close();
 		}
 		
 		return downloadBean;
@@ -98,11 +98,34 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
-			db.close();
+			//db.close();
 		}
 		
 	}
 	
+	
+	public void saveDownloadInfo(int cityid, String downloadURL, String savePath,String tempPath, int status,int filelength,int downloadLength){//int threadid, int position
+		SQLiteDatabase db = openHelper.getWritableDatabase();
+		while (openHelper.getWritableDatabase().isDbLockedByOtherThreads()) {   
+            try {  
+                Thread.sleep(10);  
+            } catch (InterruptedException e) {  
+               Log.e(TAG, "<save> but catch exception :"+e.toString(),e);  
+            }
+		}
+		db.beginTransaction();
+		try{
+			
+				db.execSQL("insert into FileDownloadLog(cityid,downloadurl, savepath,temppath,status,filelength,threadid, downlength) values(?,?,?,?,?,?,?,?)",
+						new Object[]{cityid,downloadURL,savePath,tempPath,status,filelength, 0,downloadLength });
+	
+			db.setTransactionSuccessful();
+		}finally{
+			db.endTransaction();
+			//db.close();
+		}
+		
+	}
 	
 	public void update(String downloadURL, Map<Integer, Integer> map){
 		SQLiteDatabase db = openHelper.getWritableDatabase();
@@ -121,10 +144,37 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
-			db.close();
+			//db.close();
 		}
 		
 	}
+	
+	
+	public void updateDownloadInfo(String downloadURL,int downloadLength ){
+		SQLiteDatabase db = openHelper.getWritableDatabase();
+		while (openHelper.getWritableDatabase().isDbLockedByOtherThreads()) {   
+            try {  
+                Thread.sleep(10);  
+            } catch (InterruptedException e) {  
+            	 Log.e(TAG, "<save> but catch exception :"+e.toString(),e);  
+            }
+		}
+		db.beginTransaction();
+		try{
+			
+				db.execSQL("update FileDownloadLog set downlength=? where downloadurl=? and threadid=?",new Object[]{downloadLength, downloadURL, 0});
+			
+			db.setTransactionSuccessful();
+		}finally{
+			db.endTransaction();
+			//db.close();
+		}
+		
+	}
+	
+	
+	
+	
 	
 	
 	public void updateDownloadSuccess(String downloadURL,Map<Integer, Integer> map)
@@ -138,7 +188,7 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
-			db.close();
+			//db.close();
 		}
 		
 	}
@@ -154,7 +204,7 @@ public class FileDBHelper {
 			db.setTransactionSuccessful();
 		}finally{
 			db.endTransaction();
-			db.close();
+			//db.close();
 		}
 		
 	}
@@ -163,7 +213,7 @@ public class FileDBHelper {
 	public void delete(String path){
 		SQLiteDatabase db = openHelper.getWritableDatabase();
 		db.execSQL("delete from FileDownloadLog where downloadurl=?", new Object[]{path});
-		db.close();
+		//db.close();
 	}
 
 
@@ -182,7 +232,7 @@ public class FileDBHelper {
 		finally
 		{
 			cursor.close();
-			db.close();
+			//db.close();
 		}
 		return false;
 	}

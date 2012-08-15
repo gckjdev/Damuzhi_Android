@@ -56,11 +56,18 @@ public class DownloadThread extends Thread {
 					Log.i(TAG, "Thread " + this.threadId + " start download from position "+ startPos);
 					threadfile = new RandomAccessFile(this.saveFile, "rwd");
 					threadfile.seek(startPos);
+					long startTime = System.currentTimeMillis();
 					while ((offset = inStream.read(buffer, 0, 10240)) != -1) {	
 						if(!getrunflag())
 						{
 							return;
 						}	
+						long endTime = System.currentTimeMillis();
+						long course = (endTime - startTime)/1000;
+						if(course !=0&&course%1 == 0)
+						{
+							Log.i(TAG, downLength/course+"b/s");
+						}			
 						threadfile.write(buffer, 0, offset);
 						downLength += offset;
 						downloader.update(this.threadId, downLength);

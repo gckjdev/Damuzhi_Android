@@ -28,11 +28,11 @@ import android.util.Log;
 public class FileUtil
 {
 	private static final String TAG = "FileUtil";
-	private List<String> lstFile = new ArrayList<String>(); 
+	private List<String> lstFile = new ArrayList<String>();
 	private ArrayList<FileInputStream> fileInput = new ArrayList<FileInputStream>();
 
-
-	public List<String> GetFiles(String Path, String Extension,boolean IsIterative)
+	public List<String> GetFiles(String Path, String Extension,
+			boolean IsIterative)
 	{
 		File[] files = new File(Path).listFiles();
 		for (int i = 0; i < files.length; i++)
@@ -40,10 +40,12 @@ public class FileUtil
 			File f = files[i];
 			if (f.isFile())
 			{
-				if (f.getPath().substring(f.getPath().length() - Extension.length()).equals(Extension))
+				if (f.getPath()
+						.substring(f.getPath().length() - Extension.length())
+						.equals(Extension))
 				{
 					lstFile.add(f.getPath());
-				} 
+				}
 				if (!IsIterative)
 					break;
 			} else if (f.isDirectory() && f.getPath().indexOf("/.") == -1)
@@ -59,33 +61,38 @@ public class FileUtil
 	 * public List<String> GetFiles(String Path, String type,String Extension, boolean IsIterative) { File[] files = new File(Path).listFiles(); for (int i = 0; i < files.length; i++) { File f = files[i]; if (f.isFile()) { String fileExtension = f.getPath().substring(f.getPath().length() - Extension.length()); String fileType = f.getPath().substring(f.getPath().lastIndexOf("/")+1,f.getPath().lastIndexOf(".")); if (fileExtension.equals(Extension)&&fileType.contains(type)) { lstFile.add(f.getPath()); } //�ж���չ�� if (!IsIterative) break; } else if (f.isDirectory() && f.getPath().indexOf("/.") == -1) { GetFiles(f.getPath(), Extension, IsIterative); } } return lstFile; }
 	 */
 
-	
-	public ArrayList<FileInputStream> getFileInputStreams(String Path,String type, String Extension, boolean IsIterative) 
+	public ArrayList<FileInputStream> getFileInputStreams(String Path,
+			String type, String Extension, boolean IsIterative)
 	{
 
 		File[] files = new File(Path).listFiles();
-		if(files == null ||files.length == 0)
-			return null;		
-		
+		if (files == null || files.length == 0)
+			return null;
+
 		for (int i = 0; i < files.length; i++)
 		{
 			File f = files[i];
-			
+
 			if (f.isFile())
 			{
-				String fileExtension = f.getPath().substring(f.getPath().length() - Extension.length());
-				String fileType = f.getPath().substring(f.getPath().lastIndexOf("/") + 1,f.getPath().lastIndexOf("."));
-				
+				String fileExtension = f.getPath().substring(
+						f.getPath().length() - Extension.length());
+				String fileType = f.getPath().substring(
+						f.getPath().lastIndexOf("/") + 1,
+						f.getPath().lastIndexOf("."));
+
 				if (fileExtension.equals(Extension) && fileType.contains(type))
 				{
 					FileInputStream fileInputStream = null;
 					try
 					{
-						fileInputStream = new FileInputStream(new File(f.getPath()));
+						fileInputStream = new FileInputStream(new File(
+								f.getPath()));
 						fileInput.add(fileInputStream);
 					} catch (Exception e)
-					{					
-						Log.e(TAG, "<getFileInputStreams> but catch exception "+e.toString(),e);
+					{
+						Log.e(TAG, "<getFileInputStreams> but catch exception "
+								+ e.toString(), e);
 					}
 				}
 				if (!IsIterative)
@@ -97,8 +104,6 @@ public class FileUtil
 		}
 		return fileInput;
 	}
-
-	
 
 	public static boolean copyFile(String srcFile, String targetFile)
 	{
@@ -121,7 +126,7 @@ public class FileUtil
 				{
 					myOutput.write(buffer, 0, length);
 				}
-				myOutput.flush();	
+				myOutput.flush();
 				result = true;
 			} else
 			{
@@ -129,12 +134,13 @@ public class FileUtil
 			}
 		} catch (Exception e)
 		{
-			Log.e(TAG, "<copyFile> srcFile="+srcFile+", to dest file "+targetFile 
-					+", but catch exception "+e.toString(), e);
+			Log.e(TAG, "<copyFile> srcFile=" + srcFile + ", to dest file "
+					+ targetFile + ", but catch exception " + e.toString(), e);
 			result = false;
 		} finally
 		{
-			if (myOutput != null){
+			if (myOutput != null)
+			{
 				try
 				{
 					myOutput.close();
@@ -142,8 +148,9 @@ public class FileUtil
 				{
 				}
 			}
-			
-			if (myInput != null){
+
+			if (myInput != null)
+			{
 				try
 				{
 					myInput.close();
@@ -151,20 +158,21 @@ public class FileUtil
 				{
 				}
 			}
-			
-			if (fileInputStream != null){
+
+			if (fileInputStream != null)
+			{
 				try
 				{
 					fileInputStream.close();
 				} catch (IOException e)
-				{				
+				{
 				}
 			}
 		}
-		
+
 		return result;
 	}
-	
+
 	public static boolean copyFile(String srcFile, FileOutputStream myOutput)
 	{
 		FileInputStream fileInputStream = null;
@@ -183,7 +191,7 @@ public class FileUtil
 				{
 					myOutput.write(buffer, 0, length);
 				}
-				myOutput.flush();	
+				myOutput.flush();
 				result = true;
 			} else
 			{
@@ -191,26 +199,30 @@ public class FileUtil
 			}
 		} catch (Exception e)
 		{
-			Log.e(TAG, "<copyFile> srcFile="+srcFile+", to dest file , but catch exception "+e.toString(), e);
+			Log.e(TAG, "<copyFile> srcFile=" + srcFile
+					+ ", to dest file , but catch exception " + e.toString(), e);
 			result = false;
 		} finally
 		{
 			try
 			{
-				if (myOutput != null){
-					myOutput.close();			
-				}			
-				if (myInput != null){
+				if (myOutput != null)
+				{
+					myOutput.close();
+				}
+				if (myInput != null)
+				{
 					myInput.close();
 				}
-				if (fileInputStream != null){
+				if (fileInputStream != null)
+				{
 					fileInputStream.close();
 				}
 			} catch (IOException e)
 			{
 			}
 		}
-		
+
 		return result;
 	}
 
@@ -220,7 +232,7 @@ public class FileUtil
 		BufferedInputStream myInput = null;
 		boolean result = false;
 		try
-		{	
+		{
 			myOutput = new FileOutputStream(targetFile);
 			myInput = new BufferedInputStream(inputStream);
 			byte[] buffer = new byte[1024];
@@ -233,33 +245,35 @@ public class FileUtil
 			myInput.close();
 			myOutput.close();
 			result = true;
-		} catch(Exception e)
+		} catch (Exception e)
 		{
 			try
 			{
-				if (myOutput != null){
-					myOutput.close();			
-				}			
-				if (myInput != null){
+				if (myOutput != null)
+				{
+					myOutput.close();
+				}
+				if (myInput != null)
+				{
 					myInput.close();
 				}
 			} catch (IOException e1)
 			{
 			}
-			Log.e(TAG, "<copyFile>  to dest file "+targetFile +", but catch exception "+e.toString(), e);
+			Log.e(TAG, "<copyFile>  to dest file " + targetFile
+					+ ", but catch exception " + e.toString(), e);
 			result = false;
 		}
 		return result;
-		
+
 	}
-	
-	
-	
-	public static boolean copyFile(InputStream inputStream, FileOutputStream outputStream)
+
+	public static boolean copyFile(InputStream inputStream,
+			FileOutputStream outputStream)
 	{
 		boolean result = false;
 		BufferedInputStream myInput = null;
-		if(inputStream !=null)
+		if (inputStream != null)
 		{
 			myInput = new BufferedInputStream(inputStream);
 		}
@@ -272,45 +286,38 @@ public class FileUtil
 				outputStream.write(buffer, 0, length);
 			}
 			result = true;
-			
+
 		} catch (IOException e)
 		{
 			e.printStackTrace();
 			return false;
-		}finally
+		} finally
 		{
 			try
 			{
-				if(outputStream != null)
+				if (outputStream != null)
 				{
 					outputStream.flush();
 					outputStream.close();
 				}
-				if(myInput != null)
+				if (myInput != null)
 				{
 					myInput.close();
 				}
-				if(inputStream != null)
+				if (inputStream != null)
 				{
 					inputStream.close();
-				}		
+				}
 			} catch (IOException e)
 			{
 				e.printStackTrace();
 			}
-			
+
 		}
 		return result;
-		
-	}
-	
-	
-	
 
-	
-	
-	
-	
+	}
+
 	public boolean writeFile(String targetFile, InputStream inputStream)
 	{
 		boolean flag = true;
@@ -331,13 +338,12 @@ public class FileUtil
 			myOutput.close();
 		} catch (Exception e)
 		{
-			Log.e(TAG, "<writeFile> but catch exception :"+e.toString(),e);
-		} 
+			Log.e(TAG, "<writeFile> but catch exception :" + e.toString(), e);
+		}
 
 		return flag;
 	}
 
-	
 	public static boolean checkFileIsExits(String filePath)
 	{
 		File file = new File(filePath);
@@ -348,111 +354,140 @@ public class FileUtil
 		return false;
 	}
 
-	
-    
-    public static boolean deleteFolder(String filePath) {  
-       boolean  flag = false;  
-       File file = new File(filePath);  
-        if (!file.exists()) 
-        {  
-            return flag;  
-        } else 
-        {  
-            if (file.isFile()) {  
-                return deleteFile(filePath);  
-            } else {  
-                return deleteDirectory(filePath);  
-            }  
-        }  
-    }  
-	
-	
-   
-    public static boolean deleteFile(String filePath) {  
-       boolean flag = false;  
-       File file = new File(filePath);  
-        if (file.isFile() && file.exists()) {  
-            file.delete();  
-            flag = true;  
-        }  
-        return flag;  
-    }  
-    
-    
-   
-    public static boolean deleteDirectory(String filePath) {  
-        if (!filePath.endsWith(File.separator)) {  
-        	filePath = filePath + File.separator;  
-        }  
-        File dirFile = new File(filePath);  
-        if (!dirFile.exists() || !dirFile.isDirectory()) {  
-            return false;  
-        }  
-        boolean flag = true;  
-        File[] files = dirFile.listFiles();  
-        for (int i = 0; i < files.length; i++) {  
-            if (files[i].isFile()) {  
-                flag = deleteFile(files[i].getAbsolutePath());  
-                if (!flag) break;  
-            }   
-            else {  
-                flag = deleteDirectory(files[i].getAbsolutePath());  
-                if (!flag) break;  
-            }  
-        }  
-        if (!flag) return false;   
-        if (dirFile.delete()) {  
-            return true;  
-        } else {  
-            return false;  
-        }  
-    }  
-    
-    
-    public static Map<Integer, Integer> getFiles(String Path)
+	public static boolean deleteFolder(String filePath)
 	{
-    	Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		boolean flag = false;
+		File file = new File(filePath);
+		if (!file.exists())
+		{
+			return flag;
+		} else
+		{
+			if (file.isFile())
+			{
+				return deleteFile(filePath);
+			} else
+			{
+				return deleteDirectory(filePath);
+			}
+		}
+	}
+
+	public static boolean deleteFile(String filePath)
+	{
+		boolean flag = false;
+		File file = new File(filePath);
+		if (file.isFile() && file.exists())
+		{
+			file.delete();
+			flag = true;
+		}
+		return flag;
+	}
+
+	public static boolean deleteDirectory(String filePath)
+	{
+		if (!filePath.endsWith(File.separator))
+		{
+			filePath = filePath + File.separator;
+		}
+		File dirFile = new File(filePath);
+		if (!dirFile.exists() || !dirFile.isDirectory())
+		{
+			return false;
+		}
+		boolean flag = true;
+		File[] files = dirFile.listFiles();
+		for (int i = 0; i < files.length; i++)
+		{
+			if (files[i].isFile())
+			{
+				flag = deleteFile(files[i].getAbsolutePath());
+				if (!flag)
+					break;
+			} else
+			{
+				flag = deleteDirectory(files[i].getAbsolutePath());
+				if (!flag)
+					break;
+			}
+		}
+		if (!flag)
+			return false;
+		if (dirFile.delete())
+		{
+			return true;
+		} else
+		{
+			return false;
+		}
+	}
+
+	public static Map<Integer, Integer> getFiles(String Path)
+	{
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
 		File[] files = new File(Path).listFiles();
-		if(files!=null && files.length>0)
+		if (files != null && files.length > 0)
 		{
 			for (int i = 0; i < files.length; i++)
 			{
 				File f = files[i];
-				if (!f.isFile()&&!f.getName().contains("gc"))
+				if (!f.isFile() && !f.getName().contains("gc"))
 				{
 					int cityId = Integer.parseInt(f.getName());
-					map.put(cityId,cityId);
-				} 
+					map.put(cityId, cityId);
+				}
 			}
-		}		
+		}
 		return map;
 	}
-    
-    
-	
+
 	public static long freeSpaceOnSd()
 	{
-		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
-		//double sdFreeMB = ((double) stat.getAvailableBlocks() * (double) stat.getBlockSize()) / 1024;
-		long sdFreeM= stat.getAvailableBlocks() * stat.getBlockSize();
-		return  sdFreeM;
+		StatFs stat = new StatFs(Environment.getExternalStorageDirectory()
+				.getPath());
+		// double sdFreeMB = ((double) stat.getAvailableBlocks() * (double) stat.getBlockSize()) / 1024;
+		long sdFreeM = stat.getAvailableBlocks() * stat.getBlockSize();
+		return sdFreeM;
 	}
-	
-	
-	public static boolean  sdcardEnable()
+
+	public static boolean sdcardEnable()
 	{
-		//return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
+		// return Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState());
 		boolean mExternalStorageAvailable = false;
 		boolean mExternalStorageWriteable = false;
 		String state = Environment.getExternalStorageState();
-		if (Environment.MEDIA_MOUNTED.equals(state)) {
-		    mExternalStorageAvailable = mExternalStorageWriteable = true;
-		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state)) {
-		    mExternalStorageAvailable = true;
-		    mExternalStorageWriteable = false;
-		} else {
-		    mExternalStorageAvailable = mExternalStorageWriteable = false;
+		if (Environment.MEDIA_MOUNTED.equals(state))
+		{
+			mExternalStorageAvailable = mExternalStorageWriteable = true;
+		} else if (Environment.MEDIA_MOUNTED_READ_ONLY.equals(state))
+		{
+			mExternalStorageAvailable = true;
+			mExternalStorageWriteable = false;
+		} else
+		{
+			mExternalStorageAvailable = mExternalStorageWriteable = false;
 		}
 		return mExternalStorageWriteable;
+	}
+
+	/**
+	 * @param tempFilePath2
+	 * @description
+	 * @version 1.0
+	 * @author liuxiaokun
+	 * @update 2012-8-15 下午2:27:40
+	 */
+	public static long getFileSize(String path)
+	{
+		// TODO Auto-generated method stub
+		File file = new File(path);
+		if (file.exists())
+		{
+			return file.length();
+		} else
+		{
+			return 0;
+		}
 	}
 }
