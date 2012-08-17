@@ -73,8 +73,8 @@ public class HelpMission
 		try
 		{			
 			boolean sdcardEnable = FileUtil.sdcardEnable(); 
-			//if(sdcardEnable)
-			//{
+			if(sdcardEnable)
+			{
 				boolean isExits = FileUtil.checkFileIsExits(ConstantField.HELP_PATH);
 				if(!isExits)
 				{
@@ -89,30 +89,27 @@ public class HelpMission
 				helpJPGOutputStream = new FileOutputStream(new File(ConstantField.HELP_JPG_FILE));
 				
 				
-				/*long helpDataLength = helpDataInputStream.available();
+				long helpDataLength = helpDataInputStream.available();
 				long helpHtmlLength = helpHtmlInputStream.available();
 				long helpJPGLength = helpJPGInputStream.available();
-				long sdFreeMb = FileUtil.freeSpaceOnSd();*/
-				FileUtil.copyFile(helpDataInputStream,helpDataOutputStream);
-				FileUtil.copyFile(helpHtmlInputStream,helpHtmlOutputStream);
-				FileUtil.copyFile(helpJPGInputStream,helpJPGOutputStream);
-				/*if(sdFreeMb>helpDataLength)
+				long sdFreeMb = FileUtil.getAvailableExternalMemorySize();
+				if(sdFreeMb>helpDataLength)
 				{
 					FileUtil.copyFile(helpDataInputStream,helpDataOutputStream);
 				}
-				sdFreeMb = FileUtil.freeSpaceOnSd();
+				sdFreeMb = FileUtil.getAvailableExternalMemorySize();
 				if (sdFreeMb>helpHtmlLength)
 				{
 					FileUtil.copyFile(helpHtmlInputStream,helpHtmlOutputStream);
 				}
-				sdFreeMb = FileUtil.freeSpaceOnSd();
+				sdFreeMb = FileUtil.getAvailableExternalMemorySize();
 				if(sdFreeMb>helpJPGLength)
 				{
 					FileUtil.copyFile(helpJPGInputStream,helpJPGOutputStream);
-				}*/
+				}
 				
 				
-			//}
+			}
 		}catch (Exception e) {
 			Log.e(TAG, "<initHelpData> but catch exception while read app data from apk, exception = "+e.toString(), e);
 		}		
@@ -139,9 +136,9 @@ public class HelpMission
 			helpInputStream =  httpTool.sendGetRequest(url);
 			if(helpInputStream !=null)
 			{
-				/*long sdFreeM = FileUtil.freeSpaceOnSd();
-				long fileLength = helpInputStream.available();*/
-				travelResponse = TravelResponse.parseFrom(helpInputStream);	
+				long sdFreeM = FileUtil.getAvailableExternalMemorySize();
+				long fileLength = helpInputStream.available();
+				/*travelResponse = TravelResponse.parseFrom(helpInputStream);	
 				if (travelResponse != null && travelResponse.getResultCode() == 0){
 					output = new FileOutputStream(ConstantField.HELP_DATA_TEMP_FILE);
 					HelpInfo help = travelResponse.getHelpInfo();
@@ -149,8 +146,8 @@ public class HelpMission
 					helpBuilder.mergeFrom(help);
 					helpBuilder.build().writeTo(output);		
 					result = true;
-				}
-				/*if(sdFreeM >fileLength)
+				}*/
+				if(sdFreeM >fileLength)
 				{
 					travelResponse = TravelResponse.parseFrom(helpInputStream);	
 					if (travelResponse != null && travelResponse.getResultCode() == 0){
@@ -165,7 +162,7 @@ public class HelpMission
 					TravelApplication.getInstance().notEnoughMemoryToast();
 					Log.e(TAG, "<downloadHelpProtoData> download help proto file fail,cause sdcard memory not enough ");
 					result = false;
-				}*/
+				}
 				
 			}else
 			{

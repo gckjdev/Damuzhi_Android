@@ -792,5 +792,13 @@ public class TravelUtil
 		String newString = introduction.replace("\n", "\n\t\t");
 		return newString;
 	}
+
+	
+	public static String getDownloadFileName(String downloadURL)
+	{
+		int index = downloadURL.lastIndexOf("/")+1;
+		String fileName = downloadURL.substring(index);
+		return fileName;
+	}
 	
 }

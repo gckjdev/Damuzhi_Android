@@ -75,6 +75,7 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
 	final String tempFilePath;
 	long fileTotalLength = 0;
 	long downloadLength = 0;
+	volatile boolean isStop = false;
 	
     // Allow images by default
     private static String[] mAllowedContentTypes = new String[] {
@@ -162,7 +163,7 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         }
     }
     
-    protected void bytesReceived(long fileTotalLength, long downloadLength, int addedLength){
+    protected void bytesReceived(long fileTotalLength, long downloadLength, int addedLength,long lastTime){
     	
     }
 
@@ -178,8 +179,8 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
     	
     	if (status.getStatusCode() == 416){
     		downloadLength = FileUtil.getFileSize(tempFilePath);
-    		fileTotalLength = downloadLength;
-    		FileUtil.copyFile(tempFilePath, saveFilePath);            	
+    		fileTotalLength = downloadLength;          
+    		FileUtil.fileMove(tempFilePath, saveFilePath);
     		sendSuccessMessage(responseBody);    		
     		return;
     	}
@@ -196,11 +197,19 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         		return;
         	}
         	
+        	long lastTime = 0;
+        	
         	long contentLength = Integer.parseInt(contentLengthHeaders[0].getValue());
+        	long sdCardFreeMerroy = FileUtil.getAvailableExternalMemorySize();
+        	Log.d(TAG, "AvailableExternalMemorySize = "+sdCardFreeMerroy);
+        	if(sdCardFreeMerroy<contentLength)
+        	{
+        		return;
+        	}
         	if (contentLength == 0){
         		// no more data
-        		// if complete, copy file to save file path
-            	FileUtil.copyFile(tempFilePath, saveFilePath);            	
+        		// if complete, copy file to save file path     
+        		FileUtil.fileMove(tempFilePath, saveFilePath);
         		sendSuccessMessage(responseBody);
         		return;
         	}
@@ -211,8 +220,7 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         	if (downloadLength == fileTotalLength){
             	
         		// if complete, copy file to save file path
-            	FileUtil.copyFile(tempFilePath, saveFilePath);
-            	
+            	FileUtil.fileMove(tempFilePath, saveFilePath);
         		sendSuccessMessage(responseBody);
         		return;
         	}
@@ -227,14 +235,27 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         		output.flush();
         		downloadLength += offset;
         		
-        		bytesReceived(fileTotalLength, downloadLength, offset);					
+        		bytesReceived(fileTotalLength, downloadLength, offset,lastTime);		
+        		
+        		lastTime = System.currentTimeMillis();
+        		
+        		if (isStop){
+        			Log.d(TAG, "detect stop flag, stop download");
+        			break;
+        		}
 			}
         	
         	output.close();
            	inputStream.close();
            	
+           	if (isStop){
+           		//sendFailureMessage(new HttpResponseException(status.getStatusCode(), "DownloadStop!"), responseBody);
+           		return;
+           	}
+           	
         	// if complete, copy file to save file path
-        	FileUtil.copyFile(tempFilePath, saveFilePath);
+           	boolean moveFileFlag = FileUtil.fileMove(tempFilePath, saveFilePath);
+           	Log.d(TAG, "move file flag = "+moveFileFlag);
  	
         } catch (FileNotFoundException e1)
 		{
@@ -244,8 +265,10 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
 			return;
 		} catch(IOException e) {			
             sendFailureMessage(e, (byte[]) null);
+            return;
         } catch(Exception e){
         	sendFailureMessage(e, (byte[]) null);
+        	return;
         }
 
         
@@ -253,5 +276,9 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
 
     }
 
-
+    public void cancelDownload(){
+    	Log.d(TAG, "can download, set stop flag");
+    	isStop = true;
+    }
+    
 }

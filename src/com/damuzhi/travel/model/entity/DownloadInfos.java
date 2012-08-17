@@ -3,128 +3,81 @@ package com.damuzhi.travel.model.entity;
 public class DownloadInfos {
 
 	private int cityId;
-	private  String url;//
-	private  long speed;	
-	private  long totalBytes;//
-	private  long currentPosition;
+	private String url;//
+	private long fileLength;//
+	private long downloadLength;
 	private boolean notFinish;
-	private boolean connectionError;
-	
-	
-	
+	private boolean upzipResult;
 	/**  
 	* Constructor Method   
 	* @param cityId
 	* @param url
-	* @param speed
-	* @param totalBytes
-	* @param currentPosition  
-	*//*
-	public DownloadInfos(int cityId, String url, long speed, long totalBytes,
-			long currentPosition)
-	{
-		super();
-		this.cityId = cityId;
-		this.url = url;
-		this.speed = speed;
-		this.totalBytes = totalBytes;
-		this.currentPosition = currentPosition;
-	}*/
-	/**  
-	* Constructor Method   
-	* @param url
-	* @param speed
-	* @param totalBytes
-	* @param currentPosition  
-	*//*
-	public DownloadInfos(String url, long speed, long totalBytes,
-			long currentPosition)
-	{
-		super();
-		this.url = url;
-		this.speed = speed;
-		this.totalBytes = totalBytes;
-		this.currentPosition = currentPosition;
-	}*/
-	public String getUrl()
-	{
-		return url;
-	}
-	/**  
-	* Constructor Method   
-	* @param cityId
-	* @param url
-	* @param speed
-	* @param totalBytes
-	* @param currentPosition
-	* @param notFinish  
+	* @param fileLength
+	* @param downloadLength
+	* @param notFinish
+	* @param upzipResult  
 	*/
-	public DownloadInfos(int cityId, String url, long speed, long totalBytes,
-			long currentPosition, boolean notFinish,boolean connectionError)
+	public DownloadInfos(int cityId, String url, long fileLength,
+			long downloadLength, boolean notFinish, boolean upzipResult)
 	{
 		super();
 		this.cityId = cityId;
 		this.url = url;
-		this.speed = speed;
-		this.totalBytes = totalBytes;
-		this.currentPosition = currentPosition;
+		this.fileLength = fileLength;
+		this.downloadLength = downloadLength;
 		this.notFinish = notFinish;
-		this.connectionError = connectionError;
-	}
-	
-	
-	public long getSpeed()
-	{
-		return speed;
-	}
-	public long getTotalBytes()
-	{
-		return totalBytes;
-	}
-	public long getCurrentPosition()
-	{
-		return currentPosition;
-	}
-	public void setUrl(String url)
-	{
-		this.url = url;
-	}
-	public void setSpeed(long speed)
-	{
-		this.speed = speed;
-	}
-	public void setTotalBytes(long totalBytes)
-	{
-		this.totalBytes = totalBytes;
-	}
-	public void setCurrentPosition(long currentPosition)
-	{
-		this.currentPosition = currentPosition;
+		this.upzipResult = upzipResult;
 	}
 	public int getCityId()
 	{
 		return cityId;
 	}
-	public void setCityId(int cityId)
+	public String getUrl()
 	{
-		this.cityId = cityId;
+		return url;
+	}
+	public long getFileLength()
+	{
+		return fileLength;
+	}
+	public long getDownloadLength()
+	{
+		return downloadLength;
 	}
 	public boolean isNotFinish()
 	{
 		return notFinish;
 	}
+	public boolean isUpzipResult()
+	{
+		return upzipResult;
+	}
+	public void setCityId(int cityId)
+	{
+		this.cityId = cityId;
+	}
+	public void setUrl(String url)
+	{
+		this.url = url;
+	}
+	public void setFileLength(long fileLength)
+	{
+		this.fileLength = fileLength;
+	}
+	public void setDownloadLength(long downloadLength)
+	{
+		this.downloadLength = downloadLength;
+	}
 	public void setNotFinish(boolean notFinish)
 	{
 		this.notFinish = notFinish;
 	}
-	public boolean isConnectionError()
+	public void setUpzipResult(boolean upzipResult)
 	{
-		return connectionError;
+		this.upzipResult = upzipResult;
 	}
-	public void setConnectionError(boolean connectionError)
-	{
-		this.connectionError = connectionError;
-	}
+	
+	
 	
 	
 	

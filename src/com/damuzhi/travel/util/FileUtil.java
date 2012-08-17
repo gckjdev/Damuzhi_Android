@@ -268,8 +268,7 @@ public class FileUtil
 
 	}
 
-	public static boolean copyFile(InputStream inputStream,
-			FileOutputStream outputStream)
+	public static boolean copyFile(InputStream inputStream,FileOutputStream outputStream)
 	{
 		boolean result = false;
 		BufferedInputStream myInput = null;
@@ -385,6 +384,49 @@ public class FileUtil
 		return flag;
 	}
 
+	
+	 public static boolean fileMove(String srcFile, String destPath) {
+	        // File (or directory) to be moved
+	        File file = new File(srcFile);
+	        // Destination directory
+	        File dir = new File(destPath);
+	        // Move file to new directory
+	       boolean moveFlag = file.renameTo(new File(dir, file.getName()));
+	        //boolean moveFlag = file.renameTo(new File(destPath));
+	        return moveFlag;
+	    }
+	
+	public static boolean folderMove(String srcFile, String destPath)  {
+		try {
+			boolean moveFlag = false;
+			File dir = new File(srcFile);
+			File[] files = dir.listFiles();
+			if (files == null)
+				return false;
+			File moveDir = new File(destPath);
+			if (!moveDir.exists()) {
+				moveDir.mkdirs();
+			}
+			for (int i = 0; i < files.length; i++) {
+				if (files[i].isDirectory()) {
+					folderMove(files[i].getPath(), destPath + "\\" + files[i].getName());
+					files[i].delete();
+				}
+				File moveFile = new File(moveDir.getPath() + "\\"+ files[i].getName());
+				if (moveFile.exists()) {
+					moveFile.delete();
+				}
+				moveFlag = files[i].renameTo(moveFile);
+			}
+			return moveFlag;
+		} catch (Exception e) {
+			Log.e(TAG, "<fileMove> but catch exception :" + e.toString(), e);
+			return false;
+		}
+	}
+	
+	
+	
 	public static boolean deleteDirectory(String filePath)
 	{
 		if (!filePath.endsWith(File.separator))
@@ -442,14 +484,13 @@ public class FileUtil
 		return map;
 	}
 
-	public static long freeSpaceOnSd()
+	/*public static long freeSpaceOnSd()
 	{
-		StatFs stat = new StatFs(Environment.getExternalStorageDirectory()
-				.getPath());
+		StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
 		// double sdFreeMB = ((double) stat.getAvailableBlocks() * (double) stat.getBlockSize()) / 1024;
-		long sdFreeM = stat.getAvailableBlocks() * stat.getBlockSize();
-		return sdFreeM;
-	}
+		long sdFree = (long)stat.getAvailableBlocks() * (long)stat.getBlockSize();
+		return sdFree;
+	}*/
 
 	public static boolean sdcardEnable()
 	{
@@ -490,4 +531,94 @@ public class FileUtil
 			return 0;
 		}
 	}
+	
+	
+	
+	
+	public static boolean externalMemoryAvailable() {
+        return android.os.Environment.getExternalStorageState().equals(
+                android.os.Environment.MEDIA_MOUNTED);
+    }
+
+    public static String getAvailableInternalMemorySize() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        return formatSize(availableBlocks * blockSize);
+    }
+
+    public static String getTotalInternalMemorySize() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return formatSize(totalBlocks * blockSize);
+    }
+
+    /*public static String getAvailableExternalMemorySize() {
+        if (externalMemoryAvailable()) {
+            File path = Environment.getExternalStorageDirectory();
+            StatFs stat = new StatFs(path.getPath());
+            long blockSize = stat.getBlockSize();
+            long availableBlocks = stat.getAvailableBlocks();
+            return formatSize(availableBlocks * blockSize);
+        } else {
+            return "ERROR";
+        }
+    }*/
+    
+    
+    
+    public static long getAvailableExternalMemorySize() {
+        if (externalMemoryAvailable()) {
+            File path = android.os.Environment.getExternalStorageDirectory();
+            StatFs stat = new StatFs(path.getPath());
+            long blockSize = stat.getBlockSize();
+            long availableBlocks = stat.getAvailableBlocks();
+            return (availableBlocks * blockSize);
+        } else {
+            return 0;
+        }
+    }
+    
+    
+
+    public static String getTotalExternalMemorySize() {
+        if (externalMemoryAvailable()) {
+            File path = Environment.getExternalStorageDirectory();
+            StatFs stat = new StatFs(path.getPath());
+            long blockSize = stat.getBlockSize();
+            long totalBlocks = stat.getBlockCount();
+            return formatSize(totalBlocks * blockSize);
+        } else {
+            return "ERROR";
+        }
+    }
+
+    public static String formatSize(long size) {
+        String suffix = null;
+
+        if (size >= 1024) {
+            suffix = "KB";
+            size /= 1024;
+            if (size >= 1024) {
+                suffix = "MB";
+                size /= 1024;
+            }
+        }
+
+        StringBuilder resultBuffer = new StringBuilder(Long.toString(size));
+
+        int commaOffset = resultBuffer.length() - 3;
+        while (commaOffset > 0) {
+            resultBuffer.insert(commaOffset, ',');
+            commaOffset -= 3;
+        }
+
+        if (suffix != null) resultBuffer.append(suffix);
+        return resultBuffer.toString();
+    }
+
+	
 }

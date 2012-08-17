@@ -112,6 +112,13 @@ public class DownloadManager
 		
 		return FileUtil.getFiles(ConstantField.DOWNLOAD_CITY_DATA_FOLDER_PATH);
 	}
+
+
+	
+	public Map<String, DownloadBean> getUnfinishDownload()
+	{
+		return fileDBHelper.getUnfinishDownload();
+	}
 	
 	
 	

@@ -238,6 +238,33 @@ public class FileDBHelper {
 	}
 
 
+	
+	public Map<String, DownloadBean> getUnfinishDownload()
+	{
+		Map<String , DownloadBean> downloadMap = new HashMap<String, DownloadBean>();;
+		SQLiteDatabase db = openHelper.getReadableDatabase();
+		Cursor cursor = db.rawQuery("select downloadurl, downlength downloadLength,filelength from FileDownloadLog ",null);
+		try
+		{		
+			while(cursor.moveToNext()){	
+				DownloadBean downloadBean = new DownloadBean();
+				String downloadURL = cursor.getString(0);
+				downloadBean.setDownloadURL(downloadURL);
+				downloadBean.setDownloadLength(cursor.getInt(1));
+				downloadBean.setFileLength(cursor.getInt(2));
+				downloadMap.put(downloadURL, downloadBean);
+			}
+		}
+		finally
+		{
+			cursor.close();
+			//db.close();
+		}
+		
+		return downloadMap;
+	}
+
+
 
 	
 	

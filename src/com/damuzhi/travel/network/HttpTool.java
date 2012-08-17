@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -181,6 +182,26 @@ public class HttpTool
 		}
 		return filename;
 	}
+	
+	public static String getFileName(String downloadURL) {
+		HttpTool httpTool = new HttpTool();
+		URLConnection conn = httpTool.getConnection(downloadURL);
+		String filename = downloadURL.substring(downloadURL.lastIndexOf('/') + 1);
+		if(filename==null || "".equals(filename.trim())){
+			for (int i = 0;; i++) {
+				String mine = conn.getHeaderField(i);
+				if (mine == null) break;
+				if("content-disposition".equals(conn.getHeaderFieldKey(i).toLowerCase())){
+					Matcher m = Pattern.compile(".*filename=(.*)").matcher(mine.toLowerCase());
+					if(m.find()) 
+					return m.group(1);
+				}
+			}
+			filename = UUID.randomUUID()+ ".temp";
+		}
+		return filename;
+	}
+	
 	
 	/*public static String getFileName(String downloadURL) {
 		String filename = downloadURL.substring(downloadURL.lastIndexOf('/') + 1);

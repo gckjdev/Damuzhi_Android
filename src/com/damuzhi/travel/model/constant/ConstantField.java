@@ -76,8 +76,8 @@ public class ConstantField
 	public static final String PLACE_LIST_NEARBY = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&placeId=%s&latitude=%s&longitude=%s&num=%s&distance=%s&lang=%s&os=%s";
 	public static final String APP = TEST_HTTP_URL+"service/queryList.aspx?type=10&lang=%s&os=2";
 	public static final String HELP = TEST_HTTP_URL+"service/queryObject.aspx?type=8&lang=%s";
-	public static final String ANDROID_VERSION = TEST_HTTP_URL+"service/androidVersion.txt";*/
-	
+	public static final String ANDROID_VERSION = TEST_HTTP_URL+"service/androidVersion.txt";
+	*/
 	
 	/* page url*/
 	public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
