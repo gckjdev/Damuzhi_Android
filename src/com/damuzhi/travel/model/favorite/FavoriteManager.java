@@ -120,8 +120,9 @@ public class FavoriteManager
 
 
 	
-	public List<Place> getMyFavorite()
+	public List<Place> getMyFavorite(int cityId)
 	{
+		List<Place> list = null;
 		if(!FileUtil.checkFileIsExits(ConstantField.FAVORITE_FILE_PATH))
 		{
 			Log.e(TAG, "load favorite data from file = " + ConstantField.FAVORITE_FILE_PATH
@@ -140,7 +141,15 @@ public class FavoriteManager
 				PlaceList favoritePlaceList = PlaceList.parseFrom(inputStream);
 				if(favoritePlaceList!=null &&favoritePlaceList.getListCount()>0)
 				{
-					return favoritePlaceList.getListList();
+					list = new ArrayList<Place>();
+					for(Place place :favoritePlaceList.getListList())
+					{
+						if(place.getCityId() == cityId)
+						{
+							list.add(place);
+						}
+					}
+					return list;
 				}
 			}
 			
@@ -163,7 +172,7 @@ public class FavoriteManager
 	}
 
 	
-	public List<Place> getMyFavorite(int placeCategoryId)
+	public List<Place> getMyFavorite(int cityId,int placeCategoryId)
 	{
 		if(!FileUtil.checkFileIsExits(ConstantField.FAVORITE_FILE_PATH))
 		{
@@ -186,7 +195,7 @@ public class FavoriteManager
 				{
 					for(Place place:favoritePlaceList.getListList())
 					{
-						if(place.getCategoryId() == placeCategoryId)
+						if(place.getCityId() == cityId && place.getCategoryId() == placeCategoryId)
 						{
 							list.add(place);
 						}

@@ -232,27 +232,6 @@ public class OpenCityActivity extends Activity
 			TextView resultView = resultTextMap.get(downloadURL);
 			if(downloadBar != null)
 			{		
-				/*if(connectionError)
-				{
-					TravelApplication.getInstance().makeToast();
-					if(newVersionCityData.containsKey(downloadURL))
-					{
-						int cityId = downloadInfo.getCityId();
-						pauseDownload(downloadURL);
-						ImageView restartBtn = (ImageView) downloadListView.findViewWithTag("restart"+cityId);
-						ImageView stopBtn = (ImageView) downloadListView.findViewWithTag("pause"+cityId);
-						restartBtn.setVisibility(View.VISIBLE);
-						stopBtn.setVisibility(View.GONE);
-					}else
-					{
-						int position = positionMap.get(downloadURL);
-						pauseDownload(downloadURL);
-						ImageView restartBtn = (ImageView) openCtiyDataListView.findViewWithTag("restart"+position);
-						ImageView stopBtn = (ImageView) openCtiyDataListView.findViewWithTag("pause"+position);
-						restartBtn.setVisibility(View.VISIBLE);
-						stopBtn.setVisibility(View.GONE);
-					}
-			}else{*/
 					downloadBar.setMax((int)downloadInfo.getFileLength());
 					downloadBar.setProgress((int)downloadInfo.getDownloadLength());
 					int persent = (int) (((float)downloadInfo.getDownloadLength()/(float)downloadInfo.getFileLength())*100);
@@ -284,7 +263,6 @@ public class OpenCityActivity extends Activity
 					{
 						return ;
 					}	
-				//}
 								
 			}	
 		}		
@@ -782,7 +760,7 @@ public class OpenCityActivity extends Activity
 	{
 		ImageView stopBtn;
 		ImageView restartBtn;
-		if(newVersionCityData.containsKey(downloadURL))
+		if(newVersionCityData.containsKey(cityId))
 		{
 			pauseDownload(downloadURL);
 			restartBtn = (ImageView) downloadListView.findViewWithTag("restart"+cityId);

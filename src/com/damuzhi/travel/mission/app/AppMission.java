@@ -122,7 +122,7 @@ public class AppMission
 		boolean result = false;
 		InputStream appInputStream = null;
 		FileOutputStream output = null;
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			String url = String.format(ConstantField.APP, ConstantField.LANG_HANS);

@@ -75,7 +75,7 @@ public class OverviewMission
 		String url = String.format(ConstantField.OVERVIEW, CityOverviewType,cityId,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getOverviewByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			inputStream = httpTool.sendGetRequest(url);

@@ -130,7 +130,7 @@ public class HelpMission
 		TravelResponse travelResponse = null;
 		FileOutputStream output = null;
 		String url = String.format(ConstantField.HELP, ConstantField.LANG_HANS);
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			helpInputStream =  httpTool.sendGetRequest(url);
@@ -215,7 +215,7 @@ public class HelpMission
             {
             	helpFolder.mkdirs();
             }        
-            HttpTool httpTool = new HttpTool();
+            HttpTool httpTool = HttpTool.getInstance();
     		try
     		{
     			File helpFile = new File(helpFolder ,HttpTool.getFileName(httpTool.getConnection(url), url));
@@ -328,7 +328,7 @@ public class HelpMission
 		InputStream helpInputStream = null;
 		TravelResponse travelResponse = null;
 		String url = String.format(ConstantField.HELP, ConstantField.LANG_HANS);
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			helpInputStream =  httpTool.sendGetRequest(url);

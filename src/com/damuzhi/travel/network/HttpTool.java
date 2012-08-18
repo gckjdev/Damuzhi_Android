@@ -27,15 +27,108 @@ import android.widget.Toast;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.mission.common.HelpMission;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 public class HttpTool
 {
 
 	private static final String TAG = "HttpTool";
 	private  HttpURLConnection urlConnection = null;
+	//private static AsyncHttpClient client = new AsyncHttpClient();
+	byte[] data ;
 	
+	
+	private static HttpTool instance = null;
+	
+	private HttpTool() {
+	}
+	public static HttpTool getInstance() {
+		//if (instance == null) {
+			instance = new HttpTool();
+		//}
+		return instance;
+	}
 	// TODO move all http handling here
+	
+	/*public  InputStream sendGetRequest(String url) 
+	{
+		client.get(url, new HttpInputStreamHandel()
+		{
+			@Override
+			public void onSuccess(String arg0)
+			{
+				super.onSuccess(arg0);
+			}
+			
+			@Override
+			protected void inputStreamReceived(InputStream arg0)
+			{
+				inputStream = arg0;
+			}
+			
+			@Override
+			public void onFailure(Throwable arg0, String arg1)
+			{
+				super.onFailure(arg0, arg1);
+			}
+			
+			
+		});
+		return inputStream;
+		 
+	}*/
+	
+	
+	
+	
+	/*public  byte[] sendGetRequest(String url) 
+	{
+		 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
+		 if(connEnable)
+		 {
+			 try{
+				 	URL url2 = new URL(url);
+				 	urlConnection = (HttpURLConnection)url2.openConnection();
+					urlConnection.setDoInput(true);
+					urlConnection.setUseCaches(true);
+					urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
+					urlConnection.setRequestProperty("Connection", "Keep-Alive");// 
+					urlConnection.setRequestProperty("Charset", "UTF-8"); 
+					urlConnection.setRequestProperty("Accept-Encoding", "identity");
+			        urlConnection.setConnectTimeout(5000);
+			        urlConnection.setRequestMethod("GET");
+			        if(urlConnection !=null&&urlConnection.getDoInput())
+			        {		          
+			        	InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+			        	if(inputStream != null)
+			        	{
+			        		data = inputStream.toString().getBytes();
+			        		inputStream.close();
+			        	}
+			        	return data;
+			        }else {
+						return null;
+					}	
+			} catch (Exception e)
+			{	
+				TravelApplication.getInstance().downloadFailToast();
+				Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
+				return null;
+			}
+		 }else {
+			 TravelApplication.getInstance().makeToast();
+			 return null;
+		}
+		 
+	}*/
+	
+	
+	
+	
+	
 	
 	public  InputStream sendGetRequest(String url) 
 	{
@@ -72,6 +165,9 @@ public class HttpTool
 		}
 		 
 	}
+	
+	
+	
 	
 	
 	public  HttpURLConnection getConnection(String url) 
@@ -248,5 +344,6 @@ public class HttpTool
         }
         return haveConnectedWifi || haveConnectedMobile;
     }
+	
 
 }

@@ -72,7 +72,7 @@ public class UserMission
 		InputStream inputStream = null;
 		BufferedReader br = null;
 		String userId = "";
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			inputStream = httpTool.sendGetRequest(url);

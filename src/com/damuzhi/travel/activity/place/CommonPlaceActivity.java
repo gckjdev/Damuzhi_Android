@@ -29,7 +29,10 @@ import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.format.DateUtils;
+import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -39,6 +42,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
@@ -127,7 +131,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 
 	abstract Comparator<Place> getSortComparator(int index);
 
-	PullToRefreshListView refreshPlaceListView = null;
+	//PullToRefreshListView refreshPlaceListView = null;
 	ListView placeListView = null;
 	ArrayList<Place> allPlaceList = new ArrayList<Place>();
 	CommonPlaceListAdapter placeListAdapter = null;
@@ -186,12 +190,17 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private static int start = 0;
 	private static int count = 1;
 	private boolean localDataIsExist;
+	private View listViewFooter;
+	private ViewGroup footerViewGroup;
+	private int visibleLastIndex = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		TravelApplication.getInstance().addActivity(this);
 		setContentView(R.layout.common_place);
+		setProgressBarVisibility(true); 
+		
 		if(statusBarHeight == 0)
 		{
 			Class<?> c = null;
@@ -223,19 +232,27 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		listViewGroup = (ViewGroup) findViewById(R.id.listview_group);
 		mapViewButton = (ImageView) findViewById(R.id.map_view);
 		listViewButton = (ImageView) findViewById(R.id.list_view);
-		refreshPlaceListView = (PullToRefreshListView) findViewById(R.id.place_listview);
-		placeListView = refreshPlaceListView.getRefreshableView();
+		//refreshPlaceListView = (PullToRefreshListView) findViewById(R.id.place_listview);
+		//placeListView = refreshPlaceListView.getRefreshableView();
+		
+		
+		placeListView = (ListView) findViewById(R.id.place_listview);
+		placeListView.setOnScrollListener(listViewOnScrollListener);
 		mapView = (TapControlledMapView) findViewById(R.id.common_place_mapview);
 		mapc = mapView.getController();
 		mapc.setZoom(14);
 		mapView.setStreetView(true);
 	
-				
-		refreshPlaceListView.setMode(Mode.PULL_UP_TO_REFRESH);
-		refreshPlaceListView.setOnRefreshListener(onRefreshListener);	
+		listViewFooter = getLayoutInflater().inflate(R.layout.load_more_view, null, false);
+		placeListView.addFooterView(listViewFooter, allPlaceList, false);
+		placeListView.setFooterDividersEnabled(false);
+		footerViewGroup = (ViewGroup) listViewFooter.findViewById(R.id.listView_load_more_footer);
+		footerViewGroup.setVisibility(View.GONE);
+		
+		//refreshPlaceListView.setMode(Mode.PULL_UP_TO_REFRESH);
+		//refreshPlaceListView.setOnRefreshListener(onRefreshListener);	
 		placeListAdapter = new CommonPlaceListAdapter(this, null,getCategoryType());
 		placeListView.setAdapter(placeListAdapter);
-		
 		placeListView.setOnItemClickListener(listViewOnItemClickListener);
 		
 		mapViewButton.setOnClickListener(mapViewOnClickListener);
@@ -252,7 +269,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		sortSelected.put(0, true);
 		int currentCityId = AppManager.getInstance().getCurrentCityId();
 		localDataIsExist = LocalStorageMission.getInstance().hasLocalCityData(CommonPlaceActivity.this,currentCityId);
-		
 		loadPlace();
 	}
 
@@ -658,6 +674,40 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	};
 	
 	
+	private OnScrollListener listViewOnScrollListener = new OnScrollListener()
+	{
+		
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState)
+		{
+			if(visibleLastIndex >0)
+			{	
+			  int size = placeListAdapter.getCount();	
+			  if(visibleLastIndex == size)
+			  {
+				  Log.d(TAG, "load more");
+				  footerViewGroup.setVisibility(View.VISIBLE);
+				  loadMore();
+			  }
+			}
+			
+		}
+		
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount)
+		{
+			visibleLastIndex = firstVisibleItem + visibleItemCount -1;
+			if(totalCount !=0 && totalItemCount-1 == totalCount)
+			{
+			   placeListView.removeFooterView(listViewFooter);	
+			}
+		}
+	};
+	
+	
+	
+	
 	private OnSingleTapListener onSingleTapListener = new OnSingleTapListener() {		
 		@Override
 		public boolean onSingleTap(MotionEvent e) {
@@ -772,7 +822,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
 		{
-			Place place = placeListAdapter.getPlaceList().get(arg2-1);
+			Place place = placeListAdapter.getPlaceList().get(arg2);
 			BrowseHistoryMission.getInstance().addBrowseHistory(place);
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
@@ -1092,7 +1142,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		
 		
 		
-		private OnRefreshListener onRefreshListener = new OnRefreshListener()
+		/*private OnRefreshListener onRefreshListener = new OnRefreshListener()
 		{
 
 			@Override
@@ -1104,7 +1154,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 					loadMore();	
 			}
 			
-		};
+		};*/
 		
 		
 		private void loadMore()
@@ -1134,7 +1184,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				protected void onPostExecute(List<Place> resultList)
 				{
 					addMoreData(resultList);
-					refreshPlaceListView.onRefreshComplete();
+					//refreshPlaceListView.onRefreshComplete();
+					footerViewGroup.setVisibility(View.GONE);
 					super.onPostExecute(resultList);
 				}			
 			};

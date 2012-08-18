@@ -68,7 +68,7 @@ public class OverViewManager
 
 	public static CommonOverview getOverviewByUrl(String url)
 	{
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		InputStream inputStream;
 		CommonOverview commonOverview = null;
 		try

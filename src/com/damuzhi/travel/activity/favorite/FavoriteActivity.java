@@ -50,6 +50,7 @@ import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.downlaod.DownloadManager;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
@@ -158,14 +159,15 @@ public class FavoriteActivity extends MenuActivity
 			{
 				int favoriteConfig =  params[0];
 				int categoryId = params[1];
+				int currentCityId = AppManager.getInstance().getCurrentCityId();
 				if(favoriteConfig == MY_FAVORITE)
 				{
 					if(categoryId == ConstantField.ALL_PLACE_CATEGORY_ID )
 					{
-						return FavoriteMission.getInstance().getMyFavorite();
+						return FavoriteMission.getInstance().getMyFavorite(currentCityId);
 					}else
 					{
-						return FavoriteMission.getInstance().getMyFavorite(categoryId);
+						return FavoriteMission.getInstance().getMyFavorite(currentCityId,categoryId);
 					}
 				}else if (favoriteConfig == FAVORITE_RANK)
 				{

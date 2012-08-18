@@ -88,7 +88,7 @@ public class TravelTipsMission
 		String url = String.format(ConstantField.PLACElIST, tipsType,cityId,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getTravelTipsByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			inputStream = httpTool.sendGetRequest(url);

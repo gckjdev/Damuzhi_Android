@@ -216,12 +216,13 @@ public class PlaceMission
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{				
+				//byte[] data = inputStream.toString().getBytes();
 				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
 				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
 					return Collections.emptyList();
@@ -274,7 +275,7 @@ public class PlaceMission
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getPlaceStatisticsByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			inputStream = httpTool.sendGetRequest(url);
@@ -324,7 +325,7 @@ public class PlaceMission
 	{
 		Log.d(TAG, "<getNearByPlaceListByUrl> load place data from http ,url = "+url);
 		InputStream inputStream = null;
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			inputStream = httpTool.sendGetRequest(url);
@@ -505,7 +506,7 @@ public class PlaceMission
 			String url = String.format(ConstantField.PLACE_PAGE_LOAD_MORE_URL, objectType, cityId,subcategoryId,areaId,serviceId, priceRankId,sortType,start,count,ConstantField.LANG_HANS);
 			Log.i(TAG, "<loadMorePlace> load place data from http ,url = "+url);
 			InputStream inputStream = null;
-			HttpTool httpTool = new HttpTool();
+			HttpTool httpTool = HttpTool.getInstance();
 			try
 			{
 				inputStream = httpTool.sendGetRequest(url);
@@ -773,7 +774,7 @@ public class PlaceMission
 			String url = String.format(ConstantField.PLACE_PAGE_FILTER_URL, objectType, cityId,subcateType,areaId,serviceId, priceRankId,sortType,start,count,ConstantField.LANG_HANS);
 			Log.i(TAG, "<filterPlace> load place data from http ,url = "+url);
 			InputStream inputStream = null;
-			HttpTool httpTool = new HttpTool();
+			HttpTool httpTool = HttpTool.getInstance();
 			try
 			{
 				inputStream = httpTool.sendGetRequest(url);

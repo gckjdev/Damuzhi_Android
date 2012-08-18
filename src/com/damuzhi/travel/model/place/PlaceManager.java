@@ -124,7 +124,7 @@ public class PlaceManager
 
 	private void getPlaceListByUrl(String url)
 	{
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		InputStream inputStream;
 		try
 		{

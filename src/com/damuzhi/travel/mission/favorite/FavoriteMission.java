@@ -64,7 +64,7 @@ public class FavoriteMission
 		InputStream inputStream = null;
 		BufferedReader br = null;
 		int count = 0;
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			inputStream = httpTool.sendGetRequest(url);
@@ -149,7 +149,7 @@ public class FavoriteMission
 		int resultCode = -1;
 		String url = String.format(ConstantField.ADD_FAVORITE,userId,placeId,null,null);
 		Log.i(TAG, "<addFavorite> add favorite  ,url = "+url);
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		InputStream inputStream = null;
 		try
 		{
@@ -216,15 +216,15 @@ public class FavoriteMission
 	}
 
 	
-	public  List<Place> getMyFavorite()
+	public  List<Place> getMyFavorite(int cityId)
 	{
-		List<Place> list = favoriteManger.getMyFavorite();
+		List<Place> list = favoriteManger.getMyFavorite(cityId);
 		return list;
 	}
 	
-	public  List<Place> getMyFavorite(int placeCategoryId)
+	public  List<Place> getMyFavorite(int cityId,int placeCategoryId)
 	{
-		List<Place> list = favoriteManger.getMyFavorite(placeCategoryId);
+		List<Place> list = favoriteManger.getMyFavorite(cityId,placeCategoryId);
 		return list;
 	}
 
@@ -245,7 +245,7 @@ public class FavoriteMission
 	{
 		String url = String.format(ConstantField.PLACElIST, categoryId, cityId, ConstantField.LANG_HANS);
 		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		InputStream inputStream = null;
 		try
 		{

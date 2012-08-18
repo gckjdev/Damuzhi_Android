@@ -84,7 +84,7 @@ public class TravelTipsManager
 	{
 		InputStream inputStream = null;
 		List<CommonTravelTip> list = null;
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			inputStream = httpTool.sendGetRequest(url);

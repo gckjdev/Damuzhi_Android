@@ -33,7 +33,7 @@ public class FeedbackMission
 		BufferedReader br = null;
 		InputStreamReader inputStreamReader = null;
 		String userId = "";
-		HttpTool httpTool = new HttpTool();
+		HttpTool httpTool = HttpTool.getInstance();
 		try
 		{
 			inputStream = httpTool.sendGetRequest(url);
