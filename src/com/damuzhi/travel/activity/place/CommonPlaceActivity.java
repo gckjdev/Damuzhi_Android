@@ -45,16 +45,15 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnScrollChangedListener;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AbsListView;
 import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -192,7 +191,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private boolean localDataIsExist;
 	private View listViewFooter;
 	private ViewGroup footerViewGroup;
-	private int visibleLastIndex = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -237,7 +235,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		
 		
 		placeListView = (ListView) findViewById(R.id.place_listview);
-		placeListView.setOnScrollListener(listViewOnScrollListener);
 		mapView = (TapControlledMapView) findViewById(R.id.common_place_mapview);
 		mapc = mapView.getController();
 		mapc.setZoom(14);
@@ -269,6 +266,14 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		sortSelected.put(0, true);
 		int currentCityId = AppManager.getInstance().getCurrentCityId();
 		localDataIsExist = LocalStorageMission.getInstance().hasLocalCityData(CommonPlaceActivity.this,currentCityId);
+		if(!localDataIsExist)
+		{
+			placeListView.setOnScrollListener(listviewOnScrollListener);
+		}else
+		{
+			placeListView.removeFooterView(listViewFooter);
+		}
+		
 		loadPlace();
 	}
 
@@ -674,38 +679,43 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	};
 	
 	
-	private OnScrollListener listViewOnScrollListener = new OnScrollListener()
+	
+	
+	private OnScrollListener listviewOnScrollListener = new OnScrollListener()
 	{
-		
+		private int visibleLastIndex = 0;
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState)
 		{
+			// TODO Auto-generated method stub
+			if(totalCount !=0 && visibleLastIndex == totalCount)
+			{
+			   placeListView.removeFooterView(listViewFooter);	
+			}
 			if(visibleLastIndex >0)
 			{	
+				footerViewGroup.setVisibility(View.VISIBLE);
 			  int size = placeListAdapter.getCount();	
 			  if(visibleLastIndex == size)
 			  {
 				  Log.d(TAG, "load more");
-				  footerViewGroup.setVisibility(View.VISIBLE);
+				  Log.d(TAG, "listview visibleLastIndex = "+visibleLastIndex);	  
 				  loadMore();
-			  }
+			  } 
 			}
-			
 		}
 		
 		@Override
 		public void onScroll(AbsListView view, int firstVisibleItem,
 				int visibleItemCount, int totalItemCount)
 		{
+			// TODO Auto-generated method stub
 			visibleLastIndex = firstVisibleItem + visibleItemCount -1;
-			if(totalCount !=0 && totalItemCount-1 == totalCount)
-			{
-			   placeListView.removeFooterView(listViewFooter);	
-			}
 		}
 	};
+			
 	
-	
+
 	
 	
 	private OnSingleTapListener onSingleTapListener = new OnSingleTapListener() {		
@@ -717,17 +727,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	};
 	
 	
-	private void initMapView()
-	{
-		openGPSSettings();
-		List<Place> placeList = placeListAdapter.getPlaceList();
-		if(placeList!=null&&placeList.size()>0)
-		{
-			mapView.getOverlays().clear();
-			mapView.removeAllViews();
-			initMapOverlayView(placeList);
-		}
-	}
+	
 	
 	
 	private OnClickListener myLocateOnClickListener = new OnClickListener()
@@ -757,63 +757,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		}
 	};
 	
-	private OnClickListener cancelLocateOnClickListener = new OnClickListener()
-	{
-
-		@Override
-		public void onClick(View v)
-		{
-			canceLocateButton.setVisibility(View.GONE);
-			myLocateButton.setVisibility(View.VISIBLE);
-			initMapView();
-			
-		}
-	};
-
-	private String getCategorySize()
-	{
-		/*if(filterFlag != 0)
-		{
-			if (placeListAdapter.getPlaceList() != null)
-				totalCount = placeListAdapter.getPlaceList().size();
-		}*/
-		String sizeString = "(" + totalCount + ")";
-		return sizeString;
-	}
-
-	public void showRoundProcessDialog()
-	{
-
-		OnKeyListener keyListener = new OnKeyListener()
-		{
-			@Override
-			public boolean onKey(DialogInterface dialog, int keyCode,
-					KeyEvent event)
-			{
-				if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
-				{
-					loadingDialog.dismiss();
-					Intent intent = new Intent(CommonPlaceActivity.this,IndexActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-					return true;
-				} else
-				{
-					return false;
-				}
-			}
-		};
-
-		loadingDialog = new ProgressDialog(this);
-		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		loadingDialog.setMessage(getResources().getString(R.string.loading));
-		loadingDialog.setIndeterminate(false);
-		loadingDialog.setCancelable(false);
-		loadingDialog.setOnKeyListener(keyListener);
-		loadingDialog.show();
-	}
-
-
+	
 	
 	private OnItemClickListener listViewOnItemClickListener = new OnItemClickListener()
 	{
@@ -823,6 +767,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				long arg3)
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
+			Log.d(TAG, "list view item onclick");
 			BrowseHistoryMission.getInstance().addBrowseHistory(place);
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
@@ -847,42 +792,22 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	};
 	
 	
-    private void filterWindow(View parent,String[] filterTitleName,int[] filterKey,HashMap<Integer, Boolean> isSelected,boolean isSelectAll,int filterType,String filterTitle) {  
-    	this.filterType = filterType;
-    	filterFlag = 1;
-        LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
-        View v = lay.inflate(R.layout.filter_place_popup, null); 
-        v.setPadding(0, statusBarHeight, 0, 0);
-        v.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
+	private OnClickListener cancelLocateOnClickListener = new OnClickListener()
+	{
 
-        ListView filterList=(ListView)v.findViewById(R.id.filter_listview);  
-        ImageButton cancelButton = (ImageButton) v.findViewById(R.id.cancel_button);
-        ImageButton filterButton = (ImageButton) v.findViewById(R.id.ok_button);
-        TextView titleTextView = (TextView) v.findViewById(R.id.filter_title);
-        titleTextView.setText(filterTitle);
-        cancelButton.setOnClickListener(cancelFilterOnClickListener);
-        filterButton.setOnClickListener(filterOnClickListener);
-        filterAdapter=new FilterAdapter(CommonPlaceActivity.this,filterTitleName);
-        filterAdapter.setIsSelected(isSelected);
-        filterList.setAdapter(filterAdapter);  
-        filterAdapter.notifyDataSetChanged();
-        filterList.setItemsCanFocus(false);  
-        filterList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
-        filterList.setOnItemClickListener(listClickListener);  
-       
-        filterWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,true);  
-          
-        IsSelectedTemp = filterAdapter.getIsSelected();
-        filterWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
-        filterWindow.setFocusable(true);  
-        filterWindow.update();  
-        filterWindow.showAtLocation(parent, Gravity.TOP, 0, 0);  
-    }  
-  
-    
-    
-    
-   private  OnItemClickListener listClickListener = new OnItemClickListener() {  
+		@Override
+		public void onClick(View v)
+		{
+			canceLocateButton.setVisibility(View.GONE);
+			myLocateButton.setVisibility(View.VISIBLE);
+			initMapView();
+			
+		}
+	};
+
+	
+	
+	private  OnItemClickListener filterlistClickListener = new OnItemClickListener() {  
         @Override  
         public void onItemClick(AdapterView<?> parent, View view, int position,  
                 long id) {    
@@ -938,7 +863,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			 {
 				 start = 0;
 				 count = 1;
-				 fileterData();	
+				 getFileterData();	
 			 }else
 			 {
 				 filterPlaceList();
@@ -963,6 +888,160 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			
 		}
 	};
+	
+	
+	 private  OnItemClickListener sortListClickListener = new OnItemClickListener() {  
+	        @Override  
+	        public void onItemClick(AdapterView<?> parent, View view, int position,  
+	                long id) {  
+	        	
+	        	SortViewHolder vHollder = (SortViewHolder) view.getTag();    
+	            vHollder.cBox.toggle();
+	            IsSelectedTemp.clear();
+	            IsSelectedTemp.put(position, vHollder.cBox.isChecked());
+	            sortAdapter.setIsSelected(IsSelectedTemp);
+	            sortAdapter.notifyDataSetChanged();
+	        }  
+	    };  
+	    
+	    
+	    
+		
+		private OnClickListener sortOnClickListener = new OnClickListener()
+		{
+			
+			@Override
+			public void onClick(View v)
+			{
+				 IsSelectedTemp = sortAdapter.getIsSelected(); 
+				for( int key:IsSelectedTemp.keySet())
+				{
+					sortPosition = key;
+				}
+				 filterPlaceList();
+				 if(filterWindow !=null)
+				{
+					filterWindow.dismiss();
+				}
+			}
+		};
+	
+		@Override
+		public boolean onOptionsItemSelected(MenuItem item)
+		{
+			switch (item.getItemId())	
+			{		
+			case R.id.menu_refresh:
+				loadPlace();
+				break;
+			default:
+				break;
+			}
+			return super.onOptionsItemSelected(item);
+		}
+	
+	
+	
+	
+	
+	private void initMapView()
+	{
+		openGPSSettings();
+		List<Place> placeList = placeListAdapter.getPlaceList();
+		if(placeList!=null&&placeList.size()>0)
+		{
+			mapView.getOverlays().clear();
+			mapView.removeAllViews();
+			initMapOverlayView(placeList);
+		}
+	}
+	
+	
+	
+	private String getCategorySize()
+	{
+		/*if(filterFlag != 0)
+		{
+			if (placeListAdapter.getPlaceList() != null)
+				totalCount = placeListAdapter.getPlaceList().size();
+		}*/
+		String sizeString = "(" + totalCount + ")";
+		return sizeString;
+	}
+
+	public void showRoundProcessDialog()
+	{
+
+		OnKeyListener keyListener = new OnKeyListener()
+		{
+			@Override
+			public boolean onKey(DialogInterface dialog, int keyCode,
+					KeyEvent event)
+			{
+				if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
+				{
+					loadingDialog.dismiss();
+					Intent intent = new Intent(CommonPlaceActivity.this,IndexActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					return true;
+				} else
+				{
+					return false;
+				}
+			}
+		};
+
+		loadingDialog = new ProgressDialog(this);
+		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		loadingDialog.setMessage(getResources().getString(R.string.loading));
+		loadingDialog.setIndeterminate(false);
+		loadingDialog.setCancelable(true);
+		loadingDialog.setOnKeyListener(keyListener);
+		loadingDialog.show();
+	}
+
+
+	
+	
+	
+	
+    private void filterWindow(View parent,String[] filterTitleName,int[] filterKey,HashMap<Integer, Boolean> isSelected,boolean isSelectAll,int filterType,String filterTitle) {  
+    	this.filterType = filterType;
+    	filterFlag = 1;
+        LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
+        View v = lay.inflate(R.layout.filter_place_popup, null); 
+        v.setPadding(0, statusBarHeight, 0, 0);
+        v.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
+
+        ListView filterList=(ListView)v.findViewById(R.id.filter_listview);  
+        ImageButton cancelButton = (ImageButton) v.findViewById(R.id.cancel_button);
+        ImageButton filterButton = (ImageButton) v.findViewById(R.id.ok_button);
+        TextView titleTextView = (TextView) v.findViewById(R.id.filter_title);
+        titleTextView.setText(filterTitle);
+        cancelButton.setOnClickListener(cancelFilterOnClickListener);
+        filterButton.setOnClickListener(filterOnClickListener);
+        filterAdapter=new FilterAdapter(CommonPlaceActivity.this,filterTitleName);
+        filterAdapter.setIsSelected(isSelected);
+        filterList.setAdapter(filterAdapter);  
+        filterAdapter.notifyDataSetChanged();
+        filterList.setItemsCanFocus(false);  
+        filterList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
+        filterList.setOnItemClickListener(filterlistClickListener);  
+       
+        filterWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,true);  
+          
+        IsSelectedTemp = filterAdapter.getIsSelected();
+        filterWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
+        filterWindow.setFocusable(true);  
+        filterWindow.update();  
+        filterWindow.showAtLocation(parent, Gravity.TOP, 0, 0);  
+    }  
+  
+    
+    
+    
+   
 	
 	
 	private void setFilterPosition(int filterType,int[] position,HashMap<Integer, Boolean> selected)
@@ -1080,56 +1159,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	    
 	    
 	    
-	   private  OnItemClickListener sortListClickListener = new OnItemClickListener() {  
-	        @Override  
-	        public void onItemClick(AdapterView<?> parent, View view, int position,  
-	                long id) {  
-	        	
-	        	SortViewHolder vHollder = (SortViewHolder) view.getTag();    
-	            vHollder.cBox.toggle();
-	            IsSelectedTemp.clear();
-	            IsSelectedTemp.put(position, vHollder.cBox.isChecked());
-	            sortAdapter.setIsSelected(IsSelectedTemp);
-	            sortAdapter.notifyDataSetChanged();
-	        }  
-	    };  
-	    
-	    
-	    
-		
-		private OnClickListener sortOnClickListener = new OnClickListener()
-		{
-			
-			@Override
-			public void onClick(View v)
-			{
-				 IsSelectedTemp = sortAdapter.getIsSelected(); 
-				for( int key:IsSelectedTemp.keySet())
-				{
-					sortPosition = key;
-				}
-				 filterPlaceList();
-				 if(filterWindow !=null)
-				{
-					filterWindow.dismiss();
-				}
-			}
-		};
-	
-		@Override
-		public boolean onOptionsItemSelected(MenuItem item)
-		{
-			switch (item.getItemId())	
-			{		
-			case R.id.menu_refresh:
-				loadPlace();
-				break;
-			default:
-				break;
-			}
-			return super.onOptionsItemSelected(item);
-		}
-	
+	  
 		private void openGPSSettings() {
 			LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 			if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
@@ -1193,7 +1223,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			task.execute();		
 		}
 		
-		private void fileterData()
+		private void getFileterData()
 		{
 			AsyncTask<String, Void, List<Place>> task = new AsyncTask<String, Void, List<Place>>()
 			{
@@ -1305,6 +1335,10 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			super.onDestroy();		
 			placeListAdapter.recycleBitmap();
 			LocationUtil.stop();
+			if(loadingDialog  != null)
+			{
+				loadingDialog.dismiss();
+			}
 		}	
 		
 		

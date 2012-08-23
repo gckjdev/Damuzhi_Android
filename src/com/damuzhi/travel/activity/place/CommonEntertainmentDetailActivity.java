@@ -67,15 +67,15 @@ public class CommonEntertainmentDetailActivity extends
 	@Override
 	public boolean isSupportKeyWords()
 	{
-		return true;
+		return false;
 	}
 
-	/*@Override
+	@Override
 	public boolean isSupportTips()
 	{
 		tipsTitle = getString(R.string.entertainment_tips);
 		return true;
-	}*/
+	}
 
 	@Override
 	public boolean isSupportHotelStart()

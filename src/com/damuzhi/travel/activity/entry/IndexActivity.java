@@ -67,12 +67,14 @@ import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonSpotActivity;
 import com.damuzhi.travel.activity.share.Share2Weibo;
 import com.damuzhi.travel.db.DownloadPreference;
+import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.more.DownloadMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
+import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.service.Task;
 import com.google.android.maps.MapView.LayoutParams;
@@ -115,8 +117,8 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);	
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		currentCitygGroup.setOnClickListener(currentGroupOnClickListener);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_layout_item,android.R.id.text1, list);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		/*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_layout_item,android.R.id.text1, list);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
 		moreButton = (ImageButton) findViewById(R.id.more);
 		sceneryButton = (ImageButton) findViewById(R.id.scenery);
 		hotelButton = (ImageButton) findViewById(R.id.hotel);		
@@ -155,20 +157,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		intent.setAction(ConstantField.CHECK_NET);
 		sendBroadcast(intent);
 		
-		Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(IndexActivity.this);
-		Map<Integer, String> newVersionCityData = new HashMap<Integer, String>();
-		List<Integer> installedCityList = new ArrayList<Integer>();
-		installedCityList.clear();
-		installedCityList.addAll(installCityData.keySet());
-		if(installCityData != null&&installCityData.size()>0)
-		{
-			newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
-		}
-		int currentCityId = AppManager.getInstance().getCurrentCityId();
-		if(newVersionCityData.containsKey(currentCityId))
-		{
-			checkDataVersion();
-		}
+		
 		
 	}
 
@@ -200,6 +189,34 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		alertDialog.show();
 	}
 	
+	
+	
+	private void installData()
+	{
+		AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this).create();
+		alertDialog.setMessage(IndexActivity.this.getString(R.string.install_data_unfinish));
+		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,IndexActivity.this.getString(R.string.install_now),new DialogInterface.OnClickListener()
+		{					
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{	
+				Intent intent = new Intent();
+				intent.putExtra("updateData", 0);
+				intent.setClass(IndexActivity.this, OpenCityActivity.class);
+				startActivity(intent);
+			}	
+		} );
+		alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+IndexActivity.this.getString(R.string.install_later),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.cancel();
+			}
+		} );
+		alertDialog.show();
+	}
 	
 	
 	@Override
@@ -356,6 +373,37 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			cityName = AppManager.getInstance().getCurrentCityName();
 		}
 		currentCityName.setText(cityName);
+		City city = AppManager.getInstance().getCityByCityId(AppManager.getInstance().getCurrentCityId());
+		String downloadURL =null;
+		if(city != null &&city.hasDownloadURL())
+		{
+			downloadURL = city.getDownloadURL();
+			Map<Integer, Integer> unfinishInstallCity = DownloadPreference.getAllUnfinishInstall(IndexActivity.this);
+			Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(IndexActivity.this);
+			Map<Integer, String> newVersionCityData = new HashMap<Integer, String>();
+			List<Integer> installedCityList = new ArrayList<Integer>();
+			installedCityList.clear();
+			installedCityList.addAll(installCityData.keySet());
+			if(installCityData != null&&installCityData.size()>0)
+			{
+				newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
+			}
+			int currentCityId = AppManager.getInstance().getCurrentCityId();
+			if(downloadURL != null&&!downloadURL.equals(""))
+			{
+				if(newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
+				{
+					checkDataVersion();
+				}
+				if(unfinishInstallCity.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
+				{
+					installData();
+				}
+			}
+		}
+		
+		
+		
 	}
 
 	

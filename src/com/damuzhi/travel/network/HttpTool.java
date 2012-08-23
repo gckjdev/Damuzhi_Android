@@ -84,7 +84,7 @@ public class HttpTool
 	
 	
 	
-	/*public  byte[] sendGetRequest(String url) 
+	/*public  byte[] sendGetRequestGetData(String url) 
 	{
 		 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
 		 if(connEnable)
@@ -105,7 +105,10 @@ public class HttpTool
 			        	InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
 			        	if(inputStream != null)
 			        	{
-			        		data = inputStream.toString().getBytes();
+			        		int length = urlConnection.getContentLength();
+			        		Log.d(TAG, "data length="+length);
+			        		data = new byte[length];
+			        		inputStream.read(data);
 			        		inputStream.close();
 			        	}
 			        	return data;

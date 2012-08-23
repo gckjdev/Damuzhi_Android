@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -27,7 +28,7 @@ import android.util.Log;
 public class ZipUtil
 {
 
-	private static final int BUFF_SIZE = 1024 * 1024; // 1M Byte
+	private static final int BUFF_SIZE = 1024 * 4; // 1M Byte
 
 	private static final String TAG = "ZipUtil";
 
@@ -56,6 +57,7 @@ public class ZipUtil
 		zipout.close();
 	}
 
+	@Deprecated
 	public static void upZipFile(InputStream zipFile, String folderPath)
 			throws ZipException, IOException
 	{
@@ -96,7 +98,6 @@ public class ZipUtil
 					{
 						dest.write(data, 0, count);
 					}
-					dest.flush();
 					dest.close();
 				}
 			}
@@ -110,28 +111,34 @@ public class ZipUtil
 
 	public static boolean upZipFile(String zipFilePath, String folderPath)
 	{
+		Log.d(TAG, "start unzip time"+System.currentTimeMillis());
 		boolean zipSuccess = false;
 		String strEntry;
+		byte data[] = new byte[BUFF_SIZE];
 		try
 		{
 			File zipFile = new File(zipFilePath);
 			if(zipFile.exists())
 			{
 				BufferedOutputStream dest = null;
+				BufferedInputStream bis = null;
 				FileInputStream fis = new FileInputStream(zipFilePath);
 				ZipInputStream zis = null;
 				if (fis != null)
 				{
-					zis = new ZipInputStream(new BufferedInputStream(fis));
+					bis = new BufferedInputStream(fis);
+					zis = new ZipInputStream(bis);
+					
+					
 				}
 				ZipEntry entry;
 
 				while ((entry = zis.getNextEntry()) != null)
 				{
 					strEntry = entry.getName();
+					Log.d(TAG, "unzip file name= "+strEntry);
 					String str = folderPath + File.separator + strEntry;
-					File entryFile = new File(new String(str.getBytes("8859_1"),
-							"GB2312"));
+					File entryFile = new File(new String(str.getBytes("8859_1"),"GB2312"));
 					if (entry.isDirectory())
 					{
 						if (!entryFile.exists())
@@ -142,22 +149,25 @@ public class ZipUtil
 						{
 							entryFile.getParentFile().mkdirs();
 						}
-						int count;
-						byte data[] = new byte[BUFF_SIZE];
+						int count ;
 						FileOutputStream fos = new FileOutputStream(new File(
 								folderPath + File.separator + strEntry));
-						dest = new BufferedOutputStream(fos, BUFF_SIZE);
+						
+						dest = new BufferedOutputStream(fos);
 						while ((count = zis.read(data)) != -1)
 						{
 							dest.write(data, 0, count);
 						}
 						zipSuccess = true;
-						dest.flush();
 						dest.close();
+						fos.close();
 					}
 				}
 				fis.close();
-				zis.close();	
+				zis.close();
+				bis.close();
+				data = null;
+				Log.d(TAG, "un zip end time = "+System.currentTimeMillis());
 			}
 		} catch (Exception e)
 		{
@@ -167,6 +177,11 @@ public class ZipUtil
 		}
 		return zipSuccess;
 	}
+	
+	
+	
+	
+	
 
 	public static ArrayList<File> upZipSelectedFile(File zipFile,
 			String folderPath, String nameContains) throws ZipException,

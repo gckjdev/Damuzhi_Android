@@ -19,6 +19,7 @@ import android.R.integer;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Looper;
+import android.provider.ContactsContract.Contacts.Data;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.place.PlaceManager;
+import com.damuzhi.travel.network.HttpInputStreamHandel;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.network.PlaceNetworkHandler;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
@@ -33,6 +35,7 @@ import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceStatistics;
 import com.damuzhi.travel.protos.PlaceListProtos.Statistics;
+import com.loopj.android.http.AsyncHttpClient;
 import com.umeng.common.net.k;
 
 /**  
@@ -53,6 +56,8 @@ public class PlaceMission
 	private PlaceStatistics placeStatistics = null;
 	private boolean hasLocalData = false;
 	private int totalCount = 0;
+	List<Place> placeList = null;
+	//private static AsyncHttpClient client = new AsyncHttpClient();
 	private PlaceMission() {
 	}
 	
@@ -222,7 +227,6 @@ public class PlaceMission
 			inputStream = httpTool.sendGetRequest(url);
 			if(inputStream !=null)
 			{				
-				//byte[] data = inputStream.toString().getBytes();
 				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
 				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
 					return Collections.emptyList();
@@ -262,6 +266,58 @@ public class PlaceMission
 			}
 		}
 	}
+	
+	
+	/*private List<Place> getPlaceListByUrl(int cityId, int categoryId)
+	{
+		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
+		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
+		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);	
+		client.get(url, new HttpInputStreamHandel()
+		{
+			@Override
+			public void onSuccess(String arg0)
+			{
+				super.onSuccess(arg0);
+			}
+			
+			@Override
+			protected void inputStreamReceived(InputStream arg0)
+			{
+				if(arg0 != null)
+				{
+					TravelResponse travelResponse;
+					try
+					{
+						travelResponse = TravelResponse.parseFrom(arg0);
+						if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
+						}					
+						arg0.close();				
+						totalCount = travelResponse.getTotalCount();
+						placeList  =  travelResponse.getPlaceList().getListList();
+					} catch (IOException e)
+					{
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+						
+				}
+			}
+			
+			@Override
+			public void onFailure(Throwable arg0, String arg1)
+			{
+				super.onFailure(arg0, arg1);
+			}
+		});
+		return placeList;
+	}*/
+	
+	
+	
+	
+	
+	
 	
 	/*public void  getPlaceStatistics(int cityId,int categoryId)
 	{

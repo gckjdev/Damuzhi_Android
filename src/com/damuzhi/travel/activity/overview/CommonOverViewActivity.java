@@ -270,6 +270,9 @@ public abstract class CommonOverViewActivity extends MenuActivity
 		{
 			anseylodar.recycleBitmap();
 		}	
-		super.onDestroy();
+		if(loadingDialog  != null)
+		{
+			loadingDialog.dismiss();
+		}
 	}
 }

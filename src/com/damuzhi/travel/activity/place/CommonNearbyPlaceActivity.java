@@ -730,7 +730,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loadingDialog.setMessage(getResources().getString(R.string.loading));
 		loadingDialog.setIndeterminate(false);
-		loadingDialog.setCancelable(false);
+		loadingDialog.setCancelable(true);
 		loadingDialog.setOnKeyListener(keyListener);
 		loadingDialog.show();
 	}
@@ -834,5 +834,9 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		super.onDestroy();
 		adapter.recycleBitmap();
 		LocationUtil.stop();
+		if(loadingDialog  != null)
+		{
+			loadingDialog.dismiss();
+		}
 	}
 }

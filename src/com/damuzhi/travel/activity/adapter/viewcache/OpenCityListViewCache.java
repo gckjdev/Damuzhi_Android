@@ -33,6 +33,7 @@ public class OpenCityListViewCache
 	private ViewGroup listViewItemGroup ;
 	private TextView dataSize ;
 	private ViewGroup buttonGroup;
+	private ViewGroup installGroup;
 	private TextView installedTextView;
 	private TextView installingTextView;
 	private ViewGroup dataDownloadMangerGroup;
@@ -41,6 +42,8 @@ public class OpenCityListViewCache
 	private ImageButton onlineButton;				
 	private ImageButton startButton;
 	private ImageButton cancelButton ;
+	private ImageButton installButton;
+	private ImageButton cancelInstallButton;
 	private ViewGroup startGroup ;
 	private ViewGroup cancelGroup;
 	private ProgressBar downloadBar ;
@@ -118,6 +121,15 @@ public class OpenCityListViewCache
 		return buttonGroup;
 	}
 
+	
+	public ViewGroup getInstallGroup()
+	{
+		if(installGroup == null)
+		{
+			installGroup = (ViewGroup) convertView.findViewById(R.id.install_group);
+		}
+		return installGroup;
+	}
 
 
 
@@ -209,7 +221,14 @@ public class OpenCityListViewCache
 		return startButton;
 	}
 
-
+	public ImageButton getInstallButton()
+	{
+		if(installButton == null)
+		{
+			installButton = (ImageButton) convertView.findViewById(R.id.install_button);
+		}
+		return installButton;
+	}
 
 
 
@@ -222,7 +241,14 @@ public class OpenCityListViewCache
 		return cancelButton;
 	}
 
-
+	public ImageButton getCancelInstallButton()
+	{
+		if(cancelInstallButton == null)
+		{
+			cancelInstallButton = (ImageButton) convertView.findViewById(R.id.cancel_install_button);
+		}
+		return cancelInstallButton;
+	}
 
 
 

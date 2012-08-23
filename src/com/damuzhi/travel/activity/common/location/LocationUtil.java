@@ -30,31 +30,6 @@ public class LocationUtil
 	private static LocationClient mLocClient;
 	public static void getLocation(final Context context)
 	{
-		/*Thread thread = new Thread(new Runnable()
-		{
-			
-			@Override
-			public void run()
-			{			
-				 Looper.prepare();
-				
-					LocationResult locationResult = new LocationResult()
-					{
-						
-						@Override
-						public void gotLocation(Location location)
-						{
-							loc.put(ConstantField.LATITUDE, location.getLatitude());
-							loc.put(ConstantField.LONGITUDE, location.getLongitude());				
-						}
-					};
-					MyLocation myLocation = new MyLocation();
-					myLocation.getLocation(context, locationResult);
-				 getLoc(context);
-				 Looper.loop();				 			
-			}
-		});
-		thread.start();*/
 		if(loc!= null&&loc.size()>0)
 		{
 			 TravelApplication.getInstance().setLocation(loc);
@@ -83,9 +58,9 @@ public class LocationUtil
 	
 	public static void stop()
 	{
-		if(mLocClient != null)
+		if(TravelApplication.getInstance().mLocationClient != null)
 		{
-			mLocClient.stop();
+			TravelApplication.getInstance().mLocationClient.stop();
 		}
 	}
 	

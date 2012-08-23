@@ -80,4 +80,25 @@ public class DownloadPreference
 	    return installCityData;
 	}
 	
+	
+	public static HashMap<Integer, Integer> getAllUnfinishInstall(Context context)
+	{
+		SharedPreferences downloadData = context.getSharedPreferences(DOWNLOAD_DB_NAME, 0); 
+		HashMap<Integer, Integer> installCityData = new HashMap<Integer, Integer>();
+	    HashMap<String, Integer> downloadInfoHashMap = (HashMap<String, Integer>) downloadData.getAll();
+	    Iterator iterator = downloadInfoHashMap.entrySet().iterator();
+	    while(iterator.hasNext())
+	    {
+	    	Map.Entry<String, Integer> entry = (Map.Entry<String, Integer>) iterator.next();
+	    	String key = entry.getKey();
+    	    Integer val = entry.getValue();
+    	    if(val == 0)
+    	    {
+    	    	installCityData.put(Integer.parseInt(key), val);
+    	    }
+	    }
+	    
+	    return installCityData;
+	}
+	
 }

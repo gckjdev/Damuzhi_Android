@@ -35,6 +35,7 @@ import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
 import android.os.Looper;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -57,6 +58,7 @@ public class TravelApplication extends Application
 	public String address = "";
 	public BDLocation bdLocation;
 	public Map<String, Integer> downloadStatusMap = new HashMap<String, Integer>();
+	public String deviceId;
 	public static TravelApplication getInstance()
 	{
 		return travelApplication;
@@ -70,9 +72,11 @@ public class TravelApplication extends Application
 	{
 		super.onCreate();
 		travelApplication = this;
-		defaultHttpClient = createHttpClient();
+		//defaultHttpClient = createHttpClient();
 		mLocationClient = new LocationClient( this );
 		mLocationClient.registerLocationListener( myListener );
+		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+		deviceId = tm.getDeviceId();
 	}
 	
 	@Override
@@ -90,7 +94,7 @@ public class TravelApplication extends Application
 		shutdownHttpClient();
 	}
 	
-	private DefaultHttpClient createHttpClient()
+	/*private DefaultHttpClient createHttpClient()
 	{
 		Log.d(TAG, "createHttpClient().....");
 		HttpParams params = new BasicHttpParams();
@@ -109,7 +113,7 @@ public class TravelApplication extends Application
 	public DefaultHttpClient getHttpClient()
 	{
 		return defaultHttpClient;
-	}
+	}*/
 	
 	private void shutdownHttpClient()
 	{
@@ -342,5 +346,12 @@ public class TravelApplication extends Application
 	     		Log.e(TAG, "<getCoordinate> but catch exception = "+e.toString(),e);
 	     	}        
 	 }  
+	 
+	 
+	 public String getDeviceId()
+	{
+		return deviceId;
+	}
+	 
 	
 }

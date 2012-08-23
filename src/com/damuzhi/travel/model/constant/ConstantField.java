@@ -3,6 +3,10 @@ package com.damuzhi.travel.model.constant;
 import java.io.File;
 import java.security.PublicKey;
 
+import com.damuzhi.travel.activity.common.TravelApplication;
+
+import android.telephony.TelephonyManager;
+
 public class ConstantField
 {
 	/*local data path*/
@@ -52,6 +56,9 @@ public class ConstantField
 	public static final String LATITUDE = "latitude";
 	public static final String LONGITUDE = "longitude";
 	public static final String CITY = "city";
+
+	/* android os deviceID*/
+	public static final String DEVICE_ID = TravelApplication.getInstance().getDeviceId();
 	
 	
 	
@@ -59,7 +66,7 @@ public class ConstantField
 	public static final String FORMAT_HTTP_URL = "http://api.trip8888.com/";
 	public static final String TEST_HTTP_URL = "http://59.34.17.68:8012/";
 	
-	/*public static final String PLACE_INFO = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
+	public static final String PLACE_INFO = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = "http://api.trip8888.com/service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACElIST = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&lang=%s";
@@ -67,28 +74,28 @@ public class ConstantField
 	public static final String APP = "http://api.trip8888.com/service/queryList.aspx?type=10&lang=%s&os=2";
 	public static final String HELP = "http://api.trip8888.com/service/queryObject.aspx?type=8&lang=%s";
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
-	*/
 	
-	public static final String PLACE_INFO = TEST_HTTP_URL+"service/queryPlace.aspx?userId=%s&placeId=%s";
+	
+	/*public static final String PLACE_INFO = TEST_HTTP_URL+"service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = TEST_HTTP_URL+"service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACElIST = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&lang=%s";
 	public static final String PLACE_LIST_NEARBY = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&placeId=%s&latitude=%s&longitude=%s&num=%s&distance=%s&lang=%s&os=%s";
 	public static final String APP = TEST_HTTP_URL+"service/queryList.aspx?type=10&lang=%s&os=2";
 	public static final String HELP = TEST_HTTP_URL+"service/queryObject.aspx?type=8&lang=%s";
-	public static final String ANDROID_VERSION = TEST_HTTP_URL+"service/androidVersion.txt";
+	public static final String ANDROID_VERSION = TEST_HTTP_URL+"service/androidVersion.txt";*/
 	
 	
 	/* page url*/
-	/*public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+	public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_FILTER_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
-	*/
+	
 
-	public static final String PLACE_PAGE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+	/*public static final String PLACE_PAGE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_FILTER_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
-	
+	*/
 	
 	/* http data type */
 	public static final String RESULT_OK = "0";

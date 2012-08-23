@@ -99,11 +99,11 @@
     	    android:id="@+id/place_listview"
     	    android:layout_width="fill_parent"
     	    android:layout_height="fill_parent"
+    	    android:clickable="true"
     	    android:focusable="true"
     	    android:scrollbars="none"
     	    android:cacheColorHint="@color/listview_bg"
-    	    android:background="@color/white"
-    	    android:scrollingCache="true" />
+    	    android:background="@color/white"/>
     </LinearLayout> 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mapview_group"

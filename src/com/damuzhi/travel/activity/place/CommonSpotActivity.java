@@ -67,6 +67,12 @@ public class CommonSpotActivity extends CommonPlaceActivity
 	}
 	
 	@Override
+	public int getCategoryType()
+	{
+		return PlaceCategoryType.PLACE_SPOT_VALUE;
+	}
+	
+	@Override
 	public void createFilterButtons(ViewGroup spinner)
 	{
 		LayoutInflater inflater = getLayoutInflater();
@@ -94,11 +100,7 @@ public class CommonSpotActivity extends CommonPlaceActivity
 		sortSpinner.setOnClickListener(sortClickListener);
 	}
 	
-	@Override
-	public int getCategoryType()
-	{
-		return PlaceCategoryType.PLACE_SPOT_VALUE;
-	}
+	
 
 
 	@Override

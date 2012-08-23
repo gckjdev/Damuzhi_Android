@@ -69,12 +69,12 @@ public class CommonShoppingDetailActivity extends CommonPlaceDetailActivity
 		return false;
 	}
 
-	/*@Override
+	@Override
 	public boolean isSupportTips()
 	{
 		tipsTitle = getString(R.string.shopping_tips);
 		return true;
-	}*/
+	}
 
 	@Override
 	public boolean isSupportHotelStart()

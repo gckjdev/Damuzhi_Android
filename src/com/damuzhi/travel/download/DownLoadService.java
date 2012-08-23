@@ -21,6 +21,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Debug;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
@@ -43,6 +44,7 @@ import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.ZipUtil;
+import com.damuzhi.travel.util.ZipUtil2;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.weibo.net.HttpHeaderFactory;
@@ -222,9 +224,9 @@ public class DownloadService extends Service
 	}
 	
 	
-	static ExecutorService unzipExecutorService = Executors.newFixedThreadPool(2);
+	static ExecutorService unzipExecutorService = Executors.newFixedThreadPool(1);
 	
-	private static void upZipFile(final String zipFilePath, final String upZipFolderPath,final int cityId,final String downloadURL)
+	public static void upZipFile(final String zipFilePath, final String upZipFilePath,final int cityId,final String downloadURL)
 	{
 		
 		unzipExecutorService.execute(new Runnable()
@@ -233,12 +235,17 @@ public class DownloadService extends Service
 			@Override
 			public void run()
 			{
-				boolean result = ZipUtil.upZipFile(zipFilePath, upZipFolderPath);
+				//Debug.startMethodTracing("unzip");
+				Log.d(TAG, "unzip file ="+zipFilePath);
+				boolean result = ZipUtil.upZipFile(zipFilePath, upZipFilePath);
+				//Debug.stopMethodTracing();
+				//ZipUtil2 zipUtil2 = new ZipUtil2(zipFilePath);
+				//zipUtil2.unzip(upZipFilePath);
+				//boolean result = ZipUtil2.unZipToFolder(zipFilePath, upZipFilePath);
 				if(downloadStstudTask.containsKey(downloadURL))
 				{
 					downloadStstudTask.remove(downloadURL);
 				}
-				FileUtil.deleteFile(zipFilePath);
 				Message msg = Message.obtain();
 			    msg.what = UPZIP;
 			    DownloadInfos downloadInfos = new DownloadInfos(cityId, downloadURL, 0, 0, false, result);
@@ -248,6 +255,27 @@ public class DownloadService extends Service
 		});
 		
 		
+		/*AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
+		{
+
+			@Override
+			protected Void doInBackground(Void... params)
+			{
+				boolean result = ZipUtil.upZipFile(zipFilePath, upZipFilePath);
+				if(downloadStstudTask.containsKey(downloadURL))
+				{
+					downloadStstudTask.remove(downloadURL);
+				}
+				Message msg = Message.obtain();
+			    msg.what = UPZIP;
+			    DownloadInfos downloadInfos = new DownloadInfos(cityId, downloadURL, 0, 0, false, result);
+			    msg.obj = downloadInfos;
+		        downloadHandler.sendMessage(msg);
+				return null;
+			}
+	
+		};
+		asyncTask.execute();*/
 	}
 
 	public static Map<String, Integer> getDownloadStstudTask()

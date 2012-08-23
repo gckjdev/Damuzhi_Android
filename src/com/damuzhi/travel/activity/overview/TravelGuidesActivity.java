@@ -159,7 +159,7 @@ public class TravelGuidesActivity extends MenuActivity
 		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loadingDialog.setMessage(getResources().getString(R.string.loading));
 		loadingDialog.setIndeterminate(false);
-		loadingDialog.setCancelable(false);
+		loadingDialog.setCancelable(true);
 		loadingDialog.setOnKeyListener(keyListener);
 		loadingDialog.show();
 	}
@@ -196,5 +196,16 @@ public class TravelGuidesActivity extends MenuActivity
 			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+
+
+	@Override
+	protected void onDestroy()
+	{
+		if(loadingDialog  != null)
+		{
+			loadingDialog.dismiss();
+		}
 	}
 }

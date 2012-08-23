@@ -79,7 +79,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	abstract public boolean isSupportSpecialTrafficStyle();
 	abstract public boolean isSupportTicket();
 	abstract public boolean isSupportKeyWords();
-	//abstract public boolean isSupportTips();
+	abstract public boolean isSupportTips();
 	abstract public boolean isSupportHotelStart();
 	abstract public boolean isSupportService();
 	abstract public boolean isSupportRoomPrice();
@@ -329,7 +329,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		}
 				
 		//tips
-		/*if(isSupportTips())
+		if(isSupportTips())
 		{
 			String tipsString = place.getTips();
 			if(tipsString != null && !tipsString.equals(""))
@@ -341,7 +341,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				tips.setText(tipsString);
 			}
 			
-		}*/
+		}
 		
 		//park
 		if(isSupportPark())
@@ -505,7 +505,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			ViewGroup websiteGroup = (ViewGroup) findViewById(R.id.website_group);
 			websiteGroup.setVisibility(View.VISIBLE);
 			TextView website = (TextView) findViewById(R.id.website);
-			website.setText(getString(R.string.website)+" "+place.getWebsite());
+			website.setText(place.getWebsite());
 		}
 		//placeDetailGroup = (ViewGroup) findViewById(R.id.place_detail_group);
 		nearbyListGroup = (ViewGroup) findViewById(R.id.nearby_list_group);
@@ -842,6 +842,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	{
 		super.onDestroy();
 		anseylodar.recycleBitmap();
+		
 	}
 	
 }
