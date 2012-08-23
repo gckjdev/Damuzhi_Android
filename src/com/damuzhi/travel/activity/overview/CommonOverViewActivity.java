@@ -266,6 +266,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 	@Override
 	protected void onDestroy()
 	{
+		super.onDestroy();
 		if(anseylodar != null)
 		{
 			anseylodar.recycleBitmap();

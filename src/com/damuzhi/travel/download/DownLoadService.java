@@ -92,7 +92,7 @@ public class DownloadService extends Service
 	{
 		AsyncHttpClient client = new AsyncHttpClient();
 		downloadClientMap.put(downloadURL, client);
-		Log.i(TAG, "start downloading... context="+context);
+		Log.d(TAG, "start downloading... context="+context);
 
 		File fileSaveDir = new File(savePath);
 		if (!fileSaveDir.exists())
@@ -105,7 +105,7 @@ public class DownloadService extends Service
 		tempPath = tempPath+fileName;
 		//savePath = savePath+fileName;
 		final String zipFilePath = savePath+fileName;
-		Log.i(TAG, "download file, temp=" + tempPath + ", save=" + savePath);
+		Log.d(TAG, "download file, temp=" + tempPath + ", save=" + savePath);
 
 		long startDownloadLength = FileUtil.getFileSize(tempPath);
 		client.addHeader("Range", "bytes=" + startDownloadLength + "-");
@@ -229,7 +229,7 @@ public class DownloadService extends Service
 	public static void upZipFile(final String zipFilePath, final String upZipFilePath,final int cityId,final String downloadURL)
 	{
 		
-		unzipExecutorService.execute(new Runnable()
+		/*unzipExecutorService.execute(new Runnable()
 		{
 			
 			@Override
@@ -252,10 +252,10 @@ public class DownloadService extends Service
 			    msg.obj = downloadInfos;
 		        downloadHandler.sendMessage(msg);
 			}
-		});
+		});*/
 		
 		
-		/*AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
+		AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
 		{
 
 			@Override
@@ -275,7 +275,7 @@ public class DownloadService extends Service
 			}
 	
 		};
-		asyncTask.execute();*/
+		asyncTask.execute();
 	}
 
 	public static Map<String, Integer> getDownloadStstudTask()

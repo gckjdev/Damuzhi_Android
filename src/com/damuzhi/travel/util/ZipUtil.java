@@ -20,6 +20,7 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
+import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.model.constant.ConstantField;
 
 import android.content.Context;
@@ -28,7 +29,7 @@ import android.util.Log;
 public class ZipUtil
 {
 
-	private static final int BUFF_SIZE = 1024 * 4; // 1M Byte
+	private static final int BUFF_SIZE = 1024 * 8; // 1M Byte
 
 	private static final String TAG = "ZipUtil";
 
@@ -150,8 +151,7 @@ public class ZipUtil
 							entryFile.getParentFile().mkdirs();
 						}
 						int count ;
-						FileOutputStream fos = new FileOutputStream(new File(
-								folderPath + File.separator + strEntry));
+						FileOutputStream fos = new FileOutputStream(new File(folderPath + File.separator + strEntry));
 						
 						dest = new BufferedOutputStream(fos);
 						while ((count = zis.read(data)) != -1)

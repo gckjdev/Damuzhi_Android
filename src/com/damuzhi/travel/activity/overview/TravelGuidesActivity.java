@@ -203,6 +203,7 @@ public class TravelGuidesActivity extends MenuActivity
 	@Override
 	protected void onDestroy()
 	{
+		super.onDestroy();
 		if(loadingDialog  != null)
 		{
 			loadingDialog.dismiss();

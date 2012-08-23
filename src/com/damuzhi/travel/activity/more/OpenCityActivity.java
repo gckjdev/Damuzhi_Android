@@ -153,11 +153,14 @@ public class OpenCityActivity extends Activity
 			installData(currentCityId, downloadURL);
 		}
 		
-		bindService(new Intent(OpenCityActivity.this, DownloadService.class), conn, Context.BIND_AUTO_CREATE);
+		Intent intent = new Intent(OpenCityActivity.this,DownloadService.class);
+		startService(intent);
+       // bindService(intent, conn, Context.BIND_AUTO_CREATE);
+		//bindService(new Intent(OpenCityActivity.this, DownloadService.class), conn, Context.BIND_AUTO_CREATE);
 	}
 	
 	//bindservice
-	private ServiceConnection conn = new ServiceConnection()
+/*	private ServiceConnection conn = new ServiceConnection()
 	{		
 		@Override
 		public void onServiceDisconnected(ComponentName name)
@@ -170,7 +173,7 @@ public class OpenCityActivity extends Activity
 		{
 			
 		}
-	};
+	};*/
 	
 	
 	
@@ -295,6 +298,7 @@ public class OpenCityActivity extends Activity
 		}else{
 			Log.d(TAG, "installed fail delete db info cityId = "+cityId);
 			DownloadPreference.deleteDownloadInfo(OpenCityActivity.this, Integer.toString(cityId));
+			unfinishInstallMap.remove(cityId);
 		}	
 		if(newVersionCityData.containsKey(cityId))
 		{
@@ -359,7 +363,7 @@ public class OpenCityActivity extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		unbindService(conn);
+		//unbindService(conn);
 		//Debug.stopMethodTracing();
 		Log.d(TAG, "onDestroy");
 	}
