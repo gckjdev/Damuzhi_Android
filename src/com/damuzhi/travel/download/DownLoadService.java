@@ -21,6 +21,7 @@ import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Binder;
 import android.os.Debug;
 import android.os.Environment;
 import android.os.Handler;
@@ -61,11 +62,7 @@ public class DownloadService extends Service
 	private static final int PROCESS_CHANGED = 1;
 	private static final int UPZIP = 2;
 	private static final int CONNECTION_ERROR = 3;
-
-	//public static Map<String, FileDownloader> downloadTask = new HashMap<String, FileDownloader>();
-
 	public static Map<String, Integer> downloadStstudTask = new HashMap<String, Integer>();
-
 	private static Map<String, AsyncHttpClient> downloadClientMap = new HashMap<String, AsyncHttpClient>();
 	private static Map<String, DownloadHandler> downloadControlMap = new HashMap<String, DownloadHandler>();
 	public static  Handler downloadHandler;
@@ -74,6 +71,7 @@ public class DownloadService extends Service
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
+		Log.d(TAG, "service onStartCommand");
 		return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -81,7 +79,7 @@ public class DownloadService extends Service
 	public void onCreate()
 	{
 		super.onCreate();
-
+		Log.d(TAG, "service onCreate");
 	}
 
 	
@@ -220,28 +218,36 @@ public class DownloadService extends Service
 	public IBinder onBind(Intent arg0)
 	{
 		// TODO Auto-generated method stub
-		return null;
+		return servoceBinder;
 	}
 	
+	
+	public class DownloadServiceBinder extends Binder{
+        
+        public DownloadService getService(){
+            return DownloadService.this;
+        }
+    }
+    
+    private DownloadServiceBinder servoceBinder = new DownloadServiceBinder();
 	
 	static ExecutorService unzipExecutorService = Executors.newFixedThreadPool(1);
 	
 	public static void upZipFile(final String zipFilePath, final String upZipFilePath,final int cityId,final String downloadURL)
 	{
 		
-		/*unzipExecutorService.execute(new Runnable()
+		unzipExecutorService.execute(new Runnable()
 		{
 			
 			@Override
 			public void run()
 			{
-				//Debug.startMethodTracing("unzip");
 				Log.d(TAG, "unzip file ="+zipFilePath);
 				boolean result = ZipUtil.upZipFile(zipFilePath, upZipFilePath);
-				//Debug.stopMethodTracing();
-				//ZipUtil2 zipUtil2 = new ZipUtil2(zipFilePath);
-				//zipUtil2.unzip(upZipFilePath);
-				//boolean result = ZipUtil2.unZipToFolder(zipFilePath, upZipFilePath);
+				if(result)
+				{
+					FileUtil.deleteFile(zipFilePath);
+				}
 				if(downloadStstudTask.containsKey(downloadURL))
 				{
 					downloadStstudTask.remove(downloadURL);
@@ -252,10 +258,10 @@ public class DownloadService extends Service
 			    msg.obj = downloadInfos;
 		        downloadHandler.sendMessage(msg);
 			}
-		});*/
+		});
 		
 		
-		AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
+		/*AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
 		{
 
 			@Override
@@ -275,7 +281,7 @@ public class DownloadService extends Service
 			}
 	
 		};
-		asyncTask.execute();
+		asyncTask.execute();*/
 	}
 
 	public static Map<String, Integer> getDownloadStstudTask()
@@ -286,6 +292,20 @@ public class DownloadService extends Service
 	public static void setDownloadStstudTask(Map<String, Integer> downloadStstudTask)
 	{
 		DownloadService.downloadStstudTask = downloadStstudTask;
+	}
+
+	@Override
+	public void onDestroy()
+	{
+		super.onDestroy();
+		Log.d(TAG, "service onDestroy");
+	}
+
+	@Override
+	public void onStart(Intent intent, int startId)
+	{
+		super.onStart(intent, startId);
+		Log.d(TAG, "service onStart");
 	}
 	
 }

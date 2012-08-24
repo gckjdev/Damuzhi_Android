@@ -79,6 +79,9 @@ public class TravelUtil
 		case 5:
 			icon = R.drawable.ico8;
 			break;
+		case 8:
+			icon = R.drawable.ico11;
+			break;
 		case 9:
 			icon = R.drawable.ico10;
 			break;
@@ -104,9 +107,6 @@ public class TravelUtil
 			icon = R.drawable.ico5;
 			break;
 		case 90:
-			icon = R.drawable.ico5;
-			break;
-		default:
 			icon = R.drawable.ico5;
 			break;
 		}

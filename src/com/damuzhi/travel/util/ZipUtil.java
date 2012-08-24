@@ -112,7 +112,8 @@ public class ZipUtil
 
 	public static boolean upZipFile(String zipFilePath, String folderPath)
 	{
-		Log.d(TAG, "start unzip time"+System.currentTimeMillis());
+		long startTime = System.currentTimeMillis();
+		//Log.d(TAG, "start unzip time"+startTime);
 		boolean zipSuccess = false;
 		String strEntry;
 		byte data[] = new byte[BUFF_SIZE];
@@ -137,7 +138,7 @@ public class ZipUtil
 				while ((entry = zis.getNextEntry()) != null)
 				{
 					strEntry = entry.getName();
-					Log.d(TAG, "unzip file name= "+strEntry);
+					//Log.d(TAG, "unzip file name= "+strEntry);
 					String str = folderPath + File.separator + strEntry;
 					File entryFile = new File(new String(str.getBytes("8859_1"),"GB2312"));
 					if (entry.isDirectory())
@@ -167,7 +168,9 @@ public class ZipUtil
 				zis.close();
 				bis.close();
 				data = null;
-				Log.d(TAG, "un zip end time = "+System.currentTimeMillis());
+				long endTime = System.currentTimeMillis();
+				double unzipTime= (endTime-startTime)/1000;
+				Log.d(TAG, "unzip unzipTime = "+unzipTime);
 			}
 		} catch (Exception e)
 		{

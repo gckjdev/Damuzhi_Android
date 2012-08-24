@@ -318,6 +318,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		@Override
 		public void onClick(View v)
 		{
+			LocationUtil.stop();
 			Intent intent = new Intent();
 			intent.setClass(IndexActivity.this, OpenCityActivity.class);
 			startActivity(intent);
