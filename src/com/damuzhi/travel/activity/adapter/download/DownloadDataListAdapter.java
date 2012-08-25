@@ -151,9 +151,9 @@ public class DownloadDataListAdapter extends BaseAdapter
 					//String gcZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId+"gc");
 					//File upZipFile = new File(upZipFilePath);
 					installedCityList.remove(position);
-					OpenCityActivity.installCityData.remove(cityId);
+					/*OpenCityActivity.installCityData.remove(cityId);
 					OpenCityActivity.downloadDataListAdapter.setInstalledCityList(installedCityList);
-					OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();
+					OpenCityActivity.downloadDataListAdapter.notifyDataSetChanged();*/
 					DownloadPreference.deleteDownloadInfo(context, Integer.toString(cityId));
 					deleteFile(upZipFilePath);
 					//File gcZipFile = new File(gcZipFilePath);

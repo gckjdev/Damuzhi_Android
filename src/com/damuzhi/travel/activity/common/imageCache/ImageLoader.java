@@ -121,8 +121,13 @@ public class ImageLoader {
 			Bitmap bitmap;
 			ImageCallback callback;
 			@Override
-			public boolean equals(Object o) {				
+			public boolean equals(Object o) {
+				if(o == null)
+				{
+					return false;
+				}
 				return ((Task)o).path.equals(path);
+				
 			}
 		}
 		

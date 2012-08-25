@@ -61,6 +61,7 @@ import com.damuzhi.travel.util.FileUtil;
 		        try
 	    		{
 	    			output.close();
+	    			output = null;
 	    		} catch (IOException e)
 	    		{
 	    		}	

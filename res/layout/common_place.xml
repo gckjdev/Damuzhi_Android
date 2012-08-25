@@ -99,6 +99,7 @@
     	    android:id="@+id/place_listview"
     	    android:layout_width="fill_parent"
     	    android:layout_height="fill_parent"
+    	    android:divider="@android:color/white"
     	    android:clickable="true"
     	    android:focusable="true"
     	    android:scrollbars="none"

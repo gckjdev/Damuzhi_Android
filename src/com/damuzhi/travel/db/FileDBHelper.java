@@ -49,7 +49,10 @@ public class FileDBHelper {
 		}
 		finally
 		{
-			cursor.close();
+			if(cursor != null)
+			{
+				cursor.close();
+			}		
 			//db.close();
 		}
 		
@@ -73,7 +76,10 @@ public class FileDBHelper {
 		}
 		finally
 		{
-			cursor.close();
+			if(cursor != null)
+			{
+				cursor.close();
+			}
 			//db.close();
 		}
 		
@@ -231,7 +237,10 @@ public class FileDBHelper {
 		}
 		finally
 		{
-			cursor.close();
+			if(cursor != null)
+			{
+				cursor.close();
+			}
 			//db.close();
 		}
 		return false;
@@ -257,7 +266,10 @@ public class FileDBHelper {
 		}
 		finally
 		{
-			cursor.close();
+			if(cursor != null)
+			{
+				cursor.close();
+			}
 			//db.close();
 		}
 		

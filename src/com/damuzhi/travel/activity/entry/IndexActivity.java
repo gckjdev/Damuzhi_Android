@@ -17,6 +17,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.provider.ContactsContract.Settings;
@@ -152,13 +153,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		moreButton.setOnClickListener(this);
 		helpButton.setOnClickListener(helpOnClickListener);
 		favoriteButton.setOnClickListener(favoriteOnClickListener);
-		shareButton.setOnClickListener(shareOnClickListener);
-		Intent intent = new Intent();
-		intent.setAction(ConstantField.CHECK_NET);
-		sendBroadcast(intent);
-		
-		
-		
+		shareButton.setOnClickListener(shareOnClickListener);		
 	}
 
 	
@@ -374,39 +369,55 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			cityName = AppManager.getInstance().getCurrentCityName();
 		}
 		currentCityName.setText(cityName);
-		City city = AppManager.getInstance().getCityByCityId(AppManager.getInstance().getCurrentCityId());
-		String downloadURL =null;
-		if(city != null &&city.hasDownloadURL())
-		{
-			downloadURL = city.getDownloadURL();
-			Map<Integer, Integer> unfinishInstallCity = DownloadPreference.getAllUnfinishInstall(IndexActivity.this);
-			Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(IndexActivity.this);
-			Map<Integer, String> newVersionCityData = new HashMap<Integer, String>();
-			List<Integer> installedCityList = new ArrayList<Integer>();
-			installedCityList.clear();
-			installedCityList.addAll(installCityData.keySet());
-			if(installCityData != null&&installCityData.size()>0)
-			{
-				newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
-			}
-			int currentCityId = AppManager.getInstance().getCurrentCityId();
-			if(downloadURL != null&&!downloadURL.equals(""))
-			{
-				if(newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
-				{
-					checkDataVersion();
-				}
-				if(unfinishInstallCity.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
-				{
-					installData();
-				}
-			}
-		}
+		checkData();
 		
 		
 		
 	}
 
+	
+	private void checkData()
+	{
+		AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
+		{
+
+			@Override
+			protected Void doInBackground(Void... params)
+			{
+				City city = AppManager.getInstance().getCityByCityId(AppManager.getInstance().getCurrentCityId());
+				String downloadURL =null;
+				if(city != null &&city.hasDownloadURL())
+				{
+					downloadURL = city.getDownloadURL();
+					Map<Integer, Integer> unfinishInstallCity = DownloadPreference.getAllUnfinishInstall(IndexActivity.this);
+					Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(IndexActivity.this);
+					Map<Integer, String> newVersionCityData = new HashMap<Integer, String>();
+					List<Integer> installedCityList = new ArrayList<Integer>();
+					installedCityList.clear();
+					installedCityList.addAll(installCityData.keySet());
+					if(installCityData != null&&installCityData.size()>0)
+					{
+						newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
+					}
+					int currentCityId = AppManager.getInstance().getCurrentCityId();
+					if(downloadURL != null&&!downloadURL.equals(""))
+					{
+						if(newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
+						{
+							checkDataVersion();
+						}
+						if(unfinishInstallCity.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
+						{
+							installData();
+						}
+					}
+				}
+				return null;
+			}
+	
+		};
+		asyncTask.execute();
+	}
 	
 	
 	

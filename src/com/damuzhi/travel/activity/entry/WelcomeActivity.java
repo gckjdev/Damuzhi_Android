@@ -29,7 +29,9 @@ import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
+import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
+import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.common.HelpMission;
 import com.damuzhi.travel.mission.common.UserMission;
@@ -55,6 +57,8 @@ public class WelcomeActivity extends MenuActivity
 		TravelApplication.getInstance().addActivity(this);
 		init();
 	}
+	
+	
 	
 	
 	private void init()
@@ -112,32 +116,25 @@ public class WelcomeActivity extends MenuActivity
 	}
 	
 	
-	/*public  void getLocation(Context context)
-	{
-		
-		LocationClientOption option = new LocationClientOption();
-		option.setOpenGps(true);	
-		option.setAddrType("detail");
-		option.setCoorType("bd09ll");		
-		option.setScanSpan(10000);
-		mLocClient = TravelApplication.getInstance().mLocationClient;
-		mLocClient.setLocOption(option);
-		mLocClient.start();
-		if (mLocClient != null && mLocClient.isStarted())
-			mLocClient.requestLocation();
-		else 
-			Log.d(TAG, " baidu locationSDK locClient is null or not started");
-	}*/
-
+	
 
 	@Override
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		/*if(mLocClient !=null)
-		{
-			mLocClient.stop();
-		}*/
+		
+	}
+
+
+
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		Log.d(TAG, "onResume");
+		/*Intent intent = new Intent(WelcomeActivity.this,DownloadService.class);
+		startService(intent);*/
 	}
 	
 	

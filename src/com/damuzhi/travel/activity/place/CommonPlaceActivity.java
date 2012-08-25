@@ -8,6 +8,7 @@
  */
 package com.damuzhi.travel.activity.place;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,18 +22,10 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.format.DateUtils;
-import android.text.style.StyleSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -42,14 +35,10 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver.OnScrollChangedListener;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AbsListView;
-import android.widget.CheckBox;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -95,6 +84,8 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.readystatesoftware.maps.OnSingleTapListener;
 import com.readystatesoftware.maps.TapControlledMapView;
+
+import dalvik.system.VMRuntime;
 
 /**
  * @description
@@ -191,10 +182,12 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private boolean localDataIsExist;
 	private View listViewFooter;
 	private ViewGroup footerViewGroup;
+	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
 		TravelApplication.getInstance().addActivity(this);
 		setContentView(R.layout.common_place);
 		setProgressBarVisibility(true); 
@@ -680,10 +673,10 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	
 	
 	
-	
+	private int visibleLastIndex = 0;
 	private OnScrollListener listviewOnScrollListener = new OnScrollListener()
 	{
-		private int visibleLastIndex = 0;
+		
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState)
 		{
@@ -696,7 +689,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			{	
 				footerViewGroup.setVisibility(View.VISIBLE);
 			  int size = placeListAdapter.getCount();	
-			  if(visibleLastIndex == size)
+			  if(scrollState ==OnScrollListener.SCROLL_STATE_IDLE &&visibleLastIndex == size)
 			  {
 				  Log.d(TAG, "load more");
 				  Log.d(TAG, "listview visibleLastIndex = "+visibleLastIndex);	  
@@ -768,7 +761,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
 			Log.d(TAG, "list view item onclick");
-			BrowseHistoryMission.getInstance().addBrowseHistory(place);
+			//BrowseHistoryMission.getInstance().addBrowseHistory(place);
+			addBrowseHistory(place);
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
@@ -777,6 +771,22 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		}
 	};
 
+	
+	private void addBrowseHistory(final Place place)
+	{
+		AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>(){
+
+			@Override
+			protected Void doInBackground(Void... params)
+			{
+				BrowseHistoryMission.getInstance().addBrowseHistory(place);
+				return null;
+			}};
+			asyncTask.execute();
+	}
+	
+	
+	
 	private OnClickListener helpOnClickListener = new OnClickListener()
 	{
 		
@@ -1339,6 +1349,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			{
 				loadingDialog.dismiss();
 			}
+			System.gc();
 		}	
 		
 		

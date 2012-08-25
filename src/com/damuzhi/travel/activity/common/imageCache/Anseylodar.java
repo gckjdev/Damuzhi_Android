@@ -2,15 +2,13 @@ package com.damuzhi.travel.activity.common.imageCache;
 
 
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+
 import java.lang.ref.SoftReference;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -22,7 +20,6 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.PicUtill;
 import com.damuzhi.travel.util.TravelUtil;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
@@ -31,11 +28,13 @@ import android.widget.ImageView;
 public class Anseylodar {
 	
 	private static final String TAG = "Anseylodar";
-	private List<Bitmap> localBitmaps ;
+	//private Map<String,Bitmap> localBitmaps ;
+	private HashMap<String, SoftReference<Bitmap>> localBitmaps;
 	ImageLoader imageLoader;
 	public Anseylodar(){
 		imageLoader=new ImageLoader();
-		localBitmaps = new ArrayList<Bitmap>();
+		//localBitmaps = new HashMap<String,Bitmap>();
+		localBitmaps = new HashMap<String, SoftReference<Bitmap>>();
 	}
 	
 	
@@ -48,9 +47,22 @@ public class Anseylodar {
 		{
 			if(dataflag == ConstantField.DATA_LOCAL)
 			{
-				 url = TravelUtil.getCityDataPath(cityId)+url;				 
-				 bitmap = PicUtill.getLocalBitmap(url);	
-				 localBitmaps.add(bitmap);
+				 url = TravelUtil.getCityDataPath(cityId)+url;
+				 if(localBitmaps != null&&!localBitmaps.containsKey(url))
+				 {
+					 bitmap = PicUtill.getLocalBitmap(url);	
+					 localBitmaps.put(url,new SoftReference<Bitmap>(bitmap));
+				 }else
+				 {
+					 SoftReference<Bitmap> rf  = localBitmaps.get(url);
+					 bitmap = rf.get();
+					 if(bitmap == null)
+					 {
+						 localBitmaps.remove(url);
+						 bitmap = PicUtill.getLocalBitmap(url);	
+					 }
+				 }
+				
 			}else
 			{
 				bitmap=imageLoader.loadImage(url, getImagelodarcallback( imageView));	
@@ -81,8 +93,20 @@ public class Anseylodar {
 			}else
 			{
 				 url = TravelUtil.getCityDataPath()+url;
-				bitmap = PicUtill.getLocalBitmap(url);
-				localBitmaps.add(bitmap);
+				 if(localBitmaps != null&&!localBitmaps.containsKey(url))
+				 {
+					 bitmap = PicUtill.getLocalBitmap(url);	
+					 localBitmaps.put(url,new SoftReference<Bitmap>(bitmap));
+				 }else
+				 {
+					 SoftReference<Bitmap> rf  = localBitmaps.get(url);
+					 bitmap = rf.get();
+					 if(bitmap == null)
+					 {
+						 localBitmaps.remove(url);
+						 bitmap = PicUtill.getLocalBitmap(url);	
+					 }
+				 }
 			}		
 		     if (bitmap==null){
 				imageView.setImageResource(R.drawable.default_s);
@@ -144,12 +168,16 @@ public class Anseylodar {
 	{
 		if(localBitmaps!=null && localBitmaps.size()>0)
 		{
-			for(Bitmap bitmap:localBitmaps)
+			Iterator iterator = localBitmaps.entrySet().iterator();
+			while (iterator.hasNext())
 			{
+				Entry entry = (Entry) iterator.next();
+				SoftReference<Bitmap> sf = (SoftReference<Bitmap>) entry.getValue();
+				Bitmap bitmap = sf.get();
 				if(bitmap != null&&!bitmap.isRecycled())
 				{
 					bitmap.recycle();
-				}
+				}	
 			}
 		}
 		System.gc();

@@ -28,13 +28,22 @@ import android.util.Log;
 public class FileUtil
 {
 	private static final String TAG = "FileUtil";
-	private List<String> lstFile = new ArrayList<String>();
-	private ArrayList<FileInputStream> fileInput = new ArrayList<FileInputStream>();
+	/*private List<String> lstFile = new ArrayList<String>();
+	private ArrayList<FileInputStream> fileInput = new ArrayList<FileInputStream>();*/
 
 	public List<String> GetFiles(String Path, String Extension,
 			boolean IsIterative)
 	{
+		List<String> lstFile = null;
 		File[] files = new File(Path).listFiles();
+		if(files == null||files.length==0)
+		{
+			return null;
+		}
+		if(files != null&&files.length>0)
+		{
+			lstFile = new ArrayList<String>();
+		}
 		for (int i = 0; i < files.length; i++)
 		{
 			File f = files[i];
@@ -65,10 +74,16 @@ public class FileUtil
 			String type, String Extension, boolean IsIterative)
 	{
 
+		ArrayList<FileInputStream> fileInput = null;
 		File[] files = new File(Path).listFiles();
 		if (files == null || files.length == 0)
 			return null;
 
+		if(files != null&&files.length>0)
+		{
+			fileInput = new ArrayList<FileInputStream>();
+		}
+		
 		for (int i = 0; i < files.length; i++)
 		{
 			File f = files[i];
@@ -104,6 +119,47 @@ public class FileUtil
 		}
 		return fileInput;
 	}
+	
+	
+	public FileInputStream getInputStream(String Path,String type, String Extension, boolean IsIterative)
+	{
+
+		FileInputStream fileInput = null;
+		File[] files = new File(Path).listFiles();
+		if (files == null || files.length == 0)
+			return null;
+
+		for (int i = 0; i < files.length; i++)
+		{
+			File f = files[i];
+
+			if (f.isFile())
+			{
+				String fileExtension = f.getPath().substring(f.getPath().length() - Extension.length());
+				String fileType = f.getPath().substring(f.getPath().lastIndexOf("/") + 1,f.getPath().lastIndexOf("."));
+
+				if (fileExtension.equals(Extension) && fileType.contains(type))
+				{
+					try
+					{
+						fileInput = new FileInputStream(new File(f.getPath()));
+					} catch (Exception e)
+					{
+						Log.e(TAG, "<getInputStream> but catch exception "+ e.toString(), e);
+					}
+				}
+				if (!IsIterative)
+					break;
+			} else if (f.isDirectory() && f.getPath().indexOf("/.") == -1)
+			{
+				getInputStream(f.getPath(), type, Extension, IsIterative);
+			}
+		}
+		return fileInput;
+	}
+	
+	
+	
 
 	public static boolean copyFile(String srcFile, String targetFile)
 	{

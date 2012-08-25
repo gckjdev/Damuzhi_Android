@@ -82,6 +82,9 @@ public class PicUtill {
 			conn.setDoInput(true);
 			conn.connect();
 			InputStream is = conn.getInputStream();
+			/*BitmapFactory.Options options = new BitmapFactory.Options();  
+			options.inSampleSize = 2;
+			bitmap = BitmapFactory.decodeStream(is,null,options);*/
 			bitmap = BitmapFactory.decodeStream(is);
 			is.close();
 		} catch (IOException e) {
@@ -103,6 +106,9 @@ public class PicUtill {
 			{
 				File file = new File(imageUri);
 				fileInputStream = new FileInputStream(file);
+				/*BitmapFactory.Options options = new BitmapFactory.Options();  
+				options.inSampleSize = 2;
+				bitmap = BitmapFactory.decodeStream(fileInputStream,null,options);*/
 				bitmap = BitmapFactory.decodeStream(fileInputStream);
 				fileInputStream.close();
 			}

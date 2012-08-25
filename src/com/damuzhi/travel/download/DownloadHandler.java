@@ -163,7 +163,7 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         }
     }
     
-    protected void bytesReceived(long fileTotalLength, long downloadLength, int addedLength,long lastTime){
+    protected void bytesReceived(long fileTotalLength, long downloadLength, int addedLength){
     	
     }
 
@@ -235,7 +235,7 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         		output.flush();
         		downloadLength += offset;
         		
-        		bytesReceived(fileTotalLength, downloadLength, offset,lastTime);		
+        		bytesReceived(fileTotalLength, downloadLength, offset);		
         		
         		lastTime = System.currentTimeMillis();
         		

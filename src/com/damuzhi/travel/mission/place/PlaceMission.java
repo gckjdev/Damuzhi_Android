@@ -27,7 +27,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.place.PlaceManager;
-import com.damuzhi.travel.network.HttpInputStreamHandel;
+import com.damuzhi.travel.network.HttpInputStreamAsyncHandel;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.network.PlaceNetworkHandler;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
@@ -36,6 +36,7 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceStatistics;
 import com.damuzhi.travel.protos.PlaceListProtos.Statistics;
 import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.umeng.common.net.k;
 
 /**  
@@ -57,7 +58,7 @@ public class PlaceMission
 	private boolean hasLocalData = false;
 	private int totalCount = 0;
 	List<Place> placeList = null;
-	//private static AsyncHttpClient client = new AsyncHttpClient();
+	private static AsyncHttpClient client = new AsyncHttpClient();
 	private PlaceMission() {
 	}
 	
@@ -91,7 +92,7 @@ public class PlaceMission
 		}
 		else{
 			// send remote			
-				final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
+				/*final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
 				if(remotePlaceList != null && remotePlaceList.size() > 0)
 				{
 					retPlaceList.addAll(remotePlaceList);
@@ -100,7 +101,8 @@ public class PlaceMission
 				if (remotePlaceList != null && remotePlaceList.size() > 0){	
 					remotePlaceManager.clear();
 					remotePlaceManager.addPlaces(remotePlaceList);
-				}	
+				}	*/
+				getPlaceListByUrl(cityId, categoryId);
 				placeStatistics =  getPlaceStatisticsByUrl(cityId, categoryId);
 		}					
 		return retPlaceList;
@@ -215,7 +217,7 @@ public class PlaceMission
 	}*/
 	
 	
-	private List<Place> getPlaceListByUrl(int cityId, int categoryId)
+	/*private List<Place> getPlaceListByUrl(int cityId, int categoryId)
 	{
 		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
@@ -265,36 +267,40 @@ public class PlaceMission
 				}
 			}
 		}
-	}
+	}*/
 	
 	
-	/*private List<Place> getPlaceListByUrl(int cityId, int categoryId)
+	private void getPlaceListByUrl(int cityId, int categoryId)
 	{
 		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);	
-		client.get(url, new HttpInputStreamHandel()
+		client.get(url, new HttpInputStreamAsyncHandel()
 		{
+
 			@Override
-			public void onSuccess(String arg0)
+			public void onSuccess(InputStream inputStream)
 			{
-				super.onSuccess(arg0);
-			}
-			
-			@Override
-			protected void inputStreamReceived(InputStream arg0)
-			{
-				if(arg0 != null)
+				super.onSuccess(inputStream);
+				if(inputStream != null)
 				{
 					TravelResponse travelResponse;
 					try
 					{
-						travelResponse = TravelResponse.parseFrom(arg0);
+						travelResponse = TravelResponse.parseFrom(inputStream);
 						if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
-						}					
-						arg0.close();				
+						}								
 						totalCount = travelResponse.getTotalCount();
-						placeList  =  travelResponse.getPlaceList().getListList();
+						List<Place> remotePlaceList = travelResponse.getPlaceList().getListList();
+						if(remotePlaceList != null && remotePlaceList.size() > 0)
+						{
+							retPlaceList.addAll(remotePlaceList);
+						}								
+						// TODO save data in UI thread
+						if (remotePlaceList != null && remotePlaceList.size() > 0){	
+							remotePlaceManager.clear();
+							remotePlaceManager.addPlaces(remotePlaceList);
+						}	
 					} catch (IOException e)
 					{
 						// TODO Auto-generated catch block
@@ -304,14 +310,8 @@ public class PlaceMission
 				}
 			}
 			
-			@Override
-			public void onFailure(Throwable arg0, String arg1)
-			{
-				super.onFailure(arg0, arg1);
-			}
 		});
-		return placeList;
-	}*/
+	}
 	
 	
 	

@@ -262,32 +262,13 @@ public class LocalStorageMission
 			{
 				String dataPath = getCityDataPath(cityId);
 				Log.i(TAG, "<getDataVersion> load package data from "+dataPath+" for city "+cityId);
-				/*dataPath = dataPath+ConstantField.PACKAGE_FILE;
-				if(!FileUtil.checkFileIsExits(dataPath))
-				{
-					Log.e(TAG, "load package data from file = " +dataPath+ " but file not found");
-					return null;
-				}
-				File packageFile = new File(dataPath);*/
 				// read data from place files
 				FileUtil fileUtil = new FileUtil();
-				ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.PACKAGE_TAG, ConstantField.EXTENSION, true);
-				if(fileInputStreams ==null || fileInputStreams.size()==0)
-				return null;
-				
-				for(FileInputStream fileInputStream : fileInputStreams)
+				FileInputStream fileInputStream = fileUtil.getInputStream(dataPath, ConstantField.PACKAGE_TAG, ConstantField.EXTENSION, true);
+				if(fileInputStream ==null )
 				{
-					if(fileInputStream != null)
-					{
-						Package packageData = com.damuzhi.travel.protos.PackageProtos.Package.parseFrom(fileInputStream);
-						if (packageData != null){				
-							float version = Float.parseFloat(packageData.getVersion());
-							dataVersion.put(packageData.getCityId(), version);
-						}
-						fileInputStream.close();
-					}
+				return null;	
 				}
-				/*FileInputStream fileInputStream = new FileInputStream(packageFile);
 				if(fileInputStream != null)
 				{
 					Package packageData = com.damuzhi.travel.protos.PackageProtos.Package.parseFrom(fileInputStream);
@@ -296,8 +277,7 @@ public class LocalStorageMission
 						dataVersion.put(packageData.getCityId(), version);
 					}
 					fileInputStream.close();
-				}*/					
-					
+				}
 			}
 		} catch (Exception e)
 		{

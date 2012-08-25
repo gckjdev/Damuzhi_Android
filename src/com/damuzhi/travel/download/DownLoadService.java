@@ -50,6 +50,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.RequestParams;
 import com.weibo.net.HttpHeaderFactory;
 
+import dalvik.system.VMRuntime;
+
 public class DownloadService extends Service
 {
 	private static final String TAG = "DownLoadService";
@@ -63,10 +65,10 @@ public class DownloadService extends Service
 	private static final int UPZIP = 2;
 	private static final int CONNECTION_ERROR = 3;
 	public static Map<String, Integer> downloadStstudTask = new HashMap<String, Integer>();
-	private static Map<String, AsyncHttpClient> downloadClientMap = new HashMap<String, AsyncHttpClient>();
-	private static Map<String, DownloadHandler> downloadControlMap = new HashMap<String, DownloadHandler>();
+	private  Map<String, AsyncHttpClient> downloadClientMap = new HashMap<String, AsyncHttpClient>();
+	private  Map<String, DownloadHandler> downloadControlMap = new HashMap<String, DownloadHandler>();
 	public static  Handler downloadHandler;
-	
+	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
@@ -79,6 +81,7 @@ public class DownloadService extends Service
 	public void onCreate()
 	{
 		super.onCreate();
+		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
 		Log.d(TAG, "service onCreate");
 	}
 
@@ -86,11 +89,10 @@ public class DownloadService extends Service
 	
 	
 	//private static AsyncHttpClient client = new AsyncHttpClient();
-	private static void download(final Context context,final int cityId, final String downloadURL,  String savePath,  String tempPath,final String upZipFilePath)
+	private  void download(final int cityId, final String downloadURL,  String savePath,  String tempPath,final String upZipFilePath)
 	{
 		AsyncHttpClient client = new AsyncHttpClient();
 		downloadClientMap.put(downloadURL, client);
-		Log.d(TAG, "start downloading... context="+context);
 
 		File fileSaveDir = new File(savePath);
 		if (!fileSaveDir.exists())
@@ -119,7 +121,7 @@ public class DownloadService extends Service
 			}
 
 			@Override
-			protected void bytesReceived(long fileTotalLength, long downloadLength, int addedLength,long lastTime)
+			protected void bytesReceived(long fileTotalLength, long downloadLength, int addedLength)
 			{
 				//Log.i(TAG, "<bytesReceived> download = "+downloadLength + ", total = "+fileTotalLength);
 				
@@ -144,7 +146,7 @@ public class DownloadService extends Service
 				 msg.what = CONNECTION_ERROR;
 				 msg.obj = dl;
 			     downloadHandler.sendMessage(msg);
-				Toast.makeText(context,context.getString(R.string.conn_fail_exception), Toast.LENGTH_SHORT).show();
+				Toast.makeText(getApplicationContext(),getApplicationContext().getString(R.string.conn_fail_exception), Toast.LENGTH_SHORT).show();
 				Log.e(TAG, "<onFailure> downloading failure="+e.toString());
 			}
 
@@ -153,59 +155,58 @@ public class DownloadService extends Service
 		downloadControlMap.put(downloadURL, cityHandler);
 		
 		//client.get(null, downloadURL, headers, null, new DownloadHandler(savePath, tempPath)
-		client.get(context,downloadURL, cityHandler);
+		client.get(getApplicationContext(),downloadURL, cityHandler);
 	}
 	
-	private  static void cancelHttpDownload(Context context,String downloadURL)
+	private   void cancelHttpDownload(String downloadURL)
 	{
 		
 		if(downloadClientMap.containsKey(downloadURL))
 		{
-			Log.i(TAG, "cancelHttpDownload... cancel request at context="+context);
 			AsyncHttpClient client = downloadClientMap.get(downloadURL);
-			client.cancelRequests(context, true);
+			client.cancelRequests(getApplicationContext(), true);
 		}
 		
 		if (downloadControlMap.containsKey(downloadURL)){
-			Log.i(TAG, "cancelHttpDownload... cancel download for"+context);
+			Log.i(TAG, "cancelHttpDownload... cancel download for"+getApplicationContext());
 			downloadControlMap.get(downloadURL).cancelDownload();
 		}
 	}
 
-	public static Handler getDownloadHandler()
+	public  Handler getDownloadHandler()
 	{
 		return downloadHandler;
 	}
 
-	public static void setDownloadHandler(Handler downloadHandler)
+	public  void setDownloadHandler(Handler downloadHandler)
 	{
 		DownloadService.downloadHandler = downloadHandler;
 	}
 	
 	
-	public static void pauseDownload(Context context,String downloadURL) 
+	public  void pauseDownload(String downloadURL) 
 	{
 		if(downloadStstudTask.containsKey(downloadURL))
 		{
 			downloadStstudTask.put(downloadURL, PAUSE);
 		}	
-		cancelHttpDownload(context,downloadURL);
+		cancelHttpDownload(downloadURL);
 	}
 	
-	public static void cancelDownload(Context context,String downloadURL) 
+	public  void cancelDownload(String downloadURL) 
 	{
 		if(downloadStstudTask.containsKey(downloadURL))
 		{
 		downloadStstudTask.remove(downloadURL);
 		}
-		cancelHttpDownload(context,downloadURL);
+		cancelHttpDownload(downloadURL);
 	}
 
-	public static boolean startDownload(Context context,int cityId, String downloadURL,
+	public  boolean startDownload(int cityId, String downloadURL,
 			String downloadSavePath, String tempPath,String upZipFilePath)
 	{
 		downloadStstudTask.put(downloadURL, DOWNLOADING);
-		download(context,cityId, downloadURL, downloadSavePath, tempPath,upZipFilePath);
+		download(cityId, downloadURL, downloadSavePath, tempPath,upZipFilePath);
 		return true;
 	}
 
@@ -233,7 +234,7 @@ public class DownloadService extends Service
 	
 	static ExecutorService unzipExecutorService = Executors.newFixedThreadPool(1);
 	
-	public static void upZipFile(final String zipFilePath, final String upZipFilePath,final int cityId,final String downloadURL)
+	public  void upZipFile(final String zipFilePath, final String upZipFilePath,final int cityId,final String downloadURL)
 	{
 		
 		unzipExecutorService.execute(new Runnable()
@@ -259,37 +260,14 @@ public class DownloadService extends Service
 		        downloadHandler.sendMessage(msg);
 			}
 		});
-		
-		
-		/*AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
-		{
-
-			@Override
-			protected Void doInBackground(Void... params)
-			{
-				boolean result = ZipUtil.upZipFile(zipFilePath, upZipFilePath);
-				if(downloadStstudTask.containsKey(downloadURL))
-				{
-					downloadStstudTask.remove(downloadURL);
-				}
-				Message msg = Message.obtain();
-			    msg.what = UPZIP;
-			    DownloadInfos downloadInfos = new DownloadInfos(cityId, downloadURL, 0, 0, false, result);
-			    msg.obj = downloadInfos;
-		        downloadHandler.sendMessage(msg);
-				return null;
 			}
-	
-		};
-		asyncTask.execute();*/
-	}
 
-	public static Map<String, Integer> getDownloadStstudTask()
+	public  Map<String, Integer> getDownloadStstudTask()
 	{
 		return downloadStstudTask;
 	}
 
-	public static void setDownloadStstudTask(Map<String, Integer> downloadStstudTask)
+	public  void setDownloadStstudTask(Map<String, Integer> downloadStstudTask)
 	{
 		DownloadService.downloadStstudTask = downloadStstudTask;
 	}

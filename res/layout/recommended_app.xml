@@ -28,5 +28,6 @@
         android:layout_height="fill_parent"
         android:cacheColorHint="@null"
         android:scrollbars="none"
+        android:divider="@android:color/transparent"
    />
 </LinearLayout>

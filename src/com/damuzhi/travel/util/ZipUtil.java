@@ -29,7 +29,7 @@ import android.util.Log;
 public class ZipUtil
 {
 
-	private static final int BUFF_SIZE = 1024 * 8; // 1M Byte
+	private static final int BUFF_SIZE = 1024 * 4; // 1M Byte
 
 	private static final String TAG = "ZipUtil";
 

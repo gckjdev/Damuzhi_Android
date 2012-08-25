@@ -34,6 +34,6 @@
             android:layout_width="40dip"
             android:layout_height="54dip"
             android:src="@drawable/detail"
-            android:paddingRight="10dip" />
+            android:paddingRight="5dp" />
     </LinearLayout>
 </LinearLayout>

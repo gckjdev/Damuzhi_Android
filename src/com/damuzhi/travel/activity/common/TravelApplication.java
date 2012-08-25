@@ -94,26 +94,7 @@ public class TravelApplication extends Application
 		shutdownHttpClient();
 	}
 	
-	/*private DefaultHttpClient createHttpClient()
-	{
-		Log.d(TAG, "createHttpClient().....");
-		HttpParams params = new BasicHttpParams();
-		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
-		HttpProtocolParams.setContentCharset(params, HTTP.DEFAULT_CONTENT_CHARSET);
-		HttpProtocolParams.setUseExpectContinue(params, true);
-		
-		SchemeRegistry schreg = new SchemeRegistry();
-		schreg.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-		schreg.register(new Scheme("https",SSLSocketFactory.getSocketFactory(),443));
-		ClientConnectionManager manager = new ThreadSafeClientConnManager(params, schreg);
-		return new DefaultHttpClient(manager, params);
-		
-	}
 	
-	public DefaultHttpClient getHttpClient()
-	{
-		return defaultHttpClient;
-	}*/
 	
 	private void shutdownHttpClient()
 	{
@@ -164,13 +145,11 @@ public class TravelApplication extends Application
 			@Override
 			public void run()
 			{
-				 int size = activityList.size();
-				 if(size>0)
-				 {
+				 
 					 Looper.prepare();
-					 Toast.makeText(activityList.get(size-1), travelApplication.getString(R.string.conn_fail_exception), Toast.LENGTH_SHORT).show();
+					 Toast.makeText(getApplicationContext(), travelApplication.getString(R.string.conn_fail_exception), Toast.LENGTH_SHORT).show();
 					 Looper.loop();
-				 }				
+				 				
 			}
 		});
 		thread.start();
@@ -186,13 +165,11 @@ public class TravelApplication extends Application
 			@Override
 			public void run()
 			{
-				 int size = activityList.size();
-				 if(size>0)
-				 {
+				 
 					 Looper.prepare();
-					 Toast.makeText(activityList.get(size-1), travelApplication.getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
+					 Toast.makeText(getApplicationContext(), travelApplication.getString(R.string.connection_error), Toast.LENGTH_SHORT).show();
 					 Looper.loop();
-				 }				
+				 			
 			}
 		});
 		thread.start();
@@ -208,13 +185,11 @@ public class TravelApplication extends Application
 			@Override
 			public void run()
 			{
-				 int size = activityList.size();
-				 if(size>0)
-				 {
+				
 					 Looper.prepare();
-					 Toast.makeText(activityList.get(size-1), travelApplication.getString(R.string.not_enough_memory), Toast.LENGTH_LONG).show();
+					 Toast.makeText(getApplicationContext(), travelApplication.getString(R.string.not_enough_memory), Toast.LENGTH_LONG).show();
 					 Looper.loop();
-				 }				
+				 				
 			}
 		});
 		thread.start();
@@ -230,13 +205,11 @@ public class TravelApplication extends Application
 			@Override
 			public void run()
 			{
-				 int size = activityList.size();
-				 if(size>0)
-				 {
+				
 					 Looper.prepare();
-					 Toast.makeText(activityList.get(size-1), travelApplication.getString(R.string.get_sdcard_fail), Toast.LENGTH_LONG).show();
+					 Toast.makeText(getApplicationContext(), travelApplication.getString(R.string.get_sdcard_fail), Toast.LENGTH_LONG).show();
 					 Looper.loop();
-				 }				
+				 			
 			}
 		});
 		thread.start();
