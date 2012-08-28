@@ -5,7 +5,7 @@
    		     android:layout_width="wrap_content"
    		     android:orientation="horizontal">
    		     <TextView   
-			    android:textSize="12.0sp"
+			    android:textSize="13.0sp"
 			    android:id="@+id/sub_cate_title"
 			    android:textColor="@color/place_sort_color"
 			    android:layout_width="wrap_content"

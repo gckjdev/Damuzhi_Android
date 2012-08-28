@@ -303,12 +303,23 @@ public class PlaceMission
 						}	
 					} catch (IOException e)
 					{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						Log.e(TAG, "<getPlaceListByUrl> but catch exception :"+e.toString(),e);
 					}
 						
+				}else {
+					totalCount = 0;
 				}
 			}
+
+			@Override
+			public void onFailure(Throwable error, String content)
+			{
+				// TODO Auto-generated method stub
+				super.onFailure(error, content);
+				
+			}
+			
+			
 			
 		});
 	}

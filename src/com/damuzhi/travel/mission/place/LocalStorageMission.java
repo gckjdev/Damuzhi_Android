@@ -89,7 +89,7 @@ public class LocalStorageMission
 	
 	
 	
-	public void loadCityPlaceData(int cityId){
+	/*public void loadCityPlaceData(int cityId){
 		try
 		{
 			String dataPath = getCityDataPath(cityId);
@@ -118,9 +118,35 @@ public class LocalStorageMission
 		{
 			Log.e(TAG, "<loadCityPlaceData> read local city data but catch exception="+e.toString(), e);
 		} 
+	}*/
+	
+	public void loadCityPlaceData(int cityId){
+		try
+		{
+			String dataPath = getCityDataPath(cityId);
+			Log.i(TAG, "<loadCityPlaceData> load place data from "+dataPath+" for city "+cityId);
+			
+			// delete all old data
+			placeMission.clearLocalData();
+			
+			// read data from place files
+			FileUtil fileUtil = new FileUtil();
+			List<PlaceList> placeLists = fileUtil.getPlaceLists(dataPath, ConstantField.PLACE_TAG, ConstantField.EXTENSION, true);
+			if(placeLists ==null || placeLists.size()==0)
+			return ;
+			for(PlaceList placeList : placeLists)
+			{			
+				if (placeList != null){				
+					placeMission.addLocalPlaces(placeList.getListList());
+					//Log.i(TAG, "<loadCityPlaceData> read "+placeList.getListCount()+" place");
+				}
+			}
+			
+		} catch (Exception e)
+		{
+			Log.e(TAG, "<loadCityPlaceData> read local city data but catch exception="+e.toString(), e);
+		} 
 	}
-	
-	
 	
 	public boolean currentCityHasLocalData(Context context)
 	{

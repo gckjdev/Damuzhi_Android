@@ -19,6 +19,7 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.provider.ContactsContract.Settings;
 import android.telephony.SmsManager;
@@ -404,11 +405,15 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 					{
 						if(newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
 						{
+							Looper.prepare();
 							checkDataVersion();
+							Looper.loop();
 						}
 						if(unfinishInstallCity.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
 						{
+							Looper.prepare();
 							installData();
+							Looper.loop();
 						}
 					}
 				}

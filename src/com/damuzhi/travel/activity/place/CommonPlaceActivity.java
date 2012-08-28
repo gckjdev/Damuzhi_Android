@@ -266,7 +266,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			placeListView.removeFooterView(listViewFooter);
 		}
-		
+		loadingDialog = new ProgressDialog(this);
 		loadPlace();
 	}
 
@@ -525,6 +525,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		}else
 		{
 			dataNotFoundTextView.setVisibility(View.VISIBLE);
+			totalCount = 0;
+			updateTitle();
 			listViewGroup.setVisibility(View.GONE);
 			mapviewGroup.setVisibility(View.GONE);
 		}
@@ -760,7 +762,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				long arg3)
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
-			Log.d(TAG, "list view item onclick");
 			//BrowseHistoryMission.getInstance().addBrowseHistory(place);
 			addBrowseHistory(place);
 			Intent intent = new Intent();
@@ -1002,11 +1003,10 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			}
 		};
 
-		loadingDialog = new ProgressDialog(this);
 		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loadingDialog.setMessage(getResources().getString(R.string.loading));
 		loadingDialog.setIndeterminate(false);
-		loadingDialog.setCancelable(true);
+		loadingDialog.setCancelable(false);
 		loadingDialog.setOnKeyListener(keyListener);
 		loadingDialog.show();
 	}

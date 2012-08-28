@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="45dp"
-    android:background="@drawable/td_bg"
+    android:layout_height="43dp"
+    android:background="@drawable/city_td_bg"
     descendantFocusability="blocksDescendants"
     android:id="@+id/installed_data_group"
     android:orientation="horizontal"> 		 

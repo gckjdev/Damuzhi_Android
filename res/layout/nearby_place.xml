@@ -229,7 +229,8 @@
 	        android:layout_height="fill_parent"
 	        android:scrollbars="none"
 	        android:cacheColorHint="@color/listview_bg"
-	        android:divider="#FFCC00"/>
+	        android:dividerHeight="0.5dp"
+	        android:divider="@android:color/transparent"/>
 	   <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/mapview_group"
 	    android:layout_width="fill_parent"

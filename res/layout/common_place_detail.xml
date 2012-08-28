@@ -541,9 +541,9 @@
 			   	  		    android:id="@+id/transport_location"
 			   	  		    android:layout_width="wrap_content"
 			   	  		    android:layout_height="wrap_content"
-			   	  		    android:layout_marginLeft="20dp"
+			   	  		    android:layout_marginLeft="10dp"
 			   	  		    android:layout_alignParentLeft="true"		   	  		    
-			   	  		    android:textSize="15.0sp"
+			   	  		    android:textSize="16.0sp"
 			   	  		    android:textColor="@color/place_title_color"
 			   	  		    android:text="@string/trafficLocation"/>
 	   	  		      <TextView	

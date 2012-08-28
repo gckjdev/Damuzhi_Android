@@ -663,7 +663,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 					if(i == 0)
 					{
 						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_top));
-					}else if (i == 9) {
+					}else if (i == 9||i==size-1) {
 						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_down));
 					}else {
 						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_center));

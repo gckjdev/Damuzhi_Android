@@ -18,6 +18,7 @@ import java.util.Map;
 import javax.security.auth.Subject;
 
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 
 import android.R.integer;
 import android.content.Context;
@@ -28,21 +29,16 @@ import android.util.Log;
 public class FileUtil
 {
 	private static final String TAG = "FileUtil";
-	/*private List<String> lstFile = new ArrayList<String>();
-	private ArrayList<FileInputStream> fileInput = new ArrayList<FileInputStream>();*/
-
+	private List<String> lstFile = new ArrayList<String>();
+	private ArrayList<FileInputStream> fileInput = new ArrayList<FileInputStream>();
+	private List<PlaceList> placeLists = new ArrayList<PlaceList>();
 	public List<String> GetFiles(String Path, String Extension,
 			boolean IsIterative)
 	{
-		List<String> lstFile = null;
 		File[] files = new File(Path).listFiles();
 		if(files == null||files.length==0)
 		{
 			return null;
-		}
-		if(files != null&&files.length>0)
-		{
-			lstFile = new ArrayList<String>();
 		}
 		for (int i = 0; i < files.length; i++)
 		{
@@ -70,20 +66,12 @@ public class FileUtil
 	 * public List<String> GetFiles(String Path, String type,String Extension, boolean IsIterative) { File[] files = new File(Path).listFiles(); for (int i = 0; i < files.length; i++) { File f = files[i]; if (f.isFile()) { String fileExtension = f.getPath().substring(f.getPath().length() - Extension.length()); String fileType = f.getPath().substring(f.getPath().lastIndexOf("/")+1,f.getPath().lastIndexOf(".")); if (fileExtension.equals(Extension)&&fileType.contains(type)) { lstFile.add(f.getPath()); } //�ж���չ�� if (!IsIterative) break; } else if (f.isDirectory() && f.getPath().indexOf("/.") == -1) { GetFiles(f.getPath(), Extension, IsIterative); } } return lstFile; }
 	 */
 
-	public ArrayList<FileInputStream> getFileInputStreams(String Path,
-			String type, String Extension, boolean IsIterative)
+	public ArrayList<FileInputStream> getFileInputStreams(String Path,String type, String Extension, boolean IsIterative)
 	{
 
-		ArrayList<FileInputStream> fileInput = null;
 		File[] files = new File(Path).listFiles();
 		if (files == null || files.length == 0)
 			return null;
-
-		if(files != null&&files.length>0)
-		{
-			fileInput = new ArrayList<FileInputStream>();
-		}
-		
 		for (int i = 0; i < files.length; i++)
 		{
 			File f = files[i];
@@ -101,8 +89,7 @@ public class FileUtil
 					FileInputStream fileInputStream = null;
 					try
 					{
-						fileInputStream = new FileInputStream(new File(
-								f.getPath()));
+						fileInputStream = new FileInputStream(new File(f.getPath()));
 						fileInput.add(fileInputStream);
 					} catch (Exception e)
 					{
@@ -118,6 +105,85 @@ public class FileUtil
 			}
 		}
 		return fileInput;
+	}
+	
+	
+	
+	public List<PlaceList> getPlaceLists(String Path,String type, String Extension, boolean IsIterative)
+	{
+
+		File[] files = new File(Path).listFiles();
+		FileInputStream fileInputStream = null;
+		BufferedInputStream bufferedInputStream = null;
+		if (files == null || files.length == 0)
+			return null;
+		try{
+			for (int i = 0; i < files.length; i++)
+			{
+				File f = files[i];
+	
+				if (f.isFile())
+				{
+					String fileExtension = f.getPath().substring(f.getPath().length() - Extension.length());
+					String fileType = f.getPath().substring(f.getPath().lastIndexOf("/") + 1,f.getPath().lastIndexOf("."));	
+					if (fileExtension.equals(Extension) && fileType.contains(type))
+					{
+						try
+						{
+							fileInputStream = new FileInputStream(new File(f.getPath()));
+							bufferedInputStream = new BufferedInputStream(fileInputStream);
+							PlaceList placeList = PlaceList.parseFrom(bufferedInputStream);
+							placeLists.add(placeList);
+							fileInputStream.close();
+							bufferedInputStream.close();
+						} catch (Exception e)
+						{
+							Log.e(TAG, "<getPlaceLists> but catch exception "+ e.toString(), e);
+							try
+							{
+								if(fileInputStream != null)
+								{
+									fileInputStream.close();
+									fileInputStream = null;
+								}
+								if(bufferedInputStream != null)
+								{
+									bufferedInputStream.close();
+									bufferedInputStream = null;
+								}
+							} catch (Exception e2)
+							{
+							}
+							
+							return Collections.emptyList();
+						}
+					}
+					if (!IsIterative)
+						break;
+				} else if (f.isDirectory() && f.getPath().indexOf("/.") == -1)
+				{
+					getPlaceLists(f.getPath(), type, Extension, IsIterative);
+				}
+			}
+		}finally
+		{
+			try
+			{
+				if(fileInputStream != null)
+				{
+					fileInputStream.close();
+					fileInputStream = null;
+				}
+				if(bufferedInputStream != null)
+				{
+					bufferedInputStream.close();
+					bufferedInputStream = null;
+				}
+			} catch (Exception e2)
+			{
+			}
+		}
+		return placeLists;
 	}
 	
 	

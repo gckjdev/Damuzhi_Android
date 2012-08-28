@@ -78,10 +78,7 @@ public class BrowseHistoryAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
-		this.anseylodar = new Anseylodar();
-		cityAreaMap = AppManager.getInstance().getCityAreaMap(AppManager.getInstance().getCurrentCityId());
-		symbol = AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId());
-		
+		this.anseylodar = new Anseylodar();		
 	}
 
 	@Override
@@ -103,6 +100,8 @@ public class BrowseHistoryAdapter extends BaseAdapter
 		PlaceViewCache viewCache; 
 		Place place = placeList.get(position);
 		int cityId = place.getCityId();
+		cityAreaMap = AppManager.getInstance().getCityAreaMap(cityId);
+		symbol = AppManager.getInstance().getSymbolMap().get(cityId);
 		int placeCategoryType = place.getCategoryId();
 		if(convertView == null)
 		{

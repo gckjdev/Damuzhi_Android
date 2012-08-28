@@ -64,6 +64,8 @@
     	    android:id="@+id/history_listview"
     	    android:layout_width="fill_parent"
     	    android:layout_height="fill_parent"
+    	    android:divider="@android:color/transparent"
+    	    android:dividerHeight="0.5dp"
     	    android:focusable="true"
     	    android:scrollbars="none"
     	    android:cacheColorHint="@color/listview_bg"

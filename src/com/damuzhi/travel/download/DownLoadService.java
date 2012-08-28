@@ -1,11 +1,6 @@
 package com.damuzhi.travel.download;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.RandomAccessFile;
-import java.net.URL;
-import java.security.PublicKey;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -73,7 +68,7 @@ public class DownloadService extends Service
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
-		Log.d(TAG, "service onStartCommand");
+		//Log.d(TAG, "service onStartCommand");
 		return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -82,7 +77,7 @@ public class DownloadService extends Service
 	{
 		super.onCreate();
 		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
-		Log.d(TAG, "service onCreate");
+		//Log.d(TAG, "service onCreate");
 	}
 
 	
@@ -276,14 +271,14 @@ public class DownloadService extends Service
 	public void onDestroy()
 	{
 		super.onDestroy();
-		Log.d(TAG, "service onDestroy");
+		//Log.d(TAG, "service onDestroy");
 	}
 
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
 		super.onStart(intent, startId);
-		Log.d(TAG, "service onStart");
+		//Log.d(TAG, "service onStart");
 	}
 	
 }

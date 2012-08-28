@@ -7,7 +7,6 @@
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    android:layout_width="113.4dp"
 		    android:layout_height="85.4dp"
-		    android:layout_marginBottom="1dp"
 		    android:orientation="horizontal">	
 		    <ImageView 
 		        android:id="@+id/place_image"

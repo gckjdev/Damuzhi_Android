@@ -82,7 +82,6 @@
        		 android:layout_height="fill_parent"
        		 android:layout_below="@id/open_city_tips_download"
        		 android:footerDividersEnabled="false"
-       		 android:divider="@android:color/transparent"
        		 android:background="@drawable/topmenu_bg"
        		 android:cacheColorHint="@color/listview_bg"
        		 android:scrollbars="none" >
