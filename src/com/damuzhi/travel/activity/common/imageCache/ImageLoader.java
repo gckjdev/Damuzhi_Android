@@ -1,6 +1,7 @@
 package com.damuzhi.travel.activity.common.imageCache;
 
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,7 +27,7 @@ import android.util.Log;
 public class ImageLoader {
 	
 	
-		private HashMap<String, SoftReference<Bitmap>> caches;
+		private HashMap<String, WeakReference<Bitmap>> caches;
 		private ArrayList<Task> taskQueue;
 		
 		
@@ -48,7 +49,7 @@ public class ImageLoader {
 					while(taskQueue.size()>0){
 						Task task = taskQueue.remove(0);
 						task.bitmap = PicUtill.getbitmap(task.path);					
-						caches.put(task.path, new SoftReference<Bitmap>(task.bitmap));
+						caches.put(task.path, new WeakReference<Bitmap>(task.bitmap));
 						if(handler!=null){
 							Message msg = handler.obtainMessage();
 							msg.obj = task;
@@ -70,7 +71,7 @@ public class ImageLoader {
 		
 		
 		public ImageLoader(){
-			caches =new  HashMap<String, SoftReference<Bitmap>>();
+			caches =new  HashMap<String, WeakReference<Bitmap>>();
 			taskQueue = new ArrayList<ImageLoader.Task>();
 			thread.start();
 		}
@@ -86,7 +87,7 @@ public class ImageLoader {
 		public Bitmap loadImage(final String path,final ImageCallback callback){
 			
 			if(caches.containsKey(path)){
-				SoftReference<Bitmap> rf = caches.get(path);
+				WeakReference<Bitmap> rf = caches.get(path);
 				Bitmap bitmap = rf.get();
 				if(bitmap==null){
 					caches.remove(path);				
@@ -135,7 +136,7 @@ public class ImageLoader {
 			Iterator iter = caches.entrySet().iterator();
 			while (iter.hasNext()) {
 				Map.Entry entry = (Map.Entry) iter.next();
-				SoftReference<Bitmap> rf  = (SoftReference<Bitmap>) entry.getValue();
+				WeakReference<Bitmap> rf  = (WeakReference<Bitmap>) entry.getValue();
 				Bitmap bitmap = rf.get();
 				if(null!=bitmap&&!bitmap.isRecycled())
 					bitmap.recycle();

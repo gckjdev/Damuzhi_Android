@@ -12,6 +12,8 @@
     <string name="map">地图</string>
     <string name="list">列表</string>
     <string name="set_ctiy_tips">您已设置查看</string>
+    <string name="google_map_not_found1">您的手机系统缺少google地图组件，部分功能可能无法使用</string>
+    <string name="google_map_not_found2">您的手机系统缺少google地图组件，功能无法使用</string>
     <!-- indexInfo-->
     <string name="index">首页</string>
 	<string name="damuzhi">大拇指旅行 - </string>
@@ -87,6 +89,7 @@
 	<string name="start_download">开始下载</string>
 	<string name="stop_download">已暂停</string>
 	<string name="cancel_download_toast">确定要取消这个下载任务</string>
+	<string name="install_fail">离线包安装失败</string>
 	<!-- exception -->
     <string name="main_fetch_fail">网络异常</string>
 	<string name="conn_fail_exception">无法连接到网络，请检查网络配置</string>

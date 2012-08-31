@@ -21,6 +21,7 @@ import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import com.damuzhi.travel.R.string;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -31,6 +32,7 @@ import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.ZipUtil;
+import com.damuzhi.travel.util.ZipUtil2;
 
 /**  
  * @description   
@@ -218,7 +220,8 @@ public class HelpMission
             HttpTool httpTool = HttpTool.getInstance();
     		try
     		{
-    			File helpFile = new File(helpFolder ,HttpTool.getFileName(httpTool.getConnection(url), url));
+    			//File helpFile = new File(helpFolder ,HttpTool.getFileName(httpTool.getConnection(url), url));
+    			File helpFile = new File(helpFolder ,ConstantField.HELP_ZIP_FILE);
     			URL helpURL = new URL(url);
     			int fileSize = httpTool.getConnection(url).getContentLength();
     			inStream = httpTool.getDownloadInputStream(helpURL, 0, fileSize);
@@ -279,8 +282,7 @@ public class HelpMission
 			if(!isExits)
 			{
 				initHelpData();
-			}else
-			{
+			}
 				String localDataPath = ConstantField.HELP_DATA_FILE;
 				float httpVersion = getHelpHttpVersion();
 				boolean checkVersion = TravelUtil.checkHelpIsNeedUpdate(localDataPath,httpVersion);
@@ -299,13 +301,18 @@ public class HelpMission
 							result = downloadHelpZipData();	
 							Log.i(TAG, "<UpdateHelpTask> update data load, try download...");				
 						}
+						if(result)
+						{
+							String zipfilename = ConstantField.HELP_PATH+ConstantField.HELP_ZIP_FILE;
+							ZipUtil2.unZipToFolder(zipfilename, ConstantField.HELP_PATH);
+							
+						}
 						
 					}	
 				}else
 				{
 					return Boolean.valueOf(result);
-				}
-			}			
+				}			
 			return Boolean.valueOf(result);
 		}
 		

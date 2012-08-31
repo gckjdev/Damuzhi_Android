@@ -8,6 +8,7 @@
         */
 package com.damuzhi.travel.activity.adapter.place;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,9 @@ import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import android.content.Context;
 import android.util.Log;
@@ -96,7 +100,6 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(AppManager.getInstance().getCurrentCityId());
 		symbol = AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId());
-		
 	}
 
 	@Override
@@ -162,9 +165,8 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		String url = "";
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
-		url = place.getIcon();
-		anseylodar.showimgAnsy(imageView,url,cityId);		
-		
+		url = place.getIcon();	
+		anseylodar.showimgAnsy(imageView,url,cityId);	
 		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		
 		placeName.setText(place.getName());	

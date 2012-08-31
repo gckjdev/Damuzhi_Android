@@ -1,6 +1,7 @@
 package com.damuzhi.travel.activity.common;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -45,6 +46,14 @@ import com.baidu.location.LocationClient;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.download.URLConnectionImageDownloader;
 
 public class TravelApplication extends Application
 {
@@ -59,6 +68,9 @@ public class TravelApplication extends Application
 	public BDLocation bdLocation;
 	public Map<String, Integer> downloadStatusMap = new HashMap<String, Integer>();
 	public String deviceId;
+	public   Map<Integer, Integer> installCityData;
+	public  Map<Integer, String> newVersionCityData;
+	//public ImageLoader imageLoader;
 	public static TravelApplication getInstance()
 	{
 		return travelApplication;
@@ -77,6 +89,23 @@ public class TravelApplication extends Application
 		mLocationClient.registerLocationListener( myListener );
 		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		deviceId = tm.getDeviceId();
+		
+		
+		/*ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+		.threadPoolSize(3)
+		.threadPriority(Thread.NORM_PRIORITY - 2)
+        .denyCacheImageMultipleSizesInMemory()
+        .offOutOfMemoryHandling()
+        .memoryCacheSize(3*1024*1024)
+        .memoryCache(new WeakMemoryCache()) 
+        .discCache(new UnlimitedDiscCache(new File(ConstantField.IMAGE_CACHE_PATH)))
+        .discCacheFileNameGenerator(new HashCodeFileNameGenerator())
+        .imageDownloader(new URLConnectionImageDownloader(5 * 1000, 20 * 1000)) // connectTimeout (5 s), readTimeout (20 s)
+        .enableLogging()
+        .build();
+		 ImageLoader.getInstance().init(config);
+
+		 imageLoader = ImageLoader.getInstance();*/
 	}
 	
 	@Override
@@ -324,6 +353,38 @@ public class TravelApplication extends Application
 	 public String getDeviceId()
 	{
 		return deviceId;
+	}
+
+
+
+
+	public Map<Integer, Integer> getInstallCityData()
+	{
+		return installCityData;
+	}
+
+
+
+
+	public Map<Integer, String> getNewVersionCityData()
+	{
+		return newVersionCityData;
+	}
+
+
+
+
+	public void setInstallCityData(Map<Integer, Integer> installCityData)
+	{
+		this.installCityData = installCityData;
+	}
+
+
+
+
+	public void setNewVersionCityData(Map<Integer, String> newVersionCityData)
+	{
+		this.newVersionCityData = newVersionCityData;
 	}
 	 
 	

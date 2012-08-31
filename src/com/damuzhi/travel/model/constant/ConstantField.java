@@ -18,6 +18,9 @@ public class ConstantField
 	public static final String IMAGE_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/%s/data/";
 	public static final String APP_DATA_FILE = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/app.dat";
 	public static final String APP_DATA_TEMP_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/temp";
+	public static final String IMAGE_CACHE_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/cahce";
+	
+	
 	
 	public static final String PLACE_PATH ="/data/place/";
 	public static final int DATA_LOCAL = 0;
@@ -39,6 +42,7 @@ public class ConstantField
 	public static final String APP_TEMP_FILE = "temp.dat";
 	public static final String HELP_TEMP_FILE = "Helptemp.dat";
 	public static final String HELP_FILE = "help.dat";
+	//public static final String HELP_ZIP_FILE = "help.zip";
 	public static final String LOCAL_HELP_HTML_FILE = "helpinfo.html";
 	public static final String LOCAL_HELP_JPG_FILE = "help.jpg";
 	public static final String HELP_ZIP_FILE = "help.zip";
@@ -166,7 +170,6 @@ public class ConstantField
 	public static final String USER_ID = "user_id";
 	
 	/* download*/
-	
 	public static final String DOWNLOAD_TEMP_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/city/temp/";
 	public static final String DOWNLOAD_CITY_DATA_FOLDER_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/city/data/";
 	public static final String DOWNLOAD_CITY_ZIP_DATA_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/city/data/%s/zip/";

@@ -800,5 +800,19 @@ public class TravelUtil
 		String fileName = downloadURL.substring(index);
 		return fileName;
 	}
+
+	
+	public static String getImageUrl(int cityId, String url)
+	{
+		String htmlUrl = "";
+		if(!url.contains("http://"))
+		{
+			htmlUrl = "file:///"+getCityDataPath(cityId)+url;
+		}else
+		{
+			htmlUrl = url;
+		}
+		return htmlUrl;
+	}
 	
 }

@@ -8,6 +8,7 @@
  */
 package com.damuzhi.travel.activity.place;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -77,11 +78,15 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.MapView.LayoutParams;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
-import com.google.android.maps.Projection;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.nostra13.universalimageloader.cache.disc.DiscCacheAware;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.download.URLConnectionImageDownloader;
 import com.readystatesoftware.maps.OnSingleTapListener;
 import com.readystatesoftware.maps.TapControlledMapView;
 
@@ -183,10 +188,12 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private View listViewFooter;
 	private ViewGroup footerViewGroup;
 	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate");
 		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
 		TravelApplication.getInstance().addActivity(this);
 		setContentView(R.layout.common_place);
@@ -239,8 +246,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		footerViewGroup = (ViewGroup) listViewFooter.findViewById(R.id.listView_load_more_footer);
 		footerViewGroup.setVisibility(View.GONE);
 		
-		//refreshPlaceListView.setMode(Mode.PULL_UP_TO_REFRESH);
-		//refreshPlaceListView.setOnRefreshListener(onRefreshListener);	
 		placeListAdapter = new CommonPlaceListAdapter(this, null,getCategoryType());
 		placeListView.setAdapter(placeListAdapter);
 		placeListView.setOnItemClickListener(listViewOnItemClickListener);
@@ -1341,8 +1346,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 
 		@Override
 		protected void onDestroy()
-		{
-			super.onDestroy();		
+		{	
+			Log.d(TAG, "onDestroy");
 			placeListAdapter.recycleBitmap();
 			LocationUtil.stop();
 			if(loadingDialog  != null)
@@ -1350,6 +1355,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				loadingDialog.dismiss();
 			}
 			System.gc();
+			super.onDestroy();
 		}	
 		
 		
@@ -1445,6 +1451,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			}
 			return areaType.trim();
 		}
+
+		
 
 
 		

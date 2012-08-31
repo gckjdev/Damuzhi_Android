@@ -21,8 +21,16 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
+
+import org.apache.commons.compress.archivers.ArchiveEntry;
+import org.apache.commons.compress.archivers.zip.Zip64Mode;
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
+import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
+import org.apache.commons.compress.archivers.zip.ZipFile;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
 import android.R.bool;
 import android.util.Log;
@@ -36,12 +44,14 @@ import android.util.Log;
 
 public class ZipUtil2
 {
-	/*  *//**
+	  private static final String TAG = "ZipUtil2";
+
+	/**
      * 把文件压缩成zip格式
      * @param files         需要压缩的文件
      * @param zipFilePath 压缩后的zip文件路径   ,如"D:/test/aa.zip";
-     *//*
-    public static void compressFiles2Zip(File[] files,String zipFilePath) {
+     */
+  /*  public static void compressFiles2Zip(File[] files,String zipFilePath) {
         if(files != null && files.length >0) {
             if(isEndsWithZip(zipFilePath)) {
                 ZipArchiveOutputStream zaos = null;
@@ -169,7 +179,7 @@ public class ZipUtil2
             }
         }
         return flag;
-    }
+    }*/
     
     
     
@@ -178,9 +188,11 @@ public class ZipUtil2
     @SuppressWarnings("unchecked")
     public static boolean unZipToFolder(String zipfilename, String outputdir)  {
     	boolean result = false;
+    	//Log.d(TAG, "unZip file ="+zipfilename);
         File zipfile = new File(zipfilename);
         if (zipfile.exists()) {
             outputdir = outputdir + File.separator;
+           // Log.d(TAG, "unZip output file ="+outputdir);
             try
 			{
 				FileUtils.forceMkdir(new File(outputdir));
@@ -188,190 +200,26 @@ public class ZipUtil2
 		            Enumeration zipArchiveEntrys = zf.getEntries();
 		            while (zipArchiveEntrys.hasMoreElements()) {
 		                ZipArchiveEntry zipArchiveEntry = (ZipArchiveEntry) zipArchiveEntrys.nextElement();
-		                if (zipArchiveEntry.isDirectory()) {
+		                if (zipArchiveEntry.isDirectory()) 
+		                {
 		                    FileUtils.forceMkdir(new File(outputdir + zipArchiveEntry.getName() + File.separator));
-		                } else {
-		                    IOUtils.copy(zf.getInputStream(zipArchiveEntry), FileUtils.openOutputStream(new File(outputdir
+		                   // Log.d(TAG, "unZip make fload ");
+		                } else 
+		                {
+		                    IOUtils.copy( zf.getInputStream(zipArchiveEntry), FileUtils.openOutputStream(new File(outputdir
 		                            + zipArchiveEntry.getName())));
+		                  //  Log.d(TAG, "unzip file");
 		                }
 		            }
 		            result = true;
 			} catch (IOException e)
 			{
 				return false;
-			}
-
-           
+			}           
         } else {
             result = false;
         }
         return result;
-    }*/
+    }
 	
-	
-	
-	/* private ZipFile zipFile;
-
-	    public ZipUtil2(ZipFile zipFile)
-	    {
-	        this.zipFile = zipFile;
-	    }
-
-	    public ZipUtil2(String zipFilePath) 
-	    {
-	        try
-			{
-				this.zipFile = new ZipFile(zipFilePath);
-			} catch (IOException e)
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	    }
-
-	    public void close() throws IOException
-	    {
-	        zipFile.close();
-	    }
-
-	    public boolean unzip(String extractPath) 
-	    {
-	    	boolean result = false;
-	        File extractionDirectory = new File(extractPath);
-
-	        if(!extractionDirectory.exists() && !extractionDirectory.mkdirs()) {
-	           // throw new IOException("Unable to create extraction directory");
-	        	return false;
-	        }
-	        if(!extractionDirectory.isDirectory()) {
-	           // throw new IOException("Unable to extract ZipFile to non-directory");
-	        	return false;
-	        }
-
-	        Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
-	        while(zipEntries.hasMoreElements()) {
-	            ZipEntry zipEntry = zipEntries.nextElement();
-
-	            if(zipEntry.isDirectory()) {
-	                File newDirectory = new File(extractPath + zipEntry.getName());
-	                newDirectory.mkdirs();
-	            }
-	            else {
-	            	BufferedInputStream inputStream = null;
-	            	BufferedOutputStream outputStream = null;
-	            try{
-	                inputStream = new BufferedInputStream(zipFile.getInputStream(zipEntry));
-
-	                File outputFile = new File(extractPath + zipEntry.getName());
-	                File outputDirectory = new File(outputFile.getParent());
-
-	                if(!outputDirectory.exists() && !outputDirectory.mkdirs()) {
-	                   // throw new IOException(new StringBuilder("unable to create directory for ").append(zipEntry.getName()).toString());
-	                	return false;
-	                }
-
-	                if(!outputFile.exists() && !outputFile.createNewFile()) {
-	                    //throw new IOException(new StringBuilder("Unable to create file for ").append(zipEntry.getName()).toString());
-	                	return false;
-	                }
-
-	                 outputStream = new BufferedOutputStream(new FileOutputStream(outputFile));
-	               
-	                    int currByte;
-	                    while((currByte = inputStream.read()) != -1) {
-	                        outputStream.write(currByte);
-	                    }
-	                }catch (Exception e) {
-						
-					}
-	                finally {
-	                    try
-						{
-	                    	if(inputStream != null)
-	                    	{
-								inputStream.close();
-	                    	}
-	                    	if(outputStream != null)
-	                    	{
-	                    		outputStream.close();
-	                    	}
-							
-						} catch (IOException e)
-						{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-	                    
-	                }
-	            }
-	        }
-	        result = true;
-	        return result;
-	    }
-
-	    public List<String> getFilePaths()
-	    {
-	        ArrayList<String> filePaths = new ArrayList<String>();
-
-	        Enumeration<? extends ZipEntry> zipEntries = zipFile.entries();
-	        while(zipEntries.hasMoreElements()) {
-	            ZipEntry zipEntry = zipEntries.nextElement();
-	            filePaths.add(zipEntry.getName());
-	        }
-
-	        return filePaths;
-	    }
-
-	    public InputStream getFileInputStream(String filePath) throws IOException
-	    {
-	        ZipEntry entry = zipFile.getEntry(filePath);
-
-	        if(entry == null) {
-	            throw new FileNotFoundException((new StringBuilder("Unable to find file ").append(filePath).append(" in zipfile ").append(zipFile.getName()).toString()));
-	        }
-
-	        return new BufferedInputStream(zipFile.getInputStream(entry));
-	    }*/
-	
-	
-	private static void Unzip(String zipFile, String targetDir) {
-		   int BUFFER = 4096; //这里缓冲区我们使用4KB，
-		   String strEntry; //保存每个zip的条目名称
-
-		   try {
-		    BufferedOutputStream dest = null; //缓冲输出流
-		    FileInputStream fis = new FileInputStream(zipFile);
-		    ZipInputStream zis = new ZipInputStream(new BufferedInputStream(fis));
-		    ZipEntry entry; //每个zip条目的实例
-
-		    while ((entry = zis.getNextEntry()) != null) {
-
-		     try {
-		       Log.i("Unzip: ","="+ entry);
-		      int count;
-		      byte data[] = new byte[BUFFER];
-		      strEntry = entry.getName();
-
-		      File entryFile = new File(targetDir + strEntry);
-		      File entryDir = new File(entryFile.getParent());
-		      if (!entryDir.exists()) {
-		       entryDir.mkdirs();
-		      }
-
-		      FileOutputStream fos = new FileOutputStream(entryFile);
-		      dest = new BufferedOutputStream(fos, BUFFER);
-		      while ((count = zis.read(data, 0, BUFFER)) != -1) {
-		       dest.write(data, 0, count);
-		      }
-		      dest.flush();
-		      dest.close();
-		     } catch (Exception ex) {
-		      ex.printStackTrace();
-		     }
-		    }
-		    zis.close();
-		   } catch (Exception cwj) {
-		    cwj.printStackTrace();
-		   }
-		  }
 }

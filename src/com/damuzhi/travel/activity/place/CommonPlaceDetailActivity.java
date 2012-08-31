@@ -45,6 +45,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.place.ImagePagerAdapter;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceListAdapter;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
 import com.damuzhi.travel.activity.common.HelpActiviy;
@@ -60,6 +61,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**  
  * @description   
@@ -107,7 +109,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		TravelApplication.getInstance().addActivity(this);
-		currentCityId = AppManager.getInstance().getCurrentCityId();
 		init();
 		getNearbyList();
 		getPlaceFavoriteCount();
@@ -117,6 +118,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	private void init()
 	{
 		 place = getPlaceById();
+		 currentCityId =  place.getCityId();
 		if(place != null)
 		{
 			List<String> imagePath = place.getImagesList();
@@ -152,8 +154,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	            }  
 	            group.addView(imageView);  
 	        } 
-			PlaceImageAdapter sceneryAdapter = new PlaceImageAdapter(imageViewlist);	
-		
+		PlaceImageAdapter sceneryAdapter = new PlaceImageAdapter(imageViewlist);	
 		
 		//serviceGroup
 		if(isSupportService())
@@ -181,10 +182,12 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		{
 			main.findViewById(R.id.special_trans_group).setVisibility(View.VISIBLE);
 			String trafficInfos = place.getTransportation();
+			trafficInfos = trafficInfos.replaceAll(":;", "").trim();
 			String[] traffic= trafficInfos.split(";"); 		
 			ViewGroup specialTrans = (ViewGroup) main.findViewById(R.id.special_trans);
 			if(traffic.length >0)
 			{
+				Log.d(TAG, "traffic length = "+traffic.length);
 				int i= 1;
 				for(String trafficInfo:traffic)
 				{
@@ -213,15 +216,15 @@ public abstract class CommonPlaceDetailActivity extends Activity
 						params2.setMargins((int)getResources().getDimension(R.dimen.transport_margin_right), 0, 0, 0);
 						locationTextView.setLayoutParams(params1);  
 						distanceTextView.setLayoutParams(params2);  
-						locationTextView.setTextColor(getResources().getColor(R.color.place_title_color));
+						locationTextView.setTextColor(getResources().getColor(R.color.place_price_color));
 						locationTextView.setTextSize(getResources().getDimension(R.dimen.transport_text_size));
 						locationTextView.setSingleLine(true);
 						locationTextView.setMarqueeRepeatLimit(-1);
 						locationTextView.setEllipsize(TruncateAt.MARQUEE);
 						locationTextView.setHorizontallyScrolling(true);
 						locationTextView.setSelected(true);
-						distanceTextView.setTextColor(getResources().getColor(R.color.place_title_color));
-						distanceTextView.setTextSize(getResources().getDimension(R.dimen.transport_text_size));
+						distanceTextView.setTextColor(getResources().getColor(R.color.place_price_color));
+						distanceTextView.setTextSize(getResources().getDimension(R.dimen.transport_location_text_size));
 						locationTextView.setText(trafficDetail[0]);
 						distanceTextView.setText(trafficDetail[1]);
 						row.addView(locationTextView);
@@ -370,8 +373,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				{
 					
 					 ImageView hotelStartImage = new ImageView(CommonPlaceDetailActivity.this);  
-					 hotelStartImage.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.service_icon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
-					 //serviceImageView.setPadding(10, 0, 10, 0);  
+					 hotelStartImage.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.hotel_start_icon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
+					 hotelStartImage.setPadding(0, 0, 5, 0);  
 					 hotelStartImage.setScaleType(ScaleType.FIT_CENTER);
 					 hotelStartImage.setImageResource(R.drawable.star_ico);
 					 hotelStartImageGroup.addView(hotelStartImage);
@@ -679,9 +682,10 @@ public abstract class CommonPlaceDetailActivity extends Activity
 					
 					
 					placeName.setText(placeItem.getName());
+					placeName.setTextColor(getResources().getColor(R.color.place_price_color));
 					String distanceStr = TravelUtil.getDistance(placeItem.getLongitude(), placeItem.getLatitude(),place.getLongitude(),place.getLatitude());
 					distance.setText(distanceStr);
-					
+					distance.setTextColor(getResources().getColor(R.color.place_price_color));
 					ImageView recommendImageView1 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image1);
 					ImageView recommendImageView2 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image2);
 					ImageView recommendImageView3 =(ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image3);
@@ -842,7 +846,16 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	{
 		super.onDestroy();
 		anseylodar.recycleBitmap();
-		
+		/*imagePagerAdapter.recycleBitmap();
+		imagePagerAdapter = null;*/
+		System.gc();
+	}
+	@Override
+	protected void onStop()
+	{
+		//imageLoader.stop();
+		//imagePagerAdapter.recycleBitmap();
+		super.onStop();
 	}
 	
 }

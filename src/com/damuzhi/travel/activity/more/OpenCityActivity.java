@@ -90,14 +90,14 @@ public class OpenCityActivity extends Activity
 	private  Map<String, TextView> resultTextMap = new HashMap<String, TextView>();
 	private  Map<String, Integer> positionMap = new HashMap<String, Integer>();
 	private  Map<String, Integer> downloadStatusTask;
-	public   Map<Integer, Integer> installCityData = new HashMap<Integer, Integer>();
-	private  Map<Integer, String> newVersionCityData = new HashMap<Integer, String>();
+	public   Map<Integer, Integer> installCityData ;
+	private  Map<Integer, String> newVersionCityData ;
+	private Map<String, DownloadBean> unfinishDownload = new HashMap<String, DownloadBean>();
+	private Map<Integer, Integer> unfinishInstallMap = new HashMap<Integer, Integer>();
 	private  List<Integer> installedCityList = new ArrayList<Integer>();
 	private ViewGroup dataListGroup,downloadListGroup;
 	private TextView dataListTitle,downloadListTitle;
 	private DownloadManager downloadManager;
-	private Map<String, DownloadBean> unfinishDownload = new HashMap<String, DownloadBean>();
-	private Map<Integer, Integer> unfinishInstallMap = new HashMap<Integer, Integer>();
 	private Map<String, ProgressBar> stopDownloadBar = new HashMap<String, ProgressBar>();
 	private Map<String, TextView> stopDownloadresultTextMap = new HashMap<String, TextView>();
 	private ProgressDialog loadingDialog;
@@ -110,7 +110,7 @@ public class OpenCityActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
-		//VMRuntime.getRuntime().setMinimumHeapSize(CWJ_HEAP_SIZE);
+		VMRuntime.getRuntime().setMinimumHeapSize(CWJ_HEAP_SIZE);
 		//Log.d(TAG, "onCreate");
 		TravelApplication.getInstance().addActivity(this);
 		setContentView(R.layout.open_city);	
@@ -127,6 +127,16 @@ public class OpenCityActivity extends Activity
 		{
 			newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
 		}		*/
+		cityList = AppManager.getInstance().getCityList();
+		if(installCityData == null)
+		{
+			installCityData = DownloadPreference.getAllDownloadInfo(OpenCityActivity.this);
+		}
+		TravelApplication.getInstance().setInstallCityData(installCityData);
+		installedCityList.addAll(installCityData.keySet());
+		
+		//installCityData = TravelApplication.getInstance().getInstallCityData();
+		newVersionCityData = TravelApplication.getInstance().getNewVersionCityData();
 		openCtiyDataListView = (ListView) findViewById(R.id.open_city_data_listview);
 		downloadListView = (ListView) findViewById(R.id.download_data_listview);				
 		cityListAdapter = new OpenCityDataAdapter(cityList, OpenCityActivity.this);		
@@ -154,11 +164,12 @@ public class OpenCityActivity extends Activity
 		dataListGroup.setOnClickListener(dataListOnClickListener);
 		downloadListGroup.setOnClickListener(downloadListOnClickListener);
 		
-		loadPlace();
+		
+		//loadPlace();
 		}
 	
 	
-	private void loadPlace()
+	/*private void loadPlace()
 	{
 		AsyncTask<Void, Void, List<Place>> task = new AsyncTask<Void, Void, List<Place>>()
 		{
@@ -167,12 +178,21 @@ public class OpenCityActivity extends Activity
 			protected List<Place> doInBackground(Void...params)
 			{
 				cityList = AppManager.getInstance().getCityList();
-				installCityData = DownloadPreference.getAllDownloadInfo(OpenCityActivity.this);
-				installedCityList.addAll(installCityData.keySet());
-				if(installCityData != null&&installCityData.size()>0)
+				if(installCityData == null)
 				{
-					newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
+					installCityData = DownloadPreference.getAllDownloadInfo(OpenCityActivity.this);
 				}
+				TravelApplication.getInstance().setInstallCityData(installCityData);
+				installedCityList.addAll(installCityData.keySet());
+				if(newVersionCityData == null)
+				{
+					if(installCityData != null&&installCityData.size()>0)
+					{
+						newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
+						TravelApplication.getInstance().setNewVersionCityData(newVersionCityData);
+					}
+				}
+				
 				return null;
 			}
 
@@ -207,7 +227,7 @@ public class OpenCityActivity extends Activity
 		};
 
 		task.execute();
-	}
+	}*/
 	
 	
 	private void refresh()
@@ -339,7 +359,7 @@ public class OpenCityActivity extends Activity
 					Log.i(TAG, "download finish delete DB info downloadURL = "+downloadURL);
 					int cityId = downloadInfo.getCityId();
 					int position = 0;
-					if(newVersionCityData.containsKey(cityId))
+					if(newVersionCityData!=null&&newVersionCityData.containsKey(cityId))
 					{
 						downloadListView.findViewWithTag("installing"+downloadURL).setVisibility(View.VISIBLE);
 						downloadListView.findViewWithTag("group"+downloadURL).setVisibility(View.GONE);
@@ -376,11 +396,12 @@ public class OpenCityActivity extends Activity
 			DownloadPreference.updateDownloadInfo(OpenCityActivity.this, Integer.toString(cityId), 1);
 			installCityData.put(cityId, cityId);
 		}else{
+			Toast.makeText(OpenCityActivity.this,getString(R.string.install_fail), Toast.LENGTH_SHORT).show();
 			Log.d(TAG, "installed fail delete db info cityId = "+cityId);
 			DownloadPreference.deleteDownloadInfo(OpenCityActivity.this, Integer.toString(cityId));
 			unfinishInstallMap.remove(cityId);
 		}	
-		if(newVersionCityData.containsKey(cityId))
+		if(newVersionCityData!=null&&newVersionCityData.containsKey(cityId))
 		{
 			downloadDataListAdapter.notifyDataSetChanged();
 		}else
@@ -469,6 +490,14 @@ public class OpenCityActivity extends Activity
 	protected void onPause()
 	{
 		super.onPause();
+		if(installCityData != null)
+		{
+			TravelApplication.getInstance().setInstallCityData(installCityData);
+		}
+		if(newVersionCityData != null)
+		{
+			TravelApplication.getInstance().setNewVersionCityData(newVersionCityData);
+		}
 		//unbindService(conn);
 	}
 	
@@ -738,7 +767,7 @@ public class OpenCityActivity extends Activity
 		{
 			String tag = (String) v.getTag();
 			int cityId = Integer.parseInt(tag.substring(tag.lastIndexOf("t")+1));
-			if(newVersionCityData.containsKey(cityId))
+			if(newVersionCityData!= null&&newVersionCityData.containsKey(cityId))
 			{
 				String downloadURL = newVersionCityData.get(cityId);
 				Log.d(TAG, "restart update url "+downloadURL);
@@ -771,7 +800,7 @@ public class OpenCityActivity extends Activity
 			
 			String tag = (String) v.getTag();	
 			int cityId = Integer.parseInt(tag.substring(tag.lastIndexOf("e")+1));
-			if(newVersionCityData.containsKey(cityId))
+			if(newVersionCityData!= null&&newVersionCityData.containsKey(cityId))
 			{
 				String downloadURL = newVersionCityData.get(cityId);
 				Log.i(TAG, "stop update cityId = "+downloadURL);
@@ -932,7 +961,7 @@ public class OpenCityActivity extends Activity
 	{
 		ImageView stopBtn;
 		ImageView restartBtn;
-		if(newVersionCityData.containsKey(cityId))
+		if(newVersionCityData!= null&&newVersionCityData.containsKey(cityId))
 		{
 			pauseDownload(cityId,downloadURL);
 			restartBtn = (ImageView) downloadListView.findViewWithTag("restart"+cityId);
@@ -1320,7 +1349,7 @@ public class OpenCityActivity extends Activity
 					cityName.setText(dataName);
 					citySize.setText(TravelUtil.getDataSize(city.getDataSize()));
 					deleteButton.setOnClickListener(deleteOnClickListener);
-					if(newVersionCityData.containsKey(cityId))
+					if(newVersionCityData!=null&&newVersionCityData.containsKey(cityId))
 					{
 						String downloadURL = newVersionCityData.get(cityId);
 						updateButton.setVisibility(View.VISIBLE);
@@ -1451,7 +1480,7 @@ public class OpenCityActivity extends Activity
 						String downloadURL = city.getDownloadURL();
 						String upZipFilePath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH, cityId);			
 						installedCityList.remove(position);
-						if(newVersionCityData.containsKey(cityId))
+						if(newVersionCityData!= null&&newVersionCityData.containsKey(cityId))
 						{
 							newVersionCityData.remove(cityId);					
 						}			
@@ -1475,7 +1504,7 @@ public class OpenCityActivity extends Activity
 						cityListAdapter.setDownloadTask(downloadStatusTask);
 						cityListAdapter.notifyDataSetChanged();
 						DownloadPreference.deleteDownloadInfo(context, Integer.toString(cityId));
-						deleteInstalledData(upZipFilePath);		
+						//deleteInstalledData(upZipFilePath);		
 					}	
 				} );
 				deleteAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+context.getString(R.string.cancel),new DialogInterface.OnClickListener()
@@ -1492,6 +1521,7 @@ public class OpenCityActivity extends Activity
 			}
 		};
 	}
+
 
 
 

@@ -35,7 +35,6 @@ public class PlaceManager
 	private ArrayList<Place> shoppingList = new ArrayList<Place>();
 	private ArrayList<Place> entertrainList = new ArrayList<Place>();
 	private ArrayList<Place> placeDataList = new ArrayList<Place>();
- 	
 	private List<Place> placeLists = new ArrayList<Place>();
 	
 	private List<Place> nearbyPlaceList = new ArrayList<Place>();

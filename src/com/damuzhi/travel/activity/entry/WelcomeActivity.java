@@ -73,6 +73,8 @@ public class WelcomeActivity extends MenuActivity
 				if(!initFlag)
 				{
 					AppMission.getInstance().initAppData(WelcomeActivity.this);
+					File file = new File(ConstantField.IMAGE_CACHE_PATH);
+					file.mkdirs();
 				}			
 				AppMission.getInstance().updateAppData(WelcomeActivity.this);
 				HelpMission.getInstance().updateHelpData(WelcomeActivity.this);     

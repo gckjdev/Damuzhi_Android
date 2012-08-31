@@ -11,6 +11,7 @@ import android.R.integer;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.app.PendingIntent.CanceledException;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -73,6 +74,7 @@ import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.more.DownloadMission;
+import com.damuzhi.travel.mission.place.LocalStorageMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
@@ -114,6 +116,14 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		TravelApplication.getInstance().addActivity(this);
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		setContentView(R.layout.index);		
+		
+		try {
+		 	Class.forName("com.google.android.maps.MapActivity");
+        }catch(Exception  e) {
+            (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found1), Toast.LENGTH_LONG)).show();
+        }
+		
+		
 		
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
 		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);	
@@ -228,41 +238,71 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			startActivity(intent);
 			break;
 		case R.id.scenery:	
-			Intent sceneryIntent = new Intent();
-			sceneryIntent.setClass(IndexActivity.this, CommonSpotActivity.class);	
-			startActivity(sceneryIntent);
+			 try {
+				 	Class.forName("com.google.android.maps.MapActivity");
+				 	Intent sceneryIntent = new Intent();
+					sceneryIntent.setClass(IndexActivity.this, CommonSpotActivity.class);	
+					startActivity(sceneryIntent);
+	            }catch(Exception  e) {
+	                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+	            }
+			
 			break;
 		case R.id.hotel:
-			Intent hotelIntent = new Intent();
-			hotelIntent.setClass(IndexActivity.this, CommonHotelActivity.class);		
-			startActivity(hotelIntent);
+			try {
+					Class.forName("com.google.android.maps.MapActivity");
+					Intent hotelIntent = new Intent();
+					hotelIntent.setClass(IndexActivity.this, CommonHotelActivity.class);		
+					startActivity(hotelIntent);
+	            }catch(Exception  e) {
+	                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+	            }
 			break;
-		case R.id.restaurant:	
-			Intent restaurantIntent = new Intent();
-			restaurantIntent.setClass(IndexActivity.this, CommonRestaurantActivity.class);		
-			startActivity(restaurantIntent);
+		case R.id.restaurant:
+			try {
+			 	Class.forName("com.google.android.maps.MapActivity");
+			 	Intent restaurantIntent = new Intent();
+				restaurantIntent.setClass(IndexActivity.this, CommonRestaurantActivity.class);		
+				startActivity(restaurantIntent);
+            }catch(Exception  e) {
+                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+            }
 			break;
 		case R.id.shopping:	
-			Intent shoppingIntent = new Intent();
-			shoppingIntent.setClass(IndexActivity.this, CommonShoppingActivity.class);		
-			startActivity(shoppingIntent);
+			try {
+			 	Class.forName("com.google.android.maps.MapActivity");
+			 	Intent shoppingIntent = new Intent();
+				shoppingIntent.setClass(IndexActivity.this, CommonShoppingActivity.class);		
+				startActivity(shoppingIntent);
+            }catch(Exception  e) {
+                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+            }
 			break;
-		case R.id.entertainment:	
-			Intent entertainmentIntent = new Intent();
-			entertainmentIntent.setClass(IndexActivity.this, CommonEntertainmentActivity.class);		
-			startActivity(entertainmentIntent);
+		case R.id.entertainment:
+			try {
+			 	Class.forName("com.google.android.maps.MapActivity");
+			 	Intent entertainmentIntent = new Intent();
+				entertainmentIntent.setClass(IndexActivity.this, CommonEntertainmentActivity.class);		
+				startActivity(entertainmentIntent);
+            }catch(Exception  e) {
+                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+            }	
 			break;
-		case R.id.nearby:	
-			boolean gpsEnable = checkGPSisOpen();
-			if(gpsEnable)
-			{
-				Intent nearbyIntent = new Intent();
-				nearbyIntent.setClass(IndexActivity.this, CommonNearbyPlaceActivity.class);		
-				startActivity(nearbyIntent);
-			}else {
-				setGPSDialog();
-			}
-			
+		case R.id.nearby:
+			try {
+			 	Class.forName("com.google.android.maps.MapActivity");
+			 	boolean gpsEnable = checkGPSisOpen();
+				if(gpsEnable)
+				{
+					Intent nearbyIntent = new Intent();
+					nearbyIntent.setClass(IndexActivity.this, CommonNearbyPlaceActivity.class);		
+					startActivity(nearbyIntent);
+				}else {
+					setGPSDialog();
+				}
+            }catch(Exception  e) {
+                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+            }
 			break;
 		case R.id.city_base:
 			LocationUtil.stop();
@@ -371,11 +411,8 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		}
 		currentCityName.setText(cityName);
 		checkData();
-		
-		
-		
 	}
-
+	
 	
 	private void checkData()
 	{
@@ -388,22 +425,27 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 				City city = AppManager.getInstance().getCityByCityId(AppManager.getInstance().getCurrentCityId());
 				String downloadURL =null;
 				if(city != null &&city.hasDownloadURL())
-				{
+				{	
 					downloadURL = city.getDownloadURL();
 					Map<Integer, Integer> unfinishInstallCity = DownloadPreference.getAllUnfinishInstall(IndexActivity.this);
 					Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(IndexActivity.this);
-					Map<Integer, String> newVersionCityData = new HashMap<Integer, String>();
+					Map<Integer, String> newVersionCityData = TravelApplication.getInstance().getNewVersionCityData();
 					List<Integer> installedCityList = new ArrayList<Integer>();
 					installedCityList.clear();
 					installedCityList.addAll(installCityData.keySet());
 					if(installCityData != null&&installCityData.size()>0)
 					{
-						newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
+						if(newVersionCityData == null)
+						{
+							newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
+							TravelApplication.getInstance().setNewVersionCityData(newVersionCityData);
+						}
+						
 					}
 					int currentCityId = AppManager.getInstance().getCurrentCityId();
 					if(downloadURL != null&&!downloadURL.equals(""))
 					{
-						if(newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
+						if(newVersionCityData!= null&&newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
 						{
 							Looper.prepare();
 							checkDataVersion();
@@ -419,12 +461,14 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 				}
 				return null;
 			}
+
+		
 	
 		};
 		asyncTask.execute();
 	}
 	
-	
+
 	
 	
 	private OnClickListener helpOnClickListener = new OnClickListener()
@@ -486,8 +530,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	        shareWindow.update();  
 	        shareWindow.showAtLocation(findViewById(R.id.share), Gravity.CENTER, 0, 0);  
 	        shareGroup.setOnKeyListener(new OnKeyListener()
-	        		{
-
+			{
 						@Override
 						public boolean onKey(View v, int keyCode, KeyEvent event)
 						{

@@ -100,27 +100,46 @@ public class PicUtill {
 	{
 		Bitmap bitmap = null;
 		FileInputStream fileInputStream = null;
+		BufferedInputStream bufferedInputStream = null;
 		try
 		{
-			if(FileUtil.checkFileIsExits(imageUri))
+			/*if(FileUtil.checkFileIsExits(imageUri))
 			{
 				File file = new File(imageUri);
 				fileInputStream = new FileInputStream(file);
-				/*BitmapFactory.Options options = new BitmapFactory.Options();  
+				BitmapFactory.Options options = new BitmapFactory.Options();  
 				options.inSampleSize = 2;
-				bitmap = BitmapFactory.decodeStream(fileInputStream,null,options);*/
+				bitmap = BitmapFactory.decodeStream(fileInputStream,null,options);
 				bitmap = BitmapFactory.decodeStream(fileInputStream);
 				fileInputStream.close();
-			}
+			}*/
+			File file = new File(imageUri);
+			fileInputStream = new FileInputStream(file);
+			bufferedInputStream = new BufferedInputStream(fileInputStream);
+			bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+			bufferedInputStream.close();
+			fileInputStream.close();
+			bufferedInputStream = null;
+			fileInputStream = null;
 		} catch (Exception e)
 		{
 			Log.e(TAG, "<getLocalBitmap> but catch exception :"+e.toString(),e);
+			return null;
 		}			
 		finally
 		{
 			try
 			{
-				fileInputStream.close();
+				if(fileInputStream != null)
+				{
+					fileInputStream.close();
+					fileInputStream = null;
+				}	
+				if (bufferedInputStream != null)
+				{
+					bufferedInputStream.close();
+					bufferedInputStream = null;
+				}
 			} catch (Exception e)
 			{
 			}

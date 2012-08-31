@@ -4,6 +4,7 @@ package com.damuzhi.travel.activity.common.imageCache;
 
 
 import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,12 +30,12 @@ public class Anseylodar {
 	
 	private static final String TAG = "Anseylodar";
 	//private Map<String,Bitmap> localBitmaps ;
-	private HashMap<String, SoftReference<Bitmap>> localBitmaps;
+	private HashMap<String, WeakReference<Bitmap>> localBitmaps;
 	ImageLoader imageLoader;
 	public Anseylodar(){
 		imageLoader=new ImageLoader();
 		//localBitmaps = new HashMap<String,Bitmap>();
-		localBitmaps = new HashMap<String, SoftReference<Bitmap>>();
+		localBitmaps = new HashMap<String, WeakReference<Bitmap>>();
 	}
 	
 	
@@ -51,15 +52,16 @@ public class Anseylodar {
 				 if(localBitmaps != null&&!localBitmaps.containsKey(url))
 				 {
 					 bitmap = PicUtill.getLocalBitmap(url);	
-					 localBitmaps.put(url,new SoftReference<Bitmap>(bitmap));
+					 localBitmaps.put(url,new WeakReference<Bitmap>(bitmap));
 				 }else
 				 {
-					 SoftReference<Bitmap> rf  = localBitmaps.get(url);
+					 WeakReference<Bitmap> rf  = localBitmaps.get(url);
 					 bitmap = rf.get();
 					 if(bitmap == null)
 					 {
 						 localBitmaps.remove(url);
 						 bitmap = PicUtill.getLocalBitmap(url);	
+						 localBitmaps.put(url,new WeakReference<Bitmap>(bitmap));
 					 }
 				 }
 				
@@ -96,15 +98,16 @@ public class Anseylodar {
 				 if(localBitmaps != null&&!localBitmaps.containsKey(url))
 				 {
 					 bitmap = PicUtill.getLocalBitmap(url);	
-					 localBitmaps.put(url,new SoftReference<Bitmap>(bitmap));
+					 localBitmaps.put(url,new WeakReference<Bitmap>(bitmap));
 				 }else
 				 {
-					 SoftReference<Bitmap> rf  = localBitmaps.get(url);
+					 WeakReference<Bitmap> rf  = localBitmaps.get(url);
 					 bitmap = rf.get();
 					 if(bitmap == null)
 					 {
 						 localBitmaps.remove(url);
 						 bitmap = PicUtill.getLocalBitmap(url);	
+						 localBitmaps.put(url,new WeakReference<Bitmap>(bitmap));
 					 }
 				 }
 			}		
@@ -172,7 +175,7 @@ public class Anseylodar {
 			while (iterator.hasNext())
 			{
 				Entry entry = (Entry) iterator.next();
-				SoftReference<Bitmap> sf = (SoftReference<Bitmap>) entry.getValue();
+				WeakReference<Bitmap> sf = (WeakReference<Bitmap>) entry.getValue();
 				Bitmap bitmap = sf.get();
 				if(bitmap != null&&!bitmap.isRecycled())
 				{

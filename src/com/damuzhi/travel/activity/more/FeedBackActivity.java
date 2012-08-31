@@ -8,6 +8,9 @@
  */
 package com.damuzhi.travel.activity.more;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
@@ -81,6 +84,13 @@ public class FeedBackActivity extends MenuActivity
 					Toast.makeText(FeedBackActivity.this, getString(R.string.feedback_contact_error), Toast.LENGTH_SHORT).show();
 				}else
 				{
+					try
+					{
+						content = URLEncoder.encode(content, "UTF-8");
+					} catch (UnsupportedEncodingException e)
+					{
+						e.printStackTrace();
+					}
 					String userId = UserManager.getInstance().getUserId(FeedBackActivity.this);
 					String feedBackUrl = String.format(ConstantField.FEED_BACK, userId,contact,content);
 					FeedbackMission feedbackMission = new FeedbackMission();
@@ -88,6 +98,8 @@ public class FeedBackActivity extends MenuActivity
 					if(result)
 					{
 						Toast.makeText(FeedBackActivity.this, getString(R.string.feedback_submit_success), Toast.LENGTH_SHORT).show();
+						contactEditText.setText("");
+						contentEditText.setText("");
 					}else {
 						Toast.makeText(FeedBackActivity.this, getString(R.string.feedback_submit_fail), Toast.LENGTH_SHORT).show();
 					}

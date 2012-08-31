@@ -12,6 +12,7 @@
     <dimen name="transport_width">295dp</dimen>
     <dimen name="transport_height">30dp</dimen>
     <dimen name="transport_text_size">10.5sp</dimen>
+    <dimen name="transport_location_text_size">8.5sp</dimen>
     <dimen name="image_margin">4dp</dimen>
     <dimen name="nearby_list_width">295dp</dimen>
     <dimen name="nearby_list_height">30dp</dimen>

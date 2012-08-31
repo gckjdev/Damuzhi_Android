@@ -58,6 +58,7 @@ public class PlaceMission
 	private boolean hasLocalData = false;
 	private int totalCount = 0;
 	List<Place> placeList = null;
+	private int lastCityId = -100;
 	private static AsyncHttpClient client = new AsyncHttpClient();
 	private PlaceMission() {
 	}
@@ -74,10 +75,14 @@ public class PlaceMission
 		//retPlaceList = Collections.emptyList();
 		hasLocalData = false;
 		retPlaceList.clear();
-		final int cityId = AppManager.getInstance().getCurrentCityId();		
+		final int cityId = AppManager.getInstance().getCurrentCityId();	
 		if (LocalStorageMission.getInstance().hasLocalCityData(activity,cityId)){
 			hasLocalData = true;
-			LocalStorageMission.getInstance().loadCityPlaceData(cityId);
+			if(cityId != lastCityId)
+			{
+				lastCityId = cityId;
+				LocalStorageMission.getInstance().loadCityPlaceData(cityId);
+			}	
 			// read local
 			List<Place> localPlaceList= localPlaceManager.getPlaceLists();
 			for(Place place:localPlaceList)
@@ -92,7 +97,7 @@ public class PlaceMission
 		}
 		else{
 			// send remote			
-				/*final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
+				final List<Place> remotePlaceList = getPlaceListByUrl(cityId, categoryId);
 				if(remotePlaceList != null && remotePlaceList.size() > 0)
 				{
 					retPlaceList.addAll(remotePlaceList);
@@ -101,8 +106,8 @@ public class PlaceMission
 				if (remotePlaceList != null && remotePlaceList.size() > 0){	
 					remotePlaceManager.clear();
 					remotePlaceManager.addPlaces(remotePlaceList);
-				}	*/
-				getPlaceListByUrl(cityId, categoryId);
+				}	
+				//getPlaceListByUrl(cityId, categoryId);
 				placeStatistics =  getPlaceStatisticsByUrl(cityId, categoryId);
 		}					
 		return retPlaceList;
@@ -217,7 +222,7 @@ public class PlaceMission
 	}*/
 	
 	
-	/*private List<Place> getPlaceListByUrl(int cityId, int categoryId)
+	private List<Place> getPlaceListByUrl(int cityId, int categoryId)
 	{
 		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
@@ -267,10 +272,10 @@ public class PlaceMission
 				}
 			}
 		}
-	}*/
+	}
 	
 	
-	private void getPlaceListByUrl(int cityId, int categoryId)
+	/*private void getPlaceListByUrl(int cityId, int categoryId)
 	{
 		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
@@ -316,13 +321,13 @@ public class PlaceMission
 			{
 				// TODO Auto-generated method stub
 				super.onFailure(error, content);
-				
+				Log.d(TAG, "<getPlaceListByUrl> send http request fail ");
 			}
 			
 			
 			
 		});
-	}
+	}*/
 	
 	
 	

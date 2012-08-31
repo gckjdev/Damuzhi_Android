@@ -227,7 +227,7 @@ public class DownloadService extends Service
     
     private DownloadServiceBinder servoceBinder = new DownloadServiceBinder();
 	
-	static ExecutorService unzipExecutorService = Executors.newFixedThreadPool(1);
+	static ExecutorService unzipExecutorService = Executors.newSingleThreadExecutor();
 	
 	public  void upZipFile(final String zipFilePath, final String upZipFilePath,final int cityId,final String downloadURL)
 	{
@@ -239,7 +239,8 @@ public class DownloadService extends Service
 			public void run()
 			{
 				Log.d(TAG, "unzip file ="+zipFilePath);
-				boolean result = ZipUtil.upZipFile(zipFilePath, upZipFilePath);
+				//boolean result = ZipUtil.upZipFile(zipFilePath, upZipFilePath);
+				boolean result = ZipUtil2.unZipToFolder(zipFilePath, upZipFilePath);
 				if(result)
 				{
 					FileUtil.deleteFile(zipFilePath);
@@ -255,6 +256,7 @@ public class DownloadService extends Service
 		        downloadHandler.sendMessage(msg);
 			}
 		});
+		
 			}
 
 	public  Map<String, Integer> getDownloadStstudTask()

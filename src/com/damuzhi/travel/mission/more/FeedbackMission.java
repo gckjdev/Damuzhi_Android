@@ -28,7 +28,7 @@ public class FeedbackMission
 
 	public boolean submitFeedback(String url)
 	{
-		Log.i(TAG, "<submitFeedback> submit feedback ,url = "+url);
+		Log.d(TAG, "<submitFeedback> submit feedback ,url = "+url);
 		InputStream inputStream = null;
 		BufferedReader br = null;
 		InputStreamReader inputStreamReader = null;
