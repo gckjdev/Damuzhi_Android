@@ -113,31 +113,5 @@
 	    android:layout_height="fill_parent"
 	    android:visibility="gone"
 	    android:orientation="vertical" >
-    	<com.readystatesoftware.maps.TapControlledMapView
-         android:id="@+id/common_place_mapview"
-         android:layout_width="fill_parent"
-         android:layout_height="fill_parent"
-         android:clickable="true" 
-         android:apiKey="00drkb-fVMRRqPn4hzYyq8XgYwcJno_fRyM-rqA"
-         />
-    	 <ImageView
-		      android:id="@+id/my_locate"
-		      android:layout_width="31dp"
-		      android:layout_height="31dp"
-		      android:src="@drawable/locate"
-		      android:layout_alignParentRight="true"
-		      android:layout_alignParentBottom="true"
-		      android:layout_marginRight="20dp"
-		      android:layout_marginBottom="20dp"/>
-    	  <ImageView
-		      android:id="@+id/cancel_locate"
-		      android:layout_width="31dp"
-		      android:layout_height="31dp"
-		      android:src="@drawable/locate_back"
-		      android:layout_alignParentRight="true"
-		      android:layout_alignParentBottom="true"
-		      android:visibility="gone"
-		      android:layout_marginRight="20dp"
-		      android:layout_marginBottom="20dp"/>
     </RelativeLayout> 
 </LinearLayout>

@@ -12,7 +12,7 @@ public final static String MD5(String s) {
      byte[] md = mdInst.digest();
      StringBuffer sb = new StringBuffer();
      for (int i = 0; i < md.length; i++) {
-      int val = ((int) md[i]) & 0xff;
+      int val = md[i] & 0xff;
       if (val < 16)
        sb.append("0");
       sb.append(Integer.toHexString(val));

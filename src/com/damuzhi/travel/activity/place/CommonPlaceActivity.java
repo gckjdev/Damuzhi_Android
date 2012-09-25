@@ -8,8 +8,6 @@
  */
 package com.damuzhi.travel.activity.place;
 
-import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,6 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
+import android.app.ActivityGroup;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,67 +30,48 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AbsListView;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.baidu.location.BDLocation;
-import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.FilterAdapter;
 import com.damuzhi.travel.activity.adapter.common.FilterAdapter.ViewHolder;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter.SortViewHolder;
 import com.damuzhi.travel.activity.adapter.place.CommonPlaceListAdapter;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.HelpActiviy;
-import com.damuzhi.travel.activity.common.TravelActivity;
+import com.damuzhi.travel.activity.common.MenuActivity;
+import com.damuzhi.travel.activity.common.PlaceGoogleMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
-import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
-import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
 import com.damuzhi.travel.activity.entry.IndexActivity;
-import com.damuzhi.travel.activity.entry.WelcomeActivity;
+import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.mission.place.LocalStorageMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import com.damuzhi.travel.util.TravelUtil;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
-import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MapView.LayoutParams;
-import com.google.android.maps.Overlay;
-import com.nostra13.universalimageloader.cache.disc.DiscCacheAware;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.download.URLConnectionImageDownloader;
-import com.readystatesoftware.maps.OnSingleTapListener;
-import com.readystatesoftware.maps.TapControlledMapView;
+import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 
 import dalvik.system.VMRuntime;
-
 /**
  * @description
  * @version 1.0
@@ -99,7 +79,7 @@ import dalvik.system.VMRuntime;
  * @update 2012-5-24 下午3:51:48
  */
 
-public abstract class CommonPlaceActivity extends TravelActivity
+public abstract class CommonPlaceActivity extends ActivityGroup
 {
 
 	protected static final String TAG = "CommonPlaceActivity";
@@ -131,7 +111,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	ArrayList<Place> allPlaceList = new ArrayList<Place>();
 	CommonPlaceListAdapter placeListAdapter = null;
 	private int totalCount = 0;
-	private int filterFlag = 0;
 	private ProgressDialog loadingDialog;
 	// sort condition
 	protected String[] sortDisplayName;
@@ -139,12 +118,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	// mapview
 	private ViewGroup mapviewGroup;
 	private ViewGroup listViewGroup;
-	private TapControlledMapView mapView;
-//	private View popupView;
 	private ImageView mapViewButton;
 	private ImageView listViewButton;
-	private ImageView myLocateButton;
-	private ImageView canceLocateButton;
 	private TextView dataNotFoundTextView;
 	private ViewGroup sortSpinner;
 	protected String[] subCatName;
@@ -160,7 +135,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	protected String[] areaName;
 	protected int[] areaID;
 	protected int[] areaSelect;
-	private MapController mapc;
 	private PopupWindow filterWindow;
 	private int statusBarHeight;
 	private FilterAdapter filterAdapter;
@@ -171,31 +145,26 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	private HashMap<Integer, Boolean> areaIsSelected = new HashMap<Integer, Boolean>();
 	private HashMap<Integer, Boolean> sortSelected = new HashMap<Integer, Boolean>();
 	private HashMap<Integer, Boolean> IsSelectedTemp = new HashMap<Integer, Boolean>();
-//	private CheckBox selectAllCheckBox;
-//	private ViewGroup selectAllViewGroup;
-//	private boolean isSelectAll;
+
 	private int filterType = 0;
 	private static final int subCateType = 1;
 	private static final int serviceType = 2;
 	private static final int areaType = 3;
 	private static final int priceType = 4;
-	private CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay;
-	private LocationClient mLocClient;
-	private HashMap<String, Double> location ;
 	private static int start = 0;
 	private static int count = 1;
 	private boolean localDataIsExist;
 	private View listViewFooter;
 	private ViewGroup footerViewGroup;
 	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
-
+	//private ImageLoader imageLoader;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
 		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
-		TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		setContentView(R.layout.common_place);
 		setProgressBarVisibility(true); 
 		
@@ -235,10 +204,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		
 		
 		placeListView = (ListView) findViewById(R.id.place_listview);
-		mapView = (TapControlledMapView) findViewById(R.id.common_place_mapview);
-		mapc = mapView.getController();
-		mapc.setZoom(14);
-		mapView.setStreetView(true);
+		
 	
 		listViewFooter = getLayoutInflater().inflate(R.layout.load_more_view, null, false);
 		placeListView.addFooterView(listViewFooter, allPlaceList, false);
@@ -246,7 +212,9 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		footerViewGroup = (ViewGroup) listViewFooter.findViewById(R.id.listView_load_more_footer);
 		footerViewGroup.setVisibility(View.GONE);
 		
+	//	imageLoader = ImageLoader.getInstance();
 		placeListAdapter = new CommonPlaceListAdapter(this, null,getCategoryType());
+		//placeListAdapter = new CommonPlaceListAdapter(this, null,getCategoryType());
 		placeListView.setAdapter(placeListAdapter);
 		placeListView.setOnItemClickListener(listViewOnItemClickListener);
 		
@@ -256,11 +224,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		createFilterButtons(spinner);
 		placeTitle.setText(getCategoryName());
 		placeSize.setText(getCategorySize());
-		mapView.setOnSingleTapListener(onSingleTapListener);
-		myLocateButton = (ImageView) findViewById(R.id.my_locate);
-		canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
-		myLocateButton.setOnClickListener(myLocateOnClickListener);
-		canceLocateButton.setOnClickListener(cancelLocateOnClickListener);
 		sortSelected.put(0, true);
 		int currentCityId = AppManager.getInstance().getCurrentCityId();
 		localDataIsExist = LocalStorageMission.getInstance().hasLocalCityData(CommonPlaceActivity.this,currentCityId);
@@ -275,6 +238,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		loadPlace();
 	}
 
+	
 	private void loadPlace()
 	{
 		AsyncTask<String, Void, List<Place>> task = new AsyncTask<String, Void, List<Place>>()
@@ -284,13 +248,13 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			protected List<Place> doInBackground(String... params)
 			{
 				List<Place> placeList = getAllPlace(CommonPlaceActivity.this);
-				totalCount = getPlaceTotalCount();
+				//totalCount = getPlaceTotalCount();
 				start = 0;
 				count = 1;
-				location = TravelApplication.getInstance().getLocation();
+				LocationUtil.getLocation(CommonPlaceActivity.this);
 				if(TravelApplication.getInstance().mLocationClient !=null)
 				{
-					TravelApplication.getInstance().mLocationClient.stop();
+					LocationUtil.stop();
 				}
 				return placeList;
 			}
@@ -305,8 +269,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			@Override
 			protected void onPostExecute(List<Place> resultList)
 			{
-				// hide loading dialog
-				loadingDialog.dismiss();
+				
 				//allPlaceList = resultList;
 				allPlaceList.clear();
 				allPlaceList.addAll(resultList);
@@ -317,7 +280,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				filterPlaceList();
 
 				// TODO update sub category name and key and count
-
+				// hide loading dialog
+				loadingDialog.dismiss();
 				super.onPostExecute(resultList);
 			}
 
@@ -463,7 +427,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		{
 			Collections.sort(newList, comparator);
 		}
-
+		//totalCount = newList.size();
 		refreshPlaceView(newList);
 		return;
 	}
@@ -513,19 +477,15 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	{
 		placeListAdapter.setList(list);
 		placeListAdapter.notifyDataSetChanged();
-		if (mapView != null)
-		{
-			initMapView();
-		}
 		updateTitle();
 		if(list.size()>0)
 		{
 			dataNotFoundTextView.setVisibility(View.GONE);
 			if(listViewButton.getVisibility() == View.VISIBLE)
-			{
-				mapviewGroup.setVisibility(View.VISIBLE);
+			{			
+				goMapView(list);
 			}else {
-				listViewGroup.setVisibility(View.VISIBLE);
+				listViewGroup.setVisibility(View.VISIBLE);	
 			}		
 		}else
 		{
@@ -644,22 +604,52 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		@Override
 		public void onClick(View v)
 		{
-			sortSpinner = (ViewGroup) findViewById(R.id.sort_spinner);
-			if (sortSpinner != null)
-			{
-				sortSpinner.setVisibility(View.GONE);
-			}
-			listViewGroup.setVisibility(View.GONE);
-			mapViewButton.setVisibility(View.GONE);
-			listViewButton.setVisibility(View.VISIBLE);
-			if(placeListAdapter.getPlaceList() !=null&&placeListAdapter.getPlaceList().size()>0)
-			{
-				mapviewGroup.setVisibility(View.VISIBLE);
-			}	
-			initMapView();			
+			try {
+				Class.forName("com.google.android.maps.MapActivity");
+				sortSpinner = (ViewGroup) findViewById(R.id.sort_spinner);
+				if (sortSpinner != null)
+				{
+					sortSpinner.setVisibility(View.GONE);
+				}
+				listViewGroup.setVisibility(View.GONE);
+				mapViewButton.setVisibility(View.GONE);
+				listViewButton.setVisibility(View.VISIBLE);
+			 	mapviewGroup.setVisibility(View.VISIBLE);
+				goMapView(placeListAdapter.getPlaceList());		
+			 }catch(Exception  e) {
+	                (Toast.makeText(CommonPlaceActivity.this, getResources().getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+	         }
 		}
 	};
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		//AsyncLoader.getInstance().recycleBitmap();
+		Log.d(TAG, "recycle plac detail image bitmap");
+	}
+
+	private void goMapView(List<Place> list) {
+		if(list!=null&&list.size()>0)
+		{	 	
+		 	PlaceList.Builder placeList = PlaceList.newBuilder();
+		 	placeList.addAllList(list);
+		 	Intent intent = new Intent(CommonPlaceActivity.this, PlaceGoogleMap.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		 	intent.putExtra(ConstantField.PLACE_GOOGLE_MAP, placeList.build().toByteArray());
+		 	mapviewGroup.removeAllViews();
+		 	mapviewGroup.addView(getLocalActivityManager().startActivity(ConstantField.PLACE_GOOGLE_MAP,intent).getDecorView());
+		}	
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	private OnClickListener listViewOnClickListener = new OnClickListener()
 	{
 
@@ -671,10 +661,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			listViewGroup.setVisibility(View.VISIBLE);
 			sortSpinner.setVisibility(View.VISIBLE);
 			mapViewButton.setVisibility(View.VISIBLE);
-			if(mLocClient !=null)
-			{
-				mLocClient.stop();
-			}
+			LocationUtil.stop();
 		}
 	};
 	
@@ -682,12 +669,10 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	
 	private int visibleLastIndex = 0;
 	private OnScrollListener listviewOnScrollListener = new OnScrollListener()
-	{
-		
+	{	
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState)
 		{
-			// TODO Auto-generated method stub
 			if(totalCount !=0 && visibleLastIndex == totalCount)
 			{
 			   placeListView.removeFooterView(listViewFooter);	
@@ -709,7 +694,6 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		public void onScroll(AbsListView view, int firstVisibleItem,
 				int visibleItemCount, int totalItemCount)
 		{
-			// TODO Auto-generated method stub
 			visibleLastIndex = firstVisibleItem + visibleItemCount -1;
 		}
 	};
@@ -718,44 +702,12 @@ public abstract class CommonPlaceActivity extends TravelActivity
 
 	
 	
-	private OnSingleTapListener onSingleTapListener = new OnSingleTapListener() {		
-		@Override
-		public boolean onSingleTap(MotionEvent e) {
-			itemizedOverlay.hideAllBalloons();
-			return true;
-		}
-	};
 	
 	
 	
 	
 	
-	private OnClickListener myLocateOnClickListener = new OnClickListener()
-	{
-
-		@Override
-		public void onClick(View v)
-		{
-			boolean gpsEnable = checkGPSisOpen();			
-			LocationUtil.getLocation(CommonPlaceActivity.this);
-			location = TravelApplication.getInstance().getLocation();			
-			if (location != null&&location.size()>0)
-			{
-				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));	
-				Drawable drawable = getResources().getDrawable(R.drawable.my_location);
-				CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null);
-				CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
-				itemizedOverlay3.addOverlay(overlayItem);
-				mapView.getOverlays().add(itemizedOverlay3);
-				mapc.animateTo(geoPoint);
-			}else
-			{
-				Toast.makeText(CommonPlaceActivity.this, getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
-			}
-			myLocateButton.setVisibility(View.GONE);
-			canceLocateButton.setVisibility(View.VISIBLE);
-		}
-	};
+	
 	
 	
 	
@@ -767,28 +719,31 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				long arg3)
 		{
 			Place place = placeListAdapter.getPlaceList().get(arg2);
-			//BrowseHistoryMission.getInstance().addBrowseHistory(place);
 			addBrowseHistory(place);
 			Intent intent = new Intent();
+			//intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
 			intent.setClass(CommonPlaceActivity.this, detailPlaceClass);
 			startActivity(intent);
+			detailPlaceClass = null;
 		}
 	};
 
 	
 	private void addBrowseHistory(final Place place)
 	{
-		AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>(){
+		/*AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>(){
 
 			@Override
 			protected Void doInBackground(Void... params)
 			{
-				BrowseHistoryMission.getInstance().addBrowseHistory(place);
+				
 				return null;
 			}};
-			asyncTask.execute();
+			asyncTask.execute();*/
+			
+			BrowseHistoryMission.getInstance().addBrowseHistory(place);
 	}
 	
 	
@@ -808,18 +763,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	};
 	
 	
-	private OnClickListener cancelLocateOnClickListener = new OnClickListener()
-	{
 
-		@Override
-		public void onClick(View v)
-		{
-			canceLocateButton.setVisibility(View.GONE);
-			myLocateButton.setVisibility(View.VISIBLE);
-			initMapView();
-			
-		}
-	};
 
 	
 	
@@ -942,45 +886,24 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			}
 		};
 	
-		@Override
-		public boolean onOptionsItemSelected(MenuItem item)
-		{
-			switch (item.getItemId())	
-			{		
-			case R.id.menu_refresh:
-				loadPlace();
-				break;
-			default:
-				break;
-			}
-			return super.onOptionsItemSelected(item);
-		}
+		
 	
 	
 	
 	
-	
-	private void initMapView()
-	{
-		openGPSSettings();
-		List<Place> placeList = placeListAdapter.getPlaceList();
-		if(placeList!=null&&placeList.size()>0)
-		{
-			mapView.getOverlays().clear();
-			mapView.removeAllViews();
-			initMapOverlayView(placeList);
-		}
-	}
 	
 	
 	
 	private String getCategorySize()
 	{
-		/*if(filterFlag != 0)
+		if(localDataIsExist)
 		{
-			if (placeListAdapter.getPlaceList() != null)
-				totalCount = placeListAdapter.getPlaceList().size();
-		}*/
+			totalCount = placeListAdapter.getCount();
+		}else
+		{
+			totalCount = getPlaceTotalCount();
+		}
+		
 		String sizeString = "(" + totalCount + ")";
 		return sizeString;
 	}
@@ -1023,15 +946,15 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	
     private void filterWindow(View parent,String[] filterTitleName,int[] filterKey,HashMap<Integer, Boolean> isSelected,boolean isSelectAll,int filterType,String filterTitle) {  
     	this.filterType = filterType;
-    	filterFlag = 1;
+    	//filterFlag = 1;
         LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
         View v = lay.inflate(R.layout.filter_place_popup, null); 
         v.setPadding(0, statusBarHeight, 0, 0);
         v.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
 
         ListView filterList=(ListView)v.findViewById(R.id.filter_listview);  
-        ImageButton cancelButton = (ImageButton) v.findViewById(R.id.cancel_button);
-        ImageButton filterButton = (ImageButton) v.findViewById(R.id.ok_button);
+        Button cancelButton = (Button) v.findViewById(R.id.cancel_button);
+        Button filterButton = (Button) v.findViewById(R.id.ok_button);
         TextView titleTextView = (TextView) v.findViewById(R.id.filter_title);
         titleTextView.setText(filterTitle);
         cancelButton.setOnClickListener(cancelFilterOnClickListener);
@@ -1044,7 +967,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
         filterList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
         filterList.setOnItemClickListener(filterlistClickListener);  
        
-        filterWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,true);  
+        filterWindow = new PopupWindow(v, android.view.ViewGroup.LayoutParams.FILL_PARENT,android.view.ViewGroup.LayoutParams.FILL_PARENT,true);  
           
         IsSelectedTemp = filterAdapter.getIsSelected();
         filterWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
@@ -1145,8 +1068,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
         ListView sortList=(ListView)v.findViewById(R.id.filter_listview);
         v.findViewById(R.id.listview_group).setPadding(0, (int)getResources().getDimension(R.dimen.sort_list_padding_top), 0, 0);
         
-        ImageButton cancelButton = (ImageButton) v.findViewById(R.id.cancel_button);
-        ImageButton filterButton = (ImageButton) v.findViewById(R.id.ok_button);
+        Button cancelButton = (Button) v.findViewById(R.id.cancel_button);
+        Button filterButton = (Button) v.findViewById(R.id.ok_button);
         TextView titleTextView = (TextView) v.findViewById(R.id.filter_title);
         titleTextView.setText(filterTitle);
         cancelButton.setOnClickListener(cancelFilterOnClickListener);
@@ -1162,7 +1085,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
         sortList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);  
         sortList.setOnItemClickListener(sortListClickListener);  
        
-        filterWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT,true);  
+        filterWindow = new PopupWindow(v, android.view.ViewGroup.LayoutParams.FILL_PARENT,android.view.ViewGroup.LayoutParams.FILL_PARENT,true);  
           
         IsSelectedTemp = sortAdapter.getIsSelected();
         filterWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));  
@@ -1175,31 +1098,19 @@ public abstract class CommonPlaceActivity extends TravelActivity
 	    
 	    
 	  
-		private void openGPSSettings() {
+		/*private void openGPSSettings() {
 			LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 			if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
 				return;
 			}
 				Toast.makeText(this, getString(R.string.open_gps_tips3), Toast.LENGTH_SHORT).show();
-		}
+		}*/
 	
 		
 		
 		
 		
-		/*private OnRefreshListener onRefreshListener = new OnRefreshListener()
-		{
-
-			@Override
-			public void onRefresh()
-			{
-				refreshPlaceListView.setLastUpdatedLabel(DateUtils.formatDateTime(getApplicationContext(),
-						System.currentTimeMillis(), DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_SHOW_DATE
-								| DateUtils.FORMAT_ABBREV_ALL));		
-					loadMore();	
-			}
-			
-		};*/
+	
 		
 		
 		private void loadMore()
@@ -1252,7 +1163,7 @@ public abstract class CommonPlaceActivity extends TravelActivity
 					String priceType = getPriceType();
 					String sortType = Integer.toString(sortPosition+1);
 					List<Place> placeList = PlaceMission.getInstance().filterPlace(getCategoryType(),CommonPlaceActivity.this,  subcateType, areaType, serviceType, priceType, sortType,start);
-					totalCount = getPlaceTotalCount();
+					//totalCount = getPlaceTotalCount();
 					return placeList;
 				}
 				@Override
@@ -1299,14 +1210,8 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				if(newMoreList.size()>0)
 				{
 					placeListAdapter.addPlaceList(newMoreList);
-					placeListAdapter.notifyDataSetChanged();
-					if (mapView != null)
-					{
-						mapView.getOverlays().clear();
-						initMapOverlayView(newMoreList);
-					}
+					placeListAdapter.notifyDataSetChanged();				
 				}
-				//updateTitle();
 			}	
 			return;
 		}
@@ -1315,26 +1220,10 @@ public abstract class CommonPlaceActivity extends TravelActivity
 		
 		
 		
-		private void initMapOverlayView(List<Place> placeList)
-		{	
-			Drawable markerIcon = getResources().getDrawable(TravelUtil.getForecastImage(getCategoryType()));
-			itemizedOverlay = new CommonItemizedOverlay<CommonOverlayItem>(markerIcon, mapView);
-			for (Place place : placeList)
-			{
-				GeoPoint geoPoint = new GeoPoint((int) (place.getLatitude() * 1e6),(int) (place.getLongitude() * 1e6));
-				CommonOverlayItem commonOverlayItem = new CommonOverlayItem(geoPoint,place.getName(), null,place);
-				itemizedOverlay.addOverlay(commonOverlayItem);
-			}
-			if(itemizedOverlay.size()>0)
-			{
-				mapc.setCenter(itemizedOverlay.getCenter());
-			}
-			List<Overlay> mapOverlays = mapView.getOverlays();		
-			mapOverlays.add(itemizedOverlay);
-		}
 		
 		
-		private boolean checkGPSisOpen() {
+		
+	/*	private boolean checkGPSisOpen() {
 			LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 			if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
 				return true;
@@ -1342,22 +1231,32 @@ public abstract class CommonPlaceActivity extends TravelActivity
 				Toast.makeText(this, getString(R.string.open_gps_tips3), Toast.LENGTH_SHORT).show();
 				return false;
 		}
-		
+		*/
 
 		@Override
 		protected void onDestroy()
 		{	
 			Log.d(TAG, "onDestroy");
+			allPlaceList.clear();
+			//allPlaceList = null;
 			placeListAdapter.recycleBitmap();
 			LocationUtil.stop();
 			if(loadingDialog  != null)
 			{
 				loadingDialog.dismiss();
 			}
+			ActivityManger.getInstance().finishActivity();
 			System.gc();
 			super.onDestroy();
 		}	
 		
+		@Override
+		protected void onStop() {
+			/*imageLoader.stop();
+			imageLoader.clearMemoryCache();*/
+			super.onStop();
+		}
+
 		
 		private String getSubcateType()
 		{
@@ -1452,6 +1351,57 @@ public abstract class CommonPlaceActivity extends TravelActivity
 			return areaType.trim();
 		}
 
+		
+		@Override
+		public boolean onCreateOptionsMenu(Menu menu)
+		{
+			// TODO Auto-generated method stub
+			//TravelApplication.getInstance().addActivity(this);
+			MenuInflater menuInflater = getMenuInflater();
+			menuInflater.inflate(R.menu.menu, menu);
+			return super.onCreateOptionsMenu(menu);
+		}
+
+		
+		
+		
+		@Override
+		public boolean onOptionsItemSelected(MenuItem item)
+		{
+			Intent  intent;
+			switch (item.getItemId())	
+			{		
+			case R.id.menu_refresh:
+				loadPlace();
+				break;
+			case R.id.menu_help:
+				intent = new Intent();
+				intent.putExtra(ConstantField.HELP_TITLE, getResources().getString(R.string.help));
+				intent.setClass(CommonPlaceActivity.this, HelpActiviy.class);
+				startActivity(intent);
+				break;
+			case R.id.menu_feedback:
+				intent = new Intent();			
+				intent.setClass(CommonPlaceActivity.this, FeedBackActivity.class);
+				startActivity(intent);
+				break;
+			case R.id.menu_about:
+				intent = new Intent();
+				String about = getResources().getString(R.string.about_damuzhi);
+				intent.putExtra(ConstantField.HELP_TITLE, about);
+				intent.setClass(CommonPlaceActivity.this, HelpActiviy.class);
+				startActivity(intent);
+				break;
+			case R.id.menu_exit:
+				//TravelApplication.getInstance().exit();
+				ActivityManger.getInstance().AppExit(CommonPlaceActivity.this);
+				break;
+
+			default:
+				break;
+			}
+			return super.onOptionsItemSelected(item);
+		}
 		
 
 

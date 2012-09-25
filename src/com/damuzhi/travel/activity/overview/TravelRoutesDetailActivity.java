@@ -22,15 +22,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.google.protobuf.InvalidProtocolBufferException;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  
@@ -55,7 +55,8 @@ public class TravelRoutesDetailActivity extends MenuActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		byte[] travelInfo = getIntent().getByteArrayExtra(ConstantField.TRAVEL_ROUTES_INFO);
 		if(travelInfo.length>0)
 		{
@@ -74,7 +75,7 @@ public class TravelRoutesDetailActivity extends MenuActivity
 			int size=imagePath.size();
 			for(int i=0;i<size;i++)
 			{
-				Anseylodar anseylodar = new Anseylodar();
+				AsyncLoader anseylodar = new AsyncLoader();
 				View view = inflater.inflate(R.layout.place_detail_image, null);
 				ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
 				String url  = imagePath.get(i);
@@ -141,4 +142,12 @@ public class TravelRoutesDetailActivity extends MenuActivity
 			
 		}
 	};
+	
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		ActivityManger.getInstance().finishActivity();
+	}
 }

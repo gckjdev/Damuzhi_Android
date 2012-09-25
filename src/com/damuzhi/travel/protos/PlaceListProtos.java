@@ -5061,8 +5061,8 @@ public final class PlaceListProtos {
       "\022/\n\022subCategoryStatics\030\001 \003(\0132\023.damuzhi.S" +
       "tatistics\022(\n\013areaStatics\030\002 \003(\0132\023.damuzhi",
       ".Statistics\022+\n\016serviceStatics\030\003 \003(\0132\023.da" +
-      "muzhi.StatisticsB%\n\022com.damuzhi.travel.protosB\017" +
-      "PlaceListProtos"
+      "muzhi.StatisticsB,\n\031com.damuzhi.travel.p" +
+      "rotosB\017PlaceListProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

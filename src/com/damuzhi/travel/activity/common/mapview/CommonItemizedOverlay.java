@@ -9,12 +9,11 @@
 package com.damuzhi.travel.activity.common.mapview;
 
 import java.util.ArrayList;
+
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.widget.Toast;
 
-import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
 import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.model.constant.ConstantField;

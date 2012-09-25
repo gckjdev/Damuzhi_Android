@@ -12,11 +12,10 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.android.utils.TokenStore;
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.share.Share2Weibo;
 import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.utils.OAuthClient;
-
+import com.damuzhi.travel.R;
 public class MyWebView extends Activity {
 	protected static final String TAG = "MyWebView";
 	private WebView wb;

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
@@ -16,10 +17,10 @@ import android.content.SharedPreferences.Editor;
 import android.support.v4.content.Loader;
 import android.util.Log;
 
-import com.damuzhi.travel.R.id;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
+import com.damuzhi.travel.protos.AppProtos.Agency;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.protos.AppProtos.CityArea;
@@ -30,6 +31,7 @@ import com.damuzhi.travel.protos.AppProtos.PlaceMeta;
 import com.damuzhi.travel.protos.AppProtos.RecommendedApp;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.util.FileUtil;
+import com.damuzhi.travel.util.PinyinComparator;
 
 public class AppManager
 {
@@ -704,13 +706,68 @@ public class AppManager
 
 
 	
-	public List<City> getCityList()
+	/*public List<City> getCityList()
 	{
 		List<City> citylList = new ArrayList<City>();
 		if(app != null)
 		{
 			citylList.addAll(app.getCitiesList());
 			//citylList.addAll(app.getTestCitiesList());
+		}
+		return citylList;
+	}*/
+	
+	/*public List<City> getCityList()
+	{
+		List<City> citylList = null;
+		if(app != null)
+		{
+			citylList = new ArrayList<City>();
+			for(City city:app.getCitiesList())
+			{			
+			  citylList.add(city);	
+			}
+		}
+		return citylList;
+	}*/
+	
+	public List<City> getCityList()
+	{
+		List<City> citylList = null;
+		List<City> temp = null;
+		if(app != null)
+		{
+			citylList = new ArrayList<City>();
+			temp = new ArrayList<City>();
+			for(City city:app.getCitiesList())
+			{			
+			  if(city.getHotCity())
+			  {
+				  citylList.add(city);
+			  }
+			}
+			temp.addAll(app.getCitiesList());
+			Collections.sort(temp, new PinyinComparator());
+			citylList.addAll(temp);
+			temp.clear();
+			temp = null;
+		}
+		return citylList;
+	}
+	
+	public List<City> getHotCityList()
+	{
+		List<City> citylList = null;
+		if(app != null)
+		{
+			citylList = new ArrayList<City>();
+			for(City city:app.getCitiesList())
+			{			
+			  if(city.getHotCity())
+			  {
+				  citylList.add(city);
+			  }
+			}
 		}
 		return citylList;
 	}
@@ -721,7 +778,17 @@ public class AppManager
 	}
 
 	
-	
+	public List<City> getSearchCityList()
+	{
+		List<City> citylList = null;
+		if(app != null)
+		{
+			citylList = new ArrayList<City>();			
+			citylList.addAll(app.getCitiesList());
+			Collections.sort(citylList, new PinyinComparator());
+		}	
+		return citylList;
+	}
 	
 	public City getCityByCityId(int cityId)
 	{
@@ -877,6 +944,51 @@ public class AppManager
 			}
 		}
 		return latestDataURL;
+	}
+
+	public String getAgencyNameById(int agencyId) {
+		String agencyName = "";
+		if (app != null)
+		{
+			for(Agency agency:app.getAgenciesList())
+			{
+				if(agency.getAgencyId() == agencyId )
+				{
+					agencyName = agency.getName();
+				}
+			}
+		}
+		return agencyName;
+	}
+
+	public String getSymbolByCityId(int cityId) {
+		
+		if (app != null)
+		{
+			for (City city : app.getCitiesList())
+			{
+				if(cityId == city.getCityId())
+				{
+					 return city.getCurrencySymbol();	
+				}
+			}
+		}
+		return "";
+	}
+
+	public String getcityNameById(int cityId) {
+		String cityName = "";
+		if (app != null)
+		{
+			for (City city : app.getCitiesList())
+			{
+				if(city.getCityId() == cityId)
+				{
+					cityName = city.getCityName();
+				}
+			}
+		}
+		return cityName;
 	}
 	
 }

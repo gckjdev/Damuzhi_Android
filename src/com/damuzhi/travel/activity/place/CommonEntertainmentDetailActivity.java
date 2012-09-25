@@ -10,13 +10,13 @@ package com.damuzhi.travel.activity.place;
 
 import android.util.Log;
 
-import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.google.protobuf.InvalidProtocolBufferException;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  
@@ -33,7 +33,8 @@ public class CommonEntertainmentDetailActivity extends
 	@Override
 	public Place getPlaceById()
 	{
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		//ActivityManger.getInstance().addActivity(this);
 		Place place = null;
 		try
 		{
@@ -124,5 +125,13 @@ public class CommonEntertainmentDetailActivity extends
 	{
 		return false;
 	}
+	
+	
+	/*@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		ActivityManger.getInstance().AppExit(this);
+	}*/
 
 }

@@ -21,7 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -31,7 +31,7 @@ import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
 import com.damuzhi.travel.util.TravelUtil.ComparatorPrice;
 import com.damuzhi.travel.util.TravelUtil.ComparatorPriceContrary;
 import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  
@@ -46,7 +46,6 @@ public class CommonRestaurantActivity extends CommonPlaceActivity
 	@Override
 	public List<Place> getAllPlace(Activity activity)
 	{
-		TravelApplication.getInstance().addActivity(this);
 		return PlaceMission.getInstance().getAllPlace(PlaceCategoryType.PLACE_RESTRAURANT_VALUE,activity);
 	}
 
@@ -169,12 +168,6 @@ public class CommonRestaurantActivity extends CommonPlaceActivity
 	{
 		int cityID = AppManager.getInstance().getCurrentCityId();
 		sortDisplayName = getResources().getStringArray(R.array.restaurant);
-		/*subCatName = AppManager.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_RESTRAURANT);
-		subCatKey = AppManager.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
-		areaID = AppManager.getInstance().getCityAreaKeyList(cityID);
-		areaName = AppManager.getInstance().getCityAreaNameList(cityID);
-		serviceID = AppManager.getInstance().getProvidedServiceKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
-		serviceName = AppManager.getInstance().getProvidedServiceNameList(PlaceCategoryType.PLACE_RESTRAURANT);*/
 		subCatName = PlaceMission.getInstance().getSubCatNameList(PlaceCategoryType.PLACE_RESTRAURANT);
 		subCatKey = PlaceMission.getInstance().getSubCatKeyList(PlaceCategoryType.PLACE_RESTRAURANT);
 		areaID = PlaceMission.getInstance().getCityAreaKeyList(cityID);
@@ -190,4 +183,6 @@ public class CommonRestaurantActivity extends CommonPlaceActivity
 		int totalCount = PlaceMission.getInstance().getPlaceTotalCount();
 		return totalCount;
 	}
+	
+	
 }

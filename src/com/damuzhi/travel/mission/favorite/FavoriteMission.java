@@ -17,14 +17,12 @@ import java.util.List;
 
 import org.json.JSONObject;
 
-import android.R.integer;
 import android.util.Log;
 
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.favorite.FavoriteManager;
 import com.damuzhi.travel.network.HttpTool;
-import com.damuzhi.travel.network.PlaceNetworkHandler;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 

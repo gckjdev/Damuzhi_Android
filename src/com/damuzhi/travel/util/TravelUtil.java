@@ -1,35 +1,29 @@
 package com.damuzhi.travel.util;
 
-import java.nio.FloatBuffer;
+import java.sql.Date;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.IllegalFormatCodePointException;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.security.auth.PrivateCredentialPermission;
-
-import android.R.style;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
+import android.text.format.DateFormat;
 import android.util.Log;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.protos.AppProtos.CityArea;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverviewType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.TravelTipsProtos.TravelTipType;
-import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
 
 public class TravelUtil
 {
@@ -708,6 +702,22 @@ public class TravelUtil
 	    return m.matches();
 	}
 	
+	public static boolean isPhoneNumber(String phoneNum)
+	{
+		String strPattern = "^0{0,1}(13[0-9]|15[0-9]|15[0-2]|18[0-9])[0-9]{8}$";
+		Pattern p = Pattern.compile(strPattern);
+	    Matcher m = p.matcher(phoneNum);
+	    return m.matches();
+	}
+	
+	
+	public static boolean isShort(String password) {
+		String strPattern = "^[0-9A-Za-z]{6,}$";
+		Pattern p = Pattern.compile(strPattern);
+	    Matcher m = p.matcher(password);
+		return m.matches();
+	}
+	
 	public static float getVersionName(Context context) {
        PackageManager packageManager = context.getPackageManager();
        PackageInfo packInfo;
@@ -814,5 +824,61 @@ public class TravelUtil
 		}
 		return htmlUrl;
 	}
+
+	public static String getRouteDays(int days) {
+		String routeDays = String.format(ConstantField.ROUTE_DAYS, days);
+		return routeDays;
+	}
+
+	public static String getDepartTime(long time) {
+		Calendar date = Calendar.getInstance();
+		time = time*1000;
+		date.setTimeInMillis(time);
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(date.get(Calendar.YEAR) + "年");
+		stringBuffer.append(date.get(Calendar.MONTH) + 1 + "月");
+		stringBuffer.append(date.get(Calendar.DAY_OF_MONTH)+"日	");
+		stringBuffer.append(date.get(Calendar.DAY_OF_WEEK));
+
+		/*String returnString = date.get(Calendar.YEAR) + "年";
+		returnString += date.get(Calendar.MONTH) + 1 + "月";	
+		returnString += date.get(Calendar.DAY_OF_MONTH)+"日	";
+		returnString += date.get(Calendar.DAY_OF_WEEK);*/
+		return stringBuffer.toString();
+	}
+	
+	public static String getDate(long time) {
+		Calendar date = Calendar.getInstance();
+		time = time*1000;
+		date.setTimeInMillis(time);
+		
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(date.get(Calendar.MONTH) + 1 + "月");
+		stringBuffer.append(date.get(Calendar.DAY_OF_MONTH)+"日	");
+		/*String returnString = date.get(Calendar.MONTH) + 1 + "月";	
+		returnString += date.get(Calendar.DAY_OF_MONTH)+"日";*/
+		
+		return stringBuffer.toString();
+	}
+
+	public static String getBookingDate(long time) {
+		Calendar date = Calendar.getInstance();
+		time = time*1000;
+		date.setTimeInMillis(time);
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(date.get(Calendar.YEAR) + "年");
+		stringBuffer.append(date.get(Calendar.MONTH) + 1 + "月");
+		stringBuffer.append(date.get(Calendar.DAY_OF_MONTH)+"日	");
+		stringBuffer.append(date.get(Calendar.HOUR_OF_DAY)+":");
+		stringBuffer.append(date.get(Calendar.MINUTE));
+		/*String returnString = date.get(Calendar.YEAR) + "年";
+		returnString += date.get(Calendar.MONTH) + 1 + "月";	
+		returnString += date.get(Calendar.DAY_OF_MONTH)+"日	";
+		returnString += date.get(Calendar.HOUR_OF_DAY)+":";
+		returnString += date.get(Calendar.MINUTE);*/
+		return stringBuffer.toString();
+	}
+
+	
 	
 }

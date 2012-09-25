@@ -9,6 +9,8 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.location.Location;
 import android.location.LocationManager;
@@ -23,7 +25,6 @@ import android.widget.Toast;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
@@ -34,7 +35,7 @@ import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.common.HelpMission;
-import com.damuzhi.travel.mission.common.UserMission;
+import com.damuzhi.travel.mission.common.CommonMission;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.place.LocalStorageMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -43,7 +44,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.ZipUtil;
-
+import com.damuzhi.travel.R;
 public class WelcomeActivity extends MenuActivity
 {	
 	private static final String TAG = "WelcomeActivity";
@@ -54,7 +55,6 @@ public class WelcomeActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startup);	
-		TravelApplication.getInstance().addActivity(this);
 		init();
 	}
 	
@@ -78,13 +78,26 @@ public class WelcomeActivity extends MenuActivity
 				}			
 				AppMission.getInstance().updateAppData(WelcomeActivity.this);
 				HelpMission.getInstance().updateHelpData(WelcomeActivity.this);     
-				String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
-				if(userId==null ||userId.equals(""))
+				//String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
+				String channelId="000000";  
+		        try {  
+		               ApplicationInfo  ai = WelcomeActivity.this.getPackageManager().getApplicationInfo(WelcomeActivity.this.getPackageName(), PackageManager.GET_META_DATA);  
+		               Object value = ai.metaData.get("YOUMI_CHANNEL");  
+		               if (value != null) {  
+		            	   channelId= value.toString();  		          
+		               }  
+		           } catch (Exception e) {  
+		               //  
+		           }  
+				/*if(userId==null ||userId.equals(""))
 				{
 					TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
 					String deviceId = telephonyManager.getDeviceId();
-					UserMission.getInstance().register(deviceId,WelcomeActivity.this);
-				}	
+					UserMission.getInstance().register(deviceId,channelId,WelcomeActivity.this);
+				}*/
+				TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
+				String deviceId = telephonyManager.getDeviceId();
+				CommonMission.getInstance().registerDevice(deviceId,channelId,WelcomeActivity.this);
 				LocationUtil.getLocation(WelcomeActivity.this);
 				return null;
 			}
@@ -94,8 +107,8 @@ public class WelcomeActivity extends MenuActivity
 			{
 				super.onPostExecute(result);
 				Intent intent = new Intent();
-				intent.setClass(WelcomeActivity.this, IndexActivity.class);
-				//overridePendingTransition(android.R.anim.accelerate_interpolator, android.R.anim.fade_out);
+				//intent.setClass(WelcomeActivity.this, IndexActivity.class);
+				intent.setClass(WelcomeActivity.this, Main.class);
 				startActivity(intent);
 				finish();		
 			}
@@ -135,8 +148,6 @@ public class WelcomeActivity extends MenuActivity
 	{
 		super.onResume();
 		Log.d(TAG, "onResume");
-		/*Intent intent = new Intent(WelcomeActivity.this,DownloadService.class);
-		startService(intent);*/
 	}
 	
 	

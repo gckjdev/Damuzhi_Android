@@ -1,14 +1,10 @@
 
 package com.damuzhi.travel.mission.app;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.RandomAccessFile;
-import java.net.URL;
-
 import android.app.ActivityManager;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -22,11 +18,8 @@ import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.App;
-import com.damuzhi.travel.protos.AppProtos.HelpInfo;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.util.FileUtil;
-import com.damuzhi.travel.util.TravelUtil;
-import com.damuzhi.travel.util.ZipUtil;
 
 /**  
  * @description   

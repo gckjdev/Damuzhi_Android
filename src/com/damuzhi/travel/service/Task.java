@@ -1,33 +1,31 @@
 package com.damuzhi.travel.service;
 
-import java.util.Map;
-
 /**  
-        * @description   ÈÎÎñÀà
+        * @description   ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         * @version 1.0  
         * @author liuxiaokun  
-        * @update 2012-5-9 ÏÂÎç4:12:15  
+        * @update 2012-5-9 ï¿½ï¿½ï¿½ï¿½4:12:15  
         */  
 public class Task
 {
-	  private int taskID;//ÈÎÎñID
+	  private int taskID;//ï¿½ï¿½ï¿½ï¿½ID
       private Object object;     
-	 // private Map taskParam;//ÄÚÈÝ²ÎÊý
-	  public static final int TASK_USER_LOGIN=1;//ÓÃ»§µÇÂ¼ÈÎÎñ 
-	  public static final int TASK_LOGIN_SCENERY=2;// ½øÈë¾°µãÒ³Ãæ
-	  public static final int TASK_LOGIN_HOTEL=3;// ½øÈë¾ÆµêÒ³Ãæ
-	  public static final int TASK_LOGIN_SHOPPING=4;// ½øÈë¹ºÎïÒ³Ãæ
-	  public static final int TASK_LOGIN_RESTAURANT=5;// ½øÈë²Í¹ÝÒ³Ãæ
-	  public static final int TASK_LOGIN_ENTERTAINMNET=6;// ½øÈëÓéÀÖÒ³Ãæ
-	  public static final int TASK_LOGIN_NEARBY=7;// ½øÈë¸½½üÒ³Ãæ
-	  public static final int OVERVIEW=8;// ½øÈëOVERVIEWÒ³Ãæ
-	/*  public static final int CITY_BASE=8;// ½øÈë³ÇÊÐ¸Å¿öÒ³Ãæ
-	  public static final int TRAVEL_PREPRATION=9;// ½øÈëÂÃÐÐ×¼±¸Ò³Ãæ
-	  public static final int TRAVEL_UTILITY=10;// ½øÈëÊµÓÃÐÅÏ¢Ò³Ãæ
-	  public static final int TRAVEL_TRANSPORTATION=11;// ½øÈë³ÇÊÐ½»Í¨Ò³Ãæ
-*/	  public static final int TRAVEL_TIPS=12;// ½øÈëÓÎ¼Ç¹¥ÂÔÒ³Ãæ
-	  public static final int TRAVEL_COMMEND=13;// ½øÈëÏßÂ·ÍÆ¼öÒ³Ãæ
-	  public static final int MAP_NEARBY= 14;//µØÍ¼ÖÜ±ßÍÆ¼ö
+	 // private Map taskParam;//ï¿½ï¿½ï¿½Ý²ï¿½ï¿½ï¿½
+	  public static final int TASK_USER_LOGIN=1;//ï¿½Ã»ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ 
+	  public static final int TASK_LOGIN_SCENERY=2;// ï¿½ï¿½ï¿½ë¾°ï¿½ï¿½Ò³ï¿½ï¿½
+	  public static final int TASK_LOGIN_HOTEL=3;// ï¿½ï¿½ï¿½ï¿½Æµï¿½Ò³ï¿½ï¿½
+	  public static final int TASK_LOGIN_SHOPPING=4;// ï¿½ï¿½ï¿½ë¹ºï¿½ï¿½Ò³ï¿½ï¿½
+	  public static final int TASK_LOGIN_RESTAURANT=5;// ï¿½ï¿½ï¿½ï¿½Í¹ï¿½Ò³ï¿½ï¿½
+	  public static final int TASK_LOGIN_ENTERTAINMNET=6;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
+	  public static final int TASK_LOGIN_NEARBY=7;// ï¿½ï¿½ï¿½ë¸½ï¿½ï¿½Ò³ï¿½ï¿½
+	  public static final int OVERVIEW=8;// ï¿½ï¿½ï¿½ï¿½OVERVIEWÒ³ï¿½ï¿½
+	/*  public static final int CITY_BASE=8;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¸Å¿ï¿½Ò³ï¿½ï¿½
+	  public static final int TRAVEL_PREPRATION=9;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼ï¿½ï¿½Ò³ï¿½ï¿½
+	  public static final int TRAVEL_UTILITY=10;// ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½Ï¢Ò³ï¿½ï¿½
+	  public static final int TRAVEL_TRANSPORTATION=11;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½Í¨Ò³ï¿½ï¿½
+*/	  public static final int TRAVEL_TIPS=12;// ï¿½ï¿½ï¿½ï¿½ï¿½Î¼Ç¹ï¿½ï¿½ï¿½Ò³ï¿½ï¿½
+	  public static final int TRAVEL_COMMEND=13;// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Â·ï¿½Æ¼ï¿½Ò³ï¿½ï¿½
+	  public static final int MAP_NEARBY= 14;//ï¿½ï¿½Í¼ï¿½Ü±ï¿½ï¿½Æ¼ï¿½
 
 	/**
 	 * @param taskID

@@ -22,7 +22,6 @@ import android.util.Log;
 
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.model.place.PlaceManager;
 import com.damuzhi.travel.network.HttpTool;
 
 /**  

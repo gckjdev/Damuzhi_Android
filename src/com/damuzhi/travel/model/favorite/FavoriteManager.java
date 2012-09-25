@@ -10,10 +10,8 @@ package com.damuzhi.travel.model.favorite;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,10 +19,6 @@ import java.util.List;
 import android.util.Log;
 
 import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.network.HttpTool;
-import com.damuzhi.travel.protos.AppProtos.App;
-import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
-import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.util.FileUtil;

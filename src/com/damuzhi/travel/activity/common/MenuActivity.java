@@ -21,10 +21,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  
@@ -39,7 +38,8 @@ public class MenuActivity extends Activity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// TODO Auto-generated method stub
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -73,7 +73,8 @@ public class MenuActivity extends Activity
 			startActivity(intent);
 			break;
 		case R.id.menu_exit:
-			TravelApplication.getInstance().exit();
+			//TravelApplication.getInstance().exit();
+			ActivityManger.getInstance().AppExit(this);
 			break;
 
 		default:

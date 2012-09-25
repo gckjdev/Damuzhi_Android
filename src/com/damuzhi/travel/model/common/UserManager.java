@@ -10,11 +10,8 @@ package com.damuzhi.travel.model.common;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.damuzhi.travel.mission.common.UserMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 
 

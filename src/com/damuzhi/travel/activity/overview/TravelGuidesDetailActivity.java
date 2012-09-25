@@ -13,7 +13,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -21,7 +21,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.util.TravelUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
-
+import com.damuzhi.travel.R;
 
 
 public class TravelGuidesDetailActivity extends MenuActivity 
@@ -33,7 +33,8 @@ public class TravelGuidesDetailActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.travel_guides_detail);
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		byte[] travelInfo = getIntent().getByteArrayExtra(ConstantField.TRAVEL_TIPS_INFO);
 		CommonTravelTip commonTravelTip = null;
 		try
@@ -51,6 +52,14 @@ public class TravelGuidesDetailActivity extends MenuActivity
 			String htmlUrl = TravelUtil.getHtmlUrl(commonTravelTip.getHtml());
 			webView.loadUrl(htmlUrl);
 		}
+	}
+	
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		ActivityManger.getInstance().finishActivity();
 	}
 
 }

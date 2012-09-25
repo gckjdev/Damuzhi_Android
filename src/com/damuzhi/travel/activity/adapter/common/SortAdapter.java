@@ -73,12 +73,12 @@ public class SortAdapter extends BaseAdapter
         } else {  
             holder = (SortViewHolder) convertView.getTag();  
         } 
-        if(position==mData.length-1)
+        if(position ==0)
         {
-        	convertView.setBackgroundResource(R.drawable.select_bg_down);
-        }else if (position== 0 )
+        	convertView.setBackgroundResource(R.drawable.select_bg_top);      	
+        }else if (position==mData.length-1 )
 		{
-        	convertView.setBackgroundResource(R.drawable.select_bg_top);
+        	convertView.setBackgroundResource(R.drawable.select_bg_down);
 		}else
         {
         	convertView.setBackgroundResource(R.drawable.select_bg_center);

@@ -8,14 +8,11 @@
         */
 package com.damuzhi.travel.mission.place;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.R.integer;
 import android.content.Context;
 import android.util.Log;
 
@@ -291,10 +288,10 @@ public class LocalStorageMission
 				// read data from place files
 				FileUtil fileUtil = new FileUtil();
 				FileInputStream fileInputStream = fileUtil.getInputStream(dataPath, ConstantField.PACKAGE_TAG, ConstantField.EXTENSION, true);
-				if(fileInputStream ==null )
+				/*if(fileInputStream ==null )
 				{
 				return null;	
-				}
+				}*/
 				if(fileInputStream != null)
 				{
 					Package packageData = com.damuzhi.travel.protos.PackageProtos.Package.parseFrom(fileInputStream);

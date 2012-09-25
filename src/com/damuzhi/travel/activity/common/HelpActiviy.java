@@ -10,7 +10,6 @@ package com.damuzhi.travel.activity.common;
 
 import java.io.File;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.FileUtil;
 
@@ -19,7 +18,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
 import android.widget.TextView;
-
+import com.damuzhi.travel.R;
 
 
 public class HelpActiviy extends Activity
@@ -30,7 +29,8 @@ public class HelpActiviy extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.help);
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		String title = getIntent().getStringExtra(ConstantField.HELP_TITLE);
 		TextView textView = (TextView) findViewById(R.id.place_title);
 		textView.setText(title);
@@ -44,6 +44,12 @@ public class HelpActiviy extends Activity
 			findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
 		}
 		
+	}
+
+	@Override
+	protected void onDestroy() {
+		ActivityManger.getInstance().finishActivity();
+		super.onDestroy();
 	}
 
 }

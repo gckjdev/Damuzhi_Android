@@ -5,30 +5,68 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
-
-
-import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.PicUtill;
-import com.damuzhi.travel.util.TravelUtil;
 
-import android.R;
-import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
 
 public class ImageLoader {
-	
-	
-		private HashMap<String, WeakReference<Bitmap>> caches;
+		private static final int SOFT_CACHE_CAPACITY = 25;
+		protected static final String TAG = "ImageLoader";  
 		private ArrayList<Task> taskQueue;
+		private volatile static ImageLoader instance;
+		public static ImageLoader getInstance() {
+			if (instance == null) {
+				synchronized (ImageLoader.class) {
+					if (instance == null) {
+						instance = new ImageLoader();
+					}
+				}
+			}
+			instance = new ImageLoader();
+			return instance;
+		}
+		
+		
+	   
+	    private static final  LinkedHashMap <String, WeakReference<Bitmap>> caches =   
+	        new  LinkedHashMap<String, WeakReference<Bitmap>>(SOFT_CACHE_CAPACITY, 0.75f, true){  
+	        @Override  
+	        public WeakReference<Bitmap> put(String key, WeakReference<Bitmap> value){  
+	            return super.put(key, value);  
+	        }
+
+			@Override
+			protected boolean removeEldestEntry(LinkedHashMap.Entry<String, WeakReference<Bitmap>> eldest) {
+				// TODO Auto-generated method stub
+				if(size() > SOFT_CACHE_CAPACITY){  
+	                Log.v(TAG, "Soft WeakReference limit , purge one");  
+	                Bitmap bitmap = eldest.getValue().get();
+	                if(bitmap!=null&&!bitmap.isRecycled())
+	                {
+	                	bitmap.recycle();
+	                	bitmap = null;
+	                }
+	                return true;  
+	            }  
+				return false;
+			}  
+	        
+	    } ;
+		
+		
+		
+		
+		
 		
 		
 		private Handler handler = new Handler(){
@@ -40,7 +78,10 @@ public class ImageLoader {
 			
 		};
 		
-
+		//private ExecutorService executorService = Executors.newSingleThreadExecutor();
+		
+		
+		
 		private Thread thread = new Thread(){
 
 			@Override
@@ -70,9 +111,33 @@ public class ImageLoader {
 		
 		
 		
+		
+		
+		/*private void loadImage()
+		{
+			executorService.execute(new Runnable() {
+				
+				@Override
+				public void run() {
+					while(taskQueue.size()>0){
+						Task task = taskQueue.remove(0);
+						task.bitmap = PicUtill.getbitmap(task.path);					
+						caches.put(task.path, new WeakReference<Bitmap>(task.bitmap));
+						if(handler!=null){
+							Message msg = handler.obtainMessage();
+							msg.obj = task;
+							handler.sendMessage(msg);
+						}
+					}
+				
+				}
+			});
+		}*/
+		
 		public ImageLoader(){
-			caches =new  HashMap<String, WeakReference<Bitmap>>();
+			//caches =new  HashMap<String, WeakReference<Bitmap>>();
 			taskQueue = new ArrayList<ImageLoader.Task>();
+			//loadImage();
 			thread.start();
 		}
 		
@@ -104,6 +169,10 @@ public class ImageLoader {
 					synchronized(thread){
 						thread.notify();
 					}
+					/*synchronized(executorService){
+						executorService.notify();
+					}*/
+					
 				}
 			}
 			return null;
@@ -132,7 +201,7 @@ public class ImageLoader {
 			}
 		}
 		
-		public void destoryBitmap(){
+		public void recycleBitmap(){
 			Iterator iter = caches.entrySet().iterator();
 			while (iter.hasNext()) {
 				Map.Entry entry = (Map.Entry) iter.next();
@@ -140,7 +209,9 @@ public class ImageLoader {
 				Bitmap bitmap = rf.get();
 				if(null!=bitmap&&!bitmap.isRecycled())
 					bitmap.recycle();
-			}		
+					bitmap = null;
+			}	
+			caches.clear();
 			System.gc() ;
 		} 
 }

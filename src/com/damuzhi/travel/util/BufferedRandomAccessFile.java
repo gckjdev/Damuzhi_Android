@@ -91,7 +91,7 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         this.bufbitlen = bufbitlen;
         this.bufsize = 1 << bufbitlen;
         this.buf = new byte[this.bufsize];
-        this.bufmask = ~((long)this.bufsize - 1L);
+        this.bufmask = ~(this.bufsize - 1L);
         this.bufdirty = false;
         this.bufusedsize = 0;
         this.bufstartpos = -1;
@@ -164,7 +164,8 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         return true;
     }
 
-    public void write(byte b[], int off, int len) throws IOException {
+    @Override
+	public void write(byte b[], int off, int len) throws IOException {
 
         long writeendpos = this.curpos + len - 1;
 
@@ -184,7 +185,8 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         this.seek(writeendpos+1);
     }
 
-    public int read(byte b[], int off, int len) throws IOException {
+    @Override
+	public int read(byte b[], int off, int len) throws IOException {
 
         long readendpos = this.curpos + len - 1;
 
@@ -204,15 +206,18 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         return len;
     }
 
-    public void write(byte b[]) throws IOException {
+    @Override
+	public void write(byte b[]) throws IOException {
         this.write(b, 0, b.length);
     }
 
-    public int read(byte b[]) throws IOException {
+    @Override
+	public int read(byte b[]) throws IOException {
         return this.read(b, 0, b.length);
     }
 
-    public void seek(long pos) throws IOException {
+    @Override
+	public void seek(long pos) throws IOException {
 
         if ((pos < this.bufstartpos) || (pos > this.bufendpos)) { // seek pos not in buf
             this.flushbuf();
@@ -231,11 +236,13 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         this.curpos = pos;
     }
 
-    public long length() throws IOException {
+    @Override
+	public long length() throws IOException {
         return this.max(this.fileendpos + 1, this.initfilelen);
     }
 
-    public void setLength(long newLength) throws IOException {
+    @Override
+	public void setLength(long newLength) throws IOException {
         if (newLength > 0) {
             this.fileendpos = newLength - 1;
         } else {
@@ -243,7 +250,8 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         }
         super.setLength(newLength);
     }
-    public long getFilePointer() throws IOException {
+    @Override
+	public long getFilePointer() throws IOException {
         return this.curpos;
     }
 
@@ -252,7 +260,8 @@ public class BufferedRandomAccessFile extends RandomAccessFile {
         return b;
     }
 
-    public void close() throws IOException {
+    @Override
+	public void close() throws IOException {
         this.flushbuf();
         super.close();
     }

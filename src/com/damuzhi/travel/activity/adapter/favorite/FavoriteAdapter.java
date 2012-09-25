@@ -15,7 +15,7 @@ import java.util.List;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.viewcache.PlaceViewCache;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.favorite.FavoriteActivity;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -47,7 +47,7 @@ public class FavoriteAdapter extends BaseAdapter
 	private HashMap<Integer, String> subCatMap;
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
-	public Anseylodar anseylodar;
+	public AsyncLoader anseylodar;
 	private LayoutInflater inflater;
 	private ImageView imageView;
 	private ViewGroup serviceGroup;
@@ -80,7 +80,7 @@ public class FavoriteAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
-		this.anseylodar = new Anseylodar();
+		this.anseylodar = new AsyncLoader();
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(AppManager.getInstance().getCurrentCityId());
 		symbol = AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId());
 		

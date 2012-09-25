@@ -17,7 +17,6 @@ import org.json.JSONObject;
 
 import android.util.Log;
 
-import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 
 
@@ -52,10 +51,10 @@ public class FeedbackMission
 					return false;
 				}
 				JSONObject submitData = new JSONObject(sb.toString());
-				if (submitData == null || submitData.getInt("result")!= 0){
-					return false;
-				}else if (submitData.getInt("result") == 0) {
+				if (submitData!= null&&submitData.getInt("result") == 0){
 					return true;
+				}else {
+					return false;
 				}			
 			}
 			else{
@@ -99,6 +98,5 @@ public class FeedbackMission
 			{
 			}
 		}
-		return false;
 	}
 }

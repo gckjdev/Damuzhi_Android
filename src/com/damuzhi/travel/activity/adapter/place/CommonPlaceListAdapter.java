@@ -16,7 +16,7 @@ import java.util.List;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.viewcache.PlaceViewCache;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -25,9 +25,6 @@ import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import android.content.Context;
 import android.util.Log;
@@ -55,11 +52,11 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	private List<Place> placeList;
 	private int placeCategoryType;
 	private HashMap<Integer, String> subCatMap;
-	private double latitude;
-	private double longitude;
+	/*private double latitude;
+	private double longitude;*/
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
-	public Anseylodar anseylodar;
+	public AsyncLoader asyncLoader;
 	private LayoutInflater inflater;
 	private ImageView imageView;
 	private ViewGroup serviceGroup;
@@ -73,8 +70,8 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	private ImageView heart;
 	private TextView placeDistance;
 	//private int dataFlag;
-	
-
+	//private ImageLoader imageLoader;
+	//private DisplayImageOptions options;
 	@Override
 	public int getCount()
 	{
@@ -95,11 +92,18 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
-		this.anseylodar = new Anseylodar();
+		this.asyncLoader = AsyncLoader.getInstance();
+		//this.asyncLoader = new AsyncLoader();
 		this.placeCategoryType = placeCategoryType;
 		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(AppManager.getInstance().getCurrentCityId());
 		symbol = AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId());
+		//this.imageLoader = imageLoader;
+	/*	options = new DisplayImageOptions.Builder()
+		.showStubImage(R.drawable.default_s)
+		.cacheInMemory()
+		.cacheOnDisc()
+		.build();*/
 	}
 
 	@Override
@@ -166,7 +170,9 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
 		url = place.getIcon();	
-		anseylodar.showimgAnsy(imageView,url,cityId);	
+		asyncLoader.showimgAnsy(imageView,url,cityId);	
+		//String uri = TravelUtil.getImageUrl(cityId, url);
+		//imageLoader.displayImage(uri, imageView);
 		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		
 		placeName.setText(place.getName());	
@@ -235,7 +241,7 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	
 	public void recycleBitmap()
 	{
-		anseylodar.recycleBitmap();
+		asyncLoader.recycleBitmap();
 	}
 
 }

@@ -13,7 +13,7 @@ import java.util.List;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.viewcache.PlaceViewCache;
-import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
@@ -47,7 +47,7 @@ public class BrowseHistoryAdapter extends BaseAdapter
 	private HashMap<Integer, String> subCatMap;
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
-	public Anseylodar anseylodar;
+	public AsyncLoader anseylodar;
 	private LayoutInflater inflater;
 	private ImageView imageView;
 	private ViewGroup serviceGroup;
@@ -78,7 +78,7 @@ public class BrowseHistoryAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
-		this.anseylodar = new Anseylodar();		
+		this.anseylodar = new AsyncLoader();		
 	}
 
 	@Override

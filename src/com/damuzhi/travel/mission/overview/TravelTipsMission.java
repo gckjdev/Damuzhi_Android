@@ -17,15 +17,11 @@ import android.util.Log;
 
 import com.damuzhi.travel.mission.place.LocalStorageMission;
 import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.model.overview.OverViewManager;
 import com.damuzhi.travel.model.overview.TravelTipsManager;
 import com.damuzhi.travel.network.HttpTool;
-import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
-import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList;
 import com.damuzhi.travel.protos.TravelTipsProtos.TravelTipType;
-import com.damuzhi.travel.protos.TravelTipsProtos.TravelTips;
 import com.damuzhi.travel.util.TravelUtil;
 
 /**  

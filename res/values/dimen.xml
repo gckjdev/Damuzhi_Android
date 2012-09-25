@@ -19,4 +19,6 @@
     <dimen name="sort_list_padding_top">30dp</dimen>
     <dimen name="share_popup_height">150dp</dimen>
     <dimen name="special_traffic_loaction">150dp</dimen>
+    <dimen name="side_bar_height">15.2dp</dimen>
+    <dimen name="side_bar_text_size">14sp</dimen>
 </resources>

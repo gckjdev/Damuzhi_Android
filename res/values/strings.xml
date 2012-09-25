@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="hello">Hello World, DaMuZhiActivity!</string>
     <string name="app_name">大拇指旅行</string>
     <string name="ok">确定</string>
@@ -9,6 +8,7 @@
     <string name="not_enough_memory">剩余内存不足，请删除部分文件</string>
     <string name="get_sdcard_fail">SD卡读取失败</string>
     <string name="no_history_data">暂没有您浏览过的内容</string>
+    <string name="app_has_new_version">应用有更新</string>
     <string name="map">地图</string>
     <string name="list">列表</string>
     <string name="set_ctiy_tips">您已设置查看</string>
@@ -57,11 +57,17 @@
 	<string name="feedback_submit_success">提交成功</string>
 	<string name="feedback_submit_fail">提交成功</string>
 	<string name="about_damuzhi">关于大拇指旅行</string>
+	<string name="my_concern">我的关注</string>
+	<string name="non_member_order_list">非会员订单查询</string>
+	<string name="order_manager">订单管理</string>
+	<string name="member_login">会员登录</string>
+	<string name="login_exit">退出登录</string>
 	<!-- more_open_city-->
 	<string name="city_list">城市列表</string>
 	<string name="download_manager">下载管理</string>
 	<string name="online">在线</string>
 	<string name="new_version">已经是最新版本</string>
+	<string name="search_tips">请输入城市名称或者首字母</string>
 	<!-- download -->
 	<string name="open_city_tips1">提前下载离线城市数据，可以节省流量和提高打开速度</string>
 	<string name="open_city_tips2">更多城市指南即将开通...</string>
@@ -69,7 +75,8 @@
     <string name="error">下载失败</string>
     <string name="sdcarderror">SDCard不存在或者写保护</string>
     <string name="download">下载</string>
-    <string name="download_pause">暂停</string>
+    <string name="pause_download">暂停</string>
+    <string name="restart_download">开始</string>
     <string name="review_online">在线导览</string>
     <string name="install">安装</string>
     <string name="installing">安装中...(约2分钟)</string>
@@ -77,7 +84,7 @@
 	<string name="delete">删除</string>
 	<string name="download_connection_error">下载链接失败</string>
 	<string name="did_not_download_anything">您还没有下载离线数据包</string>
-	<string name="delete_download_data">你确定要删除这个离线数据包</string>
+<!-- 	<string name="delete_download_data">你确定要删除这个离线数据包</string> -->
 	<string name="delete_install_data">你确定要删除这个离线数据包</string>
 	<string name="update">更新</string>
 	<string name="update_now">立即更新</string>
@@ -88,8 +95,10 @@
 	<string name="install_later">以后再说</string>
 	<string name="start_download">开始下载</string>
 	<string name="stop_download">已暂停</string>
+	<string name="cancel_download">已删除</string>
 	<string name="cancel_download_toast">确定要取消这个下载任务</string>
 	<string name="install_fail">离线包安装失败</string>
+	<string name="search_empty_tips">没有搜索到相关城市</string>
 	<!-- exception -->
     <string name="main_fetch_fail">网络异常</string>
 	<string name="conn_fail_exception">无法连接到网络，请检查网络配置</string>
@@ -186,5 +195,75 @@
     <string name="go_to_gps_setting_tips">是否跳到GPS设置页面</string>
     <string name="current_location">当前位置</string>
 
+    <!--tourist rotue  -->
+    <string name="consult">咨询</string>
+    <string name="route_introduce">产品介绍</string>
+    <string name="booking_notice">预订说明</string>
+    <string name="user_feedback">用户反馈</string>
+    <string name="route_detail">线路详情</string>
+    <string name="like_route">关注线路</string>
+    <string name="qi">起</string>
+    <string name="booking_route">线路预订</string>
+    <string name="route_name">路线名称：</string>
+    <string name="route_id">路线编号：</string>
+    <string name="depart_place">出发地点：</string>
+    <string name="depart_place_title">出发地点</string>
+    <string name="depart_time">出发时间：</string>
+    <string name="depart_time_title">出发时间</string>
+    <string name="depart_number">出发人数：</string>
+    <string name="depart_city">出发城市：</string>
+    <string name="route_booking_number">出游人数</string>
+     <string name="route_booking_number2">出游人数：</string>
+    <string name="route_price">参考价格:</string>
+    <string name="shuo_ming">说明：</string>
+    <string name="booking_notice_content">预订成功后，系统将会通过手机短信通知您订单预订情况，稍后会客服会通过电话联系您确认订单。</string>
+    <string name="select_depart_place">请选择出发地点</string>
+    <string name="select_depart_time">请选择出发时间</string>
+    <string name="member_booking">会员确认预订</string>
+    <string name="non_member_booking">非会员确认预订</string>
+    <string name="adult_count">成人1位</string>
+    <string name="children_count">儿童0位</string>
+    <string name="booking_confirm">确认预订</string>
+    <string name="contact_person">联系人    ：</string>
+    <string name="contact">联系电话：</string>
+    <string name="contact_person_hint">请输入你的姓名</string>
+    <string name="contact_hint">请输入你的手机号码</string>
+    <string name="contact_toast">请输入完整的手机号码</string>
+    <string name="select_depart_place_toast">请选择出发地点</string>
+    <string name="select_depart_time_toast">请选择出发时间</string>
+    <string name="tourist_route_order_list">订单详情</string>
+    <string name="booking_time">预订时间：</string>
+    <string name="damuzhi_price">大拇指价：</string>
+    <string name="booking_status">订单状态：</string>
+    <string name="route_feedback">线路评价</string>
     
+    <!-- register -->
+    <string name="login">登录</string>
+    <string name="register">注册</string>
+    <string name="free_register">免费注册</string>
+    <string name="register_account">注册账号</string>
+    <string name="user_name">用户名：</string>
+    <string name="user_name_hint">请输入您的手机号码</string>
+    <string name="user_name_hint2">请输入您的手机号码或邮箱</string>
+    <string name="password">密码：</string>
+    <string name="password_hint">6个字符以上</string>
+    <string name="password_hint2">请输入密码</string>
+    <string name="confirm_password">确认密码：</string>
+    <string name="confirm_password_hint">请重复上面的密码</string>
+    <string name="remember_user_name">记住账号</string>
+    <string name="remember_password">记住密码</string>
+    <string name="register_verification">注册验证</string>
+    <string name="verification_code">验证码：</string>
+    <string name="verification_code_hint">请输入您的手机收到的验证码</string>
+    <string name="get_verification_code_hint_again">重新获取短信验证码</string>
+    <string name="mobile_phone_number">手机号码：</string>
+    <string name="get_password">找回密码</string>
+    <string name="user_name2">*用户名：</string>
+    <string name="password2">*密码：</string>
+    <string name="password_error_toast">密码不能为空</string>
+    <string name="password_not_the_same_toast">两次输入的密码不一致</string>
+    <string name="password_length_need_toast">密码长度必须6位以上的数字或字母</string>
+    <string name="phone_number_toast">请输入正确的手机号码</string>
+    <string name="register_fail">注册失败</string>
+    <string name="register_success">注册成功</string>
 </resources>

@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -43,25 +44,15 @@ import android.widget.Toast;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
-import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
-import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.download.URLConnectionImageDownloader;
-
+import com.damuzhi.travel.R;
 public class TravelApplication extends Application
 {
 	private static final String TAG = "TravelApplication";
 	private DefaultHttpClient defaultHttpClient;
 	private static HashMap<String, Double> location = new HashMap<String, Double>();	
 	private static TravelApplication travelApplication;
-	private List<Activity> activityList = new LinkedList<Activity>();
 	public LocationClient mLocationClient = null;
 	public MyLocationListenner myListener = new MyLocationListenner();
 	public String address = "";
@@ -70,10 +61,14 @@ public class TravelApplication extends Application
 	public String deviceId;
 	public   Map<Integer, Integer> installCityData;
 	public  Map<Integer, String> newVersionCityData;
-	//public ImageLoader imageLoader;
+	private static TravelApplication instance;
 	public static TravelApplication getInstance()
 	{
-		return travelApplication;
+		if(instance == null)
+		{
+			instance = travelApplication;
+		}
+		return instance;
 	}
 	
 	
@@ -84,35 +79,39 @@ public class TravelApplication extends Application
 	{
 		super.onCreate();
 		travelApplication = this;
-		//defaultHttpClient = createHttpClient();
 		mLocationClient = new LocationClient( this );
 		mLocationClient.registerLocationListener( myListener );
 		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		deviceId = tm.getDeviceId();
+		File cacheDir = new File(ConstantField.IMAGE_CACHE_PATH);
+		/*DisplayImageOptions options = new DisplayImageOptions.Builder()
+		.showStubImage(R.drawable.default_s)
+		.cacheInMemory()
+		.cacheOnDisc()
+		.imageScaleType(ImageScaleType.EXACT)
+		.build();
 		
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+		.threadPoolSize(1)
+		.memoryCacheSize(1*1024*1024) // 1.5 Mb
+		.memoryCache(new WeakMemoryCache())
+		.defaultDisplayImageOptions(options)
+		.discCache(new UnlimitedDiscCache(cacheDir))
+		//.discCacheExtraOptions(640, 380, CompressFormat.PNG, 75)
+		.discCacheFileNameGenerator(new Md5FileNameGenerator())
+		//.enableLogging() // Not necessary in common
+		.build();
+	    // Initialize ImageLoader with configuration.
+		ImageLoader.getInstance().init(config);*/
 		
-		/*ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-		.threadPoolSize(3)
-		.threadPriority(Thread.NORM_PRIORITY - 2)
-        .denyCacheImageMultipleSizesInMemory()
-        .offOutOfMemoryHandling()
-        .memoryCacheSize(3*1024*1024)
-        .memoryCache(new WeakMemoryCache()) 
-        .discCache(new UnlimitedDiscCache(new File(ConstantField.IMAGE_CACHE_PATH)))
-        .discCacheFileNameGenerator(new HashCodeFileNameGenerator())
-        .imageDownloader(new URLConnectionImageDownloader(5 * 1000, 20 * 1000)) // connectTimeout (5 s), readTimeout (20 s)
-        .enableLogging()
-        .build();
-		 ImageLoader.getInstance().init(config);
 
-		 imageLoader = ImageLoader.getInstance();*/
 	}
 	
 	@Override
 	public void onLowMemory()
 	{
 		super.onLowMemory();
-		shutdownHttpClient();
+		//imageLoader.stop();
 	}
 
 
@@ -133,9 +132,16 @@ public class TravelApplication extends Application
 		}
 	}
 	 
-    public void addActivity(Activity activity){  
+  /*  public void addActivity(Activity activity){  
         activityList.add(activity);  
-    }  
+    } 
+    
+    
+    public void removeActivity(){  
+        int size = activityList.size();
+        activityList.remove(size-1);
+    } 
+    
         
     public void exit(){  
         for(Activity activity:activityList){  
@@ -146,7 +152,7 @@ public class TravelApplication extends Application
         	mLocationClient.stop();
 		}
         System.exit(0);  
-    }  
+    } */ 
 
 	
 	public HashMap<String, Double> getLocation()
@@ -156,14 +162,12 @@ public class TravelApplication extends Application
 
 	public void setLocation(HashMap<String, Double> location)
 	{
-		this.location = location;
+		TravelApplication.location = location;
 	}
 	
 	public  boolean checkNetworkConnection()
 	{
-		int size = activityList.size();
-		Activity activity = activityList.get(size-1);
-		return HttpTool.checkNetworkConnection(activity);
+		return HttpTool.checkNetworkConnection(getApplicationContext());
 	}
 	
 	public void makeToast()
@@ -331,7 +335,7 @@ public class TravelApplication extends Application
 	        URL myURL = null;  
 	        URLConnection httpsConn = null;  
 	        myURL = new URL(url);  
-	        httpsConn = (URLConnection) myURL.openConnection();  
+	        httpsConn = myURL.openConnection();  
 	        if (httpsConn != null) {  
 	        	InputStreamReader insr = new InputStreamReader(httpsConn.getInputStream(), "UTF-8");  
 	        	BufferedReader br = new BufferedReader(insr);  

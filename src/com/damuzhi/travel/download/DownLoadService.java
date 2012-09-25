@@ -2,48 +2,26 @@ package com.damuzhi.travel.download;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.zip.ZipException;
 
-import org.apache.commons.httpclient.Header;
-
-import android.R.integer;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Binder;
-import android.os.Debug;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
-import android.os.RemoteCallbackList;
-import android.os.RemoteException;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.more.OpenCityActivity;
-import com.damuzhi.travel.db.DownloadPreference;
-import com.damuzhi.travel.db.FileDBHelper;
-import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.model.downlaod.DownloadManager;
 import com.damuzhi.travel.model.entity.DownloadInfos;
-import com.damuzhi.travel.model.entity.DownloadStatus;
-import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.ZipUtil;
 import com.damuzhi.travel.util.ZipUtil2;
 import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.RequestParams;
-import com.weibo.net.HttpHeaderFactory;
 
 import dalvik.system.VMRuntime;
 
@@ -63,7 +41,7 @@ public class DownloadService extends Service
 	private  Map<String, AsyncHttpClient> downloadClientMap = new HashMap<String, AsyncHttpClient>();
 	private  Map<String, DownloadHandler> downloadControlMap = new HashMap<String, DownloadHandler>();
 	public static  Handler downloadHandler;
-	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
+	//private final static float TARGET_HEAP_UTILIZATION = 0.75f;
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
@@ -76,7 +54,7 @@ public class DownloadService extends Service
 	public void onCreate()
 	{
 		super.onCreate();
-		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
+		//VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
 		//Log.d(TAG, "service onCreate");
 	}
 
@@ -160,12 +138,17 @@ public class DownloadService extends Service
 		{
 			AsyncHttpClient client = downloadClientMap.get(downloadURL);
 			client.cancelRequests(getApplicationContext(), true);
+			client = null;
 		}
-		
+		downloadClientMap.remove(downloadURL);
 		if (downloadControlMap.containsKey(downloadURL)){
 			Log.i(TAG, "cancelHttpDownload... cancel download for"+getApplicationContext());
-			downloadControlMap.get(downloadURL).cancelDownload();
+			//downloadControlMap.get(downloadURL).cancelDownload();
+			DownloadHandler downloadHandler = downloadControlMap.get(downloadURL);
+			downloadHandler.cancelDownload();
+			downloadHandler = null;
 		}
+		downloadControlMap.remove(downloadURL);
 	}
 
 	public  Handler getDownloadHandler()
@@ -227,7 +210,7 @@ public class DownloadService extends Service
     
     private DownloadServiceBinder servoceBinder = new DownloadServiceBinder();
 	
-	static ExecutorService unzipExecutorService = Executors.newSingleThreadExecutor();
+	static ExecutorService unzipExecutorService = Executors.newFixedThreadPool(1);
 	
 	public  void upZipFile(final String zipFilePath, final String upZipFilePath,final int cityId,final String downloadURL)
 	{

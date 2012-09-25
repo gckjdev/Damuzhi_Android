@@ -30,9 +30,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.overview.TravelRoutesAdapter;
 import com.damuzhi.travel.activity.adapter.overview.TravelTipsAdapter;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -43,8 +43,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTipList;
 import com.damuzhi.travel.protos.TravelTipsProtos.TravelTipType;
-import com.damuzhi.travel.service.Task;
-
+import com.damuzhi.travel.R;
 
 
 public class TravelRoutesActivity extends MenuActivity
@@ -53,14 +52,14 @@ public class TravelRoutesActivity extends MenuActivity
 	private List<CommonTravelTip> commonTravelTips = new ArrayList<CommonTravelTip>();
 	private ProgressDialog loadingDialog;
 	private static final String TAG = "TravelTipsActivity";
-	private TravelApplication application;
 	private TravelRoutesAdapter adapter;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.travel_route);
-		TravelApplication.getInstance().addActivity(this);
+	//	TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		listView = (ListView) findViewById(R.id.travel_route_listview);
 		listView.setOnItemClickListener(clickListener);
 		adapter = new TravelRoutesAdapter(commonTravelTips, this);
@@ -204,6 +203,7 @@ public class TravelRoutesActivity extends MenuActivity
 		{
 			loadingDialog.dismiss();
 		}
+		ActivityManger.getInstance().finishActivity();
 	}
 
 }

@@ -6,16 +6,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
-import android.os.IInterface;
 import android.util.Log;
 
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
-import com.damuzhi.travel.protos.PackageProtos.Package;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;

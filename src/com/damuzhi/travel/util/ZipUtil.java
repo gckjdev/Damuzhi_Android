@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -20,10 +19,6 @@ import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 import java.util.zip.ZipOutputStream;
 
-import com.damuzhi.travel.db.DownloadPreference;
-import com.damuzhi.travel.model.constant.ConstantField;
-
-import android.content.Context;
 import android.util.Log;
 
 public class ZipUtil

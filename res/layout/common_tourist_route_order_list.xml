@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/listview_group"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/all_page_bg2"
+    android:orientation="vertical" >
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/topmenu_bg"
+        android:orientation="horizontal" >
+        <TextView
+            android:id="@+id/local_route_detail_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="55dp"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:singleLine="true"
+            android:text="@string/tourist_route_order_list"
+            android:textColor="@color/white"
+            android:textSize="20.0sp" />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="5dp" >
+            <ImageButton
+                android:id="@+id/consult_button"
+                android:layout_width="48dp"
+                android:layout_height="32dp"
+                android:background="@null"
+                android:src="@drawable/help_mini_button" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="@string/consult"
+                android:textColor="@color/white"
+                android:textSize="14sp" />
+        </FrameLayout>
+    </RelativeLayout>
+    <ExpandableListView
+        android:id="@+id/tourist_route_order_list"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:cacheColorHint="@color/listview_bg"
+        android:clickable="true"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0.5dp"
+        android:groupIndicator="@null"
+        android:focusable="true"
+        android:scrollbars="none" />
+</LinearLayout>

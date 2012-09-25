@@ -20,7 +20,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -30,7 +30,7 @@ import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
 import com.damuzhi.travel.util.TravelUtil.ComparatorPrice;
 import com.damuzhi.travel.util.TravelUtil.ComparatorPriceContrary;
 import com.damuzhi.travel.util.TravelUtil.ComparatorRank;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  
@@ -44,7 +44,8 @@ public class CommonEntertainmentActivity extends CommonPlaceActivity
 	@Override
 	public List<Place> getAllPlace(Activity activity)
 	{
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		//ActivityManger.getInstance().addActivity(this);
 		return PlaceMission.getInstance().getAllPlace(PlaceCategoryType.PLACE_ENTERTAINMENT_VALUE,activity);
 	}
 
@@ -156,5 +157,13 @@ public class CommonEntertainmentActivity extends CommonPlaceActivity
 		int totalCount = PlaceMission.getInstance().getPlaceTotalCount();
 		return totalCount;
 	}
+	
+	
+	/*@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		ActivityManger.getInstance().AppExit(this);
+	}*/
 
 }

@@ -14,11 +14,6 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.util.TravelUtil;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -46,17 +41,17 @@ public class ImagePagerAdapter extends PagerAdapter
 
 	private List<String> imageUrlList;
 	private LayoutInflater inflater;
-	private ImageLoader imageLoader;
+	//private ImageLoader imageLoader;
 	private Context context;
 	private int cityId;
-	private DisplayImageOptions options;
-	public ImagePagerAdapter(List<String> imageUrlList, Context context,int cityId)
+	//private DisplayImageOptions options;
+	/*public ImagePagerAdapter(List<String> imageUrlList, Context context,int cityId,ImageLoader imageLoader)
 	{
 		super();
 		this.imageUrlList = imageUrlList;
 		this.context = context;
 		this.inflater = LayoutInflater.from(context);
-		//this.imageLoader = TravelApplication.getInstance().imageLoader;
+		this.imageLoader = imageLoader;
 		this.cityId = cityId;
 		options = new DisplayImageOptions.Builder()
 		.showStubImage(R.drawable.default_s)
@@ -64,7 +59,7 @@ public class ImagePagerAdapter extends PagerAdapter
 		.cacheOnDisc()
 		.imageScaleType(ImageScaleType.EXACT)
 		.build();
-	}
+	}*/
 
 	@Override
 	public void destroyItem(View container, int position, Object object) {
@@ -80,7 +75,7 @@ public class ImagePagerAdapter extends PagerAdapter
 		return imageUrlList.size();
 	}
 
-	@Override
+	/*@Override
 	public Object instantiateItem(View view, int position) {
 		final View imageLayout = inflater.inflate(R.layout.image_pager, null);
 		final ImageView imageView = (ImageView) imageLayout.findViewById(R.id.place_image_item);
@@ -90,7 +85,7 @@ public class ImagePagerAdapter extends PagerAdapter
 		}
 		
 		String imageURL = TravelUtil.getImageUrl(cityId, imageUrlList.get(position));
-		imageLoader.displayImage(imageURL, imageView, options,new ImageLoadingListener() {
+		imageLoader.displayImage(imageURL, imageView,new ImageLoadingListener() {
 			@Override
 			public void onLoadingStarted() {
 			}
@@ -129,7 +124,7 @@ public class ImagePagerAdapter extends PagerAdapter
 		((ViewPager) view).addView(imageLayout, 0);
 		return imageLayout;
 	}
-
+*/
 	@Override
 	public boolean isViewFromObject(View view, Object object) {
 		return view.equals(object);
@@ -149,11 +144,11 @@ public class ImagePagerAdapter extends PagerAdapter
 	}
 
 	
-	public void recycleBitmap()
+	/*public void recycleBitmap()
 	{
 		//anseylodar.recycleBitmap();
-		/*imageLoader.clearMemoryCache();
+		imageLoader.clearMemoryCache();
 		imageLoader.clearDiscCache();
-		imageLoader.stop();*/
-	}
+		imageLoader.stop();
+	}*/
 }

@@ -9,25 +9,14 @@
 package com.damuzhi.travel.model.overview;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.List;
-
-import android.util.Log;
-
-import com.damuzhi.travel.activity.overview.CommonCtiyBaseActivity;
-import com.damuzhi.travel.activity.overview.CommonOverViewActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
-import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.CityOverviewProtos.CityOverview;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverviewType;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
-import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.util.FileUtil;
 
 /**  

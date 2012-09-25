@@ -21,7 +21,6 @@ import android.content.res.AssetManager;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.damuzhi.travel.R.string;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.app.AppManager;

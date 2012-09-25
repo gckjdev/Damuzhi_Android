@@ -1,9 +1,5 @@
 package com.damuzhi.travel.util;
 
-
-
-import java.util.*;
-
 public class Res extends java.util.ListResourceBundle {
     static final Object[][] contents = new String[][]{
 	{ "r", "r" },
@@ -15,7 +11,8 @@ public class Res extends java.util.ListResourceBundle {
 	{ "Spend_", "Spend: " },
 	{ "_s_", "(s)" },
 	{ "DataBufferedios_Copy", "DataBufferedios Copy & Write File: " }};
-    public Object[][] getContents() {
+    @Override
+	public Object[][] getContents() {
         return contents;
     }
 }

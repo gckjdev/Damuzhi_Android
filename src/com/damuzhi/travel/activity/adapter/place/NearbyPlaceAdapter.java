@@ -17,7 +17,7 @@ import java.util.List;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.viewcache.PlaceViewCache;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -51,7 +51,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 	private HashMap<Integer, String> subCatMap;
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
-	public Anseylodar anseylodar;
+	public AsyncLoader anseylodar;
 	private LayoutInflater inflater;
 	private ImageView imageView;
 	private ViewGroup serviceGroup;
@@ -83,7 +83,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
-		this.anseylodar = new Anseylodar();
+		this.anseylodar = new AsyncLoader();
 		int cityId = AppManager.getInstance().getCurrentCityId();
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(cityId);
 		symbol = AppManager.getInstance().getSymbolMap().get(cityId);

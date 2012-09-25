@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.location.MyLocation.LocationResult;
 import com.damuzhi.travel.model.constant.ConstantField;

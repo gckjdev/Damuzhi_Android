@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/topmenu_bg"
+        android:orientation="horizontal" >
+        <TextView
+            android:id="@+id/place_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/booking_route"
+            android:textColor="@color/white"
+            android:textSize="20.0sp" />
+        <Button
+            android:id="@+id/consult_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/help_mini_button"
+            android:gravity="center"
+            android:text="@string/consult"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/yd_t1"
+        android:gravity="center_vertical" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/order_ico2" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/route_name"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/route_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <!--  <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/yd_t2"
+        android:gravity="center_vertical" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/order_ico1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/route_id"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/route_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp" />
+    </LinearLayout> -->
+    <!-- <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/yd_t2"
+        android:gravity="center_vertical" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/order_ico1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/depart_place"
+            android:textSize="15sp" />
+        <Button
+            android:id="@+id/depart_place_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/order_select2"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/select_depart_place"
+            android:textSize="14sp" />
+    </LinearLayout> -->
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/yd_t2"
+        android:gravity="center_vertical" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/order_ico1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/depart_time"
+            android:textSize="15sp" />
+        <Button
+            android:id="@+id/depart_time_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/order_select2"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/select_depart_time"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/yd_t2"
+        android:gravity="center_vertical" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/order_ico1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/depart_number"
+            android:textSize="15sp" />
+        <Button
+            android:id="@+id/adult_number_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/order_select1"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/adult_count"
+            android:textSize="14sp" />
+        <Button
+            android:id="@+id/children_number_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/order_select1"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="10dp"
+            android:text="@string/children_count"
+            android:textSize="14sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/yd_t2"
+        android:gravity="center_vertical" >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/order_ico1" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/route_price"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/route_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/agency_name_color"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/yd_t3" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/member_booking_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/member_booking_order_button"
+                android:gravity="center"
+                android:text="@string/member_booking"
+                android:textColor="@android:color/white"
+                android:textSize="14sp" />
+            <Button
+                android:id="@+id/non_member_booking_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/member_booking_order_button"
+                android:gravity="center"
+                android:text="@string/non_member_booking"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/booking_notice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:textSize="15sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -3,25 +3,18 @@ package com.damuzhi.travel.util;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.security.PublicKey;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.security.auth.Subject;
-
-import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 
-import android.R.integer;
-import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;

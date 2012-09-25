@@ -19,29 +19,18 @@
 package com.damuzhi.travel.download;
 
 import java.io.BufferedInputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.RandomAccessFile;
-
 import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpResponseException;
-import org.apache.http.client.protocol.RequestAddCookies;
-import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.util.EntityUtils;
-
-import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.FileUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import android.os.Handler;
 import android.os.Message;
-import android.os.Looper;
 import android.util.Log;
 
 /**
@@ -131,7 +120,8 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         sendMessage(obtainMessage(SUCCESS_MESSAGE, responseBody));
     }
 
-    protected void sendFailureMessage(Throwable e, byte[] responseBody) {
+    @Override
+	protected void sendFailureMessage(Throwable e, byte[] responseBody) {
         sendMessage(obtainMessage(FAILURE_MESSAGE, new Object[]{e, responseBody}));
     }
 
@@ -148,7 +138,8 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
     }
 
     // Methods which emulate android's Handler and Message methods
-    protected void handleMessage(Message msg) {
+    @Override
+	protected void handleMessage(Message msg) {
         switch(msg.what) {
             case SUCCESS_MESSAGE:
                 handleSuccessMessage((byte[])msg.obj);

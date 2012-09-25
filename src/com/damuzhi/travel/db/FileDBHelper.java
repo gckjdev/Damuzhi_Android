@@ -1,14 +1,9 @@
 package com.damuzhi.travel.db;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import com.damuzhi.travel.model.downlaod.DownloadBean;
-import com.damuzhi.travel.model.downlaod.DownloadManager;
-
-import android.R.integer;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;

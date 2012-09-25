@@ -4,85 +4,51 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnKeyListener;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Point;
-import android.graphics.Paint.Align;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
 import com.damuzhi.travel.activity.entry.IndexActivity;
-import com.damuzhi.travel.activity.entry.WelcomeActivity;
-import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
-import com.damuzhi.travel.activity.place.CommonPlaceActivity;
-import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
-import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
-import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import com.damuzhi.travel.service.Task;
 import com.damuzhi.travel.util.TravelUtil;
 import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
-import com.google.android.maps.MapView.LayoutParams;
-import com.google.android.maps.Projection;
-import com.google.protobuf.InvalidProtocolBufferException;
-import com.readystatesoftware.maps.OnSingleTapListener;
 import com.readystatesoftware.maps.TapControlledMapView;
 
 public class NearbyPlaceMap extends MapActivity
 {
 
 	private static final String TAG = "CommendPlaceMap";
-	private static final int PLACE_LIST = 1;
-	private static final String TARGET_PLACE_POSITION = "-1";
 	private TapControlledMapView mapView;
-	private View popupView;//
-	private View targetPlaceView;
-	private List<Place> nearbyPlaceList;
+	private List<Place> nearbyPlaceList = new ArrayList<Place>();
 	private ImageView myLocateButton;
 	private ImageView canceLocateButton;
 	private CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay;
 	long lasttime = -1;
     MapController mapc;
     private Place targetPlace;
-    private LocationClient mLocClient;
     private HashMap<String, Double> location ;
     private ProgressDialog loadingDialog;
     
@@ -93,12 +59,13 @@ public class NearbyPlaceMap extends MapActivity
 		setContentView(R.layout.nearby_place_map);
 		loadingDialog = new ProgressDialog(this);
 		boolean gpsEnable = checkGPSisOpen();
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		try
 		{
 			targetPlace = Place.parseFrom(getIntent().getByteArrayExtra(ConstantField.PLACE_DETAIL));	
-			/*TextView titleTextView = (TextView) findViewById(R.id.place_title);
-			titleTextView.setText(targetPlace.getName());*/
+			TextView titleTextView = (TextView) findViewById(R.id.place_title);
+			titleTextView.setText(targetPlace.getName());
 			mapView = (TapControlledMapView) findViewById(R.id.commendPlaceMap);
 			mapc = mapView.getController();			
 			mapView.setStreetView(true);
@@ -138,7 +105,8 @@ public class NearbyPlaceMap extends MapActivity
 		protected void onPostExecute(List<Place> result)
 		{
 			super.onPostExecute(result);
-			nearbyPlaceList = result;
+			nearbyPlaceList.clear();
+			nearbyPlaceList.addAll(result);
 			if(targetPlace!=null&&nearbyPlaceList.size()>0)
 			{
 				initMapView(targetPlace ,nearbyPlaceList);	
@@ -265,7 +233,22 @@ public class NearbyPlaceMap extends MapActivity
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		ActivityManger.getInstance().finishActivity();
+		recycle();
 		LocationUtil.stop();
+	}
+	
+	
+	private void recycle()
+	{
+		if(nearbyPlaceList != null&&nearbyPlaceList.size()>0)
+		{
+			nearbyPlaceList.clear();
+			nearbyPlaceList = null;
+		}
+		itemizedOverlay = null;
+		mapView.removeAllViews();
+		
 	}
 	
 	

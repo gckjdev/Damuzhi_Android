@@ -38,9 +38,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemClickListener;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.favorite.FavoriteAdapter;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceAdapter;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
@@ -63,7 +63,7 @@ import com.google.android.maps.MapController;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.google.android.maps.MapView.LayoutParams;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  
@@ -105,12 +105,19 @@ public class FavoriteActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favorite);
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		loadingDialog = new ProgressDialog(this);
 		init();
 		loadFavorite(favoriteConfigure,currentPlaceCategory);
 	}
 	
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ActivityManger.getInstance().finishActivity();
+	}
+
 	public void init()
 	{
 		myFavoriteGroup = (ViewGroup) findViewById(R.id.my_favorite_group);

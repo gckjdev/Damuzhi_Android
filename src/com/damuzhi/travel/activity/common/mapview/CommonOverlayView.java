@@ -9,8 +9,8 @@ import android.widget.TextView;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.mapviewballoons.BalloonOverlayView;
-import com.readystatesoftware.mapviewballoons.R;
-
+import com.damuzhi.travel.R;
+import com.damuzhi.travel.R;
 /**  
  * @title CommonOverlayView.java  
  * @package   

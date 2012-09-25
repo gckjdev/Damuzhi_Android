@@ -11,10 +11,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-
-import com.damuzhi.travel.activity.common.TravelApplication;
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -82,10 +78,25 @@ public class PicUtill {
 			conn.setDoInput(true);
 			conn.connect();
 			InputStream is = conn.getInputStream();
-			/*BitmapFactory.Options options = new BitmapFactory.Options();  
-			options.inSampleSize = 2;
-			bitmap = BitmapFactory.decodeStream(is,null,options);*/
-			bitmap = BitmapFactory.decodeStream(is);
+			BitmapFactory.Options options = new BitmapFactory.Options();  
+			options.inPurgeable = true;
+			options.inJustDecodeBounds = false;
+			options.inSampleSize = 1;
+			/*try {
+
+				BitmapFactory.Options.class.getField("inNativeAlloc").setBoolean(options,true);
+
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			}         */   
+			bitmap = BitmapFactory.decodeStream(is,null,options);
+			//bitmap = BitmapFactory.decodeStream(is);
 			is.close();
 		} catch (IOException e) {
 			Log.e(TAG, "<getbitmap> but catch exception :"+e.toString(),e);
@@ -116,7 +127,25 @@ public class PicUtill {
 			File file = new File(imageUri);
 			fileInputStream = new FileInputStream(file);
 			bufferedInputStream = new BufferedInputStream(fileInputStream);
-			bitmap = BitmapFactory.decodeStream(bufferedInputStream);
+			BitmapFactory.Options options = new BitmapFactory.Options();  
+			options.inPurgeable = true;
+			options.inJustDecodeBounds = false;
+			options.inSampleSize = 1;
+			try {
+
+				BitmapFactory.Options.class.getField("inNativeAlloc").setBoolean(options,true);
+
+			} catch (IllegalArgumentException e) {
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			} catch (NoSuchFieldException e) {
+				e.printStackTrace();
+			}
+			bitmap = BitmapFactory.decodeStream(fileInputStream,null,options);
+			//bitmap = BitmapFactory.decodeStream(bufferedInputStream);
 			bufferedInputStream.close();
 			fileInputStream.close();
 			bufferedInputStream = null;

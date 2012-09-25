@@ -1,11 +1,6 @@
 package com.damuzhi.travel.model.constant;
 
-import java.io.File;
-import java.security.PublicKey;
-
 import com.damuzhi.travel.activity.common.TravelApplication;
-
-import android.telephony.TelephonyManager;
 
 public class ConstantField
 {
@@ -80,6 +75,8 @@ public class ConstantField
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
 	
 	
+	public static final String REGISTER_URL = "http://api.trip8888.com/service/memberRegister.aspx?&loginId=%s&password=%s&os=2";
+	
 	/*public static final String PLACE_INFO = TEST_HTTP_URL+"service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = TEST_HTTP_URL+"service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
@@ -87,18 +84,31 @@ public class ConstantField
 	public static final String PLACE_LIST_NEARBY = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&placeId=%s&latitude=%s&longitude=%s&num=%s&distance=%s&lang=%s&os=%s";
 	public static final String APP = TEST_HTTP_URL+"service/queryList.aspx?type=10&lang=%s&os=2";
 	public static final String HELP = TEST_HTTP_URL+"service/queryObject.aspx?type=8&lang=%s";
-	public static final String ANDROID_VERSION = TEST_HTTP_URL+"service/androidVersion.txt";*/
-	
+	public static final String ANDROID_VERSION = TEST_HTTP_URL+"service/androidVersion.txt";
+	*/
 	
 	/* page url*/
-	public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
-	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
-	public static final String PLACE_PAGE_FILTER_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+	public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
+	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
+	public static final String PLACE_PAGE_FILTER_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
 	
 
 	/*public static final String PLACE_PAGE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_FILTER_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
+	*/
+	
+	
+	/* touristRoute*/
+	public static final String TOURIST_ROUTE_OBJECT_URL = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
+	public static final String TOURIST_ROUTE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
+	public static final String TOURIST_ROUTE_LOAD_MORE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
+	public static final String LOCAL_ROUTE_MEMBER_USER_SUBMIT_BOOKING_URL = "http://api.trip8888.com/service/placeOrder.aspx?loginId=%s&token=%s&routeId=%s&departPlaceId=%s&departDate=%s&adult=%s&children=%s";
+	public static final String LOCAL_ROUTE_NON_MENBER_USER_SUBMIT_BOOKING_URL = "http://api.trip8888.com/service/placeOrder.aspx?userId=%s&routeId=%s&departPlaceId=%s&departDate=%s&adult=%s&children=%s&contactPersion=%s&contact=%s";
+	public static final String TOURIST_ROUTE_ORDER_LIST_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&needStatistics=1&userId=%s&loginId=%s&token=%s&lang=%s&os=2";
+	/* touristRoute*/
+/*	public static final String TOURIST_ROUTE_URL = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
+	public static final String TOURIST_ROUTE_LOAD_MORE_URL = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
 	*/
 	
 	/* http data type */
@@ -142,6 +152,9 @@ public class ConstantField
 	public static final String NEARBY_RESTAURANT_LIST_IN_DISTANCE = "63";
 	public static final String NEARBY_SHOPPING_LIST_IN_DISTANCE = "64";
 	public static final String NEARBY_ENTERTRAINMENT_LIST_IN_DISTANCE = "65";
+	public static final String TOURIST_ROUTE_LOCAL_ROUTE_LIST = "90";
+	public static final String TOURIST_ROUTE_LOCAL_ROUTE_BOOKIING_LIST = "83";
+	public static final String TOURIST_ROUTE_LOCAL_ROUTE_DETAIL = "51";
 	
 	/*distance*/
 	public static final String ALL_PLACE = "全部";
@@ -166,7 +179,7 @@ public class ConstantField
 	public static final String HISTORY_FILE_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/history.dat";
 	
 	/* register*/
-	public static final String REGISTER = "http://api.trip8888.com/service/registerUser.aspx?type=2&deviceId=%s";
+	public static final String REGISTER = "http://api.trip8888.com/service/registerUser.aspx?type=2&deviceId=%s&channelCode=%s";
 	public static final String USER_ID = "user_id";
 	
 	/* download*/
@@ -194,7 +207,18 @@ public class ConstantField
 	public static final String U_MENG_QQ_CONSUMER_KEY = "qq_weibo_app_key";
 	public static final String U_MENG_QQ_CONSUMER_SECRET = "qq_weibo_app_secret";
 	public static final String U_MENG_CALL_BACK_URL = "call_back_url";
+	public static final String U_MENG_IS_SHOW_RECOMMENDED_APP = "is_show_recommended_app";
+	public static final String U_MENG_IS_SHOW_UPDATE_VERSION = "is_show_update_version";
 	public static final String LOCATION_FILE = android.os.Environment.getExternalStorageDirectory()+"/damuzhi/data/";
+	public static final String PLACE_GOOGLE_MAP = "palceGoogleMap";
+	public static final String NEARBY_GOOGLE_MAP = "nearbyGoogleMap";
+	public static final String POST_CHANNEL_ID = "http://api.trip8888.com/service/registerUser.aspx?type=2&deviceId=%s&channelCode=%s";
+	public static final String ROUTE_DAYS = "行程：%s天";
+	
+	/*tourist route*/
+	
+	public static final String BOOKING_NUMBER = "成人%s位    儿童%s位";
+	
 	
 
 }

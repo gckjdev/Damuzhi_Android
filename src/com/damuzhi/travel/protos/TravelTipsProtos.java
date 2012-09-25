@@ -2566,8 +2566,8 @@ public final class TravelTipsProtos {
       "amuzhi.CommonTravelTip\022+\n\trouteList\030\002 \003(" +
       "\0132\030.damuzhi.CommonTravelTip\022\016\n\006cityId\030\003 " +
       "\001(\005*%\n\rTravelTipType\022\t\n\005GUIDE\020\001\022\t\n\005ROUTE",
-      "\020\002B&\n\022com.damuzhi.travel.protosB\020TravelTipsProt" +
-      "os"
+      "\020\002B-\n\031com.damuzhi.travel.protosB\020TravelT" +
+      "ipsProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

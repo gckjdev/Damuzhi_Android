@@ -613,7 +613,8 @@
 	   	  		    android:layout_marginBottom="5dp"
 	   	  		    android:textColor="@color/place_title_color"
 	   	  		    android:text="@string/nearby_title"
-	   	  		    />  
+	   	  		    />
+	   	 <!--  <include layout="@layout/nearby_place_list_view"/> -->
 	   	  </LinearLayout>
 	   	   <ImageView
 	   	  		     android:layout_width="fill_parent"

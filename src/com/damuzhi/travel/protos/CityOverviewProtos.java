@@ -2769,8 +2769,8 @@ public final class CityOverviewProtos {
       "etail\030\n \001(\t*j\n\022CommonOverviewType\022\016\n\nCIT" +
       "Y_BASIC\020\001\022\025\n\021TRAVEL_PREPRATION\020\002\022\022\n\016TRAV" +
       "EL_UTILITY\020\003\022\031\n\025TRAVEL_TRANSPORTATION\020\004B" +
-      "(\n\022com.damuzhi.travel.protosB\022CityOverviewProto" +
-      "s"
+      "/\n\031com.damuzhi.travel.protosB\022CityOvervi" +
+      "ewProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {

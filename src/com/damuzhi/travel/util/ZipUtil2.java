@@ -8,32 +8,13 @@
  */
 package com.damuzhi.travel.util;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.List;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
-
-import org.apache.commons.compress.archivers.ArchiveEntry;
-import org.apache.commons.compress.archivers.zip.Zip64Mode;
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
-import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
-import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream;
 import org.apache.commons.compress.archivers.zip.ZipFile;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
-
-import android.R.bool;
-import android.util.Log;
 
 /**  
  * @description   
@@ -212,7 +193,7 @@ public class ZipUtil2
 		                }
 		            }
 		            result = true;
-			} catch (IOException e)
+			} catch (Exception e)
 			{
 				return false;
 			}           

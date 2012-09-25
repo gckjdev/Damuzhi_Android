@@ -10,24 +10,16 @@ package com.damuzhi.travel.mission.overview;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import android.app.Activity;
 import android.util.Log;
 
 import com.damuzhi.travel.mission.place.LocalStorageMission;
-import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.overview.OverViewManager;
-import com.damuzhi.travel.model.place.PlaceManager;
 import com.damuzhi.travel.network.HttpTool;
-import com.damuzhi.travel.network.PlaceNetworkHandler;
 import com.damuzhi.travel.protos.CityOverviewProtos.CityOverview;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
-import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
 
 

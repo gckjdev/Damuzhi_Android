@@ -8,6 +8,7 @@
  */
 package com.damuzhi.travel.activity.adapter.viewcache;
 
+import com.damuzhi.travel.R;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,8 +16,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.damuzhi.travel.R;
 
 /**  
  * @description   
@@ -35,15 +34,16 @@ public class OpenCityDownloadViewcache
 	private TextView dataSize ;
 	private ViewGroup buttonGroup;
 	private TextView updatedTextView;
-	private TextView updatingTextView;
-	private ViewGroup dataUpdateMangerGroup;
-	private ImageView restartUpdateBtn;
-	private ImageView stopUpdateBtn;			
-	private Button updateButton;
+	private TextView updatingTextView;	
+	private ImageButton restartUpdateBtn;
+	private ImageButton stopUpdateBtn;			
+	private ImageButton updateButton;
+	private ImageButton cancelUpdateButton ;
 	private Button deleteButton;
-//	private ImageButton cancelButton ;
-//	private ViewGroup startGroup ;
-//	private ViewGroup cancelGroup;
+	private ViewGroup startUpdateGroup ;
+	private ViewGroup restartUpdateGroup;
+	private ViewGroup stopUpdateGroup;
+	private ViewGroup cancelUpdateGroup;
 	private ProgressBar updateBar ;
 	private TextView updateTextView;
 
@@ -160,13 +160,20 @@ public class OpenCityDownloadViewcache
 
 
 
+	public Button getDeleteBtn()
+	{
+		if(deleteButton == null)
+		{
+			deleteButton = (Button) convertView.findViewById(R.id.delete_button);
+		}
+		return deleteButton;
+	}
 
-
-	public ImageView getRestartUpdateBtn()
+	public ImageButton getRestartUpdateBtn()
 	{
 		if(restartUpdateBtn == null)
 		{
-			restartUpdateBtn = (ImageView) convertView.findViewById(R.id.restart_update_btn);
+			restartUpdateBtn = (ImageButton) convertView.findViewById(R.id.restart_update_download_btn);
 		}
 		return restartUpdateBtn;
 	}
@@ -175,11 +182,11 @@ public class OpenCityDownloadViewcache
 
 
 
-	public ImageView getStopUpdateBtn()
+	public ImageButton getStopUpdateBtn()
 	{
 		if(stopUpdateBtn == null)
 		{
-			stopUpdateBtn = (ImageView) convertView.findViewById(R.id.stop_update_btn);
+			stopUpdateBtn = (ImageButton) convertView.findViewById(R.id.stop_update_download_btn);
 		}
 		return stopUpdateBtn;
 	}
@@ -194,47 +201,40 @@ public class OpenCityDownloadViewcache
 
 
 
-	public Button getUpdateButton()
+	public ImageButton getUpdateButton()
 	{
 		if(updateButton == null)
 		{
-			updateButton = (Button) convertView.findViewById(R.id.update_button);
+			updateButton = (ImageButton) convertView.findViewById(R.id.update_downlaod_button);
 		}
 		return updateButton;
 	}
 
-	public Button getDeleteButton()
+	public ImageButton getCancelUpdateButton()
 	{
-		if(deleteButton == null)
+		if(cancelUpdateButton == null)
 		{
-			deleteButton = (Button) convertView.findViewById(R.id.delete_button);
+			cancelUpdateButton = (ImageButton) convertView.findViewById(R.id.cancel_update_download_button);
 		}
-		return deleteButton;
+		return cancelUpdateButton;
 	}
 
 
 
 
-	/*public ImageButton getCancelButton()
+	
+
+
+
+
+
+	public ViewGroup getUpdateGroup()
 	{
-		if(cancelButton == null)
+		if(startUpdateGroup == null)
 		{
-			cancelButton = (ImageButton) convertView.findViewById(R.id.cancel_update_button);
+			startUpdateGroup = (ViewGroup)convertView.findViewById(R.id.update_download_manager_group);
 		}
-		return cancelButton;
-	}*/
-
-
-
-
-
-	/*public ViewGroup getStartGroup()
-	{
-		if(startGroup == null)
-		{
-			startGroup = (ViewGroup)convertView.findViewById(R.id.start_update_manager_group);
-		}
-		return startGroup;
+		return startUpdateGroup;
 	}
 
 
@@ -243,14 +243,42 @@ public class OpenCityDownloadViewcache
 
 	public ViewGroup getCancelGroup()
 	{
-		if(cancelGroup == null)
+		if(cancelUpdateGroup == null)
 		{
-			cancelGroup = (ViewGroup)convertView.findViewById(R.id.cancel_update_manager_group);
+			cancelUpdateGroup = (ViewGroup)convertView.findViewById(R.id.cancel_update_download_manager_group);
 		}
-		return cancelGroup;
-	}*/
+		return cancelUpdateGroup;
+	}
 
 
+	
+	
+	public ViewGroup getStopUpdateGroup()
+	{
+		if(stopUpdateGroup == null)
+		{
+			stopUpdateGroup = (ViewGroup)convertView.findViewById(R.id.stop_update_download_manager_group);
+		}
+		return stopUpdateGroup;
+	}
+
+
+
+
+
+	public ViewGroup getRestartGroup()
+	{
+		if(restartUpdateGroup == null)
+		{
+			restartUpdateGroup = (ViewGroup)convertView.findViewById(R.id.restart_update_download_manager_group);
+		}
+		return restartUpdateGroup;
+	}
+	
+	
+	
+	
+	
 
 
 

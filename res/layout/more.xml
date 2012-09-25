@@ -4,155 +4,212 @@
     android:layout_height="fill_parent"
     android:background="@color/placeIntro_bg"
     android:orientation="vertical" >
-	 <LinearLayout 
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:background="@drawable/topmenu_bg">
-    	<TextView 
-    	    android:id="@+id/title"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content"
-    	    android:gravity="center"
-    	    android:textSize="20.0sp"
-    	    android:text="@string/more"
-    	    android:textColor="@color/white"/>
-    	</LinearLayout>
-    	<LinearLayout
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="400dp"
-    	    android:layout_gravity="center_horizontal"
-    	    android:paddingLeft="15dp"
-    	    android:paddingRight="15dp"
-    	    android:orientation="vertical"
-    	    android:layout_marginTop="3dp"
-    	    android:gravity="center_horizontal">
-	    	 <RelativeLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="50dp"
-		        android:background="@drawable/more_top"
-		        android:id="@+id/open_city_group">
-		    	<TextView 
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingLeft="40dp"
-		    	    android:gravity="left"
-		    	    android:textSize="15.0sp"
-		    	    android:textColor="@color/place_price_color"
-		    	    android:text="@string/more_open_city"/>  	
-		    	<ImageView
-		    	    android:id="@+id/detail_btn"
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_alignParentRight="true"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingRight="15dp"
-		    	    android:src="@drawable/detail"
-		    	    android:scaleType="fitXY"/>
-		    	    <TextView 
-		    	    android:id="@+id/current_city_name"
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_centerVertical="true"
-		    	    android:layout_marginRight="20dp"
-		    	    android:textSize="15sp"
-		    	    android:layout_toLeftOf="@id/detail_btn"
-		    	    android:textColor="@color/blue"/>
-	    	</RelativeLayout>
-	    	 <RelativeLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="50dp"
-		        android:background="@drawable/more_middle"
-		        android:id="@+id/browser_history_group">
-		    	<TextView 
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingLeft="40dp"
-		    	    android:gravity="left"
-		    	    android:textSize="15.0sp"
-		    	    android:textColor="@color/place_price_color"
-		    	    android:text="@string/more_browser_history"/>  	
-		    	<ImageView
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_alignParentRight="true"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingRight="15dp"
-		    	    android:src="@drawable/go_btn"
-		    	    android:scaleType="fitCenter"/>
-	    	</RelativeLayout>
-	    	 <RelativeLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="50dp"
-		        android:background="@drawable/more_middle"
-		        android:id="@+id/feedback_group">
-		    	<TextView 
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingLeft="40dp"
-		    	    android:gravity="left"
-		    	    android:textSize="15.0sp"
-		    	    android:textColor="@color/place_price_color"
-		    	    android:text="@string/more_feedback"/>  	
-		    	<ImageView
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_alignParentRight="true"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingRight="15dp"
-		    	    android:src="@drawable/go_btn"
-		    	    android:scaleType="fitCenter"/>
-	    	</RelativeLayout>
-	    	<RelativeLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="50dp"
-		        android:background="@drawable/more_middle"
-		        android:id="@+id/update_version_group">
-		    	<TextView 
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingLeft="40dp"
-		    	    android:gravity="left"
-		    	    android:textSize="15.0sp"
-		    	    android:textColor="@color/place_price_color"
-		    	    android:text="@string/more_update_version"/>  	
-		    	<ImageView
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_alignParentRight="true"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingRight="15dp"
-		    	    android:src="@drawable/go_btn"
-		    	    android:scaleType="fitCenter"/>
-	    	</RelativeLayout>
-	    	<RelativeLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="50dp"
-		        android:background="@drawable/more_middle"
-		        android:id="@+id/about_damuzhi_group">
-		    	<TextView 
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingLeft="40dp"
-		    	    android:gravity="left"
-		    	    android:textSize="15.0sp"
-		    	    android:textColor="@color/place_price_color"
-		    	    android:text="@string/more_about_damuzhi"/>  	
-		    	<ImageView
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_alignParentRight="true"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingRight="15dp"
-		    	    android:src="@drawable/go_btn"
-		    	    android:scaleType="fitCenter"/>
-	    	</RelativeLayout>
-	    	<!-- <RelativeLayout 
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/more"
+            android:textColor="@color/white"
+            android:textSize="20.0sp" />
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/help_mini_button"
+            android:gravity="center"
+            android:text="@string/member_login"
+            android:textColor="@android:color/white"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="400dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="3dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp" >
+
+        <RelativeLayout
+            android:id="@+id/open_city_group"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/more_top" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:text="@string/more_open_city"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+
+            <ImageView
+                android:id="@+id/detail_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/detail" />
+
+            <TextView
+                android:id="@+id/current_city_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="20dp"
+                android:layout_toLeftOf="@id/detail_btn"
+                android:textColor="@color/blue"
+                android:textSize="15sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/non_member_order_list"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/more_middle" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:text="@string/non_member_order_list"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/go_btn" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/browser_history_group"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/more_middle" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:text="@string/more_browser_history"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/go_btn" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/feedback_group"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/more_middle" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:text="@string/more_feedback"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/go_btn" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/update_version_group"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/more_middle" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:text="@string/more_update_version"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/go_btn" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/about_damuzhi_group"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/more_middle" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:text="@string/more_about_damuzhi"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/go_btn" />
+        </RelativeLayout>
+        <!--
+            <RelativeLayout 
 		        android:layout_width="fill_parent"
 		        android:layout_height="50dp"
 		        android:background="@drawable/more_middle"
@@ -175,51 +232,59 @@
 		    	    android:paddingRight="15dp"
 		    	    android:src="@drawable/go_btn"
 		    	    android:scaleType="fitCenter"/>
-	    	</RelativeLayout> -->
-	    	<RelativeLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="50dp"
-		        android:background="@drawable/more_middle"
-		        android:id="@+id/list_image_group">
-		    	<TextView 
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingLeft="40dp"
-		    	    android:gravity="left"
-		    	    android:textSize="15.0sp"
-		    	    android:textColor="@color/place_price_color"
-		    	    android:text="@string/more_list_image"/>  	
-		    	<com.damuzhi.travel.util.SlidButton
-		            android:id="@+id/is_show_list_image"
-		            android:layout_width="100dp"
-		            android:layout_marginTop="23dp"
-		            android:layout_height="fill_parent"
-		            android:layout_centerVertical="true"
-		            android:layout_alignParentRight="true" />
 	    	</RelativeLayout>
-	    	<RelativeLayout 
-		        android:layout_width="wrap_content"
-		        android:layout_height="50dp"
-		        android:background="@drawable/more_bottom"
-		        android:id="@+id/recommended_app_group">
-		    	<TextView 
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingLeft="40dp"
-		    	    android:gravity="left"
-		    	    android:textSize="15.0sp"
-		    	    android:textColor="@color/place_price_color"
-		    	    android:text="@string/more_good_commend"/>  	
-		    	<ImageView
-		    	    android:layout_width="wrap_content"
-		    	    android:layout_height="wrap_content"
-		    	    android:layout_alignParentRight="true"
-		    	    android:layout_centerVertical="true"
-		    	    android:paddingRight="15dp"
-		    	    android:src="@drawable/go_btn"
-		    	    android:scaleType="fitCenter"/>
-	    	</RelativeLayout>
-    	</LinearLayout>
+        -->
+
+        <RelativeLayout
+            android:id="@+id/show_image_group"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/more_middle" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:text="@string/more_list_image"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+
+            <com.damuzhi.travel.util.SlidButton
+                android:id="@+id/is_show_list_image"
+                android:layout_width="100dp"
+                android:layout_height="fill_parent"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="23dp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/recommended_app_group"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/more_bottom" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:text="@string/more_good_commend"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/go_btn" />
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>

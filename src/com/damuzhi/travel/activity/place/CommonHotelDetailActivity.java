@@ -8,7 +8,7 @@
  */
 package com.damuzhi.travel.activity.place;
 
-import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -17,7 +17,7 @@ import com.google.protobuf.InvalidProtocolBufferException;
 
 import android.os.Bundle;
 import android.util.Log;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  
@@ -33,7 +33,6 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 	@Override
 	public Place getPlaceById()
 	{
-		TravelApplication.getInstance().addActivity(this);
 		Place place = null;
 		try
 		{
@@ -125,4 +124,5 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 		return false;
 	}
 
+	
 }

@@ -10,16 +10,28 @@ package com.damuzhi.travel.activity.share;
 
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import com.android.utils.TokenStore;
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.qweibo.MyWebView;
 import com.damuzhi.travel.activity.entry.IndexActivity;
-import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.tencent.weibo.api.T_API;
 import com.tencent.weibo.beans.OAuth;
@@ -29,26 +41,11 @@ import com.weibo.net.AccessToken;
 import com.weibo.net.AsyncWeiboRunner;
 import com.weibo.net.AsyncWeiboRunner.RequestListener;
 import com.weibo.net.DialogError;
-import com.weibo.net.ShareActivity;
 import com.weibo.net.Utility;
 import com.weibo.net.Weibo;
 import com.weibo.net.WeiboDialogListener;
 import com.weibo.net.WeiboException;
 import com.weibo.net.WeiboParameters;
-
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
 
 /**  
  * @description   
@@ -89,7 +86,8 @@ public class Share2Weibo extends Activity implements RequestListener
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		setContentView(R.layout.share_2_weibo);
 		MobclickAgent.updateOnlineConfig(this);
 		while (SINA_CONSUMER_KEY == null||SINA_CONSUMER_KEY.equals("") )
@@ -124,6 +122,7 @@ public class Share2Weibo extends Activity implements RequestListener
 		cancelButton.setOnClickListener(cancelOnClickListener);
 	}
 
+	@Override
 	public void onResume() {
 		super.onResume();
 	}
@@ -330,5 +329,12 @@ public class Share2Weibo extends Activity implements RequestListener
 		qq_oauth.setOauth_token(oauth_token);
 		qq_oauth.setOauth_token_secret(oauth_token_secret);
 
+	}
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		ActivityManger.getInstance().finishActivity();
 	}
 }

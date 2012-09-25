@@ -16,6 +16,8 @@ import android.app.PendingIntent.CanceledException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -44,8 +46,8 @@ import android.widget.PopupWindow;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
@@ -74,15 +76,19 @@ import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.more.DownloadMission;
+import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.mission.place.LocalStorageMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import com.damuzhi.travel.service.Task;
+import com.damuzhi.travel.util.TravelUtil;
 import com.google.android.maps.MapView.LayoutParams;
+import com.umeng.analytics.MobclickAgent;
+import com.damuzhi.travel.R;
 
+import dalvik.system.VMRuntime;
 public class IndexActivity extends MenuActivity implements OnClickListener
 {
 	private static final String TAG = "IndexActivity";
@@ -102,35 +108,28 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	private ImageButton routeTipsButton;
 	private ImageButton favoriteButton;
 	private ImageButton shareButton;
-	private List<String> list;
 	TextView currentCityName;
 	private PopupWindow shareWindow;
 	private static final String SHARE_CONFIG = "share_config";
 	private static final  int SHARE_2_SINA = 1;
 	private static final  int SHARE_2_QQ = 2;
-
+	private final static int HEAP_SIZE = 8* 1024* 1024 ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		TravelApplication.getInstance().addActivity(this);
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
+		//requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
+		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.index);		
-		
-		try {
-		 	Class.forName("com.google.android.maps.MapActivity");
-        }catch(Exception  e) {
-            (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found1), Toast.LENGTH_LONG)).show();
-        }
-		
-		
+		MobclickAgent.updateOnlineConfig(this);
+		VMRuntime.getRuntime().setMinimumHeapSize(HEAP_SIZE);
 		
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
 		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);	
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		currentCitygGroup.setOnClickListener(currentGroupOnClickListener);
-		/*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.spinner_layout_item,android.R.id.text1, list);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);*/
 		moreButton = (ImageButton) findViewById(R.id.more);
 		sceneryButton = (ImageButton) findViewById(R.id.scenery);
 		hotelButton = (ImageButton) findViewById(R.id.hotel);		
@@ -165,6 +164,8 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		helpButton.setOnClickListener(helpOnClickListener);
 		favoriteButton.setOnClickListener(favoriteOnClickListener);
 		shareButton.setOnClickListener(shareOnClickListener);		
+		
+		checkData();
 	}
 
 	
@@ -194,6 +195,57 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		} );
 		alertDialog.show();
 	}
+	
+	
+	@Override
+	protected void onResume()
+	{
+		
+		super.onResume();
+		String cityName = AppManager.getInstance().getCurrentCityName();
+		if(cityName == null||cityName.equals(""))
+		{
+			int defaultCityId = AppManager.getInstance().getDefaulCityId();
+			AppManager.getInstance().setCurrentCityId(defaultCityId);
+			cityName = AppManager.getInstance().getCurrentCityName();
+		}
+		currentCityName.setText(cityName);
+		//checkData();
+	}
+	
+	
+	private void updateAppVersion()
+	{
+		AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this).create();
+		alertDialog.setMessage(IndexActivity.this.getString(R.string.app_has_new_version));
+		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,IndexActivity.this.getString(R.string.update_now),new DialogInterface.OnClickListener()
+		{					
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{	
+				Uri uri = Uri.parse(MobclickAgent.getConfigParams(IndexActivity.this, ConstantField.U_MENG_DOWNLOAD_CONFIGURE));
+				Log.d(TAG, "<updateAppVersion> uri = "+uri);
+				if(uri!=null&&!uri.equals(""))
+				{
+					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+					startActivity(intent);
+				}			
+			}	
+		} );
+		alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+IndexActivity.this.getString(R.string.update_later),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.cancel();
+			}
+		} );
+		alertDialog.show();
+	}
+	
+	
+	
 	
 	
 	
@@ -238,60 +290,32 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			startActivity(intent);
 			break;
 		case R.id.scenery:	
-			 try {
-				 	Class.forName("com.google.android.maps.MapActivity");
-				 	Intent sceneryIntent = new Intent();
-					sceneryIntent.setClass(IndexActivity.this, CommonSpotActivity.class);	
-					startActivity(sceneryIntent);
-	            }catch(Exception  e) {
-	                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
-	            }
-			
+			 	Intent sceneryIntent = new Intent();
+				sceneryIntent.setClass(IndexActivity.this, CommonSpotActivity.class);	
+				startActivity(sceneryIntent);
 			break;
 		case R.id.hotel:
-			try {
-					Class.forName("com.google.android.maps.MapActivity");
-					Intent hotelIntent = new Intent();
-					hotelIntent.setClass(IndexActivity.this, CommonHotelActivity.class);		
-					startActivity(hotelIntent);
-	            }catch(Exception  e) {
-	                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
-	            }
+				Intent hotelIntent = new Intent();
+				hotelIntent.setClass(IndexActivity.this, CommonHotelActivity.class);		
+				startActivity(hotelIntent);
 			break;
 		case R.id.restaurant:
-			try {
-			 	Class.forName("com.google.android.maps.MapActivity");
-			 	Intent restaurantIntent = new Intent();
+				Intent restaurantIntent = new Intent();
 				restaurantIntent.setClass(IndexActivity.this, CommonRestaurantActivity.class);		
 				startActivity(restaurantIntent);
-            }catch(Exception  e) {
-                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
-            }
 			break;
 		case R.id.shopping:	
-			try {
-			 	Class.forName("com.google.android.maps.MapActivity");
-			 	Intent shoppingIntent = new Intent();
+				Intent shoppingIntent = new Intent();
 				shoppingIntent.setClass(IndexActivity.this, CommonShoppingActivity.class);		
 				startActivity(shoppingIntent);
-            }catch(Exception  e) {
-                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
-            }
 			break;
 		case R.id.entertainment:
-			try {
-			 	Class.forName("com.google.android.maps.MapActivity");
-			 	Intent entertainmentIntent = new Intent();
+				Intent entertainmentIntent = new Intent();
 				entertainmentIntent.setClass(IndexActivity.this, CommonEntertainmentActivity.class);		
 				startActivity(entertainmentIntent);
-            }catch(Exception  e) {
-                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
-            }	
 			break;
 		case R.id.nearby:
-			try {
-			 	Class.forName("com.google.android.maps.MapActivity");
-			 	boolean gpsEnable = checkGPSisOpen();
+				boolean gpsEnable = checkGPSisOpen();
 				if(gpsEnable)
 				{
 					Intent nearbyIntent = new Intent();
@@ -300,9 +324,6 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 				}else {
 					setGPSDialog();
 				}
-            }catch(Exception  e) {
-                (Toast.makeText(IndexActivity.this, getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
-            }
 			break;
 		case R.id.city_base:
 			LocationUtil.stop();
@@ -364,7 +385,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
-		if(keyCode == event.KEYCODE_BACK)
+		if(keyCode == KeyEvent.KEYCODE_BACK)
 		{
 			AlertDialog leaveAlertDialog = new AlertDialog.Builder(IndexActivity.this).create();
 			leaveAlertDialog.setMessage(getBaseContext().getString(R.string.leave_alert_dilaog));
@@ -375,7 +396,8 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 				public void onClick(DialogInterface dialog, int which)
 				{
 					AppMission.getInstance().saveCurrentCityId(IndexActivity.this);
-					TravelApplication.getInstance().exit();				
+					//TravelApplication.getInstance().exit();	
+					ActivityManger.getInstance().AppExit(IndexActivity.this);
 				}
 			} );
 			leaveAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
@@ -397,21 +419,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 
 
 
-	@Override
-	protected void onResume()
-	{
-		
-		super.onResume();
-		String cityName = AppManager.getInstance().getCurrentCityName();
-		if(cityName == null||cityName.equals(""))
-		{
-			int defaultCityId = AppManager.getInstance().getDefaulCityId();
-			AppManager.getInstance().setCurrentCityId(defaultCityId);
-			cityName = AppManager.getInstance().getCurrentCityName();
-		}
-		currentCityName.setText(cityName);
-		checkData();
-	}
+	
 	
 	
 	private void checkData()
@@ -422,6 +430,16 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			@Override
 			protected Void doInBackground(Void... params)
 			{
+				
+				float remoteVersion = MoreMission.getInstance().getNewVersion();
+				float localVersion = TravelUtil.getVersionName(IndexActivity.this);
+				Log.d(TAG, "app Version = "+localVersion);
+				if(remoteVersion>localVersion)
+				{
+					Looper.prepare();
+					updateAppVersion();
+					Looper.loop();					
+				}	
 				City city = AppManager.getInstance().getCityByCityId(AppManager.getInstance().getCurrentCityId());
 				String downloadURL =null;
 				if(city != null &&city.hasDownloadURL())
@@ -514,32 +532,33 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	
 	private void shareWindow(View parent)
 	{
-		 LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
-	        View v = lay.inflate(R.layout.share_popup, null);        
-	        Button shareByMessageButton = (Button) v.findViewById(R.id.share_by_message_btn);
-	        Button share2sinaButton = (Button) v.findViewById(R.id.share_2_sina_btn);
-	        Button share2qqButton = (Button) v.findViewById(R.id.share_2_qq_btn);
-	        Button shareCancelButton = (Button) v.findViewById(R.id.share_cancel);
-	        LinearLayout shareGroup = (LinearLayout) v.findViewById(R.id.share_view_group);        
-	        shareByMessageButton.setOnClickListener(shareByMessage);
-	        share2sinaButton.setOnClickListener(share2sinaWeiboOnClickListener);
-	        share2qqButton.setOnClickListener(share2qqWeiboOnClickListener);
-	        shareCancelButton.setOnClickListener(shareCancelOnClickListener);
-	        shareWindow = new PopupWindow(v, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);   
-	        shareWindow.setFocusable(true);  
-	        shareWindow.update();  
-	        shareWindow.showAtLocation(findViewById(R.id.share), Gravity.CENTER, 0, 0);  
-	        shareGroup.setOnKeyListener(new OnKeyListener()
-			{
-						@Override
-						public boolean onKey(View v, int keyCode, KeyEvent event)
-						{
-							if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK)
-								shareWindow.dismiss();
-							return false;
-						}
-	        		 
-	        		});
+		//LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
+		LayoutInflater lay = getLayoutInflater();
+        View v = lay.inflate(R.layout.share_popup, null);        
+        Button shareByMessageButton = (Button) v.findViewById(R.id.share_by_message_btn);
+        Button share2sinaButton = (Button) v.findViewById(R.id.share_2_sina_btn);
+        Button share2qqButton = (Button) v.findViewById(R.id.share_2_qq_btn);
+        Button shareCancelButton = (Button) v.findViewById(R.id.share_cancel);
+        LinearLayout shareGroup = (LinearLayout) v.findViewById(R.id.share_view_group);        
+        shareByMessageButton.setOnClickListener(shareByMessage);
+        share2sinaButton.setOnClickListener(share2sinaWeiboOnClickListener);
+        share2qqButton.setOnClickListener(share2qqWeiboOnClickListener);
+        shareCancelButton.setOnClickListener(shareCancelOnClickListener);
+        shareWindow = new PopupWindow(v, android.view.ViewGroup.LayoutParams.FILL_PARENT,android.view.ViewGroup.LayoutParams.FILL_PARENT);   
+        shareWindow.setFocusable(true);  
+        shareWindow.update();  
+        shareWindow.showAtLocation(findViewById(R.id.share), Gravity.CENTER, 0, 0);  
+        shareGroup.setOnKeyListener(new OnKeyListener()
+		{
+					@Override
+					public boolean onKey(View v, int keyCode, KeyEvent event)
+					{
+						if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK)
+							shareWindow.dismiss();
+						return false;
+					}
+        		 
+        		});
 	}
 	
 	

@@ -10,8 +10,6 @@ package com.damuzhi.travel.mission.more;
 
 import java.util.List;
 
-import android.util.Log;
-
 import com.damuzhi.travel.model.more.BrowseHistoryManager;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 

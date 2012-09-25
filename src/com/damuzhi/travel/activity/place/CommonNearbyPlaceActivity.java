@@ -9,79 +9,70 @@
 package com.damuzhi.travel.activity.place;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-import android.R.integer;
-import android.app.AlertDialog;
-import android.app.Dialog;
+import android.app.ActivityGroup;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.DialogInterface.OnKeyListener;
+import android.content.Intent;
 import android.graphics.Matrix;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
+import android.text.Html.ImageGetter;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemClickListener;
 
-import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
-import com.baidu.location.LocationClientOption;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceAdapter;
+import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.HelpActiviy;
+import com.damuzhi.travel.activity.common.PlaceGoogleMap;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
 import com.damuzhi.travel.activity.entry.IndexActivity;
-import com.damuzhi.travel.activity.entry.WelcomeActivity;
+import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
-import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
-import com.damuzhi.travel.service.Task;
+import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
 import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
-import com.google.android.maps.MyLocationOverlay;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
-import com.google.android.maps.MapView.LayoutParams;
-import com.readystatesoftware.maps.OnSingleTapListener;
-import com.readystatesoftware.maps.TapControlledMapView;
 
-
-
-public class CommonNearbyPlaceActivity extends TravelActivity
+public class CommonNearbyPlaceActivity extends ActivityGroup
 {
 	private static final String TAG = "Nearby";
 	private ImageButton startButton;
@@ -104,21 +95,15 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	private ListView listView;
 	private int startLeft = 0; 
 	private ProgressDialog loadingDialog;
-	private List<Place> placeList = Collections.emptyList();
+	ArrayList<Place> placeList = new ArrayList<Place>();;
 	private HashMap<String, Double> location;
 	private NearbyPlaceAdapter adapter;
-	private TapControlledMapView mapView;
-	private View popupView;//
+	//private View popupView;//
+	private ViewGroup mapViewGroup;
 	long lasttime = -1;
-    MapController mapc;
-  //  private ImageButton selectMapViewButton;
-  //  private ImageButton selectListViewButton;
-  //  private ImageView myLocateButton ;
-	//private ImageView canceLocateButton;
-   // private PlaceLoaction placeLoaction;
+  
     private ImageButton modelButton;
     private TextView modelTextView;
-    private CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay;
     private String currentDistance ="";
     private String currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
     private LocationClient mLocClient;
@@ -127,7 +112,8 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.nearby_place);
+		ActivityManger.getInstance().addActivity(this);
+		setContentView(R.layout.common_nearby_place);
 		currentDistance = ConstantField.ONE_KILOMETER;
 		currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
 		loadingDialog = new ProgressDialog(this);
@@ -139,11 +125,12 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	public void init()
 	{
 		listView = (ListView) findViewById(R.id.nearby_list);
-		mapView = (TapControlledMapView) findViewById(R.id.placeMap);
+		mapViewGroup = (ViewGroup) findViewById(R.id.mapview_group);
+	/*	mapView = (TapControlledMapView) findViewById(R.id.placeMap);
 		mapc = mapView.getController();
 		mapc.setZoom(16);
 		mapView.setStreetView(true);
-		mapView.setOnSingleTapListener(onSingleTapListener);
+		mapView.setOnSingleTapListener(onSingleTapListener);*/
 		
 		modelButton = (ImageButton) findViewById(R.id.model_button);
 		modelTextView = (TextView) findViewById(R.id.model_text);
@@ -185,7 +172,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		move = (TextView) findViewById(R.id.move);
 		move.setTextColor(getResources().getColor(R.color.white));
 		
-		popupView = LayoutInflater.from(this).inflate(R.layout.overlay_popup, null);
+	//	popupView = LayoutInflater.from(this).inflate(R.layout.overlay_popup, null);
 		adapter = new NearbyPlaceAdapter(this, placeList);
 		listView.setAdapter(adapter);
 	}
@@ -201,12 +188,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			@Override
 			protected List<Place> doInBackground(String... params)
 			{
-				/*location = TravelApplication.getInstance().getLocation();
-				if(TravelApplication.getInstance().mLocationClient !=null)
-				{
-					TravelApplication.getInstance().mLocationClient.stop();
-				}*/
-				myLocation();
+				getMyLocation();
 				return PlaceMission.getInstance().getPlaceNearbyInDistance(location, currentDistance,currentPlaceCategory);
 			}
 
@@ -220,8 +202,9 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			protected void onPostExecute(List<Place> resultList)
 			{
 				loadingDialog.dismiss();
-				placeList = resultList;	
-				refreshPlaceView(placeList);
+				placeList.clear();
+				placeList.addAll(resultList);	
+				refreshPlaceView();
 				if(placeList.size()>0)
 				{
 					findViewById(R.id.page).setVisibility(View.VISIBLE);					
@@ -245,26 +228,17 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		
 	}
 	
-	private void refreshPlaceView(List<Place> list)
+	private void refreshPlaceView()
 	{
-		List<Place> origList = new ArrayList<Place>();
-		origList.addAll(list);
 		ComparatorDistance comparatorDistance = new ComparatorDistance(location);
-		Collections.sort(origList, comparatorDistance);
+		Collections.sort(placeList, comparatorDistance);
 		if(listView.getVisibility() == View.VISIBLE)
 		{
-			adapter.setList(origList);
+			adapter.setList(placeList);
 			adapter.notifyDataSetChanged();
 		}else
 		{	
-			mapView.getOverlays().clear();
-			if(origList.size()!=0)
-			{
-				initMapOverlayView(origList);
-			}else {
-				initMyLocationOverlayView();
-			}
-			mapView.postInvalidate();						
+			goMapView(placeList);
 		}
 		updateTitle();
 	}
@@ -281,13 +255,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	
 	
 	
-	private OnSingleTapListener onSingleTapListener = new OnSingleTapListener() {		
-		@Override
-		public boolean onSingleTap(MotionEvent e) {
-			itemizedOverlay.hideAllBalloons();
-			return true;
-		}
-	};
+	
 
 	 
 	 private OnClickListener fiveOnClickListener = new OnClickListener()
@@ -531,16 +499,22 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		{
 			if(model == 1)
 			{
-				modelTextView.setText(getString(R.string.list));
-				listView.setVisibility(View.GONE);		
-				findViewById(R.id.mapview_group).setVisibility(View.VISIBLE);
-				mapView.setVisibility(View.VISIBLE);
-				initMapOverlayView(placeList);
-				model = 2;
+				try{
+				 	Class.forName("com.google.android.maps.MapActivity");
+					modelTextView.setText(getString(R.string.list));
+					listView.setVisibility(View.GONE);
+					mapViewGroup.setVisibility(View.VISIBLE);
+					findViewById(R.id.mapview_group).setVisibility(View.VISIBLE);
+					goMapView(placeList);
+					model = 2;
+				 }catch(Exception  e) {
+		                (Toast.makeText(CommonNearbyPlaceActivity.this, getResources().getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+		            }
 			}else
 			{
 				modelTextView.setText(getString(R.string.map));
-				mapView.setVisibility(View.GONE);
+				mapViewGroup.setVisibility(View.GONE);
+				mapViewGroup.removeAllViews();
 				listView.setVisibility(View.VISIBLE);					
 				adapter.setList(placeList);
 				adapter.notifyDataSetChanged();	
@@ -549,40 +523,23 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			
 		}
 	};		
-			
-			
-	/*private OnClickListener selectListViewOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			mapView.setVisibility(View.GONE);
-			selectListViewButton.setVisibility(View.GONE);
-			selectMapViewButton.setVisibility(View.VISIBLE);
-			listView.setVisibility(View.VISIBLE);					
-			adapter.setList(placeList);
-			adapter.notifyDataSetChanged();	
-			
-		}
-	};		
 	
 	
-	private OnClickListener selectMapViewOncClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
+	private void goMapView(List<Place> list) {
+		if(list!=null)
 		{
-			listView.setVisibility(View.GONE);
-			selectMapViewButton.setVisibility(View.GONE);		
-			findViewById(R.id.mapview_group).setVisibility(View.VISIBLE);
-			mapView.setVisibility(View.VISIBLE);
-			selectListViewButton.setVisibility(View.VISIBLE);
-			initMapOverlayView(placeList);
-		}
-	};
-*/
+			
+			 	PlaceList.Builder placeList = PlaceList.newBuilder();
+			 	placeList.addAllList(list);
+			 	Intent intent = new Intent(CommonNearbyPlaceActivity.this, PlaceGoogleMap.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			 	intent.putExtra(ConstantField.NEARBY_GOOGLE_MAP, placeList.build().toByteArray());
+			 	mapViewGroup.removeAllViews();
+			 	mapViewGroup.addView(getLocalActivityManager().startActivity(ConstantField.NEARBY_GOOGLE_MAP,intent).getDecorView());
+           
+		}	
+	}
+			
+	
 	
 	private OnItemClickListener listviewOnItemClickListener = new OnItemClickListener()
 	{
@@ -591,7 +548,6 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
 		{
-			initMyLocationOverlayView();
 			List<Place> list = adapter.getPlaceList();
 			Place place = list.get(arg2);
 			Intent intent = new Intent();
@@ -604,73 +560,71 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	};
 			
 	
-	private void myLocation()
+	private void getMyLocation()
 	{
-		boolean gpsEnable = checkGPSisOpen();	
-		//getLocation(CommonNearbyPlaceActivity.this);		
+		checkGPSisOpen();		
 		LocationUtil.getLocation(CommonNearbyPlaceActivity.this);
 		location = TravelApplication.getInstance().getLocation();
-		/*if(mLocClient !=null)
+		if(mLocClient !=null)
 		{
 			mLocClient.stop();
-		}	*/			
+		}				
 	}
 	
 	
 
 	
-	private void getOffSet(ImageView imageView,int startPosition) {
-	
-	DisplayMetrics dm = new DisplayMetrics();
-	getWindowManager().getDefaultDisplay().getMetrics(dm);
-	screenW = dm.widthPixels;
-	switch (startPosition)
-	{
-	case 0:
-		offset = screenW*0f;
-		break;
-	case 1:
-		offset = screenW*0.18f;
-		break;
-	case 2:
-		offset = screenW*0.43f;
-		break;
-	case 3:
-		offset = screenW*0.82f;
-		break;
-	default:
-		break;
-	}
-	Matrix matrix = new Matrix();
-	matrix.postTranslate(offset, 0);
-	imageView.setImageMatrix(matrix);
+	private void getOffSet(ImageView imageView,int startPosition) {	
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		screenW = dm.widthPixels;
+		switch (startPosition)
+		{
+			case 0:
+				offset = screenW*0f;
+				break;
+			case 1:
+				offset = screenW*0.18f;
+				break;
+			case 2:
+				offset = screenW*0.43f;
+				break;
+			case 3:
+				offset = screenW*0.82f;
+				break;
+			default:
+				break;
+		}
+		Matrix matrix = new Matrix();
+		matrix.postTranslate(offset, 0);
+		imageView.setImageMatrix(matrix);
 	}
 	
 	
 	private void getStartPosition(int tabStartPosition) {
-	switch (tabStartPosition)
-	{
-	case 11:
-		startLeft = allPlace.getWidth()*0;
-		break;
-	case 12:
-		startLeft = allPlace.getWidth()*1;
-		break;
-	case 13:
-		startLeft = allPlace.getWidth()*2;
-		break;
-	case 14:
-		startLeft = allPlace.getWidth()*3;
-		break;
-	case 15:
-		startLeft = allPlace.getWidth()*4;
-		break;
-	case 16:
-		startLeft = allPlace.getWidth()*5;
-		break;
-	default:
-		break;
-	}
+		switch (tabStartPosition)
+		{
+			case 11:
+				startLeft = allPlace.getWidth()*0;
+				break;
+			case 12:
+				startLeft = allPlace.getWidth()*1;
+				break;
+			case 13:
+				startLeft = allPlace.getWidth()*2;
+				break;
+			case 14:
+				startLeft = allPlace.getWidth()*3;
+				break;
+			case 15:
+				startLeft = allPlace.getWidth()*4;
+				break;
+			case 16:
+				startLeft = allPlace.getWidth()*5;
+				break;
+			default:
+				break;
+		}
 	}
 	
 	
@@ -712,8 +666,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 			public boolean onKey(DialogInterface dialog, int keyCode,
 					KeyEvent event)
 			{
-				if (keyCode == KeyEvent.KEYCODE_BACK
-						&& event.getRepeatCount() == 0)
+				if (keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
 					Intent intent = new Intent(CommonNearbyPlaceActivity.this,IndexActivity.class);
@@ -734,27 +687,8 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		loadingDialog.setOnKeyListener(keyListener);
 		loadingDialog.show();
 	}
-	@Override
-	protected boolean isRouteDisplayed()
-	{
-		return false;
-	}
 	
 	
-	
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item)
-	{
-		switch (item.getItemId())	
-		{		
-		case R.id.menu_refresh:
-			loadPlace();
-			break;
-		default:
-			break;
-		}
-		return super.onOptionsItemSelected(item);
-	}
 	
 	
 	private boolean checkGPSisOpen() {
@@ -767,65 +701,7 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 	}
 	
 	
-	private void initMapOverlayView(List<Place> placeList)
-	{	
-		initMyLocationOverlayView();
-		List<Overlay> mapOverlays = mapView.getOverlays();
-		int i =0;
-		for (Place place : placeList)
-		{
-			int icon = TravelUtil.getForecastImage(place.getCategoryId());
-			Drawable markerDrawable = getResources().getDrawable(icon);			
-			itemizedOverlay = new CommonItemizedOverlay<CommonOverlayItem>(markerDrawable, mapView);				
-			GeoPoint geoPoint2 = new GeoPoint((int)(place.getLatitude()*1e6),(int)(place.getLongitude()*1e6));	
-			CommonOverlayItem commonOverlayItem2 = new CommonOverlayItem(geoPoint2,place.getName(), null,place);
-			itemizedOverlay.addOverlay(commonOverlayItem2);
-			mapOverlays.add(itemizedOverlay);
-			if(i== 0)
-			{
-				mapc.setCenter(itemizedOverlay.getCenter());
-				i++;
-			}
-			
-		}
-	}
 	
-	private void initMyLocationOverlayView()
-	{
-		if (location != null&&location.size()>0)
-		{
-			GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
-			Drawable drawable = getResources().getDrawable(R.drawable.my_location);
-			CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null);
-			CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
-			itemizedOverlay3.addOverlay(overlayItem);
-			itemizedOverlay3.setOnFocusChangeListener(onFocusChangeListener);
-			mapView.getOverlays().add(itemizedOverlay3);
-			mapc.animateTo(geoPoint);
-		}else
-		{
-			Toast.makeText(CommonNearbyPlaceActivity.this, getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
-		}
-	}
-	
-	
-	private OnFocusChangeListener onFocusChangeListener = new OnFocusChangeListener()
-	{
-
-		
-		@Override
-		public void onFocusChanged(ItemizedOverlay overlay, OverlayItem newFocus)
-		{
-			if(newFocus != null)
-			{
-				if(newFocus.getSnippet().equals("") &&newFocus.getTitle().equals(""))
-				{
-					Toast.makeText(CommonNearbyPlaceActivity.this, getString(R.string.current_location), Toast.LENGTH_LONG).show();		
-				}	
-			}
-			
-		}
-	};
 	
 
 	@Override
@@ -838,5 +714,58 @@ public class CommonNearbyPlaceActivity extends TravelActivity
 		{
 			loadingDialog.dismiss();
 		}
+		ActivityManger.getInstance().finishActivity();
+	}
+	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		// TODO Auto-generated method stub
+		//TravelApplication.getInstance().addActivity(this);
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		Intent  intent;
+		switch (item.getItemId())	
+		{		
+		case R.id.menu_refresh:
+			loadPlace();
+			break;
+		case R.id.menu_help:
+			intent = new Intent();
+			intent.putExtra(ConstantField.HELP_TITLE, getResources().getString(R.string.help));
+			intent.setClass(CommonNearbyPlaceActivity.this, HelpActiviy.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_feedback:
+			intent = new Intent();			
+			intent.setClass(CommonNearbyPlaceActivity.this, FeedBackActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_about:
+			intent = new Intent();
+			String about = getResources().getString(R.string.about_damuzhi);
+			intent.putExtra(ConstantField.HELP_TITLE, about);
+			intent.setClass(CommonNearbyPlaceActivity.this, HelpActiviy.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_exit:
+			//TravelApplication.getInstance().exit();
+			ActivityManger.getInstance().AppExit(CommonNearbyPlaceActivity.this);
+			break;
+
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

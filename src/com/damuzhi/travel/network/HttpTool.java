@@ -25,7 +25,6 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.common.HelpMission;
 import com.damuzhi.travel.model.constant.ConstantField;

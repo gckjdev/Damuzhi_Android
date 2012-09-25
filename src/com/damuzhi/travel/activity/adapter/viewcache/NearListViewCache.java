@@ -8,12 +8,12 @@
  */
 package com.damuzhi.travel.activity.adapter.viewcache;
 
+import com.damuzhi.travel.R;
+
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.damuzhi.travel.R;
 
 /**  
  * @description   

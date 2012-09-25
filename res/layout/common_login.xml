@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/all_page_bg2"
+    android:orientation="vertical" >
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/topmenu_bg"
+        android:orientation="horizontal" >
+        <TextView
+            android:id="@+id/login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:textSize="20.0sp" />
+        <Button
+            android:id="@+id/booking_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/help_mini_button"
+            android:gravity="center"
+            android:text="@string/login"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/reg_1"
+        android:gravity="center_vertical" >
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:paddingRight="3dp"
+            android:gravity="right"
+            android:text="@string/user_name"
+            android:textSize="15sp" />
+        <EditText
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/user_name_hint2"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/reg_2"
+        android:gravity="center_vertical" >
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:paddingRight="3dp"
+            android:gravity="right"
+            android:text="@string/password"
+            android:textSize="15sp" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:hint="@string/password_hint2"
+            android:singleLine="true"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/reg_2"
+        android:gravity="center_vertical" >
+        <CheckBox
+            android:id="@+id/remember_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="25dp"
+            android:button="@drawable/check_box_button"
+            android:gravity="center"
+            android:text="@string/remember_user_name" />
+        <CheckBox
+            android:id="@+id/remember_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:button="@drawable/check_box_button"
+            android:gravity="center"
+            android:text="@string/remember_password" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/reg_4"
+        android:orientation="vertical"
+        android:gravity="center" >
+        <LinearLayout
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_vertical">
+		        <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="35dp"		            
+		            android:scaleType="fitCenter"
+		            android:src="@drawable/order_ico1" />
+		        <TextView 
+		            android:id="@+id/free_register"
+		            android:layout_width="wrap_content" 
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="20dp"
+		            android:text="@string/free_register"
+		            android:textColor="@android:color/black"
+		            android:textSize="16sp"/>
+		         <ImageView
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="25dp"
+		            android:scaleType="fitCenter"
+		            android:src="@drawable/order_ico1" />
+		        <TextView 
+		            android:id="@+id/get_password"
+		            android:layout_width="wrap_content" 
+		            android:layout_height="wrap_content"
+		            android:layout_marginLeft="20dp"
+		            android:text="@string/get_password"
+		            android:textColor="@android:color/black"
+		            android:textSize="16sp"/>
+		 </LinearLayout>
+		  <Button
+                android:id="@+id/non_member_booking_order"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/member_booking_order_button"
+                android:gravity="center"
+                android:text="@string/non_member_booking"
+               android:textColor="@android:color/white"
+                android:textSize="14sp"/>
+    </LinearLayout>
+
+</LinearLayout>

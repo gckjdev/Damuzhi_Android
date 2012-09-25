@@ -13,6 +13,7 @@ import java.util.List;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.viewcache.TravelRoutesViewCache;
 import com.damuzhi.travel.activity.adapter.viewcache.TravelTipsViewCache;
+import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.util.PicUtill;
 import com.damuzhi.travel.util.TravelUtil;
@@ -39,8 +40,10 @@ public class TravelRoutesAdapter extends BaseAdapter
 
 	private List<CommonTravelTip> commonTravelTips;
 	private Context context;
-	
-	
+	private AsyncLoader asyncLoader;
+	private TextView travelRouteName;
+	private TextView travelRouteIntro;
+	private ImageView travelRouteIcon;
 	
 	public TravelRoutesAdapter(List<CommonTravelTip> commonTravelTips,
 			Context context)
@@ -48,6 +51,8 @@ public class TravelRoutesAdapter extends BaseAdapter
 		super();
 		this.commonTravelTips = commonTravelTips;
 		this.context = context;
+		asyncLoader = AsyncLoader.getInstance();
+		//asyncLoader = new AsyncLoader();
 	}
 
 	@Override
@@ -86,14 +91,15 @@ public class TravelRoutesAdapter extends BaseAdapter
 			viewCache = (TravelRoutesViewCache) convertView.getTag();
 		}
 		CommonTravelTip commonTravelTip = commonTravelTips.get(position);
-		TextView travelRouteName = viewCache.getTravelRoutesName();
-		TextView travelRouteIntro = viewCache.getTravelRoutesIntro();
-		ImageView travelRouteIcon = viewCache.getTravelRoutesIcon();		
+		travelRouteName = viewCache.getTravelRoutesName();
+		travelRouteIntro = viewCache.getTravelRoutesIntro();
+		travelRouteIcon = viewCache.getTravelRoutesIcon();		
 		travelRouteName.setText(commonTravelTip.getName());
 		travelRouteIntro.setText(commonTravelTip.getBriefIntro());
 		String iconPath = commonTravelTip.getIcon();
-		Bitmap bitmap = PicUtill.getbitmapByImagePath(iconPath);
-		travelRouteIcon.setImageBitmap(bitmap);
+		//Bitmap bitmap = PicUtill.getbitmapByImagePath(iconPath);
+		//travelRouteIcon.setImageBitmap(bitmap);
+		asyncLoader.showimgAnsy(travelRouteIcon, iconPath);
 		return convertView;
 	}
 

@@ -15,9 +15,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.damuzhi.travel.R;
-
 /**  
  * @description   
  * @version 1.0  
@@ -28,6 +26,7 @@ import com.damuzhi.travel.R;
 public class OpenCityListViewCache
 {
 	private View convertView;
+	private TextView titleTextView;
 	private TextView dataCityName ;
 	private ImageView dataSelectIcon ;
 	private ViewGroup listViewItemGroup ;
@@ -37,8 +36,8 @@ public class OpenCityListViewCache
 	private TextView installedTextView;
 	private TextView installingTextView;
 	private ViewGroup dataDownloadMangerGroup;
-	private ImageView restartDownloadBtn;
-	private ImageView stopDownloadBtn;
+	private ImageButton restartDownloadBtn;
+	private ImageButton stopDownloadBtn;
 	private ImageButton onlineButton;				
 	private ImageButton startButton;
 	private ImageButton cancelButton ;
@@ -46,6 +45,8 @@ public class OpenCityListViewCache
 	private ImageButton cancelInstallButton;
 	private ViewGroup startGroup ;
 	private ViewGroup cancelGroup;
+	private ViewGroup restartGroup ;
+	private ViewGroup pauseGroup;
 	private ProgressBar downloadBar ;
 	private TextView resultTextView;
 
@@ -58,7 +59,14 @@ public class OpenCityListViewCache
 
 
 
-
+	public TextView getTitleTextView()
+	{
+		if(titleTextView == null)
+		{
+			titleTextView = (TextView) convertView.findViewById(R.id.item_group_title);
+		}
+		return titleTextView;
+	}
 
 	public TextView getDataCityName()
 	{
@@ -173,11 +181,11 @@ public class OpenCityListViewCache
 
 
 
-	public ImageView getRestartDownloadBtn()
+	public ImageButton getRestartDownloadBtn()
 	{
 		if(restartDownloadBtn == null)
 		{
-			restartDownloadBtn = (ImageView) convertView.findViewById(R.id.restart_download_btn);
+			restartDownloadBtn = (ImageButton) convertView.findViewById(R.id.restart_download_btn);
 		}
 		return restartDownloadBtn;
 	}
@@ -186,11 +194,11 @@ public class OpenCityListViewCache
 
 
 
-	public ImageView getStopDownloadBtn()
+	public ImageButton getStopDownloadBtn()
 	{
 		if(stopDownloadBtn == null)
 		{
-			stopDownloadBtn = (ImageView) convertView.findViewById(R.id.stop_download_btn);
+			stopDownloadBtn = (ImageButton) convertView.findViewById(R.id.stop_download_btn);
 		}
 		return stopDownloadBtn;
 	}
@@ -261,9 +269,27 @@ public class OpenCityListViewCache
 		return startGroup;
 	}
 
+	
+	public ViewGroup getRestartGroup()
+	{
+		if(restartGroup == null)
+		{
+			restartGroup = (ViewGroup)convertView.findViewById(R.id.restart_download_manager_group);
+		}
+		return restartGroup;
+	}
 
-
-
+	
+	public ViewGroup getPauseGroup()
+	{
+		if(pauseGroup == null)
+		{
+			pauseGroup = (ViewGroup)convertView.findViewById(R.id.stop_download_manager_group);
+		}
+		return pauseGroup;
+	}
+	
+	
 
 	public ViewGroup getCancelGroup()
 	{

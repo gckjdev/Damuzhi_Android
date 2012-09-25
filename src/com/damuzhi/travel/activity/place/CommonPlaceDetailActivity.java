@@ -30,29 +30,36 @@ import android.text.TextUtils.TruncateAt;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewGroup.MarginLayoutParams;
+import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.ImagePagerAdapter;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceListAdapter;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -61,8 +68,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
-import com.nostra13.universalimageloader.core.ImageLoader;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  
@@ -91,24 +97,36 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	abstract public boolean isSupportSpecialFood();
 	abstract public boolean isSupportPark();
 	
-	
-	//private NearbyPlaceListAdapter nearbyAdapter;
 	int placeId;
-	Place place;
-	ImageView[] imageViews;
-	String tipsTitle;
+	private Place place;
+	private ImageView[] imageViews;
+	String  tipsTitle;
 	private TextView phoneNum,favoriteCount,collect;
-	private ImageView coolectBtn;
-	private List<Place> nearbyPlaceList = new ArrayList<Place>();
+	private ImageView collectBtn;
+	private List<Place> nearbyPlaceList ;
 	private AsyncTask<Void, Void, List<Place>> nearbyAsyncTask;
-	ViewGroup placeDetailGroup,nearbyListGroup;
-	private Anseylodar anseylodar;
+	private ViewGroup nearbyListGroup;
+	private AsyncLoader asyncLoader;
 	private int currentCityId;
+	private ViewGroup main;
+	private View nearbyListItemView;
+	private ImageView placeCategoryImage;
+	private ImageView recommendImageView1;
+	private ImageView recommendImageView2;
+	private ImageView recommendImageView3;
+	private TextView placeName ;
+	private TextView distance;
+	private ViewGroup specialTrans;
+	private RelativeLayout row ;
+	private TextView  locationTextView; 
+	private TextView  distanceTextView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		TravelApplication.getInstance().addActivity(this);
+		Log.d(TAG, "onCreate");
+		ActivityManger.getInstance().addActivity(this);
+		nearbyPlaceList = new ArrayList<Place>();
 		init();
 		getNearbyList();
 		getPlaceFavoriteCount();
@@ -124,7 +142,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			List<String> imagePath = place.getImagesList();
 			LayoutInflater inflater = getLayoutInflater();
 			ArrayList<View> imageViewlist = new ArrayList<View>();	
-			anseylodar = new Anseylodar();
+			asyncLoader = AsyncLoader.getInstance();
+			//asyncLoader = new AsyncLoader();
 			int size=imagePath.size();	
 			for(int i=0;i<size;i++)
 			{
@@ -132,11 +151,11 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
 				String url ;
 				url = imagePath.get(i);	
-				anseylodar.showimgAnsy(imageView, url);
+				asyncLoader.showimgAnsy(imageView, url);
 				imageViewlist.add(view);
 			}
 			imageViews = new ImageView[size];	
-			ViewGroup main = (ViewGroup) inflater.inflate(R.layout.common_place_detail, null);
+			main = (ViewGroup) inflater.inflate(R.layout.common_place_detail, null);
 			ViewGroup group = (ViewGroup) main.findViewById(R.id.place_images_group);
 			ViewPager placeImage = (ViewPager) main.findViewById(R.id.place_images);
 			ImageView imageView;
@@ -145,7 +164,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10, 10);
 	            params.setMargins((int)getResources().getDimension(R.dimen.image_margin), 0, (int)getResources().getDimension(R.dimen.image_margin), 0);
 	            imageView.setLayoutParams(params);  
-	          //  imageView.setPadding((int)getResources().getDimension(R.dimen.image_margin), 0, (int)getResources().getDimension(R.dimen.image_margin), 0);
 	            imageViews[i] = imageView;  
 	            if (i == 0) {    
 	                imageViews[i].setBackgroundResource(R.drawable.guide_dot_white);  
@@ -155,18 +173,16 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	            group.addView(imageView);  
 	        } 
 		PlaceImageAdapter sceneryAdapter = new PlaceImageAdapter(imageViewlist);	
-		
-		//serviceGroup
 		if(isSupportService())
 		{
 			ViewGroup serviceGroup = (ViewGroup) main.findViewById(R.id.proServiceGroup);
 			serviceGroup.setVisibility(View.VISIBLE);
+			ImageView serviceImageView = null;
 			for(int id:place.getProvidedServiceIdList())
 			{
 				
-				 ImageView serviceImageView = new ImageView(CommonPlaceDetailActivity.this);  
-				 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.service_icon2),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
-				 //serviceImageView.setPadding(10, 0, 10, 0);  
+				 serviceImageView = new ImageView(CommonPlaceDetailActivity.this);  
+				 serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.service_icon2),LayoutParams.WRAP_CONTENT)));    
 				 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
 				 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));
 		         serviceGroup.addView(serviceImageView);
@@ -175,7 +191,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		
 		
 		placeImage.setAdapter(sceneryAdapter);
-		placeImage.setOnPageChangeListener(scenecyImageListener);
+		placeImage.setOnPageChangeListener(placeImageOnPageChangeListener);
 		setContentView(main);
 		
 		if(isSupportSpecialTrafficStyle())
@@ -184,14 +200,17 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			String trafficInfos = place.getTransportation();
 			trafficInfos = trafficInfos.replaceAll(":;", "").trim();
 			String[] traffic= trafficInfos.split(";"); 		
-			ViewGroup specialTrans = (ViewGroup) main.findViewById(R.id.special_trans);
+			specialTrans = (ViewGroup) main.findViewById(R.id.special_trans);
 			if(traffic.length >0)
 			{
-				Log.d(TAG, "traffic length = "+traffic.length);
+				//Log.d(TAG, "traffic length = "+traffic.length);
 				int i= 1;
+				String[] trafficDetail = null;
+				RelativeLayout.LayoutParams params1 = null;
+				RelativeLayout.LayoutParams params2 = null;
 				for(String trafficInfo:traffic)
 				{
-					RelativeLayout row = new RelativeLayout(CommonPlaceDetailActivity.this);
+					row = new RelativeLayout(CommonPlaceDetailActivity.this);
 					row.setLayoutParams(new LayoutParams((int)getResources().getDimension(R.dimen.transport_width),(int)getResources().getDimension(R.dimen.transport_height)));
 					if(i==traffic.length)
 					{
@@ -201,13 +220,13 @@ public abstract class CommonPlaceDetailActivity extends Activity
 					}
 					
 					
-					String[] trafficDetail = trafficInfo.split(":");
+					trafficDetail = trafficInfo.split(":");
 					if(trafficDetail.length == 2)
 					{
-						TextView  locationTextView = new TextView(CommonPlaceDetailActivity.this); 
-						TextView  distanceTextView = new TextView(CommonPlaceDetailActivity.this);
-						RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams((int)getResources().getDimension(R.dimen.special_traffic_loaction),LayoutParams.WRAP_CONTENT);
-						RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+						locationTextView = new TextView(CommonPlaceDetailActivity.this); 
+						distanceTextView = new TextView(CommonPlaceDetailActivity.this);
+						params1 = new RelativeLayout.LayoutParams((int)getResources().getDimension(R.dimen.special_traffic_loaction),LayoutParams.WRAP_CONTENT);
+						params2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 						params1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 						params1.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 						params1.setMargins((int)getResources().getDimension(R.dimen.transport_margin_left), 0, 0, 0);
@@ -369,11 +388,12 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				TextView hotelStart = (TextView) findViewById(R.id.hotel_start);
 				hotelStart.setText(TravelUtil.getHotelStar(this,hotelStartLevel));
 				ViewGroup hotelStartImageGroup = (ViewGroup) findViewById(R.id.hotel_start_image);
+				ImageView hotelStartImage;
 				for(int i=0;i<place.getHotelStar();i++)
 				{
 					
-					 ImageView hotelStartImage = new ImageView(CommonPlaceDetailActivity.this);  
-					 hotelStartImage.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.hotel_start_icon),android.view.WindowManager.LayoutParams.WRAP_CONTENT)));  
+					 hotelStartImage = new ImageView(CommonPlaceDetailActivity.this);  
+					 hotelStartImage.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.hotel_start_icon),LayoutParams.WRAP_CONTENT)));  
 					 hotelStartImage.setPadding(0, 0, 5, 0);  
 					 hotelStartImage.setScaleType(ScaleType.FIT_CENTER);
 					 hotelStartImage.setImageResource(R.drawable.star_ico);
@@ -514,8 +534,9 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		nearbyListGroup = (ViewGroup) findViewById(R.id.nearby_list_group);
 		favoriteCount = (TextView) findViewById(R.id.favorite_count);
 		collect = (TextView) findViewById(R.id.collect);
-		coolectBtn = (ImageView) findViewById(R.id.collect_btn);
-		coolectBtn.setOnClickListener(addFavoriteOnClickListener);
+		collectBtn = (ImageView) findViewById(R.id.collect_btn);
+		//nearbyPlaceListView = (ListView) findViewById(R.id.nearby_place_listview);
+		collectBtn.setOnClickListener(addFavoriteOnClickListener);
 		ImageButton locationButton = (ImageButton) findViewById(R.id.location_button);
 		ImageButton indexButton = (ImageButton) findViewById(R.id.index_button);
 		indexButton.setOnClickListener(indexOnClickListener);
@@ -525,7 +546,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	  }
 	}
 	
-	private OnPageChangeListener scenecyImageListener  = new OnPageChangeListener()
+	private OnPageChangeListener placeImageOnPageChangeListener  = new OnPageChangeListener()
 	{
 		
 		@Override
@@ -575,11 +596,17 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
-			openGPSSettings();
-			Intent intent = new Intent();
-			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
-			intent.setClass(CommonPlaceDetailActivity.this, NearbyPlaceMap.class);
-			startActivity(intent);		
+			
+			try {
+			 	Class.forName("com.google.android.maps.MapActivity");
+			 	openGPSSettings();
+				Intent intent = new Intent();
+				intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
+				intent.setClass(CommonPlaceDetailActivity.this, NearbyPlaceMap.class);
+				startActivity(intent);
+	        }catch(Exception  e) {
+	            (Toast.makeText(CommonPlaceDetailActivity.this, getString(R.string.google_map_not_found1), Toast.LENGTH_LONG)).show();
+	        }			
 		}
 	};
 	
@@ -628,11 +655,14 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			}
 		} );
 		phoneCall.show();
+		
 	}
+
 
 	private void getNearbyList()
 	{
-		 nearbyAsyncTask = new AsyncTask<Void, Void, List<Place>>()
+		//AsyncTask<Void, Void, List<Place>> nearbyAsyncTask = new AsyncTask<Void, Void, List<Place>>()
+		nearbyAsyncTask = new AsyncTask<Void, Void, List<Place>>()
 		{
 
 			@Override
@@ -650,6 +680,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 					nearbyPlaceList.clear();
 				}			
 				nearbyPlaceList.addAll(result);
+				//initNearbyPlaceListView();
 				int size = 0;
 				if(result.size()>10)
 				{
@@ -657,9 +688,13 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				}else {
 					size = result.size();
 				}
+				Place placeItem = null;
+				int placeCategoryIcon = 0;
+				String distanceStr = null;
+				int rank = 0;
 				for(int i=0;i<size;i++)
 				{
-					View nearbyListItemView = getLayoutInflater().inflate(R.layout.nearby_list_item, null);
+					nearbyListItemView = LayoutInflater.from(CommonPlaceDetailActivity.this).inflate(R.layout.nearby_list_item, null);
 					nearbyListItemView.setTag(i);
 					nearbyListItemView.setOnClickListener(nearbyListItemOnClickListener);
 					nearbyListItemView.setLayoutParams(new LayoutParams((int)getResources().getDimension(R.dimen.nearby_list_width), (int)getResources().getDimension(R.dimen.nearby_list_height)));
@@ -671,25 +706,23 @@ public abstract class CommonPlaceDetailActivity extends Activity
 					}else {
 						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_center));
 					}
-					Place placeItem = result.get(i);
-					
-					ImageView placeCategoryImage = (ImageView) nearbyListItemView.findViewById(R.id.place_category);
-					int placeCategoryIcon = TravelUtil.getPlaceCategoryImage(placeItem.getCategoryId());
+					placeItem = result.get(i);
+					placeCategoryImage = (ImageView) nearbyListItemView.findViewById(R.id.place_category);
+					placeCategoryIcon = TravelUtil.getPlaceCategoryImage(placeItem.getCategoryId());
 					placeCategoryImage.setImageDrawable(getResources().getDrawable(placeCategoryIcon));
 					
-					TextView placeName = (TextView) nearbyListItemView.findViewById(R.id.place_name);;
-					TextView distance = (TextView) nearbyListItemView.findViewById(R.id.place_distance);
-					
+					 placeName = (TextView) nearbyListItemView.findViewById(R.id.place_name);;
+					 distance = (TextView) nearbyListItemView.findViewById(R.id.place_distance);
 					
 					placeName.setText(placeItem.getName());
 					placeName.setTextColor(getResources().getColor(R.color.place_price_color));
-					String distanceStr = TravelUtil.getDistance(placeItem.getLongitude(), placeItem.getLatitude(),place.getLongitude(),place.getLatitude());
+					distanceStr = TravelUtil.getDistance(placeItem.getLongitude(), placeItem.getLatitude(),place.getLongitude(),place.getLatitude());
 					distance.setText(distanceStr);
 					distance.setTextColor(getResources().getColor(R.color.place_price_color));
-					ImageView recommendImageView1 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image1);
-					ImageView recommendImageView2 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image2);
-					ImageView recommendImageView3 =(ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image3);
-					int rank = placeItem.getRank();
+					recommendImageView1 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image1);
+					recommendImageView2 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image2);
+					recommendImageView3 =(ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image3);
+					rank = placeItem.getRank();
 					switch (rank)
 					{
 					case 1:
@@ -716,6 +749,35 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	}
 	
 
+	
+	
+	
+	public void setListViewHeightBasedOnChildren(ListView listView) {  
+	    ListAdapter listAdapter = listView.getAdapter();   
+	    if (listAdapter == null) {  
+	        return;  
+	    }  
+
+	    int totalHeight = 0;  
+	    for (int i = 0; i < listAdapter.getCount(); i++) {  
+	        View listItem = listAdapter.getView(i, null, listView);  
+	        listItem.measure(0, 0);  
+	        totalHeight += listItem.getMeasuredHeight();  
+	    }  
+
+	    ViewGroup.LayoutParams params = listView.getLayoutParams();  
+	    params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));  
+	    ((MarginLayoutParams)params).setMargins(10, 10, 10, 10);
+	    listView.setLayoutParams(params);  
+	} 
+
+	
+	
+	
+	
+	
+	
+	
 	private OnClickListener nearbyListItemOnClickListener = new OnClickListener()
 	{
 		
@@ -728,8 +790,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			intent.putExtra(ConstantField.PLACE_DETAIL, nearbyPlace.toByteArray());
 			Class activity = getClassByPlaceType(nearbyPlace.getCategoryId());
 			intent.setClass(CommonPlaceDetailActivity.this, activity);
-			//intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
+			activity = null;
 		}
 	}; 
 	
@@ -753,7 +815,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				if(FavoriteMission.getInstance().checkPlaceIsCollected(place.getPlaceId()))
 				{
 					collect.setText(R.string.collected);
-					coolectBtn.setClickable(false);
+					collectBtn.setClickable(false);
 				}
 				super.onPostExecute(result);
 			}};
@@ -769,7 +831,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		if(reulst == 0)
 		{			
 			collect.setText(R.string.collected);
-			coolectBtn.setClickable(false);
+			collectBtn.setClickable(false);
 			getPlaceFavoriteCount();
 		}else {
 			toast = Toast.makeText(this, "收藏失败", Toast.LENGTH_SHORT);
@@ -810,17 +872,78 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
-			openGPSSettings();
-			Intent intent = new Intent();
-			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
-			intent.setClass(CommonPlaceDetailActivity.this, NearbyPlaceMap.class);
-			startActivity(intent);	
+			try {
+			 	Class.forName("com.google.android.maps.MapActivity");
+			 	openGPSSettings();
+				Intent intent = new Intent();
+				intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
+				intent.setClass(CommonPlaceDetailActivity.this, NearbyPlaceMap.class);
+				startActivity(intent);
+	        }catch(Exception  e) {
+	            (Toast.makeText(CommonPlaceDetailActivity.this, getString(R.string.google_map_not_found1), Toast.LENGTH_LONG)).show();
+	        }
+				
 			
 		}
 	};
 	
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu)
+	{
+		// TODO Auto-generated method stub
+		//TravelApplication.getInstance().addActivity(this);
+		MenuInflater menuInflater = getMenuInflater();
+		menuInflater.inflate(R.menu.menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		Intent  intent;
+		switch (item.getItemId())	
+		{		
+		case R.id.menu_refresh:
+			init();
+			getNearbyList();
+			getPlaceFavoriteCount();
+			break;
+		case R.id.menu_help:
+			intent = new Intent();
+			intent.putExtra(ConstantField.HELP_TITLE, getResources().getString(R.string.help));
+			intent.setClass(CommonPlaceDetailActivity.this, HelpActiviy.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_feedback:
+			intent = new Intent();			
+			intent.setClass(CommonPlaceDetailActivity.this, FeedBackActivity.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_about:
+			intent = new Intent();
+			String about = getResources().getString(R.string.about_damuzhi);
+			intent.putExtra(ConstantField.HELP_TITLE, about);
+			intent.setClass(CommonPlaceDetailActivity.this, HelpActiviy.class);
+			startActivity(intent);
+			break;
+		case R.id.menu_exit:
+			//TravelApplication.getInstance().exit();
+			ActivityManger.getInstance().AppExit(CommonPlaceDetailActivity.this);
+			break;
+
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+	
 	private OnClickListener indexOnClickListener = new OnClickListener()
 	{
+		
+		
+		
 		
 		@Override
 		public void onClick(View v)
@@ -831,6 +954,15 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			
 		}
 	};
+	
+	
+	
+
+	
+	
+	
+	
+	
 	
 	
 	private void openGPSSettings() {
@@ -845,17 +977,41 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		anseylodar.recycleBitmap();
-		/*imagePagerAdapter.recycleBitmap();
-		imagePagerAdapter = null;*/
+		recycle();
+		ActivityManger.getInstance().finishActivity();
+	}
+	
+	private void recycle()
+	{
+		Log.d(TAG, "recycle");
+		nearbyListGroup.removeAllViews();
+		main.removeAllViews();		
+		//asyncLoader.recycleBitmap();
+		nearbyPlaceList.clear();
+		for(ImageView imageView:imageViews)
+		{
+			imageView = null;
+		}
+		imageViews = null;
+		nearbyListItemView = null;
+		placeCategoryImage = null;
+		recommendImageView1 = null;
+		recommendImageView2 = null;
+		recommendImageView3 = null;
+		placeName = null;
+		distance = null;
+		if(specialTrans != null)
+		{
+			specialTrans.removeAllViews();
+		}	
+		specialTrans = null;
+		row = null;
+		locationTextView = null; 
+		distanceTextView = null;
+		//place = null;
 		System.gc();
 	}
-	@Override
-	protected void onStop()
-	{
-		//imageLoader.stop();
-		//imagePagerAdapter.recycleBitmap();
-		super.onStop();
-	}
+	
+	
 	
 }

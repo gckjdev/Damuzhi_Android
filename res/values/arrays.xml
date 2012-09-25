@@ -40,4 +40,32 @@
         <item >1000-1500</item>
         <item >1500以上</item>
     </string-array>
+    
+    
+    <string-array name="adult_number">
+        <item >成人1位</item>
+        <item >成人2位</item>
+        <item >成人3位</item>
+        <item >成人4位</item>
+        <item >成人5位</item>
+        <item >成人6位</item>
+        <item >成人7位</item>
+        <item >成人8位</item>
+        <item >成人9位</item>
+        <item >成人10位</item>
+    </string-array>
+    
+    <string-array name="child_number">
+        <item >儿童0位</item>
+        <item >儿童1位</item>
+        <item >儿童2位</item>
+        <item >儿童3位</item>
+        <item >儿童4位</item>
+        <item >儿童5位</item>
+        <item >儿童6位</item>
+        <item >儿童7位</item>
+        <item >儿童8位</item>
+        <item >儿童9位</item>
+    </string-array>
+    
 </resources>

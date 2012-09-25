@@ -8,12 +8,10 @@
         */
 package com.damuzhi.travel.activity.adapter.viewcache;
 
-import com.damuzhi.travel.R;
-
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  

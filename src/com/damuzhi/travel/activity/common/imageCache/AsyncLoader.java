@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.ImageLoader.ImageCallback;
 import com.damuzhi.travel.activity.common.imageCache.PortraitLodar.PortraitImgCallback;
@@ -21,22 +20,33 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.PicUtill;
 import com.damuzhi.travel.util.TravelUtil;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Log;
 import android.widget.ImageView;
-
-public class Anseylodar {
+import com.damuzhi.travel.R;
+public class AsyncLoader {
 	
 	private static final String TAG = "Anseylodar";
-	//private Map<String,Bitmap> localBitmaps ;
-	private HashMap<String, WeakReference<Bitmap>> localBitmaps;
-	ImageLoader imageLoader;
-	public Anseylodar(){
-		imageLoader=new ImageLoader();
-		//localBitmaps = new HashMap<String,Bitmap>();
-		localBitmaps = new HashMap<String, WeakReference<Bitmap>>();
+	private HashMap<String, WeakReference<Bitmap>> localBitmaps = new HashMap<String, WeakReference<Bitmap>>();;
+	ImageLoader imageLoader = ImageLoader.getInstance();
+	//ImageLoader imageLoader = new ImageLoader();
+	public AsyncLoader(){
+		
 	}
+	
+	private volatile static AsyncLoader instance;
+	public static AsyncLoader getInstance() {
+		if (instance == null) {
+				if (instance == null) {
+					instance = new AsyncLoader();
+				}
+		}
+		instance = new AsyncLoader();
+		return instance;
+	}
+	
 	
 	
 	public  void showimgAnsy(ImageView imageView,String url,int cityId){
@@ -140,7 +150,7 @@ public class Anseylodar {
 	
 	
 	
-	public static PortraitImgCallback getporcallback(final ImageView imageView){
+	/*public static PortraitImgCallback getporcallback(final ImageView imageView){
 		return new PortraitImgCallback() {
 			
 			@Override
@@ -157,17 +167,19 @@ public class Anseylodar {
 				}
 			}
 		};
-	};
+	};*/
 	
 	
 	public void recycleBitmap()
 	{
-		imageLoader.destoryBitmap();
-		destoryBitmap();
+		imageLoader.recycleBitmap();
+		imageLoader = null;
+		clearBitmap();
+		System.gc();
 	}
 	
 	
-	private void destoryBitmap()
+	private void clearBitmap()
 	{
 		if(localBitmaps!=null && localBitmaps.size()>0)
 		{
@@ -180,10 +192,11 @@ public class Anseylodar {
 				if(bitmap != null&&!bitmap.isRecycled())
 				{
 					bitmap.recycle();
+					bitmap = null;
 				}	
 			}
 		}
-		System.gc();
+		localBitmaps.clear();
 	}
 	
 }

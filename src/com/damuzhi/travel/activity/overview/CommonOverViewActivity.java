@@ -32,12 +32,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
+import com.damuzhi.travel.activity.common.ActivityManger;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.common.imageCache.Anseylodar;
+import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayView;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
@@ -46,7 +46,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
-
+import com.damuzhi.travel.R;
 /**  
  * @description   
  * @version 1.0  
@@ -70,13 +70,14 @@ public abstract class CommonOverViewActivity extends MenuActivity
 	private ViewGroup main,group;
 	private WebView overviewWebview;
 	 CommonOverview commonOverview;
-	 Anseylodar anseylodar;
+	 AsyncLoader anseylodar;
 	@Override
 	protected void onCreate(Bundle arg0)
 	{
 		
 		super.onCreate(arg0);	
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		//refresh();
 		loadCityOverView();	
 		}
@@ -94,7 +95,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 				int size=imagePath.size();
 				for(int i=0;i<size;i++)
 				{
-					anseylodar = new Anseylodar();
+					anseylodar = new AsyncLoader();
 					View view = inflater.inflate(R.layout.place_detail_image, null);
 					ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
 					String url  = imagePath.get(i);
@@ -275,5 +276,6 @@ public abstract class CommonOverViewActivity extends MenuActivity
 		{
 			loadingDialog.dismiss();
 		}
+		ActivityManger.getInstance().finishActivity();
 	}
 }

@@ -1,6 +1,5 @@
 package com.damuzhi.travel.activity.common;
 
-import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.google.android.maps.MapActivity;
@@ -16,7 +15,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-
+import com.damuzhi.travel.R;
 public class TravelActivity extends MapActivity
 {
 
@@ -24,7 +23,8 @@ public class TravelActivity extends MapActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// TODO Auto-generated method stub		
-		TravelApplication.getInstance().addActivity(this);
+		//TravelApplication.getInstance().addActivity(this);
+		ActivityManger.getInstance().addActivity(this);
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -58,7 +58,8 @@ public class TravelActivity extends MapActivity
 			startActivity(intent);
 			break;
 		case R.id.menu_exit:
-			TravelApplication.getInstance().exit();
+			//TravelApplication.getInstance().exit();
+			ActivityManger.getInstance().AppExit(this);
 			break;
 		default:
 			break;

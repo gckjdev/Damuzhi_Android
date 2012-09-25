@@ -16,15 +16,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.entity.BufferedHttpEntity;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
-
-import android.R.integer;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -59,7 +50,8 @@ public class HttpInputStreamAsyncHandel extends AsyncHttpResponseHandler
 	     * @param error the underlying cause of the failure
 	     * @param content the response body, if any
 	     */
-	    public void onFailure(Throwable error, String content) {
+	    @Override
+		public void onFailure(Throwable error, String content) {
 	        // By default, call the deprecated onFailure(Throwable) for compatibility
 	        onFailure(error);
 	    }
@@ -73,19 +65,23 @@ public class HttpInputStreamAsyncHandel extends AsyncHttpResponseHandler
 	        sendMessage(obtainMessage(SUCCESS_MESSAGE, inputStream));
 	    }
 
-	    protected void sendFailureMessage(Throwable e, String responseBody) {
+	    @Override
+		protected void sendFailureMessage(Throwable e, String responseBody) {
 	        sendMessage(obtainMessage(FAILURE_MESSAGE, new Object[]{e, responseBody}));
 	    }
 	    
-	    protected void sendFailureMessage(Throwable e, byte[] responseBody) {
+	    @Override
+		protected void sendFailureMessage(Throwable e, byte[] responseBody) {
 	        sendMessage(obtainMessage(FAILURE_MESSAGE, new Object[]{e, responseBody}));
 	    }
 
-	    protected void sendStartMessage() {
+	    @Override
+		protected void sendStartMessage() {
 	        sendMessage(obtainMessage(START_MESSAGE, null));
 	    }
 
-	    protected void sendFinishMessage() {
+	    @Override
+		protected void sendFinishMessage() {
 	        sendMessage(obtainMessage(FINISH_MESSAGE, null));
 	    }
 
@@ -98,14 +94,16 @@ public class HttpInputStreamAsyncHandel extends AsyncHttpResponseHandler
 	        onSuccess(inputStream);
 	    }
 
-	    protected void handleFailureMessage(Throwable e, String responseBody) {
+	    @Override
+		protected void handleFailureMessage(Throwable e, String responseBody) {
 	        onFailure(e, responseBody);
 	    }
 
 
 
 	    // Methods which emulate android's Handler and Message methods
-	    protected void handleMessage(Message msg) {
+	    @Override
+		protected void handleMessage(Message msg) {
 	        switch(msg.what) {
 	            case SUCCESS_MESSAGE:
 	                handleSuccessMessage((InputStream)msg.obj);
