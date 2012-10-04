@@ -54,7 +54,7 @@ import com.damuzhi.travel.activity.adapter.common.FilterAdapter.ViewHolder;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter.SortViewHolder;
 import com.damuzhi.travel.activity.adapter.place.CommonPlaceListAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.PlaceGoogleMap;
@@ -164,7 +164,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
 		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.common_place);
 		setProgressBarVisibility(true); 
 		
@@ -1245,7 +1245,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 			{
 				loadingDialog.dismiss();
 			}
-			ActivityManger.getInstance().finishActivity();
+			ActivityMange.getInstance().finishActivity();
 			System.gc();
 			super.onDestroy();
 		}	
@@ -1394,7 +1394,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 				break;
 			case R.id.menu_exit:
 				//TravelApplication.getInstance().exit();
-				ActivityManger.getInstance().AppExit(CommonPlaceActivity.this);
+				ActivityMange.getInstance().AppExit(CommonPlaceActivity.this);
 				break;
 
 			default:

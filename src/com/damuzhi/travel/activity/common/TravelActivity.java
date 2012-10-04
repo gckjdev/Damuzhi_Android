@@ -24,7 +24,7 @@ public class TravelActivity extends MapActivity
 	{
 		// TODO Auto-generated method stub		
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -59,7 +59,7 @@ public class TravelActivity extends MapActivity
 			break;
 		case R.id.menu_exit:
 			//TravelApplication.getInstance().exit();
-			ActivityManger.getInstance().AppExit(this);
+			ActivityMange.getInstance().AppExit(this);
 			break;
 		default:
 			break;

@@ -33,7 +33,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -77,7 +77,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 		
 		super.onCreate(arg0);	
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		//refresh();
 		loadCityOverView();	
 		}
@@ -276,6 +276,6 @@ public abstract class CommonOverViewActivity extends MenuActivity
 		{
 			loadingDialog.dismiss();
 		}
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 }

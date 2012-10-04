@@ -20,7 +20,7 @@
             android:textColor="@android:color/white"
             android:textSize="20.0sp" />
         <Button
-            android:id="@+id/register_button"
+            android:id="@+id/verification_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

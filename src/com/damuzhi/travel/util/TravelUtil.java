@@ -689,6 +689,10 @@ public class TravelUtil
 
 	
 	public static boolean isEmail(String strEmail) { 
+		if(strEmail == null||strEmail.equals(""))
+		{
+			return false;
+		}
 	    String strPattern = "^([a-z0-9A-Z]+[-|\\.]?)+[a-z0-9A-Z]@([a-z0-9A-Z]+(-[a-z0-9A-Z]+)?\\.)+[a-zA-Z]{2,}$";
 	    Pattern p = Pattern.compile(strPattern);
 	    Matcher m = p.matcher(strEmail);
@@ -696,6 +700,10 @@ public class TravelUtil
 	}
 	
 	public static boolean isNumber(String strNumber) { 
+		if(strNumber == null||strNumber.equals(""))
+		{
+			return false;
+		}
 	    String strPattern = "^1[0-9]{10}$";
 	    Pattern p = Pattern.compile(strPattern);
 	    Matcher m = p.matcher(strNumber);
@@ -704,6 +712,10 @@ public class TravelUtil
 	
 	public static boolean isPhoneNumber(String phoneNum)
 	{
+		if(phoneNum == null||phoneNum.equals(""))
+		{
+			return false;
+		}
 		String strPattern = "^0{0,1}(13[0-9]|15[0-9]|15[0-2]|18[0-9])[0-9]{8}$";
 		Pattern p = Pattern.compile(strPattern);
 	    Matcher m = p.matcher(phoneNum);
@@ -712,6 +724,10 @@ public class TravelUtil
 	
 	
 	public static boolean isShort(String password) {
+		if(password == null||!password.equals(""))
+		{
+			return false;
+		}
 		String strPattern = "^[0-9A-Za-z]{6,}$";
 		Pattern p = Pattern.compile(strPattern);
 	    Matcher m = p.matcher(password);
@@ -877,6 +893,45 @@ public class TravelUtil
 		returnString += date.get(Calendar.HOUR_OF_DAY)+":";
 		returnString += date.get(Calendar.MINUTE);*/
 		return stringBuffer.toString();
+	}
+
+	/**  
+	        * @param status
+	        * @return  
+	        * @description   
+	        * @version 1.0  
+	        * @author liuxiaokun  
+	        * @update 2012-9-29 上午10:55:49  
+	*/
+	public static String getOrderStatus(int orderStatus)
+	{
+		String status = "";
+		switch (orderStatus) {
+        case 1:
+             status = "意向订单";
+             return status;            
+        case 2:
+        	 status ="处理中";
+        	 return status;  
+            
+        case 3:
+        	 status ="待支付";
+        	 return status;  
+            
+        case 4:
+        	 status ="已支付";
+        	 return status;  
+            
+        case 5:
+        	 status ="已完成";
+        	 return status;  
+            
+        case 6:
+        	status ="取消";
+        	return status;          
+        default:
+        	return status;  
+		}
 	}
 
 	

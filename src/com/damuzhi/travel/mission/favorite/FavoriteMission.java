@@ -25,6 +25,7 @@ import com.damuzhi.travel.model.favorite.FavoriteManager;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 
 /**  
  * @description   
@@ -97,17 +98,6 @@ public class FavoriteMission
 		catch (Exception e)
 		{
 			Log.e(TAG, "<getFavoriteCountByUrl> catch exception = "+e.toString(), e);
-			try
-			{
-				if (inputStream != null){
-					inputStream.close();
-				}
-				if (br != null){
-					br.close();
-				}
-			} catch (IOException e1)
-			{
-			}
 			return count;
 		}finally
 		{
@@ -127,12 +117,12 @@ public class FavoriteMission
 	}
 
 	
-	public int addFavorite(String userId, Place place)
+	public int addFavoritePlace(String userId, Place place)
 	{
-		int result = addFavorite(userId, place.getPlaceId());
+		int result = addFavoritePlace(userId, place.getPlaceId());
 		if(result == 0)
 		{
-			if(!favoriteManger.addFavorite(place))
+			if(!favoriteManger.addFavoritePlace(place))
 			{
 				result = -1;
 			}
@@ -142,11 +132,11 @@ public class FavoriteMission
 
 	
 	
-	private int addFavorite(String userId,int placeId)
+	private int addFavoritePlace(String userId,int placeId)
 	{
 		int resultCode = -1;
-		String url = String.format(ConstantField.ADD_FAVORITE,userId,placeId,null,null);
-		Log.i(TAG, "<addFavorite> add favorite  ,url = "+url);
+		String url = String.format(ConstantField.ADD_FAVORITE_PLACE,userId,placeId,null,null);
+		Log.i(TAG, "<addFavoritePlace> add favorite place ,url = "+url);
 		HttpTool httpTool = HttpTool.getInstance();
 		InputStream inputStream = null;
 		try
@@ -178,7 +168,7 @@ public class FavoriteMission
 					return resultCode;
 				} catch (Exception e)
 				{					
-					Log.e(TAG, "<getFavoriteCountByUrl> catch exception = "+e.toString(), e);
+					Log.e(TAG, "<addFavoritePlace> catch exception = "+e.toString(), e);
 					return resultCode;
 				}				
 			}
@@ -189,7 +179,10 @@ public class FavoriteMission
 		} 
 		catch (Exception e)
 		{
-			Log.e(TAG, "<getFavoriteCountByUrl> catch exception = "+e.toString(), e);
+			Log.e(TAG, "<addFavoritePlace> catch exception = "+e.toString(), e);
+			return resultCode;
+		}finally
+		{
 			if (inputStream != null){
 				try
 				{
@@ -198,9 +191,6 @@ public class FavoriteMission
 				{
 				}
 			}
-			return resultCode;
-		}finally
-		{
 			httpTool.stopConnection();
 		}
 	}
@@ -214,15 +204,15 @@ public class FavoriteMission
 	}
 
 	
-	public  List<Place> getMyFavorite(int cityId)
+	public  List<Place> getMyFavoritePlace(int cityId)
 	{
-		List<Place> list = favoriteManger.getMyFavorite(cityId);
+		List<Place> list = favoriteManger.getMyFavoritePlace(cityId);
 		return list;
 	}
 	
-	public  List<Place> getMyFavorite(int cityId,int placeCategoryId)
+	public  List<Place> getMyFavoritePlace(int cityId,int placeCategoryId)
 	{
-		List<Place> list = favoriteManger.getMyFavorite(cityId,placeCategoryId);
+		List<Place> list = favoriteManger.getMyFavoritePlace(cityId,placeCategoryId);
 		return list;
 	}
 
@@ -230,7 +220,7 @@ public class FavoriteMission
 	
 
 	
-	public List<Place> getFavorite(int categoryId)
+	public List<Place> getFavoritePlace(int categoryId)
 	{
 		int cityId = AppManager.getInstance().getCurrentCityId();
 		List<Place> list = getPlaceListByUrl(cityId, categoryId);
@@ -292,6 +282,95 @@ public class FavoriteMission
 	{
 		return favoriteManger.deleteFavorite(placeId);
 		
+	}
+
+	
+	public void addFavoriteRoute(String userId, String loginId, String token,int routeId, LocalRoute localRoute)
+	{
+		/*int result = addFavoriteRoute(userId, loginId, token, routeId);
+		if(result == 0)
+		{
+			if(!favoriteManger.addFavoriteRoute(localRoute))
+			{
+				result = -1;
+			}
+		}*/
+		favoriteManger.addFavoriteRoute(localRoute);
+		
+	}
+
+	
+	private int addFavoriteRoute(String userId, String loginId, String token,int routeId)
+	{
+
+		int resultCode = -1;
+		String url = String.format(ConstantField.ADD_FAVORITE_ROUTE_URL,userId,loginId,token,routeId);
+		Log.i(TAG, "<addFavoriteRoute> add favorite  ,url = "+url);
+		HttpTool httpTool = HttpTool.getInstance();
+		InputStream inputStream = null;
+		try
+		{
+			inputStream = httpTool.sendGetRequest(url);
+			if(inputStream !=null)
+			{
+				try
+				{
+					BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
+					StringBuffer sb = new StringBuffer();
+					String result = br.readLine();
+					while (result != null) {
+						sb.append(result);
+						result = br.readLine();
+					}
+					if(sb.length() <= 1){
+						return resultCode;
+					}
+					Log.d(TAG, "json result = "+sb.toString());
+					JSONObject favoriteData = new JSONObject(sb.toString());
+					if (favoriteData == null || favoriteData.getInt("result")!= 0){
+						return resultCode;
+					}
+					
+					inputStream.close();
+					br.close();
+					inputStream = null;
+					resultCode = favoriteData.getInt("result");
+					return resultCode;
+				} catch (Exception e)
+				{					
+					Log.e(TAG, "<addFavoriteRoute> catch exception = "+e.toString(), e);
+					return resultCode;
+				}				
+			}
+			else{
+				return resultCode;
+			}
+			
+		} 
+		catch (Exception e)
+		{
+			Log.e(TAG, "<addFavoriteRoute> catch exception = "+e.toString(), e);
+			return resultCode;
+		}finally
+		{
+			if (inputStream != null){
+				try
+				{
+					inputStream.close();
+				} catch (IOException e1)
+				{
+				}
+			}
+			httpTool.stopConnection();
+		}
+	
+	}
+	
+	
+	public  List<LocalRoute> getMyFavoriteRoutes()
+	{
+		List<LocalRoute> list = favoriteManger.getMyFavoriteRoute();
+		return list;
 	}
 	
 }

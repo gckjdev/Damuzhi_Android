@@ -23,7 +23,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.common.CommonMission;
@@ -50,7 +50,7 @@ public class FeedBackActivity extends MenuActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.feedback);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		contentEditText = (EditText) findViewById(R.id.feedback_content);
 		contactEditText = (EditText) findViewById(R.id.feedback_contact);
 		ViewGroup feedbackGroup = (ViewGroup) findViewById(R.id.feedback_group);
@@ -69,7 +69,7 @@ public class FeedBackActivity extends MenuActivity
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 	
 	private OnClickListener submitOnClickListener = new OnClickListener()

@@ -48,7 +48,7 @@ import android.widget.Toast;
 import com.baidu.location.LocationClient;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.PlaceGoogleMap;
 import com.damuzhi.travel.activity.common.TravelActivity;
@@ -112,7 +112,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.common_nearby_place);
 		currentDistance = ConstantField.ONE_KILOMETER;
 		currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
@@ -714,7 +714,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		{
 			loadingDialog.dismiss();
 		}
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 	
 	
@@ -760,7 +760,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			break;
 		case R.id.menu_exit:
 			//TravelApplication.getInstance().exit();
-			ActivityManger.getInstance().AppExit(CommonNearbyPlaceActivity.this);
+			ActivityMange.getInstance().AppExit(CommonNearbyPlaceActivity.this);
 			break;
 
 		default:

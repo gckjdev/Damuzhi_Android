@@ -11,7 +11,29 @@
             android:id="@+id/tab_top"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true" >
+            android:layout_alignParentTop="true" 
+            android:orientation="horizontal"
+		    android:background="@drawable/topmenu_bg"
+		    android:gravity="center">
+		    <TextView 
+		        android:id="@+id/title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/damuzhi"
+		        android:textColor="@color/white"
+		        android:textSize="20.0sp"/>
+		   <TextView 
+		        android:id="@+id/current_city_name"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textColor="@color/white"
+		        android:textSize="20.0sp"/>
+		   <ImageView 
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content"
+		       android:layout_marginLeft="5dp"
+		       android:scaleType="fitCenter"
+		       android:src="@drawable/top_arrow"/>
         </LinearLayout>
 
         

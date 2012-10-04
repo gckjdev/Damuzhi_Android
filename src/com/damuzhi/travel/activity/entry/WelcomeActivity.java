@@ -108,7 +108,7 @@ public class WelcomeActivity extends MenuActivity
 				super.onPostExecute(result);
 				Intent intent = new Intent();
 				//intent.setClass(WelcomeActivity.this, IndexActivity.class);
-				intent.setClass(WelcomeActivity.this, Main.class);
+				intent.setClass(WelcomeActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();		
 			}

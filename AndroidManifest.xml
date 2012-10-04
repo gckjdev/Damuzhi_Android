@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.damuzhi.travel"
-    android:versionCode="1"
-    android:versionName="1.1" >
+    android:versionCode="3"
+    android:versionName="1.2" >
     <supports-screens android:anyDensity="true" />
     <permission android:name="android.permission.BAIDU_LOCATION_SERVICE"></permission>
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE"></uses-permission>
@@ -39,7 +39,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>   
-        <activity android:name=".activity.entry.Main" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.entry.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.more.MoreActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.more.OpenCityActivity"  android:screenOrientation="portrait" android:launchMode="singleTask"/>       
         <activity android:name=".activity.overview.TravelGuidesActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>          
@@ -70,16 +70,23 @@
         <activity android:name=".activity.more.BrowseHistoryActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>     
         <activity android:name=".activity.more.FeedBackActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan" android:launchMode="singleTask"/>     
         <activity android:name=".activity.more.RecommendedAppActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>  
-        <activity android:name=".activity.favorite.FavoriteActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
-        <activity android:name=".activity.touristRoute.CommonLocalTrips" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
-        <activity android:name=".activity.touristRoute.CommonLocalTripsDetail" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
-        <activity android:name=".activity.touristRoute.CommonBookingRoute" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
-        <activity android:name=".activity.touristRoute.CommonBookingConfirm" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
-        <activity android:name=".activity.touristRoute.CommonTouristRouteOrderList" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
-        <activity android:name=".activity.more.LoginActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.favorite.MyFavoritePlaceActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
+        <activity android:name=".activity.touristRoute.CommonLocalTripsActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
+        <activity android:name=".activity.touristRoute.CommonLocalTripsDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
+        <activity android:name=".activity.touristRoute.CommonBookingRouteActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
+        <activity android:name=".activity.touristRoute.CommonBookingConfirmActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
+        <activity android:name=".activity.touristRoute.CommonTouristRouteOrderListActivity" android:screenOrientation="portrait" /> 
+        <activity android:name=".activity.touristRoute.CommonOrderMangerActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.more.LoginActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.more.FindPasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.more.RegisterActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.more.RegisterVerificationActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name="com.damuzhi.travel.activity.common.calendar.CalendarActivity" />
+        <activity android:name=".activity.favorite.MyFavoriteRouteActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
+       
+       <activity android:name=".activity.fly.CommonFlyActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+       <activity android:name=".activity.happyRoute.CommonHappyRouteActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+       
+        <activity android:name="com.damuzhi.travel.activity.common.calendar.CalendarActivity" android:screenOrientation="portrait" />
         
                 
         <activity android:name=".activity.share.Share2Weibo" android:screenOrientation="portrait" android:launchMode="singleTask">
@@ -94,7 +101,7 @@
 		</activity>
 		<activity android:name=".activity.common.qweibo.MyWebView" android:launchMode="singleTask">
         </activity>
-        <meta-data  android:name="YOUMI_CHANNEL"     android:value="10000" />
+        <meta-data  android:name="YOUMI_CHANNEL"     android:value="88888" />
 		
           <!--  注册服务 -->
          <service android:name=".download.DownloadService"/>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listview_group" 
+	    android:layout_width="fill_parent"
+	    android:layout_height="fill_parent"
+	    android:background="@drawable/all_page_bg"
+	    android:orientation="vertical" >
+	    <RelativeLayout 
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:id="@+id/current_group"
+		    android:orientation="horizontal"
+		    android:background="@drawable/topmenu_bg">
+		    <TextView 
+		        android:id="@+id/title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/my_concern"
+		        android:textColor="@color/white"
+		        android:layout_centerInParent="true"
+		        android:textSize="20.0sp"/>
+		   <ProgressBar 
+			    android:id="@+id/loading_progress" 
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" 
+			    android:layout_toRightOf="@id/title"
+			    android:layout_centerVertical="true"
+			    android:layout_marginLeft="30dp"
+			    style="?android:attr/progressBarStyleSmall"/>
+		</RelativeLayout> 		 
+    	<ListView
+    	    android:id="@+id/local_trips_listview"
+    	    android:layout_width="fill_parent"
+    	    android:layout_height="fill_parent"
+    	    android:divider="@android:color/transparent"
+    	    android:dividerHeight="0.5dp"
+    	    android:clickable="true"
+    	    android:focusable="true"
+    	    android:scrollbars="none"
+    	    android:cacheColorHint="@color/listview_bg"/>
+</LinearLayout>

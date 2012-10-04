@@ -6,17 +6,17 @@ import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
 
-public class ActivityManger {
+public class ActivityMange {
 	private static Stack<Activity> activityStack;
-	private static ActivityManger instance;
+	private static ActivityMange instance;
 	
-	private ActivityManger(){}
+	private ActivityMange(){}
 	/**
 	 * 单一实例
 	 */
-	public static ActivityManger getInstance(){
+	public static ActivityMange getInstance(){
 		if(instance==null){
-			instance=new ActivityManger();
+			instance=new ActivityMange();
 		}
 		return instance;
 	}

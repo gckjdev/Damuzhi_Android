@@ -5,34 +5,47 @@ import java.util.List;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
+import com.damuzhi.travel.activity.common.ActivityMange;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
+import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.model.app.AppManager;
+import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 import com.damuzhi.travel.util.TravelUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.tencent.weibo.api.Tag_API;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-public class CommonLocalTripsDetail extends Activity
+public class CommonLocalTripsDetailActivity extends Activity
 {
 
+	protected static final String TAG = "CommonLocalTripsDetailActivity";
 	private ImageButton routeIntroButton;
 	private ImageButton bookingNoticeButton;
 	private ImageButton userFeedBackButton;
@@ -43,6 +56,7 @@ public class CommonLocalTripsDetail extends Activity
 	private TextView bookingNoticeTextView;
 	private TextView userFeedBackTextView;
 	private TextView routePriceTextView;
+	private Button consultButton;
 	private ImageView bookOrderImageView;
 	private ViewGroup routeIntroViewGroup;
 	private WebView routeDetailWebView;
@@ -54,7 +68,7 @@ public class CommonLocalTripsDetail extends Activity
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		
+		ActivityMange.getInstance().addActivity(this);
 		
 		
 		byte[] data = getIntent().getByteArrayExtra("local_route");
@@ -86,7 +100,7 @@ public class CommonLocalTripsDetail extends Activity
 		ViewPager routeViewPager = (ViewPager) main.findViewById(R.id.route_view_pager);
 		ImageView imageView;
 		for (int i = 0; i < size; i++) {  
-            imageView = new ImageView(CommonLocalTripsDetail.this);  
+            imageView = new ImageView(CommonLocalTripsDetailActivity.this);  
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10, 10);
             params.setMargins((int)getResources().getDimension(R.dimen.image_margin), 0, (int)getResources().getDimension(R.dimen.image_margin), 0);
             imageView.setLayoutParams(params);  
@@ -108,6 +122,7 @@ public class CommonLocalTripsDetail extends Activity
 		routeIntroButton = (ImageButton) findViewById(R.id.route_introduce);
 		bookingNoticeButton = (ImageButton) findViewById(R.id.booking_notice);
 		userFeedBackButton = (ImageButton) findViewById(R.id.user_feedback);
+		consultButton = (Button) findViewById(R.id.consult_button);
 		routeIntroButton.setSelected(true);
 		routeIdTextView = (TextView) findViewById(R.id.route_id);
 		routeNameTextView = (TextView) findViewById(R.id.route_name);
@@ -134,6 +149,9 @@ public class CommonLocalTripsDetail extends Activity
 		bookingNoticeButton.setOnClickListener(bookingNoticeOnClickListener);
 		userFeedBackButton.setOnClickListener(feedbackIntroOnClickListener);
 		bookOrderImageView.setOnClickListener(bookOrderOnClickListener);
+		consultButton.setOnClickListener(consultOnClickListener);
+		routeDetailWebView.setWebViewClient(webViewClient);
+		routeDetailWebView.getSettings().setJavaScriptEnabled(true);
 	}
 
 	
@@ -179,8 +197,8 @@ public class CommonLocalTripsDetail extends Activity
 			userFeedBackTextView.setTextColor(getResources().getColor(R.color.black));
 			if(routeIntroViewGroup.getVisibility() == View.GONE)
 			{
-				routeIntroViewGroup.setVisibility(View.VISIBLE);
 				bookingNoticeWebView.setVisibility(View.GONE);
+				routeIntroViewGroup.setVisibility(View.VISIBLE);	
 			}
 		}
 	};
@@ -194,7 +212,7 @@ public class CommonLocalTripsDetail extends Activity
 			userFeedBackButton.setSelected(false);
 			bookingNoticeTextView.setTextColor(getResources().getColor(R.color.white));
 			userFeedBackTextView.setTextColor(getResources().getColor(R.color.black));
-			routeIdTextView.setTextColor(getResources().getColor(R.color.black));
+			routeIntroTextView.setTextColor(getResources().getColor(R.color.black));
 			routeIntroViewGroup.setVisibility(View.GONE);
 			if(bookingNoticeWebView.getVisibility() == View.GONE)
 			{
@@ -213,7 +231,7 @@ public class CommonLocalTripsDetail extends Activity
 			bookingNoticeButton.setSelected(false);
 			routeIntroButton.setSelected(false);
 			userFeedBackTextView.setTextColor(getResources().getColor(R.color.white));
-			routeIdTextView.setTextColor(getResources().getColor(R.color.black));
+			routeIntroTextView.setTextColor(getResources().getColor(R.color.black));
 			bookingNoticeTextView.setTextColor(getResources().getColor(R.color.black));
 		}
 	};
@@ -225,8 +243,97 @@ public class CommonLocalTripsDetail extends Activity
 		public void onClick(View v) {
 			Intent intent = new Intent();
 			intent.putExtra("booking", localRoute.toByteArray());
-			intent.setClass(CommonLocalTripsDetail.this, CommonBookingRoute.class);
+			intent.setClass(CommonLocalTripsDetailActivity.this, CommonBookingRouteActivity.class);
 			startActivity(intent);
 		}
 	};
+	
+	
+	
+	private OnClickListener consultOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			String customerServiceTelephone = localRoute.getCustomerServiceTelephone();
+			makePhoneCall(customerServiceTelephone);
+			
+		}
+	};
+	
+	public void makePhoneCall( final String phoneNumber)
+	{
+		AlertDialog phoneCall = new AlertDialog.Builder(CommonLocalTripsDetailActivity.this).create();
+		phoneCall.setMessage(getResources().getString(R.string.make_phone_call)+"\n"+phoneNumber);
+		phoneCall.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(R.string.call),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				Intent intent = new Intent(Intent.ACTION_CALL);
+				intent.setData(Uri.parse("tel:"+phoneNumber));
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				CommonLocalTripsDetailActivity.this.startActivity(intent);
+			}
+		} );
+		phoneCall.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.cancel();
+				
+			}
+		} );
+		phoneCall.show();
+		
+	}
+	
+	
+	
+	
+	private WebViewClient webViewClient = new WebViewClient(){
+
+		@Override
+		public void onPageStarted(WebView view, String url, Bitmap favicon)
+		{
+			super.onPageStarted(view, url, favicon);
+			Log.d(TAG, "page start url = "+url);
+		}
+
+		@Override
+		public boolean shouldOverrideUrlLoading(WebView view, String url)
+		{
+			Log.d(TAG, "OVER RIDE URL = "+url);
+			if(url.contains("type=FollowRoute"));
+			{
+				Log.d(TAG, "follow route");
+				addFavoriteRoute(localRoute);
+				routeDetailWebView.loadUrl("javascript:toggleFavor(true)");
+			}
+			return super.shouldOverrideUrlLoading(view, url);
+		}
+		
+	};
+	
+	
+	private void addFavoriteRoute(LocalRoute localRoute)
+	{
+		String userId = UserManager.getInstance().getUserId(CommonLocalTripsDetailActivity.this);
+		String loginId = TravelApplication.getInstance().getLoginID();
+		String token = TravelApplication.getInstance().getToken();
+		int routeId = localRoute.getRouteId();
+		FavoriteMission.getInstance().addFavoriteRoute(userId,loginId,token,routeId,localRoute);
+	}
+	
+	
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		ActivityMange.getInstance().finishActivity();
+	}
 }

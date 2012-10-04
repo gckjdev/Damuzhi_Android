@@ -11,6 +11,14 @@
         android:layout_height="wrap_content"
         android:background="@drawable/topmenu_bg"
         android:orientation="horizontal" >
+        <ProgressBar 
+		    android:id="@+id/loading_progress" 
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" 
+		    android:layout_alignParentLeft="true"
+		    android:layout_centerVertical="true"
+		    android:layout_marginLeft="10dp"
+		    style="?android:attr/progressBarStyleSmall"/>
         <TextView
             android:id="@+id/local_route_detail_title"
             android:layout_width="fill_parent"
@@ -25,27 +33,16 @@
             android:text="@string/tourist_route_order_list"
             android:textColor="@color/white"
             android:textSize="20.0sp" />
-        <FrameLayout
+        <Button
+            android:id="@+id/consult_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="5dp" >
-            <ImageButton
-                android:id="@+id/consult_button"
-                android:layout_width="48dp"
-                android:layout_height="32dp"
-                android:background="@null"
-                android:src="@drawable/help_mini_button" />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:text="@string/consult"
-                android:textColor="@color/white"
-                android:textSize="14sp" />
-        </FrameLayout>
+            android:layout_marginRight="5dp" 
+            android:text="@string/consult"
+            android:textColor="@color/white"           
+            android:background="@drawable/help_mini_button" />
     </RelativeLayout>
     <ExpandableListView
         android:id="@+id/tourist_route_order_list"

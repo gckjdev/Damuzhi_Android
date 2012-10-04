@@ -32,7 +32,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.damuzhi.travel.activity.adapter.overview.TravelTipsAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -61,7 +61,7 @@ public class TravelGuidesActivity extends MenuActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.travel_guides);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		listView = (ListView) findViewById(R.id.travel_tips_listview);
 		listView.setOnItemClickListener(clickListener);
 		adapter = new TravelTipsAdapter(commonTravelTips, this);
@@ -208,6 +208,6 @@ public class TravelGuidesActivity extends MenuActivity
 		{
 			loadingDialog.dismiss();
 		}
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 }

@@ -53,7 +53,7 @@ import android.widget.Toast;
 import com.damuzhi.travel.activity.adapter.place.ImagePagerAdapter;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceListAdapter;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -125,7 +125,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	{
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		nearbyPlaceList = new ArrayList<Place>();
 		init();
 		getNearbyList();
@@ -825,7 +825,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	
 	private void addFavorite(Place place)
 	{
-		int reulst = FavoriteMission.getInstance().addFavorite(UserManager.getInstance().getUserId(this),place);
+		int reulst = FavoriteMission.getInstance().addFavoritePlace(UserManager.getInstance().getUserId(this),place);
 		Toast toast;
 		toast = Toast.makeText(this, "收藏成功", Toast.LENGTH_SHORT);
 		if(reulst == 0)
@@ -930,7 +930,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			break;
 		case R.id.menu_exit:
 			//TravelApplication.getInstance().exit();
-			ActivityManger.getInstance().AppExit(CommonPlaceDetailActivity.this);
+			ActivityMange.getInstance().AppExit(CommonPlaceDetailActivity.this);
 			break;
 
 		default:
@@ -978,7 +978,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	{
 		super.onDestroy();
 		recycle();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 	
 	private void recycle()

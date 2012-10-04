@@ -36,6 +36,8 @@ import com.google.protobuf.CodedInputStream;
 public class CommonMission
 {
 	private static final String TAG = "UserMission";
+	private String resultInfo = "";
+	private String token = "";
 	
 	private static CommonMission instance = null;
 	private UserManager userManager = UserManager.getInstance();
@@ -113,6 +115,7 @@ public class CommonMission
 				}
 				JSONObject resultData = new JSONObject(sb.toString());
 				int resultCode = resultData.getInt("result");
+				resultInfo = resultData.getString("resultInfo");
 				Log.d(TAG, "result code = "+resultCode);
 				if (resultData!= null&& resultCode == 0){
 					return true;
@@ -180,9 +183,10 @@ public class CommonMission
 					return userId;
 				}
 				JSONObject registerData = new JSONObject(sb.toString());
+				//resultInfo = registerData.getString("resultInfo");
 				if (registerData == null || registerData.getInt("result")!= 0){
 					return userId;
-				}				
+				}								
 				userId = registerData.getString("userId");
 				return userId;						
 			}
@@ -223,6 +227,255 @@ public class CommonMission
 			
 		}		
 	}
+
+	
+	public boolean memberLogin(String userName,String password)
+	{
+		String url = String.format(ConstantField.MEMBER_LOGIN_URL, userName,password);
+		boolean result = memberLoginByUrl(url);
+		return result;
+	}
+	
+	private boolean memberLoginByUrl(String url) {
+		Log.d(TAG, "<memberLoginByUrl> register member  ,url = "+url);
+		InputStream inputStream = null;
+		BufferedReader br = null;
+		InputStreamReader inputStreamReader = null;
+		HttpTool httpTool = HttpTool.getInstance();
+		try
+		{
+			inputStream = httpTool.sendGetRequest(url);
+			if(inputStream !=null)
+			{				
+				inputStreamReader = new InputStreamReader(inputStream);
+				br = new BufferedReader(inputStreamReader);
+				StringBuffer sb = new StringBuffer();
+				String result = br.readLine();
+				Log.i(TAG, "<memberLoginByUrl> result "+result);
+				while (result != null) {
+					sb.append(result);
+					result = br.readLine();
+				}
+				if(sb.length() <= 1){
+					return false;
+				}
+				JSONObject resultData = new JSONObject(sb.toString());
+				int resultCode = resultData.getInt("result");
+				resultInfo = resultData.getString("resultInfo");
+				Log.d(TAG, "result code = "+resultCode);
+				if (resultData!= null&& resultCode == 0){
+					token = resultData.getString("token");
+					return true;
+				}else {
+					return false;
+				}			
+			}
+			else{
+				return false;
+			}
+			
+		} 
+		catch (Exception e)
+		{
+			Log.e(TAG, "<registerDevice> catch exception = "+e.toString(), e);
+			return false;
+		}finally
+		{
+			httpTool.stopConnection();
+			try
+			{
+				if (inputStream != null){				
+						inputStream.close();
+				}
+				if (inputStreamReader != null){
+						inputStreamReader.close();
+				}
+				if (br != null){				
+						br.close();
+				}
+			} catch (IOException e1)
+			{
+			}
+		}
+	
+	}
+
+	
+	public boolean getVerification(String loginId, String telephone)
+	{
+		String url = String.format(ConstantField.GET_MEMBER_VERIFICATION_CODE, loginId,telephone);
+		boolean result = getVerification(url);
+		return result;
+		
+	}
+	
+	private boolean getVerification(String url)
+	{
+		Log.d(TAG, "<getVerification> register member  ,url = "+url);
+		InputStream inputStream = null;
+		BufferedReader br = null;
+		InputStreamReader inputStreamReader = null;
+		HttpTool httpTool = HttpTool.getInstance();
+		try
+		{
+			inputStream = httpTool.sendGetRequest(url);
+			if(inputStream !=null)
+			{				
+				inputStreamReader = new InputStreamReader(inputStream);
+				br = new BufferedReader(inputStreamReader);
+				StringBuffer sb = new StringBuffer();
+				String result = br.readLine();
+				Log.i(TAG, "<getVerification> result "+result);
+				while (result != null) {
+					sb.append(result);
+					result = br.readLine();
+				}
+				if(sb.length() <= 1){
+					return false;
+				}
+				JSONObject resultData = new JSONObject(sb.toString());
+				int resultCode = resultData.getInt("result");
+				resultInfo = resultData.getString("resultInfo");
+				Log.d(TAG, "result code = "+resultCode);
+				if (resultData!= null&& resultCode == 0){
+					return true;
+				}else {
+					return false;
+				}			
+			}
+			else{
+				return false;
+			}
+			
+		} 
+		catch (Exception e)
+		{
+			Log.e(TAG, "<getVerification> catch exception = "+e.toString(), e);
+			return false;
+		}finally
+		{
+			httpTool.stopConnection();
+			try
+			{
+				if (inputStream != null){				
+						inputStream.close();
+				}
+				if (inputStreamReader != null){
+						inputStreamReader.close();
+				}
+				if (br != null){				
+						br.close();
+				}
+			} catch (IOException e1)
+			{
+			}
+		}
+	}
+
+	
+	public boolean verificationCode(String phoneNum, String verificationCode)
+	{
+		String url = String.format(ConstantField.VERIFICATION_CODE,phoneNum,verificationCode);
+		boolean result = verificationCode(url);
+		return result;
+	}
+	
+	
+	
+	public boolean findPassword(String telephone)
+	{
+		String url = String.format(ConstantField.FIND_PASSWORD,telephone);
+		boolean result = verificationCode(url);
+		return result;
+	}
+	
+	
+	
+	private boolean verificationCode(String url)
+	{
+		Log.d(TAG, "<verificationCode> verification code  ,url = "+url);
+		InputStream inputStream = null;
+		BufferedReader br = null;
+		InputStreamReader inputStreamReader = null;
+		HttpTool httpTool = HttpTool.getInstance();
+		try
+		{
+			inputStream = httpTool.sendGetRequest(url);
+			if(inputStream !=null)
+			{				
+				inputStreamReader = new InputStreamReader(inputStream);
+				br = new BufferedReader(inputStreamReader);
+				StringBuffer sb = new StringBuffer();
+				String result = br.readLine();
+				Log.i(TAG, "<verificationCode> result "+result);
+				while (result != null) {
+					sb.append(result);
+					result = br.readLine();
+				}
+				if(sb.length() <= 1){
+					return false;
+				}
+				JSONObject resultData = new JSONObject(sb.toString());
+				int resultCode = resultData.getInt("result");
+				resultInfo = resultData.getString("resultInfo");
+				Log.d(TAG, "result code = "+resultCode);
+				if (resultData!= null&& resultCode == 0){
+					return true;
+				}else {
+					return false;
+				}			
+			}
+			else{
+				return false;
+			}
+			
+		} 
+		catch (Exception e)
+		{
+			Log.e(TAG, "<verificationCode> catch exception = "+e.toString(), e);
+			return false;
+		}finally
+		{
+			httpTool.stopConnection();
+			try
+			{
+				if (inputStream != null){				
+						inputStream.close();
+				}
+				if (inputStreamReader != null){
+						inputStreamReader.close();
+				}
+				if (br != null){				
+						br.close();
+				}
+			} catch (IOException e1)
+			{
+			}
+		}
+	}
+
+	public String getResultInfo()
+	{
+		return resultInfo;
+	}
+
+	public void setResultInfo(String resultInfo)
+	{
+		this.resultInfo = resultInfo;
+	}
+
+	public String getToken()
+	{
+		return token;
+	}
+
+	public void setToken(String token)
+	{
+		this.token = token;
+	}
+
+	
+	
 	
 	
 }

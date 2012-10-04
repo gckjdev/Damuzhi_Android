@@ -74,8 +74,13 @@ public class ConstantField
 	public static final String HELP = "http://api.trip8888.com/service/queryObject.aspx?type=8&lang=%s";
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
 	
-	
+	public static final String MEMBER_LOGIN_URL = "http://api.trip8888.com/service/memberLogin.aspx?loginId=%s&password=%s";
 	public static final String REGISTER_URL = "http://api.trip8888.com/service/memberRegister.aspx?&loginId=%s&password=%s&os=2";
+	public static final String GET_MEMBER_VERIFICATION_CODE = "http://api.trip8888.com/service/memberVerification.aspx?loginId=%s&telephone=%s";
+	public static final String VERIFICATION_CODE = "http://api.trip8888.com/service/memberVerification.aspx?loginId=%s&code=%s";
+	public static final String FIND_PASSWORD = "http://api.trip8888.com/service/retrievePassword.aspx?telephone=%s";
+	
+	
 	
 	/*public static final String PLACE_INFO = TEST_HTTP_URL+"service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = TEST_HTTP_URL+"service/feedback.aspx?userId=%s&contact=%s&content=%s";
@@ -103,9 +108,12 @@ public class ConstantField
 	public static final String TOURIST_ROUTE_OBJECT_URL = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String TOURIST_ROUTE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
 	public static final String TOURIST_ROUTE_LOAD_MORE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
-	public static final String LOCAL_ROUTE_MEMBER_USER_SUBMIT_BOOKING_URL = "http://api.trip8888.com/service/placeOrder.aspx?loginId=%s&token=%s&routeId=%s&departPlaceId=%s&departDate=%s&adult=%s&children=%s";
-	public static final String LOCAL_ROUTE_NON_MENBER_USER_SUBMIT_BOOKING_URL = "http://api.trip8888.com/service/placeOrder.aspx?userId=%s&routeId=%s&departPlaceId=%s&departDate=%s&adult=%s&children=%s&contactPersion=%s&contact=%s";
+	public static final String LOCAL_ROUTE_NON_MENBER_BOOKING_ORDER_URL = "http://api.trip8888.com/service/placeOrder.aspx?userId=%s&routeId=%s&departPlaceId=%s&departDate=%s&adult=%s&children=%s&contactPersion=%s&contact=%s";
+	public static final String LOCAL_ROUTE_MEMBER_BOOKING_ORDER_URL ="http://api.trip8888.com/service/placeOrder.aspx?loginId=%s&token=%s&routeId=%s&departPlaceId=%s&departDate=%s&adult=%s&children=%s&contactPersion=&contact=";
 	public static final String TOURIST_ROUTE_ORDER_LIST_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&needStatistics=1&userId=%s&loginId=%s&token=%s&lang=%s&os=2";
+	
+	public static final String ADD_FAVORITE_ROUTE_URL = "http://api.trip8888.com/service/FollowRoute.aspx?userId=%s&loginId=%s&token=%s&routeId=%s";
+	
 	/* touristRoute*/
 /*	public static final String TOURIST_ROUTE_URL = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
 	public static final String TOURIST_ROUTE_LOAD_MORE_URL = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
@@ -170,10 +178,11 @@ public class ConstantField
 	
 	/* collect */
 	public static final String QUERY_PLACE_FAVORITE_COUNT = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
-	public static final String ADD_FAVORITE = "http://api.trip8888.com/service/addFavorite.aspx?userId=%s&placeId=%s";
+	public static final String ADD_FAVORITE_PLACE = "http://api.trip8888.com/service/addFavorite.aspx?userId=%s&placeId=%s";
 	public static final String DELETE_FAVORITE = "http://api.trip8888.com/service/deleteFavorite.aspx?userId=%s&placeId=%s";
 	public static final String FAVORITE_COUNT_STR = "已有%s人收藏";
-	public static final String FAVORITE_FILE_PATH = android.os.Environment.getExternalStorageDirectory()+ "/damuzhi/data/favorite.dat";
+	public static final String FAVORITE_PLACE_FILE_PATH = android.os.Environment.getExternalStorageDirectory()+ "/damuzhi/data/favorite.dat";
+	public static final String FAVORITE_ROUTE_FILE_PATH = android.os.Environment.getExternalStorageDirectory()+ "/damuzhi/data/favoriteRoute.dat";
 	
 	/* history*/
 	public static final String HISTORY_FILE_PATH = android.os.Environment.getExternalStorageDirectory() + "/damuzhi/data/app/history.dat";

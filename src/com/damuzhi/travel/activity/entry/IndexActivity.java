@@ -47,13 +47,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.damuzhi.travel.activity.adapter.common.SortAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
-import com.damuzhi.travel.activity.favorite.FavoriteActivity;
+import com.damuzhi.travel.activity.favorite.MyFavoritePlaceActivity;
 import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.activity.overview.CommonCtiyBaseActivity;
@@ -92,23 +92,23 @@ import dalvik.system.VMRuntime;
 public class IndexActivity extends MenuActivity implements OnClickListener
 {
 	private static final String TAG = "IndexActivity";
-	private ImageButton moreButton;
+	//private ImageButton moreButton;
 	private ImageButton sceneryButton;
 	private ImageButton hotelButton;
 	private ImageButton restaurantButton;
 	private ImageButton shoppingButton;
 	private ImageButton entertainmentButton;
 	private ImageButton nearbyButton;
-	private ImageButton helpButton;
+	//private ImageButton helpButton;
 	private ImageButton citybaseButton;
 	private ImageButton travelPreprationButton;
 	private ImageButton travelUtilityButton;
 	private ImageButton travelTransportaionButton;
 	private ImageButton travelTipsButton;
-	private ImageButton routeTipsButton;
+	//private ImageButton routeTipsButton;
 	private ImageButton favoriteButton;
-	private ImageButton shareButton;
-	TextView currentCityName;
+	//private ImageButton shareButton;
+	//TextView currentCityName;
 	private PopupWindow shareWindow;
 	private static final String SHARE_CONFIG = "share_config";
 	private static final  int SHARE_2_SINA = 1;
@@ -119,18 +119,18 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	{
 		super.onCreate(savedInstanceState);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		//requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
 		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.index);		
 		MobclickAgent.updateOnlineConfig(this);
 		VMRuntime.getRuntime().setMinimumHeapSize(HEAP_SIZE);
 		
-		currentCityName = (TextView) findViewById(R.id.current_city_name);
-		ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);	
-		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
-		currentCitygGroup.setOnClickListener(currentGroupOnClickListener);
-		moreButton = (ImageButton) findViewById(R.id.more);
+		//currentCityName = (TextView) findViewById(R.id.current_city_name);
+		//ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);	
+		//currentCityName.setText(AppManager.getInstance().getCurrentCityName());
+		//currentCitygGroup.setOnClickListener(currentGroupOnClickListener);
+		//moreButton = (ImageButton) findViewById(R.id.more);
 		sceneryButton = (ImageButton) findViewById(R.id.scenery);
 		hotelButton = (ImageButton) findViewById(R.id.hotel);		
 		restaurantButton = (ImageButton) findViewById(R.id.restaurant);
@@ -142,11 +142,11 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		travelUtilityButton = (ImageButton) findViewById(R.id.travel_utility);
 		travelTransportaionButton = (ImageButton) findViewById(R.id.travel_transportation);
 		travelTipsButton = (ImageButton) findViewById(R.id.travel_tips);
-		routeTipsButton = (ImageButton) findViewById(R.id.travel_commend);
+		//routeTipsButton = (ImageButton) findViewById(R.id.travel_commend);
 		nearbyButton = (ImageButton) findViewById(R.id.nearby);
-		helpButton = (ImageButton) findViewById(R.id.help);
+		//helpButton = (ImageButton) findViewById(R.id.help);
 		favoriteButton = (ImageButton) findViewById(R.id.favorite);
-		shareButton = (ImageButton) findViewById(R.id.share);
+		//shareButton = (ImageButton) findViewById(R.id.share);
 		
 		sceneryButton.setOnClickListener(this);
 		hotelButton.setOnClickListener(this);
@@ -159,11 +159,11 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		travelUtilityButton.setOnClickListener(this);
 		travelTransportaionButton.setOnClickListener(this);
 		travelTipsButton.setOnClickListener(this);
-		routeTipsButton.setOnClickListener(this);
-		moreButton.setOnClickListener(this);
-		helpButton.setOnClickListener(helpOnClickListener);
+		//routeTipsButton.setOnClickListener(this);
+		//moreButton.setOnClickListener(this);
+		//helpButton.setOnClickListener(helpOnClickListener);
 		favoriteButton.setOnClickListener(favoriteOnClickListener);
-		shareButton.setOnClickListener(shareOnClickListener);		
+		//shareButton.setOnClickListener(shareOnClickListener);		
 		
 		checkData();
 	}
@@ -202,6 +202,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	{
 		
 		super.onResume();
+		Log.d(TAG, "index activity onResume");
 		String cityName = AppManager.getInstance().getCurrentCityName();
 		if(cityName == null||cityName.equals(""))
 		{
@@ -209,7 +210,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			AppManager.getInstance().setCurrentCityId(defaultCityId);
 			cityName = AppManager.getInstance().getCurrentCityName();
 		}
-		currentCityName.setText(cityName);
+		//currentCityName.setText(cityName);
 		//checkData();
 	}
 	
@@ -284,11 +285,11 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		
 		switch (button.getId())
 		{
-		case R.id.more:
+		/*case R.id.more:
 			Intent intent = new Intent();
 			intent.setClass(IndexActivity.this, MoreActivity.class);	
 			startActivity(intent);
-			break;
+			break;*/
 		case R.id.scenery:	
 			 	Intent sceneryIntent = new Intent();
 				sceneryIntent.setClass(IndexActivity.this, CommonSpotActivity.class);	
@@ -355,12 +356,12 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			travelTipsIntent.setClass(IndexActivity.this, TravelGuidesActivity.class);		
 			startActivity(travelTipsIntent);
 			break;
-		case R.id.travel_commend:	
+		/*case R.id.travel_commend:	
 			LocationUtil.stop();
 			Intent travelRoutesIntent = new Intent();
 			travelRoutesIntent.setClass(IndexActivity.this, TravelRoutesActivity.class);		
 			startActivity(travelRoutesIntent);
-			break;
+			break;*/
 		default:
 			break;
 		}
@@ -382,7 +383,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		}
 	};
 	
-	@Override
+	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
 	{
 		if(keyCode == KeyEvent.KEYCODE_BACK)
@@ -415,7 +416,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		}else{
 		return super.onKeyDown(keyCode, event);
 		}
-	}
+	}*/
 
 
 
@@ -511,7 +512,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		public void onClick(View v)
 		{
 			Intent  intent = new Intent();
-			intent.setClass(IndexActivity.this, FavoriteActivity.class);
+			intent.setClass(IndexActivity.this, MyFavoritePlaceActivity.class);
 			startActivity(intent);
 			
 		}
@@ -547,7 +548,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
         shareWindow = new PopupWindow(v, android.view.ViewGroup.LayoutParams.FILL_PARENT,android.view.ViewGroup.LayoutParams.FILL_PARENT);   
         shareWindow.setFocusable(true);  
         shareWindow.update();  
-        shareWindow.showAtLocation(findViewById(R.id.share), Gravity.CENTER, 0, 0);  
+      //  shareWindow.showAtLocation(findViewById(R.id.share), Gravity.CENTER, 0, 0);  
         shareGroup.setOnKeyListener(new OnKeyListener()
 		{
 					@Override

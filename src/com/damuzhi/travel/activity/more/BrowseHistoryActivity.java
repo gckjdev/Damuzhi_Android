@@ -25,7 +25,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.damuzhi.travel.activity.adapter.more.BrowseHistoryAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
@@ -49,7 +49,7 @@ public class BrowseHistoryActivity extends MenuActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.browse_history);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		ListView historyListView = (ListView) findViewById(R.id.history_listview);
 		ImageButton clearButton = (ImageButton) findViewById(R.id.clear_button);
 		clearButton.setOnClickListener(clearListener);
@@ -70,7 +70,7 @@ public class BrowseHistoryActivity extends MenuActivity
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 
 

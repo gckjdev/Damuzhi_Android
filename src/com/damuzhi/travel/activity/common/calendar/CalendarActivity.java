@@ -6,8 +6,10 @@ import java.util.Hashtable;
 import java.util.List;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.touristRoute.CommonBookingRoute;
+import com.damuzhi.travel.activity.common.ActivityMange;
+import com.damuzhi.travel.activity.touristRoute.CommonBookingRouteActivity;
 import com.damuzhi.travel.protos.TouristRouteProtos.Booking;
+import com.damuzhi.travel.protos.TouristRouteProtos.BookingStatus;
 import com.damuzhi.travel.protos.TouristRouteProtos.DepartPlace;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -28,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.Toast;
 
 public class CalendarActivity extends Activity {
 	private static final String TAG = "CalendarActivity";
@@ -62,7 +65,7 @@ public class CalendarActivity extends Activity {
 	Hashtable<Integer, Integer> calendar_Hashtable = new Hashtable<Integer, Integer>();*/
 	List<Booking> Calendar_Source = null;
 	Hashtable<String, Booking> calendar_Hashtable = new Hashtable<String, Booking>();
-	Boolean[] flag = null;
+	//Boolean[] flag = null;
 	Calendar startDate = null;
 	Calendar endDate = null;
 	int dayvalue = -1;
@@ -83,7 +86,7 @@ public class CalendarActivity extends Activity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		ActivityMange.getInstance().addActivity(this);
 		byte[] data = getIntent().getByteArrayExtra("localRouteTime");
 		LocalRoute localRoute = null;
 		try {
@@ -94,7 +97,7 @@ public class CalendarActivity extends Activity {
 		for(Booking booking:localRoute.getBookingsList())
 		{
 			//Log.d(TAG, "local route date ="+((long)booking.getDate()));
-			calendar_Hashtable.put(getDataString(((long)booking.getDate())*1000), booking);
+			calendar_Hashtable.put(getDateString(((long)booking.getDate())*1000), booking);
 		}
 		price = localRoute.getPrice();
 		
@@ -146,19 +149,7 @@ public class CalendarActivity extends Activity {
 		//view.addView(arrange_layout, Param1);
 		//mainLayout.addView(view);
 
-		/*// 新建线程
-		new Thread() {
-			@Override
-			public void run() {
-				int day = GetNumFromDate(calToday, startDate);
-				
-				if (calendar_Hashtable != null
-						&& calendar_Hashtable.containsKey(day)) {
-					dayvalue = calendar_Hashtable.get(day);
-				}
-			}
-			
-		}.start();*/
+		
 		
 		int day = GetNumFromDate(calToday, startDate);
 		
@@ -185,27 +176,7 @@ public class CalendarActivity extends Activity {
 				R.color.Calendar_WeekFontColor);
 	}
 
-	protected String GetDateShortString(Calendar date) {
-		String returnString = date.get(Calendar.YEAR) + "/";
-		if(date.get(Calendar.MONTH)>9)
-		{
-			returnString += date.get(Calendar.MONTH) + 1 + "/";	
-		}else
-		{
-			returnString += "0"+(date.get(Calendar.MONTH) + 1 )+ "/";	
-		}
-		returnString += date.get(Calendar.DAY_OF_MONTH);
-		
-		return returnString;
-	}
 	
-	Calendar tempCalendar = Calendar.getInstance();
-	
-	protected String getDataString(long dateTime) {
-		tempCalendar.setTimeInMillis(dateTime);
-		String date = tempCalendar.get(Calendar.YEAR) +""+ tempCalendar.get(Calendar.MONTH)+""+tempCalendar.get(Calendar.DAY_OF_MONTH);	
-		return date;
-	}
 
 	// 得到当天在日历中的序号
 	private int GetNumFromDate(Calendar now, Calendar returnDate) {
@@ -343,7 +314,7 @@ public class CalendarActivity extends Activity {
 		final int iSelectedMonth = calSelected.get(Calendar.MONTH);
 		final int iSelectedDay = calSelected.get(Calendar.DAY_OF_MONTH);
 		calCalendar.setTimeInMillis(calStartDate.getTimeInMillis());
-		
+	//	flag = new Boolean[days.size()];
 		for (int i = 0; i < days.size(); i++) {
 			final int iYear = calCalendar.get(Calendar.YEAR);
 			final int iMonth = calCalendar.get(Calendar.MONTH);
@@ -394,9 +365,10 @@ public class CalendarActivity extends Activity {
 			}*/
 			calCalendar.set(Calendar.SECOND, 0);
 			//Log.d(TAG, "date time ="+calCalendar.getTimeInMillis()/1000);
-			if(calendar_Hashtable.containsKey(getDataString(calCalendar.getTimeInMillis())))
+			if(calendar_Hashtable.containsKey(getDateString(calCalendar.getTimeInMillis())))
 			{
 				hasRecord = true;
+				//flag[i] = true;
 				//Log.d(TAG, "has booking date has record = " +true);
 			}
 
@@ -447,20 +419,6 @@ public class CalendarActivity extends Activity {
 			startDate = (Calendar) calStartDate.clone();
 			endDate = GetEndDate(startDate);
 
-			/*// 新建线程
-			new Thread() {
-				@Override
-				public void run() {
-
-					int day = GetNumFromDate(calToday, startDate);
-					
-					if (calendar_Hashtable != null
-							&& calendar_Hashtable.containsKey(day)) {
-						dayvalue = calendar_Hashtable.get(day);
-					}
-				}
-			}.start();
-*/
 
 
 			int day = GetNumFromDate(calToday, startDate);
@@ -497,30 +455,10 @@ public class CalendarActivity extends Activity {
 			startDate = (Calendar) calStartDate.clone();
 			endDate = GetEndDate(startDate);
 
-			/*// 新建线程
-			new Thread() {
-				@Override
-				public void run() {
-					int day = 5;
-					
-					if (calendar_Hashtable != null
-							&& calendar_Hashtable.containsKey(day)) {
-						dayvalue = calendar_Hashtable.get(day);
-					}
-				}
-			}.start();*/
-
+			
 			int day = 5;
 			
-			/*if (calendar_Hashtable != null
-					&& calendar_Hashtable.containsKey(day)) {
-				dayvalue = calendar_Hashtable.get(day);
-			}*/
-		
-			/*if(calendar_Hashtable.containsKey(key))
-			{
-				
-			}*/
+			
 			updateCalendar();
 		}
 	}
@@ -530,23 +468,43 @@ public class CalendarActivity extends Activity {
 		public void OnClick(DateWidgetDayCell item) {
 			calSelected.setTimeInMillis(item.getDate().getTimeInMillis());
 			int day = GetNumFromDate(calSelected, startDate);
+			int todayNum = GetNumFromDate(calToday, startDate);
+			String dayStr = getDateString(item.getDate().getTimeInMillis());
+			if(day>=todayNum)
+			{
+				//flag[day]!= null&&flag[day] ==true
+				if(calendar_Hashtable.containsKey(dayStr))
+				{
+					Booking booking = calendar_Hashtable.get(dayStr);
+					if(booking.getStatus() == BookingStatus.NOT_IN_SALE_VALUE)
+					{
+						Toast.makeText(CalendarActivity.this, getString(R.string.order_not_in_sale), Toast.LENGTH_SHORT).show();	
+						return;
+					}
+					if(booking.getStatus() == BookingStatus.SOLD_OUT_VALUE)
+					{
+						Toast.makeText(CalendarActivity.this, getString(R.string.order_has_sold_out), Toast.LENGTH_SHORT).show();	
+						return;
+					}
+					//Booking booking = 
+					Intent intent = new Intent();
+					intent.setClass(CalendarActivity.this, CommonBookingRouteActivity.class);
+					Bundle bundle = new Bundle();
+					bundle.putString("date", GetDateShortString(calSelected));
+					Log.d(TAG, "date = "+GetDateShortString(calSelected));
+					item.setSelected(true);
+					updateCalendar();
+					intent.putExtras(bundle);
+					CalendarActivity.this.setResult(RESULT_OK, intent);
+					finish();
+				}
+				
+			}else
+			{
+				Toast.makeText(CalendarActivity.this, getString(R.string.not_allow_order_today_before), Toast.LENGTH_SHORT).show();
+			}
 			
-			/*if (calendar_Hashtable != null&& calendar_Hashtable.containsKey(day)) {
-				arrange_text.setText(Calendar_Source.get(calendar_Hashtable.get(day)));
-			} else {
-				arrange_text.setText("暂无数据记录");
-			}*/
 			
-			Intent intent = new Intent();
-			intent.setClass(CalendarActivity.this, CommonBookingRoute.class);
-			Bundle bundle = new Bundle();
-			bundle.putString("date", GetDateShortString(calSelected));
-			Log.d(TAG, "date = "+GetDateShortString(calSelected));
-			item.setSelected(true);
-			updateCalendar();
-			intent.putExtras(bundle);
-			CalendarActivity.this.setResult(RESULT_OK, intent);
-			finish();
 		}
 	};
 
@@ -588,4 +546,36 @@ public class CalendarActivity extends Activity {
 		endDate.add(Calendar.DAY_OF_MONTH, 41);
 		return endDate;
 	}
+	
+	protected String GetDateShortString(Calendar date) {
+		String returnString = date.get(Calendar.YEAR) + "/";
+		if(date.get(Calendar.MONTH)>=9)
+		{
+			returnString += date.get(Calendar.MONTH) + 1 + "/";	
+		}else
+		{
+			returnString += "0"+(date.get(Calendar.MONTH) + 1 )+ "/";	
+		}
+		returnString += date.get(Calendar.DAY_OF_MONTH);
+		//returnString += date.get(Calendar.DAY_OF_WEEK);
+		return returnString;
+	}
+	
+	Calendar tempCalendar = Calendar.getInstance();
+	
+	protected String getDateString(long dateTime) {
+		tempCalendar.setTimeInMillis(dateTime);
+		String date = tempCalendar.get(Calendar.YEAR) +""+ tempCalendar.get(Calendar.MONTH)+""+tempCalendar.get(Calendar.DAY_OF_MONTH);	
+		return date;
+	}
+
+
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		ActivityMange.getInstance().finishActivity();
+	}
+	
 }

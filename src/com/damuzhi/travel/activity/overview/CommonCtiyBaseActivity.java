@@ -10,7 +10,7 @@ package com.damuzhi.travel.activity.overview;
 
 import android.app.Activity;
 
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.overview.OverviewMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -28,7 +28,7 @@ public class CommonCtiyBaseActivity extends CommonOverViewActivity
 	public CommonOverview loadData(Activity activity)
 	{
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		return OverviewMission.getInstance().getOverview(CommonOverviewType.CITY_BASIC_VALUE,AppManager.getInstance().getCurrentCityId(),activity);
 		
 	}

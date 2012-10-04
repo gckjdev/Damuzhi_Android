@@ -25,6 +25,7 @@ import android.widget.ListView;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.touristRoute.CommonLocalTripsAdapter;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
@@ -37,7 +38,7 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 import com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute;
 
-public class CommonLocalTrips extends Activity {
+public class CommonLocalTripsActivity extends Activity {
 
 	protected static final String TAG = null;
 	private ListView localTripsListView;
@@ -49,13 +50,16 @@ public class CommonLocalTrips extends Activity {
 	private ViewGroup footerViewGroup;
 	private ProgressDialog loadingDialog;
 	private CommonLocalTripsAdapter adapter;
-	private int cityId;
+	private int currentCityId = 0;
+	private int lastCityId = -100;
+	
 	@Override
 	protected void onCreate(Bundle arg0) {
 		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.common_lcoal_trips);
-		loadingDialog = new ProgressDialog(CommonLocalTrips.this);
+		ActivityMange.getInstance().addActivity(this);
+		loadingDialog = new ProgressDialog(CommonLocalTripsActivity.this);
 		localTripsListView = (ListView) findViewById(R.id.local_trips_listview);
 		//localRouteList = TouristRouteMission.getInstance().getLocalRoutes(cityId);
 		listViewFooter = getLayoutInflater().inflate(R.layout.load_more_view, null, false);
@@ -65,12 +69,11 @@ public class CommonLocalTrips extends Activity {
 		footerViewGroup.setVisibility(View.GONE);
 		
 		//imageLoader = ImageLoader.getInstance();
-		adapter = new CommonLocalTripsAdapter(localRouteList, CommonLocalTrips.this);
+		adapter = new CommonLocalTripsAdapter(localRouteList, CommonLocalTripsActivity.this);
 		localTripsListView.setAdapter(adapter);
 		localTripsListView.setOnItemClickListener(onItemClickListener);
 		localTripsListView.setOnScrollListener(listviewOnScrollListener);
-		cityId = AppManager.getInstance().getCurrentCityId();
-		loadPlace();
+		//loadPlace();
 	}
 	
 	
@@ -85,7 +88,7 @@ public class CommonLocalTrips extends Activity {
 			@Override
 			protected List<LocalRoute> doInBackground(String... params)
 			{
-				List<LocalRoute> list = TouristRouteMission.getInstance().getLocalRoutes(cityId);
+				List<LocalRoute> list = TouristRouteMission.getInstance().getLocalRoutes(currentCityId);
 				start = 0;
 				count = 1;				
 				return list;
@@ -136,7 +139,7 @@ public class CommonLocalTrips extends Activity {
 			if(locaRouteDetail != null)
 			{
 				Intent intent = new Intent();
-				intent.setClass(CommonLocalTrips.this, CommonLocalTripsDetail.class);
+				intent.setClass(CommonLocalTripsActivity.this, CommonLocalTripsDetailActivity.class);
 				intent.putExtra("local_route",locaRouteDetail.toByteArray());
 				startActivity(intent);
 			}
@@ -189,7 +192,7 @@ public class CommonLocalTrips extends Activity {
 				List<LocalRoute> localRouteList = null;				
 				start = count *20;
 				count++;	
-				localRouteList = TouristRouteMission.getInstance().loadMoreLocalRoutes(cityId,start);								
+				localRouteList = TouristRouteMission.getInstance().loadMoreLocalRoutes(currentCityId,start);								
 				return localRouteList;
 			}
 			@Override
@@ -220,7 +223,7 @@ public class CommonLocalTrips extends Activity {
 	public void showRoundProcessDialog()
 	{
 
-		/*OnKeyListener keyListener = new OnKeyListener()
+		OnKeyListener keyListener = new OnKeyListener()
 		{
 			@Override
 			public boolean onKey(DialogInterface dialog, int keyCode,
@@ -229,23 +232,49 @@ public class CommonLocalTrips extends Activity {
 				if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(CommonLocalTrips.this,IndexActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
 					return true;
 				} else
 				{
 					return false;
 				}
 			}
-		};*/
+		};
 
 		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		loadingDialog.setMessage(getResources().getString(R.string.loading));
 		loadingDialog.setIndeterminate(false);
 		loadingDialog.setCancelable(false);
-		//loadingDialog.setOnKeyListener(keyListener);
+		loadingDialog.setOnKeyListener(keyListener);
 		loadingDialog.show();
+	}
+
+
+
+
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		Log.d(TAG, "commonLocalTrpis activity onResume");
+		currentCityId = AppManager.getInstance().getCurrentCityId();
+		if(currentCityId != lastCityId)
+		{
+			lastCityId = currentCityId;
+			loadPlace();
+		}
+		
+	}
+
+
+
+
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		ActivityMange.getInstance().finishActivity();
 	}
 	
 }

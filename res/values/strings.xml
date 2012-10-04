@@ -58,6 +58,8 @@
 	<string name="feedback_submit_fail">提交成功</string>
 	<string name="about_damuzhi">关于大拇指旅行</string>
 	<string name="my_concern">我的关注</string>
+	<string name="user_info">个人资料</string>
+	<string name="share_to_friend">推荐给好友</string>
 	<string name="non_member_order_list">非会员订单查询</string>
 	<string name="order_manager">订单管理</string>
 	<string name="member_login">会员登录</string>
@@ -266,4 +268,24 @@
     <string name="phone_number_toast">请输入正确的手机号码</string>
     <string name="register_fail">注册失败</string>
     <string name="register_success">注册成功</string>
+    <string name="login_success">登录成功</string>
+    <string name="verification_code_send_success">手机验证码已发送</string>
+    <string name="please_enter_verification_code">请输入验证码</string>
+    <string name="verification_code_fail">验证码有误，请输入正确的验证码</string>
+    <string name="local_route_order_mamager">本地游订单管理</string>
+    <string name="group_route_order_mamager">跟团游订单管理</string>
+    <string name="fly_route_order_mamager">机+酒订单管理</string>
+    <string name="booking_route_order_success">已成功提交意向订单</string>
+    <string name="booking_route_order_fail">提交意向订单失败</string>
+    <string name="booking_order_tips">是否预订</string>
+    <string name="not_allow_order_today_before">不能预订今天之前的日期</string>
+    <string name="order_has_sold_out">人数已满</string>
+    <string name="order_not_in_sale">线路暂未开售</string>
+    
+    <!--fly+hotel  -->
+    <string name="fly_hotel">机+酒</string>
+    
+    
+    <!-- happy_route -->
+    <string name="happy_route">乐游</string>
 </resources>

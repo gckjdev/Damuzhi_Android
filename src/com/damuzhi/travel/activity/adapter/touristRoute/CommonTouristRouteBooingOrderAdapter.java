@@ -4,21 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsActivity;
+import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsDetailActivity;
+import com.damuzhi.travel.mission.touristRoute.TouristRouteMission;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 import com.damuzhi.travel.protos.TouristRouteProtos.Order;
 import com.damuzhi.travel.util.TravelUtil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class CommonTouristRouteBooingOrderAdapter extends
-		BaseExpandableListAdapter {
+public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdapter {
 
 	private static final String TAG = "CommonTouristRouteBooingOrderAdapter";
 	private Context context;
@@ -35,7 +40,7 @@ public class CommonTouristRouteBooingOrderAdapter extends
 	private TextView damuzhiPrice;
 	private TextView bookingStatus;
 	private Button routeFeedback;
-	private Button routeDetail;
+	private Button routeDetailButton;
 	String bookingNumber ="";
 	public CommonTouristRouteBooingOrderAdapter(Context context,
 			List<Order> orderList) {
@@ -59,8 +64,7 @@ public class CommonTouristRouteBooingOrderAdapter extends
 	}
 
 	@Override
-	public View getChildView(int arg0, int arg1, boolean arg2, View childView,
-			ViewGroup arg4) {
+	public View getChildView(int arg0, int arg1, boolean arg2, View childView,ViewGroup arg4) {
 		childView = inflater.inflate(R.layout.common_tourist_route_order_list_item, null);
 		Order order = orderList.get(arg0);
 		routeName = (TextView) childView.findViewById(R.id.route_name);
@@ -71,13 +75,18 @@ public class CommonTouristRouteBooingOrderAdapter extends
 		routeBookingNumber = (TextView) childView.findViewById(R.id.route_booking_number);
 		damuzhiPrice =(TextView)  childView.findViewById(R.id.damuzhi_price);
 		bookingStatus = (TextView) childView.findViewById(R.id.booking_status);
+		routeDetailButton = (Button) childView.findViewById(R.id.route_detail);
 		routeName.setText(order.getRouteName());
 		routeId.setText(""+order.getRouteId());
 		departTime.setText(TravelUtil.getDepartTime((long)order.getDepartDate()));
 		bookingTimeDetail.setText(TravelUtil.getBookingDate((long)order.getBookDate()));
 		bookingNumber = String.format(ConstantField.BOOKING_NUMBER,order.getAdult(),order.getChildren() );
 		routeBookingNumber.setText(bookingNumber);
-		damuzhiPrice.setText(""+order.getPrice());
+		/*damuzhiPrice.setText(order.getPrice()+"("+order.getPriceStatus()+")");*/		 
+		damuzhiPrice.setText(order.getPrice());
+		bookingStatus.setText(TravelUtil.getOrderStatus(order.getStatus()));
+		routeDetailButton.setTag(arg0);
+		routeDetailButton.setOnClickListener(routeDeatilOnClickListener);
 		return childView;
 	}
 
@@ -142,5 +151,32 @@ public class CommonTouristRouteBooingOrderAdapter extends
 		
 		return true;
 	}
+
+	public List<Order> getOrderList()
+	{
+		return orderList;
+	}
+
+	public void setOrderList(List<Order> orderList)
+	{
+		this.orderList = orderList;
+	}
+	
+	
+	private OnClickListener routeDeatilOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			int position = Integer.valueOf((Integer)v.getTag());
+			Order order = orderList.get(position);
+			LocalRoute locaRouteDetail = TouristRouteMission.getInstance().getLocalRouteDetail(order.getRouteId());
+			Intent intent = new Intent();
+			intent.setClass(context, CommonLocalTripsDetailActivity.class);
+			intent.putExtra("local_route",locaRouteDetail.toByteArray());
+			context.startActivity(intent);		
+		}
+	};
 
 }

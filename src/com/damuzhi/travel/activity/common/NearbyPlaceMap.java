@@ -60,7 +60,7 @@ public class NearbyPlaceMap extends MapActivity
 		loadingDialog = new ProgressDialog(this);
 		boolean gpsEnable = checkGPSisOpen();
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		try
 		{
 			targetPlace = Place.parseFrom(getIntent().getByteArrayExtra(ConstantField.PLACE_DETAIL));	
@@ -233,7 +233,7 @@ public class NearbyPlaceMap extends MapActivity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 		recycle();
 		LocationUtil.stop();
 	}

@@ -58,7 +58,7 @@ public class PlaceGoogleMap extends MapActivity {
 		Log.d(TAG, "onCreate");
 		setContentView(R.layout.place_google_map);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		mapView = (TapControlledMapView) findViewById(R.id.common_place_mapview);
 		mapc = mapView.getController();
 		mapc.setZoom(14);
@@ -99,7 +99,7 @@ public class PlaceGoogleMap extends MapActivity {
 		Log.d(TAG, "onDestroy");
 		placeList = null;
 		LocationUtil.stop();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 		super.onDestroy();
 	}
 

@@ -28,7 +28,7 @@ import android.widget.Toast;
 
 import com.android.utils.TokenStore;
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.qweibo.MyWebView;
 import com.damuzhi.travel.activity.entry.IndexActivity;
@@ -87,7 +87,7 @@ public class Share2Weibo extends Activity implements RequestListener
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.share_2_weibo);
 		MobclickAgent.updateOnlineConfig(this);
 		while (SINA_CONSUMER_KEY == null||SINA_CONSUMER_KEY.equals("") )
@@ -335,6 +335,6 @@ public class Share2Weibo extends Activity implements RequestListener
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 }

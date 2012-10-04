@@ -17,15 +17,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.favorite.MyFavoriteRouteActivity;
 import com.damuzhi.travel.activity.share.Share2Weibo;
-import com.damuzhi.travel.activity.touristRoute.CommonBookingConfirm;
-import com.damuzhi.travel.activity.touristRoute.CommonTouristRouteOrderList;
+import com.damuzhi.travel.activity.touristRoute.CommonBookingConfirmActivity;
+import com.damuzhi.travel.activity.touristRoute.CommonOrderMangerActivity;
+import com.damuzhi.travel.activity.touristRoute.CommonTouristRouteOrderListActivity;
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -36,19 +38,23 @@ import com.umeng.analytics.MobclickAgent;
 import com.damuzhi.travel.R;
 public class MoreActivity extends MenuActivity 
 {
-	private ViewGroup openCtiyGroup,browseHistoryGroup,feedback,about,recommendedApp,updateVersion,showImage,nonMemberOrder;
+	private static final String TAG = "MoreActivity";
+	private ViewGroup openCtiyGroup,browseHistoryGroup,feedback,about,recommendedApp,updateVersion,showImage,nonMemberOrderMamger,orderManger,userInfo,myConcern;
 	private TextView currentCityName;
 	private SlidButton slidButton;
 	private Button loginButton;
+	private Button loginExitButton;
 	private boolean isShowListImage;
 	private int IS_SHOW_RECOMMENDED_APP = -1;
 	private int IS_SHOW_UPDATE_VERSION = -1;
+	private String token;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate");
 		setContentView(R.layout.more);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		MobclickAgent.updateOnlineConfig(this);
 		String iS_SHOW_APP_FLAG = MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_IS_SHOW_RECOMMENDED_APP);
 		IS_SHOW_UPDATE_VERSION = Integer.parseInt(MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_IS_SHOW_UPDATE_VERSION));
@@ -58,19 +64,27 @@ public class MoreActivity extends MenuActivity
 		feedback = (ViewGroup) findViewById(R.id.feedback_group);
 		about = (ViewGroup) findViewById(R.id.about_damuzhi_group);
 		recommendedApp = (ViewGroup) findViewById(R.id.recommended_app_group);
-		nonMemberOrder = (ViewGroup) findViewById(R.id.non_member_order_list);
+		nonMemberOrderMamger = (ViewGroup) findViewById(R.id.non_member_order_list);
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
 		slidButton = (SlidButton) findViewById(R.id.is_show_list_image);
 		updateVersion = (ViewGroup) findViewById(R.id.update_version_group);
 		showImage = (ViewGroup) findViewById(R.id.show_image_group);
 		loginButton = (Button) findViewById(R.id.login_button);
+		loginExitButton = (Button) findViewById(R.id.login_exit_button);
+		orderManger = (ViewGroup) findViewById(R.id.order_mamger);
+		userInfo = (ViewGroup) findViewById(R.id.user_info);
+		myConcern = (ViewGroup) findViewById(R.id.my_concern_group);
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		openCtiyGroup.setOnClickListener(openCityOnClickListener);
 		browseHistoryGroup.setOnClickListener(browseHistoryOnClickListener);
 		feedback.setOnClickListener(feedbackOnClickListener);
 		about.setOnClickListener(aboutOnClickListener);
-		nonMemberOrder.setOnClickListener(nonMemberOrderListOnClickListener);
+		nonMemberOrderMamger.setOnClickListener(nonMemberOrderListOnClickListener);
 		loginButton.setOnClickListener(loginOnClickListener);
+		orderManger.setOnClickListener(OrderManagerOnClickListener);
+		userInfo.setOnClickListener(userInfoOnClickListener);
+		loginExitButton.setOnClickListener(loginExitOnClickListener);
+		myConcern.setOnClickListener(myConcernOnClickListener);
 		if(IS_SHOW_RECOMMENDED_APP == 1)
 		{
 			recommendedApp.setOnClickListener(recommendedAppOnClickListener);
@@ -94,9 +108,9 @@ public class MoreActivity extends MenuActivity
 	
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+		Log.d(TAG, "onDestroy");
+		ActivityMange.getInstance().finishActivity();
 	}
 	
 	
@@ -127,6 +141,19 @@ public class MoreActivity extends MenuActivity
 			startActivity(intent);
 		}
 	};
+	
+	private OnClickListener myConcernOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();			
+			intent.setClass(MoreActivity.this, MyFavoriteRouteActivity.class);
+			startActivity(intent);
+		}
+	};
+	
 	
 	private OnClickListener feedbackOnClickListener = new OnClickListener()
 	{
@@ -168,6 +195,22 @@ public class MoreActivity extends MenuActivity
 		}
 	};
 	
+	
+	private OnClickListener loginExitOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			TravelApplication.getInstance().setToken("");
+			TravelApplication.getInstance().setLoginID("");
+			loginRefresh();
+		}
+	};
+	
+	
+	
+	
 	private OnClickListener recommendedAppOnClickListener = new OnClickListener()
 	{
 		
@@ -200,9 +243,6 @@ public class MoreActivity extends MenuActivity
 			float localVersion = TravelUtil.getVersionName(MoreActivity.this);
 			if(remoteVersion>localVersion)
 			{
-				/*Uri uri = Uri.parse(MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_DOWNLOAD_CONFIGURE));
-				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-				startActivity(intent);*/
 				updateAppVersion();
 			}else
 			{
@@ -218,7 +258,29 @@ public class MoreActivity extends MenuActivity
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent();
-			intent.setClass(MoreActivity.this, CommonTouristRouteOrderList.class);
+			intent.setClass(MoreActivity.this, CommonOrderMangerActivity.class);
+			startActivity(intent);
+			
+		}
+	};
+	
+	private OnClickListener OrderManagerOnClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent();
+			intent.setClass(MoreActivity.this, CommonOrderMangerActivity.class);
+			startActivity(intent);
+			
+		}
+	};
+	
+	private OnClickListener userInfoOnClickListener = new OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			Intent intent = new Intent();
+			intent.setClass(MoreActivity.this, CommonTouristRouteOrderListActivity.class);
 			startActivity(intent);
 			
 		}
@@ -259,13 +321,34 @@ public class MoreActivity extends MenuActivity
 	protected void onResume()
 	{
 		super.onResume();
-		MobclickAgent.onResume(this);
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		isShowListImage = MoreMission.getInstance().isShowListImage();
 		slidButton.setCheck(isShowListImage);
+		loginRefresh();
+		Log.d(TAG, "onResume");
 	}
 
 
+	
+	private void loginRefresh()
+	{
+		token = TravelApplication.getInstance().getToken();
+		if(token != null && !token.equals(""))
+		{
+			nonMemberOrderMamger.setVisibility(View.GONE);
+			orderManger.setVisibility(View.VISIBLE);
+			userInfo.setVisibility(View.VISIBLE);
+			loginExitButton.setVisibility(View.VISIBLE);
+			loginButton.setVisibility(View.GONE);
+		}else
+		{
+			nonMemberOrderMamger.setVisibility(View.VISIBLE);
+			orderManger.setVisibility(View.GONE);
+			userInfo.setVisibility(View.GONE);
+			loginExitButton.setVisibility(View.GONE);
+			loginButton.setVisibility(View.VISIBLE);
+		}
+	}
 
 	@Override
 	protected void onPause()
@@ -274,18 +357,5 @@ public class MoreActivity extends MenuActivity
 		MobclickAgent.onPause(this);
 	}
 	
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)
-	{
-		if (  keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0) {
-			 Intent intent = new Intent(this, IndexActivity.class);
-			    startActivity(intent);
-	        return false;
-	    }
-		else
-		{
-			  return super.onKeyDown(keyCode, event);	
-		}
-	}
 
 }

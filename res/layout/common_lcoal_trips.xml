@@ -3,7 +3,41 @@
         android:id="@+id/listview_group" 
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
-	    android:orientation="vertical" >  		 
+	    android:background="@drawable/all_page_bg"
+	    android:orientation="vertical" >
+	  <!--   <LinearLayout 
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    android:id="@+id/current_group"
+		    android:orientation="horizontal"
+		    android:background="@drawable/topmenu_bg"
+		    android:gravity="center">
+		    <TextView 
+		        android:id="@+id/title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/damuzhi"
+		        android:textColor="@color/white"
+		        android:textSize="20.0sp"/>
+		   <TextView 
+		        android:id="@+id/current_city_name"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:textColor="@color/white"
+		        android:textSize="20.0sp"/>
+		   <ImageView 
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content"
+		       android:layout_marginLeft="5dp"
+		       android:scaleType="fitCenter"
+		       android:src="@drawable/top_arrow"/>
+		   <ProgressBar 
+			    android:id="@+id/loading_progress" 
+			    android:layout_width="wrap_content"
+			    android:layout_height="wrap_content" 
+			    android:layout_marginLeft="30dp"
+			    style="?android:attr/progressBarStyleSmall"/>
+		</LinearLayout>  --> 		 
     	<ListView
     	    android:id="@+id/local_trips_listview"
     	    android:layout_width="fill_parent"
@@ -13,6 +47,5 @@
     	    android:clickable="true"
     	    android:focusable="true"
     	    android:scrollbars="none"
-    	    android:cacheColorHint="@color/listview_bg"
-    	    android:background="@color/white"/>
+    	    android:cacheColorHint="@color/listview_bg"/>
 </LinearLayout>

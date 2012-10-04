@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="@drawable/index_bg"
     android:orientation="vertical" >
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:id="@+id/current_group"
@@ -31,7 +31,7 @@
 		       android:layout_marginLeft="5dp"
 		       android:scaleType="fitCenter"
 		       android:src="@drawable/top_arrow"/>
-		 </LinearLayout>
+		 </LinearLayout> -->
 		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
@@ -304,7 +304,7 @@
 						        android:textColor="@color/white"
 					            android:textSize="17.0sp"/>
 				          </FrameLayout>
-				         <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+				         <!-- <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
 								    android:layout_width="wrap_content"
 				           			android:layout_height="fill_parent"				           			
 								    android:orientation="vertical">   	
@@ -323,11 +323,31 @@
 						        android:text="@string/travel_commend"
 						        android:textColor="@color/white"
 					            android:textSize="17.0sp"/>		
+				          </FrameLayout> -->
+				          <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+								    android:layout_width="wrap_content"
+				           			android:layout_height="fill_parent"				           			
+								    android:orientation="vertical">   	
+				           <ImageButton
+				               android:id="@+id/favorite"
+				               android:layout_width="94.66dp"
+				               android:layout_height="42dp"
+				               android:background="@null"
+				               android:scaleType="fitXY"
+				               android:src="@drawable/travel_commend_button" />	
+				            <TextView 
+						        android:id="@+id/travel_commend_title"
+						        android:layout_gravity="center"
+						        android:layout_height="wrap_content"
+						        android:layout_width="wrap_content"
+						        android:text="@string/my_collected"
+						        android:textColor="@color/white"
+					            android:textSize="17.0sp"/>		
 				          </FrameLayout>
 				    </TableRow>
 				</TableLayout>
 		</LinearLayout>
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		<!-- <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 		    android:layout_width="fill_parent"
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentBottom="true"
@@ -366,7 +386,7 @@
 			          <ImageButton 
 			            android:id="@+id/favorite"
 		            	android:layout_width="wrap_content"
-			           	 android:layout_height="wrap_content"
+			           	android:layout_height="wrap_content"
 			            android:scaleType="fitCenter"
 			            android:background="@null"
 			            android:src="@drawable/collection_button"
@@ -427,5 +447,5 @@
 				        android:text="@string/more"
 				        android:textSize="13.0sp"/>
 		          </FrameLayout>	    
-		</LinearLayout>
+		</LinearLayout> -->
 </RelativeLayout>

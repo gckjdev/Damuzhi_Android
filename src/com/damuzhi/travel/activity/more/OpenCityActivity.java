@@ -66,10 +66,11 @@ import android.widget.Toast;
 
 import com.damuzhi.travel.activity.adapter.viewcache.OpenCityDownloadViewcache;
 import com.damuzhi.travel.activity.adapter.viewcache.OpenCityListViewCache;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.indexSidebar.SideBar;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.download.DownloadService;
@@ -104,9 +105,6 @@ public class OpenCityActivity extends Activity
 	
 	public  OpenCityDataAdapter cityListAdapter;
 	public  InstalledCityListAdapter installedCityListAdapter;
-	/*private List<City> cityList = new ArrayList<City>();
-	private List<City> hotCityList = new ArrayList<City>();
-	private List<City> searchList = new ArrayList<City>();*/
 	private List<City> cityList;
 	private List<City> hotCityList;
 	private List<City> searchList;
@@ -145,7 +143,7 @@ public class OpenCityActivity extends Activity
 		Log.d(TAG, "onCreate");
 		
 		setContentView(R.layout.open_city);	
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		downloadManager = new DownloadManager(OpenCityActivity.this);
 		currentCityId = AppManager.getInstance().getCurrentCityId();
 		loadingDialog = new ProgressDialog(this);
@@ -606,7 +604,7 @@ public class OpenCityActivity extends Activity
 		super.onDestroy();
 		unbindService(conn);
 		mWindowManager.removeView(mDialogText);
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 		//clear();
 		System.gc();
 		Log.d(TAG, "activity onDestroy");
@@ -1236,7 +1234,8 @@ public class OpenCityActivity extends Activity
 			final String cityName = city.getCountryName()+city.getCityName();	
 			AppManager.getInstance().setCurrentCityId(cityId);
 			final Intent intent = new Intent();
-			intent.setClass(OpenCityActivity.this, IndexActivity.class);			
+			//intent.setClass(OpenCityActivity.this, IndexActivity.class);		
+			intent.setClass(OpenCityActivity.this, MainActivity.class);
 			startActivity(intent);
 			setCityToast(cityName);
 		}
@@ -1377,7 +1376,7 @@ public class OpenCityActivity extends Activity
 				if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(OpenCityActivity.this,IndexActivity.class);
+					Intent intent = new Intent(OpenCityActivity.this,MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;
@@ -1609,9 +1608,9 @@ public class OpenCityActivity extends Activity
 							startGroup.setVisibility(View.VISIBLE);
 							cancelGroup.setVisibility(View.GONE);			
 						}else {
-							/*startGroup.setVisibility(View.GONE);
-							cancelGroup.setVisibility(View.GONE);*/
-							buttonGroup.setVisibility(View.GONE);
+							startGroup.setVisibility(View.GONE);
+							cancelGroup.setVisibility(View.GONE);
+							/*buttonGroup.setVisibility(View.GONE);*/
 						}
 					}
 				}

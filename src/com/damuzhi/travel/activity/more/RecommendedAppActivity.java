@@ -26,7 +26,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.damuzhi.travel.activity.adapter.more.RecommenedAppAdapter;
 import com.damuzhi.travel.activity.adapter.overview.TravelRoutesAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
@@ -61,7 +61,7 @@ public class RecommendedAppActivity extends MenuActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.recommended_app);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		listView = (ListView) findViewById(R.id.recommended_app_listview);
 		listView.setOnItemClickListener(clickListener);
 		adapter = new RecommenedAppAdapter(recommendedApps, this);
@@ -74,7 +74,7 @@ public class RecommendedAppActivity extends MenuActivity
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 	
 	

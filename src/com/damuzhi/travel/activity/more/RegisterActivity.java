@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.mission.common.CommonMission;
 import com.damuzhi.travel.mission.more.FeedbackMission;
 import com.damuzhi.travel.model.common.UserManager;
@@ -34,6 +35,7 @@ public class RegisterActivity extends Activity {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.common_register);
+		ActivityMange.getInstance().addActivity(this);
 		userNameEditText = (EditText) findViewById(R.id.user_name);
 		password1EditText = (EditText) findViewById(R.id.password);
 		password2EditText = (EditText) findViewById(R.id.password2);
@@ -88,20 +90,36 @@ public class RegisterActivity extends Activity {
 				}
 				String registerURL = String.format(ConstantField.REGISTER_URL, userName,password1);
 				boolean result = CommonMission.getInstance().registerMember(registerURL);
+				String resultInfo = CommonMission.getInstance().getResultInfo();
 				Log.d(TAG, "register member result = "+result);
 				if(result)
 				{
-					Toast.makeText(RegisterActivity.this, getString(R.string.register_success), Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent();
-					intent.putExtra("phoneNum", userName);
-					intent.setClass(RegisterActivity.this, RegisterVerificationActivity.class);
-					startActivity(intent);
+					result = CommonMission.getInstance().getVerification(userName,userName);
+					resultInfo = CommonMission.getInstance().getResultInfo();
+					Log.d(TAG, "get verification code result = "+result);
+					if(result)
+					{
+						Toast.makeText(RegisterActivity.this, getString(R.string.verification_code_send_success), Toast.LENGTH_SHORT).show();
+						Intent intent = new Intent();
+						intent.putExtra("phoneNum", userName);
+						intent.setClass(RegisterActivity.this, RegisterVerificationActivity.class);
+						startActivity(intent);
+					}else {
+						Toast.makeText(RegisterActivity.this,resultInfo, Toast.LENGTH_SHORT).show();
+					}
+					
 				}else {
-					Toast.makeText(RegisterActivity.this, getString(R.string.register_fail), Toast.LENGTH_SHORT).show();
+					Toast.makeText(RegisterActivity.this, resultInfo, Toast.LENGTH_SHORT).show();
 				}
 				
 			}
 			
 		}
 	};
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		ActivityMange.getInstance().finishActivity();
+	}
 }

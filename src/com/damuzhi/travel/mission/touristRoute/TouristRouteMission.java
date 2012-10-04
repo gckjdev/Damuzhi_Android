@@ -87,14 +87,6 @@ public class TouristRouteMission {
 		catch (Exception e)
 		{
 			Log.e(TAG, "<getTouristRouteListByUrl> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
 			return Collections.emptyList();
 		}finally
 		{
@@ -139,14 +131,6 @@ public class TouristRouteMission {
 		catch (Exception e)
 		{
 			Log.e(TAG, "<loadMoreLocalRoutes> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
 			return Collections.emptyList();
 		}finally
 		{
@@ -162,9 +146,9 @@ public class TouristRouteMission {
 		}
 	}
 
-	public boolean submitBooking(String url) {
-
-		Log.d(TAG, "<submitBooking> submit booking ,url = "+url);
+	public boolean nonMemberBookingOrder(String userId,String routeId,String departPlaceId,String departDate,String adult,String child,String contactPerson,String contact) {
+		String url = String.format(ConstantField.LOCAL_ROUTE_NON_MENBER_BOOKING_ORDER_URL, userId,routeId,departPlaceId,departDate,adult,child,contactPerson,contact);
+		Log.d(TAG, "<nonMemberBookingOrder> submit booking ,url = "+url);
 		InputStream inputStream = null;
 		BufferedReader br = null;
 		InputStreamReader inputStreamReader = null;
@@ -178,7 +162,7 @@ public class TouristRouteMission {
 				br = new BufferedReader(inputStreamReader);
 				StringBuffer sb = new StringBuffer();
 				String result = br.readLine();
-				Log.i(TAG, "<submitBooking> result "+result);
+				Log.i(TAG, "<nonMemberBookingOrder> result "+result);
 				while (result != null) {
 					sb.append(result);
 					result = br.readLine();
@@ -200,21 +184,7 @@ public class TouristRouteMission {
 		} 
 		catch (Exception e)
 		{
-			Log.e(TAG, "<TouristRouteMission> catch exception = "+e.toString(), e);
-			try
-			{
-				if (inputStream != null){				
-						inputStream.close();
-				}
-				if (inputStreamReader != null){
-						inputStreamReader.close();
-				}
-				if (br != null){				
-						br.close();
-				}
-			} catch (IOException e1)
-			{
-			}
+			Log.e(TAG, "<nonMemberBookingOrder> catch exception = "+e.toString(), e);
 			return false;
 		}finally
 		{
@@ -239,8 +209,7 @@ public class TouristRouteMission {
 	}
 
 	public List<Order> getOrderList(int cityId,String orderType, String userId,String loginId, String token) {
-		String url = "";
-		url = String.format(ConstantField.TOURIST_ROUTE_ORDER_LIST_URL,orderType,cityId,userId,loginId,token,ConstantField.LANG_HANS);
+		String url = String.format(ConstantField.TOURIST_ROUTE_ORDER_LIST_URL,orderType,cityId,userId,loginId,token,ConstantField.LANG_HANS);
 		Log.i(TAG, "<getOrderList> load place data from http ,url = "+url);
 		InputStream inputStream = null;
 		HttpTool httpTool = HttpTool.getInstance();
@@ -266,14 +235,6 @@ public class TouristRouteMission {
 		catch (Exception e)
 		{
 			Log.e(TAG, "<getOrderList> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
 			return Collections.emptyList();
 		}finally
 		{
@@ -315,15 +276,7 @@ public class TouristRouteMission {
 		} 
 		catch (Exception e)
 		{
-			Log.e(TAG, "<getOrderList> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
+			Log.e(TAG, "<getLocalRouteDetail> catch exception = "+e.toString(), e);
 			return null;
 		}finally
 		{
@@ -337,6 +290,69 @@ public class TouristRouteMission {
 				}
 			}
 		}	
+	}
+
+
+	public boolean memberBookingOrder(String loginId, String token,String routeId, String departPlaceId, String departDate, String adult,String child)
+	{
+		String url = String.format(ConstantField.LOCAL_ROUTE_MEMBER_BOOKING_ORDER_URL, loginId,token,routeId,"",departDate,adult,child);
+		Log.d(TAG, "<memberBookingOrder> submit booking ,url = "+url);
+		InputStream inputStream = null;
+		BufferedReader br = null;
+		InputStreamReader inputStreamReader = null;
+		HttpTool httpTool = HttpTool.getInstance();
+		try
+		{
+			inputStream = httpTool.sendGetRequest(url);
+			if(inputStream !=null)
+			{				
+				inputStreamReader = new InputStreamReader(inputStream);
+				br = new BufferedReader(inputStreamReader);
+				StringBuffer sb = new StringBuffer();
+				String result = br.readLine();
+				Log.i(TAG, "<memberBookingOrder> result "+result);
+				while (result != null) {
+					sb.append(result);
+					result = br.readLine();
+				}
+				if(sb.length() <= 1){
+					return false;
+				}
+				JSONObject submitData = new JSONObject(sb.toString());
+				if (submitData != null &&submitData.getInt("result") == 0){
+					return true;
+				}else{
+					return false;
+				}			
+			}
+			else{
+				return false;
+			}
+			
+		} 
+		catch (Exception e)
+		{
+			Log.e(TAG, "<memberBookingOrder> catch exception = "+e.toString(), e);
+			return false;
+		}finally
+		{
+			httpTool.stopConnection();
+			try
+			{
+				if (inputStream != null){				
+						inputStream.close();
+				}
+				if (inputStreamReader != null){
+						inputStreamReader.close();
+				}
+				if (br != null){				
+						br.close();
+				}
+			} catch (IOException e1)
+			{
+			}
+		}
+		//return false;
 	}
 	
 	

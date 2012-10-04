@@ -61,6 +61,8 @@ public class TravelApplication extends Application
 	public String deviceId;
 	public   Map<Integer, Integer> installCityData;
 	public  Map<Integer, String> newVersionCityData;
+	private String token ="";
+	private String loginID = "";
 	private static TravelApplication instance;
 	public static TravelApplication getInstance()
 	{
@@ -83,7 +85,7 @@ public class TravelApplication extends Application
 		mLocationClient.registerLocationListener( myListener );
 		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		deviceId = tm.getDeviceId();
-		File cacheDir = new File(ConstantField.IMAGE_CACHE_PATH);
+		//File cacheDir = new File(ConstantField.IMAGE_CACHE_PATH);
 		/*DisplayImageOptions options = new DisplayImageOptions.Builder()
 		.showStubImage(R.drawable.default_s)
 		.cacheInMemory()
@@ -289,7 +291,7 @@ public class TravelApplication extends Application
 		 return location;
 	}
 		
-	private String getLocationAddress(double latitude,double longitude) {
+/*	private String getLocationAddress(double latitude,double longitude) {
 		String resultString = "";
 		String urlString = String.format("http://maps.google.cn/maps/geo?key=abcdefg&q=%s,%s", latitude, longitude);
 		Log.i("URL", urlString);
@@ -351,7 +353,7 @@ public class TravelApplication extends Application
 	     	} catch (Exception e) {  
 	     		Log.e(TAG, "<getCoordinate> but catch exception = "+e.toString(),e);
 	     	}        
-	 }  
+	 }  */
 	 
 	 
 	 public String getDeviceId()
@@ -389,6 +391,38 @@ public class TravelApplication extends Application
 	public void setNewVersionCityData(Map<Integer, String> newVersionCityData)
 	{
 		this.newVersionCityData = newVersionCityData;
+	}
+
+
+
+
+	public String getToken()
+	{
+		return token;
+	}
+
+
+
+
+	public void setToken(String token)
+	{
+		this.token = token;
+	}
+
+
+
+
+	public String getLoginID()
+	{
+		return loginID;
+	}
+
+
+
+
+	public void setLoginID(String loginID)
+	{
+		this.loginID = loginID;
 	}
 	 
 	

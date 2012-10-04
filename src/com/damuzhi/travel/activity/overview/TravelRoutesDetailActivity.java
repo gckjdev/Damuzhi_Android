@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
@@ -56,7 +56,7 @@ public class TravelRoutesDetailActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		byte[] travelInfo = getIntent().getByteArrayExtra(ConstantField.TRAVEL_ROUTES_INFO);
 		if(travelInfo.length>0)
 		{
@@ -148,6 +148,6 @@ public class TravelRoutesDetailActivity extends MenuActivity
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 }

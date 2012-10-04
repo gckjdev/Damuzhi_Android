@@ -13,7 +13,7 @@ import android.util.Log;
 import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -34,7 +34,7 @@ public class TravelGuidesDetailActivity extends MenuActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.travel_guides_detail);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		byte[] travelInfo = getIntent().getByteArrayExtra(ConstantField.TRAVEL_TIPS_INFO);
 		CommonTravelTip commonTravelTip = null;
 		try
@@ -59,7 +59,7 @@ public class TravelGuidesDetailActivity extends MenuActivity
 	protected void onDestroy() {
 		// TODO Auto-generated method stub
 		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 
 }

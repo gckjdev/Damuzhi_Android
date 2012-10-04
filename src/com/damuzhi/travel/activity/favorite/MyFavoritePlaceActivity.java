@@ -40,7 +40,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 import com.damuzhi.travel.activity.adapter.favorite.FavoriteAdapter;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceAdapter;
-import com.damuzhi.travel.activity.common.ActivityManger;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
@@ -71,7 +71,7 @@ import com.damuzhi.travel.R;
  * @update 2012-6-21 下午3:31:29  
  */
 
-public class FavoriteActivity extends MenuActivity
+public class MyFavoritePlaceActivity extends MenuActivity
 {
 	private static final String TAG = "Nearby";
 	private int startPosition = 1;
@@ -106,7 +106,7 @@ public class FavoriteActivity extends MenuActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.favorite);
 		//TravelApplication.getInstance().addActivity(this);
-		ActivityManger.getInstance().addActivity(this);
+		ActivityMange.getInstance().addActivity(this);
 		loadingDialog = new ProgressDialog(this);
 		init();
 		loadFavorite(favoriteConfigure,currentPlaceCategory);
@@ -115,7 +115,7 @@ public class FavoriteActivity extends MenuActivity
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+		ActivityMange.getInstance().finishActivity();
 	}
 
 	public void init()
@@ -171,14 +171,14 @@ public class FavoriteActivity extends MenuActivity
 				{
 					if(categoryId == ConstantField.ALL_PLACE_CATEGORY_ID )
 					{
-						return FavoriteMission.getInstance().getMyFavorite(currentCityId);
+						return FavoriteMission.getInstance().getMyFavoritePlace(currentCityId);
 					}else
 					{
-						return FavoriteMission.getInstance().getMyFavorite(currentCityId,categoryId);
+						return FavoriteMission.getInstance().getMyFavoritePlace(currentCityId,categoryId);
 					}
 				}else if (favoriteConfig == FAVORITE_RANK)
 				{
-					return FavoriteMission.getInstance().getFavorite(categoryId);
+					return FavoriteMission.getInstance().getFavoritePlace(categoryId);
 				}else {
 					return Collections.emptyList();
 				}
@@ -337,7 +337,7 @@ public class FavoriteActivity extends MenuActivity
 		public void onClick(View v)
 		{
 			final int position = (Integer)v.getTag();
-			AlertDialog deleteAlertDialog = new AlertDialog.Builder(FavoriteActivity.this).create();
+			AlertDialog deleteAlertDialog = new AlertDialog.Builder(MyFavoritePlaceActivity.this).create();
 			deleteAlertDialog.setMessage(getBaseContext().getString(R.string.delete_favorite));
 			deleteAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getBaseContext().getString(R.string.ok),new DialogInterface.OnClickListener()
 			{
@@ -561,7 +561,7 @@ public class FavoriteActivity extends MenuActivity
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
-			intent.setClass(FavoriteActivity.this, detailPlaceClass);
+			intent.setClass(MyFavoritePlaceActivity.this, detailPlaceClass);
 			startActivity(intent);
 			
 		}
@@ -641,7 +641,7 @@ public class FavoriteActivity extends MenuActivity
 						&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(FavoriteActivity.this,IndexActivity.class);
+					Intent intent = new Intent(MyFavoritePlaceActivity.this,IndexActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;
