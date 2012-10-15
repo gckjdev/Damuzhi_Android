@@ -27,7 +27,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.ExpandableListView.OnGroupCollapseListener;
+import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 public class CommonTouristRouteOrderListActivity extends Activity {
 
@@ -50,6 +54,7 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 		adapter = new CommonTouristRouteBooingOrderAdapter(CommonTouristRouteOrderListActivity.this, orderList);
 		expandableListView.setAdapter(adapter);
 		consultButton.setOnClickListener(consultOnClickListener);
+		//expandableListView.setOnGroupCollapseListener(collapseListener);
 		load();
 	}
 	
@@ -87,7 +92,9 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 			
 	}
 	
+
 	
+
 	private void refresh()
 	{
 		adapter.setOrderList(orderList);
@@ -98,6 +105,21 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 		}
 	}
 
+	
+	/*private OnGroupCollapseListener collapseListener = new OnGroupCollapseListener()
+	{
+		
+		@Override
+		public void onGroupCollapse(int groupPosition)
+		{
+			if(groupPosition == (orderList.size()-1))
+			{
+				Toast.makeText(CommonTouristRouteOrderListActivity.this, ""+groupPosition, Toast.LENGTH_SHORT).show();
+			}
+			
+		}
+	};*/
+	
 	
 	private OnClickListener consultOnClickListener = new OnClickListener()
 	{

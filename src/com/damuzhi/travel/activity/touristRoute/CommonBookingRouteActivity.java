@@ -155,6 +155,8 @@ public class CommonBookingRouteActivity extends Activity
 		nonMemberBookingButton.setOnClickListener(nonMemberOnClickListener);
 		memberBookingButton.setOnClickListener(memberOnClickListener);
 		consultButton.setOnClickListener(consultOnClickListener);
+		adultSelected.put(0, true);
+		childSelected.put(0, true);
 		initSelectValues();
 	}
 
@@ -312,8 +314,7 @@ public class CommonBookingRouteActivity extends Activity
 		}
 	};
 
-	private void sortWindow(View parent, String[] sortTitleName,
-			HashMap<Integer, Boolean> isSelected, String filterTitle)
+	private void sortWindow(View parent, String[] sortTitleName,HashMap<Integer, Boolean> isSelected, String filterTitle)
 	{
 
 		lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);

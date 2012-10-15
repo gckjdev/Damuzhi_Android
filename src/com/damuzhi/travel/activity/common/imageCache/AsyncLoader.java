@@ -32,18 +32,19 @@ public class AsyncLoader {
 	private HashMap<String, WeakReference<Bitmap>> localBitmaps = new HashMap<String, WeakReference<Bitmap>>();;
 	ImageLoader imageLoader = ImageLoader.getInstance();
 	//ImageLoader imageLoader = new ImageLoader();
-	public AsyncLoader(){
+	/*public AsyncLoader(){
 		
-	}
+	}*/
 	
-	private volatile static AsyncLoader instance;
+	//private volatile static AsyncLoader instance;
 	public static AsyncLoader getInstance() {
-		if (instance == null) {
+		/*if (instance == null) {
 				if (instance == null) {
 					instance = new AsyncLoader();
 				}
 		}
-		instance = new AsyncLoader();
+		instance = new AsyncLoader();*/
+		AsyncLoader instance = new AsyncLoader();
 		return instance;
 	}
 	
@@ -140,7 +141,14 @@ public class AsyncLoader {
 		@Override
 		public void loadedImage(String path, Bitmap bitmap) {
 			if (path.equals(imageView.getTag().toString())) {
-				imageView.setImageBitmap(bitmap);
+				if(bitmap!= null)
+				{
+					imageView.setImageBitmap(bitmap);
+				}else
+				{
+					imageView.setImageResource(R.drawable.default_s);
+				}
+				
 			}else {
 				imageView.setImageResource(R.drawable.default_s);
 			}			

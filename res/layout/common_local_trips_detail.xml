@@ -23,7 +23,7 @@
             android:singleLine="true"
             android:text="@string/route_detail"
             android:textColor="@color/white"
-            android:textSize="20.0sp" />
+            android:textSize="15.0sp" />
         <Button
             android:id="@+id/consult_button"
             android:layout_width="wrap_content"
@@ -76,7 +76,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:ellipsize="marquee"
+                android:gravity="right"
                 android:marqueeRepeatLimit="marquee_forever"
+                android:paddingRight="10dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textSize="15sp" />
@@ -128,13 +130,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
                 <ImageButton
-                    android:id="@+id/user_feedback"
+                    android:id="@+id/route_feedback"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@null"
                     android:src="@drawable/user_feed_back_button" />
                 <TextView
-                    android:id="@+id/user_feedback_text"
+                    android:id="@+id/route_feedback_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -147,11 +149,10 @@
     </LinearLayout>
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"        
+        android:layout_height="fill_parent"
         android:orientation="vertical" >
         <com.damuzhi.travel.activity.common.CommonScrollView
             xmlns:android="http://schemas.android.com/apk/res/android"
-            
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:fillViewport="true"
@@ -160,84 +161,121 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
-                 <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/route_intro_group"
-                android:orientation="vertical" >
-                <FrameLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:id="@+id/image_group"
+                <LinearLayout
+                    android:id="@+id/route_intro_group"
                     android:layout_width="fill_parent"
-                    android:layout_height="190dp"
+                    android:layout_height="wrap_content"
                     android:orientation="vertical" >
-                    <android.support.v4.view.ViewPager
-                        android:id="@+id/route_view_pager"
+                    <FrameLayout
+                        xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:id="@+id/image_group"
                         android:layout_width="fill_parent"
-                        android:layout_height="fill_parent" />
+                        android:layout_height="190dp"
+                        android:orientation="vertical" >
+                        <android.support.v4.view.ViewPager
+                            android:id="@+id/route_view_pager"
+                            android:layout_width="fill_parent"
+                            android:layout_height="fill_parent" />
+                        <RelativeLayout
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical" >
+                            <LinearLayout
+                                xmlns:android="http://schemas.android.com/apk/res/android"
+                                android:id="@+id/place_images_group"
+                                android:layout_width="fill_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentBottom="true"
+                                android:layout_marginBottom="10dp"
+                                android:gravity="center_horizontal"
+                                android:orientation="horizontal" />
+                        </RelativeLayout>
+                    </FrameLayout>
                     <RelativeLayout
                         xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" >
-                        <LinearLayout
-                            xmlns:android="http://schemas.android.com/apk/res/android"
-                            android:id="@+id/place_images_group"
-                            android:layout_width="fill_parent"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp" >
+                        <TextView
+                            android:id="@+id/route_price"
+                            android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentBottom="true"
-                            android:layout_marginBottom="10dp"
-                            android:gravity="center_horizontal"
-                            android:orientation="horizontal" />
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="10.0dp"
+                            android:textColor="@color/agency_name_color"
+                            android:textSize="17sp" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toRightOf="@id/route_price"
+                            android:text="@string/qi"
+                            android:textSize="10sp" />
+                        <ImageView
+                            android:id="@+id/book_order"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/line_order_btn" />
                     </RelativeLayout>
-                </FrameLayout>
-                <RelativeLayout
-                    xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:layout_marginTop="10dp" >
-                    <TextView
-                        android:id="@+id/route_price"
-                        android:layout_width="wrap_content"
+                    <WebView
+                        android:id="@+id/route_detail_webview"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentLeft="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="10.0dp"
-                        android:textColor="@color/agency_name_color"
-                        android:textSize="17sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/route_price"
-                        android:text="@string/qi"
-                        android:textSize="10sp" />
-                    <ImageView
-                        android:id="@+id/book_order"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="10dp"
-                        android:src="@drawable/line_order_btn" />
-                </RelativeLayout>
-                <WebView
-                    android:id="@+id/route_detail_webview"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:scrollbars="none" />
+                        android:background="@color/white"
+                        android:scrollbars="none" />
                 </LinearLayout>
+                <ProgressBar 
+				    android:id="@+id/loading_progress" 
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content" 
+				    android:layout_gravity="center_horizontal"
+				    android:layout_marginTop="20dp"
+				    style="?android:attr/progressBarStyleSmall"/>
                 <WebView
-		           android:id="@+id/booking_notice_webview"
-		           android:layout_width="fill_parent"
-		           android:layout_height="fill_parent"
-		           android:background="@color/white"
-		           android:scrollbars="none"
-		           android:visibility="gone" />
+                    android:id="@+id/booking_notice_webview"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:background="@color/white"
+                    android:scrollbars="none"
+                    android:visibility="gone" />
+               
             </LinearLayout>
-        </com.damuzhi.travel.activity.common.CommonScrollView>    
-            
-    </LinearLayout>   
+        </com.damuzhi.travel.activity.common.CommonScrollView>
+         <LinearLayout
+                    android:id="@+id/route_feedback_group"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_marginTop="10dp"
+                    android:visibility="gone" >
+                    <TextView
+                        android:id="@+id/no_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:text="@string/not_data"
+                        android:textColor="@android:color/black"
+                        android:textSize="15sp" />
+                    <ListView
+                        android:id="@+id/route_feedback_listview"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:divider="@android:color/transparent"
+                        android:cacheColorHint="@android:color/transparent"
+                        android:listSelector="@android:color/transparent"
+                        android:scrollingCache="false"
+                        android:dividerHeight="5dp"
+                        android:scrollbars="none" />
+                </LinearLayout>
+    </LinearLayout>
+
 </LinearLayout>

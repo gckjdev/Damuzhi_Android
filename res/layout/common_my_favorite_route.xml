@@ -11,6 +11,17 @@
 		    android:id="@+id/current_group"
 		    android:orientation="horizontal"
 		    android:background="@drawable/topmenu_bg">
+		    <Button 
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content"
+		       android:layout_marginLeft="10dp"
+		       android:id="@+id/clear_button"
+		       android:layout_alignParentLeft="true"
+		       android:background="@drawable/help_mini_button"
+		       android:text="@string/clear"
+		       android:textColor="@android:color/white"
+		       android:visibility="gone"
+		       android:layout_centerVertical="true"/>
 		    <TextView 
 		        android:id="@+id/title"
 		        android:layout_width="wrap_content"
@@ -27,6 +38,27 @@
 			    android:layout_centerVertical="true"
 			    android:layout_marginLeft="30dp"
 			    style="?android:attr/progressBarStyleSmall"/>
+		   <Button 
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content"
+		       android:layout_marginRight="10dp"
+		       android:id="@+id/mamger_button"
+		       android:layout_alignParentRight="true"
+		       android:background="@drawable/help_mini_button"
+		       android:text="@string/manger"
+		       android:textColor="@android:color/white"
+		       android:layout_centerVertical="true"/>
+		    <Button 
+		       android:layout_width="wrap_content"
+		       android:layout_height="wrap_content"
+		       android:layout_marginRight="10dp"
+		       android:id="@+id/done_button"
+		       android:layout_alignParentRight="true"
+		       android:background="@drawable/help_mini_button"
+		       android:text="@string/done"
+		       android:visibility="gone"
+		       android:textColor="@android:color/white"
+		       android:layout_centerVertical="true"/>
 		</RelativeLayout> 		 
     	<ListView
     	    android:id="@+id/local_trips_listview"

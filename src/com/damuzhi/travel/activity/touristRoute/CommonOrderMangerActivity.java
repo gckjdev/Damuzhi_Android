@@ -18,13 +18,17 @@ import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View.OnClickListener;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 /**  
  * @description   
@@ -40,9 +44,11 @@ public class CommonOrderMangerActivity extends Activity
 	private ViewGroup localRouteOrderMamager;
 	private ViewGroup groupRouteOrderMamager;
 	private ViewGroup flyRouteOrderMamager;
+	private ViewGroup customerServicePhone;
 	private Button loginButton;
 	private Button loginExitButton;
 	private String token = "";
+	private static final String SERVICE_PHONE_NUMBER = "400-000-8888";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -54,12 +60,16 @@ public class CommonOrderMangerActivity extends Activity
 		localRouteOrderMamager = (ViewGroup) findViewById(R.id.local_route_order_mamager);
 		groupRouteOrderMamager = (ViewGroup) findViewById(R.id.group_route_order_mamager);
 		flyRouteOrderMamager = (ViewGroup) findViewById(R.id.fly_route_order_mamager);
+		customerServicePhone = (ViewGroup) findViewById(R.id.customer_service_phone);
+		TextView customerServicePhoneNumber = (TextView) findViewById(R.id.customer_service_phone_number);
+		customerServicePhoneNumber.setText(SERVICE_PHONE_NUMBER);
 		loginButton = (Button) findViewById(R.id.login_button);
 		loginExitButton = (Button) findViewById(R.id.login_exit_button);
 		
 		localRouteOrderMamager.setOnClickListener(localRouteOrderMamagerOnClickListener);
 		loginButton.setOnClickListener(loginOnClickListener);
 		loginExitButton.setOnClickListener(loginExitOnClickListener);
+		customerServicePhone.setOnClickListener(customerServiceOnClickListener);
 	}
 	
 	
@@ -101,6 +111,48 @@ public class CommonOrderMangerActivity extends Activity
 			loginRefresh();
 		}
 	};
+	
+	
+	private OnClickListener customerServiceOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			makePhoneCall(SERVICE_PHONE_NUMBER);
+			
+		}
+	};
+	
+	public void makePhoneCall( final String phoneNumber)
+	{
+		AlertDialog phoneCall = new AlertDialog.Builder(CommonOrderMangerActivity.this).create();
+		phoneCall.setMessage(getResources().getString(R.string.make_phone_call)+"\n"+phoneNumber);
+		phoneCall.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(R.string.call),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				Intent intent = new Intent(Intent.ACTION_CALL);
+				intent.setData(Uri.parse("tel:"+phoneNumber));
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				CommonOrderMangerActivity.this.startActivity(intent);
+			}
+		} );
+		phoneCall.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
+		{
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which)
+			{
+				dialog.cancel();
+				
+			}
+		} );
+		phoneCall.show();
+		
+	}
 	
 	@Override
 	protected void onDestroy()

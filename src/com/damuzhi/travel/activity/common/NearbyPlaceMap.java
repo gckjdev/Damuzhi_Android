@@ -144,7 +144,7 @@ public class NearbyPlaceMap extends MapActivity
 			{
 				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
 				Drawable drawable = getResources().getDrawable(R.drawable.my_location);
-				CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null);
+				CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null,null);
 				CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
 				itemizedOverlay3.addOverlay(overlayItem);
 				mapView.getOverlays().add(itemizedOverlay3);
@@ -193,7 +193,7 @@ public class NearbyPlaceMap extends MapActivity
 		marker.setBounds(0, 0,(int) ((marker.getIntrinsicWidth() / 2) * 1.5),(int) ((marker.getIntrinsicHeight() / 2) * 1.5));
 		itemizedOverlay = new CommonItemizedOverlay<CommonOverlayItem>(marker, mapView);
 		GeoPoint geoPoint = new GeoPoint((int) (targetPlace.getLatitude() * 1e6),(int) (targetPlace.getLongitude() * 1e6));
-		CommonOverlayItem commonOverlayItem = new CommonOverlayItem(geoPoint,targetPlace.getName(), null,targetPlace);
+		CommonOverlayItem commonOverlayItem = new CommonOverlayItem(geoPoint,targetPlace.getName(), null,targetPlace,null);
 		itemizedOverlay.addOverlay(commonOverlayItem);
 		itemizedOverlay.onTap(0);
 		mapOverlays.add(itemizedOverlay);
@@ -203,7 +203,7 @@ public class NearbyPlaceMap extends MapActivity
 			Drawable markerDrawable = getResources().getDrawable(icon);			
 			CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay2 = new CommonItemizedOverlay<CommonOverlayItem>(markerDrawable, mapView);				
 			GeoPoint geoPoint2 = new GeoPoint((int)(place.getLatitude()*1e6),(int)(place.getLongitude()*1e6));	
-			CommonOverlayItem commonOverlayItem2 = new CommonOverlayItem(geoPoint2,place.getName(), null,place);
+			CommonOverlayItem commonOverlayItem2 = new CommonOverlayItem(geoPoint2,place.getName(), null,place,null);
 			itemizedOverlay2.addOverlay(commonOverlayItem2);
 			mapOverlays.add(itemizedOverlay2);
 		}

@@ -14,6 +14,9 @@
     <string name="set_ctiy_tips">您已设置查看</string>
     <string name="google_map_not_found1">您的手机系统缺少google地图组件，部分功能可能无法使用</string>
     <string name="google_map_not_found2">您的手机系统缺少google地图组件，功能无法使用</string>
+    <string name="not_data">暂时没有更多数据！</string>
+    <string name="city_guide">城市指南 - </string>
+    <string name="local_route">本地游 - </string>
     <!-- indexInfo-->
     <string name="index">首页</string>
 	<string name="damuzhi">大拇指旅行 - </string>
@@ -71,7 +74,7 @@
 	<string name="new_version">已经是最新版本</string>
 	<string name="search_tips">请输入城市名称或者首字母</string>
 	<!-- download -->
-	<string name="open_city_tips1">提前下载离线城市数据，可以节省流量和提高打开速度</string>
+	<string name="open_city_tips1">提前下载离线城市数据，可以节省流量和提高打开速度,更多城市即将开通！</string>
 	<string name="open_city_tips2">更多城市指南即将开通...</string>
 	<string name="success">下载完成</string>
     <string name="error">下载失败</string>
@@ -238,7 +241,7 @@
     <string name="damuzhi_price">大拇指价：</string>
     <string name="booking_status">订单状态：</string>
     <string name="route_feedback">线路评价</string>
-    
+    <string name="no_local_route">当前城市暂未开通本地游线路</string>
     <!-- register -->
     <string name="login">登录</string>
     <string name="register">注册</string>
@@ -281,7 +284,38 @@
     <string name="not_allow_order_today_before">不能预订今天之前的日期</string>
     <string name="order_has_sold_out">人数已满</string>
     <string name="order_not_in_sale">线路暂未开售</string>
+    <string name="customer_service_phone">客服电话：</string>
+    <string name="manger">管理</string>
+    <string name="done">完成</string>
+    <string name="change_password">密码修改</string>
+    <string name="old_password">原密码：</string>
+    <string name="old_password_hint">请输入旧密码</string>
+    <string name="new_password">新密码：</string>
+    <string name="new_password_hint">请输入新密码</string>
+    <string name="new_password_confirm_hint">再次输入新密码</string>
+    <string name="change_password_success">修改密码成功</string>
+    <string name="change_password_fail">修改密码失败</string>
+    <string name="nick_name">昵称：</string>
+    <string name="nick_name_hint">请输入您的昵称</string>
+    <string name="name">姓名：</string>
+    <string name="name_hint">请输入您的真实姓名</string>
+    <string name="email">邮箱：</string>
+    <string name="email_hint">请输入邮箱地址</string>
+    <string name="change_user_info_success">修改资料成功</string>
+    <string name="change_user_info_fail">修改资料失败</string>
+    <string name="input_correct_password_toast">请输入正确的6位以上密码</string>
+    <string name="agency_intro">旅行社介绍</string>
     
+    <!-- route feedback -->
+    <string name="route_feedback2">评价</string>
+    <string name="route_feedback_so_so">一般</string>
+    <string name="route_feedback_good">好</string>
+    <string name="route_feedback_very_good">很好</string>
+    <string name="route_feedback_hint">请输入您的评价！</string>
+    <string name="route_feedback_hint_2">点击拇指评分，不选为差评</string>
+    <string name="route_feedback_success">提交成功，感谢您的评价</string>
+    <string name="send">发送</string>
+    <string name="delete_rotue_follow_alert">确定要取消这条关注？</string>
     <!--fly+hotel  -->
     <string name="fly_hotel">机+酒</string>
     

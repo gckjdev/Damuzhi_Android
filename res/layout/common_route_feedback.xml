@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/all_page_bg2"
+    android:orientation="vertical" >
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/topmenu_bg"
+        android:orientation="horizontal" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/route_feedback2"
+            android:textColor="@android:color/white"
+            android:textSize="20.0sp" />
+        <Button
+            android:id="@+id/send_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/help_mini_button"
+            android:gravity="center"
+            android:text="@string/send"
+            android:textColor="@android:color/white"
+            android:textSize="14sp" />
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="vertical"
+        android:background="@drawable/feedback_bg2" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+                <ImageView
+                    android:id="@+id/good1"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/good2" />
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/good1"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="@string/route_feedback_so_so"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+                <ImageView
+                    android:id="@+id/good2"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/good2" />
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/good2"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="@string/route_feedback_good"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center" >
+                <ImageView
+                    android:id="@+id/good3"
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/good2" />
+                <TextView
+                    android:layout_width="40dp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/good3"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center"
+                    android:text="@string/route_feedback_very_good"
+                    android:textSize="14sp" />
+            </RelativeLayout>
+        </LinearLayout>
+        <TextView 
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/route_feedback_hint_2"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="13sp"
+                android:gravity="center"/>
+       	<EditText
+       	    	android:id="@+id/content"
+       	    	android:layout_width="250dp"
+       	    	android:layout_height="80dp"
+       	    	android:layout_gravity="center"
+       	    	android:layout_marginTop="10dp"
+       	    	android:layout_marginBottom="10dp"
+       	    	android:gravity="left"
+       	    	android:paddingLeft="10dp"
+       	    	android:hint="@string/route_feedback_hint"
+       	    	android:textSize="15sp"
+       	    	android:background="@drawable/feedback_bg2"/>
+    </LinearLayout>
+</LinearLayout>

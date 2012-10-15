@@ -62,6 +62,7 @@ import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.mission.place.LocalStorageMission;
@@ -920,7 +921,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 				if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(CommonPlaceActivity.this,IndexActivity.class);
+					Intent intent = new Intent(CommonPlaceActivity.this,MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;

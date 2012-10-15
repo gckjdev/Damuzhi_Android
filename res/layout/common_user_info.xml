@@ -20,7 +20,7 @@
             android:textColor="@android:color/white"
             android:textSize="20.0sp" />
         <Button
-            android:id="@+id/login_button"
+            android:id="@+id/ok_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -29,7 +29,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/help_mini_button"
             android:gravity="center"
-            android:text="@string/login"
+            android:text="@string/ok"
             android:textColor="@android:color/white"
             android:textSize="14sp" />
     </RelativeLayout>
@@ -49,13 +49,59 @@
             android:gravity="right"
             android:text="@string/user_name"
             android:textSize="15sp" />
-        <EditText
+        <TextView
             android:id="@+id/user_name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:textSize="15sp" />
+    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/change_password_group"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/reg_3" >
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:paddingRight="3dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:text="@string/change_password"
+            android:textSize="15sp" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/go_btn" 
+            android:scaleType="fitCenter"/>
+    </RelativeLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/reg_1"
+        android:gravity="center_vertical" >
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:paddingRight="3dp"
+            android:gravity="right"
+            android:text="@string/nick_name"
+            android:textSize="15sp" />
+        <EditText
+            android:id="@+id/nick_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:background="@null"
-            android:hint="@string/user_name_hint2"
+            android:hint="@string/nick_name_hint"
             android:textSize="15sp" />
     </LinearLayout>
     <LinearLayout
@@ -71,94 +117,37 @@
             android:layout_marginLeft="30dp"
             android:paddingRight="3dp"
             android:gravity="right"
-            android:text="@string/password"
+            android:text="@string/name"
             android:textSize="15sp" />
         <EditText
-            android:id="@+id/password"
+            android:id="@+id/name"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPassword"
             android:background="@null"
-            android:hint="@string/password_hint2"
-            android:singleLine="true"
+            android:hint="@string/name_hint"
             android:textSize="15sp" />
     </LinearLayout>
-    <LinearLayout
+	<LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/reg_2"
+        android:background="@drawable/reg_3"
         android:gravity="center_vertical" >
-        <CheckBox
-            android:id="@+id/remember_user_name"
-            android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="70dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="25dp"
-            android:button="@drawable/check_box_button"
-            android:gravity="center"
-            android:text="@string/remember_user_name" />
-        <CheckBox
-            android:id="@+id/remember_password"
-            android:layout_width="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:paddingRight="3dp"
+            android:gravity="right"
+            android:text="@string/email"
+            android:textSize="15sp" />
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:button="@drawable/check_box_button"
-            android:gravity="center"
-            android:text="@string/remember_password" />
+            android:background="@null"
+            android:hint="@string/email_hint"
+            android:textSize="15sp" />
     </LinearLayout>
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/reg_4"
-        android:orientation="vertical"
-        android:gravity="center" >
-        <LinearLayout
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:gravity="center_vertical">
-		        <ImageView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="35dp"		            
-		            android:scaleType="fitCenter"
-		            android:src="@drawable/order_ico1" />
-		        <TextView 
-		            android:id="@+id/free_register"
-		            android:layout_width="wrap_content" 
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="20dp"
-		            android:text="@string/free_register"
-		            android:textColor="@android:color/black"
-		            android:textSize="16sp"/>
-		         <ImageView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="25dp"
-		            android:scaleType="fitCenter"
-		            android:src="@drawable/order_ico1" />
-		        <TextView 
-		            android:id="@+id/find_password"
-		            android:layout_width="wrap_content" 
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="20dp"
-		            android:text="@string/get_password"
-		            android:textColor="@android:color/black"
-		            android:textSize="16sp"/>
-		 </LinearLayout>
-		  <Button
-                android:id="@+id/non_member_booking_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/member_booking_order_button"
-                android:gravity="center"
-                android:text="@string/non_member_order_list"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"/>
-    </LinearLayout>
-
 </LinearLayout>

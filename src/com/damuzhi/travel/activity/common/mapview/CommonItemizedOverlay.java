@@ -18,6 +18,7 @@ import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
 import com.damuzhi.travel.mission.more.BrowseHistoryMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.protos.TouristRouteProtos.DepartPlace;
 import com.google.android.maps.MapView;
 import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.mapviewballoons.BalloonItemizedOverlay;
@@ -67,7 +68,8 @@ public class CommonItemizedOverlay<Item extends OverlayItem> extends BalloonItem
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
 			intent.setClass(c, detailPlaceClass);
 			c.startActivity(intent);
-		}	
+			
+		}		
 		return true;
 	}
 

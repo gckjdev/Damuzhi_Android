@@ -4,16 +4,22 @@ package com.damuzhi.travel.activity.more;
 
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnKeyListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +46,7 @@ public class MoreActivity extends MenuActivity
 {
 	private static final String TAG = "MoreActivity";
 	private ViewGroup openCtiyGroup,browseHistoryGroup,feedback,about,recommendedApp,updateVersion,showImage,nonMemberOrderMamger,orderManger,userInfo,myConcern;
+	private ViewGroup shareToFriendGroup;
 	private TextView currentCityName;
 	private SlidButton slidButton;
 	private Button loginButton;
@@ -48,6 +55,11 @@ public class MoreActivity extends MenuActivity
 	private int IS_SHOW_RECOMMENDED_APP = -1;
 	private int IS_SHOW_UPDATE_VERSION = -1;
 	private String token;
+	
+	private PopupWindow shareWindow;
+	private static final String SHARE_CONFIG = "share_config";
+	private static final  int SHARE_2_SINA = 1;
+	private static final  int SHARE_2_QQ = 2;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -74,6 +86,7 @@ public class MoreActivity extends MenuActivity
 		orderManger = (ViewGroup) findViewById(R.id.order_mamger);
 		userInfo = (ViewGroup) findViewById(R.id.user_info);
 		myConcern = (ViewGroup) findViewById(R.id.my_concern_group);
+		shareToFriendGroup =  (ViewGroup) findViewById(R.id.share_to_friend_group);
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		openCtiyGroup.setOnClickListener(openCityOnClickListener);
 		browseHistoryGroup.setOnClickListener(browseHistoryOnClickListener);
@@ -85,6 +98,7 @@ public class MoreActivity extends MenuActivity
 		userInfo.setOnClickListener(userInfoOnClickListener);
 		loginExitButton.setOnClickListener(loginExitOnClickListener);
 		myConcern.setOnClickListener(myConcernOnClickListener);
+		shareToFriendGroup.setOnClickListener(shareToFriendOnClickListener);
 		if(IS_SHOW_RECOMMENDED_APP == 1)
 		{
 			recommendedApp.setOnClickListener(recommendedAppOnClickListener);
@@ -280,8 +294,21 @@ public class MoreActivity extends MenuActivity
 		@Override
 		public void onClick(View v) {
 			Intent intent = new Intent();
-			intent.setClass(MoreActivity.this, CommonTouristRouteOrderListActivity.class);
+			intent.setClass(MoreActivity.this, UserInfoActivity.class);
 			startActivity(intent);
+			
+		}
+	};
+	
+	
+	private OnClickListener shareToFriendOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Log.d(TAG, "share to friend");
+			shareWindow();
 			
 		}
 	};
@@ -357,5 +384,92 @@ public class MoreActivity extends MenuActivity
 		MobclickAgent.onPause(this);
 	}
 	
+	
+	
+	private void shareWindow()
+	{
+		//LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
+		LayoutInflater lay = getLayoutInflater();
+        View v = lay.inflate(R.layout.share_popup, null);        
+        Button shareByMessageButton = (Button) v.findViewById(R.id.share_by_message_btn);
+        Button share2sinaButton = (Button) v.findViewById(R.id.share_2_sina_btn);
+        Button share2qqButton = (Button) v.findViewById(R.id.share_2_qq_btn);
+        Button shareCancelButton = (Button) v.findViewById(R.id.share_cancel);
+        LinearLayout shareGroup = (LinearLayout) v.findViewById(R.id.share_view_group);        
+        shareByMessageButton.setOnClickListener(shareByMessage);
+        share2sinaButton.setOnClickListener(share2sinaWeiboOnClickListener);
+        share2qqButton.setOnClickListener(share2qqWeiboOnClickListener);
+        shareCancelButton.setOnClickListener(shareCancelOnClickListener);
+        shareWindow = new PopupWindow(v, android.view.ViewGroup.LayoutParams.FILL_PARENT,android.view.ViewGroup.LayoutParams.FILL_PARENT);   
+        shareWindow.setFocusable(true);  
+        shareWindow.update();  
+        shareWindow.showAtLocation(findViewById(R.id.share_to_friend_group), Gravity.CENTER, 0, 0);  
+        shareGroup.setOnKeyListener(new OnKeyListener()
+		{
+					@Override
+					public boolean onKey(View v, int keyCode, KeyEvent event)
+					{
+						if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK)
+							shareWindow.dismiss();
+						return false;
+					}
+        		 
+        		});
+	}
+	
+	
+	private OnClickListener shareByMessage = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+            String messageCont = getString(R.string.share_content);
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"));
+            intent.putExtra("sms_body", messageCont);
+            startActivity(intent);
+		}
+	};
+	
+	private OnClickListener share2sinaWeiboOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.putExtra(SHARE_CONFIG, SHARE_2_SINA);
+			intent.setClass(MoreActivity.this, Share2Weibo.class);
+			startActivity(intent);
+		}
+	};
+	
+	
+	private OnClickListener share2qqWeiboOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.putExtra(SHARE_CONFIG, SHARE_2_QQ);
+			intent.setClass(MoreActivity.this, Share2Weibo.class);
+			startActivity(intent);
+		}
+	};
+	
+	
+	private OnClickListener shareCancelOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			if(shareWindow !=null)
+			{
+				shareWindow.dismiss();
+			}
+		}
+	};
 
 }

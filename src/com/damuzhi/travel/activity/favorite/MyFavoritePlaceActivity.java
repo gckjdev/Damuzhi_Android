@@ -347,7 +347,7 @@ public class MyFavoritePlaceActivity extends MenuActivity
 				{
 					
 					Place place = favoritePlaceList.get(position);
-					boolean result = FavoriteMission.getInstance().deleteFavorite(place.getPlaceId());
+					boolean result = FavoriteMission.getInstance().deleteFavoritePlace(place.getPlaceId());
 					if (result)
 					{
 						loadFavorite(favoriteConfigure,currentPlaceCategory);

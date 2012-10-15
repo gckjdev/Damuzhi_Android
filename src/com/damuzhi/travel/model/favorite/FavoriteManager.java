@@ -78,7 +78,7 @@ public class FavoriteManager
 	{
 		if(!FileUtil.checkFileIsExits(ConstantField.FAVORITE_PLACE_FILE_PATH))
 		{
-			//Log.e(TAG, "load favorite data from file = " + ConstantField.FAVORITE_FILE_PATH+ " but file not found");
+			Log.d(TAG, "load favorite place data from file = " + ConstantField.FAVORITE_PLACE_FILE_PATH+ " but file not found");
 			return false;
 			
 		}
@@ -99,7 +99,7 @@ public class FavoriteManager
 			return false;
 		} catch (Exception e)
 		{
-			Log.e(TAG, "load favorite data from file = " + ConstantField.FAVORITE_PLACE_FILE_PATH
+			Log.e(TAG, "load favorite place data from file = " + ConstantField.FAVORITE_PLACE_FILE_PATH
 				+ " but catch exception = " + e.toString(), e);
 			return false;
 		}
@@ -220,7 +220,7 @@ public class FavoriteManager
 
 
 	
-	public boolean deleteFavorite(int placeId)
+	public boolean deleteFavoritePlace(int placeId)
 	{
 		boolean result = false;
 		if(!FileUtil.checkFileIsExits(ConstantField.FAVORITE_PLACE_FILE_PATH))
@@ -289,8 +289,14 @@ public class FavoriteManager
         }
         
 		FileOutputStream output = null;
+		result = checkLocalRouteIsFollow(localRoute.getRouteId());
+		if(result)
+		{
+			return !result;
+		}
 		try
 		{
+			
 			if (localRoute != null){
 				//File favoriteFile = new File(ConstantField.FAVORITE_FILE_PATH);
 				output = new FileOutputStream(ConstantField.FAVORITE_ROUTE_FILE_PATH,true);
@@ -334,7 +340,8 @@ public class FavoriteManager
 			{
 				LocalRouteList localRouteList = LocalRouteList.parseFrom(inputStream);
 				return localRouteList.getRoutesList();
-			}			
+			}
+			return Collections.emptyList();
 		} catch (Exception e)
 		{
 			Log.e(TAG, "load favorite route data from file = " + ConstantField.FAVORITE_PLACE_FILE_PATH
@@ -350,6 +357,122 @@ public class FavoriteManager
 			{
 			}
 		}
-		return Collections.emptyList();
 	}
+	
+	
+	
+	public boolean deleteFavoriteRoute(int routeId)
+	{
+		boolean result = false;
+		if(!FileUtil.checkFileIsExits(ConstantField.FAVORITE_ROUTE_FILE_PATH))
+		{
+			Log.e(TAG, "delete one favorite route data from file = " + ConstantField.FAVORITE_ROUTE_FILE_PATH
+					+ " but file not found");
+			return false;
+			
+		}
+		File favoriteFile = new File(ConstantField.FAVORITE_ROUTE_FILE_PATH);
+		FileInputStream inputStream = null;
+		try
+		{
+			inputStream = new FileInputStream(favoriteFile);
+			Log.i(TAG, "load favorite data from file = " + ConstantField.FAVORITE_ROUTE_FILE_PATH);
+			LocalRouteList localRouteList = LocalRouteList.parseFrom(inputStream);
+			if(localRouteList.getRoutesCount()>0)
+			{
+				List<LocalRoute> list = new ArrayList<LocalRoute>();
+				list.addAll(localRouteList.getRoutesList());
+				int i = 0;
+				for(LocalRoute localRoute:list)
+				{
+					if(localRoute.getRouteId() == routeId)
+					{
+						list.remove(i);
+						break;
+					}
+					i++;
+				}
+				FileOutputStream output = null;			
+				output = new FileOutputStream(ConstantField.FAVORITE_ROUTE_FILE_PATH);
+				LocalRouteList.Builder locaBuilder = LocalRouteList.newBuilder();
+				locaBuilder.addAllRoutes(list);
+				locaBuilder.build().writeTo(output);		
+				result = true;
+			}
+			
+			return result;
+		} catch (Exception e)
+		{
+			Log.e(TAG, "delete one  favorite rotue data from file = " + ConstantField.FAVORITE_ROUTE_FILE_PATH
+				+ " but catch exception = " + e.toString(), e);
+			return false;
+		}
+		finally
+		{
+			try
+			{
+				inputStream.close();
+			} catch (Exception e)
+			{
+			}
+		}
+	}
+
+
+	
+	public boolean clearFavoriteRoute()
+	{
+		boolean result = false;
+		if(FileUtil.checkFileIsExits(ConstantField.FAVORITE_ROUTE_FILE_PATH))
+		{
+			Log.e(TAG, "clear favorite data from file = " + ConstantField.FAVORITE_ROUTE_FILE_PATH);
+			result = FileUtil.deleteFile(ConstantField.FAVORITE_ROUTE_FILE_PATH);
+			
+		}
+		return result;
+	}
+
+
+	
+	public boolean checkLocalRouteIsFollow(int routeId)
+	{
+		if(!FileUtil.checkFileIsExits(ConstantField.FAVORITE_ROUTE_FILE_PATH))
+		{
+			Log.d(TAG, "load favorite route data from file = " + ConstantField.FAVORITE_ROUTE_FILE_PATH+ " but file not found");
+			return false;
+			
+		}
+		File favoriteFile = new File(ConstantField.FAVORITE_ROUTE_FILE_PATH);
+		FileInputStream inputStream = null;
+		try
+		{
+			inputStream = new FileInputStream(favoriteFile);
+			//Log.i(TAG, "load favorite data from file = " + ConstantField.FAVORITE_FILE_PATH);
+			LocalRouteList localRouteList = LocalRouteList.parseFrom(inputStream);
+			for(LocalRoute localRoute:localRouteList.getRoutesList())
+			{
+				if(localRoute.getRouteId() == routeId)
+				{
+					return true;
+				}
+			}
+			return false;
+		} catch (Exception e)
+		{
+			Log.e(TAG, "load favorite route data from file = " + ConstantField.FAVORITE_ROUTE_FILE_PATH
+				+ " but catch exception = " + e.toString(), e);
+			return false;
+		}
+		finally
+		{
+			try
+			{
+				inputStream.close();
+			} catch (Exception e)
+			{
+			}
+		}
+	}
+	
+	
 }

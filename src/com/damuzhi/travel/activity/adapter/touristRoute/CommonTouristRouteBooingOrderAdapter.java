@@ -6,6 +6,7 @@ import java.util.List;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsActivity;
 import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsDetailActivity;
+import com.damuzhi.travel.activity.touristRoute.CommonRouteFeedbackActivity;
 import com.damuzhi.travel.mission.touristRoute.TouristRouteMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
@@ -39,9 +40,10 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 	private TextView routeBookingNumber;
 	private TextView damuzhiPrice;
 	private TextView bookingStatus;
-	private Button routeFeedback;
+	private Button routeFeedbackButton;
 	private Button routeDetailButton;
 	String bookingNumber ="";
+//	private View groupView;
 	public CommonTouristRouteBooingOrderAdapter(Context context,
 			List<Order> orderList) {
 		super();
@@ -76,6 +78,7 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 		damuzhiPrice =(TextView)  childView.findViewById(R.id.damuzhi_price);
 		bookingStatus = (TextView) childView.findViewById(R.id.booking_status);
 		routeDetailButton = (Button) childView.findViewById(R.id.route_detail);
+		routeFeedbackButton = (Button) childView.findViewById(R.id.route_feedback);
 		routeName.setText(order.getRouteName());
 		routeId.setText(""+order.getRouteId());
 		departTime.setText(TravelUtil.getDepartTime((long)order.getDepartDate()));
@@ -87,6 +90,8 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 		bookingStatus.setText(TravelUtil.getOrderStatus(order.getStatus()));
 		routeDetailButton.setTag(arg0);
 		routeDetailButton.setOnClickListener(routeDeatilOnClickListener);
+		routeFeedbackButton.setTag(arg0);
+		routeFeedbackButton.setOnClickListener(routeEvaluateOnClickListener);
 		return childView;
 	}
 
@@ -117,8 +122,7 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 	}
 
 	@Override
-	public View getGroupView(int groupPosition, boolean isExpanded,
-			View convertView, ViewGroup parent) {
+	public View getGroupView(int groupPosition, boolean isExpanded,View convertView, ViewGroup parent) {
 		if(convertView == null)
 		{
 			convertView = inflater.inflate(R.layout.common_tourist_route_order_list_group_item, null);
@@ -126,11 +130,12 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 		if(groupPosition == 0)
 		{
 			convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_1));
-		}else if (groupPosition == orderList.size()-1) {
-			convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_3));
 		}else {
 			convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_2));
-		}
+		}/*else if (groupPosition == orderList.size()-1) {
+		convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_3));
+	}*/
+		//groupView = convertView;
 		bookingId = (TextView) convertView.findViewById(R.id.booking_id);
 		bookingDate = (TextView) convertView.findViewById(R.id.booking_time);
 		Order order = orderList.get(groupPosition);
@@ -178,5 +183,23 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 			context.startActivity(intent);		
 		}
 	};
+	
+	
+	private OnClickListener routeEvaluateOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			int position = Integer.valueOf((Integer)v.getTag());
+			Order order = orderList.get(position);
+			Intent intent = new Intent();
+			intent.setClass(context, CommonRouteFeedbackActivity.class);
+			intent.putExtra("route_order",order.toByteArray());
+			context.startActivity(intent); 
+			
+		}
+	};
+	
 
 }

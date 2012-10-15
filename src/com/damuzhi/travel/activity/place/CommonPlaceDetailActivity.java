@@ -59,6 +59,7 @@ import com.damuzhi.travel.activity.common.NearbyPlaceMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.mission.place.PlaceMission;
@@ -142,8 +143,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			List<String> imagePath = place.getImagesList();
 			LayoutInflater inflater = getLayoutInflater();
 			ArrayList<View> imageViewlist = new ArrayList<View>();	
-			asyncLoader = AsyncLoader.getInstance();
-			//asyncLoader = new AsyncLoader();
+			//asyncLoader = AsyncLoader.getInstance();
+			asyncLoader = new AsyncLoader();
 			int size=imagePath.size();	
 			for(int i=0;i<size;i++)
 			{
@@ -457,7 +458,9 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		TextView placeIntro = (TextView) findViewById(R.id.place_intro);
 		placeDetailTitle.setText(place.getName());
 		placeIntroTitle.setText(getPlaceIntroTitle());
-		String introduction = TravelUtil.handlerString(place.getIntroduction());
+		String introduction = place.getIntroduction();
+		//introduction = TravelUtil.StringFilter(introduction);
+		introduction = TravelUtil.handlerString(introduction);
 		placeIntro.setText("		"+introduction);
 		
 		
@@ -949,7 +952,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		public void onClick(View v)
 		{
 			Intent intent = new Intent();
-			intent.setClass(CommonPlaceDetailActivity.this, IndexActivity.class);
+			intent.setClass(CommonPlaceDetailActivity.this, MainActivity.class);
 			startActivity(intent);	
 			
 		}

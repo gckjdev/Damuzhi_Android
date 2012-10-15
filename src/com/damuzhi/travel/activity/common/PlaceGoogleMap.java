@@ -134,7 +134,7 @@ public class PlaceGoogleMap extends MapActivity {
 		for (Place place : placeList)
 		{
 			GeoPoint geoPoint = new GeoPoint((int) (place.getLatitude() * 1e6),(int) (place.getLongitude() * 1e6));
-			CommonOverlayItem commonOverlayItem = new CommonOverlayItem(geoPoint,place.getName(), null,place);
+			CommonOverlayItem commonOverlayItem = new CommonOverlayItem(geoPoint,place.getName(), null,place,null);
 			itemizedOverlay.addOverlay(commonOverlayItem);
 		}
 		if(itemizedOverlay.size()>0)
@@ -160,7 +160,7 @@ public class PlaceGoogleMap extends MapActivity {
 		{
 			GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
 			Drawable drawable = getResources().getDrawable(R.drawable.my_location);
-			CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null);
+			CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null,null);
 			CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
 			itemizedOverlay3.addOverlay(overlayItem);
 			itemizedOverlay3.setOnFocusChangeListener(onFocusChangeListener);
@@ -214,7 +214,7 @@ public class PlaceGoogleMap extends MapActivity {
 			{
 				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));	
 				Drawable drawable = getResources().getDrawable(R.drawable.my_location);
-				CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null);
+				CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null,null);
 				CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
 				itemizedOverlay3.addOverlay(overlayItem);
 				mapView.getOverlays().add(itemizedOverlay3);

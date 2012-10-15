@@ -12,9 +12,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Collections;
 
 import org.json.JSONObject;
 
+import android.R.bool;
 import android.R.integer;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -24,6 +26,8 @@ import android.util.Log;
 import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
+import com.damuzhi.travel.protos.PackageProtos.TravelResponse;
+import com.damuzhi.travel.protos.PackageProtos.UserInfo;
 import com.google.protobuf.CodedInputStream;
 
 /**  
@@ -35,12 +39,15 @@ import com.google.protobuf.CodedInputStream;
 
 public class CommonMission
 {
-	private static final String TAG = "UserMission";
+	private static final String TAG = "CommonMission";
 	private String resultInfo = "";
 	private String token = "";
+	private String userId = "";
+	
+	private int type =0;//0=common,1=memberLogin,2=registerDevice
 	
 	private static CommonMission instance = null;
-	private UserManager userManager = UserManager.getInstance();
+	//private UserManager userManager = UserManager.getInstance();
 	private CommonMission() {
 	}
 	
@@ -56,17 +63,24 @@ public class CommonMission
 	{
 		SharedPreferences userSharedPreferences = context.getSharedPreferences(ConstantField.USER_ID, 0);
 		Editor editor = userSharedPreferences.edit();
-		String userId = registerDevice(deviceId,channelId);
-		Log.i(TAG, "<register> save userId = "+userId);		
-		editor.putString(ConstantField.USER_ID, userId);
-		editor.commit();
+		String url = String.format(ConstantField.REGISTER,deviceId,channelId);
+		Log.d(TAG, "<registerDevice> url = "+url);
+		boolean result = getDataByURL(url);
+		if(result)
+		{
+			Log.d(TAG, "<register> save userId = "+userId);		
+			editor.putString(ConstantField.USER_ID, userId);
+			editor.commit();
+		}
+		
 		
 	}
 	
 	
 	public boolean registerMember(String url) {
 		boolean result = false;
-		result = registerMemberByUrl(url);
+		//result = registerMemberByUrl(url);
+		result = getDataByURL(url);
 		return result;
 	}
 	
@@ -90,293 +104,38 @@ public class CommonMission
 	
 	
 	
-	private boolean registerMemberByUrl(String url) {
-		Log.d(TAG, "<registerMemberByUrl> register member  ,url = "+url);
-		InputStream inputStream = null;
-		BufferedReader br = null;
-		InputStreamReader inputStreamReader = null;
-		HttpTool httpTool = HttpTool.getInstance();
-		try
-		{
-			inputStream = httpTool.sendGetRequest(url);
-			if(inputStream !=null)
-			{				
-				inputStreamReader = new InputStreamReader(inputStream);
-				br = new BufferedReader(inputStreamReader);
-				StringBuffer sb = new StringBuffer();
-				String result = br.readLine();
-				Log.i(TAG, "<registerMemberByUrl> result "+result);
-				while (result != null) {
-					sb.append(result);
-					result = br.readLine();
-				}
-				if(sb.length() <= 1){
-					return false;
-				}
-				JSONObject resultData = new JSONObject(sb.toString());
-				int resultCode = resultData.getInt("result");
-				resultInfo = resultData.getString("resultInfo");
-				Log.d(TAG, "result code = "+resultCode);
-				if (resultData!= null&& resultCode == 0){
-					return true;
-				}else {
-					return false;
-				}			
-			}
-			else{
-				return false;
-			}
-			
-		} 
-		catch (Exception e)
-		{
-			Log.e(TAG, "<registerDevice> catch exception = "+e.toString(), e);
-			return false;
-		}finally
-		{
-			httpTool.stopConnection();
-			try
-			{
-				if (inputStream != null){				
-						inputStream.close();
-				}
-				if (inputStreamReader != null){
-						inputStreamReader.close();
-				}
-				if (br != null){				
-						br.close();
-				}
-			} catch (IOException e1)
-			{
-			}
-		}
-	
-	}
-	
-	
-	
-	
-	
-	
-	private String registerDevice(String deviceId,String channelId)
-	{
-		String url = String.format(ConstantField.REGISTER,deviceId,channelId);
-		Log.d(TAG, "<registerDevice> register device ,url = "+url);
-		InputStream inputStream = null;
-		BufferedReader br = null;
-		String userId = "";
-		HttpTool httpTool = HttpTool.getInstance();
-		try
-		{
-			inputStream = httpTool.sendGetRequest(url);
-			if(inputStream !=null)
-			{				
-				br = new BufferedReader(new InputStreamReader(inputStream));
-				StringBuffer sb = new StringBuffer();
-				String result = br.readLine();
-				Log.i(TAG, "<registerDevice> result "+result);
-				while (result != null) {
-					sb.append(result);
-					result = br.readLine();
-				}
-				if(sb.length() <= 1){
-					return userId;
-				}
-				JSONObject registerData = new JSONObject(sb.toString());
-				//resultInfo = registerData.getString("resultInfo");
-				if (registerData == null || registerData.getInt("result")!= 0){
-					return userId;
-				}								
-				userId = registerData.getString("userId");
-				return userId;						
-			}
-			else{
-				return userId;
-			}
-			
-		} 
-		catch (Exception e)
-		{
-			Log.e(TAG, "<registerDevice> catch exception = "+e.toString(), e);
-			try
-			{
-				if (inputStream != null){
-					inputStream.close();
-				}
-				if (br != null){
-					br.close();
-				}
-			} catch (IOException e1)
-			{
-			}
-			return userId;
-		}finally
-		{
-			httpTool.stopConnection();
-			try
-			{
-				if (inputStream != null){
-					inputStream.close();
-				}
-				if (br != null){
-					br.close();
-				}
-			} catch (IOException e1)
-			{
-			}
-			
-		}		
-	}
 
 	
 	public boolean memberLogin(String userName,String password)
 	{
 		String url = String.format(ConstantField.MEMBER_LOGIN_URL, userName,password);
-		boolean result = memberLoginByUrl(url);
+		Log.d(TAG, "<memberLogin> url = "+url);
+		//boolean result = memberLoginByUrl(url);
+		boolean result = getDataByURL(url);
 		return result;
 	}
 	
-	private boolean memberLoginByUrl(String url) {
-		Log.d(TAG, "<memberLoginByUrl> register member  ,url = "+url);
-		InputStream inputStream = null;
-		BufferedReader br = null;
-		InputStreamReader inputStreamReader = null;
-		HttpTool httpTool = HttpTool.getInstance();
-		try
-		{
-			inputStream = httpTool.sendGetRequest(url);
-			if(inputStream !=null)
-			{				
-				inputStreamReader = new InputStreamReader(inputStream);
-				br = new BufferedReader(inputStreamReader);
-				StringBuffer sb = new StringBuffer();
-				String result = br.readLine();
-				Log.i(TAG, "<memberLoginByUrl> result "+result);
-				while (result != null) {
-					sb.append(result);
-					result = br.readLine();
-				}
-				if(sb.length() <= 1){
-					return false;
-				}
-				JSONObject resultData = new JSONObject(sb.toString());
-				int resultCode = resultData.getInt("result");
-				resultInfo = resultData.getString("resultInfo");
-				Log.d(TAG, "result code = "+resultCode);
-				if (resultData!= null&& resultCode == 0){
-					token = resultData.getString("token");
-					return true;
-				}else {
-					return false;
-				}			
-			}
-			else{
-				return false;
-			}
-			
-		} 
-		catch (Exception e)
-		{
-			Log.e(TAG, "<registerDevice> catch exception = "+e.toString(), e);
-			return false;
-		}finally
-		{
-			httpTool.stopConnection();
-			try
-			{
-				if (inputStream != null){				
-						inputStream.close();
-				}
-				if (inputStreamReader != null){
-						inputStreamReader.close();
-				}
-				if (br != null){				
-						br.close();
-				}
-			} catch (IOException e1)
-			{
-			}
-		}
-	
-	}
+
 
 	
 	public boolean getVerification(String loginId, String telephone)
 	{
 		String url = String.format(ConstantField.GET_MEMBER_VERIFICATION_CODE, loginId,telephone);
-		boolean result = getVerification(url);
+		Log.d(TAG, "<getVerification> url = "+url);
+		//boolean result = getVerification(url);
+		boolean result = getDataByURL(url);
 		return result;
 		
 	}
 	
-	private boolean getVerification(String url)
-	{
-		Log.d(TAG, "<getVerification> register member  ,url = "+url);
-		InputStream inputStream = null;
-		BufferedReader br = null;
-		InputStreamReader inputStreamReader = null;
-		HttpTool httpTool = HttpTool.getInstance();
-		try
-		{
-			inputStream = httpTool.sendGetRequest(url);
-			if(inputStream !=null)
-			{				
-				inputStreamReader = new InputStreamReader(inputStream);
-				br = new BufferedReader(inputStreamReader);
-				StringBuffer sb = new StringBuffer();
-				String result = br.readLine();
-				Log.i(TAG, "<getVerification> result "+result);
-				while (result != null) {
-					sb.append(result);
-					result = br.readLine();
-				}
-				if(sb.length() <= 1){
-					return false;
-				}
-				JSONObject resultData = new JSONObject(sb.toString());
-				int resultCode = resultData.getInt("result");
-				resultInfo = resultData.getString("resultInfo");
-				Log.d(TAG, "result code = "+resultCode);
-				if (resultData!= null&& resultCode == 0){
-					return true;
-				}else {
-					return false;
-				}			
-			}
-			else{
-				return false;
-			}
-			
-		} 
-		catch (Exception e)
-		{
-			Log.e(TAG, "<getVerification> catch exception = "+e.toString(), e);
-			return false;
-		}finally
-		{
-			httpTool.stopConnection();
-			try
-			{
-				if (inputStream != null){				
-						inputStream.close();
-				}
-				if (inputStreamReader != null){
-						inputStreamReader.close();
-				}
-				if (br != null){				
-						br.close();
-				}
-			} catch (IOException e1)
-			{
-			}
-		}
-	}
 
 	
 	public boolean verificationCode(String phoneNum, String verificationCode)
 	{
 		String url = String.format(ConstantField.VERIFICATION_CODE,phoneNum,verificationCode);
-		boolean result = verificationCode(url);
+		Log.d(TAG, "<verificationCode> url = "+url);
+		//boolean result = verificationCode(url);
+		boolean result = getDataByURL(url);
 		return result;
 	}
 	
@@ -385,15 +144,20 @@ public class CommonMission
 	public boolean findPassword(String telephone)
 	{
 		String url = String.format(ConstantField.FIND_PASSWORD,telephone);
-		boolean result = verificationCode(url);
+		Log.d(TAG, "<findPassword> url = "+url);
+		//boolean result = verificationCode(url);
+		boolean result = getDataByURL(url);
 		return result;
 	}
 	
 	
 	
-	private boolean verificationCode(String url)
+	
+	
+	
+	private boolean getDataByURL(String url)
 	{
-		Log.d(TAG, "<verificationCode> verification code  ,url = "+url);
+		Log.d(TAG, "<getDataByURL>   ,url = "+url);
 		InputStream inputStream = null;
 		BufferedReader br = null;
 		InputStreamReader inputStreamReader = null;
@@ -407,7 +171,7 @@ public class CommonMission
 				br = new BufferedReader(inputStreamReader);
 				StringBuffer sb = new StringBuffer();
 				String result = br.readLine();
-				Log.i(TAG, "<verificationCode> result "+result);
+				Log.d(TAG, "<getDataByURL> result "+result);
 				while (result != null) {
 					sb.append(result);
 					result = br.readLine();
@@ -417,9 +181,31 @@ public class CommonMission
 				}
 				JSONObject resultData = new JSONObject(sb.toString());
 				int resultCode = resultData.getInt("result");
-				resultInfo = resultData.getString("resultInfo");
 				Log.d(TAG, "result code = "+resultCode);
+				if(resultData.has("resultInfo"))
+				{
+					resultInfo = resultData.getString("resultInfo");
+				}
 				if (resultData!= null&& resultCode == 0){
+					/*if(type == 1)
+					{
+						token = resultData.getString("token");
+						return true;
+					}
+					
+					if(type == 2)
+					{
+						userId = resultData.getString("userId");
+						return true;
+					}*/
+					if(resultData.has("token"))
+					{
+						token = resultData.getString("token");
+					}
+					if(resultData.has("userId"))
+					{
+						userId = resultData.getString("userId");
+					}
 					return true;
 				}else {
 					return false;
@@ -432,7 +218,7 @@ public class CommonMission
 		} 
 		catch (Exception e)
 		{
-			Log.e(TAG, "<verificationCode> catch exception = "+e.toString(), e);
+			Log.e(TAG, "<getDataByURL> catch exception = "+e.toString(), e);
 			return false;
 		}finally
 		{
@@ -474,8 +260,110 @@ public class CommonMission
 		this.token = token;
 	}
 
+	public String getUserId()
+	{
+		return userId;
+	}
+
+	public void setUserId(String userId)
+	{
+		this.userId = userId;
+	}
+
 	
+	public UserInfo getUserInfo(String loginId, String token)
+	{
+		// TODO Auto-generated method stub
+		String url = String.format(ConstantField.GET_USER_INFO_URL, loginId,token);
+		Log.d(TAG, "<getUserInfo> url = "+url);
+		return getUserInfoByURL(url);
+	}
+
 	
+	private UserInfo getUserInfoByURL(String url)
+	{
+		Log.i(TAG, "<getUserInfoByURL> load place data from http ,url = "+url);
+		HttpTool httpTool = HttpTool.getInstance();
+		InputStream inputStream = null;
+		try
+		{
+			inputStream = httpTool.sendGetRequest(url);
+			if(inputStream !=null)
+			{
+				try
+				{
+					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
+					if (travelResponse == null || travelResponse.getResultCode() != 0 ||
+							travelResponse.getPlaceList() == null){
+						return null;
+					}
+					
+					inputStream.close();
+					inputStream = null;					
+					return travelResponse.getUserInfo();
+				} catch (Exception e)
+				{					
+					Log.e(TAG, "<getPlaceListByUrl> catch exception = "+e.toString(), e);
+					return null;
+				}				
+			}
+			else{
+				return null;
+			}
+			
+		} 
+		catch (Exception e)
+		{
+			Log.e(TAG, "<getPlaceListByUrl> catch exception = "+e.toString(), e);
+			if (inputStream != null){
+				try
+				{
+					inputStream.close();
+				} catch (IOException e1)
+				{
+				}
+			}
+			return null;
+		}
+		
+	}
+
+	/**  
+	        * @param oldPassword
+	        * @param newPasswrod
+	        * @return  
+	        * @description   
+	        * @version 1.0  
+	        * @author liuxiaokun  
+	        * @update 2012-10-9 下午5:58:09  
+	*/
+	public boolean changePassword(String loginId,String token,String oldPassword, String newPasswrod)
+	{
+		String url = String.format(ConstantField.CHANGE_PASSWORD_URL,loginId,token,oldPassword,newPasswrod);
+		Log.d(TAG, "<changePassword> url = "+url);
+		boolean result = getDataByURL(url);
+		return result;
+	}
+
+	/**  
+	        * @param loginId
+	        * @param token2
+	        * @param nickName
+	        * @param name
+	        * @param email
+	        * @return  
+	        * @description   
+	        * @version 1.0  
+	        * @author liuxiaokun  
+	        * @update 2012-10-12 上午10:12:18  
+	*/
+	public boolean changeUserInfo(String loginId, String token2,String nickName, String name,String telephone, String email)
+	{
+		String url = String.format(ConstantField.CHANGE_USER_INFO_URL,loginId,token,name,nickName,"",telephone,email,"");
+		Log.d(TAG, "<changeUserInfo> url = "+url);
+		boolean result = getDataByURL(url);
+		return result;
+	}
 	
 	
 }

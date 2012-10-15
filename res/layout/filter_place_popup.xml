@@ -63,7 +63,6 @@
     	    android:scrollingCache="false"
     	    android:scrollbars="none"
     	    android:cacheColorHint="@android:color/transparent"
-    	    android:fadingEdge="none"
-    	    />
+    	    android:fadingEdge="none"/>
     </LinearLayout> 
 </LinearLayout>

@@ -51,8 +51,8 @@ public class TravelRoutesAdapter extends BaseAdapter
 		super();
 		this.commonTravelTips = commonTravelTips;
 		this.context = context;
-		asyncLoader = AsyncLoader.getInstance();
-		//asyncLoader = new AsyncLoader();
+		//asyncLoader = AsyncLoader.getInstance();
+		asyncLoader = new AsyncLoader();
 	}
 
 	@Override

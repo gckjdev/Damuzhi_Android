@@ -62,6 +62,7 @@
         <activity android:name=".activity.place.CommonNearbyPlaceActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>       
         <activity android:name=".activity.common.HelpActiviy" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.common.PlaceGoogleMap" android:screenOrientation="portrait" android:launchMode="standard"/> 
+         <activity android:name=".activity.common.DepartPlaceMap" android:screenOrientation="portrait" android:launchMode="standard"/>
         <activity android:name=".activity.overview.CommonOverViewActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>     
         <activity android:name=".activity.overview.CommonTravelPreprationActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>  
         <activity android:name=".activity.overview.CommonTravelUtilityActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
@@ -77,11 +78,16 @@
         <activity android:name=".activity.touristRoute.CommonBookingConfirmActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
         <activity android:name=".activity.touristRoute.CommonTouristRouteOrderListActivity" android:screenOrientation="portrait" /> 
         <activity android:name=".activity.touristRoute.CommonOrderMangerActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.touristRoute.CommonRouteFeedbackActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.touristRoute.CommonAgencyIntroActivity" android:screenOrientation="portrait" />
         <activity android:name=".activity.more.LoginActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.more.FindPasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.more.RegisterActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.more.RegisterVerificationActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
+        <activity android:name=".activity.more.UserInfoActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".activity.more.ChangePasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".activity.favorite.MyFavoriteRouteActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
+        
        
        <activity android:name=".activity.fly.CommonFlyActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>
        <activity android:name=".activity.happyRoute.CommonHappyRouteActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>

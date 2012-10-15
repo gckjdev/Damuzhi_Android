@@ -92,8 +92,8 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
-		this.asyncLoader = AsyncLoader.getInstance();
-		//this.asyncLoader = new AsyncLoader();
+		//this.asyncLoader = AsyncLoader.getInstance();
+		this.asyncLoader = new AsyncLoader();
 		this.placeCategoryType = placeCategoryType;
 		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(AppManager.getInstance().getCurrentCityId());

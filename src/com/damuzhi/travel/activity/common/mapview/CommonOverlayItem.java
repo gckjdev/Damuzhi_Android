@@ -9,6 +9,7 @@
 package com.damuzhi.travel.activity.common.mapview;
 
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.protos.TouristRouteProtos.DepartPlace;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.OverlayItem;
 
@@ -29,11 +30,14 @@ public class CommonOverlayItem extends OverlayItem
 	* @param snippet  
 	*/
 	private Place place;
-	public CommonOverlayItem(GeoPoint point, String title, String snippet,Place place)
+	private DepartPlace departPlace;
+	
+	public CommonOverlayItem(GeoPoint point, String title, String snippet,Place place,DepartPlace departPlace)
 	{
 		super(point, title, snippet);
 		// TODO Auto-generated constructor stub
 		this.place = place;
+		this.departPlace = departPlace;
 	}
 	public Place getPlace()
 	{
@@ -42,6 +46,14 @@ public class CommonOverlayItem extends OverlayItem
 	public void setPlace(Place place)
 	{
 		this.place = place;
+	}
+	public DepartPlace getDepartPlace()
+	{
+		return departPlace;
+	}
+	public void setDepartPlace(DepartPlace departPlace)
+	{
+		this.departPlace = departPlace;
 	}
 
 }

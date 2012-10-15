@@ -20,25 +20,26 @@ import android.util.Log;
 
 
 public class ImageLoader {
-		private static final int SOFT_CACHE_CAPACITY = 25;
+		private static final int SOFT_CACHE_CAPACITY = 30;
 		protected static final String TAG = "ImageLoader";  
 		private ArrayList<Task> taskQueue;
-		private volatile static ImageLoader instance;
+		//private volatile static ImageLoader instance;
 		public static ImageLoader getInstance() {
-			if (instance == null) {
+			/*if (instance == null) {
 				synchronized (ImageLoader.class) {
 					if (instance == null) {
 						instance = new ImageLoader();
 					}
 				}
 			}
-			instance = new ImageLoader();
+			instance = new ImageLoader();*/
+			ImageLoader instance = new ImageLoader();
 			return instance;
 		}
 		
 		
 	   
-	    private static final  LinkedHashMap <String, WeakReference<Bitmap>> caches =   
+	    private   LinkedHashMap <String, WeakReference<Bitmap>> caches =   
 	        new  LinkedHashMap<String, WeakReference<Bitmap>>(SOFT_CACHE_CAPACITY, 0.75f, true){  
 	        @Override  
 	        public WeakReference<Bitmap> put(String key, WeakReference<Bitmap> value){  

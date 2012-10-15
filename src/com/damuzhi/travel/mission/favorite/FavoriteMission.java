@@ -278,12 +278,25 @@ public class FavoriteMission
 	}
 
 	
-	public boolean deleteFavorite(int placeId)
+	public boolean deleteFavoritePlace(int placeId)
 	{
-		return favoriteManger.deleteFavorite(placeId);
+		return favoriteManger.deleteFavoritePlace(placeId);
 		
 	}
 
+	
+	public boolean deleteFavoriteRoute(int routeId)
+	{
+		return favoriteManger.deleteFavoriteRoute(routeId);
+		
+	}
+	
+	
+	
+	public boolean clearFavoriteRoute()
+	{
+		return favoriteManger.clearFavoriteRoute();
+	}
 	
 	public void addFavoriteRoute(String userId, String loginId, String token,int routeId, LocalRoute localRoute)
 	{
@@ -371,6 +384,12 @@ public class FavoriteMission
 	{
 		List<LocalRoute> list = favoriteManger.getMyFavoriteRoute();
 		return list;
+	}
+
+	
+	public boolean checkLocalRouteIsFollow(int routeId)
+	{
+		return favoriteManger.checkLocalRouteIsFollow(routeId);
 	}
 	
 }

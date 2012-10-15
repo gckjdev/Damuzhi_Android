@@ -52,6 +52,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:cacheColorHint="@color/listview_bg"
+        android:listSelector="@android:color/transparent"
         android:clickable="true"
         android:divider="@android:color/transparent"
         android:dividerHeight="0.5dp"

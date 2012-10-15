@@ -2,6 +2,7 @@ package com.damuzhi.travel.activity.adapter.viewcache;
 
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ public class LocalTripsViewCache {
 	private ImageView recommendImageView2;
 	private ImageView recommendImageView3;
 	private ViewGroup agencyNameViewGroup;
+	private Button deleteButton;
 	/**
 	 * @param convertView
 	 */
@@ -119,5 +121,15 @@ public class LocalTripsViewCache {
 			agencyNameViewGroup = (ViewGroup) convertView.findViewById(R.id.agency_name_group);
 		}
 		return agencyNameViewGroup;
+	}
+	
+	
+	public Button getDeleteButton()
+	{
+		if(deleteButton == null)
+		{
+			deleteButton = (Button) convertView.findViewById(R.id.delete_button);
+		}
+		return deleteButton;
 	}
 }

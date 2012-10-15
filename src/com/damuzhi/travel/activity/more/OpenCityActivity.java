@@ -1231,9 +1231,10 @@ public class OpenCityActivity extends Activity
 		{
 			City city = cityList.get(arg2);
 			int cityId = city.getCityId();
-			final String cityName = city.getCountryName()+city.getCityName();	
+			String cityName = city.getCountryName()+city.getCityName();	
 			AppManager.getInstance().setCurrentCityId(cityId);
-			final Intent intent = new Intent();
+			Intent intent = new Intent();
+			//intent.putExtra("mainActivity", "1");
 			//intent.setClass(OpenCityActivity.this, IndexActivity.class);		
 			intent.setClass(OpenCityActivity.this, MainActivity.class);
 			startActivity(intent);

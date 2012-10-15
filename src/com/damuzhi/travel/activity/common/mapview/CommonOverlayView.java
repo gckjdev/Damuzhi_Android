@@ -1,5 +1,6 @@
 package com.damuzhi.travel.activity.common.mapview;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
+import com.damuzhi.travel.protos.TouristRouteProtos.DepartPlace;
 import com.google.android.maps.OverlayItem;
 import com.readystatesoftware.mapviewballoons.BalloonOverlayView;
 import com.damuzhi.travel.R;
@@ -30,6 +32,7 @@ import com.damuzhi.travel.R;
 public class CommonOverlayView<Item extends OverlayItem> extends BalloonOverlayView<CommonOverlayItem>
 {
 
+	private static final String TAG = "CommonOverlayView";
 	/**  
 	* Constructor Method   
 	* @param context
@@ -59,10 +62,17 @@ public class CommonOverlayView<Item extends OverlayItem> extends BalloonOverlayV
 	protected void setBalloonData(CommonOverlayItem item, ViewGroup parent)
 	{
 		Place place = item.getPlace();
+		DepartPlace departPlace = item.getDepartPlace();
+		
 		if(place!=null)
 		{
+			Log.d(TAG, "place");
 			title.setText(item.getTitle());
+		}else if (departPlace != null) {
+			Log.d(TAG, "depart place");
+			title.setText(departPlace.getDepartPlace());
 		}else {
+			Log.d(TAG, " non");
 			parent.getChildAt(0).setVisibility(View.GONE);
 		}
 		

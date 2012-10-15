@@ -122,5 +122,25 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/go_btn" />
         </RelativeLayout>
+        <LinearLayout
+            android:id="@+id/customer_service_phone"
+            android:layout_marginTop="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="@string/customer_service_phone"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+           <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/customer_service_phone_number"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

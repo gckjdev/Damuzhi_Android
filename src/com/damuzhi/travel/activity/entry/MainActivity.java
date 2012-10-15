@@ -46,18 +46,20 @@ public class MainActivity extends TabActivity {
 	private LayoutInflater mLayoutflater;
 	private ViewGroup tapTopGroup;
 	private TextView currentCityName;
-	
+	private TextView titleTextView;
+	boolean flag = false;//flag go to OpenCityActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		//setTheme(R.style.Theme_Tabhost);
 		setContentView(R.layout.main);
+		Log.d(TAG, "oncreate");
 		ActivityMange.getInstance().addActivity(this);
 		mLayoutflater = getLayoutInflater();
 		mTabHost = getTabHost();
 		initTabHost();
 		mTabHost.setCurrentTab(0);
-		
+		titleTextView = (TextView) findViewById(R.id.title);
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		tapTopGroup = (ViewGroup) findViewById(R.id.tab_top);
@@ -129,6 +131,7 @@ public class MainActivity extends TabActivity {
 		public void onClick(View v)
 		{
 			LocationUtil.stop();
+			flag = true;
 			Intent intent = new Intent();
 			intent.setClass(MainActivity.this, OpenCityActivity.class);
 			startActivity(intent);
@@ -164,6 +167,15 @@ public class MainActivity extends TabActivity {
 			cityName = AppManager.getInstance().getCurrentCityName();
 		}
 		currentCityName.setText(cityName);
+		//String flag = getIntent().getStringExtra("mainActivity");
+		//Log.d(TAG, "flag = "+flag);
+		if(flag&&mTabHost.getCurrentTab()==1)
+		{
+			mTabHost.setCurrentTab(0);
+			flag = false;
+		}
+		
+		
 	}
 	
 	
@@ -182,7 +194,16 @@ public class MainActivity extends TabActivity {
 			{
 				tapTopGroup.setVisibility(View.VISIBLE);
 			}
-			
+			if(tabId.equals("guide"))
+			{
+				titleTextView.setText(getString(R.string.city_guide));
+				return;
+			}
+			if(tabId.equals("local"))
+			{
+				titleTextView.setText(getString(R.string.local_route));
+				return;
+			}
 		}
 	};
 

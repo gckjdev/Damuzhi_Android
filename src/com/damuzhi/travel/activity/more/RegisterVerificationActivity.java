@@ -27,6 +27,7 @@ public class RegisterVerificationActivity extends Activity
 	protected static final String TAG = "RegisterVerificationActivity";
 	private EditText verifiCodeEditText;
 	private Button verificationButton;
+	private Button getVerifiCodeButton;
 	String phoneNum;
 
 	@Override
@@ -40,8 +41,10 @@ public class RegisterVerificationActivity extends Activity
 		TextView phoneNumTextView = (TextView) findViewById(R.id.phone_num);
 		verifiCodeEditText = (EditText) findViewById(R.id.verification_code);
 		verificationButton = (Button) findViewById(R.id.verification_button);
+		getVerifiCodeButton = (Button) findViewById(R.id.get_verificode_button);
 		phoneNumTextView.setText(phoneNum);
 		verificationButton.setOnClickListener(verificationOnClickListener);
+		getVerifiCodeButton.setOnClickListener(getVerifiCodeOnClickListener);
 	}
 
 	private OnClickListener verificationOnClickListener = new OnClickListener()
@@ -78,6 +81,20 @@ public class RegisterVerificationActivity extends Activity
 				Toast.makeText(RegisterVerificationActivity.this,getString(R.string.verification_code_fail), Toast.LENGTH_SHORT).show();
 			}
 
+		}
+	};
+	
+	
+	private OnClickListener getVerifiCodeOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			boolean result = CommonMission.getInstance().getVerification(phoneNum,phoneNum);
+			String resultInfo = CommonMission.getInstance().getResultInfo();
+			Log.d(TAG, "get verification code result = "+result);
+			Toast.makeText(RegisterVerificationActivity.this, resultInfo, Toast.LENGTH_SHORT).show();
 		}
 	};
 

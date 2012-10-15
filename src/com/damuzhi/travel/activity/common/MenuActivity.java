@@ -73,7 +73,6 @@ public class MenuActivity extends Activity
 			startActivity(intent);
 			break;
 		case R.id.menu_exit:
-			//TravelApplication.getInstance().exit();
 			ActivityMange.getInstance().AppExit(this);
 			break;
 
@@ -83,79 +82,5 @@ public class MenuActivity extends Activity
 		return super.onOptionsItemSelected(item);
 	}
 	
-	
-	
-	
-	
-	/*private void loadPlace()
-	{
-		// TODO Auto-generated method stub
-		AsyncTask<String, Void, Void> task = new AsyncTask<String, Void, Void>()
-		{
-
-			@Override
-			protected Void doInBackground(String... params)
-			{
-				return null;
-			}
-
-			@Override
-			protected void onCancelled()
-			{
-				// TODO Auto-generated method stub
-				super.onCancelled();
-			}
-
-			@Override
-			protected void onPostExecute(Void resultList)
-			{				
-				loadingDialog.dismiss();
-				super.onPostExecute(resultList);
-			}
-
-			@Override
-			protected void onPreExecute()
-			{
-				showRoundProcessDialog();
-				super.onPreExecute();
-			}
-
-		};
-
-		task.execute();
-	}
-	
-	public void showRoundProcessDialog()
-	{
-
-		OnKeyListener keyListener = new OnKeyListener()
-		{
-			@Override
-			public boolean onKey(DialogInterface dialog, int keyCode,
-					KeyEvent event)
-			{
-				if (keyCode == KeyEvent.KEYCODE_BACK
-						&& event.getRepeatCount() == 0)
-				{
-					loadingDialog.dismiss();
-					Intent intent = new Intent(MenuActivity.this,IndexActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-					startActivity(intent);
-					return true;
-				} else
-				{
-					return false;
-				}
-			}
-		};
-
-		loadingDialog = new ProgressDialog(this);
-		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-		loadingDialog.setMessage(getResources().getString(R.string.loading));
-		loadingDialog.setIndeterminate(false);
-		loadingDialog.setCancelable(true);
-		loadingDialog.setOnKeyListener(keyListener);
-		loadingDialog.show();
-	}*/
 
 }

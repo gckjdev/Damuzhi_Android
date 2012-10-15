@@ -7,6 +7,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.viewcache.LocalTripsViewCache;
 import com.damuzhi.travel.activity.adapter.viewcache.PlaceViewCache;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
+import com.damuzhi.travel.activity.touristRoute.CommonAgencyIntroActivity;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
@@ -16,14 +17,17 @@ import com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute;
 import com.damuzhi.travel.util.TravelUtil;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ImageView.ScaleType;
@@ -44,6 +48,7 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 	private ImageView recommendImageView3;
 	private ViewGroup agencyNameViewGroup;
 	private AsyncLoader asyncLoader;
+	private Button deleteButton;
 	//private int dataFlag;
 	private LayoutInflater inflater;
 	public CommonLocalTripsAdapter(List<LocalRoute> localRouteList, Context context) {
@@ -51,8 +56,8 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 		this.localRouteList = localRouteList;
 		this.inflater = LayoutInflater.from(context);
 		this.context = context;
-		asyncLoader = AsyncLoader.getInstance();
-		
+		//asyncLoader = AsyncLoader.getInstance();
+		asyncLoader = new AsyncLoader();
 	}
 
 	public List<LocalRoute> getLocalRouteList() {
@@ -80,7 +85,7 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 	@Override
 	public long getItemId(int arg0) {
 		// TODO Auto-generated method stub
-		return 0;
+		return arg0;
 	}
 
 	@Override
@@ -118,7 +123,8 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 		routePrice = viewCache.getRoutePrice();
 		recommendImageView1 = viewCache.getRecommendImageView1();
 		recommendImageView2 = viewCache.getRecommendImageView2();
-		recommendImageView3 = viewCache.getRecommendImageView3();		
+		recommendImageView3 = viewCache.getRecommendImageView3();	
+		deleteButton = viewCache.getDeleteButton();
 		int rank = localRoute.getAverageRank();
 		switch (rank)
 		{
@@ -162,6 +168,9 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 		routeName.setText(localRoute.getName());
 		routePrice.setText(price);
 		routeTour.setText(localRoute.getTour());
+		deleteButton.setTag(position);
+		agencyNameViewGroup.setTag(position);
+		agencyNameViewGroup.setOnClickListener(agencyGroupOnClickListener);
 		return convertView;
 	}
 	
@@ -170,12 +179,27 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 	
 	public void recycleBitmap()
 	{
-		//asyncLoader.recycleBitmap();
+		asyncLoader.recycleBitmap();
 	}
 
 	public void addPlaceList(List<LocalRoute> list) {
 		localRouteList.addAll(list);
 		
 	}
+	
+	private OnClickListener agencyGroupOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			int position = (Integer)v.getTag();
+			LocalRoute localRoute = localRouteList.get(position);
+			Intent intent = new Intent();
+			intent.putExtra("agencyId", localRoute.getAgencyId());
+			intent.setClass(context, CommonAgencyIntroActivity.class);
+			context.startActivity(intent);
+		}
+	};
 
 }

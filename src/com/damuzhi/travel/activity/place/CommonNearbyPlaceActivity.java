@@ -57,6 +57,7 @@ import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -114,7 +115,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		super.onCreate(savedInstanceState);
 		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.common_nearby_place);
-		currentDistance = ConstantField.ONE_KILOMETER;
+		currentDistance = ConstantField.HALF_KILOMETER;
 		currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
 		loadingDialog = new ProgressDialog(this);
 		init();
@@ -126,20 +127,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	{
 		listView = (ListView) findViewById(R.id.nearby_list);
 		mapViewGroup = (ViewGroup) findViewById(R.id.mapview_group);
-	/*	mapView = (TapControlledMapView) findViewById(R.id.placeMap);
-		mapc = mapView.getController();
-		mapc.setZoom(16);
-		mapView.setStreetView(true);
-		mapView.setOnSingleTapListener(onSingleTapListener);*/
+	
 		
 		modelButton = (ImageButton) findViewById(R.id.model_button);
 		modelTextView = (TextView) findViewById(R.id.model_text);
 		modelButton.setOnClickListener(modelOnClickListener);
-		/*selectMapViewButton = (ImageButton) findViewById(R.id.map_view);
-		selectListViewButton = (ImageButton)findViewById(R.id.list_view);
-		
-		selectListViewButton.setOnClickListener(selectListViewOnClickListener);
-		selectMapViewButton.setOnClickListener(selectMapViewOncClickListener);*/
+
 		listView.setOnItemClickListener(listviewOnItemClickListener);
 		
 		
@@ -264,20 +257,29 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		@Override
 		public void onClick(View v)
 		{
-			Animation animation = null;
-			currentDistance = ConstantField.HALF_KILOMETER;		
-			getOffSet(redStart,startPosition);
-			float endSet = screenW*-0.18f;
-			if(startPosition>0)
+			if(startPosition !=0)
 			{
-				offset = offset - screenW*0.18f;
+				Animation animation = null;
+				//currentDistance = ConstantField.HALF_KILOMETER;	
+				currentDistance = ConstantField.TWO_HUNDRED_AND_FIFTY;	
+				getOffSet(redStart,startPosition);
+				float endSet = screenW*-0.12f;
+				if(startPosition == 2)
+				{
+					offset = offset - screenW*0.05f;
+				}
+				if(startPosition == 3)
+				{
+					offset = offset - screenW*0.15f;
+				}
+				startPosition = 0;			
+				animation = new TranslateAnimation(offset,endSet, 0, 0);
+				animation.setDuration(500);		
+				redStart.startAnimation(animation);
+				animation.setFillAfter(true);
+				loadPlace();
 			}
-			startPosition = 0;			
-			animation = new TranslateAnimation(offset,endSet, 0, 0);
-			animation.setDuration(500);		
-			redStart.startAnimation(animation);
-			animation.setFillAfter(true);
-			loadPlace();
+			
 
 		}
 	};
@@ -288,20 +290,29 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			@Override
 			public void onClick(View v)
 			{
-				Animation animation = null;
-				currentDistance = ConstantField.ONE_KILOMETER;				
-				getOffSet(redStart,startPosition);
-				float endSet = screenW*0f;		
-				if(startPosition>1)
+				if(startPosition != 1)
 				{
-					offset = offset - screenW*0.18f;
+					Animation animation = null;
+					//currentDistance = ConstantField.ONE_KILOMETER;	
+					currentDistance = ConstantField.HALF_KILOMETER;	
+					getOffSet(redStart,startPosition);
+					float endSet = screenW*0f;		
+					if(startPosition == 2)
+					{
+						offset = offset - screenW*0.05f;
+					}
+					if(startPosition == 3)
+					{
+						offset = offset - screenW*0.15f;
+					}
+					startPosition = 1;				
+					animation = new TranslateAnimation(offset,endSet, 0, 0);
+					animation.setDuration(500);		
+					redStart.startAnimation(animation);
+					animation.setFillAfter(true);				
+					loadPlace();
 				}
-				startPosition = 1;				
-				animation = new TranslateAnimation(offset,endSet, 0, 0);
-				animation.setDuration(500);		
-				redStart.startAnimation(animation);
-				animation.setFillAfter(true);				
-				loadPlace();
+				
 				
 			}
 		};
@@ -313,20 +324,25 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				@Override
 				public void onClick(View v)
 				{
-					Animation animation = null;
-					currentDistance = ConstantField.FIVE_KILOMETER;					
-					getOffSet(redStart,startPosition);
-					float endSet = screenW*0.25f;	
-					if(startPosition>1)
+					if(startPosition != 2)
 					{
-						offset = offset - screenW*0.18f;
+						Animation animation = null;
+						//currentDistance = ConstantField.FIVE_KILOMETER;	
+						currentDistance = ConstantField.ONE_KILOMETER;
+						getOffSet(redStart,startPosition);
+						float endSet = screenW*0.18f;	
+						if(startPosition>2)
+						{
+							offset = offset - screenW*0.15f;
+						}
+						startPosition = 2;					
+						animation = new TranslateAnimation(offset,endSet, 0, 0);
+						animation.setDuration(500);		
+						redStart.startAnimation(animation);
+						animation.setFillAfter(true);
+						loadPlace();	
 					}
-					startPosition = 2;					
-					animation = new TranslateAnimation(offset,endSet, 0, 0);
-					animation.setDuration(500);		
-					redStart.startAnimation(animation);
-					animation.setFillAfter(true);
-					loadPlace();	
+					
 				}
 			};
 			
@@ -338,20 +354,21 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				@Override
 				public void onClick(View v)
 				{
-					Animation animation = null;
-					currentDistance = ConstantField.TEN_KILOMETER;
-					getOffSet(redStart,startPosition);
-					float endSet = screenW*0.64f;
-					if(startPosition>3)
+					if(startPosition != 3)
 					{
-						offset = offset - screenW*0.18f;
+						Animation animation = null;
+						//currentDistance = ConstantField.TEN_KILOMETER;
+						currentDistance = ConstantField.FIVE_KILOMETER;	
+						getOffSet(redStart,startPosition);
+						float endSet = screenW*0.69f;
+						startPosition = 3;
+						animation = new TranslateAnimation(offset,endSet, 0, 0);
+						animation.setDuration(500);		
+						redStart.startAnimation(animation);
+						animation.setFillAfter(true);
+						loadPlace();	
 					}
-					startPosition = 3;
-					animation = new TranslateAnimation(offset,endSet, 0, 0);
-					animation.setDuration(500);		
-					redStart.startAnimation(animation);
-					animation.setFillAfter(true);
-					loadPlace();	
+					
 				}
 			};
 				
@@ -581,16 +598,16 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		switch (startPosition)
 		{
 			case 0:
-				offset = screenW*0f;
+				offset = screenW*-0.12f;
 				break;
 			case 1:
-				offset = screenW*0.18f;
+				offset = screenW*0f;
 				break;
 			case 2:
-				offset = screenW*0.43f;
+				offset = screenW*0.23f;
 				break;
 			case 3:
-				offset = screenW*0.82f;
+				offset = screenW*0.84f;
 				break;
 			default:
 				break;
@@ -669,7 +686,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				if (keyCode == KeyEvent.KEYCODE_BACK&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(CommonNearbyPlaceActivity.this,IndexActivity.class);
+					Intent intent = new Intent(CommonNearbyPlaceActivity.this,MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;

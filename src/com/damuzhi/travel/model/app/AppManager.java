@@ -960,6 +960,22 @@ public class AppManager
 		}
 		return agencyName;
 	}
+	
+	
+	public String getAgencyShortNameById(int agencyId) {
+		String agencyName = "";
+		if (app != null)
+		{
+			for(Agency agency:app.getAgenciesList())
+			{
+				if(agency.getAgencyId() == agencyId )
+				{
+					agencyName = agency.getShortName();
+				}
+			}
+		}
+		return agencyName;
+	}
 
 	public String getSymbolByCityId(int cityId) {
 		
@@ -989,6 +1005,22 @@ public class AppManager
 			}
 		}
 		return cityName;
+	}
+
+	
+	public Agency getAgencyById(int agencyId)
+	{
+		if (app != null)
+		{
+			for(Agency agency:app.getAgenciesList())
+			{
+				if(agency.getAgencyId() == agencyId )
+				{
+					return agency;
+				}
+			}
+		}
+		return null;
 	}
 	
 }

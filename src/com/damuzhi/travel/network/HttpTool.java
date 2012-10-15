@@ -180,7 +180,7 @@ public class HttpTool
 				 {
 					 URL connUrl = new URL(url);
 					 urlConnection = (HttpURLConnection)connUrl.openConnection();
-					 urlConnection.setConnectTimeout(10*1000);
+					 urlConnection.setConnectTimeout(5*1000);
 					 urlConnection.setRequestMethod("GET");
 					 urlConnection.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
 					 urlConnection.setRequestProperty("Accept-Language", "zh-CN");

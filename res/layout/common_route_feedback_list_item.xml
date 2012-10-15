@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:background="@drawable/fk_bg">
+    <RelativeLayout 
+        	android:id="@+id/agency_name_group"
+        	android:layout_width="fill_parent"
+		    android:layout_height="40dp"
+		    android:orientation="horizontal">
+			   <TextView android:id="@+id/nick_name" 
+		        	  android:layout_alignParentLeft="true"
+		        	  android:layout_centerVertical="true"
+		        	  android:layout_width="wrap_content"
+		        	  android:layout_height="wrap_content" 
+		        	  android:paddingLeft="10dp"
+		        	  android:textSize="15sp"
+		        	  android:textColor="@color/agency_name_color"/>
+			   <TextView android:id="@+id/feedback_time" 
+		        	  android:layout_centerInParent="true"		        	  
+		        	  android:layout_width="wrap_content"
+		        	  android:layout_height="wrap_content" 
+		        	  android:textSize="15sp"
+		        	  android:textColor="@color/agency_name_color"/>
+			    <ImageView
+			        android:id="@+id/good3"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentRight="true"
+			        android:layout_centerVertical="true"
+			        android:layout_marginRight="20dp"
+			        android:src="@drawable/good2"/>
+			    <ImageView
+			        android:id="@+id/good2"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toLeftOf="@id/good3"
+			        android:layout_centerVertical="true"
+			        android:layout_marginRight="10dp"
+			        android:src="@drawable/good2"/>	    
+			    <ImageView
+			        android:id="@+id/good1"
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+			        android:layout_toLeftOf="@id/good2"
+			        android:layout_centerVertical="true"
+			        android:layout_marginRight="10dp"
+			        android:src="@drawable/good2"/>	 
+    </RelativeLayout>  
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="88.0dp"
+	    android:orientation="horizontal" >
+		  <TextView
+		      android:id="@+id/route_feedback_content"
+		      android:layout_width="fill_parent"
+		      android:layout_height="wrap_content"
+		      android:textColor="@android:color/black"
+		      android:textSize="15sp"
+		      android:paddingLeft="10dp"/>  
+	</LinearLayout>
+</LinearLayout>

@@ -15,10 +15,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.TextView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
@@ -26,19 +28,24 @@ import android.widget.ListView;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.touristRoute.CommonLocalTripsAdapter;
 import com.damuzhi.travel.activity.common.ActivityMange;
+import com.damuzhi.travel.activity.common.HelpActiviy;
+import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.more.FeedBackActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
+import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.mission.touristRoute.TouristRouteMission;
 import com.damuzhi.travel.model.app.AppManager;
+import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 import com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute;
 
-public class CommonLocalTripsActivity extends Activity {
+public class CommonLocalTripsActivity extends MenuActivity {
 
 	protected static final String TAG = null;
 	private ListView localTripsListView;
@@ -48,6 +55,7 @@ public class CommonLocalTripsActivity extends Activity {
 	private static int count = 1;
 	private View listViewFooter;
 	private ViewGroup footerViewGroup;
+	private TextView noLocalRouteTextView;
 	private ProgressDialog loadingDialog;
 	private CommonLocalTripsAdapter adapter;
 	private int currentCityId = 0;
@@ -62,6 +70,7 @@ public class CommonLocalTripsActivity extends Activity {
 		loadingDialog = new ProgressDialog(CommonLocalTripsActivity.this);
 		localTripsListView = (ListView) findViewById(R.id.local_trips_listview);
 		//localRouteList = TouristRouteMission.getInstance().getLocalRoutes(cityId);
+		noLocalRouteTextView = (TextView) findViewById(R.id.no_local_route);
 		listViewFooter = getLayoutInflater().inflate(R.layout.load_more_view, null, false);
 		localTripsListView.addFooterView(listViewFooter, localRouteList, false);
 		localTripsListView.setFooterDividersEnabled(false);
@@ -104,11 +113,9 @@ public class CommonLocalTripsActivity extends Activity {
 			@Override
 			protected void onPostExecute(List<LocalRoute> resultList)
 			{
-				
-				adapter.setLocalRouteList(resultList);
-				adapter.notifyDataSetChanged();
 				localRouteList.clear();
 				localRouteList.addAll(resultList);
+				refresh(resultList);
 				loadingDialog.dismiss();
 				super.onPostExecute(resultList);
 			}
@@ -126,7 +133,23 @@ public class CommonLocalTripsActivity extends Activity {
 		task.execute();
 	}
 
-	
+	private void refresh(List<LocalRoute> localRoutes)
+	{
+		if(localRoutes!= null&&localRoutes.size()>0)
+		{
+			adapter.setLocalRouteList(localRoutes);
+			adapter.notifyDataSetChanged();
+			if(noLocalRouteTextView.getVisibility() == View.VISIBLE)
+			{
+				noLocalRouteTextView.setVisibility(View.GONE);
+			}
+			localTripsListView.setSelection(0);
+		}else
+		{
+			noLocalRouteTextView.setVisibility(View.VISIBLE);
+		}
+		
+	}
 	
 	private OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
@@ -183,6 +206,7 @@ public class CommonLocalTripsActivity extends Activity {
 	
 	private void loadMore()
 	{
+		Log.d(TAG, "load more data");
 		AsyncTask<String, Void, List<LocalRoute>> task = new AsyncTask<String, Void, List<LocalRoute>>()
 		{
 
@@ -268,7 +292,19 @@ public class CommonLocalTripsActivity extends Activity {
 
 
 
-
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch (item.getItemId())	
+		{		
+		case R.id.menu_refresh:
+			loadMore();
+			break;
+		default:
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
 
 	@Override
 	protected void onDestroy()

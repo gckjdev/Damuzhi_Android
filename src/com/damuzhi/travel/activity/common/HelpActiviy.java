@@ -35,11 +35,10 @@ public class HelpActiviy extends Activity
 		TextView textView = (TextView) findViewById(R.id.place_title);
 		textView.setText(title);
 		WebView helpView = (WebView) findViewById(R.id.help_webview);
-		if(FileUtil.checkFileIsExits(ConstantField.HELP_HTML_FILE));
+		if(FileUtil.checkFileIsExits(ConstantField.HELP_HTML_FILE))
 		{	 
 			helpView.loadUrl(ConstantField.HELP_HTML_FILE_PATH);
-		}
-		if(!FileUtil.checkFileIsExits(ConstantField.HELP_HTML_FILE)){
+		}else{
 			helpView.setVisibility(View.GONE);
 			findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
 		}

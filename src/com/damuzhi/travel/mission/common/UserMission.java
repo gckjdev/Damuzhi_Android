@@ -25,6 +25,7 @@ import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.favorite.FavoriteManager;
 import com.damuzhi.travel.network.HttpTool;
+import com.damuzhi.travel.protos.PackageProtos.UserInfo;
 
 /**  
  * @description   
@@ -41,7 +42,7 @@ public class UserMission
 	private static final String TAG = "UserMission";
 	
 	private static UserMission instance = null;
-	private UserManager userManager = UserManager.getInstance();
+	//private UserManager userManager = UserManager.getInstance();
 	private UserMission() {
 	}
 	
@@ -53,7 +54,14 @@ public class UserMission
 	}
 
 	
-	public void register(String deviceId,Context context)
+	public UserInfo getUserInfo(String loginId, String token)
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	
+	/*public void register(String deviceId,Context context)
 	{
 		SharedPreferences userSharedPreferences = context.getSharedPreferences(ConstantField.USER_ID, 0);
 		Editor editor = userSharedPreferences.edit();
@@ -132,5 +140,5 @@ public class UserMission
 			}
 			
 		}		
-	}
+	}*/
 }

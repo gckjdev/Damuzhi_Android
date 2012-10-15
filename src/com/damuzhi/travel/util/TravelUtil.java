@@ -724,8 +724,9 @@ public class TravelUtil
 	
 	
 	public static boolean isShort(String password) {
-		if(password == null||!password.equals(""))
+		if(password == null||password.equals(""))
 		{
+			Log.d(TAG, "password is null");
 			return false;
 		}
 		String strPattern = "^[0-9A-Za-z]{6,}$";
@@ -876,6 +877,20 @@ public class TravelUtil
 		
 		return stringBuffer.toString();
 	}
+	
+	
+	public static String getDateString(long time) {
+		Calendar date = Calendar.getInstance();
+		time = time*1000;
+		date.setTimeInMillis(time);
+		
+		StringBuffer stringBuffer = new StringBuffer();
+		stringBuffer.append(date.get(Calendar.YEAR) + "-");
+		stringBuffer.append(date.get(Calendar.MONTH) + 1 + "-");
+		stringBuffer.append(date.get(Calendar.DAY_OF_MONTH));
+		
+		return stringBuffer.toString();
+	}
 
 	public static String getBookingDate(long time) {
 		Calendar date = Calendar.getInstance();
@@ -934,6 +949,14 @@ public class TravelUtil
 		}
 	}
 
+	
+	public static String StringFilter(String str){
+	    str=str.replaceAll("【","[").replaceAll("】","]").replaceAll("！","!").replaceAll("，", ",").replaceAll("。", ".").replaceAll("、", ",");//替换中文标号
+	    String regEx="[『』]"; // 清除掉特殊字符
+	    Pattern p = Pattern.compile(regEx);
+	    Matcher m = p.matcher(str);
+	    return m.replaceAll("").trim();
+	}
 	
 	
 }

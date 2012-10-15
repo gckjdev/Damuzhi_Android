@@ -93,6 +93,7 @@ public class LoginActivity extends Activity {
 		@Override
 		public void onClick(View v)
 		{
+			v.setClickable(false);
 			userName = userNameEditText.getText().toString();
 			password = passwordEditText.getText().toString();
 			if(userName==null||userName.trim().equals(""))
@@ -120,6 +121,7 @@ public class LoginActivity extends Activity {
 					Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
 					finish();
 				}else {
+					v.setClickable(true);
 					Toast.makeText(LoginActivity.this, resultInfo, Toast.LENGTH_SHORT).show();
 				}
 				

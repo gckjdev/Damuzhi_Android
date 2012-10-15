@@ -217,70 +217,7 @@ public class PlaceMission
 	}
 	
 	
-	/*private void getPlaceListByUrl(int cityId, int categoryId)
-	{
-		int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
-		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS);
-		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);	
-		client.get(url, new HttpInputStreamAsyncHandel()
-		{
-
-			@Override
-			public void onSuccess(InputStream inputStream)
-			{
-				super.onSuccess(inputStream);
-				if(inputStream != null)
-				{
-					TravelResponse travelResponse;
-					try
-					{
-						travelResponse = TravelResponse.parseFrom(inputStream);
-						if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
-						}								
-						totalCount = travelResponse.getTotalCount();
-						List<Place> remotePlaceList = travelResponse.getPlaceList().getListList();
-						if(remotePlaceList != null && remotePlaceList.size() > 0)
-						{
-							retPlaceList.addAll(remotePlaceList);
-						}								
-						// TODO save data in UI thread
-						if (remotePlaceList != null && remotePlaceList.size() > 0){	
-							remotePlaceManager.clear();
-							remotePlaceManager.addPlaces(remotePlaceList);
-						}	
-					} catch (IOException e)
-					{
-						Log.e(TAG, "<getPlaceListByUrl> but catch exception :"+e.toString(),e);
-					}
-						
-				}else {
-					totalCount = 0;
-				}
-			}
-
-			@Override
-			public void onFailure(Throwable error, String content)
-			{
-				// TODO Auto-generated method stub
-				super.onFailure(error, content);
-				Log.d(TAG, "<getPlaceListByUrl> send http request fail ");
-			}
-			
-			
-			
-		});
-	}*/
 	
-	
-	
-	
-	
-	
-	
-	/*public void  getPlaceStatistics(int cityId,int categoryId)
-	{
-		placeStatistics =  getPlaceStatisticsByUrl(cityId, categoryId);
-	}*/
 	
 	
 	private PlaceStatistics getPlaceStatisticsByUrl(int cityId, int categoryId)
@@ -859,33 +796,41 @@ public class PlaceMission
 		}
 
 		
-		/*private List<Place> getPlaceListByUrl(int cityId, int categoryId)
+		public Place getPlaceById(String placeId)
 		{
-			int objectType = PlaceNetworkHandler.categoryIdToObjectType(categoryId);
-			String url = String.format(ConstantField.PLACElIST, objectType, cityId, ConstantField.LANG_HANS);
-			Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);
+			
+			return getPlaceByUrl(placeId);
+		}
+
+		
+		
+		private Place getPlaceByUrl(String placeId)
+		{
+			String url = String.format(ConstantField.QUERY_OBJECT, ConstantField.PLACE, placeId, ConstantField.LANG_HANS);
+			Log.i(TAG, "<getPlaceByUrl> load place data from http ,url = "+url);
 			InputStream inputStream = null;
+			HttpTool httpTool = HttpTool.getInstance();
 			try
 			{
-				inputStream = HttpTool.sendGetRequest(url);
+				inputStream = httpTool.sendGetRequest(url);
 				if(inputStream !=null)
 				{				
 					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
 					if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
-						return Collections.emptyList();
+						return null;
 					}					
 					inputStream.close();
 					inputStream = null;					
-					return travelResponse.getPlaceList().getListList();			
+					return travelResponse.getPlace();			
 				}
 				else{
-					return Collections.emptyList();
+					return null;
 				}
 				
 			} 
 			catch (Exception e)
 			{
-				Log.e(TAG, "<getPlaceListByUrl> catch exception = "+e.toString(), e);
+				Log.e(TAG, "<getPlaceByUrl> catch exception = "+e.toString(), e);
 				if (inputStream != null){
 					try
 					{
@@ -894,9 +839,15 @@ public class PlaceMission
 					{
 					}
 				}
-				return Collections.emptyList();
+				return null;
 			}
-		}*/
+		}
+		
+		
+		
+		
+		
+		
 		
 		
 		
