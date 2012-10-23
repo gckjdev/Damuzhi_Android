@@ -206,7 +206,7 @@
     <string name="booking_notice">预订说明</string>
     <string name="user_feedback">用户反馈</string>
     <string name="route_detail">线路详情</string>
-    <string name="like_route">关注线路</string>
+    <string name="follow_route">关注线路</string>
     <string name="qi">起</string>
     <string name="booking_route">线路预订</string>
     <string name="route_name">路线名称：</string>
@@ -219,7 +219,7 @@
     <string name="depart_city">出发城市：</string>
     <string name="route_booking_number">出游人数</string>
      <string name="route_booking_number2">出游人数：</string>
-    <string name="route_price">参考价格:</string>
+    <string name="route_price">参考价格：</string>
     <string name="shuo_ming">说明：</string>
     <string name="booking_notice_content">预订成功后，系统将会通过手机短信通知您订单预订情况，稍后会客服会通过电话联系您确认订单。</string>
     <string name="select_depart_place">请选择出发地点</string>
@@ -243,6 +243,8 @@
     <string name="route_feedback">线路评价</string>
     <string name="no_local_route">当前城市暂未开通本地游线路</string>
     <!-- register -->
+    <string name="user_register">新用户注册</string>
+    <string name="forget_password">忘记密码</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="free_register">免费注册</string>

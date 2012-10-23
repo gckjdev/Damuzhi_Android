@@ -42,13 +42,12 @@ public class CommonOrderMangerActivity extends Activity
 
 	private static final String TAG = "CommonOrderMangerActivity";
 	private ViewGroup localRouteOrderMamager;
-	private ViewGroup groupRouteOrderMamager;
 	private ViewGroup flyRouteOrderMamager;
 	private ViewGroup customerServicePhone;
 	private Button loginButton;
 	private Button loginExitButton;
 	private String token = "";
-	private static final String SERVICE_PHONE_NUMBER = "400-000-8888";
+	private static final String SERVICE_PHONE_NUMBER = "4000-223-321";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -58,7 +57,6 @@ public class CommonOrderMangerActivity extends Activity
 		setContentView(R.layout.common_order_mamager);
 		ActivityMange.getInstance().addActivity(this);
 		localRouteOrderMamager = (ViewGroup) findViewById(R.id.local_route_order_mamager);
-		groupRouteOrderMamager = (ViewGroup) findViewById(R.id.group_route_order_mamager);
 		flyRouteOrderMamager = (ViewGroup) findViewById(R.id.fly_route_order_mamager);
 		customerServicePhone = (ViewGroup) findViewById(R.id.customer_service_phone);
 		TextView customerServicePhoneNumber = (TextView) findViewById(R.id.customer_service_phone_number);

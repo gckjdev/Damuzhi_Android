@@ -48,7 +48,7 @@ import com.damuzhi.travel.R;
 public class WelcomeActivity extends MenuActivity
 {	
 	private static final String TAG = "WelcomeActivity";
-	private LocationClient mLocClient;
+//	private LocationClient mLocClient;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -106,6 +106,11 @@ public class WelcomeActivity extends MenuActivity
 			protected void onPostExecute(Void result)
 			{
 				super.onPostExecute(result);
+				Intent intent2 = new Intent();
+				intent2.setAction("com.damuzhi.travel.service.PullNotificationService");
+				startService(intent2);
+				
+				
 				Intent intent = new Intent();
 				//intent.setClass(WelcomeActivity.this, IndexActivity.class);
 				intent.setClass(WelcomeActivity.this, MainActivity.class);
@@ -121,14 +126,14 @@ public class WelcomeActivity extends MenuActivity
 		task.execute();
 	}
 	
-	private boolean checkGPSisOpen() {
+/*	private boolean checkGPSisOpen() {
 		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
 			return true;
 		}
 			Toast.makeText(this, getString(R.string.open_gps_tips2), Toast.LENGTH_SHORT).show();
 			return false;
-	}
+	}*/
 	
 	
 	

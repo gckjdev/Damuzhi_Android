@@ -12,6 +12,7 @@ import com.damuzhi.travel.protos.TouristRouteProtos.Booking;
 import com.damuzhi.travel.protos.TouristRouteProtos.BookingStatus;
 import com.damuzhi.travel.protos.TouristRouteProtos.DepartPlace;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
+import com.damuzhi.travel.util.TravelUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import android.R.integer;
@@ -490,8 +491,11 @@ public class CalendarActivity extends Activity {
 					Intent intent = new Intent();
 					intent.setClass(CalendarActivity.this, CommonBookingRouteActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putString("date", GetDateShortString(calSelected));
-					Log.d(TAG, "date = "+GetDateShortString(calSelected));
+					bundle.putString("date", TravelUtil.getDateShortString(calSelected.getTimeInMillis()));
+					//bundle.putLong("date", calSelected.getTimeInMillis());
+					bundle.putString("adult", booking.getAdultPrice());
+					bundle.putString("child", booking.getChildrenPrice());
+					//Log.d(TAG, "date = "+GetDateShortString(calSelected));
 					item.setSelected(true);
 					updateCalendar();
 					intent.putExtras(bundle);
@@ -547,7 +551,7 @@ public class CalendarActivity extends Activity {
 		return endDate;
 	}
 	
-	protected String GetDateShortString(Calendar date) {
+	/*protected String GetDateShortString(Calendar date) {
 		String returnString = date.get(Calendar.YEAR) + "/";
 		if(date.get(Calendar.MONTH)>=9)
 		{
@@ -556,10 +560,17 @@ public class CalendarActivity extends Activity {
 		{
 			returnString += "0"+(date.get(Calendar.MONTH) + 1 )+ "/";	
 		}
-		returnString += date.get(Calendar.DAY_OF_MONTH);
+		if(date.get(Calendar.DAY_OF_MONTH)>9)
+		{
+			returnString += date.get(Calendar.DAY_OF_MONTH);
+		}else
+		{
+			returnString += "0"+date.get(Calendar.DAY_OF_MONTH);	
+		}
+		//returnString += date.get(Calendar.DAY_OF_MONTH);
 		//returnString += date.get(Calendar.DAY_OF_WEEK);
 		return returnString;
-	}
+	}*/
 	
 	Calendar tempCalendar = Calendar.getInstance();
 	

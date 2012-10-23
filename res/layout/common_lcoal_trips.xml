@@ -23,6 +23,5 @@
     	    android:clickable="true"
     	    android:focusable="true"
     	    android:scrollbars="none"
-    	    android:scrollingCache="false"
     	    android:cacheColorHint="@color/listview_bg"/>
 </LinearLayout>

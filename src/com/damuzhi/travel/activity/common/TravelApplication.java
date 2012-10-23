@@ -50,7 +50,7 @@ import com.damuzhi.travel.R;
 public class TravelApplication extends Application
 {
 	private static final String TAG = "TravelApplication";
-	private DefaultHttpClient defaultHttpClient;
+	private HttpClient httpClient;
 	private static HashMap<String, Double> location = new HashMap<String, Double>();	
 	private static TravelApplication travelApplication;
 	public LocationClient mLocationClient = null;
@@ -59,10 +59,11 @@ public class TravelApplication extends Application
 	public BDLocation bdLocation;
 	public Map<String, Integer> downloadStatusMap = new HashMap<String, Integer>();
 	public String deviceId;
-	public   Map<Integer, Integer> installCityData;
+	public  Map<Integer, Integer> installCityData;
 	public  Map<Integer, String> newVersionCityData;
 	private String token ="";
 	private String loginID = "";
+	private boolean cityFlag = false;
 	private static TravelApplication instance;
 	public static TravelApplication getInstance()
 	{
@@ -85,6 +86,7 @@ public class TravelApplication extends Application
 		mLocationClient.registerLocationListener( myListener );
 		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		deviceId = tm.getDeviceId();
+		httpClient = createHttpClient();
 		//File cacheDir = new File(ConstantField.IMAGE_CACHE_PATH);
 		/*DisplayImageOptions options = new DisplayImageOptions.Builder()
 		.showStubImage(R.drawable.default_s)
@@ -113,6 +115,7 @@ public class TravelApplication extends Application
 	public void onLowMemory()
 	{
 		super.onLowMemory();
+		shutdownHttpClient();
 		//imageLoader.stop();
 	}
 
@@ -124,13 +127,33 @@ public class TravelApplication extends Application
 		shutdownHttpClient();
 	}
 	
+	public HttpClient getHttpClient()
+	{
+		return httpClient;
+	}
+	
+	private HttpClient createHttpClient()
+	{
+		Log.d(TAG, "createHttpClient()......");
+		HttpParams params = new BasicHttpParams();
+		HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+		HttpProtocolParams.setContentCharset(params, HTTP.DEFAULT_CONTENT_CHARSET);
+		HttpProtocolParams.setUseExpectContinue(params, true);
+		
+		SchemeRegistry schReg = new SchemeRegistry();
+		schReg.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+		schReg.register(new Scheme("https", SSLSocketFactory.getSocketFactory(), 443));
+		ClientConnectionManager conMgr = new ThreadSafeClientConnManager(params, schReg);
+		return new DefaultHttpClient(conMgr,params);
+	}
+	
 	
 	
 	private void shutdownHttpClient()
 	{
-		if(defaultHttpClient !=null && defaultHttpClient.getConnectionManager() !=null)
+		if(httpClient !=null && httpClient.getConnectionManager() !=null)
 		{
-			defaultHttpClient.getConnectionManager().shutdown();
+			httpClient.getConnectionManager().shutdown();
 		}
 	}
 	 
@@ -424,6 +447,27 @@ public class TravelApplication extends Application
 	{
 		this.loginID = loginID;
 	}
+
+
+
+
+	public boolean isCityFlag()
+	{
+		return cityFlag;
+	}
+
+
+
+
+	public void setCityFlag(boolean cityFlag)
+	{
+		this.cityFlag = cityFlag;
+	}
+
+
+
+
+	
 	 
 	
 }

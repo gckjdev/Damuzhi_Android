@@ -35,15 +35,15 @@ public class OpenCityDownloadViewcache
 	private ViewGroup buttonGroup;
 	private TextView updatedTextView;
 	private TextView updatingTextView;	
-	private ImageButton restartUpdateBtn;
-	private ImageButton stopUpdateBtn;			
-	private ImageButton updateButton;
-	private ImageButton cancelUpdateButton ;
+	private Button restartUpdateBtn;
+	private Button stopUpdateBtn;			
+	private Button updateButton;
+	private Button cancelUpdateButton ;
 	private Button deleteButton;
-	private ViewGroup startUpdateGroup ;
+	/*private ViewGroup startUpdateGroup ;
 	private ViewGroup restartUpdateGroup;
 	private ViewGroup stopUpdateGroup;
-	private ViewGroup cancelUpdateGroup;
+	private ViewGroup cancelUpdateGroup;*/
 	private ProgressBar updateBar ;
 	private TextView updateTextView;
 
@@ -169,11 +169,11 @@ public class OpenCityDownloadViewcache
 		return deleteButton;
 	}
 
-	public ImageButton getRestartUpdateBtn()
+	public Button getRestartUpdateBtn()
 	{
 		if(restartUpdateBtn == null)
 		{
-			restartUpdateBtn = (ImageButton) convertView.findViewById(R.id.restart_update_download_btn);
+			restartUpdateBtn = (Button) convertView.findViewById(R.id.restart_update_download_btn);
 		}
 		return restartUpdateBtn;
 	}
@@ -182,11 +182,11 @@ public class OpenCityDownloadViewcache
 
 
 
-	public ImageButton getStopUpdateBtn()
+	public Button getStopUpdateBtn()
 	{
 		if(stopUpdateBtn == null)
 		{
-			stopUpdateBtn = (ImageButton) convertView.findViewById(R.id.stop_update_download_btn);
+			stopUpdateBtn = (Button) convertView.findViewById(R.id.stop_update_download_btn);
 		}
 		return stopUpdateBtn;
 	}
@@ -201,20 +201,20 @@ public class OpenCityDownloadViewcache
 
 
 
-	public ImageButton getUpdateButton()
+	public Button getUpdateButton()
 	{
 		if(updateButton == null)
 		{
-			updateButton = (ImageButton) convertView.findViewById(R.id.update_downlaod_button);
+			updateButton = (Button) convertView.findViewById(R.id.update_downlaod_button);
 		}
 		return updateButton;
 	}
 
-	public ImageButton getCancelUpdateButton()
+	public Button getCancelUpdateButton()
 	{
 		if(cancelUpdateButton == null)
 		{
-			cancelUpdateButton = (ImageButton) convertView.findViewById(R.id.cancel_update_download_button);
+			cancelUpdateButton = (Button) convertView.findViewById(R.id.cancel_update_download_button);
 		}
 		return cancelUpdateButton;
 	}
@@ -228,53 +228,6 @@ public class OpenCityDownloadViewcache
 
 
 
-	public ViewGroup getUpdateGroup()
-	{
-		if(startUpdateGroup == null)
-		{
-			startUpdateGroup = (ViewGroup)convertView.findViewById(R.id.update_download_manager_group);
-		}
-		return startUpdateGroup;
-	}
-
-
-
-
-
-	public ViewGroup getCancelGroup()
-	{
-		if(cancelUpdateGroup == null)
-		{
-			cancelUpdateGroup = (ViewGroup)convertView.findViewById(R.id.cancel_update_download_manager_group);
-		}
-		return cancelUpdateGroup;
-	}
-
-
-	
-	
-	public ViewGroup getStopUpdateGroup()
-	{
-		if(stopUpdateGroup == null)
-		{
-			stopUpdateGroup = (ViewGroup)convertView.findViewById(R.id.stop_update_download_manager_group);
-		}
-		return stopUpdateGroup;
-	}
-
-
-
-
-
-	public ViewGroup getRestartGroup()
-	{
-		if(restartUpdateGroup == null)
-		{
-			restartUpdateGroup = (ViewGroup)convertView.findViewById(R.id.restart_update_download_manager_group);
-		}
-		return restartUpdateGroup;
-	}
-	
 	
 	
 	

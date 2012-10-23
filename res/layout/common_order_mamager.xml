@@ -76,29 +76,6 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/go_btn" />
         </RelativeLayout>
-        <RelativeLayout
-            android:id="@+id/group_route_order_mamager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/more_middle" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="left"
-                android:paddingLeft="40dp"
-                android:text="@string/group_route_order_mamager"
-                android:textColor="@color/place_price_color"
-                android:textSize="15.0sp" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:paddingRight="15dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/go_btn" />
-        </RelativeLayout>
          <RelativeLayout
             android:id="@+id/fly_route_order_mamager"
             android:layout_width="wrap_content"

@@ -169,7 +169,7 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 		routePrice.setText(price);
 		routeTour.setText(localRoute.getTour());
 		deleteButton.setTag(position);
-		agencyNameViewGroup.setTag(position);
+		agencyNameViewGroup.setTag("group"+position);
 		agencyNameViewGroup.setOnClickListener(agencyGroupOnClickListener);
 		return convertView;
 	}
@@ -193,7 +193,8 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 		@Override
 		public void onClick(View v)
 		{
-			int position = (Integer)v.getTag();
+			String tag = (String)v.getTag();
+			int position = Integer.parseInt(tag.substring(5));
 			LocalRoute localRoute = localRouteList.get(position);
 			Intent intent = new Intent();
 			intent.putExtra("agencyId", localRoute.getAgencyId());

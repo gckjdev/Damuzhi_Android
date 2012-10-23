@@ -370,7 +370,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	
 	
 	
-	private OnClickListener currentGroupOnClickListener = new OnClickListener()
+/*	private OnClickListener currentGroupOnClickListener = new OnClickListener()
 	{
 		
 		@Override
@@ -381,7 +381,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			intent.setClass(IndexActivity.this, OpenCityActivity.class);
 			startActivity(intent);
 		}
-	};
+	};*/
 	
 	/*@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event)
@@ -489,7 +489,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	
 
 	
-	
+	/*
 	private OnClickListener helpOnClickListener = new OnClickListener()
 	{
 		
@@ -502,7 +502,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			startActivity(intent);
 			
 		}
-	};
+	};*/
 	
 	
 	private OnClickListener favoriteOnClickListener = new OnClickListener()
@@ -520,7 +520,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 
 
 	
-	private OnClickListener shareOnClickListener = new OnClickListener()
+/*	private OnClickListener shareOnClickListener = new OnClickListener()
 	{
 		
 		@Override
@@ -615,7 +615,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 				shareWindow.dismiss();
 			}
 		}
-	};
+	};*/
 
 	
 	private boolean checkGPSisOpen() {

@@ -5,6 +5,7 @@ import java.util.Stack;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 
 public class ActivityMange {
 	private static Stack<Activity> activityStack;
@@ -87,9 +88,12 @@ public class ActivityMange {
 	 */
 	public void AppExit(Context context) {
 		try {
+			Intent intent = new Intent();
+			intent.setAction("com.damuzhi.travel.download.DownloadService");
+			context.stopService(intent);
 			finishAllActivity();
 			ActivityManager activityMgr= (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-			activityMgr.restartPackage(context.getPackageName());
+			activityMgr.restartPackage(context.getPackageName());			
 			System.exit(0);
 		} catch (Exception e) {	}
 	}

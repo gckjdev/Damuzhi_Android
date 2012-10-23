@@ -3,7 +3,7 @@
         android:id="@+id/listview_group" 
 	    android:layout_width="fill_parent"
 	    android:layout_height="fill_parent"
-	    android:background="@drawable/all_page_bg"
+	    android:background="@drawable/all_page_bg2"
 	    android:orientation="vertical" >
 	    <RelativeLayout 
 		    android:layout_width="fill_parent"

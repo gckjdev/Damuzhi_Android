@@ -88,7 +88,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/reg_2"
+        android:background="@drawable/reg_3"
         android:gravity="center_vertical" >
         <CheckBox
             android:id="@+id/remember_user_name"
@@ -107,58 +107,55 @@
             android:gravity="center"
             android:text="@string/remember_password" />
     </LinearLayout>
-    <LinearLayout
+    
+    
+    <RelativeLayout
+        android:id="@+id/free_register"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@drawable/reg_4"
-        android:orientation="vertical"
-        android:gravity="center" >
-        <LinearLayout
-	        android:layout_width="fill_parent"
-	        android:layout_height="wrap_content"
-	        android:gravity="center_vertical">
-		        <ImageView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="35dp"		            
-		            android:scaleType="fitCenter"
-		            android:src="@drawable/order_ico1" />
-		        <TextView 
-		            android:id="@+id/free_register"
-		            android:layout_width="wrap_content" 
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="20dp"
-		            android:text="@string/free_register"
-		            android:textColor="@android:color/black"
-		            android:textSize="16sp"/>
-		         <ImageView
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="25dp"
-		            android:scaleType="fitCenter"
-		            android:src="@drawable/order_ico1" />
-		        <TextView 
-		            android:id="@+id/find_password"
-		            android:layout_width="wrap_content" 
-		            android:layout_height="wrap_content"
-		            android:layout_marginLeft="20dp"
-		            android:text="@string/get_password"
-		            android:textColor="@android:color/black"
-		            android:textSize="16sp"/>
-		 </LinearLayout>
-		  <Button
-                android:id="@+id/non_member_booking_order"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/member_booking_order_button"
-                android:gravity="center"
-                android:text="@string/non_member_order_list"
-                android:textColor="@android:color/white"
-                android:textSize="14sp"/>
-    </LinearLayout>
-
+        android:layout_marginTop="30dp"
+        android:background="@drawable/reg_1"
+        android:gravity="center_vertical" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="@string/user_register"
+            android:textSize="15sp" />
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:scaleType="center"
+            android:src="@drawable/go_btn"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/forget_password"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/reg_3"
+        android:gravity="center_vertical" >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:text="@string/forget_password"
+            android:textSize="15sp" />
+        <ImageView 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:scaleType="center"
+            android:src="@drawable/go_btn"/>
+    </RelativeLayout>
 </LinearLayout>

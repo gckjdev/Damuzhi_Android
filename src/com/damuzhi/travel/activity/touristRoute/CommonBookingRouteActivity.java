@@ -91,6 +91,8 @@ public class CommonBookingRouteActivity extends Activity
 	private int filterFlag = 0; // 0=adult 1,=child,2=departplace
 	String token = "";
 	String loginId ="";
+	private String adultPrice = "";
+	private String childPrice = "";
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -248,7 +250,7 @@ public class CommonBookingRouteActivity extends Activity
 				{
 					Intent intent = new Intent();
 					intent.setClass(CommonBookingRouteActivity.this,LoginActivity.class);
-					intent.putExtra("booking", 1);
+					//intent.putExtra("booking", 1);
 					startActivity(intent);
 				}
 				
@@ -294,7 +296,7 @@ public class CommonBookingRouteActivity extends Activity
 			String sortTitle = getString(R.string.route_booking_number);
 			if (adultNum != null)
 			{
-				sortWindow(v, adultNum, adultSelected, sortTitle);
+				choiceWindow(v, adultNum, adultSelected, sortTitle);
 			}
 		}
 	};
@@ -309,12 +311,12 @@ public class CommonBookingRouteActivity extends Activity
 			String sortTitle = getString(R.string.route_booking_number);
 			if (childNum != null)
 			{
-				sortWindow(v, childNum, childSelected, sortTitle);
+				choiceWindow(v, childNum, childSelected, sortTitle);
 			}
 		}
 	};
 
-	private void sortWindow(View parent, String[] sortTitleName,HashMap<Integer, Boolean> isSelected, String filterTitle)
+	private void choiceWindow(View parent, String[] sortTitleName,HashMap<Integer, Boolean> isSelected, String filterTitle)
 	{
 
 		lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -370,7 +372,7 @@ public class CommonBookingRouteActivity extends Activity
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id)
 		{
-
+			int price = 0;
 			SortViewHolder vHollder = (SortViewHolder) view.getTag();
 			vHollder.cBox.toggle();
 			if (filterFlag == 0)
@@ -380,6 +382,16 @@ public class CommonBookingRouteActivity extends Activity
 				sortAdapter.setIsSelected(adultSelected);
 				adultNumberButton.setText(adultNum[position]);
 				adultSelectedPosition = position;
+				
+				if(childPrice != null&&!childPrice.equals(""))
+				{
+					price = childSelectedPosition*Integer.parseInt(childPrice.substring(1));
+				}
+				if(adultPrice!= null&&!adultPrice.equals(""))
+				{
+					price =  price +(adultSelectedPosition+1)*Integer.parseInt(adultPrice.substring(1));
+					priceTextView.setText(adultPrice.substring(0, 1)+price);
+				}
 			} else
 			{
 				childSelected.clear();
@@ -387,6 +399,18 @@ public class CommonBookingRouteActivity extends Activity
 				sortAdapter.setIsSelected(childSelected);
 				childrenNumberButton.setText(childNum[position]);
 				childSelectedPosition = position;
+				if(childPrice != null && !childPrice.equals(""))
+				{
+					price = childSelectedPosition*Integer.parseInt(childPrice.substring(1));
+				}
+				if(adultPrice != null && !adultPrice.equals(""))
+				{
+					price =  price +(adultSelectedPosition+1)*Integer.parseInt(adultPrice.substring(1));
+					priceTextView.setText(adultPrice.substring(0, 1)+price);
+				}
+				
+
+				
 			}/*
 			 * else { departPlaceSelected.clear(); departPlaceSelected.put(position, vHollder.cBox.isChecked()); sortAdapter.setIsSelected(departPlaceSelected); departPlaceButton.setText(departPlaceName[position]); departPlaceSelectedPosition = position; }
 			 */
@@ -431,7 +455,13 @@ public class CommonBookingRouteActivity extends Activity
 	public void makePhoneCall( final String phoneNumber)
 	{
 		AlertDialog phoneCall = new AlertDialog.Builder(CommonBookingRouteActivity.this).create();
-		phoneCall.setMessage(getResources().getString(R.string.make_phone_call)+"\n"+phoneNumber);
+		//phoneCall.setMessage(getResources().getString(R.string.make_phone_call)+"\n"+phoneNumber);
+		View view = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+		TextView messageTextView = (TextView) view.findViewById(R.id.message);
+		messageTextView.setText(phoneNumber);
+		phoneCall.setTitle(getString(R.string.make_phone_call));
+		//phoneCall.setMessage(phoneNumber);
+		phoneCall.setView(view);
 		phoneCall.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(R.string.call),new DialogInterface.OnClickListener()
 		{
 			
@@ -469,7 +499,21 @@ public class CommonBookingRouteActivity extends Activity
 		case RESULT_OK:
 			Bundle b = data.getExtras();
 			departTime = b.getString("date");
+			adultPrice = b.getString("adult");
+			childPrice = b.getString("child");
+			Log.d(TAG, "booking order adult price = "+adultPrice);
+			Log.d(TAG, "booking order child price = "+childPrice);
 			departTimeButton.setText(departTime);
+			int price = 0;
+			if(childPrice != null&&!childPrice.equals(""))
+			{
+				price = childSelectedPosition*Integer.parseInt(childPrice.substring(1));
+			}
+			if(adultPrice!= null&&!adultPrice.equals(""))
+			{
+				price =  price +(adultSelectedPosition+1)*Integer.parseInt(adultPrice.substring(1));
+				priceTextView.setText(adultPrice.substring(0, 1)+price);
+			}
 			break;
 		default:
 			break;

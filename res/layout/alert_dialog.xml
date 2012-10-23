@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	     android:id="@+id/area_spinner"
+	     android:layout_height="wrap_content"
+	     android:layout_width="200dp"
+	     android:orientation="vertical"
+	     android:gravity="center">
+  		  <TextView   
+			android:id="@+id/message"
+		    android:textSize="20.0sp"
+		    android:textColor="@android:color/white"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:gravity="center"/>
+  		<!--   <LinearLayout 
+  		      android:layout_width="wrap_content"
+  		      android:layout_height="wrap_content"
+  		      android:orientation="horizontal"
+  		      android:gravity="center">
+  		      <Button 
+  		          android:id="@+id/ok_buttton"
+  		          android:layout_width="100dp"
+  		          android:layout_height="wrap_content"
+  		          android:text="@string/ok"
+  		          android:gravity="center"/>
+  		      <Button 
+  		          android:id="@+id/cancel_buttton"
+  		          android:layout_width="100dp"
+  		          android:layout_height="wrap_content"
+  		          android:text="@string/cancel"
+  		          android:gravity="center"/>
+  		  </LinearLayout> -->			
+</LinearLayout>

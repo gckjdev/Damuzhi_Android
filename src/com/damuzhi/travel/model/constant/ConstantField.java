@@ -107,7 +107,8 @@ public class ConstantField
 	public static final String FIND_PASSWORD = TEST_HTTP_URL+"service/retrievePassword.aspx?telephone=%s";
 	public static final String GET_USER_INFO_URL = TEST_HTTP_URL+"service/retrieveMemberData.aspx?loginId=%s&token=%s";
 	public static final String CHANGE_PASSWORD_URL = TEST_HTTP_URL+"service/modifyPassword.aspx?loginId=%s&token＝%s&oldPassword=%s&newPassword=%s";
-	*/
+	public static final String CHANGE_USER_INFO_URL = TEST_HTTP_URL+"service/modifyMemberData.aspx?loginId=%s&token=%s&fullName=%s&nickName=%s&gender=%s&telephone=%s&email=%s&address=%s";
+*/
 	
 	/* page url*/
 	public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
@@ -118,8 +119,8 @@ public class ConstantField
 	/*public static final String PLACE_PAGE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_FILTER_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
-	*/
 	
+	*/
 	
 	/* touristRoute*/
 	public static final String TOURIST_ROUTE_OBJECT_URL = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
@@ -261,6 +262,9 @@ public class ConstantField
 	
 	public static final String BOOKING_NUMBER = "成人%s位    儿童%s位";
 	
+	
+	/* pull notify */
+	public static final String ANDROID_NOTIFY_URL = "http://59.34.17.68:8012/Service/AndroidNotify.aspx?DeviceId=%s";
 	
 	
 

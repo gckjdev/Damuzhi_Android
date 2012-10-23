@@ -11,6 +11,7 @@ package com.damuzhi.travel.activity.adapter.viewcache;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -36,18 +37,28 @@ public class OpenCityListViewCache
 	private TextView installedTextView;
 	private TextView installingTextView;
 	private ViewGroup dataDownloadMangerGroup;
-	private ImageButton restartDownloadBtn;
+/*	private ImageButton restartDownloadBtn;
 	private ImageButton stopDownloadBtn;
 	private ImageButton onlineButton;				
-	private ImageButton startButton;
+	//private ImageButton startButton;
+	private Button startButton;
 	private ImageButton cancelButton ;
 	private ImageButton installButton;
-	private ImageButton cancelInstallButton;
-	private ViewGroup startGroup ;
+	private ImageButton cancelInstallButton;*/
+/*	private ViewGroup startGroup ;
 	private ViewGroup cancelGroup;
 	private ViewGroup restartGroup ;
-	private ViewGroup pauseGroup;
-	private ProgressBar downloadBar ;
+	private ViewGroup pauseGroup;*/ 
+	
+	private Button restartDownloadBtn;
+	private Button stopDownloadBtn;
+	private Button onlineButton;				
+	//private ImageButton startButton;
+	private Button startButton;
+	private Button cancelButton ;
+	private Button installButton;
+	private Button cancelInstallButton;
+	private ProgressBar downloadBar;
 	private TextView resultTextView;
 
 	
@@ -181,11 +192,11 @@ public class OpenCityListViewCache
 
 
 
-	public ImageButton getRestartDownloadBtn()
+	public Button getRestartDownloadBtn()
 	{
 		if(restartDownloadBtn == null)
 		{
-			restartDownloadBtn = (ImageButton) convertView.findViewById(R.id.restart_download_btn);
+			restartDownloadBtn = (Button) convertView.findViewById(R.id.restart_download_button);
 		}
 		return restartDownloadBtn;
 	}
@@ -194,11 +205,11 @@ public class OpenCityListViewCache
 
 
 
-	public ImageButton getStopDownloadBtn()
+	public Button getStopDownloadBtn()
 	{
 		if(stopDownloadBtn == null)
 		{
-			stopDownloadBtn = (ImageButton) convertView.findViewById(R.id.stop_download_btn);
+			stopDownloadBtn = (Button) convertView.findViewById(R.id.stop_download_button);
 		}
 		return stopDownloadBtn;
 	}
@@ -207,11 +218,11 @@ public class OpenCityListViewCache
 
 
 
-	public ImageButton getOnlineButton()
+	public Button getOnlineButton()
 	{
 		if(onlineButton == null)
 		{
-			onlineButton = (ImageButton) convertView.findViewById(R.id.online_button);	
+			onlineButton = (Button) convertView.findViewById(R.id.online_button);	
 		}
 		return onlineButton;
 	}
@@ -220,47 +231,56 @@ public class OpenCityListViewCache
 
 
 
-	public ImageButton getStartButton()
+	/*public ImageButton getStartButton()
 	{
 		if(startButton == null)
 		{
 			 startButton = (ImageButton) convertView.findViewById(R.id.start_download_button);
 		}
 		return startButton;
+	}*/
+	
+	public Button getStartButton()
+	{
+		if(startButton == null)
+		{
+			 startButton = (Button) convertView.findViewById(R.id.start_download_button);
+		}
+		return startButton;
 	}
 
-	public ImageButton getInstallButton()
+	public Button getInstallButton()
 	{
 		if(installButton == null)
 		{
-			installButton = (ImageButton) convertView.findViewById(R.id.install_button);
+			installButton = (Button) convertView.findViewById(R.id.install_button);
 		}
 		return installButton;
 	}
 
 
 
-	public ImageButton getCancelButton()
+	public Button getCancelButton()
 	{
 		if(cancelButton == null)
 		{
-			cancelButton = (ImageButton) convertView.findViewById(R.id.cancel_download_button);
+			cancelButton = (Button) convertView.findViewById(R.id.cancel_download_button);
 		}
 		return cancelButton;
 	}
 
-	public ImageButton getCancelInstallButton()
+	public Button getCancelInstallButton()
 	{
 		if(cancelInstallButton == null)
 		{
-			cancelInstallButton = (ImageButton) convertView.findViewById(R.id.cancel_install_button);
+			cancelInstallButton = (Button) convertView.findViewById(R.id.cancel_install_button);
 		}
 		return cancelInstallButton;
 	}
 
 
 
-	public ViewGroup getStartGroup()
+	/*public ViewGroup getStartGroup()
 	{
 		if(startGroup == null)
 		{
@@ -298,7 +318,7 @@ public class OpenCityListViewCache
 			cancelGroup = (ViewGroup)convertView.findViewById(R.id.cancel_download_manager_group);
 		}
 		return cancelGroup;
-	}
+	}*/
 
 
 

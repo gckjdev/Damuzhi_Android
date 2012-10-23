@@ -678,72 +678,76 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			protected void onPostExecute(List<Place> result)
 			{
 				super.onPostExecute(result);
-				if(nearbyPlaceList.size()>0)
+				if(nearbyPlaceList != null)
 				{
-					nearbyPlaceList.clear();
-				}			
-				nearbyPlaceList.addAll(result);
-				//initNearbyPlaceListView();
-				int size = 0;
-				if(result.size()>10)
-				{
-					size = 10;
-				}else {
-					size = result.size();
-				}
-				Place placeItem = null;
-				int placeCategoryIcon = 0;
-				String distanceStr = null;
-				int rank = 0;
-				for(int i=0;i<size;i++)
-				{
-					nearbyListItemView = LayoutInflater.from(CommonPlaceDetailActivity.this).inflate(R.layout.nearby_list_item, null);
-					nearbyListItemView.setTag(i);
-					nearbyListItemView.setOnClickListener(nearbyListItemOnClickListener);
-					nearbyListItemView.setLayoutParams(new LayoutParams((int)getResources().getDimension(R.dimen.nearby_list_width), (int)getResources().getDimension(R.dimen.nearby_list_height)));
-					if(i == 0)
+					if(nearbyPlaceList.size()>0)
 					{
-						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_top));
-					}else if (i == 9||i==size-1) {
-						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_down));
+						nearbyPlaceList.clear();
+					}			
+					nearbyPlaceList.addAll(result);
+					//initNearbyPlaceListView();
+					int size = 0;
+					if(result.size()>10)
+					{
+						size = 10;
 					}else {
-						nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_center));
+						size = result.size();
 					}
-					placeItem = result.get(i);
-					placeCategoryImage = (ImageView) nearbyListItemView.findViewById(R.id.place_category);
-					placeCategoryIcon = TravelUtil.getPlaceCategoryImage(placeItem.getCategoryId());
-					placeCategoryImage.setImageDrawable(getResources().getDrawable(placeCategoryIcon));
-					
-					 placeName = (TextView) nearbyListItemView.findViewById(R.id.place_name);;
-					 distance = (TextView) nearbyListItemView.findViewById(R.id.place_distance);
-					
-					placeName.setText(placeItem.getName());
-					placeName.setTextColor(getResources().getColor(R.color.place_price_color));
-					distanceStr = TravelUtil.getDistance(placeItem.getLongitude(), placeItem.getLatitude(),place.getLongitude(),place.getLatitude());
-					distance.setText(distanceStr);
-					distance.setTextColor(getResources().getColor(R.color.place_price_color));
-					recommendImageView1 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image1);
-					recommendImageView2 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image2);
-					recommendImageView3 =(ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image3);
-					rank = placeItem.getRank();
-					switch (rank)
+					Place placeItem = null;
+					int placeCategoryIcon = 0;
+					String distanceStr = null;
+					int rank = 0;
+					for(int i=0;i<size;i++)
 					{
-					case 1:
-						recommendImageView1.setVisibility(View.VISIBLE);		
+						nearbyListItemView = LayoutInflater.from(CommonPlaceDetailActivity.this).inflate(R.layout.nearby_list_item, null);
+						nearbyListItemView.setTag(i);
+						nearbyListItemView.setOnClickListener(nearbyListItemOnClickListener);
+						nearbyListItemView.setLayoutParams(new LayoutParams((int)getResources().getDimension(R.dimen.nearby_list_width), (int)getResources().getDimension(R.dimen.nearby_list_height)));
+						if(i == 0)
+						{
+							nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_top));
+						}else if (i == 9||i==size-1) {
+							nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_down));
+						}else {
+							nearbyListItemView.setBackgroundDrawable(getResources().getDrawable(R.drawable.table4_center));
+						}
+						placeItem = result.get(i);
+						placeCategoryImage = (ImageView) nearbyListItemView.findViewById(R.id.place_category);
+						placeCategoryIcon = TravelUtil.getPlaceCategoryImage(placeItem.getCategoryId());
+						placeCategoryImage.setImageDrawable(getResources().getDrawable(placeCategoryIcon));
+						
+						 placeName = (TextView) nearbyListItemView.findViewById(R.id.place_name);;
+						 distance = (TextView) nearbyListItemView.findViewById(R.id.place_distance);
+						
+						placeName.setText(placeItem.getName());
+						placeName.setTextColor(getResources().getColor(R.color.place_price_color));
+						distanceStr = TravelUtil.getDistance(placeItem.getLongitude(), placeItem.getLatitude(),place.getLongitude(),place.getLatitude());
+						distance.setText(distanceStr);
+						distance.setTextColor(getResources().getColor(R.color.place_price_color));
+						recommendImageView1 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image1);
+						recommendImageView2 = (ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image2);
+						recommendImageView3 =(ImageView) nearbyListItemView.findViewById(R.id.place_detail_recommend_image3);
+						rank = placeItem.getRank();
+						switch (rank)
+						{
+						case 1:
+							recommendImageView1.setVisibility(View.VISIBLE);		
+							break;
+						case 2:
+							recommendImageView1.setVisibility(View.VISIBLE);
+							recommendImageView2.setVisibility(View.VISIBLE);
+							break;
+						case 3:
+							recommendImageView1.setVisibility(View.VISIBLE);
+							recommendImageView2.setVisibility(View.VISIBLE);
+							recommendImageView3.setVisibility(View.VISIBLE);
 						break;
-					case 2:
-						recommendImageView1.setVisibility(View.VISIBLE);
-						recommendImageView2.setVisibility(View.VISIBLE);
-						break;
-					case 3:
-						recommendImageView1.setVisibility(View.VISIBLE);
-						recommendImageView2.setVisibility(View.VISIBLE);
-						recommendImageView3.setVisibility(View.VISIBLE);
-					break;
-					
-					}					
-					nearbyListGroup.addView(nearbyListItemView);
+						
+						}					
+						nearbyListGroup.addView(nearbyListItemView);
+					}
 				}
+				
 				
 			}
 			
@@ -989,7 +993,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		Log.d(TAG, "recycle");
 		nearbyListGroup.removeAllViews();
 		main.removeAllViews();		
-		//asyncLoader.recycleBitmap();
+		asyncLoader.recycleBitmap();
 		nearbyPlaceList.clear();
 		for(ImageView imageView:imageViews)
 		{

@@ -49,7 +49,7 @@ public class CommonLocalTripsActivity extends MenuActivity {
 
 	protected static final String TAG = null;
 	private ListView localTripsListView;
-	List<LocalRoute> localRouteList = new ArrayList<LocalRoute>();
+	private List<LocalRoute> localRouteList = new ArrayList<LocalRoute>();
 	//ImageLoader imageLoader;
 	private static int start = 0;
 	private static int count = 1;
@@ -63,13 +63,11 @@ public class CommonLocalTripsActivity extends MenuActivity {
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
-		// TODO Auto-generated method stub
 		super.onCreate(arg0);
 		setContentView(R.layout.common_lcoal_trips);
 		ActivityMange.getInstance().addActivity(this);
 		loadingDialog = new ProgressDialog(CommonLocalTripsActivity.this);
 		localTripsListView = (ListView) findViewById(R.id.local_trips_listview);
-		//localRouteList = TouristRouteMission.getInstance().getLocalRoutes(cityId);
 		noLocalRouteTextView = (TextView) findViewById(R.id.no_local_route);
 		listViewFooter = getLayoutInflater().inflate(R.layout.load_more_view, null, false);
 		localTripsListView.addFooterView(listViewFooter, localRouteList, false);
@@ -77,12 +75,10 @@ public class CommonLocalTripsActivity extends MenuActivity {
 		footerViewGroup = (ViewGroup) listViewFooter.findViewById(R.id.listView_load_more_footer);
 		footerViewGroup.setVisibility(View.GONE);
 		
-		//imageLoader = ImageLoader.getInstance();
 		adapter = new CommonLocalTripsAdapter(localRouteList, CommonLocalTripsActivity.this);
 		localTripsListView.setAdapter(adapter);
 		localTripsListView.setOnItemClickListener(onItemClickListener);
 		localTripsListView.setOnScrollListener(listviewOnScrollListener);
-		//loadPlace();
 	}
 	
 	
@@ -154,16 +150,15 @@ public class CommonLocalTripsActivity extends MenuActivity {
 	private OnItemClickListener onItemClickListener = new OnItemClickListener() {
 
 		@Override
-		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
+		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
 			LocalRoute localRoute = localRouteList.get(arg2);
 			
-			LocalRoute locaRouteDetail = TouristRouteMission.getInstance().getLocalRouteDetail(localRoute.getRouteId());
-			if(locaRouteDetail != null)
+			//LocalRoute locaRouteDetail = TouristRouteMission.getInstance().getLocalRouteDetail(localRoute.getRouteId());
+			if(localRoute != null)
 			{
 				Intent intent = new Intent();
 				intent.setClass(CommonLocalTripsActivity.this, CommonLocalTripsDetailActivity.class);
-				intent.putExtra("local_route",locaRouteDetail.toByteArray());
+				intent.putExtra("local_route",localRoute.getRouteId());
 				startActivity(intent);
 			}
 			
@@ -310,7 +305,41 @@ public class CommonLocalTripsActivity extends MenuActivity {
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		Log.d(TAG, "onDestroy");
 		ActivityMange.getInstance().finishActivity();
+	}
+
+
+
+
+
+	@Override
+	protected void onPause()
+	{
+		Log.d(TAG, "onPause");
+		super.onPause();
+	}
+
+
+
+
+
+	@Override
+	protected void onRestart()
+	{
+		Log.d(TAG, "onRestart");
+		super.onRestart();
+	}
+
+
+
+
+
+	@Override
+	protected void onStop()
+	{
+		Log.d(TAG,"onStop");
+		super.onStop();
 	}
 	
 }

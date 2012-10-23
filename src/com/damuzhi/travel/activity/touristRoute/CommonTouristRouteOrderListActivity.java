@@ -1,6 +1,7 @@
 package com.damuzhi.travel.activity.touristRoute;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.damuzhi.travel.R;
@@ -25,8 +26,11 @@ import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
@@ -41,7 +45,7 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 	private ProgressBar loadingBar;
 	private CommonTouristRouteBooingOrderAdapter adapter;
 	private Button consultButton;
-	
+	private HashMap<Integer, Boolean> positionHashMap = new HashMap<Integer, Boolean>();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,6 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 		adapter = new CommonTouristRouteBooingOrderAdapter(CommonTouristRouteOrderListActivity.this, orderList);
 		expandableListView.setAdapter(adapter);
 		consultButton.setOnClickListener(consultOnClickListener);
-		//expandableListView.setOnGroupCollapseListener(collapseListener);
 		load();
 	}
 	
@@ -104,22 +107,6 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 			expandableListView.expandGroup(i);
 		}
 	}
-
-	
-	/*private OnGroupCollapseListener collapseListener = new OnGroupCollapseListener()
-	{
-		
-		@Override
-		public void onGroupCollapse(int groupPosition)
-		{
-			if(groupPosition == (orderList.size()-1))
-			{
-				Toast.makeText(CommonTouristRouteOrderListActivity.this, ""+groupPosition, Toast.LENGTH_SHORT).show();
-			}
-			
-		}
-	};*/
-	
 	
 	private OnClickListener consultOnClickListener = new OnClickListener()
 	{
@@ -138,7 +125,13 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 	public void makePhoneCall( final String phoneNumber)
 	{
 		AlertDialog phoneCall = new AlertDialog.Builder(CommonTouristRouteOrderListActivity.this).create();
-		phoneCall.setMessage(getResources().getString(R.string.make_phone_call)+"\n"+phoneNumber);
+		View view = getLayoutInflater().inflate(R.layout.alert_dialog, null);
+		TextView messageTextView = (TextView) view.findViewById(R.id.message);
+		messageTextView.setText(phoneNumber);
+		phoneCall.setTitle(getString(R.string.make_phone_call));
+		//phoneCall.setMessage(phoneNumber);
+		phoneCall.setView(view);
+		//phoneCall.setMessage(getResources().getString(R.string.make_phone_call)+"\n"+phoneNumber);
 		phoneCall.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(R.string.call),new DialogInterface.OnClickListener()
 		{
 			

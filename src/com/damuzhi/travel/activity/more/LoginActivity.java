@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -27,8 +28,10 @@ public class LoginActivity extends Activity {
 
 	
 	protected static final String TAG = "LoginActivity";
-	private TextView registerTextView;
-	private TextView findPasswordTextView;
+	//private TextView registerTextView;
+	//private TextView findPasswordTextView;
+	private ViewGroup userRegisterViewGroup;
+	private ViewGroup forgetPasswordViewGroup;
 	private EditText userNameEditText;
 	private EditText passwordEditText;
 	private CheckBox rememberUserNameCheckBox;
@@ -43,24 +46,28 @@ public class LoginActivity extends Activity {
 		ActivityMange.getInstance().addActivity(this);
 		userNameEditText = (EditText) findViewById(R.id.user_name);
 		passwordEditText = (EditText) findViewById(R.id.password);
-		registerTextView = (TextView) findViewById(R.id.free_register);
-		findPasswordTextView = (TextView) findViewById(R.id.find_password);
+		/*registerTextView = (TextView) findViewById(R.id.free_register);
+		findPasswordTextView = (TextView) findViewById(R.id.find_password);*/
+		userRegisterViewGroup = (ViewGroup) findViewById(R.id.free_register);
+		forgetPasswordViewGroup = (ViewGroup) findViewById(R.id.forget_password);
 		rememberUserNameCheckBox = (CheckBox) findViewById(R.id.remember_user_name);
 		rememberPasswordCheckBox = (CheckBox) findViewById(R.id.remember_password);
 		loginButton = (Button) findViewById(R.id.login_button);
-		registerTextView.setOnClickListener(registerOnClickListener);
+		userRegisterViewGroup.setOnClickListener(registerOnClickListener);
 		loginButton.setOnClickListener(loginOnClickListener);
-		findPasswordTextView.setOnClickListener(findPasswordOnClickListener);
+		forgetPasswordViewGroup.setOnClickListener(forgetPasswordOnClickListener);
 		userName = UserManager.getInstance().getUserName(LoginActivity.this);
 		password = UserManager.getInstance().getPassword(LoginActivity.this);
 		
 		if(userName != null && !userName.equals(""))
 		{
 			userNameEditText.setText(userName);
+			rememberUserNameCheckBox.setChecked(true);
 		}
 		if(password != null && !password.equals(""))
 		{
 			passwordEditText.setText(password);
+			rememberPasswordCheckBox.setChecked(true);
 		}
 		
 	}
@@ -77,7 +84,7 @@ public class LoginActivity extends Activity {
 	};
 
 	
-	private OnClickListener findPasswordOnClickListener = new OnClickListener() {
+	private OnClickListener forgetPasswordOnClickListener = new OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
@@ -148,10 +155,16 @@ public class LoginActivity extends Activity {
 		if(rememberUserNameCheckBox.isChecked())
 		{
 			UserManager.getInstance().saveUserName(LoginActivity.this, userName);
+		}else
+		{
+			UserManager.getInstance().saveUserName(LoginActivity.this, "");
 		}
 		if(rememberPasswordCheckBox.isChecked())
 		{
 			UserManager.getInstance().savePassword(LoginActivity.this, password);
+		}else
+		{
+			UserManager.getInstance().savePassword(LoginActivity.this, "");
 		}
 	}
 	

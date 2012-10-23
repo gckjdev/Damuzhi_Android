@@ -1,14 +1,19 @@
 package com.damuzhi.travel.activity.adapter.touristRoute;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.adapter.viewcache.OrderListGroupViewCache;
+import com.damuzhi.travel.activity.adapter.viewcache.PlaceViewCache;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsActivity;
 import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsDetailActivity;
 import com.damuzhi.travel.activity.touristRoute.CommonRouteFeedbackActivity;
 import com.damuzhi.travel.mission.touristRoute.TouristRouteMission;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 import com.damuzhi.travel.protos.TouristRouteProtos.Order;
 import com.damuzhi.travel.util.TravelUtil;
@@ -22,6 +27,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdapter {
@@ -42,14 +48,19 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 	private TextView bookingStatus;
 	private Button routeFeedbackButton;
 	private Button routeDetailButton;
+	private ImageView imageView;
+	private ViewGroup viewGroup;
+	private 
 	String bookingNumber ="";
+	private String token;
+//	private HashMap<Integer, Boolean> positionHashMap = new HashMap<Integer, Boolean>();
 //	private View groupView;
-	public CommonTouristRouteBooingOrderAdapter(Context context,
-			List<Order> orderList) {
+	public CommonTouristRouteBooingOrderAdapter(Context context,List<Order> orderList) {
 		super();
 		this.context = context;
 		this.orderList = orderList;
 		inflater = LayoutInflater.from(context);
+		this.token = TravelApplication.getInstance().getToken();
 	}
 
 	@Override
@@ -82,6 +93,9 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 		routeName.setText(order.getRouteName());
 		routeId.setText(""+order.getRouteId());
 		departTime.setText(TravelUtil.getDepartTime((long)order.getDepartDate()));
+		Log.d(TAG, "depart date time = "+order.getDepartDate());
+		Log.d(TAG, "booking date time(int) = "+order.getBookDate());
+		Log.d(TAG, "booking date time(long) = "+(long)order.getBookDate());
 		bookingTimeDetail.setText(TravelUtil.getBookingDate((long)order.getBookDate()));
 		bookingNumber = String.format(ConstantField.BOOKING_NUMBER,order.getAdult(),order.getChildren() );
 		routeBookingNumber.setText(bookingNumber);
@@ -92,6 +106,14 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 		routeDetailButton.setOnClickListener(routeDeatilOnClickListener);
 		routeFeedbackButton.setTag(arg0);
 		routeFeedbackButton.setOnClickListener(routeEvaluateOnClickListener);
+		if(token == null || token.equals(""))
+		{
+			routeFeedbackButton.setVisibility(View.GONE);
+		}
+		if(arg0 == (orderList.size()-1))
+		{
+			childView.findViewById(R.id.order_list_bottom).setVisibility(View.VISIBLE);
+		}
 		return childView;
 	}
 
@@ -125,23 +147,36 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 	public View getGroupView(int groupPosition, boolean isExpanded,View convertView, ViewGroup parent) {
 		if(convertView == null)
 		{
-			convertView = inflater.inflate(R.layout.common_tourist_route_order_list_group_item, null);
+			convertView = inflater.inflate(R.layout.common_tourist_route_order_list_group_item, null);			
 		}
 		if(groupPosition == 0)
 		{
 			convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_1));
 		}else {
 			convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_2));
-		}/*else if (groupPosition == orderList.size()-1) {
-		convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_3));
-	}*/
-		//groupView = convertView;
+		}
+		//Log.d(TAG, "group position = "+groupPosition);
+		Order order = orderList.get(groupPosition);
 		bookingId = (TextView) convertView.findViewById(R.id.booking_id);
 		bookingDate = (TextView) convertView.findViewById(R.id.booking_time);
-		Order order = orderList.get(groupPosition);
 		bookingId.setText(""+order.getOrderId());
 		String date = TravelUtil.getDate(order.getBookDate());
 		bookingDate.setText(date);
+		imageView = (ImageView) convertView.findViewById(R.id.line_image);
+		viewGroup = (ViewGroup) convertView.findViewById(R.id.expandableListView_group);
+		imageView.setTag(groupPosition);
+		viewGroup.setTag("group"+groupPosition);
+		if(isExpanded)
+		{
+			imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.line_sq));
+		}else
+		{
+			imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.line_zk));
+			if(groupPosition == (orderList.size()-1))
+			{
+				convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_3));
+			}
+		}
 		return convertView;
 	}
 
@@ -176,10 +211,10 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 		{
 			int position = Integer.valueOf((Integer)v.getTag());
 			Order order = orderList.get(position);
-			LocalRoute locaRouteDetail = TouristRouteMission.getInstance().getLocalRouteDetail(order.getRouteId());
+			//LocalRoute locaRouteDetail = TouristRouteMission.getInstance().getLocalRouteDetail(order.getRouteId());
 			Intent intent = new Intent();
 			intent.setClass(context, CommonLocalTripsDetailActivity.class);
-			intent.putExtra("local_route",locaRouteDetail.toByteArray());
+			intent.putExtra("local_route",order.getRouteId());
 			context.startActivity(intent);		
 		}
 	};
@@ -200,6 +235,8 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 			
 		}
 	};
+	
+	
 	
 
 }

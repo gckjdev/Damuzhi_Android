@@ -68,9 +68,16 @@ public class MoreActivity extends MenuActivity
 		setContentView(R.layout.more);
 		ActivityMange.getInstance().addActivity(this);
 		MobclickAgent.updateOnlineConfig(this);
-		String iS_SHOW_APP_FLAG = MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_IS_SHOW_RECOMMENDED_APP);
-		IS_SHOW_UPDATE_VERSION = Integer.parseInt(MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_IS_SHOW_UPDATE_VERSION));
-		IS_SHOW_RECOMMENDED_APP = Integer.parseInt(iS_SHOW_APP_FLAG);
+		String IS_SHOW_APP_FLAG = MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_IS_SHOW_RECOMMENDED_APP);
+		String IS_SHOW_UPDATE_VERSION_FLAG = MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_IS_SHOW_UPDATE_VERSION);
+		if(IS_SHOW_UPDATE_VERSION_FLAG != null && !IS_SHOW_UPDATE_VERSION_FLAG.equals(""))
+		{
+			IS_SHOW_UPDATE_VERSION = Integer.parseInt(IS_SHOW_UPDATE_VERSION_FLAG);
+		}
+		if(IS_SHOW_APP_FLAG !=null && !IS_SHOW_APP_FLAG.equals(""))
+		{
+			IS_SHOW_RECOMMENDED_APP = Integer.parseInt(IS_SHOW_APP_FLAG);
+		}		
 		openCtiyGroup = (ViewGroup) findViewById(R.id.open_city_group);
 		browseHistoryGroup = (ViewGroup) findViewById(R.id.browser_history_group);
 		feedback = (ViewGroup) findViewById(R.id.feedback_group);

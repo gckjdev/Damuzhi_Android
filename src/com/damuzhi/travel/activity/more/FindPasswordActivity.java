@@ -60,7 +60,7 @@ public class FindPasswordActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
-
+			v.setClickable(false);
 			telephone = telephoneEditText.getText().toString();
 			if(telephone==null||telephone.trim().equals("")||!TravelUtil.isPhoneNumber(telephone))
 			{
@@ -79,7 +79,7 @@ public class FindPasswordActivity extends Activity
 				}
 				
 			}
-			
+			v.setClickable(true);
 		
 		}
 	};

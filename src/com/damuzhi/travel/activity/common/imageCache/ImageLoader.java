@@ -20,22 +20,22 @@ import android.util.Log;
 
 
 public class ImageLoader {
-		private static final int SOFT_CACHE_CAPACITY = 30;
-		protected static final String TAG = "ImageLoader";  
+		private static final int SOFT_CACHE_CAPACITY = 15;
+		private static final String TAG = "ImageLoader";  
 		private ArrayList<Task> taskQueue;
 		//private volatile static ImageLoader instance;
-		public static ImageLoader getInstance() {
-			/*if (instance == null) {
+		/*public static ImageLoader getInstance() {
+			if (instance == null) {
 				synchronized (ImageLoader.class) {
 					if (instance == null) {
 						instance = new ImageLoader();
 					}
 				}
 			}
-			instance = new ImageLoader();*/
+			instance = new ImageLoader();
 			ImageLoader instance = new ImageLoader();
 			return instance;
-		}
+		}*/
 		
 		
 	   
@@ -213,6 +213,6 @@ public class ImageLoader {
 					bitmap = null;
 			}	
 			caches.clear();
-			System.gc() ;
+			//System.gc() ;
 		} 
 }

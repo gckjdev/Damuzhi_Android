@@ -30,24 +30,24 @@ public class AsyncLoader {
 	
 	private static final String TAG = "Anseylodar";
 	private HashMap<String, WeakReference<Bitmap>> localBitmaps = new HashMap<String, WeakReference<Bitmap>>();;
-	ImageLoader imageLoader = ImageLoader.getInstance();
-	//ImageLoader imageLoader = new ImageLoader();
+	//ImageLoader imageLoader = ImageLoader.getInstance();
+	ImageLoader imageLoader = new ImageLoader();
 	/*public AsyncLoader(){
 		
 	}*/
 	
 	//private volatile static AsyncLoader instance;
-	public static AsyncLoader getInstance() {
-		/*if (instance == null) {
+	/*public static AsyncLoader getInstance() {
+		if (instance == null) {
 				if (instance == null) {
 					instance = new AsyncLoader();
 				}
 		}
-		instance = new AsyncLoader();*/
+		instance = new AsyncLoader();
 		AsyncLoader instance = new AsyncLoader();
 		return instance;
 	}
-	
+	*/
 	
 	
 	public  void showimgAnsy(ImageView imageView,String url,int cityId){
@@ -183,7 +183,7 @@ public class AsyncLoader {
 		imageLoader.recycleBitmap();
 		imageLoader = null;
 		clearBitmap();
-		System.gc();
+		//System.gc();
 	}
 	
 	

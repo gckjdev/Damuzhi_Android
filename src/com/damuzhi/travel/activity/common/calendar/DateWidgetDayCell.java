@@ -2,6 +2,8 @@ package com.damuzhi.travel.activity.common.calendar;
 
 import java.util.Calendar;
 
+import com.damuzhi.travel.R;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.LinearGradient;
@@ -31,9 +33,9 @@ import android.widget.LinearLayout.LayoutParams;
  */
 public class DateWidgetDayCell extends View {
 	// 字体大小
-	private static final int fTextSize = 28;
+	private static final int fTextSize = 25;
 	
-	private static final int priceTextSize = 14;
+	private static final int priceTextSize = 17;
 	
 	// 基本元素
 	private OnItemClick itemClick = null;
@@ -166,12 +168,9 @@ public class DateWidgetDayCell extends View {
 		/*if (bToday)
 			pt.setUnderlineText(true);*/
 
-		final int iPosX = (int) rect.left + ((int) rect.width() >> 1)
-				- ((int) pt.measureText(sDate) >> 1);
+		final int iPosX = (int) rect.left + ((int) rect.width() >> 1)- ((int) pt.measureText(sDate) >> 1);
 
-		final int iPosY = (int) (this.getHeight()
-				- (this.getHeight() - getTextHeight()) / 1.5 - pt
-				.getFontMetrics().bottom);
+		final int iPosY = (int) (this.getHeight()- (this.getHeight() - getTextHeight()) / 1.5 - pt.getFontMetrics().bottom);
 
 		canvas.drawText(sDate, iPosX, iPosY, pt);
 		if(hasRecord)
@@ -181,7 +180,13 @@ public class DateWidgetDayCell extends View {
 			pt.setShader(null);
 			pt.setFakeBoldText(true);
 			pt.setTextSize(priceTextSize);
-			pt.setColor(CalendarActivity.isPresentMonth_FontColor);
+			if(bTouchedDown)
+			{
+				pt.setColor(getResources().getColor(R.color.white));
+			}else
+			{
+				pt.setColor(getResources().getColor(R.color.red));
+			}		
 			pt.setUnderlineText(false);
 			
 			if (!bIsActiveMonth)

@@ -13,8 +13,10 @@ import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsActivity;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.app.AppManager;
+import com.damuzhi.travel.model.constant.ConstantField;
 import com.readystatesoftware.maps.TapControlledMapView;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
@@ -28,6 +30,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -42,16 +46,15 @@ public class MainActivity extends TabActivity {
 
 	private static final String TAG = "MainActivity";
 	private TabHost mTabHost;
-	//private TabWidget mTabWidget;
 	private LayoutInflater mLayoutflater;
 	private ViewGroup tapTopGroup;
 	private TextView currentCityName;
 	private TextView titleTextView;
 	boolean flag = false;//flag go to OpenCityActivity
+	private ImageView moveFlag;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		//setTheme(R.style.Theme_Tabhost);
 		setContentView(R.layout.main);
 		Log.d(TAG, "oncreate");
 		ActivityMange.getInstance().addActivity(this);
@@ -62,6 +65,7 @@ public class MainActivity extends TabActivity {
 		titleTextView = (TextView) findViewById(R.id.title);
 		currentCityName = (TextView) findViewById(R.id.current_city_name);
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
+		moveFlag = (ImageView) findViewById(R.id.move_flag);
 		tapTopGroup = (ViewGroup) findViewById(R.id.tab_top);
 		tapTopGroup.setOnClickListener(tapTopOnClickListener);
 		mTabHost.setOnTabChangedListener(onTabChangeListener);
@@ -167,12 +171,12 @@ public class MainActivity extends TabActivity {
 			cityName = AppManager.getInstance().getCurrentCityName();
 		}
 		currentCityName.setText(cityName);
-		//String flag = getIntent().getStringExtra("mainActivity");
-		//Log.d(TAG, "flag = "+flag);
-		if(flag&&mTabHost.getCurrentTab()==1)
+		boolean cityFlag = TravelApplication.getInstance().isCityFlag();
+		if((flag&&mTabHost.getCurrentTab()==1)||cityFlag)
 		{
 			mTabHost.setCurrentTab(0);
 			flag = false;
+			TravelApplication.getInstance().setCityFlag(false);
 		}
 		
 		
@@ -187,6 +191,7 @@ public class MainActivity extends TabActivity {
 		@Override
 		public void onTabChanged(String tabId)
 		{
+			move(tabId);
 			if(tabId.equals("more")||tabId.equals("fly")||tabId.equals("happy") )
 			{
 				tapTopGroup.setVisibility(View.GONE);
@@ -207,8 +212,49 @@ public class MainActivity extends TabActivity {
 		}
 	};
 
+	private float endSet = 0;
+	private float offSet = 0;
 	
+	private void move(String tabId)
+	{
+		Animation animation = null;
+		getSet(tabId);
+		animation = new TranslateAnimation(offSet,endSet, 0, 0);
+		animation.setDuration(500);		
+		moveFlag.startAnimation(animation);
+		animation.setFillAfter(true);
+		offSet = endSet;
+	}
 
+	private void getSet(String tabId)
+	{
+		if(tabId.equals("guide"))
+		{
+			endSet = 0;
+			return;
+		}
+		if(tabId.equals("local"))
+		{
+			endSet = 95;
+			return;
+		}
+		if(tabId.equals("fly"))
+		{
+			endSet = 195;
+			return;
+		}
+		if(tabId.equals("happy"))
+		{
+			endSet = 288;
+			return;
+		}
+		if(tabId.equals("more"))
+		{
+			endSet = 388;
+			return;
+		}
+	}
+	
 
 
     @Override  

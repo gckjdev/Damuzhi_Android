@@ -16,6 +16,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.model.entity.DownloadInfos;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
@@ -238,8 +239,7 @@ public class DownloadService extends Service
 			    msg.obj = downloadInfos;
 		        downloadHandler.sendMessage(msg);
 			}
-		});
-		
+		});		
 			}
 
 	public  Map<String, Integer> getDownloadStstudTask()
@@ -256,14 +256,14 @@ public class DownloadService extends Service
 	public void onDestroy()
 	{
 		super.onDestroy();
-		//Log.d(TAG, "service onDestroy");
+		Log.d(TAG, "service onDestroy");
 	}
 
 	@Override
 	public void onStart(Intent intent, int startId)
 	{
 		super.onStart(intent, startId);
-		//Log.d(TAG, "service onStart");
+		Log.d(TAG, "service onStart");
 	}
 	
 }

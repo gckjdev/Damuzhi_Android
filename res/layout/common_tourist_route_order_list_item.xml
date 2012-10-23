@@ -2,165 +2,160 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@android:color/white"
-    android:paddingLeft="22dp"
-    android:paddingRight="22dp"
     android:orientation="vertical" >
-   <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="15dp"
-       android:orientation="horizontal">
-       <TextView 
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="13sp"
-           android:text="@string/route_name"/>
-       <TextView 
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:textSize="13sp"
-	       android:id="@+id/route_name"/>
-   </LinearLayout>
-   <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:orientation="horizontal">
-       <TextView 
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="13sp"
-           android:text="@string/route_id"/>
-       <TextView 
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:textSize="13sp"
-	       android:id="@+id/route_id"/>
-   </LinearLayout>
-  <!--  <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:orientation="horizontal">
-       <TextView 
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="13sp"
-           android:text="@string/depart_place"/>
-       <TextView 
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:textSize="13sp"
-	       android:id="@+id/depart_place"/>
-   </LinearLayout> -->
-   <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:orientation="horizontal">
-       <TextView 
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="13sp"
-           android:text="@string/depart_time"/>
-       <TextView 
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:textSize="13sp"
-	       android:id="@+id/depart_time"/>
-   </LinearLayout>
-    <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:orientation="horizontal">
-       <TextView 
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="13sp"
-           android:text="@string/booking_time"/>
-       <TextView 
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:textSize="13sp"
-	       android:id="@+id/booking_time"/>
-   </LinearLayout>
-    <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:orientation="horizontal">
-       <TextView 
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textSize="13sp"
-           android:text="@string/route_booking_number2"/>
-       <TextView 
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:textSize="13sp"
-	       android:id="@+id/route_booking_number"/>
-   </LinearLayout>
-   <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:orientation="horizontal">
-       <TextView 
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textColor="@color/booking_price"
-           android:textSize="13sp"
-           android:text="@string/damuzhi_price"/>
-       <TextView 
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:textSize="13sp"
-	       android:id="@+id/damuzhi_price"/>
-   </LinearLayout>
-    <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:orientation="horizontal">
-       <TextView 
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:textColor="@color/booking_status_color"
-           android:textSize="13sp"
-           android:text="@string/booking_status"/>
-       <TextView 
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:textSize="13sp"
-	       android:id="@+id/booking_status"/>
-   </LinearLayout>
-    <LinearLayout 
-       android:layout_width="fill_parent"
-       android:layout_height="wrap_content"
-       android:layout_marginTop="10dp"
-       android:layout_marginBottom="10dp"
-       android:gravity="center"
-       android:orientation="horizontal">
-       <Button 
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:background="@drawable/order_btn_2"
-           android:gravity="center"
-           android:textSize="13sp"
-           android:layout_marginRight="10dp"
-           android:text="@string/route_feedback"
-           android:textColor="@android:color/white"
-           android:id="@+id/route_feedback"/>
-       <Button 
-	       android:layout_width="wrap_content"
-	       android:layout_height="wrap_content"
-	       android:background="@drawable/order_btn_2"
-	       android:gravity="center"
-	       android:text="@string/route_detail"
-	       android:textColor="@android:color/white"
-	       android:textSize="13sp"
-	       android:id="@+id/route_detail"/>
-   </LinearLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:paddingLeft="22dp"
+        android:background="@drawable/order_list_bg"
+        android:orientation="vertical" >
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/route_name"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/route_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/route_id"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/route_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/depart_time"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/depart_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/booking_time"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/booking_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/route_booking_number2"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/route_booking_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/route_price"
+                android:textColor="@color/booking_price"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/damuzhi_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/booking_status"
+                android:textColor="@color/booking_status_color"
+                android:textSize="13sp" />
+            <TextView
+                android:id="@+id/booking_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+            <Button
+                android:id="@+id/route_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/order_button2"
+                android:gravity="center"
+                android:text="@string/route_feedback"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+            <Button
+                android:id="@+id/route_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/order_button2"
+                android:gravity="center"
+                android:text="@string/route_detail"
+                android:textColor="@android:color/white"
+                android:textSize="13sp" />
+        </LinearLayout>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/order_list_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:src="@drawable/order_list_bottom" />
 </LinearLayout>

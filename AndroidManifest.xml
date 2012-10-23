@@ -20,6 +20,7 @@
 	<uses-permission android:name="android.permission.WRITE_APN_SETTINGS"></uses-permission>
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE"></uses-permission>
 	<uses-permission android:name="android.permission.SEND_SMS"/>		
+	<uses-permission android:name="android.permission.RESTART_PACKAGES" />
     <uses-sdk android:minSdkVersion="7" />
     
     
@@ -110,7 +111,20 @@
         <meta-data  android:name="YOUMI_CHANNEL"     android:value="88888" />
 		
           <!--  注册服务 -->
-         <service android:name=".download.DownloadService"/>
+         <service android:name=".download.DownloadService">
+             <intent-filter>
+				<action android:name="com.damuzhi.travel.download.DownloadService"></action>
+				<category android:name="android.intent.category.default" />
+			</intent-filter>
+         </service>
+         
+          <service android:name="com.damuzhi.travel.service.PullNotificationService">
+             <intent-filter>
+				<action android:name="com.damuzhi.travel.service.PullNotificationService"></action>
+				<category android:name="android.intent.category.default" />
+			</intent-filter>
+         </service>
+         
          <service android:name="com.baidu.location.f" android:enabled="true"
 			android:process=":remote" android:permission="android.permission.BAIDU_LOCATION_SERVICE">
 			<intent-filter>

@@ -2,13 +2,18 @@ package com.damuzhi.travel.util;
 
 import java.sql.Date;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.TimeZone;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -850,74 +855,54 @@ public class TravelUtil
 	public static String getDepartTime(long time) {
 		Calendar date = Calendar.getInstance();
 		time = time*1000;
+		long targetTime = time - TimeZone.getDefault().getRawOffset();	
+		date.setTimeInMillis(targetTime);
+		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy年MM月dd日 E");
+		String dateString =dateformat.format(date.getTime());
+		return dateString;
+	}
+	
+	public static String getDateShortString(long time ) {
+		Calendar date = Calendar.getInstance();
 		date.setTimeInMillis(time);
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append(date.get(Calendar.YEAR) + "年");
-		stringBuffer.append(date.get(Calendar.MONTH) + 1 + "月");
-		stringBuffer.append(date.get(Calendar.DAY_OF_MONTH)+"日	");
-		stringBuffer.append(date.get(Calendar.DAY_OF_WEEK));
-
-		/*String returnString = date.get(Calendar.YEAR) + "年";
-		returnString += date.get(Calendar.MONTH) + 1 + "月";	
-		returnString += date.get(Calendar.DAY_OF_MONTH)+"日	";
-		returnString += date.get(Calendar.DAY_OF_WEEK);*/
-		return stringBuffer.toString();
+		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd ");
+		String dateString =dateformat.format(date.getTime());
+		return dateString;
 	}
 	
 	public static String getDate(long time) {
 		Calendar date = Calendar.getInstance();
 		time = time*1000;
-		date.setTimeInMillis(time);
-		
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append(date.get(Calendar.MONTH) + 1 + "月");
-		stringBuffer.append(date.get(Calendar.DAY_OF_MONTH)+"日	");
-		/*String returnString = date.get(Calendar.MONTH) + 1 + "月";	
-		returnString += date.get(Calendar.DAY_OF_MONTH)+"日";*/
-		
-		return stringBuffer.toString();
+		long targetTime = time - TimeZone.getDefault().getRawOffset();
+		date.setTimeInMillis(targetTime);
+		SimpleDateFormat dateformat=new SimpleDateFormat("MM月dd日 ");
+		String dateString =dateformat.format(date.getTime());
+		return dateString;
 	}
 	
 	
 	public static String getDateString(long time) {
 		Calendar date = Calendar.getInstance();
 		time = time*1000;
-		date.setTimeInMillis(time);
+		long targetTime = time - TimeZone.getDefault().getRawOffset();
+		date.setTimeInMillis(targetTime);
 		
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append(date.get(Calendar.YEAR) + "-");
-		stringBuffer.append(date.get(Calendar.MONTH) + 1 + "-");
-		stringBuffer.append(date.get(Calendar.DAY_OF_MONTH));
-		
-		return stringBuffer.toString();
+		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd ");
+		String dateString =dateformat.format(date.getTime());
+		return dateString;
 	}
 
 	public static String getBookingDate(long time) {
 		Calendar date = Calendar.getInstance();
 		time = time*1000;
-		date.setTimeInMillis(time);
-		StringBuffer stringBuffer = new StringBuffer();
-		stringBuffer.append(date.get(Calendar.YEAR) + "年");
-		stringBuffer.append(date.get(Calendar.MONTH) + 1 + "月");
-		stringBuffer.append(date.get(Calendar.DAY_OF_MONTH)+"日	");
-		stringBuffer.append(date.get(Calendar.HOUR_OF_DAY)+":");
-		stringBuffer.append(date.get(Calendar.MINUTE));
-		/*String returnString = date.get(Calendar.YEAR) + "年";
-		returnString += date.get(Calendar.MONTH) + 1 + "月";	
-		returnString += date.get(Calendar.DAY_OF_MONTH)+"日	";
-		returnString += date.get(Calendar.HOUR_OF_DAY)+":";
-		returnString += date.get(Calendar.MINUTE);*/
-		return stringBuffer.toString();
+		long targetTime = time - TimeZone.getDefault().getRawOffset();	
+		date.setTimeInMillis(targetTime);
+		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy年MM月dd日 HH时mm分");
+		String dateString =dateformat.format(date.getTime());
+		return dateString;
 	}
 
-	/**  
-	        * @param status
-	        * @return  
-	        * @description   
-	        * @version 1.0  
-	        * @author liuxiaokun  
-	        * @update 2012-9-29 上午10:55:49  
-	*/
+	
 	public static String getOrderStatus(int orderStatus)
 	{
 		String status = "";
@@ -956,6 +941,56 @@ public class TravelUtil
 	    Pattern p = Pattern.compile(regEx);
 	    Matcher m = p.matcher(str);
 	    return m.replaceAll("").trim();
+	}
+
+	
+	public static JSONObject[] getJsonArray(String jsonString)
+	{
+		if(jsonString == null||jsonString.equals(""))
+		{
+			return null;
+		}
+		try
+		{
+			jsonString = jsonString.replace("[", "");
+			jsonString = jsonString.replace("]", "");
+			jsonString = jsonString.replace("},", "}?");
+			String[] data = jsonString.split("\\?");
+			JSONObject [] result = new JSONObject[data.length];
+			for(int i=0;i<data.length;i++)
+			{
+					result[i] = new JSONObject(data[i]);			
+			}
+			return result;
+		} catch (JSONException e)
+		{
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	
+	public static String getDayOfWeekString(int dayOfWeek)
+	{
+		switch (dayOfWeek)
+		{
+		case 1:
+			return "星期天";
+		case 2:
+			return "星期一";
+		case 3:
+			return "星期二";
+		case 4:
+			return "星期三";
+		case 5:
+			return "星期四";
+		case 6:
+			return "星期五";
+		case 7:
+			return "星期六";
+		}
+		return "";
 	}
 	
 	

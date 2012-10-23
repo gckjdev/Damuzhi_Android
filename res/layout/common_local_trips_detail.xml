@@ -23,7 +23,7 @@
             android:singleLine="true"
             android:text="@string/route_detail"
             android:textColor="@color/white"
-            android:textSize="15.0sp" />
+            android:textSize="20.0sp" />
         <Button
             android:id="@+id/consult_button"
             android:layout_width="wrap_content"
@@ -214,14 +214,14 @@
                             android:layout_toRightOf="@id/route_price"
                             android:text="@string/qi"
                             android:textSize="10sp" />
-                        <ImageView
+                        <Button
                             android:id="@+id/book_order"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:src="@drawable/line_order_btn" />
+                            android:background="@drawable/line_order_button" />
                     </RelativeLayout>
                     <WebView
                         android:id="@+id/route_detail_webview"
@@ -272,7 +272,6 @@
                         android:divider="@android:color/transparent"
                         android:cacheColorHint="@android:color/transparent"
                         android:listSelector="@android:color/transparent"
-                        android:scrollingCache="false"
                         android:dividerHeight="5dp"
                         android:scrollbars="none" />
                 </LinearLayout>

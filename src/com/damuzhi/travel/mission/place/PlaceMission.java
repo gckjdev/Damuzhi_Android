@@ -60,7 +60,7 @@ public class PlaceMission
 	//List<Place> placeList = null;
 	private int lastCityId = -100;
 	private int lastCategoryId = -100;
-	private static AsyncHttpClient client = new AsyncHttpClient();
+	//private static AsyncHttpClient client = new AsyncHttpClient();
 	private PlaceMission() {
 	}
 	
@@ -111,12 +111,14 @@ public class PlaceMission
 				if(remotePlaceList != null && remotePlaceList.size() > 0)
 				{
 					retPlaceList.addAll(remotePlaceList);
-				}								
-				// TODO save data in UI thread
-				if (remotePlaceList != null && remotePlaceList.size() > 0){	
 					remotePlaceManager.clear();
 					remotePlaceManager.addPlaces(remotePlaceList);
-				}	
+				}								
+				// TODO save data in UI thread
+				/*if (remotePlaceList != null && remotePlaceList.size() > 0){	
+					remotePlaceManager.clear();
+					remotePlaceManager.addPlaces(remotePlaceList);
+				}*/	
 			}				
 				//getPlaceListByUrl(cityId, categoryId);
 				placeStatistics =  getPlaceStatisticsByUrl(cityId, categoryId);
@@ -127,35 +129,44 @@ public class PlaceMission
 	
 	public List<Place> getPlaceNearby(Place place,int num)
 	{
-		List<Place> nearbyPlaceList = Collections.emptyList();
 		int cityId = AppManager.getInstance().getCurrentCityId();
 		String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST, cityId, place.getPlaceId(),null,null,num,null,ConstantField.LANG_HANS,null);
-		nearbyPlaceList = getNearByPlaceListByUrl(url);		
-		return nearbyPlaceList;
+		TravelResponse travelResponse = getPlaceDataByURL(url);
+		if(travelResponse != null)
+		{
+			return travelResponse.getPlaceList().getListList();
+		}
+		return null;
 	}
 	
 	
 	public List<Place> getPlaceNearbyInDistance(Place place,float distance)
 	{
-		List<Place> nearbyPlaceList = Collections.emptyList();
-		
 		int cityId = AppManager.getInstance().getCurrentCityId();
-		String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE, cityId, place.getPlaceId(),null,null,null,distance,ConstantField.LANG_HANS,null);
-		nearbyPlaceList = getNearByPlaceListByUrl(url);	
-		return nearbyPlaceList;
+		String url = String.format(ConstantField.PLACE_LIST_NEARBY, ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE, cityId, place.getPlaceId(),null,null,null,distance,ConstantField.LANG_HANS,null);		
+		TravelResponse travelResponse = getPlaceDataByURL(url);
+		if(travelResponse != null)
+		{
+			return travelResponse.getPlaceList().getListList();
+		}
+		return null;
 	}
 	
 	
 	public List<Place> getPlaceNearbyInDistance(HashMap<String, Double> location,String distance,String placeCategory)
-	{
-		List<Place> nearbyPlaceList = Collections.emptyList();	
+	{	
 		if(location !=null && location.size()>0)
 		{
 			int cityId = AppManager.getInstance().getCurrentCityId();
 			String url = String.format(ConstantField.PLACE_LIST_NEARBY, placeCategory, cityId, null,location.get(ConstantField.LATITUDE),location.get(ConstantField.LONGITUDE),null,distance,ConstantField.LANG_HANS,null);
-			nearbyPlaceList = getNearByPlaceListByUrl(url);				
+			TravelResponse travelResponse = getPlaceDataByURL(url);
+			if(travelResponse != null)
+			{
+				return travelResponse.getPlaceList().getListList();
+			}
+			return null;
 		}
-		return nearbyPlaceList;
+		return null;
 	}
 	
 	
@@ -169,51 +180,13 @@ public class PlaceMission
 		String deviceId = TravelApplication.getInstance().deviceId;
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS,deviceId);
 		Log.i(TAG, "<getPlaceListByUrl> load place data from http ,url = "+url);
-		InputStream inputStream = null;
-		HttpTool httpTool = HttpTool.getInstance();
-		try
+		TravelResponse travelResponse = getPlaceDataByURL(url);	
+		if(travelResponse != null)
 		{
-			inputStream = httpTool.sendGetRequest(url);
-			if(inputStream !=null)
-			{				
-				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
-					return Collections.emptyList();
-				}					
-				inputStream.close();
-				inputStream = null;					
-				totalCount = travelResponse.getTotalCount();
-				return travelResponse.getPlaceList().getListList();			
-			}
-			else{
-				return Collections.emptyList();
-			}
-			
-		} 
-		catch (Exception e)
-		{
-			Log.e(TAG, "<getPlaceListByUrl> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
-			return Collections.emptyList();
-		}finally
-		{
-			httpTool.stopConnection();
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
+			totalCount = travelResponse.getTotalCount();
+			return travelResponse.getPlaceList().getListList();
 		}
+		return null;
 	}
 	
 	
@@ -226,103 +199,16 @@ public class PlaceMission
 		String deviceId = TravelApplication.getInstance().deviceId;
 		String url = String.format(ConstantField.PLACE_PAGE_URL, objectType, cityId, 0,count,ConstantField.LANG_HANS,deviceId);
 		Log.i(TAG, "<getPlaceStatisticsByUrl> load place data from http ,url = "+url);
-		InputStream inputStream = null;
-		HttpTool httpTool = HttpTool.getInstance();
-		try
+		TravelResponse travelResponse = getPlaceDataByURL(url);
+		if(travelResponse != null)
 		{
-			inputStream = httpTool.sendGetRequest(url);
-			if(inputStream !=null)
-			{				
-				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
-					return null;
-				}					
-				inputStream.close();
-				inputStream = null;					
-				return travelResponse.getPlaceStatistics();			
-			}
-			else{
-				return null;
-			}
-			
-		} 
-		catch (Exception e)
-		{
-			Log.e(TAG, "<getPlaceStatisticsByUrl> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
-			return null;
-		}finally
-		{
-			httpTool.stopConnection();
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
+			return travelResponse.getPlaceStatistics();
 		}
+		return null;
 	}
 	
 		
-	private List<Place> getNearByPlaceListByUrl(String url)
-	{
-		Log.d(TAG, "<getNearByPlaceListByUrl> load place data from http ,url = "+url);
-		InputStream inputStream = null;
-		HttpTool httpTool = HttpTool.getInstance();
-		try
-		{
-			inputStream = httpTool.sendGetRequest(url);
-			if(inputStream !=null)
-			{
-				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null)
-				{
-					return Collections.emptyList();
-				}
-				
-				inputStream.close();
-				inputStream = null;
-				return travelResponse.getPlaceList().getListList();						
-			}
-			else{
-				return Collections.emptyList();
-			}
-			
-		} 
-		catch (Exception e)
-		{
-			Log.e(TAG, "<getNearByPlaceListByUrl> catch exception = "+e.toString(), e);
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
-			return Collections.emptyList();
-		}finally
-		{
-			httpTool.stopConnection();
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
-		}
-	}
+	
 	
 		public void clearLocalData()
 		{
@@ -336,16 +222,7 @@ public class PlaceMission
 		}
 
 		
-	/*	public Place getPlaceById(Context context,int placeId)
-		{
-			if (LocalStorageMission.getInstance().currentCityHasLocalData(context)){
-				return localPlaceManager.getPlaceById(placeId);
-			}
-			else{
-				return remotePlaceManager.getPlaceById(placeId);
-			}
-			
-		}*/
+	
 
 		
 		
@@ -462,55 +339,13 @@ public class PlaceMission
 			String deviceId = TravelApplication.getInstance().deviceId;
 			String url = String.format(ConstantField.PLACE_PAGE_LOAD_MORE_URL, objectType, cityId,subcategoryId,areaId,serviceId, priceRankId,sortType,start,count,ConstantField.LANG_HANS,deviceId);
 			Log.i(TAG, "<loadMorePlace> load place data from http ,url = "+url);
-			InputStream inputStream = null;
-			HttpTool httpTool = HttpTool.getInstance();
-			try
+			TravelResponse travelResponse = getPlaceDataByURL(url);
+			if(travelResponse != null)
 			{
-				inputStream = httpTool.sendGetRequest(url);
-				if(inputStream !=null)
-				{				
-					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-					if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
-						return Collections.emptyList();
-					}					
-					inputStream.close();
-					inputStream = null;	
-					List<Place> placeList = travelResponse.getPlaceList().getListList(); 
-					if(placeList!=null &&placeList.size()>0)
-					{
-						retPlaceList.addAll(placeList);	
-					}
-					return placeList;			
-				}
-				else{
-					return Collections.emptyList();
-				}
-				
-			} 
-			catch (Exception e)
-			{
-				Log.e(TAG, "<loadMorePlace> catch exception = "+e.toString(), e);
-				if (inputStream != null){
-					try
-					{
-						inputStream.close();
-					} catch (IOException e1)
-					{
-					}
-				}
-				return Collections.emptyList();
-			}finally
-			{
-				httpTool.stopConnection();
-				if (inputStream != null){
-					try
-					{
-						inputStream.close();
-					} catch (IOException e1)
-					{
-					}
-				}
+				return travelResponse.getPlaceList().getListList();
 			}
+				return null;
+			
 		}
 
 		
@@ -731,56 +566,9 @@ public class PlaceMission
 			String deviceId = TravelApplication.getInstance().deviceId;
 			String url = String.format(ConstantField.PLACE_PAGE_FILTER_URL, objectType, cityId,subcateType,areaId,serviceId, priceRankId,sortType,start,count,ConstantField.LANG_HANS,deviceId);
 			Log.i(TAG, "<filterPlace> load place data from http ,url = "+url);
-			InputStream inputStream = null;
-			HttpTool httpTool = HttpTool.getInstance();
-			try
-			{
-				inputStream = httpTool.sendGetRequest(url);
-				if(inputStream !=null)
-				{				
-					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-					if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
-						return Collections.emptyList();
-					}					
-					inputStream.close();
-					inputStream = null;	
-					totalCount = travelResponse.getTotalCount();
-					List<Place> placeList = travelResponse.getPlaceList().getListList(); 
-					if(placeList!=null &&placeList.size()>0)
-					{
-						retPlaceList.addAll(placeList);	
-					}
-					return placeList;			
-				}
-				else{
-					return Collections.emptyList();
-				}
-				
-			} 
-			catch (Exception e)
-			{
-				Log.e(TAG, "<filterPlace> catch exception = "+e.toString(), e);
-				if (inputStream != null){
-					try
-					{
-						inputStream.close();
-					} catch (IOException e1)
-					{
-					}
-				}
-				return Collections.emptyList();
-			}finally
-			{
-				httpTool.stopConnection();
-				if (inputStream != null){
-					try
-					{
-						inputStream.close();
-					} catch (IOException e1)
-					{
-					}
-				}
-			}
+			TravelResponse travelResponse = getPlaceDataByURL(url);
+			totalCount = travelResponse.getTotalCount();
+			return travelResponse.getPlaceList().getListList();
 		}
 
 		/**  
@@ -808,6 +596,19 @@ public class PlaceMission
 		{
 			String url = String.format(ConstantField.QUERY_OBJECT, ConstantField.PLACE, placeId, ConstantField.LANG_HANS);
 			Log.i(TAG, "<getPlaceByUrl> load place data from http ,url = "+url);
+			TravelResponse travelResponse = getPlaceDataByURL(url);
+			if(travelResponse != null)
+			{
+				return travelResponse.getPlace();
+			}
+			return null;
+		}
+		
+		
+		
+		private TravelResponse getPlaceDataByURL(String url)
+		{
+			Log.d(TAG, "<getPlaceDataByURL> by url = "+url);
 			InputStream inputStream = null;
 			HttpTool httpTool = HttpTool.getInstance();
 			try
@@ -816,12 +617,12 @@ public class PlaceMission
 				if(inputStream !=null)
 				{				
 					TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-					if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getPlaceList() == null){
+					if (travelResponse == null || travelResponse.getResultCode() != 0){
 						return null;
 					}					
 					inputStream.close();
 					inputStream = null;					
-					return travelResponse.getPlace();			
+					return travelResponse;			
 				}
 				else{
 					return null;
@@ -830,7 +631,7 @@ public class PlaceMission
 			} 
 			catch (Exception e)
 			{
-				Log.e(TAG, "<getPlaceByUrl> catch exception = "+e.toString(), e);
+				Log.e(TAG, "<getPlaceDataByURL> catch exception = "+e.toString(), e);
 				if (inputStream != null){
 					try
 					{
@@ -842,10 +643,6 @@ public class PlaceMission
 				return null;
 			}
 		}
-		
-		
-		
-		
 		
 		
 		

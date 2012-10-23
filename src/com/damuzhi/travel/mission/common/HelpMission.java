@@ -221,10 +221,11 @@ public class HelpMission
     		{
     			//File helpFile = new File(helpFolder ,HttpTool.getFileName(httpTool.getConnection(url), url));
     			File helpFile = new File(helpFolder ,ConstantField.HELP_ZIP_FILE);
-    			URL helpURL = new URL(url);
-    			int fileSize = httpTool.getConnection(url).getContentLength();
-    			inStream = httpTool.getDownloadInputStream(helpURL, 0, fileSize);
+    			//URL helpURL = new URL(url);
+    			//int fileSize = httpTool.getConnection(url).getContentLength();
+    			//inStream = httpTool.getDownloadInputStream(helpURL, 0, fileSize);
     			//long sdFreeM = FileUtil.freeSpaceOnSd();
+    			inStream = httpTool.sendGetRequest(url);
     			if(inStream !=null )
     			{
     				byte[] buffer = new byte[1024];
