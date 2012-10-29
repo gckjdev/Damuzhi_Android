@@ -744,7 +744,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 			}};
 			asyncTask.execute();*/
 			
-			BrowseHistoryMission.getInstance().addBrowseHistory(place);
+			//BrowseHistoryMission.getInstance().addBrowseHistory(place);
 	}
 	
 	
@@ -1077,7 +1077,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
         filterButton.setOnClickListener(sortOnClickListener);
     
        
-        sortAdapter=new SortAdapter(CommonPlaceActivity.this,sortTitleName);
+        sortAdapter=new SortAdapter(CommonPlaceActivity.this,sortTitleName,false);
         sortAdapter.setIsSelected(isSelected);
         sortList.setAdapter(sortAdapter);  
        

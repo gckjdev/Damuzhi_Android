@@ -49,12 +49,14 @@ public class WelcomeActivity extends MenuActivity
 {	
 	private static final String TAG = "WelcomeActivity";
 //	private LocationClient mLocClient;
+	private Bundle bundle;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.startup);	
+		bundle = getIntent().getBundleExtra("notify");
 		init();
 	}
 	
@@ -78,23 +80,26 @@ public class WelcomeActivity extends MenuActivity
 				}			
 				AppMission.getInstance().updateAppData(WelcomeActivity.this);
 				HelpMission.getInstance().updateHelpData(WelcomeActivity.this);     
-				//String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
+				String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
 				String channelId="000000";  
 		        try {  
 		               ApplicationInfo  ai = WelcomeActivity.this.getPackageManager().getApplicationInfo(WelcomeActivity.this.getPackageName(), PackageManager.GET_META_DATA);  
 		               Object value = ai.metaData.get("YOUMI_CHANNEL");  
 		               if (value != null) {  
-		            	   channelId= value.toString();  		          
+		            	   channelId= (String)value;  		          
 		               }  
 		           } catch (Exception e) {  
 		               //  
 		           }  
-				/*if(userId==null ||userId.equals(""))
+				if(userId==null ||userId.equals(""))
 				{
-					TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
+					Intent intent2 = new Intent();
+					intent2.setAction("com.damuzhi.travel.service.PullNotificationService");
+					startService(intent2);
+					/*TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
 					String deviceId = telephonyManager.getDeviceId();
-					UserMission.getInstance().register(deviceId,channelId,WelcomeActivity.this);
-				}*/
+					UserMission.getInstance().register(deviceId,channelId,WelcomeActivity.this);*/
+				}
 				TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
 				String deviceId = telephonyManager.getDeviceId();
 				CommonMission.getInstance().registerDevice(deviceId,channelId,WelcomeActivity.this);
@@ -105,14 +110,13 @@ public class WelcomeActivity extends MenuActivity
 			@Override
 			protected void onPostExecute(Void result)
 			{
-				super.onPostExecute(result);
-				Intent intent2 = new Intent();
-				intent2.setAction("com.damuzhi.travel.service.PullNotificationService");
-				startService(intent2);
-				
-				
+				super.onPostExecute(result);				
 				Intent intent = new Intent();
-				//intent.setClass(WelcomeActivity.this, IndexActivity.class);
+				if(bundle != null)
+				{
+					Log.d(TAG, "put notify bundle to main activity");
+					intent.putExtra("notify", bundle);
+				}
 				intent.setClass(WelcomeActivity.this, MainActivity.class);
 				startActivity(intent);
 				finish();		
@@ -152,7 +156,17 @@ public class WelcomeActivity extends MenuActivity
 	protected void onResume()
 	{
 		super.onResume();
-		Log.d(TAG, "onResume");
+	}
+
+
+
+
+	@Override
+	protected void onNewIntent(Intent intent)
+	{
+		// TODO Auto-generated method stub
+		super.onNewIntent(intent);
+		bundle = intent.getBundleExtra("notify");
 	}
 	
 	

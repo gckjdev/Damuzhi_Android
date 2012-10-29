@@ -774,6 +774,14 @@ public class AppManager
 
 	public int getDefaulCityId()
 	{
+		Log.d(TAG, "default city id = "+app.getCities(0).getCityId());
+		for(City city :app.getCitiesList())
+		{
+			if(city.getCityName().contains("香港"))
+			{
+				return city.getCityId();
+			}
+		}
 		return app.getCities(0).getCityId();
 	}
 

@@ -45,7 +45,7 @@ import com.damuzhi.travel.R;
 public class MoreActivity extends MenuActivity 
 {
 	private static final String TAG = "MoreActivity";
-	private ViewGroup openCtiyGroup,browseHistoryGroup,feedback,about,recommendedApp,updateVersion,showImage,nonMemberOrderMamger,orderManger,userInfo,myConcern;
+	private ViewGroup openCtiyGroup,feedback,about,recommendedApp,updateVersion,showImage,nonMemberOrderMamger,orderManger,userInfo,myConcern;
 	private ViewGroup shareToFriendGroup;
 	private TextView currentCityName;
 	private SlidButton slidButton;
@@ -79,7 +79,7 @@ public class MoreActivity extends MenuActivity
 			IS_SHOW_RECOMMENDED_APP = Integer.parseInt(IS_SHOW_APP_FLAG);
 		}		
 		openCtiyGroup = (ViewGroup) findViewById(R.id.open_city_group);
-		browseHistoryGroup = (ViewGroup) findViewById(R.id.browser_history_group);
+		//browseHistoryGroup = (ViewGroup) findViewById(R.id.browser_history_group);
 		feedback = (ViewGroup) findViewById(R.id.feedback_group);
 		about = (ViewGroup) findViewById(R.id.about_damuzhi_group);
 		recommendedApp = (ViewGroup) findViewById(R.id.recommended_app_group);
@@ -96,7 +96,7 @@ public class MoreActivity extends MenuActivity
 		shareToFriendGroup =  (ViewGroup) findViewById(R.id.share_to_friend_group);
 		currentCityName.setText(AppManager.getInstance().getCurrentCityName());
 		openCtiyGroup.setOnClickListener(openCityOnClickListener);
-		browseHistoryGroup.setOnClickListener(browseHistoryOnClickListener);
+		//browseHistoryGroup.setOnClickListener(browseHistoryOnClickListener);
 		feedback.setOnClickListener(feedbackOnClickListener);
 		about.setOnClickListener(aboutOnClickListener);
 		nonMemberOrderMamger.setOnClickListener(nonMemberOrderListOnClickListener);
@@ -151,7 +151,7 @@ public class MoreActivity extends MenuActivity
 	
 	
 	
-	private OnClickListener browseHistoryOnClickListener = new OnClickListener()
+	/*private OnClickListener browseHistoryOnClickListener = new OnClickListener()
 	{
 		
 		@Override
@@ -161,7 +161,7 @@ public class MoreActivity extends MenuActivity
 			intent.setClass(MoreActivity.this, BrowseHistoryActivity.class);
 			startActivity(intent);
 		}
-	};
+	};*/
 	
 	private OnClickListener myConcernOnClickListener = new OnClickListener()
 	{

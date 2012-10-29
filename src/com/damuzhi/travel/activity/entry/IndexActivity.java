@@ -165,11 +165,11 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		favoriteButton.setOnClickListener(favoriteOnClickListener);
 		//shareButton.setOnClickListener(shareOnClickListener);		
 		
-		checkData();
+		//checkData();
 	}
 
 	
-	private void checkDataVersion()
+	/*private void checkDataVersion()
 	{
 		AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this).create();
 		alertDialog.setMessage(IndexActivity.this.getString(R.string.data_has_new_version));
@@ -194,7 +194,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			}
 		} );
 		alertDialog.show();
-	}
+	}*/
 	
 	
 	@Override
@@ -203,19 +203,19 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		
 		super.onResume();
 		Log.d(TAG, "index activity onResume");
-		String cityName = AppManager.getInstance().getCurrentCityName();
+		/*String cityName = AppManager.getInstance().getCurrentCityName();
 		if(cityName == null||cityName.equals(""))
 		{
 			int defaultCityId = AppManager.getInstance().getDefaulCityId();
 			AppManager.getInstance().setCurrentCityId(defaultCityId);
 			cityName = AppManager.getInstance().getCurrentCityName();
-		}
+		}*/
 		//currentCityName.setText(cityName);
 		//checkData();
 	}
 	
 	
-	private void updateAppVersion()
+	/*private void updateAppVersion()
 	{
 		AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this).create();
 		alertDialog.setMessage(IndexActivity.this.getString(R.string.app_has_new_version));
@@ -276,7 +276,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		} );
 		alertDialog.show();
 	}
-	
+	*/
 	
 	@Override
 	public void onClick(View v)
@@ -423,7 +423,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	
 	
 	
-	private void checkData()
+	/*private void checkData()
 	{
 		AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
 		{
@@ -485,7 +485,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	
 		};
 		asyncTask.execute();
-	}
+	}*/
 	
 
 	

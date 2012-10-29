@@ -41,7 +41,7 @@ import com.damuzhi.travel.R;
 public class BrowseHistoryActivity extends MenuActivity
 {
 
-	private BrowseHistoryAdapter adapter;
+	/*private BrowseHistoryAdapter adapter;
 	private List<Place> list = new ArrayList<Place>();;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -131,5 +131,5 @@ public class BrowseHistoryActivity extends MenuActivity
 			
 		}
 	};
-
+*/
 }

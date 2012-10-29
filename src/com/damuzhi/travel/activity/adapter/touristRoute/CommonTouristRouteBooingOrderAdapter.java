@@ -93,14 +93,14 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 		routeName.setText(order.getRouteName());
 		routeId.setText(""+order.getRouteId());
 		departTime.setText(TravelUtil.getDepartTime((long)order.getDepartDate()));
-		Log.d(TAG, "depart date time = "+order.getDepartDate());
+	/*	Log.d(TAG, "depart date time = "+order.getDepartDate());
 		Log.d(TAG, "booking date time(int) = "+order.getBookDate());
-		Log.d(TAG, "booking date time(long) = "+(long)order.getBookDate());
+		Log.d(TAG, "booking date time(long) = "+(long)order.getBookDate());*/
 		bookingTimeDetail.setText(TravelUtil.getBookingDate((long)order.getBookDate()));
 		bookingNumber = String.format(ConstantField.BOOKING_NUMBER,order.getAdult(),order.getChildren() );
 		routeBookingNumber.setText(bookingNumber);
 		/*damuzhiPrice.setText(order.getPrice()+"("+order.getPriceStatus()+")");*/		 
-		damuzhiPrice.setText(order.getPrice());
+		damuzhiPrice.setText(order.getCurrency()+order.getPrice());
 		bookingStatus.setText(TravelUtil.getOrderStatus(order.getStatus()));
 		routeDetailButton.setTag(arg0);
 		routeDetailButton.setOnClickListener(routeDeatilOnClickListener);

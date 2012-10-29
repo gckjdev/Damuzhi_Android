@@ -91,8 +91,8 @@ public class CommonBookingRouteActivity extends Activity
 	private int filterFlag = 0; // 0=adult 1,=child,2=departplace
 	String token = "";
 	String loginId ="";
-	private String adultPrice = "";
-	private String childPrice = "";
+	private int adultPrice = 0;
+	private int childPrice = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -147,7 +147,7 @@ public class CommonBookingRouteActivity extends Activity
 		 * String departCity = AppManager.getInstance().getcityNameById(localRoute.getCityId()); departCityTextView.setText(departCity);
 		 */
 		// String price = AppManager.getInstance().getSymbolByCityId(localRoute.getCityId())+localRoute.getPrice();
-		priceTextView.setText(localRoute.getPrice());
+		priceTextView.setText(localRoute.getCurrency()+localRoute.getPrice());
 		Spanned notice = Html.fromHtml("<font>" + getString(R.string.shuo_ming)+ "</font>" + "<br>"+ getString(R.string.booking_notice_content) + "</br>");
 		bookingNoticeTextView.setText(notice);
 		// departPlaceButton.setOnClickListener(departPlaceOnClickListener);
@@ -333,10 +333,9 @@ public class CommonBookingRouteActivity extends Activity
 		titleTextView.setText(filterTitle);
 		cancelButton.setOnClickListener(cancelSelectOnClickListener);
 
-		sortAdapter = new SortAdapter(CommonBookingRouteActivity.this, sortTitleName);
+		sortAdapter = new SortAdapter(CommonBookingRouteActivity.this, sortTitleName,true);
 		sortAdapter.setIsSelected(isSelected);
 		sortList.setAdapter(sortAdapter);
-
 		sortAdapter.notifyDataSetChanged();
 		sortList.setItemsCanFocus(false);
 		sortList.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -345,8 +344,7 @@ public class CommonBookingRouteActivity extends Activity
 		filterWindow = new PopupWindow(popupView,android.view.ViewGroup.LayoutParams.FILL_PARENT,android.view.ViewGroup.LayoutParams.FILL_PARENT, true);
 
 		// IsSelectedTemp = sortAdapter.getIsSelected();
-		filterWindow.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.all_page_bg2));
+		filterWindow.setBackgroundDrawable(getResources().getDrawable(R.drawable.all_page_bg2));
 		filterWindow.setFocusable(true);
 		filterWindow.update();
 		filterWindow.showAtLocation(parent, Gravity.TOP, 0, 0);
@@ -381,42 +379,22 @@ public class CommonBookingRouteActivity extends Activity
 				adultSelected.put(position, vHollder.cBox.isChecked());
 				sortAdapter.setIsSelected(adultSelected);
 				adultNumberButton.setText(adultNum[position]);
+				adultNumberButton.setTextColor(getResources().getColor(R.color.little_blue));
 				adultSelectedPosition = position;
 				
-				if(childPrice != null&&!childPrice.equals(""))
-				{
-					price = childSelectedPosition*Integer.parseInt(childPrice.substring(1));
-				}
-				if(adultPrice!= null&&!adultPrice.equals(""))
-				{
-					price =  price +(adultSelectedPosition+1)*Integer.parseInt(adultPrice.substring(1));
-					priceTextView.setText(adultPrice.substring(0, 1)+price);
-				}
+			
 			} else
 			{
 				childSelected.clear();
 				childSelected.put(position, vHollder.cBox.isChecked());
 				sortAdapter.setIsSelected(childSelected);
 				childrenNumberButton.setText(childNum[position]);
-				childSelectedPosition = position;
-				if(childPrice != null && !childPrice.equals(""))
-				{
-					price = childSelectedPosition*Integer.parseInt(childPrice.substring(1));
-				}
-				if(adultPrice != null && !adultPrice.equals(""))
-				{
-					price =  price +(adultSelectedPosition+1)*Integer.parseInt(adultPrice.substring(1));
-					priceTextView.setText(adultPrice.substring(0, 1)+price);
-				}
-				
-
-				
-			}/*
-			 * else { departPlaceSelected.clear(); departPlaceSelected.put(position, vHollder.cBox.isChecked()); sortAdapter.setIsSelected(departPlaceSelected); departPlaceButton.setText(departPlaceName[position]); departPlaceSelectedPosition = position; }
-			 */
+				childrenNumberButton.setTextColor(getResources().getColor(R.color.little_blue));
+				childSelectedPosition = position;			
+			}
+			price =  price +(adultSelectedPosition+1)*adultPrice+childSelectedPosition*childPrice;
+			priceTextView.setText(localRoute.getCurrency()+price);
 			sortAdapter.notifyDataSetChanged();
-			// departPlaceButton.setText(departPlaceName[position]);
-
 			if (filterWindow != null)
 			{
 				filterWindow.dismiss();
@@ -433,7 +411,6 @@ public class CommonBookingRouteActivity extends Activity
 			Intent intent = new Intent();
 			intent.putExtra("localRouteTime", localRoute.toByteArray());
 			intent.setClass(CommonBookingRouteActivity.this, CalendarActivity.class);
-			// startActivity(intent);
 			startActivityForResult(intent, 0);
 		}
 	};
@@ -499,21 +476,15 @@ public class CommonBookingRouteActivity extends Activity
 		case RESULT_OK:
 			Bundle b = data.getExtras();
 			departTime = b.getString("date");
-			adultPrice = b.getString("adult");
-			childPrice = b.getString("child");
+			adultPrice = b.getInt("adult",0);
+			childPrice = b.getInt("child",0);
 			Log.d(TAG, "booking order adult price = "+adultPrice);
 			Log.d(TAG, "booking order child price = "+childPrice);
 			departTimeButton.setText(departTime);
+			departTimeButton.setTextColor(getResources().getColor(R.color.little_blue));
 			int price = 0;
-			if(childPrice != null&&!childPrice.equals(""))
-			{
-				price = childSelectedPosition*Integer.parseInt(childPrice.substring(1));
-			}
-			if(adultPrice!= null&&!adultPrice.equals(""))
-			{
-				price =  price +(adultSelectedPosition+1)*Integer.parseInt(adultPrice.substring(1));
-				priceTextView.setText(adultPrice.substring(0, 1)+price);
-			}
+			price =  price +(adultSelectedPosition+1)*adultPrice+childSelectedPosition*childPrice;
+			priceTextView.setText(localRoute.getCurrency()+price);
 			break;
 		default:
 			break;

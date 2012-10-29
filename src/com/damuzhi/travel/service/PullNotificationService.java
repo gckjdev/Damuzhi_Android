@@ -35,10 +35,12 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.entry.WelcomeActivity;
@@ -63,6 +65,7 @@ public class PullNotificationService extends Service
 	private Notification mNotification;
 	private NotificationManager mManager;
 	private String url ="";
+	private JSONObject jsonObject;
 	@Override
 	public IBinder onBind(Intent arg0)
 	{
@@ -76,7 +79,6 @@ public class PullNotificationService extends Service
 		String deviceId = TravelApplication.getInstance().getDeviceId();
 		url = String.format(ConstantField.ANDROID_NOTIFY_URL, deviceId);
 		initNotifiManager();
-		//pullNotofication();
 	}
 
 	private void initNotifiManager()
@@ -94,27 +96,32 @@ public class PullNotificationService extends Service
 	private void launchNotification(String title,String content)
 	{
 		mNotification.when = System.currentTimeMillis();
-		Intent i = new Intent(this, WelcomeActivity.class);
+		Intent i = new Intent();
+		
+			i.setClass(this, MainActivity.class);
+		
+		// i = new Intent(this, WelcomeActivity.class);
+		//Intent i = new Intent(this, MainActivity.class);
+		Bundle bundle = new Bundle();
+		if(jsonObject != null)
+		{
+			try
+			{
+				bundle.putString("title", jsonObject.getString("Title"));
+				bundle.putString("content", jsonObject.getString("Content"));
+				bundle.putString("type", jsonObject.getString("Type"));
+			} catch (JSONException e)
+			{
+				e.printStackTrace();
+			}
+		}
+		i.putExtra("notify", bundle);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, i,Intent.FLAG_ACTIVITY_CLEAR_TOP);		
 		mNotification.setLatestEventInfo(this,title, content, pendingIntent); 
 		mManager.notify(TYPE_DEFAULT, mNotification);
 	}
 
-	public static void startAction(Context ctx)
-	{
-		Intent i = new Intent();
-		i.setClass(ctx, PullNotificationService.class);
-		i.setAction(ACTION_START);
-		ctx.startService(i);
-	}
-
-	public static void stopAction(Context ctx)
-	{
-		Intent i = new Intent();
-		i.setClass(ctx, PullNotificationService.class);
-		i.setAction(ACTION_STOP);
-		ctx.startService(i);
-	}
+	
 
 	@Override
 	public void onStart(Intent intent, int startId)
@@ -145,6 +152,7 @@ public class PullNotificationService extends Service
 							if(object.has("Title"))
 							{
 								Log.d(TAG, "launch Notification ....");
+								jsonObject = object;
 								launchNotification(object.get("Title").toString(),object.get("Content").toString());
 							}
 							
@@ -225,11 +233,12 @@ public class PullNotificationService extends Service
 		pullNotofication();
 		Log.d(TAG, "pull notify info ......");
 		long now = System.currentTimeMillis();
-		long updateMilis = 24*60 * 1000;
-		//long updateMilis = 20 * 1000;
+		//long updateMilis = 24*60 * 1000+now;
+		//long updateMilis = 24*60*60*1000+now;
+		long updateMilis = 24*60*60*1000+now;
 		PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent, 0);		
 		AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-		alarmManager.set(AlarmManager.RTC_WAKEUP, now+updateMilis, pendingIntent);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, updateMilis, pendingIntent);
 		stopSelf();
 		return START_STICKY;
 	}

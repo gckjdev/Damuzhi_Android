@@ -187,6 +187,7 @@ public class CommonLocalTripsDetailActivity extends Activity
 			routeNameTextView = (TextView) findViewById(R.id.route_name);
 			agencyNameTextView = (TextView) findViewById(R.id.agency_name);
 			routeNameTextView.setText(localRoute.getName());
+			routeNameTextView.setSelected(true);
 			routeIdTextView.setText(num+localRoute.getRouteId());
 			agencyNameTextView.setText(AppManager.getInstance().getAgencyShortNameById(localRoute.getAgencyId()));
 			agencyNameTextView.setSelected(true);
@@ -197,7 +198,7 @@ public class CommonLocalTripsDetailActivity extends Activity
 			routeFeedBackTextView = (TextView) findViewById(R.id.route_feedback_text);
 			routePriceTextView = (TextView) findViewById(R.id.route_price);
 			bookOrderImageView = (Button) findViewById(R.id.book_order);
-			routePriceTextView.setText(localRoute.getPrice());		
+			routePriceTextView.setText(localRoute.getCurrency()+localRoute.getPrice());		
 			routeIntroTextView.setTextColor(getResources().getColor(R.color.white));
 			loadingBar = (ProgressBar) findViewById(R.id.loading_progress);
 			routeDetailWebView = (WebView) findViewById(R.id.route_detail_webview);

@@ -62,7 +62,7 @@ public class CommonItemizedOverlay<Item extends OverlayItem> extends BalloonItem
 		Place place = item.getPlace();
 		if(place !=null)
 		{
-			BrowseHistoryMission.getInstance().addBrowseHistory(place);
+			//BrowseHistoryMission.getInstance().addBrowseHistory(place);
 			Intent intent = new Intent();
 			intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 			Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());

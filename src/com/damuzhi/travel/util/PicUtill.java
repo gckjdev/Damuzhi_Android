@@ -11,6 +11,9 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import com.damuzhi.travel.network.HttpTool;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -73,11 +76,12 @@ public class PicUtill {
 	public static Bitmap getbitmap(String imageUri)  {
 		Bitmap bitmap = null;
 		try {
-			URL myFileUrl = new URL(imageUri);
+			/*URL myFileUrl = new URL(imageUri);
 			HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
 			conn.setDoInput(true);
 			conn.connect();
-			InputStream is = conn.getInputStream();
+			InputStream is = conn.getInputStream();*/
+			InputStream is = HttpTool.getInstance().sendGetRequest(imageUri);
 			BitmapFactory.Options options = new BitmapFactory.Options();  
 			options.inPurgeable = true;
 			options.inJustDecodeBounds = false;
@@ -102,6 +106,9 @@ public class PicUtill {
 			Log.e(TAG, "<getbitmap> but catch exception :"+e.toString(),e);
 			return null;
 						
+		}finally
+		{
+			HttpTool.getInstance().stopConnection();
 		}
 		return bitmap;
 	}

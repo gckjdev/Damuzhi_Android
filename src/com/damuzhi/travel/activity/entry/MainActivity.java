@@ -1,5 +1,9 @@
 package com.damuzhi.travel.activity.entry;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
@@ -11,10 +15,17 @@ import com.damuzhi.travel.activity.more.MoreActivity;
 import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsActivity;
+import com.damuzhi.travel.db.DownloadPreference;
+import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
+import com.damuzhi.travel.mission.more.DownloadMission;
+import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.protos.AppProtos.City;
+import com.damuzhi.travel.util.TravelUtil;
 import com.readystatesoftware.maps.TapControlledMapView;
+import com.umeng.analytics.MobclickAgent;
 
 import android.R.integer;
 import android.app.Activity;
@@ -23,8 +34,12 @@ import android.app.Application;
 import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Looper;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +47,10 @@ import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TextView;
@@ -52,6 +69,11 @@ public class MainActivity extends TabActivity {
 	private TextView titleTextView;
 	boolean flag = false;//flag go to OpenCityActivity
 	private ImageView moveFlag;
+	private AlertDialog alertDialog;
+	private Bundle bundle;
+	//private PopupWindow alertPopupWindow;
+	private View alertDialogView;
+	private int lastNotifyId = -100;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,6 +91,20 @@ public class MainActivity extends TabActivity {
 		tapTopGroup = (ViewGroup) findViewById(R.id.tab_top);
 		tapTopGroup.setOnClickListener(tapTopOnClickListener);
 		mTabHost.setOnTabChangedListener(onTabChangeListener);
+		
+		bundle = getIntent().getBundleExtra("notify");
+		/*if(bundle != null)
+		{
+			Log.d(TAG, "get notify bundle onNewIntent");
+			String title = bundle.getString("title");
+			String content = bundle.getString("content");
+			String type = bundle.getString("Type");
+			Log.d(TAG, "notify title = "+title);
+			Log.d(TAG, "notify content = "+content);
+			Log.d(TAG, "notify type = "+type);
+		}*/
+		
+		checkData();
 	}
 	
 	
@@ -179,6 +215,28 @@ public class MainActivity extends TabActivity {
 			TravelApplication.getInstance().setCityFlag(false);
 		}
 		
+		
+		if(bundle != null)
+		{
+			Log.d(TAG, "get notify bundle onNewIntent");
+			String title = bundle.getString("title");
+			String content = bundle.getString("content");
+			String type = bundle.getString("Type");
+			int notifyId = 0;
+			if(type != null &&!type.equals(""))
+			{
+				notifyId = Integer.parseInt(type);
+			}
+			/*Log.d(TAG, "notify title = "+title);
+			Log.d(TAG, "notify content = "+content);
+			Log.d(TAG, "notify type = "+type);*/
+			if(lastNotifyId !=notifyId)
+			{
+				lastNotifyId = notifyId;
+				alertWindow(notifyId, title, content);
+			}
+			
+		}
 		
 	}
 	
@@ -293,7 +351,264 @@ public class MainActivity extends TabActivity {
         return super.dispatchKeyEvent(event);  
     }  
 	
-	
-	
+    private void checkData()
+	{
+		AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
+		{
 
+			@Override
+			protected Void doInBackground(Void... params)
+			{
+				
+				float remoteVersion = MoreMission.getInstance().getNewVersion();
+				float localVersion = TravelUtil.getVersionName(MainActivity.this);
+				Log.d(TAG, "app Version = "+localVersion);
+				if(remoteVersion>localVersion)
+				{
+					Looper.prepare();
+					updateAppVersion();
+					Looper.loop();					
+				}	
+				City city = AppManager.getInstance().getCityByCityId(AppManager.getInstance().getCurrentCityId());
+				String downloadURL =null;
+				if(city != null &&city.hasDownloadURL())
+				{	
+					downloadURL = city.getDownloadURL();
+					Map<Integer, Integer> unfinishInstallCity = DownloadPreference.getAllUnfinishInstall(MainActivity.this);
+					Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(MainActivity.this);
+					Map<Integer, String> newVersionCityData = TravelApplication.getInstance().getNewVersionCityData();
+					List<Integer> installedCityList = new ArrayList<Integer>();
+					installedCityList.clear();
+					installedCityList.addAll(installCityData.keySet());
+					if(installCityData != null&&installCityData.size()>0)
+					{
+						if(newVersionCityData == null)
+						{
+							newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
+							TravelApplication.getInstance().setNewVersionCityData(newVersionCityData);
+						}
+						
+					}
+					int currentCityId = AppManager.getInstance().getCurrentCityId();
+					if(downloadURL != null&&!downloadURL.equals(""))
+					{
+						if(newVersionCityData!= null&&newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
+						{
+							Looper.prepare();
+							checkDataVersion();
+							Looper.loop();
+						}
+						if(unfinishInstallCity.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
+						{
+							Looper.prepare();
+							installData();
+							Looper.loop();
+						}
+					}
+				}
+				return null;
+			}
+
+		
+	
+		};
+		asyncTask.execute();
+	}
+	
+    
+    private void checkDataVersion()
+	{
+		alertWindow(3, "", "");
+	}
+    
+    
+    private void updateAppVersion()
+	{
+    	alertWindow(2, "", "");
+	}
+	
+	
+	
+	
+	
+	
+	private void installData()
+	{
+		
+		alertWindow(4, "", "");
+	}
+
+	
+	private void alertWindow(int infoType,String title,String content)
+	{
+		alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+		alertDialogView = getLayoutInflater().inflate(R.layout.alert_dialog_2, null);
+		TextView alertTitleTextView = (TextView) alertDialogView.findViewById(R.id.alert_dialog_title);
+		TextView titleTextView = (TextView) alertDialogView.findViewById(R.id.title);
+		TextView contentTextView = (TextView) alertDialogView.findViewById(R.id.content);
+		Button positiveButton = (Button) alertDialogView.findViewById(R.id.positive_button);
+		Button negativeButton = (Button) alertDialogView.findViewById(R.id.negative_button);
+		titleTextView.setText(title);
+		contentTextView.setText(content);
+		negativeButton.setOnClickListener(negativeButtonClickListener);
+		
+		switch (infoType)
+		{
+		case 1:
+			alertTitleTextView.setText(getString(R.string.message_tips));
+			positiveButton.setVisibility(View.GONE);
+			break;
+		case 2:
+			alertTitleTextView.setText(getString(R.string.new_version_tips));
+			negativeButton.setText(getString(R.string.update_later));
+			positiveButton.setOnClickListener(updateVersionOnClickListener);
+			break;
+		case 3:
+			alertTitleTextView.setText(getString(R.string.new_city_data_tips));
+			negativeButton.setText(getString(R.string.update_later));
+			positiveButton.setOnClickListener(updateCityDataClickListener);
+			break;
+		case 4:
+			alertTitleTextView.setText(getString(R.string.install_data_unfinish));
+			positiveButton.setText(getString(R.string.install_now));
+			negativeButton.setText(getString(R.string.install_later));
+			positiveButton.setOnClickListener(installClickListener);
+			break;
+		default:
+			alertTitleTextView.setText(getString(R.string.message_tips));
+			positiveButton.setVisibility(View.GONE);
+			break;
+		}
+		//alertDialog.setView(alertDialogView);
+		alertDialog.setView(alertDialogView);
+		//alertDialog.setContentView(alertDialogView);
+		alertDialog.show();
+		/*alertPopupWindow = new PopupWindow(alertDialogView,android.view.ViewGroup.LayoutParams.FILL_PARENT,android.view.ViewGroup.LayoutParams.FILL_PARENT, true);
+
+		// IsSelectedTemp = sortAdapter.getIsSelected();
+		alertPopupWindow.setBackgroundDrawable(getResources().getDrawable(
+				R.drawable.all_page_bg2));
+		alertPopupWindow.setFocusable(true);
+		alertPopupWindow.update();
+		alertPopupWindow.showAtLocation(getCurrentFocus(), Gravity.TOP, 0, 0);*/
+	}
+	
+	
+	private OnClickListener updateVersionOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Uri uri = Uri.parse(MobclickAgent.getConfigParams(MainActivity.this, ConstantField.U_MENG_DOWNLOAD_CONFIGURE));
+			Log.d(TAG, "<updateAppVersion> uri = "+uri);
+			if(uri!=null&&!uri.equals(""))
+			{
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			}
+			/*if(alertPopupWindow != null)
+			{
+				alertPopupWindow.dismiss();
+			}*/
+			if(alertDialog != null &&alertDialog.isShowing())
+			{
+				alertDialog.cancel();
+			}
+		}
+	};
+	
+	
+	private OnClickListener updateCityDataClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.putExtra("updateData", 1);
+			intent.setClass(MainActivity.this, OpenCityActivity.class);
+			startActivity(intent);	
+			/*if(alertPopupWindow != null)
+			{
+				alertPopupWindow.dismiss();
+			}*/
+			if(alertDialog != null &&alertDialog.isShowing())
+			{
+				alertDialog.cancel();
+			}
+		}
+	};
+	
+	private OnClickListener negativeButtonClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			if(alertDialog != null &&alertDialog.isShowing())
+			{
+				alertDialog.cancel();
+			}
+			/*if(alertPopupWindow != null)
+			{
+				alertPopupWindow.dismiss();
+			}*/
+			if(alertDialog != null &&alertDialog.isShowing())
+			{
+				alertDialog.cancel();
+			}
+		}
+	};
+	
+	private OnClickListener installClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Intent intent = new Intent();
+			intent.putExtra("updateData", 0);
+			intent.setClass(MainActivity.this, OpenCityActivity.class);
+			startActivity(intent);
+			/*if(alertPopupWindow != null)
+			{
+				alertPopupWindow.dismiss();
+			}*/
+			if(alertDialog != null &&alertDialog.isShowing())
+			{
+				alertDialog.cancel();
+			}
+			
+		}
+	};
+	@Override
+	protected void onNewIntent(Intent intent)
+	{
+		super.onNewIntent(intent);
+		Log.d(TAG, "onNewIntent");
+		bundle = intent.getBundleExtra("notify");
+		/*if(bundle != null)
+		{
+			Log.d(TAG, "get notify bundle onNewIntent");
+			String title = bundle.getString("title");
+			String content = bundle.getString("content");
+			String type = bundle.getString("Type");
+			int notifyType = 0;
+			if(type != null &&!type.equals(""))
+			{
+				notifyType = Integer.parseInt(type);
+			}
+			Log.d(TAG, "notify title = "+title);
+			Log.d(TAG, "notify content = "+content);
+			Log.d(TAG, "notify type = "+type);
+			alertWindow(notifyType, title, content);
+		}*/
+		
+	}
+	
+	
+	
+	
 }
+

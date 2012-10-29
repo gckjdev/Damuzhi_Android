@@ -61,7 +61,7 @@
             android:id="@+id/open_city_group"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_top" >
+            android:background="@drawable/more_top_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
             android:id="@+id/user_info"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_middle" 
+            android:background="@drawable/more_middle_button" 
             android:visibility="gone">
             <TextView
                 android:layout_width="wrap_content"
@@ -118,7 +118,7 @@
             android:id="@+id/non_member_order_list"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_middle" >
+            android:background="@drawable/more_middle_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -141,7 +141,7 @@
             android:id="@+id/order_mamger"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_middle" 
+            android:background="@drawable/more_middle_button" 
             android:visibility="gone">
             <TextView
                 android:layout_width="wrap_content"
@@ -161,7 +161,30 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/go_btn" />
         </RelativeLayout>
-        <RelativeLayout
+         <RelativeLayout
+            android:id="@+id/about_damuzhi_group"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/more_middle_button" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:paddingLeft="40dp"
+                android:text="@string/app_help"
+                android:textColor="@color/place_price_color"
+                android:textSize="15.0sp" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:paddingRight="15dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/go_btn" />
+        </RelativeLayout>
+        <!-- <RelativeLayout
             android:id="@+id/browser_history_group"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
@@ -183,12 +206,12 @@
                 android:paddingRight="15dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/go_btn" />
-        </RelativeLayout>
+        </RelativeLayout> -->
  		<RelativeLayout
             android:id="@+id/my_concern_group"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_middle" >
+            android:background="@drawable/more_middle_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -211,7 +234,7 @@
             android:id="@+id/feedback_group"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_middle" >
+            android:background="@drawable/more_middle_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -234,7 +257,7 @@
             android:id="@+id/update_version_group"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_middle" >
+            android:background="@drawable/more_middle_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -254,33 +277,10 @@
                 android:src="@drawable/go_btn" />
         </RelativeLayout>
         <RelativeLayout
-            android:id="@+id/about_damuzhi_group"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:background="@drawable/more_middle" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:gravity="left"
-                android:paddingLeft="40dp"
-                android:text="@string/more_about_damuzhi"
-                android:textColor="@color/place_price_color"
-                android:textSize="15.0sp" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:paddingRight="15dp"
-                android:scaleType="fitCenter"
-                android:src="@drawable/go_btn" />
-        </RelativeLayout>
-        <RelativeLayout
             android:id="@+id/share_to_friend_group"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_middle" >
+            android:background="@drawable/more_middle_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -303,7 +303,7 @@
             android:id="@+id/show_image_group"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_middle" >
+            android:background="@drawable/more_middle_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -318,15 +318,15 @@
                 android:layout_width="100dp"
                 android:layout_height="fill_parent"
                 android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="23dp" />
+                android:layout_marginTop="27dp"
+                android:layout_centerVertical="true"/>
         </RelativeLayout>
         <RelativeLayout
             android:id="@+id/recommended_app_group"
             android:layout_marginBottom="30dp"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:background="@drawable/more_bottom" >
+            android:background="@drawable/more_bottom_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

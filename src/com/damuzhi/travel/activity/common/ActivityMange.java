@@ -97,4 +97,15 @@ public class ActivityMange {
 			System.exit(0);
 		} catch (Exception e) {	}
 	}
+	
+	
+	public int getActivitySize()
+	{
+		if(activityStack != null)
+		{
+			return activityStack.size();
+		}
+		return 0;
+	}
+	
 }

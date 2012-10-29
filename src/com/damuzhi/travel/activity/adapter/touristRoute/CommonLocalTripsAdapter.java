@@ -163,9 +163,10 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 		/*String uri = TravelUtil.getImageUrl(AppManager.getInstance().getCurrentCityId(), url);
 		imageLoader.displayImage(uri, imageView,options);*/
 		String days = TravelUtil.getRouteDays(localRoute.getDays());
-		Spanned price = Html.fromHtml("<font color='#ff6305'>"+ localRoute.getPrice() + "</FONT>"+"<font>"+"起"+ "</FONT>");
+		Spanned price = Html.fromHtml("<font color='#ff6305'>"+ localRoute.getCurrency()+localRoute.getPrice() + "</FONT>"+"<font>"+"起"+ "</FONT>");
 		routeDays.setText(days);
 		routeName.setText(localRoute.getName());
+		routeName.setSelected(true);
 		routePrice.setText(price);
 		routeTour.setText(localRoute.getTour());
 		deleteButton.setTag(position);

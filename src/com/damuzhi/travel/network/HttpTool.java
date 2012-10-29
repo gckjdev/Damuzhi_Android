@@ -42,9 +42,10 @@ public class HttpTool
 {
 
 	private static final String TAG = "HttpTool";
-	private  HttpURLConnection urlConnection = null;
+	//private  HttpURLConnection urlConnection = null;
+	private HttpClient httpClient;
 	//private static AsyncHttpClient client = new AsyncHttpClient();
-	byte[] data ;
+	//byte[] data ;
 	
 	
 	private static HttpTool instance = null;
@@ -90,7 +91,7 @@ public class HttpTool
 	private InputStream executeHttpClient(String url) throws Exception
 	{
 		BufferedInputStream inputStream = null;
-		HttpClient httpClient = TravelApplication.getInstance().getHttpClient();
+		httpClient = TravelApplication.getInstance().getHttpClient();
 		HttpGet request = new HttpGet();
 		request.setURI(URI.create(url));
 		HttpResponse response = httpClient.execute(request);
@@ -136,45 +137,17 @@ public class HttpTool
 //	
 	public   void stopConnection()
 	{
-		if(urlConnection != null)
+		/*if(urlConnection != null)
 		{
 			urlConnection.disconnect();
-		}
-	}
-	
-	/*public static Map<String, String> getHttpResponseHeader(HttpURLConnection http) {
-		Map<String, String> header = new LinkedHashMap<String, String>();
-		for (int i = 0;; i++) {
-			String mine = http.getHeaderField(i);
-			if (mine == null) break;
-			header.put(http.getHeaderFieldKey(i), mine);
-		}
-		return header;
 		}*/
-	
-	
-	
-	
-	
-	/*public static String getFileName(String downloadURL) {
-		HttpTool httpTool = new HttpTool();
-		URLConnection conn = httpTool.getConnection(downloadURL);
-		String filename = downloadURL.substring(downloadURL.lastIndexOf('/') + 1);
-		if(filename==null || "".equals(filename.trim())){
-			for (int i = 0;; i++) {
-				String mine = conn.getHeaderField(i);
-				if (mine == null) break;
-				if("content-disposition".equals(conn.getHeaderFieldKey(i).toLowerCase())){
-					Matcher m = Pattern.compile(".*filename=(.*)").matcher(mine.toLowerCase());
-					if(m.find()) 
-					return m.group(1);
-				}
-			}
-			filename = UUID.randomUUID()+ ".temp";
-		}
-		return filename;
+		/*if(httpClient != null)
+		{
+			httpClient.getConnectionManager().shutdown();
+		}*/
 	}
-	*/
+	
+	
 	
 	
 	
@@ -403,4 +376,39 @@ public class HttpTool
 			}
 	}
 	*/
+	
+	
+	/*public static Map<String, String> getHttpResponseHeader(HttpURLConnection http) {
+	Map<String, String> header = new LinkedHashMap<String, String>();
+	for (int i = 0;; i++) {
+		String mine = http.getHeaderField(i);
+		if (mine == null) break;
+		header.put(http.getHeaderFieldKey(i), mine);
+	}
+	return header;
+	}*/
+
+
+
+
+
+/*public static String getFileName(String downloadURL) {
+	HttpTool httpTool = new HttpTool();
+	URLConnection conn = httpTool.getConnection(downloadURL);
+	String filename = downloadURL.substring(downloadURL.lastIndexOf('/') + 1);
+	if(filename==null || "".equals(filename.trim())){
+		for (int i = 0;; i++) {
+			String mine = conn.getHeaderField(i);
+			if (mine == null) break;
+			if("content-disposition".equals(conn.getHeaderFieldKey(i).toLowerCase())){
+				Matcher m = Pattern.compile(".*filename=(.*)").matcher(mine.toLowerCase());
+				if(m.find()) 
+				return m.group(1);
+			}
+		}
+		filename = UUID.randomUUID()+ ".temp";
+	}
+	return filename;
+}
+*/
 }

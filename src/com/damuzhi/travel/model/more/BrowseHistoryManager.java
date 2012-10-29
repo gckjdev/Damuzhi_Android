@@ -29,7 +29,7 @@ import com.damuzhi.travel.util.FileUtil;
 	{
 		private static final String TAG = "BrowseHistoryManager";
 	
-		public boolean addHistory(Place place)
+		/*public boolean addHistory(Place place)
 		{
 			boolean result = false;
 			File tempFile = new File(ConstantField.APP_DATA_PATH);       
@@ -150,5 +150,5 @@ import com.damuzhi.travel.util.FileUtil;
 	{
 		FileUtil.deleteFile(ConstantField.HISTORY_FILE_PATH);
 		
-	}
+	}*/
 }

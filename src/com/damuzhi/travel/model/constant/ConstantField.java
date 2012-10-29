@@ -63,7 +63,7 @@ public class ConstantField
 	
 	/* http data url */
 	public static final String FORMAT_HTTP_URL = "http://api.trip8888.com/";
-	public static final String TEST_HTTP_URL = "http://59.34.17.68:8012/";
+	//public static final String TEST_HTTP_URL = "http://59.34.17.68:8012/";
 	
 	
 	public static final String QUERY_OBJECT = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";

@@ -34,13 +34,14 @@ public class SortAdapter extends BaseAdapter
 	private LayoutInflater mInflater;   
 	private String[] mData;  
     private HashMap<Integer, Boolean> isSelected;  
-  
-   
-	public SortAdapter(Context context,
-			String[] filterTitleList)
+    private boolean isChangeColor = false;
+    private Context context;
+	public SortAdapter(Context context,String[] filterTitleList,boolean isChangeColor)
 	{
+		this.context = context;
 		mInflater = LayoutInflater.from(context);
 		mData = filterTitleList;
+		this.isChangeColor = isChangeColor;
 	}
 
 
@@ -82,6 +83,10 @@ public class SortAdapter extends BaseAdapter
 		}else
         {
         	convertView.setBackgroundResource(R.drawable.select_bg_center);
+        }
+        if(isChangeColor)
+        {
+        	holder.title.setTextColor(context.getResources().getColor(R.color.little_blue));
         }
         holder.title.setText(mData[position]);  
         if(isSelected!=null && isSelected.size()>0&&isSelected.containsKey(position))

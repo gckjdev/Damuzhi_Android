@@ -17,6 +17,10 @@
     <string name="not_data">暂时没有更多数据！</string>
     <string name="city_guide">城市指南 - </string>
     <string name="local_route">本地游 - </string>
+    <string name="app_help">应用帮助</string>
+    <string name="new_version_tips">新版本升级提示</string>
+    <string name="new_city_data_tips">新数据包升级提示</string>
+    <string name="message_tips">消息通知</string>
     <!-- indexInfo-->
     <string name="index">首页</string>
 	<string name="damuzhi">大拇指旅行 - </string>

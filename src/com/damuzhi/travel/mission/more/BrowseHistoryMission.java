@@ -22,7 +22,7 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 
 public class BrowseHistoryMission
 {
-	private static final String TAG = "BrowseHistoryMission";
+	/*private static final String TAG = "BrowseHistoryMission";
 	private static BrowseHistoryMission instance = null;
 	private static BrowseHistoryManager historyManager = new BrowseHistoryManager();
 	private BrowseHistoryMission() {
@@ -52,7 +52,7 @@ public class BrowseHistoryMission
 	public void clearHistory()
 	{
 		historyManager.clearHistory();
-	}
+	}*/
 
 	
 }

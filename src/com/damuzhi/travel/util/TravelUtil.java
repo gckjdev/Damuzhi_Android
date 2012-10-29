@@ -865,17 +865,25 @@ public class TravelUtil
 	public static String getDateShortString(long time ) {
 		Calendar date = Calendar.getInstance();
 		date.setTimeInMillis(time);
-		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd ");
+		SimpleDateFormat dateformat=new SimpleDateFormat("yyyyMMdd");
 		String dateString =dateformat.format(date.getTime());
 		return dateString;
 	}
+	
+	/*public static String getDateShortString(long time ) {
+		Calendar date = Calendar.getInstance();
+		date.setTimeInMillis(time);
+		SimpleDateFormat dateformat=new SimpleDateFormat("yyyyMMdd ");
+		String dateString =dateformat.format(date.getTime());
+		return dateString;
+	}*/
 	
 	public static String getDate(long time) {
 		Calendar date = Calendar.getInstance();
 		time = time*1000;
 		long targetTime = time - TimeZone.getDefault().getRawOffset();
 		date.setTimeInMillis(targetTime);
-		SimpleDateFormat dateformat=new SimpleDateFormat("MM月dd日 ");
+		SimpleDateFormat dateformat=new SimpleDateFormat("MM月dd日");
 		String dateString =dateformat.format(date.getTime());
 		return dateString;
 	}
@@ -887,7 +895,7 @@ public class TravelUtil
 		long targetTime = time - TimeZone.getDefault().getRawOffset();
 		date.setTimeInMillis(targetTime);
 		
-		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd ");
+		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy-MM-dd");
 		String dateString =dateformat.format(date.getTime());
 		return dateString;
 	}

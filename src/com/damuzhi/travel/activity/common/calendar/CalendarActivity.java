@@ -82,14 +82,15 @@ public class CalendarActivity extends Activity {
 	public static int Calendar_WeekFontColor = 0;
 
 	String UserName = "";
-	String price = "";
+	int price = 0;
 	String remainder = "";
+	private LocalRoute localRoute;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		ActivityMange.getInstance().addActivity(this);
 		byte[] data = getIntent().getByteArrayExtra("localRouteTime");
-		LocalRoute localRoute = null;
+		localRoute = null;
 		try {
 			localRoute = LocalRoute.parseFrom(data);
 		} catch (InvalidProtocolBufferException e) {
@@ -100,7 +101,7 @@ public class CalendarActivity extends Activity {
 			//Log.d(TAG, "local route date ="+((long)booking.getDate()));
 			calendar_Hashtable.put(getDateString(((long)booking.getDate())*1000), booking);
 		}
-		price = localRoute.getPrice();
+		//price = localRoute.getPrice();
 		
 		// 获得屏幕宽和高，并計算出屏幕寬度分七等份的大小
 		WindowManager windowManager = getWindowManager();
@@ -336,8 +337,7 @@ public class CalendarActivity extends Activity {
 
 			// check holiday
 			boolean bHoliday = false;
-			if ((iDayOfWeek == Calendar.SATURDAY)
-					|| (iDayOfWeek == Calendar.SUNDAY))
+			if ((iDayOfWeek == Calendar.SATURDAY)|| (iDayOfWeek == Calendar.SUNDAY))
 				bHoliday = true;
 			if ((iMonth == Calendar.JANUARY) && (iDay == 1))
 				bHoliday = true;
@@ -356,14 +356,7 @@ public class CalendarActivity extends Activity {
 			// 是否有记录
 			boolean hasRecord = false;
 			
-			/*if (flag != null && flag[i] == true && calendar_Hashtable != null
-					&& calendar_Hashtable.containsKey(i)) {
-				// hasRecord = flag[i];
-				hasRecord = Calendar_Source.get(calendar_Hashtable.get(i))
-						.contains(UserName);
-				hasRecord = Calendar_Source.get(calendar_Hashtable.get(i))
-						.contains(UserName);
-			}*/
+			
 			calCalendar.set(Calendar.SECOND, 0);
 			//Log.d(TAG, "date time ="+calCalendar.getTimeInMillis()/1000);
 			if(calendar_Hashtable.containsKey(getDateString(calCalendar.getTimeInMillis())))
@@ -371,13 +364,13 @@ public class CalendarActivity extends Activity {
 				hasRecord = true;
 				//flag[i] = true;
 				//Log.d(TAG, "has booking date has record = " +true);
+				price = calendar_Hashtable.get(getDateString(calCalendar.getTimeInMillis())).getAdultPrice();
 			}
 
 			if (bSelected)
 				daySelected = dayCell;
 
-			dayCell.setData(iYear, iMonth, iDay, bToday, bHoliday,
-					iMonthViewCurrentMonth, hasRecord,price,remainder);
+			dayCell.setData(iYear, iMonth, iDay, bToday, bHoliday,iMonthViewCurrentMonth, hasRecord,localRoute.getCurrency()+price,remainder);
 
 			calCalendar.add(Calendar.DAY_OF_MONTH, 1);
 		}
@@ -493,8 +486,8 @@ public class CalendarActivity extends Activity {
 					Bundle bundle = new Bundle();
 					bundle.putString("date", TravelUtil.getDateShortString(calSelected.getTimeInMillis()));
 					//bundle.putLong("date", calSelected.getTimeInMillis());
-					bundle.putString("adult", booking.getAdultPrice());
-					bundle.putString("child", booking.getChildrenPrice());
+					bundle.putInt("adult", booking.getAdultPrice());
+					bundle.putInt("child", booking.getChildrenPrice());
 					//Log.d(TAG, "date = "+GetDateShortString(calSelected));
 					item.setSelected(true);
 					updateCalendar();

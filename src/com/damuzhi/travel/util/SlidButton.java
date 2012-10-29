@@ -57,8 +57,7 @@ public class SlidButton extends View implements OnTouchListener
         bg_off = BitmapFactory.decodeResource(getResources(), R.drawable.split_right_1);
         slip_btn = BitmapFactory.decodeResource(getResources(), R.drawable.split_1);
         Btn_On = new Rect(0, 0, slip_btn.getWidth(), slip_btn.getHeight());
-        Btn_Off = new Rect(bg_off.getWidth() - slip_btn.getWidth(), 0, bg_off.getWidth(),
-                slip_btn.getHeight());
+        Btn_Off = new Rect(bg_off.getWidth() - slip_btn.getWidth(), 0, bg_off.getWidth(),slip_btn.getHeight());
         setOnTouchListener(this);
     }
 
