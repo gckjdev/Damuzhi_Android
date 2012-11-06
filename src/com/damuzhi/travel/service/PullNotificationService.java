@@ -140,7 +140,7 @@ public class PullNotificationService extends Service
 			public void run()
 			{
 				JSONObject[] jsonObjects = checkNotificationFromServer(url);
-				Log.d(TAG, "json object array length = "+jsonObjects.length);
+				//Log.d(TAG, "json object array length = "+jsonObjects.length);
 					if (jsonObjects == null||jsonObjects.length==0)
 					{
 						return;

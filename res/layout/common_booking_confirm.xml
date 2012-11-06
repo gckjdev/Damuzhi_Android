@@ -64,6 +64,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/route_name"
+            android:textColor="@android:color/black"
             android:textSize="15sp" />
         <TextView
             android:id="@+id/route_name"
@@ -88,6 +89,7 @@
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:text="@string/contact_person"
+            android:textColor="@android:color/black"
             android:textSize="15sp" />
         <EditText
             android:id="@+id/contact_person"
@@ -116,12 +118,14 @@
             android:layout_height="wrap_content"
             android:gravity="fill_horizontal"
             android:text="@string/contact"
+            android:textColor="@android:color/black"
             android:textSize="15sp" />
         <EditText
             android:id="@+id/contact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
+            android:inputType="phone|number"
             android:background="@null"
             android:hint="@string/contact_hint"
             android:textSize="15sp" />

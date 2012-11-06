@@ -3,6 +3,7 @@ package com.damuzhi.travel.activity.common.calendar;
 import java.util.Calendar;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.protos.TouristRouteProtos.BookingStatus;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -55,8 +56,9 @@ public class DateWidgetDayCell extends View {
 	private boolean bTouchedDown = false;
 	private boolean bHoliday = false;
 	private boolean hasRecord = false;
+	private boolean showRecord = false;
 	private String price;
-	private String remainder;
+	private int bookingStatus;
 	public static int ANIM_ALPHA_DURATION = 100;
 
 	public interface OnItemClick {
@@ -82,7 +84,7 @@ public class DateWidgetDayCell extends View {
 
 	// 设置变量值
 	public void setData(int iYear, int iMonth, int iDay, Boolean bToday,
-			Boolean bHoliday, int iActiveMonth, boolean hasRecord,String price,String remainder) {
+			Boolean bHoliday, int iActiveMonth, boolean hasRecord,boolean showRecord,String price,int bookingStatus) {
 		iDateYear = iYear;
 		iDateMonth = iMonth;
 		iDateDay = iDay;
@@ -92,8 +94,9 @@ public class DateWidgetDayCell extends View {
 		this.bToday = bToday;
 		this.bHoliday = bHoliday;
 		this.hasRecord = hasRecord;
+		this.showRecord = showRecord;
 		this.price = price;
-		this.remainder = remainder;
+		this.bookingStatus = bookingStatus;
 	}
 
 	// 重载绘制方法
@@ -122,13 +125,17 @@ public class DateWidgetDayCell extends View {
 			LinearGradient lGradBkg = null;
 
 			if (bFocused) {
+				/*lGradBkg = new LinearGradient(rect.left, 0, rect.right, 0,
+						0xffaa5500, 0xffffddbb, Shader.TileMode.CLAMP);*/
 				lGradBkg = new LinearGradient(rect.left, 0, rect.right, 0,
-						0xffaa5500, 0xffffddbb, Shader.TileMode.CLAMP);
+						0xff1e6875, 0xff1e6875, Shader.TileMode.CLAMP);
 			}
 
 			if (bSelected) {
+				/*lGradBkg = new LinearGradient(rect.left, 0, rect.right, 0,
+						0xff225599, 0xffbbddff, Shader.TileMode.CLAMP);*/
 				lGradBkg = new LinearGradient(rect.left, 0, rect.right, 0,
-						0xff225599, 0xffbbddff, Shader.TileMode.CLAMP);
+						0xff1e6875, 0xff1e6875, Shader.TileMode.CLAMP);
 			}
 
 			if (lGradBkg != null) {
@@ -139,7 +146,13 @@ public class DateWidgetDayCell extends View {
 			pt.setShader(null);
 
 		} else {
-			pt.setColor(getColorBkg(bHoliday, bToday));
+			//pt.setColor(getColorBkg(bHoliday, bToday));
+			if(bToday){
+				pt.setColor(getResources().getColor(R.color.blue));
+			}else{
+				pt.setColor(getResources().getColor(R.color.white));
+			}
+			
 			canvas.drawRect(rect, pt);
 		}
 
@@ -173,7 +186,7 @@ public class DateWidgetDayCell extends View {
 		final int iPosY = (int) (this.getHeight()- (this.getHeight() - getTextHeight()) / 1.5 - pt.getFontMetrics().bottom);
 
 		canvas.drawText(sDate, iPosX, iPosY, pt);
-		if(hasRecord)
+		if(hasRecord&&showRecord)
 		{
 			pt.setTypeface(null);
 			pt.setAntiAlias(true);
@@ -192,28 +205,32 @@ public class DateWidgetDayCell extends View {
 			if (!bIsActiveMonth)
 				pt.setColor(CalendarActivity.unPresentMonth_FontColor);
 
-			final int iPosX2 = (int) rect.left + ((int) rect.width() >> 1)
-					- ((int) pt.measureText(price) >> 1);
-			final int iPosY2 = iPosY+getTextHeight();
-
-			canvas.drawText(price, iPosX2, iPosY2, pt);
+			if(bIsActiveMonth&&bookingStatus == BookingStatus.NOT_IN_SALE_VALUE)
+				pt.setColor(getResources().getColor(R.color.black));
 			
-			pt.setTypeface(null);
-			pt.setAntiAlias(true);
-			pt.setShader(null);
-			pt.setFakeBoldText(true);
-			pt.setTextSize(priceTextSize);
-			pt.setColor(CalendarActivity.isPresentMonth_FontColor);
-			pt.setUnderlineText(false);
 			
-			if (!bIsActiveMonth)
-				pt.setColor(CalendarActivity.unPresentMonth_FontColor);
+			if(bookingStatus == BookingStatus.IN_SALE_VALUE){
+				/*final int iPosX2 = (int) rect.left + ((int) rect.width() >> 1)
+						- ((int) pt.measureText(price) >> 1);
+				final int iPosY2 = iPosY+getTextHeight();
+				canvas.drawText(price, iPosX2, iPosY2, pt);*/
+				final int iPosX2 = (int) rect.left + ((int) rect.width() >> 1)
+						- ((int) pt.measureText("销售中") >> 1);
+				final int iPosY2 = iPosY+getTextHeight();
+				canvas.drawText("销售中", iPosX2, iPosY2, pt);
+			}else if (bookingStatus == BookingStatus.NOT_IN_SALE_VALUE){
+				final int iPosX2 = (int) rect.left + ((int) rect.width() >> 1)
+						- ((int) pt.measureText("未开售") >> 1);
+				final int iPosY2 = iPosY+getTextHeight();
+				canvas.drawText("未开售", iPosX2, iPosY2, pt);
+			}else{
+				final int iPosX2 = (int) rect.left + ((int) rect.width() >> 1)
+						- ((int) pt.measureText("已售罄") >> 1);
+				final int iPosY2 = iPosY+getTextHeight();
+				canvas.drawText("已售罄", iPosX2, iPosY2, pt);
+			}
+			
 
-			final int iPosX3 = (int) rect.left + ((int) rect.width() >> 1)
-					- ((int) pt.measureText(remainder) >> 1);
-			final int iPosY3 = iPosY2+getTextHeight();
-
-			canvas.drawText(remainder, iPosX3, iPosY3, pt);
 		}
 		
 		pt.setUnderlineText(false);

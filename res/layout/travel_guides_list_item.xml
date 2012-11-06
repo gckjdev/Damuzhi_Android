@@ -8,6 +8,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_alignParentLeft="true"
 		    android:layout_centerVertical="true"
+		    android:layout_marginLeft="10dp"
 		    android:src="@drawable/book"
 		    android:scaleType="fitXY"/>
 		<TextView 
@@ -15,10 +16,9 @@
 		    android:layout_height="fill_parent"
 		    android:layout_width="wrap_content"
 		    android:textColor="@color/black"
-		    android:layout_marginLeft="18dp"
+		    android:layout_marginLeft="15dp"
 		    android:layout_marginRight="20dp"
-		    android:paddingLeft="10dp"
-		    android:paddingRight="10dp"
+		    android:textSize="15sp"
 		    android:layout_centerVertical="true"
 		    android:singleLine="true"
 		    android:layout_toRightOf="@id/travel_tips_icon"/>    

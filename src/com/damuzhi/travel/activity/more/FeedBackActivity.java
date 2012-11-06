@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.damuzhi.travel.activity.common.ActivityMange;
@@ -42,8 +44,11 @@ import com.damuzhi.travel.R;
 public class FeedBackActivity extends MenuActivity
 {
 
+	protected static final String TAG = "FeedBackActivity";
 	private EditText contentEditText;
 	private EditText contactEditText;
+	private TextView contactTipsTextView;
+	private String  token;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -53,6 +58,7 @@ public class FeedBackActivity extends MenuActivity
 		ActivityMange.getInstance().addActivity(this);
 		contentEditText = (EditText) findViewById(R.id.feedback_content);
 		contactEditText = (EditText) findViewById(R.id.feedback_contact);
+		contactTipsTextView = (TextView) findViewById(R.id.feedback_contact_tips);
 		ViewGroup feedbackGroup = (ViewGroup) findViewById(R.id.feedback_group);
 		ImageButton submit = (ImageButton) findViewById(R.id.submit);
 		submit.setOnClickListener(submitOnClickListener);
@@ -61,6 +67,12 @@ public class FeedBackActivity extends MenuActivity
 		if(imm.isActive()){ 
 		imm.hideSoftInputFromWindow(feedbackGroup.getApplicationWindowToken(), 0 );   
 		}  
+		token = TravelApplication.getInstance().getToken();
+		if(token != null&&!token.equals(""))
+		{
+			contactEditText.setVisibility(View.GONE);
+			contactTipsTextView.setVisibility(View.GONE);
+		}
 	}
 
 	
@@ -79,7 +91,13 @@ public class FeedBackActivity extends MenuActivity
 		public void onClick(View v)
 		{
 			String content = contentEditText.getText().toString();
-			String contact = contactEditText.getText().toString();
+			String contact = "";
+			if(token != null&&!token.equals("")){
+				contact = TravelApplication.getInstance().getLoginID();
+			}else{
+				contact = contactEditText.getText().toString();			
+			}
+			Log.d(TAG, "contact == "+contact);
 			if(content==null||content.trim().equals(""))
 			{
 				Toast.makeText(FeedBackActivity.this, getString(R.string.feedback_content_emtpy), Toast.LENGTH_SHORT).show();

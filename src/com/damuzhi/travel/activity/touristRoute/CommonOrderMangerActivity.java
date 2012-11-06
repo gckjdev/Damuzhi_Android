@@ -29,6 +29,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**  
  * @description   
@@ -65,6 +66,7 @@ public class CommonOrderMangerActivity extends Activity
 		loginExitButton = (Button) findViewById(R.id.login_exit_button);
 		
 		localRouteOrderMamager.setOnClickListener(localRouteOrderMamagerOnClickListener);
+		flyRouteOrderMamager.setOnClickListener(flyRouteOrderManagerOnClickListener);
 		loginButton.setOnClickListener(loginOnClickListener);
 		loginExitButton.setOnClickListener(loginExitOnClickListener);
 		customerServicePhone.setOnClickListener(customerServiceOnClickListener);
@@ -118,6 +120,18 @@ public class CommonOrderMangerActivity extends Activity
 		public void onClick(View v)
 		{
 			makePhoneCall(SERVICE_PHONE_NUMBER);
+			
+		}
+	};
+	
+	
+	private OnClickListener flyRouteOrderManagerOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Toast.makeText(CommonOrderMangerActivity.this, getString(R.string.chanel_not_open_toast), Toast.LENGTH_SHORT).show();
 			
 		}
 	};

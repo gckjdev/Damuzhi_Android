@@ -18,7 +18,7 @@ import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsActivity;
 import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
-import com.damuzhi.travel.mission.more.DownloadMission;
+import com.damuzhi.travel.mission.more.UpdateMission;
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -34,6 +34,7 @@ import android.app.Application;
 import android.app.TabActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.Button;
@@ -69,9 +71,9 @@ public class MainActivity extends TabActivity {
 	private TextView titleTextView;
 	boolean flag = false;//flag go to OpenCityActivity
 	private ImageView moveFlag;
-	private AlertDialog alertDialog;
+	// AlertDialog alertDialog;
 	private Bundle bundle;
-	//private PopupWindow alertPopupWindow;
+	private PopupWindow alertPopupWindow;
 	private View alertDialogView;
 	private int lastNotifyId = -100;
 	@Override
@@ -93,16 +95,7 @@ public class MainActivity extends TabActivity {
 		mTabHost.setOnTabChangedListener(onTabChangeListener);
 		
 		bundle = getIntent().getBundleExtra("notify");
-		/*if(bundle != null)
-		{
-			Log.d(TAG, "get notify bundle onNewIntent");
-			String title = bundle.getString("title");
-			String content = bundle.getString("content");
-			String type = bundle.getString("Type");
-			Log.d(TAG, "notify title = "+title);
-			Log.d(TAG, "notify content = "+content);
-			Log.d(TAG, "notify type = "+type);
-		}*/
+		
 		
 		checkData();
 	}
@@ -227,9 +220,6 @@ public class MainActivity extends TabActivity {
 			{
 				notifyId = Integer.parseInt(type);
 			}
-			/*Log.d(TAG, "notify title = "+title);
-			Log.d(TAG, "notify content = "+content);
-			Log.d(TAG, "notify type = "+type);*/
 			if(lastNotifyId !=notifyId)
 			{
 				lastNotifyId = notifyId;
@@ -360,13 +350,15 @@ public class MainActivity extends TabActivity {
 			protected Void doInBackground(Void... params)
 			{
 				
-				float remoteVersion = MoreMission.getInstance().getNewVersion();
+				float remoteVersion = UpdateMission.getInstance().getNewVersion();
 				float localVersion = TravelUtil.getVersionName(MainActivity.this);
 				Log.d(TAG, "app Version = "+localVersion);
 				if(remoteVersion>localVersion)
 				{
+					String title = UpdateMission.getInstance().getAppUpdateTile();
+					String content = UpdateMission.getInstance().getAppUpdateContent();
 					Looper.prepare();
-					updateAppVersion();
+					updateAppVersion(title,content);
 					Looper.loop();					
 				}	
 				City city = AppManager.getInstance().getCityByCityId(AppManager.getInstance().getCurrentCityId());
@@ -384,7 +376,7 @@ public class MainActivity extends TabActivity {
 					{
 						if(newVersionCityData == null)
 						{
-							newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
+							newVersionCityData = UpdateMission.getInstance().getNewVersionCityData(installedCityList);
 							TravelApplication.getInstance().setNewVersionCityData(newVersionCityData);
 						}
 						
@@ -394,14 +386,17 @@ public class MainActivity extends TabActivity {
 					{
 						if(newVersionCityData!= null&&newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
 						{
+							String title = city.getCountryName()+"."+city.getCityName();
+							String content = getResources().getString(R.string.update_city_data_content)+"\n"+"大小:"+TravelUtil.getDataSize(city.getDataSize());
 							Looper.prepare();
-							checkDataVersion();
+							checkDataVersion(title,content);
 							Looper.loop();
 						}
 						if(unfinishInstallCity.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
 						{
+							String content = getResources().getString(R.string.install_data_unfinish);
 							Looper.prepare();
-							installData();
+							installData("",content);
 							Looper.loop();
 						}
 					}
@@ -416,15 +411,15 @@ public class MainActivity extends TabActivity {
 	}
 	
     
-    private void checkDataVersion()
+    private void checkDataVersion(String title,String content)
 	{
-		alertWindow(3, "", "");
+		alertWindow(3, title,content);
 	}
     
     
-    private void updateAppVersion()
+    private void updateAppVersion(String title,String content)
 	{
-    	alertWindow(2, "", "");
+    	alertWindow(2, title, content);
 	}
 	
 	
@@ -432,17 +427,23 @@ public class MainActivity extends TabActivity {
 	
 	
 	
-	private void installData()
+	private void installData(String title,String content)
 	{
 		
-		alertWindow(4, "", "");
+		alertWindow(4, title, content);
 	}
 
 	
 	private void alertWindow(int infoType,String title,String content)
 	{
-		alertDialog = new AlertDialog.Builder(MainActivity.this).create();
 		alertDialogView = getLayoutInflater().inflate(R.layout.alert_dialog_2, null);
+		alertPopupWindow = new PopupWindow(alertDialogView, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
+		ColorDrawable background = new ColorDrawable(880000000);
+		alertPopupWindow.setBackgroundDrawable(background);
+		alertPopupWindow.setOutsideTouchable(true);
+		alertPopupWindow.update();
+		//alertDialog = new AlertDialog.Builder(MainActivity.this).create();
+		
 		TextView alertTitleTextView = (TextView) alertDialogView.findViewById(R.id.alert_dialog_title);
 		TextView titleTextView = (TextView) alertDialogView.findViewById(R.id.title);
 		TextView contentTextView = (TextView) alertDialogView.findViewById(R.id.content);
@@ -479,18 +480,9 @@ public class MainActivity extends TabActivity {
 			positiveButton.setVisibility(View.GONE);
 			break;
 		}
+		alertPopupWindow.showAtLocation(getCurrentFocus(), Gravity.CENTER,0, 350);
 		//alertDialog.setView(alertDialogView);
-		alertDialog.setView(alertDialogView);
-		//alertDialog.setContentView(alertDialogView);
-		alertDialog.show();
-		/*alertPopupWindow = new PopupWindow(alertDialogView,android.view.ViewGroup.LayoutParams.FILL_PARENT,android.view.ViewGroup.LayoutParams.FILL_PARENT, true);
-
-		// IsSelectedTemp = sortAdapter.getIsSelected();
-		alertPopupWindow.setBackgroundDrawable(getResources().getDrawable(
-				R.drawable.all_page_bg2));
-		alertPopupWindow.setFocusable(true);
-		alertPopupWindow.update();
-		alertPopupWindow.showAtLocation(getCurrentFocus(), Gravity.TOP, 0, 0);*/
+		//alertDialog.show();
 	}
 	
 	
@@ -507,14 +499,14 @@ public class MainActivity extends TabActivity {
 				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
 				startActivity(intent);
 			}
-			/*if(alertPopupWindow != null)
+			if(alertPopupWindow != null)
 			{
 				alertPopupWindow.dismiss();
-			}*/
-			if(alertDialog != null &&alertDialog.isShowing())
+			}
+		/*	if(alertDialog != null &&alertDialog.isShowing())
 			{
 				alertDialog.cancel();
-			}
+			}*/
 		}
 	};
 	
@@ -529,14 +521,14 @@ public class MainActivity extends TabActivity {
 			intent.putExtra("updateData", 1);
 			intent.setClass(MainActivity.this, OpenCityActivity.class);
 			startActivity(intent);	
-			/*if(alertPopupWindow != null)
+			if(alertPopupWindow != null)
 			{
 				alertPopupWindow.dismiss();
-			}*/
-			if(alertDialog != null &&alertDialog.isShowing())
+			}
+			/*if(alertDialog != null &&alertDialog.isShowing())
 			{
 				alertDialog.cancel();
-			}
+			}*/
 		}
 	};
 	
@@ -546,17 +538,13 @@ public class MainActivity extends TabActivity {
 		@Override
 		public void onClick(View v)
 		{
-			if(alertDialog != null &&alertDialog.isShowing())
+			/*if(alertDialog != null &&alertDialog.isShowing())
 			{
 				alertDialog.cancel();
-			}
-			/*if(alertPopupWindow != null)
+			}*/
+			if(alertPopupWindow != null)
 			{
 				alertPopupWindow.dismiss();
-			}*/
-			if(alertDialog != null &&alertDialog.isShowing())
-			{
-				alertDialog.cancel();
 			}
 		}
 	};
@@ -571,15 +559,14 @@ public class MainActivity extends TabActivity {
 			intent.putExtra("updateData", 0);
 			intent.setClass(MainActivity.this, OpenCityActivity.class);
 			startActivity(intent);
-			/*if(alertPopupWindow != null)
-			{
-				alertPopupWindow.dismiss();
-			}*/
-			if(alertDialog != null &&alertDialog.isShowing())
+			/*if(alertDialog != null &&alertDialog.isShowing())
 			{
 				alertDialog.cancel();
+			}*/
+			if(alertPopupWindow != null)
+			{
+				alertPopupWindow.dismiss();
 			}
-			
 		}
 	};
 	@Override
@@ -588,22 +575,6 @@ public class MainActivity extends TabActivity {
 		super.onNewIntent(intent);
 		Log.d(TAG, "onNewIntent");
 		bundle = intent.getBundleExtra("notify");
-		/*if(bundle != null)
-		{
-			Log.d(TAG, "get notify bundle onNewIntent");
-			String title = bundle.getString("title");
-			String content = bundle.getString("content");
-			String type = bundle.getString("Type");
-			int notifyType = 0;
-			if(type != null &&!type.equals(""))
-			{
-				notifyType = Integer.parseInt(type);
-			}
-			Log.d(TAG, "notify title = "+title);
-			Log.d(TAG, "notify content = "+content);
-			Log.d(TAG, "notify type = "+type);
-			alertWindow(notifyType, title, content);
-		}*/
 		
 	}
 	

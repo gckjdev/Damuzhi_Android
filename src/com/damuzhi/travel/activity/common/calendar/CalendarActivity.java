@@ -27,6 +27,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -55,36 +56,31 @@ public class CalendarActivity extends Activity {
 
 	// 页面控件
 	TextView Top_Date = null;
-	Button btn_pre_month = null;
-	Button btn_next_month = null;
-	//TextView arrange_text = null;
+	ImageView btn_pre_month = null;
+	ImageView btn_next_month = null;
 	LinearLayout mainLayout = null;
-	//LinearLayout arrange_layout = null;
 
 	// 数据源
-	/*ArrayList<String> Calendar_Source = null;
-	Hashtable<Integer, Integer> calendar_Hashtable = new Hashtable<Integer, Integer>();*/
 	List<Booking> Calendar_Source = null;
 	Hashtable<String, Booking> calendar_Hashtable = new Hashtable<String, Booking>();
-	//Boolean[] flag = null;
 	Calendar startDate = null;
 	Calendar endDate = null;
 	int dayvalue = -1;
 
 	public static int Calendar_WeekBgColor = 0;
-	public static int Calendar_DayBgColor = 0;
+	public static int Calendar_DayBgColor = 0xffffffff;
 	public static int isHoliday_BgColor = 0;
 	public static int unPresentMonth_FontColor = 0;
 	public static int isPresentMonth_FontColor = 0;
-	public static int isToday_BgColor = 0;
+	public static int isToday_BgColor = 0xff1e6875;
 	public static int special_Reminder = 0;
 	public static int common_Reminder = 0;
 	public static int Calendar_WeekFontColor = 0;
 
-	String UserName = "";
 	int price = 0;
-	String remainder = "";
+	int bookingStatus = 0;
 	private LocalRoute localRoute;
+	boolean showRecord = false;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,10 +94,8 @@ public class CalendarActivity extends Activity {
 		}
 		for(Booking booking:localRoute.getBookingsList())
 		{
-			//Log.d(TAG, "local route date ="+((long)booking.getDate()));
 			calendar_Hashtable.put(getDateString(((long)booking.getDate())*1000), booking);
 		}
-		//price = localRoute.getPrice();
 		
 		// 获得屏幕宽和高，并計算出屏幕寬度分七等份的大小
 		WindowManager windowManager = getWindowManager();
@@ -118,8 +112,8 @@ public class CalendarActivity extends Activity {
 
 		// 声明控件，并绑定事件
 		Top_Date = (TextView) findViewById(R.id.Top_Date);
-		btn_pre_month = (Button) findViewById(R.id.btn_pre_month);
-		btn_next_month = (Button) findViewById(R.id.btn_next_month);
+		btn_pre_month = (ImageView) findViewById(R.id.btn_pre_month);
+		btn_next_month = (ImageView) findViewById(R.id.btn_next_month);
 		btn_pre_month.setOnClickListener(new Pre_MonthOnClickListener());
 		btn_next_month.setOnClickListener(new Next_MonthOnClickListener());
 
@@ -130,26 +124,14 @@ public class CalendarActivity extends Activity {
 
 		if (daySelected != null)
 			daySelected.requestFocus();
-
-		/*LinearLayout.LayoutParams Param1 = new LinearLayout.LayoutParams(
-				ViewGroup.LayoutParams.FILL_PARENT,
-				ViewGroup.LayoutParams.FILL_PARENT);*/
-
-		//ScrollView view = new ScrollView(this);
-		/*arrange_layout = createLayout(LinearLayout.VERTICAL);
-		arrange_layout.setPadding(5, 2, 0, 0);
-		arrange_text = new TextView(this);*/
 		mainLayout.setBackgroundColor(Color.WHITE);
-		/*arrange_text.setTextColor(Color.BLACK);
-		arrange_text.setTextSize(18);
-		arrange_layout.addView(arrange_text);*/
+		
 
 		startDate = GetStartDate();
 		calToday = GetTodayDate();
 
 		endDate = GetEndDate(startDate);
-		//view.addView(arrange_layout, Param1);
-		//mainLayout.addView(view);
+		
 
 		
 		
@@ -223,9 +205,7 @@ public class CalendarActivity extends Activity {
 		// layRow.setBackgroundColor(Color.argb(255, 207, 207, 205));
 		
 		for (int iDay = 0; iDay < 7; iDay++) {
-			DateWidgetDayHeader day = new DateWidgetDayHeader(this, Cell_Width,
-					35);
-			
+			DateWidgetDayHeader day = new DateWidgetDayHeader(this, Cell_Width,35);
 			final int iWeekDay = DayStyle.getWeekDay(iDay, iFirstDayOfWeek);
 			day.setData(iWeekDay);
 			layRow.addView(day);
@@ -316,7 +296,6 @@ public class CalendarActivity extends Activity {
 		final int iSelectedMonth = calSelected.get(Calendar.MONTH);
 		final int iSelectedDay = calSelected.get(Calendar.DAY_OF_MONTH);
 		calCalendar.setTimeInMillis(calStartDate.getTimeInMillis());
-	//	flag = new Boolean[days.size()];
 		for (int i = 0; i < days.size(); i++) {
 			final int iYear = calCalendar.get(Calendar.YEAR);
 			final int iMonth = calCalendar.get(Calendar.MONTH);
@@ -331,6 +310,7 @@ public class CalendarActivity extends Activity {
 				if (calToday.get(Calendar.MONTH) == iMonth) {
 					if (calToday.get(Calendar.DAY_OF_MONTH) == iDay) {
 						bToday = true;
+						showRecord = true;
 					}
 				}
 			}
@@ -362,15 +342,14 @@ public class CalendarActivity extends Activity {
 			if(calendar_Hashtable.containsKey(getDateString(calCalendar.getTimeInMillis())))
 			{
 				hasRecord = true;
-				//flag[i] = true;
-				//Log.d(TAG, "has booking date has record = " +true);
 				price = calendar_Hashtable.get(getDateString(calCalendar.getTimeInMillis())).getAdultPrice();
+				bookingStatus = calendar_Hashtable.get(getDateString(calCalendar.getTimeInMillis())).getStatus();
 			}
 
 			if (bSelected)
 				daySelected = dayCell;
 
-			dayCell.setData(iYear, iMonth, iDay, bToday, bHoliday,iMonthViewCurrentMonth, hasRecord,localRoute.getCurrency()+price,remainder);
+			dayCell.setData(iYear, iMonth, iDay, bToday, bHoliday,iMonthViewCurrentMonth, hasRecord,showRecord,localRoute.getCurrency()+price,bookingStatus);
 
 			calCalendar.add(Calendar.DAY_OF_MONTH, 1);
 		}
@@ -466,7 +445,6 @@ public class CalendarActivity extends Activity {
 			String dayStr = getDateString(item.getDate().getTimeInMillis());
 			if(day>=todayNum)
 			{
-				//flag[day]!= null&&flag[day] ==true
 				if(calendar_Hashtable.containsKey(dayStr))
 				{
 					Booking booking = calendar_Hashtable.get(dayStr);
@@ -480,17 +458,14 @@ public class CalendarActivity extends Activity {
 						Toast.makeText(CalendarActivity.this, getString(R.string.order_has_sold_out), Toast.LENGTH_SHORT).show();	
 						return;
 					}
-					//Booking booking = 
 					Intent intent = new Intent();
 					intent.setClass(CalendarActivity.this, CommonBookingRouteActivity.class);
 					Bundle bundle = new Bundle();
-					bundle.putString("date", TravelUtil.getDateShortString(calSelected.getTimeInMillis()));
-					//bundle.putLong("date", calSelected.getTimeInMillis());
+					bundle.putLong("date", calSelected.getTimeInMillis());
 					bundle.putInt("adult", booking.getAdultPrice());
 					bundle.putInt("child", booking.getChildrenPrice());
-					//Log.d(TAG, "date = "+GetDateShortString(calSelected));
 					item.setSelected(true);
-					updateCalendar();
+					//updateCalendar();
 					intent.putExtras(bundle);
 					CalendarActivity.this.setResult(RESULT_OK, intent);
 					finish();
@@ -544,26 +519,7 @@ public class CalendarActivity extends Activity {
 		return endDate;
 	}
 	
-	/*protected String GetDateShortString(Calendar date) {
-		String returnString = date.get(Calendar.YEAR) + "/";
-		if(date.get(Calendar.MONTH)>=9)
-		{
-			returnString += date.get(Calendar.MONTH) + 1 + "/";	
-		}else
-		{
-			returnString += "0"+(date.get(Calendar.MONTH) + 1 )+ "/";	
-		}
-		if(date.get(Calendar.DAY_OF_MONTH)>9)
-		{
-			returnString += date.get(Calendar.DAY_OF_MONTH);
-		}else
-		{
-			returnString += "0"+date.get(Calendar.DAY_OF_MONTH);	
-		}
-		//returnString += date.get(Calendar.DAY_OF_MONTH);
-		//returnString += date.get(Calendar.DAY_OF_WEEK);
-		return returnString;
-	}*/
+	
 	
 	Calendar tempCalendar = Calendar.getInstance();
 	

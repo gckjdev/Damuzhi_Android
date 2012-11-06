@@ -222,6 +222,12 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		return placeList;
 	}
 
+	public void addPlaceList(List<Place> newPlaceList)
+	{
+		placeList.addAll(newPlaceList);
+	}
+	
+	
 	public void recycleBitmap()
 	{
 		anseylodar.recycleBitmap();

@@ -158,6 +158,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 	private View listViewFooter;
 	private ViewGroup footerViewGroup;
 	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
+	private boolean loadDataFlag = false;
 	//private ImageLoader imageLoader;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -283,6 +284,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 				// TODO update sub category name and key and count
 				// hide loading dialog
 				loadingDialog.dismiss();
+				loadDataFlag = true;
 				super.onPostExecute(resultList);
 			}
 
@@ -674,6 +676,10 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState)
 		{
+			if(!loadDataFlag){
+				return ;
+			}
+			
 			if(totalCount !=0 && visibleLastIndex == totalCount)
 			{
 			   placeListView.removeFooterView(listViewFooter);	
@@ -1122,6 +1128,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 				@Override
 				protected List<Place> doInBackground(String... params)
 				{
+					loadDataFlag = false;
 					List<Place> placeList = null;
 					if(!localDataIsExist)
 					{
@@ -1140,6 +1147,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 				@Override
 				protected void onPostExecute(List<Place> resultList)
 				{
+					loadDataFlag = true;
 					addMoreData(resultList);
 					//refreshPlaceListView.onRefreshComplete();
 					footerViewGroup.setVisibility(View.GONE);

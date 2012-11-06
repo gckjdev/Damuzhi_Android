@@ -21,6 +21,8 @@
     <string name="new_version_tips">新版本升级提示</string>
     <string name="new_city_data_tips">新数据包升级提示</string>
     <string name="message_tips">消息通知</string>
+    <string name="chanel_not_open_toast">栏目暂未开放</string>
+    <string name="update_city_data_content">有新的城市指南信息升级，是否现在更新？</string>
     <!-- indexInfo-->
     <string name="index">首页</string>
 	<string name="damuzhi">大拇指旅行 - </string>
@@ -61,8 +63,8 @@
 	<string name="feedback_content_emtpy">请输入您的意见或建议</string>
 	<string name="feedback_contact_emtpy">请输入您的E-mail或手机号码</string>
 	<string name="feedback_contact_error">请输入正确的E-mail或手机号码</string>
-	<string name="feedback_submit_success">提交成功</string>
-	<string name="feedback_submit_fail">提交成功</string>
+	<string name="feedback_submit_success">提交成功，感谢您的意见和建议</string>
+	<string name="feedback_submit_fail">提交失败</string>
 	<string name="about_damuzhi">关于大拇指旅行</string>
 	<string name="my_concern">我的关注</string>
 	<string name="user_info">个人资料</string>
@@ -177,12 +179,12 @@
     <string name="kilometer">公里</string>
     <string name="make_phone_call">你确定要拨打此号码?</string>
     <string name="call">拨打</string>
-    <string name="leave_alert_dilaog">退出大拇指旅行</string>
+    <string name="leave_alert_dilaog">确认退出大拇指旅行</string>
     
     <!--share -->    
-    <string name="share_content">我发现了一款非常专业的旅游指南《大拇指旅游》，
+    <string name="share_content">我发现了一款非常专业的旅游指南《大拇指旅行》，
         非常适合我们外出旅游使用，快下载来看看吧：
-   http://trip8888.com/android
+   http://itoptrip.com/android
    </string>
    <string name="share_2_by_message">短信</string>
    <string name="share_2_sina_title">分享到新浪微博</string>
@@ -235,8 +237,8 @@
     <string name="booking_confirm">确认预订</string>
     <string name="contact_person">联系人    ：</string>
     <string name="contact">联系电话：</string>
-    <string name="contact_person_hint">请输入你的姓名</string>
-    <string name="contact_hint">请输入你的手机号码</string>
+    <string name="contact_person_hint">请输入您的姓名</string>
+    <string name="contact_hint">请输入您的手机号码</string>
     <string name="contact_toast">请输入完整的手机号码</string>
     <string name="select_depart_place_toast">请选择出发地点</string>
     <string name="select_depart_time_toast">请选择出发时间</string>
@@ -286,10 +288,10 @@
     <string name="fly_route_order_mamager">机+酒订单管理</string>
     <string name="booking_route_order_success">已成功提交意向订单</string>
     <string name="booking_route_order_fail">提交意向订单失败</string>
-    <string name="booking_order_tips">是否预订</string>
+    <string name="booking_order_tips">是否确认预订？</string>
     <string name="not_allow_order_today_before">不能预订今天之前的日期</string>
     <string name="order_has_sold_out">人数已满</string>
-    <string name="order_not_in_sale">线路暂未开售</string>
+    <string name="order_not_in_sale">该日期没有开放预订</string>
     <string name="customer_service_phone">客服电话：</string>
     <string name="manger">管理</string>
     <string name="done">完成</string>

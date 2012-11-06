@@ -75,7 +75,7 @@ import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.favorite.FavoriteMission;
-import com.damuzhi.travel.mission.more.DownloadMission;
+import com.damuzhi.travel.mission.more.UpdateMission;
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.mission.place.LocalStorageMission;
 import com.damuzhi.travel.model.app.AppManager;

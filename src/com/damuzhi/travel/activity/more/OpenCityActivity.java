@@ -75,7 +75,7 @@ import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.download.DownloadService.DownloadServiceBinder;
-import com.damuzhi.travel.mission.more.DownloadMission;
+import com.damuzhi.travel.mission.more.UpdateMission;
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -558,8 +558,7 @@ public class OpenCityActivity extends Activity
 		}
 		if (newVersionCityData != null)
 		{
-			TravelApplication.getInstance().setNewVersionCityData(
-					newVersionCityData);
+			TravelApplication.getInstance().setNewVersionCityData(newVersionCityData);
 		}
 	}
 
@@ -1523,8 +1522,7 @@ public class OpenCityActivity extends Activity
 						buttonGroup.setVisibility(View.GONE);
 					} else
 					{
-						dataSize.setText(TravelUtil.getDataSize(city
-								.getDataSize()));
+						dataSize.setText(TravelUtil.getDataSize(city.getDataSize()));
 						dataSize.setVisibility(View.VISIBLE);
 						dataDownloadMangerGroup.setVisibility(View.GONE);
 						restartButton.setVisibility(View.GONE);

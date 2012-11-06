@@ -63,10 +63,10 @@ public class ConstantField
 	
 	/* http data url */
 	public static final String FORMAT_HTTP_URL = "http://api.trip8888.com/";
-	//public static final String TEST_HTTP_URL = "http://59.34.17.68:8012/";
+	public static final String TEST_HTTP_URL = "http://59.34.17.68:8012/";
 	
 	
-	public static final String QUERY_OBJECT = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
+	/*public static final String QUERY_OBJECT = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACE_INFO = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = "http://api.trip8888.com/service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
@@ -75,6 +75,7 @@ public class ConstantField
 	public static final String APP = "http://api.trip8888.com/service/queryList.aspx?type=10&lang=%s&os=2";
 	public static final String HELP = "http://api.trip8888.com/service/queryObject.aspx?type=8&lang=%s";
 	public static final String ANDROID_VERSION = "http://api.trip8888.com/service/androidVersion.txt";
+	public static final String NEARBY_LIST = "http://api.trip8888.com/service/nearby.aspx?type=%s&cityId=%s&latitude=%s&longitude=%s&distance=%s&deviceId=%s&start=%s&count=%s";
 	
 	public static final String MEMBER_LOGIN_URL = "http://api.trip8888.com/service/memberLogin.aspx?loginId=%s&password=%s";
 	public static final String REGISTER_URL = "http://api.trip8888.com/service/memberRegister.aspx?&loginId=%s&password=%s&os=2";
@@ -84,11 +85,11 @@ public class ConstantField
 	public static final String GET_USER_INFO_URL = "http://api.trip8888.com/service/retrieveMemberData.aspx?loginId=%s&token=%s";
 	public static final String CHANGE_PASSWORD_URL = "http://api.trip8888.com/service/modifyPassword.aspx?loginId=%s&token=%s&oldPassword=%s&newPassword=%s";
 	public static final String CHANGE_USER_INFO_URL = "http://api.trip8888.com/service/modifyMemberData.aspx?loginId=%s&token=%s&fullName=%s&nickName=%s&gender=%s&telephone=%s&email=%s&address=%s";
+	*/
 	
 	
 	
-	
-	/*public static final String QUERY_OBJECT = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
+	public static final String QUERY_OBJECT = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACE_INFO = TEST_HTTP_URL+"service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = TEST_HTTP_URL+"service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
@@ -97,7 +98,7 @@ public class ConstantField
 	public static final String APP = TEST_HTTP_URL+"service/queryList.aspx?type=10&lang=%s&os=2";
 	public static final String HELP = TEST_HTTP_URL+"service/queryObject.aspx?type=8&lang=%s";
 	public static final String ANDROID_VERSION = TEST_HTTP_URL+"service/androidVersion.txt";
-	
+	public static final String NEARBY_LIST = TEST_HTTP_URL+"service/nearby.aspx?type=%s&cityId=%s&latitude=%s&longitude=%s&distance=%s&deviceId=%s&start=%s&count=%s";
 	
 	
 	public static final String MEMBER_LOGIN_URL = TEST_HTTP_URL+"service/memberLogin.aspx?loginId=%s&password=%s";
@@ -106,9 +107,9 @@ public class ConstantField
 	public static final String VERIFICATION_CODE = TEST_HTTP_URL+"service/memberVerification.aspx?loginId=%s&code=%s";
 	public static final String FIND_PASSWORD = TEST_HTTP_URL+"service/retrievePassword.aspx?telephone=%s";
 	public static final String GET_USER_INFO_URL = TEST_HTTP_URL+"service/retrieveMemberData.aspx?loginId=%s&token=%s";
-	public static final String CHANGE_PASSWORD_URL = TEST_HTTP_URL+"service/modifyPassword.aspx?loginId=%s&token＝%s&oldPassword=%s&newPassword=%s";
+	public static final String CHANGE_PASSWORD_URL = TEST_HTTP_URL+"service/modifyPassword.aspx?loginId=%s&token=%s&oldPassword=%s&newPassword=%s";
 	public static final String CHANGE_USER_INFO_URL = TEST_HTTP_URL+"service/modifyMemberData.aspx?loginId=%s&token=%s&fullName=%s&nickName=%s&gender=%s&telephone=%s&email=%s&address=%s";
-*/
+
 	
 	/* page url*/
 	public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
@@ -119,8 +120,8 @@ public class ConstantField
 	/*public static final String PLACE_PAGE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_LOAD_MORE_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
 	public static final String PLACE_PAGE_FILTER_URL = "http://59.34.17.68:8012/service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2";
-	
 	*/
+	
 	
 	/* touristRoute*/
 	public static final String TOURIST_ROUTE_OBJECT_URL = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
@@ -144,9 +145,9 @@ public class ConstantField
 	public static final String LOCAL_ROUTE_MEMBER_BOOKING_ORDER_URL =TEST_HTTP_URL+"service/placeOrder.aspx?loginId=%s&token=%s&routeId=%s&departPlaceId=%s&departDate=%s&adult=%s&children=%s&contactPersion=&contact=";
 	public static final String TOURIST_ROUTE_ORDER_LIST_URL = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&needStatistics=1&userId=%s&loginId=%s&token=%s&lang=%s&os=2";
 	public static final String ADD_FAVORITE_ROUTE_URL = TEST_HTTP_URL+"service/FollowRoute.aspx?userId=%s&loginId=%s&token=%s&routeId=%s";
-	*/
+*/	
 	/* touristRoute*/
-/*	public static final String TOURIST_ROUTE_URL = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
+	/*public static final String TOURIST_ROUTE_URL = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
 	public static final String TOURIST_ROUTE_LOAD_MORE_URL = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&subcategoryId=%s&areaId=%s&serviceId=%s&priceRankId=%s&sortType=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";
 	*/
 	
@@ -204,6 +205,12 @@ public class ConstantField
 	public static final String ONE_KILOMETER = "1";
 	public static final String FIVE_KILOMETER = "5";
 	public static final String TEN_KILOMETER = "10";
+	public static final String NEARBY_ALL = "9999";
+	public static final String NEARBY_SPOT = "1";
+	public static final String NEARBY_HOTEL = "2";
+	public static final String NEARBY_RESTAURANT = "3";
+	public static final String NEARBY_SHOPPING = "4";
+	public static final String NEARBY_ENTERTRAINMENT = "5";
 	
 	
 	/* commonPlaceDetail*/

@@ -57,7 +57,7 @@
             android:id="@+id/local_route_order_mamager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/more_top" >
+            android:background="@drawable/more_top_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -80,7 +80,7 @@
             android:id="@+id/fly_route_order_mamager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/more_bottom" >
+            android:background="@drawable/more_bottom_button" >
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

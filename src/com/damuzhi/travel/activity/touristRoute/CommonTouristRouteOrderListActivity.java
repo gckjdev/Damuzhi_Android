@@ -114,7 +114,7 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 		@Override
 		public void onClick(View v)
 		{
-			String phoneNumber = "4000008888";
+			String phoneNumber = "4000223321";
 			makePhoneCall(phoneNumber);
 			
 		}

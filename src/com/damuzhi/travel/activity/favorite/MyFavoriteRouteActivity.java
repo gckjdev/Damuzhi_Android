@@ -153,7 +153,8 @@ public class MyFavoriteRouteActivity extends Activity
 			{
 				Intent intent = new Intent();
 				intent.setClass(MyFavoriteRouteActivity.this, CommonLocalTripsDetailActivity.class);
-				intent.putExtra("local_route",locaRouteDetail.toByteArray());
+				//intent.putExtra("local_route",locaRouteDetail.toByteArray());
+				intent.putExtra("local_route",localRoute.getRouteId());
 				startActivity(intent);
 			}
 			

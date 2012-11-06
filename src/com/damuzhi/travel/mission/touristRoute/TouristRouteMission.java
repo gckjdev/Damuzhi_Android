@@ -276,44 +276,5 @@ public class TouristRouteMission {
 	}
 	
 	
-	/*private List<LocalRoute> getLocalRouteListByUrl(String url) {		
-		Log.i(TAG, "<getTouristRouteListByUrl> load place data from http ,url = "+url);
-		InputStream inputStream = null;
-		HttpTool httpTool = HttpTool.getInstance();
-		try
-		{
-			inputStream = httpTool.sendGetRequest(url);
-			if(inputStream !=null)
-			{				
-				TravelResponse travelResponse = TravelResponse.parseFrom(inputStream);
-				if (travelResponse == null || travelResponse.getResultCode() != 0 ||travelResponse.getRouteList() == null){
-					return Collections.emptyList();
-				}					
-				inputStream.close();
-				inputStream = null;			
-				Log.d(TAG, "get route count = "+travelResponse.getRouteList().getRoutesCount());
-				return travelResponse.getLocalRoutes().getRoutesList();			
-			}
-			else{
-				return Collections.emptyList();
-			}
-			
-		} 
-		catch (Exception e)
-		{
-			Log.e(TAG, "<getTouristRouteListByUrl> catch exception = "+e.toString(), e);
-			return Collections.emptyList();
-		}finally
-		{
-			httpTool.stopConnection();
-			if (inputStream != null){
-				try
-				{
-					inputStream.close();
-				} catch (IOException e1)
-				{
-				}
-			}
-		}	
-	}*/
+	
 }

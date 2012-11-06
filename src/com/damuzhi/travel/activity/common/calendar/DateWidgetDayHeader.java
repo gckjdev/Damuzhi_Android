@@ -1,6 +1,8 @@
 package com.damuzhi.travel.activity.common.calendar;
 
 
+import com.damuzhi.travel.R;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -48,7 +50,7 @@ public class DateWidgetDayHeader extends View {
 
 	private void drawDayHeader(Canvas canvas) {
 		// 画矩形，并设置矩形画笔的颜色
-		pt.setColor(CalendarActivity.Calendar_WeekBgColor);
+		pt.setColor(getResources().getColor(R.color.white));
 		canvas.drawRect(rect, pt);
 
 		// 写入日历头部，设置画笔参数

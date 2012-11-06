@@ -23,6 +23,7 @@ import com.damuzhi.travel.model.common.UserManager;
 import com.damuzhi.travel.protos.TouristRouteProtos.Booking;
 import com.damuzhi.travel.protos.TouristRouteProtos.DepartPlace;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
+import com.damuzhi.travel.util.TravelUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
 
 import android.app.Activity;
@@ -86,7 +87,7 @@ public class CommonBookingRouteActivity extends Activity
 	private Button cancelButton;
 	private Button filterButton;
 
-	private String departTime = "";
+	private long departTime = 0;
 	private int routeId = 0;
 	private int filterFlag = 0; // 0=adult 1,=child,2=departplace
 	String token = "";
@@ -222,14 +223,15 @@ public class CommonBookingRouteActivity extends Activity
 								e.printStackTrace();
 							}
 							boolean result = TouristRouteMission.getInstance().memberBookingOrder(loginId,token,bookingData[0],"",bookingData[1],bookingData[2],bookingData[3]);
+							String resultInfo = TouristRouteMission.getInstance().getResultInfo();
 							if(result)
 							{
-								Toast.makeText(CommonBookingRouteActivity.this, getString(R.string.booking_route_order_success), Toast.LENGTH_SHORT).show();
+								Toast.makeText(CommonBookingRouteActivity.this, resultInfo, Toast.LENGTH_SHORT).show();
 								Intent intent = new Intent();
 								intent.setClass(CommonBookingRouteActivity.this, CommonTouristRouteOrderListActivity.class);
 								startActivity(intent);
 							}else {
-								Toast.makeText(CommonBookingRouteActivity.this, getString(R.string.feedback_submit_fail), Toast.LENGTH_SHORT).show();
+								Toast.makeText(CommonBookingRouteActivity.this, getString(R.string.booking_route_order_fail), Toast.LENGTH_SHORT).show();
 							}
 							
 							
@@ -265,7 +267,7 @@ public class CommonBookingRouteActivity extends Activity
 		/*
 		 * if(departPlaceSelected.isEmpty()) { Toast.makeText(CommonBookingRoute.this, getString(R.string.select_depart_place_toast), Toast.LENGTH_LONG).show(); return false; }
 		 */
-		if (departTime.trim().equals(""))
+		if (departTime == 0)
 		{
 			Toast.makeText(CommonBookingRouteActivity.this,getString(R.string.select_depart_time_toast),Toast.LENGTH_LONG).show();
 			return false;
@@ -273,7 +275,8 @@ public class CommonBookingRouteActivity extends Activity
 
 		bookingData[0] = String.valueOf(localRoute.getRouteId());
 		// bookingData[1] = departPlaceID[departPlaceSelectedPosition];
-		bookingData[1] = departTime.replaceAll("/", "");
+		bookingData[1] = TravelUtil.getDateLongString(departTime);
+		//bookingData[1] = TravelUtil.getDateShortString(departTime);
 		bookingData[2] = String.valueOf(adultSelectedPosition + 1);
 		bookingData[3] = String.valueOf(childSelectedPosition);
 		return true;
@@ -475,12 +478,12 @@ public class CommonBookingRouteActivity extends Activity
 		{
 		case RESULT_OK:
 			Bundle b = data.getExtras();
-			departTime = b.getString("date");
+			departTime = b.getLong("date");
 			adultPrice = b.getInt("adult",0);
 			childPrice = b.getInt("child",0);
 			Log.d(TAG, "booking order adult price = "+adultPrice);
 			Log.d(TAG, "booking order child price = "+childPrice);
-			departTimeButton.setText(departTime);
+			departTimeButton.setText(TravelUtil.getDateShortString(departTime));
 			departTimeButton.setTextColor(getResources().getColor(R.color.little_blue));
 			int price = 0;
 			price =  price +(adultSelectedPosition+1)*adultPrice+childSelectedPosition*childPrice;

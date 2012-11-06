@@ -89,14 +89,6 @@ public class OverviewMission
 		catch (Exception e)
 		{
 			Log.e(TAG, "<getOverviewByUrl> catch exception = "+e.toString(), e);
-				try
-				{
-					if (inputStream != null){
-						inputStream.close();
-					}
-				} catch (IOException e1)
-				{
-				}
 			return null;
 		}finally
 		{

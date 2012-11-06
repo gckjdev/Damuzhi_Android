@@ -3,66 +3,74 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal" 
-    android:background="@drawable/topmenu_bg">
-	    	 <Button 
-	    	    android:id="@+id/cancel_button" 
-	    	    android:layout_width="wrap_content"
-	    	    android:layout_height="wrap_content"
-	    	    android:text="@string/cancel"
-	    	    android:layout_gravity="center"
-	    	    android:gravity="center"
-	    	    android:textColor="@color/white"
-	    	    android:textSize="14sp"
-	    	    android:background="@drawable/help_mini_button"
-	    	    android:layout_alignParentLeft="true"
-    	    	android:layout_centerVertical="true"
-    	    	android:layout_marginLeft="10dp"/>	
-    	<TextView 
-    	    android:id="@+id/filter_title"
-    	    android:layout_width="wrap_content"
-    	    android:layout_height="wrap_content"
-    	    android:layout_centerInParent="true"
-    	    android:gravity="center"
-    	    android:textSize="20.0sp"
-    	    android:textColor="@color/white"/>
-	    	 <Button
-	    	    android:id="@+id/ok_button"
-	    	    android:layout_width="wrap_content"
-	    	    android:layout_height="wrap_content"
-	    	    android:text="@string/ok"
-	    	    android:layout_gravity="center"
-	    	    android:gravity="center"
-	    	    android:textColor="@color/white"
-	    	    android:background="@drawable/help_mini_button"
-	    	    android:textSize="14sp"
-	    	    android:layout_alignParentRight="true"
-    	    	android:layout_centerVertical="true"
-    	    	android:layout_marginRight="10dp"
-	    	    />
+
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/topmenu_bg"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/cancel_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:background="@drawable/help_mini_button"
+            android:gravity="center"
+            android:text="@string/cancel"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/filter_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="20.0sp" />
+
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/help_mini_button"
+            android:gravity="center"
+            android:text="@string/ok"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
     </RelativeLayout>
-     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/listview_group" 
-	    android:layout_width="fill_parent"
-	    android:layout_height="fill_parent"
-	    android:layout_marginTop="4dp"
-	    android:background="@drawable/all_page_bg2"
-	    android:orientation="vertical" >
-    	<ListView
-    	    android:id="@+id/filter_listview"
-    	    android:layout_width="fill_parent"
-    	    android:layout_height="fill_parent"
-    	    android:layout_gravity="center_horizontal"
-    	    android:layout_marginLeft="15dp"
-    	    android:layout_marginRight="15dp"
-    	    android:layout_marginBottom="35dp"
-    	    android:dividerHeight="0.5dp"
-    	    android:scrollingCache="false"
-    	    android:scrollbars="none"
-    	    android:cacheColorHint="@android:color/transparent"
-    	    android:fadingEdge="none"/>
-    </LinearLayout> 
+
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/listview_group"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginTop="4dp"
+        android:background="@drawable/all_page_bg2"
+        android:orientation="vertical" >
+
+        <ListView
+            android:id="@+id/filter_listview"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="35dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:cacheColorHint="@android:color/transparent"
+            android:dividerHeight="0.5dp"
+            android:fadingEdge="none"
+            android:scrollbars="none"
+            android:scrollingCache="false" />
+    </LinearLayout>
+
 </LinearLayout>

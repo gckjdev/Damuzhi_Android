@@ -153,7 +153,7 @@ public class PlaceMission
 	}
 	
 	
-	public List<Place> getPlaceNearbyInDistance(HashMap<String, Double> location,String distance,String placeCategory)
+	/*public List<Place> getPlaceNearbyInDistance(HashMap<String, Double> location,String distance,String placeCategory)
 	{	
 		if(location !=null && location.size()>0)
 		{
@@ -165,6 +165,24 @@ public class PlaceMission
 				return travelResponse.getPlaceList().getListList();
 			}
 			return null;
+		}
+		return null;
+	}
+	*/
+	
+	public List<Place> getPlaceNearbyInDistance(HashMap<String, Double> location,String distance,int start,String type)
+	{	
+		if(location !=null && location.size()>0)
+		{
+			int cityId = AppManager.getInstance().getCurrentCityId();
+			String url = String.format(ConstantField.NEARBY_LIST, type,cityId,location.get(ConstantField.LATITUDE),location.get(ConstantField.LONGITUDE),
+										distance,TravelApplication.getInstance().getDeviceId(),start,count);
+			TravelResponse travelResponse = getPlaceDataByURL(url);
+			Log.d(TAG, "nearby place size = "+travelResponse.getPlaceList().getListCount());
+			if(travelResponse != null)
+			{
+				return travelResponse.getPlaceList().getListList();
+			}
 		}
 		return null;
 	}
@@ -230,7 +248,6 @@ public class PlaceMission
 		public String[] countPlaceBySubcate(String[] subcateName, int[] subcateID)
 		{
 			String[] name = null;
-			//int total = 0;
 			if(subcateName !=null && subcateName.length>0)
 			{
 				name = new String[subcateName.length+1];
@@ -242,14 +259,12 @@ public class PlaceMission
 							if(place.getSubCategoryId() == subcateID[i])
 							{
 								count++;
-								//total++;
 							}
 						}
 						name[i+1] = subcateName[i]+"("+count+")";
 						
 					}
 			}		
-			//name[0] = "全部("+total+")";
 			name[0] = "全部("+totalCount+")";
 			return name;
 		}
@@ -258,7 +273,6 @@ public class PlaceMission
 		public String[] countPlaceByPrice(String[] priceName, int[] priceID)
 		{
 			String[] name = new String[priceName.length+1];
-			//int total = 0;
 			for(int i=0;i<priceID.length;i++)
 			{
 				int count = 0;
@@ -267,13 +281,11 @@ public class PlaceMission
 					if(place.getPriceRank() == priceID[i])
 					{
 						count++;
-						//total++;
 					}
 				}
 				name[i+1] = priceName[i]+"("+count+")";
 				
 			}
-			//name[0] = "全部("+total+")";
 			name[0] = "全部("+totalCount+")";
 			return name;
 		}
@@ -282,7 +294,6 @@ public class PlaceMission
 		public String[] countPlaceByArea(String[] areaName, int[] areaID)
 		{
 			String[] name = new String[areaName.length+1]; 
-			//int total = 0;
 			for(int i=0;i<areaID.length;i++)
 			{
 				int count = 0;
@@ -291,13 +302,11 @@ public class PlaceMission
 					if(place.getAreaId() == areaID[i])
 					{
 						count++;
-						//total++;
 					}
 				}
 				name[i+1] = areaName[i]+"("+count+")";
 				
 			}
-			//name[0] = "全部("+total+")";
 			name[0] = "全部("+totalCount+")";
 			return name;
 			
@@ -307,7 +316,6 @@ public class PlaceMission
 		public String[] countPlaceByService(String[] serviceName, int[] serviceID)
 		{
 			String[] name = new String[serviceName.length+1];
-			//int total = 0;
 			for(int i=0;i<serviceID.length;i++)
 			{
 				int count = 0;
@@ -317,7 +325,6 @@ public class PlaceMission
 					{
 						if(proServiceID == serviceID[i])
 						{
-							//total++;
 							count++;
 							break;
 						}				
@@ -326,7 +333,6 @@ public class PlaceMission
 				name[i+1] = serviceName[i]+"("+count+")";
 				
 			}
-			//name[0] = "全部("+total+")";
 			name[0] = "全部("+totalCount+")";
 			return name;
 		}

@@ -105,6 +105,7 @@
                 android:id="@+id/damuzhi_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/booking_price"
                 android:textSize="13sp" />
         </LinearLayout>
         <LinearLayout
@@ -122,6 +123,7 @@
                 android:id="@+id/booking_status"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/booking_status_color"
                 android:textSize="13sp" />
         </LinearLayout>
         <LinearLayout

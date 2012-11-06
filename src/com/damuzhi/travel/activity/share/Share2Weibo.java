@@ -10,6 +10,7 @@ package com.damuzhi.travel.activity.share;
 
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import org.json.JSONObject;
 
@@ -32,20 +33,22 @@ import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.qweibo.MyWebView;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.MainActivity;
+import com.damuzhi.travel.db.AccessTokenKeeper;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.tencent.weibo.api.T_API;
 import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.utils.OAuthClient;
 import com.umeng.analytics.MobclickAgent;
-import com.weibo.net.AccessToken;
-import com.weibo.net.AsyncWeiboRunner;
-import com.weibo.net.AsyncWeiboRunner.RequestListener;
-import com.weibo.net.DialogError;
-import com.weibo.net.Utility;
-import com.weibo.net.Weibo;
-import com.weibo.net.WeiboDialogListener;
-import com.weibo.net.WeiboException;
-import com.weibo.net.WeiboParameters;
+import com.weibo.sdk.android.Oauth2AccessToken;
+import com.weibo.sdk.android.Weibo;
+import com.weibo.sdk.android.WeiboAuthListener;
+import com.weibo.sdk.android.WeiboDialogError;
+import com.weibo.sdk.android.WeiboException;
+import com.weibo.sdk.android.api.StatusesAPI;
+import com.weibo.sdk.android.net.RequestListener;
+import com.weibo.sdk.android.sso.SsoHandler;
+
 
 /**  
  * @description   
@@ -74,10 +77,16 @@ public class Share2Weibo extends Activity implements RequestListener
 	String[] qq_oauth_token_array;
 	String qq_oauth_token_secret;
 	String qq_oauth_token;
-
 	public static OAuthClient qq_auth;
 	public static OAuth qq_oauth;
-
+    
+	//sina
+	public static Oauth2AccessToken accessToken ;
+	private Weibo mWeibo;
+	/**
+	 * SsoHandler 仅当sdk支持sso时有效，
+	 */
+	 SsoHandler mSsoHandler;
 	
 	private static final String SHARE_CONFIG = "share_config";
 	private static final  int SHARE_2_SINA = 1;
@@ -106,6 +115,8 @@ public class Share2Weibo extends Activity implements RequestListener
 		if (shareConfig == SHARE_2_SINA)
 		{
 			title = getString(R.string.share_2_sina_title);
+			Share2Weibo.accessToken=AccessTokenKeeper.readAccessToken(this);
+			if (!Share2Weibo.accessToken.isSessionValid()) 
 			getSinaOauthToken();
 		}else
 		{
@@ -152,13 +163,131 @@ public class Share2Weibo extends Activity implements RequestListener
 		public void onClick(View v)
 		{
 			Intent intent = new Intent();
-			intent.setClass(Share2Weibo.this, IndexActivity.class);
+			intent.setClass(Share2Weibo.this, MainActivity.class);
 			startActivity(intent);
 		}
 	};
 	
+	private void share2sinaWeibo(String content) {    
+		StatusesAPI api = new StatusesAPI(Share2Weibo.accessToken);
+		api.update( content, "", "", this);
+    }
+	
+	
 	
 	private void getSinaOauthToken()
+	{
+		
+		if(SINA_CONSUMER_KEY!=null&&!SINA_CONSUMER_KEY.equals("")&&SINA_CONSUMER_SECRET!=null&&!SINA_CONSUMER_SECRET.equals("")&&CALL_BACK_URL!=null&&!CALL_BACK_URL.equals(""))
+		{			
+			mWeibo = Weibo.getInstance(SINA_CONSUMER_KEY, CALL_BACK_URL);
+			try {
+	            Class sso=Class.forName("com.weibo.sdk.android.sso.SsoHandler");
+	            mSsoHandler =new SsoHandler(Share2Weibo.this,mWeibo);
+	            mSsoHandler.authorize( new AuthDialogListener());
+	        } catch (ClassNotFoundException e) {
+//	            e.printStackTrace();
+	            Log.i(TAG, "com.weibo.sdk.android.sso.SsoHandler not found");
+	            mWeibo.authorize(Share2Weibo.this, new AuthDialogListener());
+	        }
+			
+		}
+		
+	}
+	
+	class AuthDialogListener implements WeiboAuthListener {
+
+		@Override
+		public void onComplete(Bundle values) {
+			String token = values.getString("access_token");
+			String expires_in = values.getString("expires_in");
+			Share2Weibo.accessToken = new Oauth2AccessToken(token, expires_in);
+			if (Share2Weibo.accessToken.isSessionValid()) {
+				try {
+	                Class sso=Class.forName("com.weibo.sdk.android.api.WeiboAPI");//如果支持weiboapi的话，显示api功能演示入口按钮
+	            } catch (ClassNotFoundException e) {
+//	                e.printStackTrace();
+	                Log.i(TAG, "com.weibo.sdk.android.api.WeiboAPI not found");
+	               
+	            }
+				AccessTokenKeeper.keepAccessToken(Share2Weibo.this, accessToken);
+				Toast.makeText(Share2Weibo.this, "认证成功", Toast.LENGTH_SHORT).show();
+			}
+		}
+
+		@Override
+		public void onError(WeiboDialogError e) {
+			Toast.makeText(getApplicationContext(), "Auth error : " + e.getMessage(),
+					Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		public void onCancel() {
+			Toast.makeText(getApplicationContext(), "Auth cancel", Toast.LENGTH_LONG).show();
+		}
+
+		@Override
+		public void onWeiboException(WeiboException e) {
+			Toast.makeText(getApplicationContext(), "Auth exception : " + e.getMessage(),
+					Toast.LENGTH_LONG).show();
+		}
+
+	}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        /**
+         * 下面两个注释掉的代码，仅当sdk支持sso时有效，
+         */
+        if(mSsoHandler!=null){
+            mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
+        }
+    }
+	
+	
+
+	@Override
+	public void onComplete(String response) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				Toast.makeText(Share2Weibo.this, R.string.share_success, Toast.LENGTH_LONG)
+						.show();
+			}
+		});
+
+		this.finish();
+	}
+
+	@Override
+	public void onIOException(IOException e) {
+
+	}
+
+	@Override
+	public void onError(final WeiboException e) {
+		System.out.println(e);
+		runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				Toast.makeText(
+						Share2Weibo.this,
+						String.format(Share2Weibo.this.getString(R.string.share_fail)+ ":%s", e.getMessage()), Toast.LENGTH_LONG).show();
+			}
+		});
+
+	}
+	
+	
+	
+	
+	
+	
+	
+	/*private void getSinaOauthToken()
 	{
 		
 		if(SINA_CONSUMER_KEY!=null&&!SINA_CONSUMER_KEY.equals("")&&SINA_CONSUMER_SECRET!=null&&!SINA_CONSUMER_SECRET.equals("")&&CALL_BACK_URL!=null&&!CALL_BACK_URL.equals(""))
@@ -258,7 +387,7 @@ public class Share2Weibo extends Activity implements RequestListener
 	            }
 	        });
 		
-	}
+	}*/
 	
 	
 	

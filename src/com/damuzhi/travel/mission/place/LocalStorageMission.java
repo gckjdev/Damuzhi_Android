@@ -61,8 +61,6 @@ public class LocalStorageMission
 		{
 			result = true;
 		}
-		/*String dataPath = String.format(ConstantField.DOWNLOAD_CITY_DATA_PATH,cityId);
-		boolean result =  FileUtil.checkFileIsExits(dataPath);*/
 		return result;
 	}
 	
@@ -85,37 +83,7 @@ public class LocalStorageMission
 	
 	
 	
-	
-	/*public void loadCityPlaceData(int cityId){
-		try
-		{
-			String dataPath = getCityDataPath(cityId);
-			Log.i(TAG, "<loadCityPlaceData> load place data from "+dataPath+" for city "+cityId);
-			
-			// delete all old data
-			placeMission.clearLocalData();
-			
-			// read data from place files
-			FileUtil fileUtil = new FileUtil();
-			ArrayList<FileInputStream> fileInputStreams = fileUtil.getFileInputStreams(dataPath, ConstantField.PLACE_TAG, ConstantField.EXTENSION, true);
-			if(fileInputStreams ==null || fileInputStreams.size()==0)
-			return ;
-			for(FileInputStream fileInputStream : fileInputStreams)
-			{
-				
-				PlaceList placeList = PlaceList.parseFrom(fileInputStream);
-				if (placeList != null){				
-					placeMission.addLocalPlaces(placeList.getListList());
-					//Log.i(TAG, "<loadCityPlaceData> read "+placeList.getListCount()+" place");
-				}
-				fileInputStream.close();
-			}
-			
-		} catch (Exception e)
-		{
-			Log.e(TAG, "<loadCityPlaceData> read local city data but catch exception="+e.toString(), e);
-		} 
-	}*/
+
 	
 	public void loadCityPlaceData(int cityId){
 		try
@@ -170,15 +138,6 @@ public class LocalStorageMission
 			TravelTips.Builder travelTips = TravelTips.newBuilder();
 			for(FileInputStream fileInputStream : fileInputStreams)
 			{
-				/*TravelTips travelTips = TravelTips.parseFrom(fileInputStream);
-				if (travelTips != null){
-					if(travelTips.getGuideListCount()>0)
-					{
-						tipsMission.addLocalTravelGuide(travelTips.getGuideListList());
-					}
-					
-					//Log.i(TAG, "<loadCityTravelGuideData> read "+travelTips.getRouteListCount()+" travelGuide");
-				}*/
 				CommonTravelTip commonTravelTip = CommonTravelTip.parseFrom(fileInputStream);
 				if (commonTravelTip != null){
 					travelTips.addGuideList(commonTravelTip);
@@ -216,14 +175,6 @@ public class LocalStorageMission
 			TravelTips.Builder travelTips = TravelTips.newBuilder();
 			for(FileInputStream fileInputStream : fileInputStreams)
 			{
-				/*TravelTips travelTips = TravelTips.parseFrom(fileInputStream);
-				if (travelTips != null){
-					if(travelTips.getRouteListCount()>0)
-					{
-						tipsMission.addLocalTravelRoute(travelTips.getRouteListList());
-					}					
-					//Log.i(TAG, "<loadCityTravelRouteData> read "+travelTips.getRouteListCount()+" travelRoute");
-				}*/
 				CommonTravelTip commonTravelTip = CommonTravelTip.parseFrom(fileInputStream);
 				if (commonTravelTip != null){
 					travelTips.addRouteList(commonTravelTip);
@@ -288,10 +239,6 @@ public class LocalStorageMission
 				// read data from place files
 				FileUtil fileUtil = new FileUtil();
 				FileInputStream fileInputStream = fileUtil.getInputStream(dataPath, ConstantField.PACKAGE_TAG, ConstantField.EXTENSION, true);
-				/*if(fileInputStream ==null )
-				{
-				return null;	
-				}*/
 				if(fileInputStream != null)
 				{
 					Package packageData = com.damuzhi.travel.protos.PackageProtos.Package.parseFrom(fileInputStream);

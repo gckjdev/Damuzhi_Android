@@ -26,6 +26,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Html.ImageGetter;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -38,7 +39,9 @@ import android.view.View.OnClickListener;
 import android.view.animation.Animation;
 import android.view.animation.TranslateAnimation;
 import android.widget.AdapterView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -106,9 +109,16 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
     private ImageButton modelButton;
     private TextView modelTextView;
     private String currentDistance ="";
-    private String currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
+    private String currentPlaceCategory = ConstantField.NEARBY_ALL;
     private LocationClient mLocClient;
     private int model = 1;//1== map,2= list
+    private View listViewFooter;
+	private ViewGroup footerViewGroup;
+	private static int start = 0;
+	private static int count = 1;
+	private int totalCount = 0;
+	private boolean loadDataFlag = false;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -116,7 +126,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.common_nearby_place);
 		currentDistance = ConstantField.HALF_KILOMETER;
-		currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
+		currentPlaceCategory = ConstantField.NEARBY_ALL;
 		loadingDialog = new ProgressDialog(this);
 		init();
 		loadPlace();		
@@ -165,9 +175,21 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		move = (TextView) findViewById(R.id.move);
 		move.setTextColor(getResources().getColor(R.color.white));
 		
+		
+		listViewFooter = getLayoutInflater().inflate(R.layout.load_more_view, null, false);
+		listView.addFooterView(listViewFooter);
+		listView.setFooterDividersEnabled(false);
+		footerViewGroup = (ViewGroup) listViewFooter.findViewById(R.id.listView_load_more_footer);
+		footerViewGroup.setVisibility(View.GONE);
+		
 	//	popupView = LayoutInflater.from(this).inflate(R.layout.overlay_popup, null);
 		adapter = new NearbyPlaceAdapter(this, placeList);
 		listView.setAdapter(adapter);
+		listView.setOnScrollListener(listviewOnScrollListener);
+		
+		DisplayMetrics dm = new DisplayMetrics();
+		getWindowManager().getDefaultDisplay().getMetrics(dm);
+		screenW = dm.widthPixels;
 	}
 
 	
@@ -182,7 +204,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			protected List<Place> doInBackground(String... params)
 			{
 				getMyLocation();
-				return PlaceMission.getInstance().getPlaceNearbyInDistance(location, currentDistance,currentPlaceCategory);
+				return PlaceMission.getInstance().getPlaceNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
 			}
 
 			@Override
@@ -195,8 +217,11 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			protected void onPostExecute(List<Place> resultList)
 			{
 				loadingDialog.dismiss();
-				placeList.clear();
-				placeList.addAll(resultList);	
+				if(resultList != null){
+					placeList.clear();
+					placeList.addAll(resultList);
+				}
+					
 				refreshPlaceView();
 				if(placeList.size()>0)
 				{
@@ -212,6 +237,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			protected void onPreExecute()
 			{
 				showRoundProcessDialog();
+				loadDataFlag = true;
 				super.onPreExecute();
 			}
 
@@ -221,12 +247,44 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		
 	}
 	
+	
+	private void loadMore()
+	{
+		AsyncTask<String, Void, List<Place>> task = new AsyncTask<String, Void, List<Place>>()
+		{
+
+			@Override
+			protected List<Place> doInBackground(String... params)
+			{		
+				loadDataFlag = false;
+				start = count *20;
+				//Log.d(TAG, "load more start from = "+start);
+				count++;		
+				return PlaceMission.getInstance().getPlaceNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
+			}
+			@Override
+			protected void onPostExecute(List<Place> resultList)
+			{
+				loadDataFlag = true;
+				addMoreData(resultList);
+				footerViewGroup.setVisibility(View.GONE);
+				super.onPostExecute(resultList);
+			}			
+		};
+
+		task.execute();		
+	}
+	
+	
+	
+	
+	
+	
 	private void refreshPlaceView()
 	{
 		ComparatorDistance comparatorDistance = new ComparatorDistance(location);
 		Collections.sort(placeList, comparatorDistance);
-		if(listView.getVisibility() == View.VISIBLE)
-		{
+		if(listView.getVisibility() == View.VISIBLE){
 			adapter.setList(placeList);
 			adapter.notifyDataSetChanged();
 		}else
@@ -237,17 +295,71 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	}
 	
 	
-	
-	private void updateTitle()
+	private void addMoreData(List<Place> list)
 	{
-		TextView placeSize = (TextView) findViewById(R.id.place_num);
-		int size = placeList.size();
-		String sizeString = "(" + size + ")";
-		placeSize.setText(sizeString);
+		if(list != null){
+			Log.d(TAG, "load more nearby place list size = "+list.size());
+			placeList.addAll(list);
+			ComparatorDistance comparatorDistance = new ComparatorDistance(location);
+			Collections.sort(placeList, comparatorDistance);
+			if(listView.getVisibility() == View.VISIBLE){
+				//adapter.addPlaceList(list);
+				//Log.d(TAG, "after nearby list add load more data  list size = "+adapter.getCount());
+				//adapter.setList(list);
+				adapter.notifyDataSetChanged();
+			}else {
+				goMapView(placeList);
+			}
+			updateTitle();
+		}		
 	}
 	
 	
 	
+	private void updateTitle()
+	{
+		footerViewGroup.setVisibility(View.INVISIBLE);
+		TextView placeSize = (TextView) findViewById(R.id.place_num);		 
+		totalCount = PlaceMission.getInstance().getPlaceTotalCount();
+		String sizeString = "(" + adapter.getCount()+ ")";
+		placeSize.setText(sizeString);
+	}
+	
+	
+	private int visibleLastIndex = 0;
+	private OnScrollListener listviewOnScrollListener = new OnScrollListener()
+	{	
+		@Override
+		public void onScrollStateChanged(AbsListView view, int scrollState)
+		{
+			if(!loadDataFlag)
+			{
+				return ;
+			}
+			if(totalCount !=0 && visibleLastIndex == totalCount)
+			{
+			   listView.removeFooterView(listViewFooter);	
+			}
+			if(visibleLastIndex >0)
+			{	
+				footerViewGroup.setVisibility(View.VISIBLE);
+			  int size = adapter.getCount();	
+			  if(scrollState ==OnScrollListener.SCROLL_STATE_IDLE &&visibleLastIndex == size)
+			  {
+				  Log.d(TAG, "load more");
+				 // Log.d(TAG, "listview visibleLastIndex = "+visibleLastIndex);	  
+				  loadMore();
+			  } 
+			}
+		}
+		
+		@Override
+		public void onScroll(AbsListView view, int firstVisibleItem,
+				int visibleItemCount, int totalItemCount)
+		{
+			visibleLastIndex = firstVisibleItem + visibleItemCount -1;
+		}
+	};
 	
 
 	 
@@ -259,10 +371,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		{
 			if(startPosition !=0)
 			{
-				Animation animation = null;
-				//currentDistance = ConstantField.HALF_KILOMETER;	
 				currentDistance = ConstantField.TWO_HUNDRED_AND_FIFTY;	
-				getOffSet(redStart,startPosition);
 				float endSet = screenW*-0.12f;
 				if(startPosition == 2)
 				{
@@ -272,12 +381,8 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				{
 					offset = offset - screenW*0.15f;
 				}
+				changeDistance(endSet);
 				startPosition = 0;			
-				animation = new TranslateAnimation(offset,endSet, 0, 0);
-				animation.setDuration(500);		
-				redStart.startAnimation(animation);
-				animation.setFillAfter(true);
-				loadPlace();
 			}
 			
 
@@ -291,11 +396,8 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			public void onClick(View v)
 			{
 				if(startPosition != 1)
-				{
-					Animation animation = null;
-					//currentDistance = ConstantField.ONE_KILOMETER;	
+				{	
 					currentDistance = ConstantField.HALF_KILOMETER;	
-					getOffSet(redStart,startPosition);
 					float endSet = screenW*0f;		
 					if(startPosition == 2)
 					{
@@ -305,12 +407,8 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 					{
 						offset = offset - screenW*0.15f;
 					}
-					startPosition = 1;				
-					animation = new TranslateAnimation(offset,endSet, 0, 0);
-					animation.setDuration(500);		
-					redStart.startAnimation(animation);
-					animation.setFillAfter(true);				
-					loadPlace();
+					changeDistance(endSet);
+					startPosition = 1;
 				}
 				
 				
@@ -326,21 +424,14 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				{
 					if(startPosition != 2)
 					{
-						Animation animation = null;
-						//currentDistance = ConstantField.FIVE_KILOMETER;	
 						currentDistance = ConstantField.ONE_KILOMETER;
-						getOffSet(redStart,startPosition);
 						float endSet = screenW*0.18f;	
 						if(startPosition>2)
 						{
 							offset = offset - screenW*0.15f;
 						}
+						changeDistance(endSet);
 						startPosition = 2;					
-						animation = new TranslateAnimation(offset,endSet, 0, 0);
-						animation.setDuration(500);		
-						redStart.startAnimation(animation);
-						animation.setFillAfter(true);
-						loadPlace();	
 					}
 					
 				}
@@ -356,22 +447,27 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				{
 					if(startPosition != 3)
 					{
-						Animation animation = null;
-						//currentDistance = ConstantField.TEN_KILOMETER;
 						currentDistance = ConstantField.FIVE_KILOMETER;	
-						getOffSet(redStart,startPosition);
 						float endSet = screenW*0.69f;
-						startPosition = 3;
-						animation = new TranslateAnimation(offset,endSet, 0, 0);
-						animation.setDuration(500);		
-						redStart.startAnimation(animation);
-						animation.setFillAfter(true);
-						loadPlace();	
+						changeDistance(endSet);
+						startPosition = 3;	
 					}
 					
 				}
 			};
-				
+		
+		private void changeDistance(float endSet)
+		{
+			start = 0;
+			count = 1;
+			getOffSet(redStart,startPosition);
+			Animation animation = null;
+			animation = new TranslateAnimation(offset,endSet, 0, 0);
+			animation.setDuration(500);		
+			redStart.startAnimation(animation);
+			animation.setFillAfter(true);
+			loadPlace();
+		}	
 				
 		 private OnClickListener allPlaceOnClickListener = new OnClickListener()
 			{
@@ -379,18 +475,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				@Override
 				public void onClick(View v)
 				{
-					currentPlaceCategory = ConstantField.NEARBY_PLACE_LIST_IN_DISTANCE;
+					currentPlaceCategory = ConstantField.NEARBY_ALL;
 					loadPlace();
 					getStartPosition(tabStartPosition);
-					float endLeft = allPlace.getWidth()*0;
-					move.setText("");
+					float endLeft = allPlace.getWidth()*0;					
 					tabStartPosition = 11;
-					TranslateAnimation animation = new TranslateAnimation(startLeft, endLeft, 0, 0); 
-					animation.setDuration(300);
-					animation.setFillAfter(true);
-					move.bringToFront();
-					move.startAnimation(animation);					
-					move.setText(setEndPosition(startPosition));
+					changePlaceCategory(endLeft);
 				}
 			};
 			
@@ -400,19 +490,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				@Override
 				public void onClick(View v)
 				{
-					currentPlaceCategory = ConstantField.NEARBY_SPOT_LIST_IN_DISTANCE;
+					currentPlaceCategory = ConstantField.NEARBY_SPOT;
 					loadPlace();
 					getStartPosition(tabStartPosition);
-					float endLeft = allPlace.getWidth()*1;
-					move.setText("");
+					float endLeft = allPlace.getWidth()*1;					
 					tabStartPosition = 12;
-					TranslateAnimation animation = new TranslateAnimation(startLeft, endLeft, 0, 0); 
-					animation.setDuration(300);
-					animation.setFillAfter(true);
-					move.bringToFront();
-					move.startAnimation(animation);					
-					move.setText(setEndPosition(startPosition));
-						
+					changePlaceCategory(endLeft);
 				}
 			};
 			
@@ -422,19 +505,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				@Override
 				public void onClick(View v)
 				{
-					currentPlaceCategory = ConstantField.NEARBY_HOTEL_LIST_IN_DISTANCE;
+					currentPlaceCategory = ConstantField.NEARBY_HOTEL;
 					loadPlace();
 					getStartPosition(tabStartPosition);
-					float endLeft = allPlace.getWidth()*2;
-					move.setText("");
-					tabStartPosition = 13;
-					TranslateAnimation animation = new TranslateAnimation(startLeft, endLeft, 0, 0); 
-					animation.setDuration(300);
-					animation.setFillAfter(true);
-					move.bringToFront();
-					move.startAnimation(animation);					
-					move.setText(setEndPosition(startPosition));
-						
+					float endLeft = allPlace.getWidth()*2;				
+					tabStartPosition = 13;	
+					changePlaceCategory(endLeft);
 				}
 			};
 			
@@ -444,19 +520,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				@Override
 				public void onClick(View v)
 				{
-					currentPlaceCategory = ConstantField.NEARBY_RESTAURANT_LIST_IN_DISTANCE;
+					currentPlaceCategory = ConstantField.NEARBY_RESTAURANT;
 					loadPlace();
 					getStartPosition(tabStartPosition);
-					float endLeft = allPlace.getWidth()*3;
-					move.setText("");
-					tabStartPosition = 14;
-					TranslateAnimation animation = new TranslateAnimation(startLeft, endLeft, 0, 0); 
-					animation.setDuration(300);
-					animation.setFillAfter(true);
-					move.bringToFront();
-					move.startAnimation(animation);					
-					move.setText(setEndPosition(startPosition));
-						
+					float endLeft = allPlace.getWidth()*3;					
+					tabStartPosition = 14;	
+					changePlaceCategory(endLeft);
 				}
 			};
 			
@@ -467,18 +536,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				@Override
 				public void onClick(View v)
 				{
-					currentPlaceCategory = ConstantField.NEARBY_SHOPPING_LIST_IN_DISTANCE;
+					currentPlaceCategory = ConstantField.NEARBY_SHOPPING;
 					loadPlace();
 					getStartPosition(tabStartPosition);
-					float endLeft = allPlace.getWidth()*4;
-					move.setText("");
+					float endLeft = allPlace.getWidth()*4;			
 					tabStartPosition = 15;
-					TranslateAnimation animation = new TranslateAnimation(startLeft, endLeft, 0, 0); 
-					animation.setDuration(300);
-					animation.setFillAfter(true);
-					move.bringToFront();
-					move.startAnimation(animation);					
-					move.setText(setEndPosition(startPosition));
+					changePlaceCategory(endLeft);
 						
 				}
 			};
@@ -490,23 +553,33 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				@Override
 				public void onClick(View v)
 				{
-					currentPlaceCategory = ConstantField.NEARBY_ENTERTRAINMENT_LIST_IN_DISTANCE;
-					loadPlace();
-					getStartPosition(tabStartPosition);
-					float endLeft = allPlace.getWidth()*5;
-					move.setText("");
+					
+					currentPlaceCategory = ConstantField.NEARBY_ENTERTRAINMENT;
+					loadPlace();					
+					float endLeft = allPlace.getWidth()*5;				
 					tabStartPosition = 16;
-					TranslateAnimation animation = new TranslateAnimation(startLeft, endLeft, 0, 0); 
-					animation.setDuration(300);
-					animation.setFillAfter(true);
-					move.bringToFront();
-					move.startAnimation(animation);					
-					move.setText(setEndPosition(startPosition));
+					changePlaceCategory(endLeft);
 						
 				}
 			};
 	 
 		
+			private void  changePlaceCategory(float endLeft)
+			{
+				start = 0;
+				count = 1;
+				listView.setSelection(0);
+				getStartPosition(tabStartPosition);
+				move.setText("");
+				TranslateAnimation animation = new TranslateAnimation(startLeft, endLeft, 0, 0); 
+				animation.setDuration(300);
+				animation.setFillAfter(true);
+				move.bringToFront();
+				move.startAnimation(animation);					
+				move.setText(setEndPosition());
+			}
+			
+			
 			
 	private OnClickListener modelOnClickListener = new OnClickListener()
 	{
@@ -591,10 +664,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	
 
 	
-	private void getOffSet(ImageView imageView,int startPosition) {	
-		DisplayMetrics dm = new DisplayMetrics();
-		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		screenW = dm.widthPixels;
+	private void getOffSet(ImageView imageView,int startPosition) {
 		switch (startPosition)
 		{
 			case 0:
@@ -645,7 +715,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	}
 	
 	
-	private String setEndPosition(int tabStatPosition) {
+	private String setEndPosition() {
 		String text = "";
 		switch (tabStartPosition)
 		{

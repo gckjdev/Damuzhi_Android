@@ -13,6 +13,7 @@ import com.damuzhi.travel.util.TravelUtil;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,6 +40,7 @@ public class LoginActivity extends Activity {
 	private Button   loginButton;
     private String userName;
     private String password;
+    private boolean loginResult;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -117,10 +119,11 @@ public class LoginActivity extends Activity {
 				{
 					e.printStackTrace();
 				}				
-				boolean result = CommonMission.getInstance().memberLogin(userName,password);
-				String resultInfo = CommonMission.getInstance().getResultInfo();
-				Log.d(TAG, " member login result = "+result);
-				if(result)
+				//boolean result = CommonMission.getInstance().memberLogin(userName,password);
+				login(userName, password);
+				/*String resultInfo = CommonMission.getInstance().getResultInfo();
+				Log.d(TAG, " member login result = "+loginResult);
+				if(loginResult)
 				{
 					String token = CommonMission.getInstance().getToken();
 					TravelApplication.getInstance().setToken(token);
@@ -130,12 +133,52 @@ public class LoginActivity extends Activity {
 				}else {
 					v.setClickable(true);
 					Toast.makeText(LoginActivity.this, resultInfo, Toast.LENGTH_SHORT).show();
-				}
+				}*/
 				
 			}
 			
 		}
 	};
+	
+	private void login(String userName,String password)
+	{
+		AsyncTask<String, Void, Boolean> asyncTask = new AsyncTask<String, Void, Boolean>()
+		{
+
+			@Override
+			protected Boolean doInBackground(String... params)
+			{
+				TravelApplication.getInstance().setLoginID(params[0]);
+				return CommonMission.getInstance().memberLogin(params[0],params[1]);
+			}
+
+			@Override
+			protected void onPostExecute(Boolean result)
+			{
+				super.onPostExecute(result);
+				loginButton.setClickable(true);
+				//loginResult = result;
+				String resultInfo = CommonMission.getInstance().getResultInfo();
+				Log.d(TAG, " member login result = "+loginResult);
+				if(result)
+				{
+					String token = CommonMission.getInstance().getToken();
+					TravelApplication.getInstance().setToken(token);
+					//TravelApplication.getInstance().setLoginID(userName);
+					Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
+					finish();
+				}else {
+					//v.setClickable(true);
+					Toast.makeText(LoginActivity.this, resultInfo, Toast.LENGTH_SHORT).show();
+				}
+			}
+	
+		};
+		String params[] = new String[]{userName,password};
+		asyncTask.execute(params);
+		
+	}
+	
 	
 	@Override
 	protected void onDestroy()

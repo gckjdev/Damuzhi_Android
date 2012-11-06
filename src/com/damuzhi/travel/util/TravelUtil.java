@@ -865,6 +865,14 @@ public class TravelUtil
 	public static String getDateShortString(long time ) {
 		Calendar date = Calendar.getInstance();
 		date.setTimeInMillis(time);
+		SimpleDateFormat dateformat=new SimpleDateFormat("yyyy年MM月dd日");
+		String dateString =dateformat.format(date.getTime());
+		return dateString;
+	}
+	
+	public static String getDateLongString(long time ) {
+		Calendar date = Calendar.getInstance();
+		date.setTimeInMillis(time);
 		SimpleDateFormat dateformat=new SimpleDateFormat("yyyyMMdd");
 		String dateString =dateformat.format(date.getTime());
 		return dateString;

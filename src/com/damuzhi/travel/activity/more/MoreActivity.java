@@ -35,6 +35,7 @@ import com.damuzhi.travel.activity.touristRoute.CommonBookingConfirmActivity;
 import com.damuzhi.travel.activity.touristRoute.CommonOrderMangerActivity;
 import com.damuzhi.travel.activity.touristRoute.CommonTouristRouteOrderListActivity;
 import com.damuzhi.travel.mission.more.MoreMission;
+import com.damuzhi.travel.mission.more.UpdateMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.SlidButton;
@@ -260,7 +261,7 @@ public class MoreActivity extends MenuActivity
 		@Override
 		public void onClick(View v)
 		{
-			float remoteVersion = MoreMission.getInstance().getNewVersion();
+			float remoteVersion = UpdateMission.getInstance().getNewVersion();
 			float localVersion = TravelUtil.getVersionName(MoreActivity.this);
 			if(remoteVersion>localVersion)
 			{

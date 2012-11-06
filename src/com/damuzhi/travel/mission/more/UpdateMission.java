@@ -1,9 +1,9 @@
 /**  
-        * @title MoreMission.java  
-        * @package com.damuzhi.travel.mission  
+        * @title DownloadMission.java  
+        * @package com.damuzhi.travel.mission.more  
         * @description   
         * @author liuxiaokun  
-        * @update 2012-6-20 下午4:52:55  
+        * @update 2012-8-8 下午12:32:32  
         * @version V1.0  
  */
 package com.damuzhi.travel.mission.more;
@@ -12,15 +12,16 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.util.Log;
 
-import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.mission.place.LocalStorageMission;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 
@@ -28,45 +29,54 @@ import com.damuzhi.travel.network.HttpTool;
  * @description   
  * @version 1.0  
  * @author liuxiaokun  
- * @update 2012-6-20 下午4:52:55  
+ * @update 2012-8-8 下午12:32:32  
  */
 
-public class MoreMission
+public class UpdateMission
 {
-	private static final String TAG = "MoreMission";
-	private static MoreMission instance = null;
-	/*private String appUpdateTile ;
-	private String appUpdateContent;*/
-	private MoreMission() {
-	}
+	private static final String TAG = "DownloadMission";	
+	private static UpdateMission instance = null;
+	private String appUpdateTile ;
+	private String appUpdateContent;
 	
-	public static MoreMission getInstance() {
+	private UpdateMission() {
+	}
+	public static UpdateMission getInstance() {
 		if (instance == null) {
-			instance = new MoreMission();
+			instance = new UpdateMission();
 		}
 		return instance;
 	}
-
 	
-	public boolean isShowListImage()
-	{		
-		SharedPreferences showListImage = TravelApplication.getInstance().getSharedPreferences(ConstantField.SHOW_LIST_IMAGE, 0);
-		boolean isShow = showListImage.getBoolean(ConstantField.SHOW_LIST_IMAGE, true);
-		return isShow;
-		
-	}
-	
-	
-	public void saveIsShowImage(boolean isShow,Context context)
+	public Map<Integer, String> getNewVersionCityData(List<Integer> installedCityList)
 	{
-		SharedPreferences userSharedPreferences = context.getSharedPreferences(ConstantField.SHOW_LIST_IMAGE, 0);
-		Editor editor = userSharedPreferences.edit();		
-		editor.putBoolean(ConstantField.SHOW_LIST_IMAGE, isShow);
-		editor.commit();
-		
+		HashMap<Integer, String> newVersionCityData = new HashMap<Integer, String>();
+		if(installedCityList != null &&installedCityList.size()>0)
+		{
+			HashMap<Integer, Float> latestVersionHashMap = AppManager.getInstance().getlatestVersion();
+			HashMap<Integer, Float> dataVersionHashMap = LocalStorageMission.getInstance().getDataVersion(installedCityList);
+			HashMap<Integer, String> latestDataDownloadURL = AppManager.getInstance().getlatestDataDownloadURL();
+			if(latestVersionHashMap != null&&dataVersionHashMap != null)
+			{
+				for(int cityId:installedCityList)
+				{
+					if(latestVersionHashMap.containsKey(cityId)&&dataVersionHashMap.containsKey(cityId))
+					{
+						float latestVersion = latestVersionHashMap.get(cityId);
+						float dataVersion = dataVersionHashMap.get(cityId);
+						String downloadURL = latestDataDownloadURL.get(cityId);
+						if(latestVersion>dataVersion)
+						{
+							newVersionCityData.put(cityId, downloadURL);
+						}
+					}
+				}
+			}
+		}
+		return newVersionCityData;
 	}
 	
-	/*public float getNewVersion()
+	public float getNewVersion()
 	{
 		float version = 0f;
 		String url = ConstantField.ANDROID_VERSION;
@@ -147,25 +157,21 @@ public class MoreMission
 			}
 		}
 		return version;
-	}*/
-
-	/*public String getAppUpdateTile()
+	}
+	public String getAppUpdateTile()
 	{
 		return appUpdateTile;
 	}
-
 	public String getAppUpdateContent()
 	{
 		return appUpdateContent;
 	}
-
 	public void setAppUpdateTile(String appUpdateTile)
 	{
 		this.appUpdateTile = appUpdateTile;
 	}
-
 	public void setAppUpdateContent(String appUpdateContent)
 	{
 		this.appUpdateContent = appUpdateContent;
-	}*/
+	}
 }

@@ -75,13 +75,14 @@ public class PicUtill {
 	
 	public static Bitmap getbitmap(String imageUri)  {
 		Bitmap bitmap = null;
+		InputStream is = null;
 		try {
 			/*URL myFileUrl = new URL(imageUri);
 			HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
 			conn.setDoInput(true);
 			conn.connect();
 			InputStream is = conn.getInputStream();*/
-			InputStream is = HttpTool.getInstance().sendGetRequest(imageUri);
+			is = HttpTool.getInstance().sendGetRequest(imageUri);
 			BitmapFactory.Options options = new BitmapFactory.Options();  
 			options.inPurgeable = true;
 			options.inJustDecodeBounds = false;
@@ -101,14 +102,24 @@ public class PicUtill {
 			}         */   
 			bitmap = BitmapFactory.decodeStream(is,null,options);
 			//bitmap = BitmapFactory.decodeStream(is);
-			is.close();
-		} catch (IOException e) {
+			
+		} catch (Exception e) {
 			Log.e(TAG, "<getbitmap> but catch exception :"+e.toString(),e);
 			return null;
 						
 		}finally
 		{
 			HttpTool.getInstance().stopConnection();
+			if(is != null)
+			{
+				try
+				{
+					is.close();
+				} catch (Exception e)
+				{
+				}
+			}
+			
 		}
 		return bitmap;
 	}
@@ -298,11 +309,12 @@ public class PicUtill {
 		try {
 			if(imagePath.contains("http://"))
 			{
-				URL myFileUrl = new URL(imagePath);
-				HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
+				//URL myFileUrl = new URL(imagePath);
+				/*HttpURLConnection conn = (HttpURLConnection) myFileUrl.openConnection();
 				conn.setDoInput(true);
 				conn.connect();
-				InputStream is = conn.getInputStream();
+				InputStream is = conn.getInputStream();*/
+				InputStream is = HttpTool.getInstance().sendGetRequest(imagePath);
 				bitmap = BitmapFactory.decodeStream(is);
 				is.close();
 			}else

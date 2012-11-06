@@ -8,6 +8,7 @@
          android:id="@+id/filter_checkbox"  
          android:layout_width="wrap_content"  
          android:layout_height="wrap_content"  
+         android:layout_marginLeft="10dp"
          android:focusable="false"  
          android:focusableInTouchMode="false"  
          android:button="@drawable/check_box_button"
@@ -17,7 +18,7 @@
          android:id="@+id/filter_title"  
          android:textColor="@color/black"
          android:textSize="14sp"  
-         android:paddingLeft="20dp"
+         android:paddingLeft="5dp"
          android:layout_width="wrap_content"  
          android:layout_height="wrap_content"/>  
  </LinearLayout>  

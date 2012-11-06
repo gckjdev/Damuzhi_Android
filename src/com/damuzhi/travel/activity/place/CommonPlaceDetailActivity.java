@@ -39,6 +39,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -541,7 +542,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		//nearbyPlaceListView = (ListView) findViewById(R.id.nearby_place_listview);
 		collectBtn.setOnClickListener(addFavoriteOnClickListener);
 		ImageButton locationButton = (ImageButton) findViewById(R.id.location_button);
-		ImageButton indexButton = (ImageButton) findViewById(R.id.index_button);
+		Button indexButton = (Button) findViewById(R.id.index_button);
 		indexButton.setOnClickListener(indexOnClickListener);
 		ImageView help2Button = (ImageView) findViewById(R.id.help2);
 		locationButton.setOnClickListener(locationOnClickListener);

@@ -41,7 +41,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bottombg"
+        android:background="@drawable/line_order_bg2"
         android:orientation="vertical"
         android:paddingBottom="10dp" >
         <TextView
@@ -147,6 +147,10 @@
             </FrameLayout>
         </LinearLayout>
     </LinearLayout>
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/line_n_bg"/>
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

@@ -181,10 +181,10 @@ public class AppManager
 			{
 				cityMap.put(city.getCityId(), city);
 			}
-			/*for (City city : app.getTestCitiesList())
+			for (City city : app.getTestCitiesList())
 			{
 				cityMap.put(city.getCityId(), city);
-			}*/
+			}
 		}
 		return cityMap;
 	}
@@ -213,10 +213,10 @@ public class AppManager
 			{
 				cityNameMap.put(city.getCityName(), city.getCityId());
 			}
-			/*for (City city : app.getTestCitiesList())
+			for (City city : app.getTestCitiesList())
 			{
 				cityNameMap.put(city.getCityName(), city.getCityId());
-			}*/
+			}
 		}
 		return cityNameMap;
 	}
@@ -246,10 +246,10 @@ public class AppManager
 			{
 				cityMap.put(city.getCityId(), city);
 			}
-			/*for (City city : app.getTestCitiesList())
+			for (City city : app.getTestCitiesList())
 			{
 				cityMap.put(city.getCityId(), city);
-			}*/
+			}
 		}
 
 		return cityMap;
@@ -692,13 +692,13 @@ public class AppManager
 					currentCityName = city.getCityName();
 				}
 			}
-			/*for (City city : app.getTestCitiesList())
+			for (City city : app.getTestCitiesList())
 			{
 				if(city.getCityId() == currentCityId)
 				{
 					currentCityName = city.getCityName();
 				}
-			}*/
+			}
 		}
 		return currentCityName;
 	}
@@ -746,7 +746,15 @@ public class AppManager
 				  citylList.add(city);
 			  }
 			}
+			for(City city :app.getTestCitiesList())
+			{
+				if(city.getHotCity())
+				  {
+					  citylList.add(city);
+				  }
+			}
 			temp.addAll(app.getCitiesList());
+			temp.addAll(app.getTestCitiesList());
 			Collections.sort(temp, new PinyinComparator());
 			citylList.addAll(temp);
 			temp.clear();
@@ -1000,7 +1008,7 @@ public class AppManager
 		return "";
 	}
 
-	public String getcityNameById(int cityId) {
+	public String getCityNameById(int cityId) {
 		String cityName = "";
 		if (app != null)
 		{
@@ -1029,6 +1037,30 @@ public class AppManager
 			}
 		}
 		return null;
+	}
+
+	/**  
+	        * @param currentCityId2
+	        * @return  
+	        * @description   
+	        * @version 1.0  
+	        * @author liuxiaokun  
+	        * @update 2012-11-6 下午4:47:54  
+	*/
+	public String getCityCountryById(int cityId)
+	{
+		String countryName = "";
+		if (app != null)
+		{
+			for (City city : app.getCitiesList())
+			{
+				if(city.getCityId() == cityId)
+				{
+					countryName = city.getCountryName();
+				}
+			}
+		}
+		return countryName;
 	}
 	
 }
