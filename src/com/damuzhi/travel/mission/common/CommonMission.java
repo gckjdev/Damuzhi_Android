@@ -61,16 +61,13 @@ public class CommonMission
 	
 	public void registerDevice(String deviceId,String channelId,Context context)
 	{
-		SharedPreferences userSharedPreferences = context.getSharedPreferences(ConstantField.USER_ID, 0);
-		Editor editor = userSharedPreferences.edit();
 		String url = String.format(ConstantField.REGISTER,deviceId,channelId);
 		Log.d(TAG, "<registerDevice> url = "+url);
 		boolean result = getDataByURL(url);
 		if(result)
 		{
 			Log.d(TAG, "<register> save userId = "+userId);		
-			editor.putString(ConstantField.USER_ID, userId);
-			editor.commit();
+			UserManager.getInstance().saveUserId(context, userId);
 		}
 		
 		
@@ -79,7 +76,6 @@ public class CommonMission
 	
 	public boolean registerMember(String url) {
 		boolean result = false;
-		//result = registerMemberByUrl(url);
 		result = getDataByURL(url);
 		return result;
 	}
@@ -187,17 +183,6 @@ public class CommonMission
 					resultInfo = resultData.getString("resultInfo");
 				}
 				if (resultData!= null&& resultCode == 0){
-					/*if(type == 1)
-					{
-						token = resultData.getString("token");
-						return true;
-					}
-					
-					if(type == 2)
-					{
-						userId = resultData.getString("userId");
-						return true;
-					}*/
 					if(resultData.has("token"))
 					{
 						token = resultData.getString("token");

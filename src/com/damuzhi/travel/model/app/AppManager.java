@@ -181,10 +181,10 @@ public class AppManager
 			{
 				cityMap.put(city.getCityId(), city);
 			}
-			for (City city : app.getTestCitiesList())
+			/*for (City city : app.getTestCitiesList())
 			{
 				cityMap.put(city.getCityId(), city);
-			}
+			}*/
 		}
 		return cityMap;
 	}
@@ -213,10 +213,10 @@ public class AppManager
 			{
 				cityNameMap.put(city.getCityName(), city.getCityId());
 			}
-			for (City city : app.getTestCitiesList())
+			/*for (City city : app.getTestCitiesList())
 			{
 				cityNameMap.put(city.getCityName(), city.getCityId());
-			}
+			}*/
 		}
 		return cityNameMap;
 	}
@@ -246,10 +246,10 @@ public class AppManager
 			{
 				cityMap.put(city.getCityId(), city);
 			}
-			for (City city : app.getTestCitiesList())
+			/*for (City city : app.getTestCitiesList())
 			{
 				cityMap.put(city.getCityId(), city);
-			}
+			}*/
 		}
 
 		return cityMap;
@@ -692,13 +692,13 @@ public class AppManager
 					currentCityName = city.getCityName();
 				}
 			}
-			for (City city : app.getTestCitiesList())
+			/*for (City city : app.getTestCitiesList())
 			{
 				if(city.getCityId() == currentCityId)
 				{
 					currentCityName = city.getCityName();
 				}
-			}
+			}*/
 		}
 		return currentCityName;
 	}
@@ -746,15 +746,15 @@ public class AppManager
 				  citylList.add(city);
 			  }
 			}
-			for(City city :app.getTestCitiesList())
+			/*for(City city :app.getTestCitiesList())
 			{
 				if(city.getHotCity())
 				  {
 					  citylList.add(city);
 				  }
-			}
+			}*/
 			temp.addAll(app.getCitiesList());
-			temp.addAll(app.getTestCitiesList());
+			//temp.addAll(app.getTestCitiesList());
 			Collections.sort(temp, new PinyinComparator());
 			citylList.addAll(temp);
 			temp.clear();

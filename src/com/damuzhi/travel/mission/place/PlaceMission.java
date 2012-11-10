@@ -147,42 +147,31 @@ public class PlaceMission
 		TravelResponse travelResponse = getPlaceDataByURL(url);
 		if(travelResponse != null)
 		{
+			//totalCount = travelResponse.getTotalCount();
 			return travelResponse.getPlaceList().getListList();
 		}
 		return null;
 	}
 	
 	
-	/*public List<Place> getPlaceNearbyInDistance(HashMap<String, Double> location,String distance,String placeCategory)
-	{	
-		if(location !=null && location.size()>0)
-		{
-			int cityId = AppManager.getInstance().getCurrentCityId();
-			String url = String.format(ConstantField.PLACE_LIST_NEARBY, placeCategory, cityId, null,location.get(ConstantField.LATITUDE),location.get(ConstantField.LONGITUDE),null,distance,ConstantField.LANG_HANS,null);
-			TravelResponse travelResponse = getPlaceDataByURL(url);
-			if(travelResponse != null)
-			{
-				return travelResponse.getPlaceList().getListList();
-			}
-			return null;
-		}
-		return null;
-	}
-	*/
 	
-	public List<Place> getPlaceNearbyInDistance(HashMap<String, Double> location,String distance,int start,String type)
+	
+	public List<Place> getNearbyInDistance(HashMap<String, Double> location,String distance,int start,String type)
 	{	
 		if(location !=null && location.size()>0)
 		{
 			int cityId = AppManager.getInstance().getCurrentCityId();
 			String url = String.format(ConstantField.NEARBY_LIST, type,cityId,location.get(ConstantField.LATITUDE),location.get(ConstantField.LONGITUDE),
 										distance,TravelApplication.getInstance().getDeviceId(),start,count);
-			TravelResponse travelResponse = getPlaceDataByURL(url);
-			Log.d(TAG, "nearby place size = "+travelResponse.getPlaceList().getListCount());
+			TravelResponse travelResponse = getPlaceDataByURL(url);			
 			if(travelResponse != null)
 			{
+				Log.d(TAG, "nearby place size = "+travelResponse.getPlaceList().getListCount());
+				totalCount = travelResponse.getTotalCount();
+				Log.d(TAG, "nearby place total count = "+totalCount);
 				return travelResponse.getPlaceList().getListList();
 			}
+			
 		}
 		return null;
 	}

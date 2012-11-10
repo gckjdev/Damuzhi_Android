@@ -83,11 +83,10 @@ public class DepartPlaceMap extends MapActivity
 			Log.e(TAG, "<CommendPlaceMap> get place data but catch exception = "+e.toString(),e);
 		}
 		TextView titleTextView = (TextView) findViewById(R.id.place_title);
-		titleTextView.setText(getString(R.string.depart_place_title));
+		titleTextView.setText(getString(R.string.depart_place_title_2));
 		mapView = (TapControlledMapView) findViewById(R.id.commendPlaceMap);
 		mapc = mapView.getController();			
 		mapView.setStreetView(true);
-		//mapView.setOnSingleTapListener(onSingleTapListener);
 		mapc.setZoom(16);		
 		initMapView(departPlace);
 		

@@ -56,7 +56,7 @@
 	<string name="submit">提交</string>
 	<string name="clear">清空</string>
 	<string name="clear_title">确定要清空浏览记录</string>
-	<string name="feedback_content_tips">请输入您的意见或建议：（不超过250字）</string>
+	<string name="feedback_content_tips">请输入您的意见或建议：（不超过150字）</string>
 	<string name="feedback_content_hint">请输入您的建议或意见！</string>
 	<string name="feedback_conn_tips">您的E-mail或手机号码（不超过80字）</string>
 	<string name="feedback_conn_hint">您的E-mail或手机号码</string>
@@ -179,7 +179,7 @@
     <string name="kilometer">公里</string>
     <string name="make_phone_call">你确定要拨打此号码?</string>
     <string name="call">拨打</string>
-    <string name="leave_alert_dilaog">确认退出大拇指旅行</string>
+    <string name="leave_alert_dilaog">确认退出大拇指旅行？</string>
     
     <!--share -->    
     <string name="share_content">我发现了一款非常专业的旅游指南《大拇指旅行》，
@@ -189,8 +189,9 @@
    <string name="share_2_by_message">短信</string>
    <string name="share_2_sina_title">分享到新浪微博</string>
    <string name="share_2_qq_title">分享到腾讯微博</string>
-    <string name="share_success">分享成功</string>
-     <string name="share_fail">分享失败</string>
+   <string name="share_success">分享成功</string>
+   <string name="share_fail">分享失败</string>
+   <string name="repeat_content_error">同一内容不允许多次发送，请修改分享内容</string>
      <!--favorite -->   
     <string name="my_collected">我的收藏</string>
     <string name="collect_rank">收藏排行</string>
@@ -219,6 +220,7 @@
     <string name="route_id">路线编号：</string>
     <string name="depart_place">出发地点：</string>
     <string name="depart_place_title">出发地点</string>
+    <string name="depart_place_title_2">出发集中地点</string>
     <string name="depart_time">出发时间：</string>
     <string name="depart_time_title">出发时间</string>
     <string name="depart_number">出发人数：</string>
@@ -249,8 +251,8 @@
     <string name="route_feedback">线路评价</string>
     <string name="no_local_route">当前城市暂未开通本地游线路</string>
     <!-- register -->
-    <string name="user_register">新用户注册</string>
-    <string name="forget_password">忘记密码</string>
+    <string name="user_register">免费注册</string>
+    <string name="forget_password">找回密码</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
     <string name="free_register">免费注册</string>
@@ -313,6 +315,7 @@
     <string name="change_user_info_fail">修改资料失败</string>
     <string name="input_correct_password_toast">请输入正确的6位以上密码</string>
     <string name="agency_intro">旅行社介绍</string>
+    <string name="have_no_favorite_route">您还没有关注线路</string>
     
     <!-- route feedback -->
     <string name="route_feedback2">评价</string>
@@ -324,6 +327,8 @@
     <string name="route_feedback_success">提交成功，感谢您的评价</string>
     <string name="send">发送</string>
     <string name="delete_rotue_follow_alert">确定要取消这条关注？</string>
+    <string name="clear_route_follow_toast">确定要取消所有关注？</string>
+    <string name="have_no_feedback">暂没有反馈信息</string>
     <!--fly+hotel  -->
     <string name="fly_hotel">机+酒</string>
     

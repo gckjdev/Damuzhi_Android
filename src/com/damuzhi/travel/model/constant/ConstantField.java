@@ -66,7 +66,7 @@ public class ConstantField
 	public static final String TEST_HTTP_URL = "http://59.34.17.68:8012/";
 	
 	
-	/*public static final String QUERY_OBJECT = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
+	public static final String QUERY_OBJECT = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACE_INFO = "http://api.trip8888.com/service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = "http://api.trip8888.com/service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = "http://api.trip8888.com/service/queryObject.aspx?type=%s&id=%s&lang=%s";
@@ -85,11 +85,11 @@ public class ConstantField
 	public static final String GET_USER_INFO_URL = "http://api.trip8888.com/service/retrieveMemberData.aspx?loginId=%s&token=%s";
 	public static final String CHANGE_PASSWORD_URL = "http://api.trip8888.com/service/modifyPassword.aspx?loginId=%s&token=%s&oldPassword=%s&newPassword=%s";
 	public static final String CHANGE_USER_INFO_URL = "http://api.trip8888.com/service/modifyMemberData.aspx?loginId=%s&token=%s&fullName=%s&nickName=%s&gender=%s&telephone=%s&email=%s&address=%s";
-	*/
 	
 	
 	
-	public static final String QUERY_OBJECT = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
+	
+	/*public static final String QUERY_OBJECT = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACE_INFO = TEST_HTTP_URL+"service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = TEST_HTTP_URL+"service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
@@ -109,7 +109,7 @@ public class ConstantField
 	public static final String GET_USER_INFO_URL = TEST_HTTP_URL+"service/retrieveMemberData.aspx?loginId=%s&token=%s";
 	public static final String CHANGE_PASSWORD_URL = TEST_HTTP_URL+"service/modifyPassword.aspx?loginId=%s&token=%s&oldPassword=%s&newPassword=%s";
 	public static final String CHANGE_USER_INFO_URL = TEST_HTTP_URL+"service/modifyMemberData.aspx?loginId=%s&token=%s&fullName=%s&nickName=%s&gender=%s&telephone=%s&email=%s&address=%s";
-
+*/
 	
 	/* page url*/
 	public static final String PLACE_PAGE_URL = "http://api.trip8888.com/service/queryList.aspx?type=%s&cityId=%s&start=%s&count=%s&needStatistics=1&lang=%s&os=2&deviceId=%s";

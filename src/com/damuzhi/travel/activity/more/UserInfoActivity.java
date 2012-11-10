@@ -8,6 +8,9 @@
  */
 package com.damuzhi.travel.activity.more;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelApplication;
@@ -127,6 +130,14 @@ public class UserInfoActivity extends Activity
 			{
 				Toast.makeText(UserInfoActivity.this, getString(R.string.email_hint), Toast.LENGTH_SHORT).show();
 				return;
+			}
+			try
+			{
+				nickName = URLEncoder.encode(nickName, "UTF-8");
+				name = URLEncoder.encode(name,"UTF-8");
+			} catch (UnsupportedEncodingException e)
+			{
+				e.printStackTrace();
 			}
 			boolean result = CommonMission.getInstance().changeUserInfo(loginId,token,nickName,name,userInfo.getTelephone(),email);
 			String resultInfo = CommonMission.getInstance().getResultInfo();

@@ -39,7 +39,6 @@ public class CommonOverlayView<Item extends OverlayItem> extends BalloonOverlayV
 	* @param balloonBottomOffset  
 	*/
 	private TextView title;
-	private TextView snippet;
 	private ImageView image;
 	
 	public CommonOverlayView(Context context, int balloonBottomOffset)
@@ -55,6 +54,7 @@ public class CommonOverlayView<Item extends OverlayItem> extends BalloonOverlayV
 		View v = inflater.inflate(R.layout.overlay_popup, parent);
 		title = (TextView) v.findViewById(R.id.map_bubbleTitle);
 		image = (ImageView) v.findViewById(R.id.map_go);
+		
 	}
 
 	
@@ -64,13 +64,15 @@ public class CommonOverlayView<Item extends OverlayItem> extends BalloonOverlayV
 		Place place = item.getPlace();
 		DepartPlace departPlace = item.getDepartPlace();
 		
-		if(place!=null)
-		{
+		if(place!=null){
 			Log.d(TAG, "place");
 			title.setText(item.getTitle());
 		}else if (departPlace != null) {
 			Log.d(TAG, "depart place");
-			title.setText(departPlace.getDepartPlace());
+			title.setText(departPlace.getDepartPlace());			
+			Log.d(TAG, "map view go imageview set gone ");
+			image.setVisibility(View.INVISIBLE);
+
 		}else {
 			Log.d(TAG, " non");
 			parent.getChildAt(0).setVisibility(View.GONE);

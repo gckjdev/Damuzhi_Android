@@ -64,7 +64,7 @@ public class FeedbackMission
 		} 
 		catch (Exception e)
 		{
-			Log.e(TAG, "<registerDevice> catch exception = "+e.toString(), e);
+			Log.e(TAG, "<submitFeedback> catch exception = "+e.toString(), e);
 			try
 			{
 				if (inputStream != null){				

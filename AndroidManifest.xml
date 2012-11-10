@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.damuzhi.travel"
     android:versionCode="4"
-    android:versionName="1.3" >
+    android:versionName="2.0" >
     <supports-screens android:anyDensity="true" />
     <permission android:name="android.permission.BAIDU_LOCATION_SERVICE"></permission>
     <uses-permission android:name="android.permission.BAIDU_LOCATION_SERVICE"></uses-permission>
@@ -74,7 +74,7 @@
         <activity android:name=".activity.more.RecommendedAppActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>  
         <activity android:name=".activity.favorite.MyFavoritePlaceActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
         <activity android:name=".activity.touristRoute.CommonLocalTripsActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
-        <activity android:name=".activity.touristRoute.CommonLocalTripsDetailActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
+        <activity android:name=".activity.touristRoute.CommonLocalTripsDetailActivity" android:screenOrientation="portrait" /> 
         <activity android:name=".activity.touristRoute.CommonBookingRouteActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
         <activity android:name=".activity.touristRoute.CommonBookingConfirmActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/> 
         <activity android:name=".activity.touristRoute.CommonTouristRouteOrderListActivity" android:screenOrientation="portrait" /> 
@@ -106,7 +106,7 @@
 				  android:windowSoftInputMode="adjustPan|stateAlwaysVisible" 
 				  android:name="com.weibo.net.ShareActivity">
 		</activity> -->
-		<activity android:name=".activity.common.qweibo.MyWebView" android:launchMode="singleTask">
+		<activity android:name=".activity.common.qweibo.GetQQTokenWebView" android:launchMode="singleTask">
         </activity>
         <meta-data  android:name="YOUMI_CHANNEL"     android:value="88888" />
 		

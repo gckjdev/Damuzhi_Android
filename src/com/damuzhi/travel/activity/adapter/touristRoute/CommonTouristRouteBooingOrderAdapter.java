@@ -156,27 +156,30 @@ public class CommonTouristRouteBooingOrderAdapter extends BaseExpandableListAdap
 			convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_2));
 		}
 		//Log.d(TAG, "group position = "+groupPosition);
-		Order order = orderList.get(groupPosition);
-		bookingId = (TextView) convertView.findViewById(R.id.booking_id);
-		bookingDate = (TextView) convertView.findViewById(R.id.booking_time);
-		bookingId.setText(""+order.getOrderId());
-		String date = TravelUtil.getDate(order.getBookDate());
-		bookingDate.setText(date);
-		imageView = (ImageView) convertView.findViewById(R.id.line_image);
-		viewGroup = (ViewGroup) convertView.findViewById(R.id.expandableListView_group);
-		imageView.setTag(groupPosition);
-		viewGroup.setTag("group"+groupPosition);
-		if(isExpanded)
+		if(orderList != null)
 		{
-			imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.line_sq));
-		}else
-		{
-			imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.line_zk));
-			if(groupPosition == (orderList.size()-1))
+			Order order = orderList.get(groupPosition);
+			bookingId = (TextView) convertView.findViewById(R.id.booking_id);
+			bookingDate = (TextView) convertView.findViewById(R.id.booking_time);
+			bookingId.setText(""+order.getOrderId());
+			String date = TravelUtil.getDate(order.getBookDate());
+			bookingDate.setText(date);
+			imageView = (ImageView) convertView.findViewById(R.id.line_image);
+			viewGroup = (ViewGroup) convertView.findViewById(R.id.expandableListView_group);
+			imageView.setTag(groupPosition);
+			viewGroup.setTag("group"+groupPosition);
+			if(isExpanded)
 			{
-				convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_3));
+				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.line_sq));
+			}else
+			{
+				imageView.setImageDrawable(context.getResources().getDrawable(R.drawable.line_zk));
+				if(groupPosition == (orderList.size()-1)&&orderList.size()>1)
+				{
+					convertView.setBackgroundDrawable(context.getResources().getDrawable(R.drawable.order_list_3));
+				}
 			}
-		}
+		}		
 		return convertView;
 	}
 

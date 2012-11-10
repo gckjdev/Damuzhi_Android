@@ -223,10 +223,10 @@ public class CommonBookingRouteActivity extends Activity
 								e.printStackTrace();
 							}
 							boolean result = TouristRouteMission.getInstance().memberBookingOrder(loginId,token,bookingData[0],"",bookingData[1],bookingData[2],bookingData[3]);
-							String resultInfo = TouristRouteMission.getInstance().getResultInfo();
+							//String resultInfo = TouristRouteMission.getInstance().getResultInfo();
 							if(result)
 							{
-								Toast.makeText(CommonBookingRouteActivity.this, resultInfo, Toast.LENGTH_SHORT).show();
+								Toast.makeText(CommonBookingRouteActivity.this, R.string.booking_route_order_success, Toast.LENGTH_SHORT).show();
 								Intent intent = new Intent();
 								intent.setClass(CommonBookingRouteActivity.this, CommonTouristRouteOrderListActivity.class);
 								startActivity(intent);
@@ -295,6 +295,11 @@ public class CommonBookingRouteActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
+			if (departTime == 0)
+			{
+				Toast.makeText(CommonBookingRouteActivity.this,R.string.select_depart_time,Toast.LENGTH_LONG).show();
+				return;
+			}
 			filterFlag = 0;
 			String sortTitle = getString(R.string.route_booking_number);
 			if (adultNum != null)
@@ -310,6 +315,11 @@ public class CommonBookingRouteActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
+			if (departTime == 0)
+			{
+				Toast.makeText(CommonBookingRouteActivity.this,R.string.select_depart_time,Toast.LENGTH_LONG).show();
+				return;
+			}
 			filterFlag = 1;
 			String sortTitle = getString(R.string.route_booking_number);
 			if (childNum != null)

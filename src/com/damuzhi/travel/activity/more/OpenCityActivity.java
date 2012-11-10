@@ -142,7 +142,6 @@ public class OpenCityActivity extends Activity
 		ActivityMange.getInstance().addActivity(this);
 		downloadManager = new DownloadManager(OpenCityActivity.this);
 		currentCityId = AppManager.getInstance().getCurrentCityId();
-		loadingDialog = new ProgressDialog(this);
 		downloadTipsTextView = (TextView) findViewById(R.id.open_city_download_tips);
 		downloadTipsTextView.setSelected(true);
 		searchBarGroup = (ViewGroup) findViewById(R.id.layout_search_bar);
@@ -574,37 +573,7 @@ public class OpenCityActivity extends Activity
 		Log.d(TAG, "activity onDestroy");
 	}
 
-	/*private void clear()
-	{
-		cityList.clear();
-		cityList = null;
-		hotCityList.clear();
-		hotCityList = null;
-		searchList.clear();
-		searchList = null;
-		searchResultList.clear();
-		searchResultList = null;
-		progressBarMap.clear();
-		progressBarMap = null;
-		resultTextMap.clear();
-		resultTextMap = null;
-		positionMap.clear();
-		positionMap = null;
-		
-		 * downloadStatusTask.clear(); downloadStatusTask = null; installCityData.clear() ; installCityData = null; newVersionCityData ;
-		 
-		unfinishDownload.clear();
-		unfinishDownload = null;
-		unfinishInstallMap.clear();
-		unfinishInstallMap = null;
-		installedCityList.clear();
-		installedCityList = null;
-
-		stopDownloadBar.clear();
-		stopDownloadBar = null;
-		stopDownloadresultTextMap.clear();
-		stopDownloadresultTextMap = null;
-	}*/
+	
 
 	private void searchCityData(String condition)
 	{
@@ -620,9 +589,6 @@ public class OpenCityActivity extends Activity
 			String countryName = city.getCountryName();
 			String cityNameSpell = converterToFirstSpell(cityName);
 			String countryNameSpell = converterToFirstSpell(countryName);
-			Log.d(TAG, "cityName first 2 word = " + cityName.substring(0, 1));
-			Log.d(TAG, "cityNameSpell = " + cityNameSpell);
-			Log.d(TAG, "condition = " + condition);
 
 			if (condition.length() == 1)
 			{
@@ -935,7 +901,7 @@ public class OpenCityActivity extends Activity
 		public void onClick(View v)
 		{
 			int position = (Integer) v.getTag();
-			City city = cityList.get(position);
+			City city = cityListAdapter.getCityDataList().get(position);
 			if(city != null)
 			{
 				int cityId = city.getCityId();
@@ -1148,7 +1114,8 @@ public class OpenCityActivity extends Activity
 		public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 				long arg3)
 		{
-			City city = cityList.get(arg2);
+			//City city = cityList.get(arg2);
+			City city = cityListAdapter.getCityDataList().get(arg2);
 			if(city != null)
 			{
 				int cityId = city.getCityId();
@@ -1290,7 +1257,7 @@ public class OpenCityActivity extends Activity
 
 	public void showRoundProcessDialog()
 	{
-
+		loadingDialog = new ProgressDialog(this);
 		OnKeyListener keyListener = new OnKeyListener()
 		{
 			@Override
@@ -1631,8 +1598,7 @@ public class OpenCityActivity extends Activity
 			{
 				try
 				{
-					pinyinName += PinyinHelper.toHanyuPinyinStringArray(
-							nameChar[i], defaultFormat)[0].charAt(0);
+					pinyinName += PinyinHelper.toHanyuPinyinStringArray(nameChar[i], defaultFormat)[0].charAt(0);
 					// pinyinName += PinyinHelper.toHanyuPinyinStringArray(nameChar[i], defaultFormat)[0];
 				} catch (BadHanyuPinyinOutputFormatCombination e)
 				{

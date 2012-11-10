@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="wrap_content" 
-	android:layout_height="wrap_content"
-	android:orientation="horizontal" 
-	android:paddingLeft="10dp"
-	android:id="@+id/balloon_main_layout"
-	android:background="@drawable/map_bg"
-	android:gravity="center_vertical"
-	android:paddingRight="10dp">  
+    android:id="@+id/balloon_main_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/map_bg"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
+    
     <LinearLayout
         android:id="@id/balloon_inner_layout"
         android:layout_width="0dp"
@@ -26,7 +27,7 @@
             <TextView
                 android:id="@+id/map_bubbleTitle"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="fill_parent"
                 android:gravity="center_horizontal"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
@@ -41,5 +42,6 @@
             android:src="@drawable/detail"
             android:paddingRight="2dp" />
     </LinearLayout>
-</LinearLayout>
+   
 
+</LinearLayout>

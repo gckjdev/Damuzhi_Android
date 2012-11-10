@@ -42,12 +42,12 @@ public class HttpTool
 {
 
 	private static final String TAG = "HttpTool";
-	//private  HttpURLConnection urlConnection = null;
+	private  HttpURLConnection urlConnection = null;
 	private HttpClient httpClient;
 	//private static AsyncHttpClient client = new AsyncHttpClient();
 	//byte[] data ;
-	
-	
+	//private static AsyncHttpClient client;
+	//private InputStream bufferedInputStream;
 	private static HttpTool instance = null;
 	
 	private HttpTool() {
@@ -55,6 +55,7 @@ public class HttpTool
 	public static HttpTool getInstance() {
 		//if (instance == null) {
 			instance = new HttpTool();
+			//client = new AsyncHttpClient();
 		//}
 		return instance;
 	}
@@ -71,7 +72,8 @@ public class HttpTool
 			count += 1;
 			try
 			{
-				return executeHttpClient(url);
+				//return executeHttpClient(url);
+				return httpGetRequerst(url);
 			} catch (Exception e)
 			{
 				if(count <retry)
@@ -87,17 +89,55 @@ public class HttpTool
 		return null;
 	}
 	
-	
+	// InputStream bufferedInputStream = null;
 	private InputStream executeHttpClient(String url) throws Exception
 	{
-		BufferedInputStream inputStream = null;
+		
 		httpClient = TravelApplication.getInstance().getHttpClient();
 		HttpGet request = new HttpGet();
 		request.setURI(URI.create(url));
 		HttpResponse response = httpClient.execute(request);
-		inputStream = new BufferedInputStream(response.getEntity().getContent());	
-		return inputStream;
+		BufferedInputStream bufferedInputStream  = new BufferedInputStream(response.getEntity().getContent());	
+		return bufferedInputStream;
 	}
+	
+	
+	public  InputStream httpGetRequerst(String url) 
+	{
+		 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
+		 if(connEnable)
+		 {
+			 try{
+				 	URL url2 = new URL(url);
+				 	urlConnection = (HttpURLConnection)url2.openConnection();
+					urlConnection.setDoInput(true);
+					urlConnection.setUseCaches(true);
+					urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
+					urlConnection.setRequestProperty("Connection", "Keep-Alive");// 
+					urlConnection.setRequestProperty("Charset", "UTF-8"); 
+					urlConnection.setRequestProperty("Accept-Encoding", "identity");
+			        urlConnection.setConnectTimeout(5000);
+			        urlConnection.setRequestMethod("GET");
+			        if(urlConnection !=null&&urlConnection.getDoInput())
+			        {		          
+			        	InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
+				        return inputStream;
+			        }else {
+						return null;
+					}	
+			} catch (Exception e)
+			{	
+				TravelApplication.getInstance().downloadFailToast();
+				Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
+				return null;
+			}
+		 }else {
+			 TravelApplication.getInstance().makeToast();
+			 return null;
+		}
+		 
+	}
+	
 	
 	
 	
@@ -137,10 +177,10 @@ public class HttpTool
 //	
 	public   void stopConnection()
 	{
-		/*if(urlConnection != null)
+		if(urlConnection != null)
 		{
 			urlConnection.disconnect();
-		}*/
+		}
 		/*if(httpClient != null)
 		{
 			httpClient.getConnectionManager().shutdown();

@@ -42,8 +42,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/line_order_bg2"
-        android:orientation="vertical"
-        android:paddingBottom="10dp" >
+        android:orientation="vertical">
         <TextView
             android:id="@+id/route_name"
             android:layout_width="fill_parent"
@@ -86,6 +85,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:orientation="horizontal" >
             <FrameLayout
@@ -145,12 +145,11 @@
                     android:textColor="@color/black"
                     android:textSize="14sp" />
             </FrameLayout>
-        </LinearLayout>
+        </LinearLayout>      
     </LinearLayout>
-    <ImageView
+    <FrameLayout 
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/line_n_bg"/>
+        android:layout_height="fill_parent">
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -200,8 +199,7 @@
                         xmlns:android="http://schemas.android.com/apk/res/android"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="10dp"
-                        android:layout_marginTop="10dp" >
+                        android:background="@drawable/line_order_bg2" >
                         <TextView
                             android:id="@+id/route_price"
                             android:layout_width="wrap_content"
@@ -264,7 +262,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:text="@string/not_data"
+                        android:text="@string/have_no_feedback"
                         android:textColor="@android:color/black"
                         android:textSize="15sp" />
                     <ListView
@@ -280,5 +278,10 @@
                         android:scrollbars="none" />
                 </LinearLayout>
     </LinearLayout>
-
+     <ImageView
+	        android:layout_width="fill_parent"
+	        android:layout_height="wrap_content"
+	        android:scaleType="fitXY"
+	        android:src="@drawable/line_n_bg"/>
+</FrameLayout>
 </LinearLayout>

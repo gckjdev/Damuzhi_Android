@@ -40,6 +40,7 @@ import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayView;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -231,7 +232,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 						&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(CommonOverViewActivity.this,IndexActivity.class);
+					Intent intent = new Intent(CommonOverViewActivity.this,MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;

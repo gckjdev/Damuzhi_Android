@@ -87,7 +87,7 @@ public class PicUtill {
 			options.inPurgeable = true;
 			options.inJustDecodeBounds = false;
 			options.inSampleSize = 1;
-			/*try {
+			try {
 
 				BitmapFactory.Options.class.getField("inNativeAlloc").setBoolean(options,true);
 
@@ -99,7 +99,7 @@ public class PicUtill {
 				e.printStackTrace();
 			} catch (NoSuchFieldException e) {
 				e.printStackTrace();
-			}         */   
+			}            
 			bitmap = BitmapFactory.decodeStream(is,null,options);
 			//bitmap = BitmapFactory.decodeStream(is);
 			

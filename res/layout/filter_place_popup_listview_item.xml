@@ -4,21 +4,23 @@
      android:layout_width="223dp"  
      android:layout_height="wrap_content"
      android:background="@drawable/table_bg_center">   
-     <CheckBox  
-         android:id="@+id/filter_checkbox"  
-         android:layout_width="wrap_content"  
-         android:layout_height="wrap_content"  
+
+     <CheckBox
+         android:id="@+id/filter_checkbox"
+         android:layout_width="24dp"
+         android:layout_height="wrap_content"
          android:layout_marginLeft="10dp"
-         android:focusable="false"  
-         android:focusableInTouchMode="false"  
          android:button="@drawable/check_box_button"
-         android:clickable="false"         
-         android:checkMark="?android:attr/listChoiceIndicatorMultiple"/>  
+         android:checkMark="?android:attr/listChoiceIndicatorMultiple"
+         android:clickable="false"
+         android:focusable="false"
+         android:focusableInTouchMode="false" />
+  
       <TextView   
          android:id="@+id/filter_title"  
          android:textColor="@color/black"
-         android:textSize="14sp"  
          android:paddingLeft="5dp"
+         android:textSize="14sp"  
          android:layout_width="wrap_content"  
          android:layout_height="wrap_content"/>  
  </LinearLayout>  

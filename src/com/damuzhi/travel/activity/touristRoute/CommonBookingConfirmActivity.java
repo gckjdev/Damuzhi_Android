@@ -92,12 +92,12 @@ public class CommonBookingConfirmActivity extends Activity {
 							    boolean result = TouristRouteMission.getInstance().nonMemberBookingOrder(userId, bookingData[0], "", bookingData[1], bookingData[2], bookingData[3], contactPerson2, contact);
 								if(result)
 								{
-									Toast.makeText(CommonBookingConfirmActivity.this, getString(R.string.booking_route_order_success), Toast.LENGTH_SHORT).show();
+									Toast.makeText(CommonBookingConfirmActivity.this, R.string.booking_route_order_success, Toast.LENGTH_SHORT).show();
 									Intent intent = new Intent();
 									intent.setClass(CommonBookingConfirmActivity.this, CommonTouristRouteOrderListActivity.class);
 									startActivity(intent);
 								}else {
-									Toast.makeText(CommonBookingConfirmActivity.this, getString(R.string.booking_route_order_fail), Toast.LENGTH_SHORT).show();
+									Toast.makeText(CommonBookingConfirmActivity.this, R.string.booking_route_order_fail, Toast.LENGTH_SHORT).show();
 								}
 							} catch (Exception e)
 							{

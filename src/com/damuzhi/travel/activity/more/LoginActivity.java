@@ -119,22 +119,7 @@ public class LoginActivity extends Activity {
 				{
 					e.printStackTrace();
 				}				
-				//boolean result = CommonMission.getInstance().memberLogin(userName,password);
-				login(userName, password);
-				/*String resultInfo = CommonMission.getInstance().getResultInfo();
-				Log.d(TAG, " member login result = "+loginResult);
-				if(loginResult)
-				{
-					String token = CommonMission.getInstance().getToken();
-					TravelApplication.getInstance().setToken(token);
-					TravelApplication.getInstance().setLoginID(userName);
-					Toast.makeText(LoginActivity.this, getString(R.string.login_success), Toast.LENGTH_SHORT).show();
-					finish();
-				}else {
-					v.setClickable(true);
-					Toast.makeText(LoginActivity.this, resultInfo, Toast.LENGTH_SHORT).show();
-				}*/
-				
+				login(userName, password);				
 			}
 			
 		}
@@ -157,7 +142,7 @@ public class LoginActivity extends Activity {
 			{
 				super.onPostExecute(result);
 				loginButton.setClickable(true);
-				//loginResult = result;
+				loginResult = result;
 				String resultInfo = CommonMission.getInstance().getResultInfo();
 				Log.d(TAG, " member login result = "+loginResult);
 				if(result)

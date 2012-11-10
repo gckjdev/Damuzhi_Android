@@ -87,27 +87,6 @@ public class TravelApplication extends Application
 		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		deviceId = tm.getDeviceId();
 		httpClient = createHttpClient();
-		//File cacheDir = new File(ConstantField.IMAGE_CACHE_PATH);
-		/*DisplayImageOptions options = new DisplayImageOptions.Builder()
-		.showStubImage(R.drawable.default_s)
-		.cacheInMemory()
-		.cacheOnDisc()
-		.imageScaleType(ImageScaleType.EXACT)
-		.build();
-		
-		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-		.threadPoolSize(1)
-		.memoryCacheSize(1*1024*1024) // 1.5 Mb
-		.memoryCache(new WeakMemoryCache())
-		.defaultDisplayImageOptions(options)
-		.discCache(new UnlimitedDiscCache(cacheDir))
-		//.discCacheExtraOptions(640, 380, CompressFormat.PNG, 75)
-		.discCacheFileNameGenerator(new Md5FileNameGenerator())
-		//.enableLogging() // Not necessary in common
-		.build();
-	    // Initialize ImageLoader with configuration.
-		ImageLoader.getInstance().init(config);*/
-		
 
 	}
 	

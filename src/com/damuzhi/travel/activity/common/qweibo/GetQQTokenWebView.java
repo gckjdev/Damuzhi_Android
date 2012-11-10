@@ -16,7 +16,7 @@ import com.damuzhi.travel.activity.share.Share2Weibo;
 import com.tencent.weibo.beans.OAuth;
 import com.tencent.weibo.utils.OAuthClient;
 import com.damuzhi.travel.R;
-public class MyWebView extends Activity {
+public class GetQQTokenWebView extends Activity {
 	protected static final String TAG = "MyWebView";
 	private WebView wb;
 	private OAuth oauth;
@@ -73,8 +73,8 @@ public class MyWebView extends Activity {
 							Log.i(TAG,"verify wrong!!!!!!!!!!");
 							return;
 						}						
-						Toast.makeText(MyWebView.this, "绑定成功", Toast.LENGTH_LONG).show();
-						MyWebView.this.finish();
+						Toast.makeText(GetQQTokenWebView.this, "绑定成功", Toast.LENGTH_LONG).show();
+						GetQQTokenWebView.this.finish();
 					}
 				}
 				

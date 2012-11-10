@@ -12,13 +12,17 @@ package com.damuzhi.travel.activity.share;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -28,13 +32,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.utils.TokenStore;
+import com.baidu.location.f;
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.common.qweibo.MyWebView;
+import com.damuzhi.travel.activity.common.qweibo.GetQQTokenWebView;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.db.AccessTokenKeeper;
+import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.tencent.weibo.api.T_API;
 import com.tencent.weibo.beans.OAuth;
@@ -186,7 +192,6 @@ public class Share2Weibo extends Activity implements RequestListener
 	            mSsoHandler =new SsoHandler(Share2Weibo.this,mWeibo);
 	            mSsoHandler.authorize( new AuthDialogListener());
 	        } catch (ClassNotFoundException e) {
-//	            e.printStackTrace();
 	            Log.i(TAG, "com.weibo.sdk.android.sso.SsoHandler not found");
 	            mWeibo.authorize(Share2Weibo.this, new AuthDialogListener());
 	        }
@@ -206,7 +211,6 @@ public class Share2Weibo extends Activity implements RequestListener
 				try {
 	                Class sso=Class.forName("com.weibo.sdk.android.api.WeiboAPI");//如果支持weiboapi的话，显示api功能演示入口按钮
 	            } catch (ClassNotFoundException e) {
-//	                e.printStackTrace();
 	                Log.i(TAG, "com.weibo.sdk.android.api.WeiboAPI not found");
 	               
 	            }
@@ -254,8 +258,7 @@ public class Share2Weibo extends Activity implements RequestListener
 
 			@Override
 			public void run() {
-				Toast.makeText(Share2Weibo.this, R.string.share_success, Toast.LENGTH_LONG)
-						.show();
+				Toast.makeText(Share2Weibo.this, R.string.share_success, Toast.LENGTH_LONG).show();
 			}
 		});
 
@@ -269,13 +272,24 @@ public class Share2Weibo extends Activity implements RequestListener
 
 	@Override
 	public void onError(final WeiboException e) {
-		System.out.println(e);
+		System.out.println("exception = "+e.getMessage());		
 		runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				Toast.makeText(
-						Share2Weibo.this,
-						String.format(Share2Weibo.this.getString(R.string.share_fail)+ ":%s", e.getMessage()), Toast.LENGTH_LONG).show();
+				JSONObject jsonObject = null;
+				try
+				{
+					jsonObject = new JSONObject(e.getMessage());
+				
+				if(jsonObject != null&&jsonObject.getString("error_code").equals("20019")){
+					Toast.makeText(Share2Weibo.this,R.string.repeat_content_error, Toast.LENGTH_LONG).show();
+				}else{
+					Toast.makeText(Share2Weibo.this,R.string.share_fail, Toast.LENGTH_LONG).show();
+				}
+				} catch (JSONException e1)
+				{
+					e1.printStackTrace();
+				}
 			}
 		});
 
@@ -285,117 +299,7 @@ public class Share2Weibo extends Activity implements RequestListener
 	
 	
 	
-	
-	
-	/*private void getSinaOauthToken()
-	{
-		
-		if(SINA_CONSUMER_KEY!=null&&!SINA_CONSUMER_KEY.equals("")&&SINA_CONSUMER_SECRET!=null&&!SINA_CONSUMER_SECRET.equals("")&&CALL_BACK_URL!=null&&!CALL_BACK_URL.equals(""))
-		{
-			Weibo weibo = Weibo.getInstance();
-			weibo.setupConsumerConfig(SINA_CONSUMER_KEY, SINA_CONSUMER_SECRET);						
-			weibo.setRedirectUrl(CALL_BACK_URL);
-			weibo.authorize(Share2Weibo.this,new AuthDialogListener());
-		}
-		
-	}
-	
-	
-	
-	class AuthDialogListener implements WeiboDialogListener {
 
-		@Override
-		public void onComplete(Bundle values) {
-			String token = values.getString("access_token");
-			String expires_in = values.getString("expires_in");
-			AccessToken accessToken = new AccessToken(token, SINA_CONSUMER_SECRET);
-			accessToken.setExpiresIn(expires_in);
-			Weibo.getInstance().setAccessToken(accessToken);
-		}
-
-		@Override
-		public void onError(DialogError e) {
-			//Toast.makeText(getApplicationContext(),"Auth error : " + e.getMessage(), Toast.LENGTH_LONG).show();
-		}
-
-		@Override
-		public void onCancel() {
-			//Toast.makeText(getApplicationContext(), "Auth cancel",Toast.LENGTH_LONG).show();
-		}
-
-		@Override
-		public void onWeiboException(WeiboException e) {
-			//Toast.makeText(getApplicationContext(),"Auth exception : " + e.getMessage(), Toast.LENGTH_LONG).show();
-		}
-
-	}
-
-	private void share2sinaWeibo(String content) {
-        Weibo weibo = Weibo.getInstance();
-        update(weibo, Weibo.getAppKey(), content, "", "");
-		
-    }
-	
-	
-	private String update(Weibo weibo, String source, String status, String lon, String lat){
-        WeiboParameters bundle = new WeiboParameters();
-        bundle.add("source", source);
-        bundle.add("status", status);
-        if (!TextUtils.isEmpty(lon)) {
-            bundle.add("lon", lon);
-        }
-        if (!TextUtils.isEmpty(lat)) {
-            bundle.add("lat", lat);
-        }
-        String rlt = "";
-        String url = Weibo.SERVER + "statuses/update.json";
-        AsyncWeiboRunner weiboRunner = new AsyncWeiboRunner(weibo);
-        weiboRunner.request(this, url, bundle, Utility.HTTPMETHOD_POST, this);
-        return rlt;
-    }
-
-	@Override
-	public void onComplete(String response)
-	{
-		 runOnUiThread(new Runnable() {
-
-	            @Override
-	            public void run() {
-	                Toast.makeText(Share2Weibo.this, R.string.share_success, Toast.LENGTH_SHORT).show();
-	            }
-	        });
-
-	        this.finish();	
-	}
-
-	@Override
-	public void onIOException(IOException e)
-	{
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onError(final WeiboException e)
-	{
-		 runOnUiThread(new Runnable() {
-
-	            @Override
-	            public void run() {
-	                Toast.makeText(Share2Weibo.this,String.format(Share2Weibo.this.getString(R.string.send_failed) + ":%s",
-	                                e.getMessage()), Toast.LENGTH_SHORT).show();
-	            }
-	        });
-		
-	}*/
-	
-	
-	
-	
-	
-	
-
-	
 	
 	
 	private void share2qqWeibo(String content)
@@ -442,7 +346,7 @@ public class Share2Weibo extends Activity implements RequestListener
 					} else {
 						qq_oauth_token = qq_oauth.getOauth_token();
 						String url = "http://open.t.qq.com/cgi-bin/authorize?oauth_token="+ qq_oauth_token;
-						Intent intent = new Intent(Share2Weibo.this,MyWebView.class);
+						Intent intent = new Intent(Share2Weibo.this,GetQQTokenWebView.class);
 						intent.putExtra("URL", url);
 						startActivity(intent);
 					}
@@ -462,8 +366,20 @@ public class Share2Weibo extends Activity implements RequestListener
 	
 	@Override
 	protected void onDestroy() {
-		// TODO Auto-generated method stub
 		super.onDestroy();
 		ActivityMange.getInstance().finishActivity();
 	}
+	
+	
+	
+	/*@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event)
+	{
+		// TODO Auto-generated method stub
+		if(event.getKeyCode() == KeyEvent.KEYCODE_BACK)
+		{
+			finish();
+		}
+		return super.onKeyDown(keyCode, event);
+	}  */
 }

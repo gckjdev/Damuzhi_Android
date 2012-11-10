@@ -107,7 +107,11 @@ public class NearbyPlaceMap extends MapActivity
 			super.onPostExecute(result);
 			nearbyPlaceList.clear();
 			nearbyPlaceList.addAll(result);
-			if(targetPlace!=null&&nearbyPlaceList.size()>0)
+			/*if(targetPlace!=null&&nearbyPlaceList.size()>0)
+			{
+				initMapView(targetPlace ,nearbyPlaceList);	
+			}*/
+			if(targetPlace!=null)
 			{
 				initMapView(targetPlace ,nearbyPlaceList);	
 			}
@@ -248,7 +252,7 @@ public class NearbyPlaceMap extends MapActivity
 		}
 		itemizedOverlay = null;
 		mapView.removeAllViews();
-		
+		mapView = null;
 	}
 	
 	

@@ -68,6 +68,7 @@
             android:layout_marginRight="15dp"
             android:cacheColorHint="@android:color/transparent"
             android:dividerHeight="0.5dp"
+            android:footerDividersEnabled="false"
             android:fadingEdge="none"
             android:scrollbars="none"
             android:scrollingCache="false" />

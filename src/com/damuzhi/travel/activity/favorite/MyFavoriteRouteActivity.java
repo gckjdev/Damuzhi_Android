@@ -31,6 +31,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.DialogInterface.OnKeyListener;
+import android.hardware.Camera.Size;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -46,6 +47,8 @@ import android.widget.ListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 /**  
  * @description   
@@ -69,6 +72,7 @@ public class MyFavoriteRouteActivity extends Activity
 	private Button doneButton;
 	boolean flag = false;
 	boolean managerFlag = false;
+	private TextView noFavoriteRouteTextView;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -79,6 +83,7 @@ public class MyFavoriteRouteActivity extends Activity
 		managerButton = (Button) findViewById(R.id.mamger_button);
 		clearButton = (Button) findViewById(R.id.clear_button);
 		doneButton = (Button) findViewById(R.id.done_button);
+		noFavoriteRouteTextView = (TextView) findViewById(R.id.no_favorite_route);
 		followRouteListView = (ListView) findViewById(R.id.local_trips_listview);
 		loadingBar = (ProgressBar) findViewById(R.id.loading_progress);
 		adapter = new CommonLocalTripsAdapter(localRouteList, MyFavoriteRouteActivity.this);
@@ -118,7 +123,10 @@ public class MyFavoriteRouteActivity extends Activity
 			@Override
 			protected void onPostExecute(List<LocalRoute> resultList)
 			{
-				
+				if(resultList != null&&resultList.size()>0)
+				{
+					noFavoriteRouteTextView.setVisibility(View.GONE);
+				}
 				adapter.setLocalRouteList(resultList);
 				adapter.notifyDataSetChanged();
 				localRouteList.clear();
@@ -261,13 +269,40 @@ public class MyFavoriteRouteActivity extends Activity
 		@Override
 		public void onClick(View v)
 		{
-			boolean result = FavoriteMission.getInstance().clearFavoriteRoute();
-			if(result)
+			
+			AlertDialog leaveAlertDialog = new AlertDialog.Builder(MyFavoriteRouteActivity.this).create();
+			leaveAlertDialog.setMessage(getBaseContext().getString(R.string.clear_route_follow_toast));
+			leaveAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getBaseContext().getString(R.string.ok),new DialogInterface.OnClickListener()
+			{				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					boolean result = FavoriteMission.getInstance().clearFavoriteRoute();
+					if(result)
+					{
+						localRouteList.clear();
+						adapter.setLocalRouteList(localRouteList);
+						adapter.notifyDataSetChanged();
+						doneButton.setVisibility(View.INVISIBLE);
+						managerButton.setVisibility(View.VISIBLE);
+						clearButton.setVisibility(View.INVISIBLE);
+						noFavoriteRouteTextView.setVisibility(View.VISIBLE);
+						//clearToast();
+					}			
+				
+				}
+			} );
+			leaveAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
 			{
-				localRouteList.clear();
-				adapter.setLocalRouteList(localRouteList);
-				adapter.notifyDataSetChanged();
-			}			
+				
+				@Override
+				public void onClick(DialogInterface dialog, int which)
+				{
+					dialog.cancel();			
+				}
+			} );
+			leaveAlertDialog.show();
+			
 		}
 	};
 	
@@ -294,6 +329,14 @@ public class MyFavoriteRouteActivity extends Activity
 						localRouteList.remove(position);
 						adapter.setLocalRouteList(localRouteList);
 						adapter.notifyDataSetChanged();
+						if(localRouteList.size() == 0)
+						{
+							doneButton.setVisibility(View.INVISIBLE);
+							managerButton.setVisibility(View.VISIBLE);
+							clearButton.setVisibility(View.INVISIBLE);
+							noFavoriteRouteTextView.setVisibility(View.VISIBLE);
+							//clearToast();
+						}
 					}
 				}
 			} );
@@ -312,6 +355,11 @@ public class MyFavoriteRouteActivity extends Activity
 		}
 	};
 	
+	
+	/*private void clearToast()
+	{
+		Toast.makeText(MyFavoriteRouteActivity.this,"你还没有关注线路" , Toast.LENGTH_SHORT).show();
+	}*/
 	
 
 	@Override

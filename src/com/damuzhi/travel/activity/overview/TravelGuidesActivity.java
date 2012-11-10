@@ -36,7 +36,7 @@ import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.mission.overview.TravelTipsMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -144,7 +144,7 @@ public class TravelGuidesActivity extends MenuActivity
 						&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(TravelGuidesActivity.this,IndexActivity.class);
+					Intent intent = new Intent(TravelGuidesActivity.this,MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;

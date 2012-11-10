@@ -279,6 +279,7 @@ public class CommonLocalTripsActivity extends MenuActivity {
 		currentCityId = AppManager.getInstance().getCurrentCityId();
 		if(currentCityId != lastCityId)
 		{
+			Log.d(TAG, "load local route ");
 			lastCityId = currentCityId;
 			loadPlace();
 		}
@@ -293,7 +294,7 @@ public class CommonLocalTripsActivity extends MenuActivity {
 		switch (item.getItemId())	
 		{		
 		case R.id.menu_refresh:
-			loadMore();
+			loadPlace();
 			break;
 		default:
 			break;

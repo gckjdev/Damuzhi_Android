@@ -7,7 +7,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
+import android.view.ViewGroup.LayoutParams;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -29,6 +32,7 @@ import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.favorite.MyFavoriteRouteActivity;
 import com.damuzhi.travel.activity.share.Share2Weibo;
 import com.damuzhi.travel.activity.touristRoute.CommonBookingConfirmActivity;
@@ -56,7 +60,7 @@ public class MoreActivity extends MenuActivity
 	private int IS_SHOW_RECOMMENDED_APP = -1;
 	private int IS_SHOW_UPDATE_VERSION = -1;
 	private String token;
-	
+	private PopupWindow alertPopupWindow;
 	private PopupWindow shareWindow;
 	private static final String SHARE_CONFIG = "share_config";
 	private static final  int SHARE_2_SINA = 1;
@@ -261,15 +265,18 @@ public class MoreActivity extends MenuActivity
 		@Override
 		public void onClick(View v)
 		{
-			float remoteVersion = UpdateMission.getInstance().getNewVersion();
+			/*float remoteVersion = UpdateMission.getInstance().getNewVersion();
 			float localVersion = TravelUtil.getVersionName(MoreActivity.this);
 			if(remoteVersion>localVersion)
 			{
-				updateAppVersion();
+				String title = UpdateMission.getInstance().getAppUpdateTile();
+				String content = UpdateMission.getInstance().getAppUpdateContent();
+				updateAppVersion(title,content);
 			}else
 			{
 				Toast.makeText(MoreActivity.this, getResources().getString(R.string.new_version), Toast.LENGTH_SHORT).show();
-			}		
+			}	*/	
+			checkAppVersion();
 		}
 	};
 	
@@ -321,36 +328,108 @@ public class MoreActivity extends MenuActivity
 		}
 	};
 	
-	
-	private void updateAppVersion()
+	private void checkAppVersion()
 	{
-		AlertDialog alertDialog = new AlertDialog.Builder(MoreActivity.this).create();
-		alertDialog.setMessage(MoreActivity.this.getString(R.string.app_has_new_version));
-		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,MoreActivity.this.getString(R.string.update_now),new DialogInterface.OnClickListener()
-		{					
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{	
-				Uri uri = Uri.parse(MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_DOWNLOAD_CONFIGURE));
-				if(uri!=null&&!uri.equals(""))
-				{
-					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-					startActivity(intent);
-				}			
-			}	
-		} );
-		alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+MoreActivity.this.getString(R.string.update_later),new DialogInterface.OnClickListener()
+		
+		AsyncTask<Void,Void , Boolean> asyncTask = new AsyncTask<Void, Void, Boolean>()
 		{
-			
+
 			@Override
-			public void onClick(DialogInterface dialog, int which)
+			protected Boolean doInBackground(Void... params)
 			{
-				dialog.cancel();
+				float remoteVersion = UpdateMission.getInstance().getNewVersion();
+				float localVersion = TravelUtil.getVersionName(MoreActivity.this);
+				if(remoteVersion>localVersion)
+				{	
+					return true;
+				}
+				return false;
 			}
-		} );
-		alertDialog.show();
+
+			@Override
+			protected void onPostExecute(Boolean result)
+			{
+				super.onPostExecute(result);
+				if(result.booleanValue())
+				{
+					String title = UpdateMission.getInstance().getAppUpdateTile();
+					String content = UpdateMission.getInstance().getAppUpdateContent();
+					updateAppVersion(title,content);
+				}else
+				{
+					Toast.makeText(MoreActivity.this, getResources().getString(R.string.new_version), Toast.LENGTH_SHORT).show();
+				}	
+			}
+	
+		};
+		asyncTask.execute();
 	}
 	
+	
+	
+	
+	private void updateAppVersion(String title ,String content)
+	{
+		
+		View alertDialogView = getLayoutInflater().inflate(R.layout.alert_dialog_2, null);
+		alertPopupWindow = new PopupWindow(alertDialogView, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
+		ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.half_transparent));
+		alertPopupWindow.setBackgroundDrawable(background);
+		alertPopupWindow.setOutsideTouchable(true);
+		alertPopupWindow.update();
+		
+		TextView alertTitleTextView = (TextView) alertDialogView.findViewById(R.id.alert_dialog_title);
+		TextView titleTextView = (TextView) alertDialogView.findViewById(R.id.title);
+		TextView contentTextView = (TextView) alertDialogView.findViewById(R.id.content);
+		Button positiveButton = (Button) alertDialogView.findViewById(R.id.positive_button);
+		Button negativeButton = (Button) alertDialogView.findViewById(R.id.negative_button);
+		titleTextView.setText(title);
+		contentTextView.setText(content);
+		negativeButton.setOnClickListener(negativeButtonClickListener);
+		
+		
+		alertTitleTextView.setText(getString(R.string.new_version_tips));
+		negativeButton.setText(getString(R.string.update_later));
+		positiveButton.setOnClickListener(updateVersionOnClickListener);
+			
+		alertPopupWindow.showAtLocation(getCurrentFocus(), Gravity.CENTER,0, 350);
+	}
+	
+	
+	private OnClickListener updateVersionOnClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			Uri uri = Uri.parse(MobclickAgent.getConfigParams(MoreActivity.this, ConstantField.U_MENG_DOWNLOAD_CONFIGURE));
+			Log.d(TAG, "<updateAppVersion> uri = "+uri);
+			if(uri!=null&&!uri.equals(""))
+			{
+				Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+				startActivity(intent);
+			}
+			if(alertPopupWindow != null)
+			{
+				alertPopupWindow.dismiss();
+			}
+		}
+	};
+	
+
+	
+	private OnClickListener negativeButtonClickListener = new OnClickListener()
+	{
+		
+		@Override
+		public void onClick(View v)
+		{
+			if(alertPopupWindow != null)
+			{
+				alertPopupWindow.dismiss();
+			}
+		}
+	};
 	
 	@Override
 	protected void onResume()

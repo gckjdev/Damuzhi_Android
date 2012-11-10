@@ -438,7 +438,7 @@ public class MainActivity extends TabActivity {
 	{
 		alertDialogView = getLayoutInflater().inflate(R.layout.alert_dialog_2, null);
 		alertPopupWindow = new PopupWindow(alertDialogView, LayoutParams.FILL_PARENT,LayoutParams.FILL_PARENT);
-		ColorDrawable background = new ColorDrawable(880000000);
+		ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.half_transparent));
 		alertPopupWindow.setBackgroundDrawable(background);
 		alertPopupWindow.setOutsideTouchable(true);
 		alertPopupWindow.update();

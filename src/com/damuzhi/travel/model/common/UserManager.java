@@ -38,9 +38,17 @@ public class UserManager
 	public String getUserId(Context context)
 	{
 		SharedPreferences userInfo = context.getSharedPreferences(ConstantField.USER_ID, 0);
-		String userId = userInfo.getString(ConstantField.USER_ID, "");
+		String userId = userInfo.getString(ConstantField.USER_ID, "name");
 		Log.i(TAG, "<getUserId> userId = "+userId);
 		return userId;
+	}
+	
+	public void saveUserId(Context context,String userId)
+	{
+		SharedPreferences userInfo = context.getSharedPreferences(ConstantField.USER_ID, 0);
+		Editor editor = userInfo.edit();
+		editor.putString(ConstantField.USER_ID, userId);
+		editor.commit();
 	}
 	
 	public void saveUserName(Context context,String userName)

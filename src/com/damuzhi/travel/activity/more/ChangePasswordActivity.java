@@ -91,14 +91,14 @@ public class ChangePasswordActivity extends Activity
 			String loginId = TravelApplication.getInstance().getLoginID();
 			String token = TravelApplication.getInstance().getToken();
 			boolean result = CommonMission.getInstance().changePassword(loginId,token,oldPassword,newPasswrod);
-			//String resultInfo = CommonMission.getInstance().getResultInfo();
+			String resultInfo = CommonMission.getInstance().getResultInfo();
 			Log.d(TAG, " change password  result = "+result);
 			if(result)
 			{
 				Toast.makeText(ChangePasswordActivity.this, getString(R.string.change_password_success), Toast.LENGTH_SHORT).show();
 				finish();
 			}else {
-				Toast.makeText(ChangePasswordActivity.this, getString(R.string.change_password_fail), Toast.LENGTH_SHORT).show();
+				Toast.makeText(ChangePasswordActivity.this,resultInfo, Toast.LENGTH_SHORT).show();
 			}
 				
 			

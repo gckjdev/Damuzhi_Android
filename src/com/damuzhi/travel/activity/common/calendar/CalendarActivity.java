@@ -80,7 +80,7 @@ public class CalendarActivity extends Activity {
 	int price = 0;
 	int bookingStatus = 0;
 	private LocalRoute localRoute;
-	boolean showRecord = false;
+	//boolean showRecord = false;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -137,11 +137,6 @@ public class CalendarActivity extends Activity {
 		
 		int day = GetNumFromDate(calToday, startDate);
 		
-		/*if (calendar_Hashtable != null
-				&& calendar_Hashtable.containsKey(day)) {
-			dayvalue = calendar_Hashtable.get(day);
-		}*/
-
 		Calendar_WeekBgColor = this.getResources().getColor(
 				R.color.Calendar_WeekBgColor);
 		Calendar_DayBgColor = this.getResources().getColor(
@@ -305,16 +300,22 @@ public class CalendarActivity extends Activity {
 
 			// 判断是否当天
 			boolean bToday = false;
+			boolean showRecord = false;
 			
 			if (calToday.get(Calendar.YEAR) == iYear) {
 				if (calToday.get(Calendar.MONTH) == iMonth) {
 					if (calToday.get(Calendar.DAY_OF_MONTH) == iDay) {
 						bToday = true;
-						showRecord = true;
+						//showRecord = true;
 					}
 				}
 			}
-
+			int todayNumber = GetNumFromDate(calToday, calStartDate);
+			int dayNumber = GetNumFromDate(calCalendar, calStartDate);
+			if(dayNumber>=todayNumber)
+			{
+				showRecord = true;
+			}
 			// check holiday
 			boolean bHoliday = false;
 			if ((iDayOfWeek == Calendar.SATURDAY)|| (iDayOfWeek == Calendar.SUNDAY))
@@ -372,6 +373,7 @@ public class CalendarActivity extends Activity {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			//arrange_text.setText("");
+			//showRecord = false;
 			calSelected.setTimeInMillis(0);
 			iMonthViewCurrentMonth--;
 			
@@ -412,6 +414,7 @@ public class CalendarActivity extends Activity {
 		public void onClick(View v) {
 			// TODO Auto-generated method stub
 			//arrange_text.setText("");
+			//showRecord = false;
 			calSelected.setTimeInMillis(0);
 			iMonthViewCurrentMonth++;
 			

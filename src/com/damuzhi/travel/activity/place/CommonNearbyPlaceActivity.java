@@ -204,7 +204,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			protected List<Place> doInBackground(String... params)
 			{
 				getMyLocation();
-				return PlaceMission.getInstance().getPlaceNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
+				return PlaceMission.getInstance().getNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
 			}
 
 			@Override
@@ -260,7 +260,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				start = count *20;
 				//Log.d(TAG, "load more start from = "+start);
 				count++;		
-				return PlaceMission.getInstance().getPlaceNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
+				return PlaceMission.getInstance().getNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
 			}
 			@Override
 			protected void onPostExecute(List<Place> resultList)
@@ -321,7 +321,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		footerViewGroup.setVisibility(View.INVISIBLE);
 		TextView placeSize = (TextView) findViewById(R.id.place_num);		 
 		totalCount = PlaceMission.getInstance().getPlaceTotalCount();
-		String sizeString = "(" + adapter.getCount()+ ")";
+		String sizeString = "(" + totalCount+ ")";
 		placeSize.setText(sizeString);
 	}
 	

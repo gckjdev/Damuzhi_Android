@@ -96,9 +96,6 @@ public class WelcomeActivity extends MenuActivity
 					Intent intent2 = new Intent();
 					intent2.setAction("com.damuzhi.travel.service.PullNotificationService");
 					startService(intent2);
-					/*TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
-					String deviceId = telephonyManager.getDeviceId();
-					UserMission.getInstance().register(deviceId,channelId,WelcomeActivity.this);*/
 				}
 				TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
 				String deviceId = telephonyManager.getDeviceId();

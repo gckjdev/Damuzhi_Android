@@ -985,11 +985,11 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		recycle();
+		//recycle();
 		ActivityMange.getInstance().finishActivity();
 	}
 	
-	private void recycle()
+	/*private void recycle()
 	{
 		Log.d(TAG, "recycle");
 		nearbyListGroup.removeAllViews();
@@ -1019,7 +1019,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		//place = null;
 		System.gc();
 	}
-	
+	*/
 	
 	
 }
