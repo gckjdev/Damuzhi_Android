@@ -15,6 +15,7 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 import com.damuzhi.travel.protos.TouristRouteProtos.TouristRoute;
 import com.damuzhi.travel.util.TravelUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
 import android.content.Intent;
@@ -47,7 +48,8 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 	private ImageView recommendImageView2;
 	private ImageView recommendImageView3;
 	private ViewGroup agencyNameViewGroup;
-	private AsyncLoader asyncLoader;
+	private ImageLoader imageLoader;
+	//private AsyncLoader asyncLoader;
 	private Button deleteButton;
 	//private int dataFlag;
 	private LayoutInflater inflater;
@@ -56,8 +58,9 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 		this.localRouteList = localRouteList;
 		this.inflater = LayoutInflater.from(context);
 		this.context = context;
+		imageLoader = ImageLoader.getInstance();
 		//asyncLoader = AsyncLoader.getInstance();
-		asyncLoader = new AsyncLoader();
+		//asyncLoader = new AsyncLoader();
 	}
 
 	public List<LocalRoute> getLocalRouteList() {
@@ -159,9 +162,9 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
 		url = localRoute.getThumbImage();	
-		asyncLoader.showimgAnsy(imageView,url,0);	
-		/*String uri = TravelUtil.getImageUrl(AppManager.getInstance().getCurrentCityId(), url);
-		imageLoader.displayImage(uri, imageView,options);*/
+		//asyncLoader.showimgAnsy(imageView,url,0);	
+		String uri = TravelUtil.getImageUrl(localRoute.getCityId(), url);
+		imageLoader.displayImage(uri, imageView);
 		String days = TravelUtil.getRouteDays(localRoute.getDays());
 		Spanned price = Html.fromHtml("<font color='#ff6305'>"+ localRoute.getCurrency()+localRoute.getPrice() + "</FONT>"+"<font>"+"起"+ "</FONT>");
 		routeDays.setText(days);
@@ -180,7 +183,7 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 	
 	public void recycleBitmap()
 	{
-		asyncLoader.recycleBitmap();
+		//asyncLoader.recycleBitmap();
 	}
 
 	public void addPlaceList(List<LocalRoute> list) {

@@ -25,6 +25,7 @@ import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
 import android.util.Log;
@@ -56,7 +57,7 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	private double longitude;*/
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
-	public AsyncLoader asyncLoader;
+	//public AsyncLoader asyncLoader;
 	private LayoutInflater inflater;
 	private ImageView imageView;
 	private ViewGroup serviceGroup;
@@ -69,6 +70,7 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	private ImageView recommendImageView3;
 	private ImageView heart;
 	private TextView placeDistance;
+	private ImageLoader imageLoader;
 	//private int dataFlag;
 	//private ImageLoader imageLoader;
 	//private DisplayImageOptions options;
@@ -92,8 +94,9 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
+		imageLoader = ImageLoader.getInstance();
 		//this.asyncLoader = AsyncLoader.getInstance();
-		this.asyncLoader = new AsyncLoader();
+		//this.asyncLoader = new AsyncLoader();
 		this.placeCategoryType = placeCategoryType;
 		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(AppManager.getInstance().getCurrentCityId());
@@ -170,9 +173,9 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
 		url = place.getIcon();	
-		asyncLoader.showimgAnsy(imageView,url,cityId);	
-		//String uri = TravelUtil.getImageUrl(cityId, url);
-		//imageLoader.displayImage(uri, imageView);
+		//asyncLoader.showimgAnsy(imageView,url,cityId);	
+		String uri = TravelUtil.getImageUrl(cityId, url);
+		imageLoader.displayImage(uri, imageView);
 		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		
 		placeName.setText(place.getName());	
@@ -241,7 +244,7 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	
 	public void recycleBitmap()
 	{
-		asyncLoader.recycleBitmap();
+		//asyncLoader.recycleBitmap();
 	}
 
 }

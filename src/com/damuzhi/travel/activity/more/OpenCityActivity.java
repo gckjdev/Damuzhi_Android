@@ -181,8 +181,6 @@ public class OpenCityActivity extends Activity
 
 		cityDataTitle = (TextView) findViewById(R.id.city_list_title);
 		installedCityTitle = (TextView) findViewById(R.id.installed_city_title);
-		/*dataListTitle = (TextView) findViewById(R.id.city_list_title);
-		downloadListTitle = (TextView) findViewById(R.id.installed_city_title);*/
 		searchButton = (ImageButton) findViewById(R.id.search_button);
 		emptyTipsTextView = (TextView) findViewById(R.id.empty_tips);
 
@@ -583,12 +581,16 @@ public class OpenCityActivity extends Activity
 			return;
 		}
 		condition = condition.trim();
+		String cityName = "";
+		String countryName = "";
+		String cityNameSpell = "";
+		String countryNameSpell = "";
 		for (City city : searchList)
 		{
-			String cityName = city.getCityName();
-			String countryName = city.getCountryName();
-			String cityNameSpell = converterToFirstSpell(cityName);
-			String countryNameSpell = converterToFirstSpell(countryName);
+			cityName = city.getCityName();
+			countryName = city.getCountryName();
+			cityNameSpell = converterToFirstSpell(cityName);
+			countryNameSpell = converterToFirstSpell(countryName);
 
 			if (condition.length() == 1)
 			{
@@ -1558,11 +1560,14 @@ public class OpenCityActivity extends Activity
 		@Override
 		public int getPositionForSection(int section)
 		{
+			String countryName = "";
+			String l = "";
+			char firstChar = ' ';
 			for (int i = hotCityList.size(); i < cityDataList.size(); i++)
 			{
-				String countryName = cityDataList.get(i).getCountryName();
-				String l = converterToFirstSpell(countryName).substring(0, 1);
-				char firstChar = l.toUpperCase().charAt(0);
+				countryName = cityDataList.get(i).getCountryName();
+				l = converterToFirstSpell(countryName).substring(0, 1);
+				firstChar = l.toUpperCase().charAt(0);
 				if (firstChar == section)
 				{
 					return i;

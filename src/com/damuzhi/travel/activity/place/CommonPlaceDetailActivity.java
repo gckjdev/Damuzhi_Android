@@ -71,6 +71,7 @@ import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
 /**  
  * @description   
  * @version 1.0  
@@ -105,7 +106,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	String  tipsTitle;
 	private TextView phoneNum,favoriteCount,collect;
 	private ImageView collectBtn;
-	private List<Place> nearbyPlaceList ;
+	private List<Place> nearbyPlaceList = new ArrayList<Place>();
 	private AsyncTask<Void, Void, List<Place>> nearbyAsyncTask;
 	private ViewGroup nearbyListGroup;
 	private AsyncLoader asyncLoader;
@@ -122,13 +123,15 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	private RelativeLayout row ;
 	private TextView  locationTextView; 
 	private TextView  distanceTextView;
+	//private ImageLoader imageLoader;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		Log.d(TAG, "onCreate");
 		ActivityMange.getInstance().addActivity(this);
-		nearbyPlaceList = new ArrayList<Place>();
+		//nearbyPlaceList = new ArrayList<Place>();
+		//imageLoader = ImageLoader.getInstance();
 		init();
 		getNearbyList();
 		getPlaceFavoriteCount();
@@ -147,12 +150,16 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			//asyncLoader = AsyncLoader.getInstance();
 			asyncLoader = new AsyncLoader();
 			int size=imagePath.size();	
+			String url ="";
+			View view = null;
+			ImageView imageView = null;
 			for(int i=0;i<size;i++)
 			{
-				View view = inflater.inflate(R.layout.place_detail_image, null);
-				ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
-				String url ;
+				view = inflater.inflate(R.layout.place_detail_image, null);
+				imageView = (ImageView) view.findViewById(R.id.place_image_item);				
 				url = imagePath.get(i);	
+				//url = TravelUtil.getImageUrl(currentCityId, url);
+				//imageLoader.displayImage(url, imageView);
 				asyncLoader.showimgAnsy(imageView, url);
 				imageViewlist.add(view);
 			}
@@ -160,7 +167,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			main = (ViewGroup) inflater.inflate(R.layout.common_place_detail, null);
 			ViewGroup group = (ViewGroup) main.findViewById(R.id.place_images_group);
 			ViewPager placeImage = (ViewPager) main.findViewById(R.id.place_images);
-			ImageView imageView;
+			//ImageView imageView;
 			for (int i = 0; i < size; i++) {  
 	            imageView = new ImageView(CommonPlaceDetailActivity.this);  
 	            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10, 10);
@@ -965,12 +972,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	
 	
 	
-
-	
-	
-	
-	
-	
 	
 	
 	private void openGPSSettings() {
@@ -985,17 +986,21 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		//recycle();
+		recycle();
 		ActivityMange.getInstance().finishActivity();
+		System.gc();
+		//imageLoader.clearMemoryCache();
 	}
 	
-	/*private void recycle()
+	private void recycle()
 	{
 		Log.d(TAG, "recycle");
 		nearbyListGroup.removeAllViews();
 		main.removeAllViews();		
 		asyncLoader.recycleBitmap();
+		asyncLoader = null;
 		nearbyPlaceList.clear();
+		//nearbyPlaceList = null;
 		for(ImageView imageView:imageViews)
 		{
 			imageView = null;
@@ -1019,7 +1024,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		//place = null;
 		System.gc();
 	}
-	*/
+	
 	
 	
 }

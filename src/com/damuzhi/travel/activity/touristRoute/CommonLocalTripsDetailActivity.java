@@ -28,6 +28,7 @@ import com.damuzhi.travel.protos.TouristRouteProtos.DepartPlace;
 import com.damuzhi.travel.protos.TouristRouteProtos.LocalRoute;
 import com.damuzhi.travel.util.TravelUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.tencent.weibo.api.Tag_API;
 
 import android.app.Activity;
@@ -80,6 +81,7 @@ public class CommonLocalTripsDetailActivity extends Activity
 	private ViewGroup routeIntroViewGroup;
 	private WebView routeDetailWebView;
 	private WebView bookingNoticeWebView;
+	//private ImageLoader imageLoader;
 	private AsyncLoader asyncLoader;
 	private ImageView[] imageViews;
 	private LocalRoute localRoute;
@@ -96,7 +98,7 @@ public class CommonLocalTripsDetailActivity extends Activity
 		super.onCreate(savedInstanceState);
 		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.common_local_trips_detail);
-		
+		//imageLoader = ImageLoader.getInstance();
 		int localRouteId = getIntent().getIntExtra("local_route",0);
 		
 		loadData(localRouteId);
@@ -146,9 +148,10 @@ public class CommonLocalTripsDetailActivity extends Activity
 			//asyncLoader = AsyncLoader.getInstance();
 			asyncLoader = new AsyncLoader();
 			int size=imagePath.size();	
+			View view = null;
 			for(int i=0;i<size;i++)
 			{
-				View view = inflater.inflate(R.layout.place_detail_image, null);
+				view = inflater.inflate(R.layout.place_detail_image, null);
 				/*ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
 				asyncLoader.showimgAnsy(imageView, imagePath.get(i));*/
 				imageViewlist.add(view);
@@ -157,10 +160,11 @@ public class CommonLocalTripsDetailActivity extends Activity
 			ViewGroup main = (ViewGroup) inflater.inflate(R.layout.common_local_trips_detail, null);
 			ViewGroup group = (ViewGroup) main.findViewById(R.id.place_images_group);
 			ViewPager routeViewPager = (ViewPager) main.findViewById(R.id.route_view_pager);
+			LinearLayout.LayoutParams params  = null;
 			ImageView imageView;
 			for (int i = 0; i < size; i++) {  
 	            imageView = new ImageView(CommonLocalTripsDetailActivity.this);  
-	            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(10, 10);
+	            params = new LinearLayout.LayoutParams(10, 10);
 	            params.setMargins((int)getResources().getDimension(R.dimen.image_margin), 0, (int)getResources().getDimension(R.dimen.image_margin), 0);
 	            imageView.setLayoutParams(params);  
 	            imageViews[i] = imageView;  
@@ -219,10 +223,14 @@ public class CommonLocalTripsDetailActivity extends Activity
 			routeDetailWebView.setVisibility(View.GONE);
 			isFollow = checkFavoriteRoute(localRoute.getRouteId());
 			//Log.d(TAG, "route is follow = "+isFollow);
+			String url = "";
+			ImageView imageView2 = null;
 			for(int i=0;i<size;i++)
 			{
-				View view = imageViewlist.get(i);
-				ImageView imageView2 = (ImageView) view.findViewById(R.id.place_image_item);
+				view = imageViewlist.get(i);
+				imageView2 = (ImageView) view.findViewById(R.id.place_image_item);	
+				//url = TravelUtil.getImageUrl(cityId, imagePath.get(i));
+				//imageLoader.displayImage(url, imageView2);
 				asyncLoader.showimgAnsy(imageView2, imagePath.get(i));
 			}
 			loadRouteFeedback();
@@ -529,6 +537,7 @@ public class CommonLocalTripsDetailActivity extends Activity
 		{
 			asyncLoader.recycleBitmap();
 		}	
+		asyncLoader = null;
 		ActivityMange.getInstance().finishActivity();
 	}
 }

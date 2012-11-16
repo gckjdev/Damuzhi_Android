@@ -43,11 +43,13 @@ import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.CityOverviewProtos.CommonOverview;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
 /**  
  * @description   
  * @version 1.0  
@@ -71,7 +73,7 @@ public abstract class CommonOverViewActivity extends MenuActivity
 	private ViewGroup main,group;
 	private WebView overviewWebview;
 	 CommonOverview commonOverview;
-	 AsyncLoader anseylodar;
+	// AsyncLoader anseylodar;
 	@Override
 	protected void onCreate(Bundle arg0)
 	{
@@ -91,16 +93,23 @@ public abstract class CommonOverViewActivity extends MenuActivity
 			LayoutInflater inflater = getLayoutInflater();
 			main = (ViewGroup) inflater.inflate(R.layout.common_overview, null);
 			if(isSupportViewpager()){
+				ImageLoader imageLoader = ImageLoader.getInstance();
 				List<String> imagePath = commonOverview.getImagesList();
 				imageViewlist = new ArrayList<View>();
 				int size=imagePath.size();
+				View view = null;
+				ImageView imageView = null;
+				String url = "";
 				for(int i=0;i<size;i++)
 				{
-					anseylodar = new AsyncLoader();
-					View view = inflater.inflate(R.layout.place_detail_image, null);
-					ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
-					String url  = imagePath.get(i);
-					anseylodar.showimgAnsy(imageView,url);	
+					//anseylodar = new AsyncLoader();
+					view = inflater.inflate(R.layout.place_detail_image, null);
+					imageView = (ImageView) view.findViewById(R.id.place_image_item);
+					url  = imagePath.get(i);
+					url = TravelUtil.getImageUrl(AppManager.getInstance().getCurrentCityId(), url);
+					imageLoader.displayImage(url, imageView);
+					//anseylodar.showimgAnsy(imageView,url);	
+					
 					imageViewlist.add(view);
 				}
 				imageViews = new ImageView[size];
@@ -269,10 +278,10 @@ public abstract class CommonOverViewActivity extends MenuActivity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		if(anseylodar != null)
+		/*if(anseylodar != null)
 		{
 			anseylodar.recycleBitmap();
-		}	
+		}	*/
 		if(loadingDialog  != null)
 		{
 			loadingDialog.dismiss();

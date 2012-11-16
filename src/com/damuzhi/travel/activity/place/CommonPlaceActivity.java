@@ -15,6 +15,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
+import android.R.integer;
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.ProgressDialog;
@@ -253,7 +254,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 				//totalCount = getPlaceTotalCount();
 				start = 0;
 				count = 1;
-				LocationUtil.getLocation(CommonPlaceActivity.this);
+				LocationUtil.getInstance().getLocation(CommonPlaceActivity.this);
 				if(TravelApplication.getInstance().mLocationClient !=null)
 				{
 					LocationUtil.stop();
@@ -272,7 +273,6 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 			protected void onPostExecute(List<Place> resultList)
 			{
 				
-				//allPlaceList = resultList;
 				allPlaceList.clear();
 				allPlaceList.addAll(resultList);
 				//init filter title data
@@ -486,6 +486,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 			dataNotFoundTextView.setVisibility(View.GONE);
 			if(listViewButton.getVisibility() == View.VISIBLE)
 			{			
+				mapviewGroup.setVisibility(View.VISIBLE);
 				goMapView(list);
 			}else {
 				listViewGroup.setVisibility(View.VISIBLE);	
@@ -620,7 +621,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 			 	mapviewGroup.setVisibility(View.VISIBLE);
 				goMapView(placeListAdapter.getPlaceList());		
 			 }catch(Exception  e) {
-	                (Toast.makeText(CommonPlaceActivity.this, getResources().getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+	                Toast.makeText(CommonPlaceActivity.this, R.string.google_map_not_found2, Toast.LENGTH_LONG).show();
 	         }
 		}
 	};
@@ -631,17 +632,19 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		//AsyncLoader.getInstance().recycleBitmap();
 		Log.d(TAG, "recycle plac detail image bitmap");
 	}
-
 	private void goMapView(List<Place> list) {
 		if(list!=null&&list.size()>0)
 		{	 	
+			
 		 	PlaceList.Builder placeList = PlaceList.newBuilder();
 		 	placeList.addAllList(list);
-		 	Intent intent = new Intent(CommonPlaceActivity.this, PlaceGoogleMap.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		 	intent.putExtra(ConstantField.PLACE_GOOGLE_MAP, placeList.build().toByteArray());
-		 	mapviewGroup.removeAllViews();
-		 	mapviewGroup.addView(getLocalActivityManager().startActivity(ConstantField.PLACE_GOOGLE_MAP,intent).getDecorView());
+		 	Log.d(TAG, "send map view place list size = "+placeList.getListCount());
+		 	Intent intent = new Intent(CommonPlaceActivity.this, PlaceGoogleMap.class);
+		 	intent.putExtra(ConstantField.PLACE_GOOGLE_MAP, placeList.build().toByteArray());		 	
+	 		mapviewGroup.removeAllViews();
+		 	mapviewGroup.addView(getLocalActivityManager().startActivity(ConstantField.PLACE_GOOGLE_MAP,intent).getDecorView()); 	
 		}	
+		
 	}
 	
 	

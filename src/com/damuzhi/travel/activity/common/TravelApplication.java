@@ -47,6 +47,19 @@ import com.baidu.location.LocationClient;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.R;
+import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
+import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
+import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
+import com.nostra13.universalimageloader.core.display.FakeBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.download.URLConnectionImageDownloader;
+import com.nostra13.universalimageloader.utils.StorageUtils;
 public class TravelApplication extends Application
 {
 	private static final String TAG = "TravelApplication";
@@ -88,6 +101,39 @@ public class TravelApplication extends Application
 		deviceId = tm.getDeviceId();
 		httpClient = createHttpClient();
 
+		
+		File cacheDir = StorageUtils.getOwnCacheDirectory(getApplicationContext(), "damuzhi/cahce");
+
+		// Get singletone instance of ImageLoader
+		ImageLoader imageLoader = ImageLoader.getInstance();
+		DisplayImageOptions options = new DisplayImageOptions.Builder()
+        .showStubImage(R.drawable.default_s)
+        .showImageForEmptyUri(R.drawable.default_s)
+        //.cacheInMemory()
+        .cacheOnDisc()
+        .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+        .build();
+		
+		
+		// Create configuration for ImageLoader (all options are optional, use only those you really want to customize)
+		// DON'T COPY THIS CODE TO YOUR PROJECT! This is just example of using ALL options. Most of them have default values.
+		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
+		            //.memoryCacheExtraOptions(320, 190) // max width, max height
+		            .discCacheExtraOptions(320, 190, CompressFormat.JPEG, 75) // Can slow ImageLoader, use it carefully (Better don't use it)
+		            .threadPoolSize(3)
+		            .threadPriority(Thread.NORM_PRIORITY - 1)
+		            .denyCacheImageMultipleSizesInMemory()
+		            .offOutOfMemoryHandling()
+		            .memoryCache(new WeakMemoryCache()) // You can pass your own memory cache implementation
+		            .discCache(new UnlimitedDiscCache(cacheDir)) // You can pass your own disc cache implementation
+		            .discCacheFileNameGenerator(new HashCodeFileNameGenerator())
+		            .imageDownloader(new URLConnectionImageDownloader(5 * 1000, 20 * 1000)) // connectTimeout (5 s), readTimeout (20 s)
+		            .tasksProcessingOrder(QueueProcessingType.FIFO)
+		            .defaultDisplayImageOptions(options)
+		            .enableLogging()
+		            .build();
+		// Initialize ImageLoader with created configuration. Do it once on Application start.
+		imageLoader.init(config);
 	}
 	
 	@Override

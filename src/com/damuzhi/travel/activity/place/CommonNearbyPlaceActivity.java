@@ -110,7 +110,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
     private TextView modelTextView;
     private String currentDistance ="";
     private String currentPlaceCategory = ConstantField.NEARBY_ALL;
-    private LocationClient mLocClient;
+   // private LocationClient mLocClient;
     private int model = 1;//1== map,2= list
     private View listViewFooter;
 	private ViewGroup footerViewGroup;
@@ -118,7 +118,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	private static int count = 1;
 	private int totalCount = 0;
 	private boolean loadDataFlag = false;
-	
+	private boolean addFooterViewFlag = false;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -178,7 +178,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		
 		listViewFooter = getLayoutInflater().inflate(R.layout.load_more_view, null, false);
 		listView.addFooterView(listViewFooter);
-		listView.setFooterDividersEnabled(false);
+		//listView.setFooterDividersEnabled(false);
 		footerViewGroup = (ViewGroup) listViewFooter.findViewById(R.id.listView_load_more_footer);
 		footerViewGroup.setVisibility(View.GONE);
 		
@@ -190,6 +190,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		screenW = dm.widthPixels;
+		//getMyLocation();
 	}
 
 	
@@ -204,7 +205,8 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			protected List<Place> doInBackground(String... params)
 			{
 				getMyLocation();
-				return PlaceMission.getInstance().getNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
+				List<Place> resultList = PlaceMission.getInstance().getNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
+				return resultList;
 			}
 
 			@Override
@@ -221,15 +223,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 					placeList.clear();
 					placeList.addAll(resultList);
 				}
-					
-				refreshPlaceView();
-				if(placeList.size()>0)
-				{
-					findViewById(R.id.page).setVisibility(View.VISIBLE);					
-				}else
-				{
-					findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
+				if(addFooterViewFlag){
+					listView.addFooterView(footerViewGroup, placeList, false);	
+					addFooterViewFlag = false;
 				}
+				
+				refreshPlaceView();
 				super.onPostExecute(resultList);
 			}
 
@@ -292,6 +291,13 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			goMapView(placeList);
 		}
 		updateTitle();
+		if(placeList.size()>0)
+		{
+			findViewById(R.id.page).setVisibility(View.VISIBLE);					
+		}else
+		{
+			findViewById(R.id.data_not_found).setVisibility(View.VISIBLE);
+		}
 	}
 	
 	
@@ -332,6 +338,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState)
 		{
+			Log.d(TAG, "onScrollStateChanged");
 			if(!loadDataFlag)
 			{
 				return ;
@@ -339,7 +346,11 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			if(totalCount !=0 && visibleLastIndex == totalCount)
 			{
 			   listView.removeFooterView(listViewFooter);	
+			   addFooterViewFlag = true;
+			   //footerViewGroup.setVisibility(View.INVISIBLE);
+				//loadDataFlag = false;
 			}
+			Log.d(TAG, "visibleLastIndex = "+visibleLastIndex);
 			if(visibleLastIndex >0)
 			{	
 				footerViewGroup.setVisibility(View.VISIBLE);
@@ -598,7 +609,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 					goMapView(placeList);
 					model = 2;
 				 }catch(Exception  e) {
-		                (Toast.makeText(CommonNearbyPlaceActivity.this, getResources().getString(R.string.google_map_not_found2), Toast.LENGTH_LONG)).show();
+		                Toast.makeText(CommonNearbyPlaceActivity.this, R.string.google_map_not_found2, Toast.LENGTH_LONG).show();
 		            }
 			}else
 			{
@@ -621,7 +632,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			
 			 	PlaceList.Builder placeList = PlaceList.newBuilder();
 			 	placeList.addAllList(list);
-			 	Intent intent = new Intent(CommonNearbyPlaceActivity.this, PlaceGoogleMap.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			 	Intent intent = new Intent(CommonNearbyPlaceActivity.this, PlaceGoogleMap.class);
 			 	intent.putExtra(ConstantField.NEARBY_GOOGLE_MAP, placeList.build().toByteArray());
 			 	mapViewGroup.removeAllViews();
 			 	mapViewGroup.addView(getLocalActivityManager().startActivity(ConstantField.NEARBY_GOOGLE_MAP,intent).getDecorView());
@@ -653,12 +664,18 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	private void getMyLocation()
 	{
 		checkGPSisOpen();		
-		LocationUtil.getLocation(CommonNearbyPlaceActivity.this);
-		location = TravelApplication.getInstance().getLocation();
-		if(mLocClient !=null)
+		int i=0;
+		while (location==null||location.size()==0)
+		{
+			LocationUtil.getInstance().getLocation(CommonNearbyPlaceActivity.this);
+			location = TravelApplication.getInstance().getLocation();
+			
+		}
+		
+		/*if(mLocClient !=null)
 		{
 			mLocClient.stop();
-		}				
+		}*/				
 	}
 	
 	
@@ -757,7 +774,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 				{
 					loadingDialog.dismiss();
 					Intent intent = new Intent(CommonNearbyPlaceActivity.this,MainActivity.class);
-					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;
 				} else

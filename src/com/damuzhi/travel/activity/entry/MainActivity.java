@@ -318,6 +318,7 @@ public class MainActivity extends TabActivity {
 				@Override
 				public void onClick(DialogInterface dialog, int which)
 				{
+					TravelApplication.getInstance().getHttpClient().getConnectionManager().shutdown();
 					AppMission.getInstance().saveCurrentCityId(MainActivity.this);
 					TravelApplication.getInstance().setToken("");
 					TravelApplication.getInstance().setLoginID("");

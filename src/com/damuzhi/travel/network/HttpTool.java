@@ -81,6 +81,7 @@ public class HttpTool
 					Log.d(TAG, "sendGetRequest retry times = "+count);
 					continue;
 				}else {
+					TravelApplication.getInstance().downloadFailToast();
 					Log.d(TAG, "colud not success with retry...");
 				}
 			}

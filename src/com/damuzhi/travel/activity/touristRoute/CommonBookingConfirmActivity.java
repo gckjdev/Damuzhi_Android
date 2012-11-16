@@ -64,13 +64,11 @@ public class CommonBookingConfirmActivity extends Activity {
 		{
 			final String contact = contactEditText.getText().toString();
 			final String contactPerson = contactPersonEditText.getText().toString();
-			if(contactPerson==null||contactPerson.trim().equals(""))
-			{
-				Toast.makeText(CommonBookingConfirmActivity.this, getString(R.string.contact_hint), Toast.LENGTH_SHORT).show();
-			}else if (contact == null ||contact.trim().equals("")) {
+			if(contactPerson==null||contactPerson.trim().equals("")){
 				Toast.makeText(CommonBookingConfirmActivity.this, getString(R.string.contact_person_hint), Toast.LENGTH_SHORT).show();
-			}else
-			{
+			}else if (contact == null ||contact.trim().equals("")) {
+				Toast.makeText(CommonBookingConfirmActivity.this, getString(R.string.contact_hint), Toast.LENGTH_SHORT).show();				
+			}else{
 				boolean isNumber = TravelUtil.isNumber(contact);
 				if(!isNumber)
 				{

@@ -316,6 +316,7 @@
     <string name="input_correct_password_toast">请输入正确的6位以上密码</string>
     <string name="agency_intro">旅行社介绍</string>
     <string name="have_no_favorite_route">您还没有关注线路</string>
+    <string name="have_no_route_order">您还没有预订线路</string>
     
     <!-- route feedback -->
     <string name="route_feedback2">评价</string>

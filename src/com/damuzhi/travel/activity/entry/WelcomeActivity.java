@@ -84,9 +84,11 @@ public class WelcomeActivity extends MenuActivity
 				String channelId="000000";  
 		        try {  
 		               ApplicationInfo  ai = WelcomeActivity.this.getPackageManager().getApplicationInfo(WelcomeActivity.this.getPackageName(), PackageManager.GET_META_DATA);  
-		               Object value = ai.metaData.get("YOUMI_CHANNEL");  
-		               if (value != null) {  
-		            	   channelId= (String)value;  		          
+		               Object object = ai.metaData.get("YOUMI_CHANNEL");
+		              // Log.d(TAG, "meta data = "+object);
+		               if (object != null) {  
+		            	   channelId= String.valueOf(object);
+		            	   Log.d(TAG, "channelId = "+channelId);
 		               }  
 		           } catch (Exception e) {  
 		               //  
@@ -100,7 +102,7 @@ public class WelcomeActivity extends MenuActivity
 				TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
 				String deviceId = telephonyManager.getDeviceId();
 				CommonMission.getInstance().registerDevice(deviceId,channelId,WelcomeActivity.this);
-				LocationUtil.getLocation(WelcomeActivity.this);
+				LocationUtil.getInstance().getLocation(WelcomeActivity.this);
 				return null;
 			}
 

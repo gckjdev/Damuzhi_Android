@@ -17,6 +17,7 @@ import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.location.MyLocation.LocationResult;
+import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 
 
@@ -25,8 +26,19 @@ public class LocationUtil
 {
 	private static final String TAG ="LocationUtil";
 	private static HashMap<String, Double> loc = new HashMap<String, Double>();
-	private Location location;
 	private static LocationClient mLocClient;
+	private static LocationUtil instance = null;
+
+
+	public static LocationUtil getInstance() {
+		if (instance == null) {
+			instance = new LocationUtil();
+		}
+		return instance;
+	}
+	
+	
+	
 	public static void getLocation(final Context context)
 	{
 		if(loc!= null&&loc.size()>0)

@@ -102,16 +102,29 @@ public class LoginActivity extends Activity {
 		@Override
 		public void onClick(View v)
 		{
-			v.setClickable(false);
 			userName = userNameEditText.getText().toString();
 			password = passwordEditText.getText().toString();
-			if(userName==null||userName.trim().equals(""))
-			{
-				Toast.makeText(LoginActivity.this, getString(R.string.contact_toast), Toast.LENGTH_SHORT).show();
+			if((userName==null||userName.trim().equals(""))&&(password == null ||password.trim().equals(""))){
+				Toast.makeText(LoginActivity.this, "请先填写登录信息", Toast.LENGTH_SHORT).show();
+			}else if(userName==null||userName.trim().equals("")){
+				Toast.makeText(LoginActivity.this, "请输入正确的手机号码或邮箱", Toast.LENGTH_SHORT).show();
 			}else if (password == null ||password.trim().equals("")) {
-				Toast.makeText(LoginActivity.this, getString(R.string.feedback_contact_emtpy), Toast.LENGTH_SHORT).show();
+				Toast.makeText(LoginActivity.this, "请输入您的密码", Toast.LENGTH_SHORT).show();
 			}else
 			{		
+				boolean isPhoneNum = TravelUtil.isPhoneNumber(userName);
+				boolean isShort = TravelUtil.isShort(password);
+				boolean isEmail = TravelUtil.isEmail(userName);
+				if(!isPhoneNum&&!isEmail)
+				{
+					Toast.makeText(LoginActivity.this, "请输入正确的手机号码或邮箱", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				if(!isShort)
+				{
+					Toast.makeText(LoginActivity.this, "密码长度不正确", Toast.LENGTH_SHORT).show();
+					return;
+				}
 				try
 				{
 					password = URLEncoder.encode(password, "UTF-8");
@@ -127,6 +140,7 @@ public class LoginActivity extends Activity {
 	
 	private void login(String userName,String password)
 	{
+		//loginButton.setClickable(false);
 		AsyncTask<String, Void, Boolean> asyncTask = new AsyncTask<String, Void, Boolean>()
 		{
 
@@ -141,7 +155,7 @@ public class LoginActivity extends Activity {
 			protected void onPostExecute(Boolean result)
 			{
 				super.onPostExecute(result);
-				loginButton.setClickable(true);
+				//loginButton.setClickable(true);
 				loginResult = result;
 				String resultInfo = CommonMission.getInstance().getResultInfo();
 				Log.d(TAG, " member login result = "+loginResult);
@@ -176,8 +190,8 @@ public class LoginActivity extends Activity {
 	protected void onPause()
 	{
 		super.onPause();
-		Log.d(TAG, "rememberUserNameCheckBox checked = "+rememberUserNameCheckBox.isChecked());
-		Log.d(TAG, "rememberPasswordCheckBox checked = "+rememberPasswordCheckBox.isChecked());
+		//Log.d(TAG, "rememberUserNameCheckBox checked = "+rememberUserNameCheckBox.isChecked());
+		//Log.d(TAG, "rememberPasswordCheckBox checked = "+rememberPasswordCheckBox.isChecked());
 		String userName = userNameEditText.getText().toString();
 		String password = passwordEditText.getText().toString();
 		if(rememberUserNameCheckBox.isChecked())

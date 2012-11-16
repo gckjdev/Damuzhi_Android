@@ -45,8 +45,7 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 	private ProgressBar loadingBar;
 	private CommonTouristRouteBooingOrderAdapter adapter;
 	private Button consultButton;
-	private HashMap<Integer, Boolean> positionHashMap = new HashMap<Integer, Boolean>();
-	
+	private TextView noOrderTextView;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -55,6 +54,7 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 		expandableListView = (ExpandableListView) findViewById(R.id.tourist_route_order_list);
 		loadingBar = (ProgressBar) findViewById(R.id.loading_progress);		
 		consultButton = (Button) findViewById(R.id.consult_button);
+		noOrderTextView = (TextView) findViewById(R.id.no_order);
 		adapter = new CommonTouristRouteBooingOrderAdapter(CommonTouristRouteOrderListActivity.this, orderList);
 		expandableListView.setAdapter(adapter);
 		consultButton.setOnClickListener(consultOnClickListener);
@@ -65,7 +65,6 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 	private void load()
 	{
 		AsyncTask<Void, Void, List<Order>> loadTask = new AsyncTask<Void, Void, List<Order>>(){
-
 			@Override
 			protected List<Order> doInBackground(Void... params)
 			{
@@ -100,6 +99,13 @@ public class CommonTouristRouteOrderListActivity extends Activity {
 
 	private void refresh()
 	{
+		if(orderList.size()==0)
+		{
+			noOrderTextView.setVisibility(View.VISIBLE);
+		}else
+		{
+			noOrderTextView.setVisibility(View.GONE);
+		}
 		adapter.setOrderList(orderList);
 		adapter.notifyDataSetChanged();
 		for(int i= 0;i <orderList.size();i++)

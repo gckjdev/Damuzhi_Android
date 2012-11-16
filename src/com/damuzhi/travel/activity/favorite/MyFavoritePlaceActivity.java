@@ -44,6 +44,7 @@ import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.entry.IndexActivity;
+import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.more.BrowseHistoryActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceDetailActivity;
 import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
@@ -641,7 +642,7 @@ public class MyFavoritePlaceActivity extends MenuActivity
 						&& event.getRepeatCount() == 0)
 				{
 					loadingDialog.dismiss();
-					Intent intent = new Intent(MyFavoritePlaceActivity.this,IndexActivity.class);
+					Intent intent = new Intent(MyFavoritePlaceActivity.this,MainActivity.class);
 					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 					startActivity(intent);
 					return true;

@@ -20,7 +20,7 @@ import android.util.Log;
 
 
 public class ImageLoader {
-		private static final int SOFT_CACHE_CAPACITY = 15;
+		private static final int SOFT_CACHE_CAPACITY = 10;
 		private static final String TAG = "ImageLoader";  
 		private ArrayList<Task> taskQueue;
 		//private volatile static ImageLoader instance;
@@ -213,6 +213,7 @@ public class ImageLoader {
 					bitmap = null;
 			}	
 			caches.clear();
+			//caches = null;
 			//System.gc() ;
 		} 
 }

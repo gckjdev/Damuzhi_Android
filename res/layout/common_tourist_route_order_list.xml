@@ -42,6 +42,13 @@
             android:textColor="@color/white"           
             android:background="@drawable/help_mini_button" />
     </RelativeLayout>
+    <TextView
+        android:id="@+id/no_order"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:visibility="gone"
+        android:text="@string/have_no_route_order"/>
     <ExpandableListView
         android:id="@+id/tourist_route_order_list"
         android:layout_marginTop="20dp"

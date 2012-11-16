@@ -25,6 +25,7 @@ import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -51,7 +52,8 @@ public class NearbyPlaceAdapter extends BaseAdapter
 	private HashMap<Integer, String> subCatMap;
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
-	public AsyncLoader anseylodar;
+	//public AsyncLoader anseylodar;
+	private ImageLoader imageLoader;
 	private LayoutInflater inflater;
 	private ImageView imageView;
 	private ViewGroup serviceGroup;
@@ -83,7 +85,8 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
-		this.anseylodar = new AsyncLoader();
+		//this.anseylodar = new AsyncLoader();
+		this.imageLoader = ImageLoader.getInstance();
 		int cityId = AppManager.getInstance().getCurrentCityId();
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(cityId);
 		symbol = AppManager.getInstance().getSymbolMap().get(cityId);
@@ -156,7 +159,9 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
 		url = place.getIcon();
-		anseylodar.showimgAnsy(imageView,url,cityId);		
+		url = TravelUtil.getImageUrl(cityId, url);
+		imageLoader.displayImage(url, imageView);
+		//anseylodar.showimgAnsy(imageView,url,cityId);		
 		
 		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		
@@ -186,12 +191,12 @@ public class NearbyPlaceAdapter extends BaseAdapter
 			{
 				serviceGroup.removeAllViews();
 			}
-			
+			ImageView serviceImageView = null;
+			LayoutParams layoutParams = new LayoutParams((int)context.getResources().getDimension(R.dimen.service_icon),LayoutParams.WRAP_CONTENT);
 			for(int id:place.getProvidedServiceIdList())
 			{
-				 ImageView serviceImageView = new ImageView(context);  
-				 serviceImageView.setLayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.service_icon),
-						 LayoutParams.WRAP_CONTENT));   
+				 serviceImageView = new ImageView(context);  
+				 serviceImageView.setLayoutParams(layoutParams);   
 				 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
 				 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));
 		         serviceGroup.addView(serviceImageView);
@@ -230,7 +235,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 	
 	public void recycleBitmap()
 	{
-		anseylodar.recycleBitmap();
+		//anseylodar.recycleBitmap();
 	}
 	
 }

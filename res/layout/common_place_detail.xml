@@ -3,14 +3,12 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
-
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/topmenu_bg"
         android:orientation="horizontal" >
-
         <Button
             android:id="@+id/index_button"
             android:layout_width="48dp"
@@ -23,7 +21,6 @@
             android:text="@string/index"
             android:textColor="@color/white"
             android:textSize="14sp" />
-
         <TextView
             android:id="@+id/place_detail_title"
             android:layout_width="fill_parent"
@@ -37,7 +34,6 @@
             android:singleLine="true"
             android:textColor="@color/white"
             android:textSize="20.0sp" />
-
         <ImageButton
             android:id="@+id/location_button"
             android:layout_width="48dp"
@@ -48,14 +44,12 @@
             android:background="@null"
             android:src="@drawable/map_po" />
     </RelativeLayout>
-
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="41.3dp"
         android:background="@drawable/topmenu_bg2"
         android:orientation="horizontal" >
-
         <ImageView
             android:id="@+id/place_detail_recommend_image1"
             android:layout_width="16.0dip"
@@ -64,7 +58,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="10.0dip"
             android:scaleType="fitCenter" />
-
         <ImageView
             android:id="@+id/place_detail_recommend_image2"
             android:layout_width="16.0dip"
@@ -72,7 +65,6 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/place_detail_recommend_image1"
             android:scaleType="fitCenter" />
-
         <ImageView
             android:id="@+id/place_detail_recommend_image3"
             android:layout_width="16.0dip"
@@ -80,7 +72,6 @@
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/place_detail_recommend_image2"
             android:scaleType="fitCenter" />
-
         <LinearLayout
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/proServiceGroup"
@@ -91,7 +82,6 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:visibility="gone" />
-
         <ImageView
             android:id="@+id/help2"
             android:layout_width="wrap_content"
@@ -102,7 +92,6 @@
             android:scaleType="fitCenter"
             android:src="@drawable/help2x" />
     </RelativeLayout>
-
     <com.damuzhi.travel.activity.common.CommonScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/place_detail_group"
@@ -111,30 +100,25 @@
         android:background="@color/white"
         android:fillViewport="true"
         android:scrollbars="none" >
-
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical" >
-
             <FrameLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/image_group"
                 android:layout_width="fill_parent"
                 android:layout_height="190dp"
                 android:orientation="vertical" >
-
                 <android.support.v4.view.ViewPager
                     android:id="@+id/place_images"
                     android:layout_width="fill_parent"
                     android:layout_height="fill_parent" />
-
                 <RelativeLayout
                     xmlns:android="http://schemas.android.com/apk/res/android"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical" >
-
                     <LinearLayout
                         xmlns:android="http://schemas.android.com/apk/res/android"
                         android:id="@+id/place_images_group"
@@ -146,13 +130,11 @@
                         android:orientation="horizontal" />
                 </RelativeLayout>
             </FrameLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical" >
-
                 <TextView
                     android:id="@+id/place_intro_title"
                     android:layout_width="fill_parent"
@@ -162,7 +144,6 @@
                     android:paddingLeft="10.0dp"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/place_intro"
                     android:layout_width="fill_parent"
@@ -174,14 +155,12 @@
                     android:paddingTop="10dp"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/ticket_group"
@@ -189,7 +168,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/ticket_title"
                     android:layout_width="wrap_content"
@@ -200,7 +178,6 @@
                     android:text="@string/ticketsPrice"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/ticket"
                     android:layout_width="wrap_content"
@@ -209,14 +186,12 @@
                     android:paddingBottom="15dp"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/hotel_start_group"
@@ -224,7 +199,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/hotel_start_title"
                     android:layout_width="wrap_content"
@@ -235,7 +209,6 @@
                     android:text="@string/hotelStart"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -243,13 +216,11 @@
                     android:gravity="left"
                     android:orientation="horizontal"
                     android:paddingBottom="15dp" >
-
                     <LinearLayout
                         android:id="@+id/hotel_start_image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal" />
-
                     <TextView
                         android:id="@+id/hotel_start"
                         android:layout_width="wrap_content"
@@ -259,14 +230,12 @@
                         android:textColor="@color/place_price_color"
                         android:textSize="15.0sp" />
                 </LinearLayout>
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/food_group"
@@ -274,7 +243,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/food_title"
                     android:layout_width="wrap_content"
@@ -285,7 +253,6 @@
                     android:text="@string/food_type"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/food"
                     android:layout_width="fill_parent"
@@ -294,14 +261,12 @@
                     android:paddingBottom="15dp"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/open_time_group"
@@ -309,7 +274,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/open_time_title"
                     android:layout_width="wrap_content"
@@ -320,7 +284,6 @@
                     android:text="@string/open_time"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/open_time"
                     android:layout_width="fill_parent"
@@ -329,14 +292,12 @@
                     android:paddingBottom="15dp"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/avg_price_group"
@@ -344,7 +305,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/avg_price_title"
                     android:layout_width="wrap_content"
@@ -355,7 +315,6 @@
                     android:text="@string/avg_price"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/avg_price"
                     android:layout_width="fill_parent"
@@ -364,14 +323,12 @@
                     android:paddingBottom="15dp"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/keyword_group"
@@ -379,7 +336,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/place_keyword_title"
                     android:layout_width="wrap_content"
@@ -390,7 +346,6 @@
                     android:text="@string/key_word"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/place_keyword"
                     android:layout_width="fill_parent"
@@ -399,14 +354,12 @@
                     android:paddingBottom="15dp"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/special_food_group"
@@ -414,7 +367,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/special_food_title"
                     android:layout_width="wrap_content"
@@ -425,7 +377,6 @@
                     android:text="@string/special_food"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/special_food"
                     android:layout_width="fill_parent"
@@ -434,14 +385,12 @@
                     android:paddingBottom="15dp"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/room_price_group"
@@ -449,7 +398,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/room_price_title"
                     android:layout_width="wrap_content"
@@ -460,7 +408,6 @@
                     android:text="@string/hotelRoomPrice"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/room_price"
                     android:layout_width="fill_parent"
@@ -470,14 +417,12 @@
                     android:singleLine="true"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/park_group"
@@ -485,7 +430,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/park_title"
                     android:layout_width="wrap_content"
@@ -496,7 +440,6 @@
                     android:text="@string/park"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/park"
                     android:layout_width="fill_parent"
@@ -505,14 +448,12 @@
                     android:paddingBottom="15dp"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/transport_group"
@@ -520,8 +461,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
-                <TextView
+               <TextView
                     android:id="@+id/transport_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -530,7 +470,6 @@
                     android:layout_marginTop="5dp"
                     android:text="@string/trafficInfo"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/transport"
                     android:layout_width="fill_parent"
@@ -543,14 +482,12 @@
                     android:singleLine="true"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/special_trans_group"
@@ -558,7 +495,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/transport_info_title"
                     android:layout_width="wrap_content"
@@ -568,7 +504,6 @@
                     android:text="@string/trafficInfo"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <LinearLayout
                     android:id="@+id/special_trans"
                     android:layout_width="fill_parent"
@@ -577,7 +512,6 @@
                     android:gravity="center"
                     android:orientation="vertical"
                     android:paddingBottom="15dp" >
-
                     <RelativeLayout
                         android:id="@+id/special_trans_title"
                         android:layout_width="294dp"
@@ -585,7 +519,6 @@
                         android:background="@drawable/table5_top"
                         android:gravity="center_vertical"
                         android:orientation="horizontal" >
-
                         <TextView
                             android:id="@+id/transport_location"
                             android:layout_width="wrap_content"
@@ -595,7 +528,6 @@
                             android:text="@string/trafficLocation"
                             android:textColor="@color/place_price_color"
                             android:textSize="16.0sp" />
-
                         <TextView
                             android:id="@+id/traffic_distance"
                             android:layout_width="wrap_content"
@@ -607,14 +539,12 @@
                             android:textSize="15sp" />
                     </RelativeLayout>
                 </LinearLayout>
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/tips_group"
@@ -622,7 +552,6 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/tips_title"
                     android:layout_width="wrap_content"
@@ -633,7 +562,6 @@
                     android:text="@string/tour_tips"
                     android:textColor="@color/place_title_color"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/tips"
                     android:layout_width="fill_parent"
@@ -643,14 +571,12 @@
                     android:singleLine="false"
                     android:textColor="@color/place_price_color"
                     android:textSize="15.0sp" />
-
                 <ImageView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     android:src="@drawable/middle_line" />
             </LinearLayout>
-
             <LinearLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/nearby_list_group"
@@ -659,7 +585,6 @@
                 android:gravity="center"
                 android:orientation="vertical"
                 android:paddingBottom="15dp" >
-
                 <TextView
                     android:id="@+id/nearby_title"
                     android:layout_width="fill_parent"
@@ -673,13 +598,11 @@
                     android:textSize="16sp" />
                 <!-- <include layout="@layout/nearby_place_list_view"/> -->
             </LinearLayout>
-
             <ImageView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:scaleType="fitXY"
                 android:src="@drawable/middle_line" />
-
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/phone_group"
@@ -688,7 +611,6 @@
                 android:background="@drawable/t_bg"
                 android:gravity="center"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/phone_num"
                     android:layout_width="wrap_content"
@@ -704,7 +626,6 @@
                     android:singleLine="true"
                     android:textColor="@color/connect_info"
                     android:textSize="15sp" />
-
                 <ImageView
                     android:id="@+id/phone_call"
                     android:layout_width="wrap_content"
@@ -714,7 +635,6 @@
                     android:scaleType="fitXY"
                     android:src="@drawable/t_phone2x" />
             </RelativeLayout>
-
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/address_group"
@@ -723,7 +643,6 @@
                 android:background="@drawable/t_bg"
                 android:gravity="center"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/address"
                     android:layout_width="wrap_content"
@@ -737,7 +656,6 @@
                     android:singleLine="false"
                     android:textColor="@color/connect_info"
                     android:textSize="15sp" />
-
                 <ImageView
                     android:id="@+id/address_map_view"
                     android:layout_width="wrap_content"
@@ -747,7 +665,6 @@
                     android:scaleType="fitXY"
                     android:src="@drawable/t_map2x" />
             </RelativeLayout>
-
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/website_group"
@@ -756,7 +673,6 @@
                 android:background="@drawable/t_bg"
                 android:gravity="left|center"
                 android:visibility="gone" >
-
                 <TextView
                     android:id="@+id/website"
                     android:layout_width="wrap_content"
@@ -767,14 +683,12 @@
                     android:textColor="@color/connect_info"
                     android:textSize="15sp" />
             </RelativeLayout>
-
             <RelativeLayout
                 xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/collect_group"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bottombg" >
-
                 <ImageView
                     android:id="@+id/collect_btn"
                     android:layout_width="100dp"
@@ -783,7 +697,6 @@
                     android:layout_marginTop="12dp"
                     android:scaleType="fitXY"
                     android:src="@drawable/favorites" />
-
                 <TextView
                     android:id="@+id/collect"
                     android:layout_width="100dp"
@@ -795,7 +708,6 @@
                     android:text="@string/collect"
                     android:textColor="@android:color/black"
                     android:textSize="16.0sp" />
-
                 <TextView
                     android:id="@+id/favorite_count"
                     android:layout_width="wrap_content"
@@ -810,5 +722,4 @@
             </RelativeLayout>
         </LinearLayout>
     </com.damuzhi.travel.activity.common.CommonScrollView>
-
 </LinearLayout>

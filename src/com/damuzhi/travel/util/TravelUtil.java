@@ -23,6 +23,7 @@ import android.util.Log;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
@@ -837,13 +838,17 @@ public class TravelUtil
 	public static String getImageUrl(int cityId, String url)
 	{
 		String htmlUrl = "";
-		if(!url.contains("http://"))
+		boolean isShow = MoreMission.getInstance().isShowListImage();
+		if(isShow)
 		{
-			htmlUrl = "file:///"+getCityDataPath(cityId)+url;
-		}else
-		{
-			htmlUrl = url;
-		}
+			if(!url.contains("http://"))
+			{
+				htmlUrl = "file:///"+getCityDataPath(cityId)+url;
+			}else
+			{
+				htmlUrl = url;
+			}
+		}	
 		return htmlUrl;
 	}
 

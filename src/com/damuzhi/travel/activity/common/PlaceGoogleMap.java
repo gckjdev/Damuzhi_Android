@@ -29,6 +29,7 @@ import com.google.android.maps.GeoPoint;
 import com.google.android.maps.ItemizedOverlay;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.google.android.maps.OverlayItem;
 import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
@@ -69,14 +70,7 @@ public class PlaceGoogleMap extends MapActivity {
 		myLocateButton.setOnClickListener(myLocateOnClickListener);
 		canceLocateButton.setOnClickListener(cancelLocateOnClickListener);
 		
-	}
-
-	
-	
-	
-	@Override
-	protected void onResume() {
-		Log.d(TAG, "onResume()");
+		
 		byte[] data = getIntent().getByteArrayExtra(ConstantField.PLACE_GOOGLE_MAP);
 		if(data == null)
 		{
@@ -89,6 +83,14 @@ public class PlaceGoogleMap extends MapActivity {
 		} catch (InvalidProtocolBufferException e) {
 			e.printStackTrace();
 		}
+	}
+
+	
+	
+	
+	@Override
+	protected void onResume() {
+		Log.d(TAG, "onResume()");
 		initMapView();
 		super.onResume();
 		
@@ -109,10 +111,9 @@ public class PlaceGoogleMap extends MapActivity {
 		openGPSSettings();	
 		mapView.getOverlays().clear();
 		mapView.removeAllViews();
-		List<Place> list = placeList.getListList();
-		if(list!= null&&list.size()>0)
+		if(placeList.getListList()!= null&&placeList.getListList().size()>0)
 		{
-			initMapOverlayView(list);
+			initMapOverlayView(placeList.getListList());
 		}
 		if(isNearbyGoogleMap)
 		{
@@ -128,21 +129,39 @@ public class PlaceGoogleMap extends MapActivity {
 	
 	private void initMapOverlayView(List<Place> placeList)
 	{	
-		Place arg = placeList.get(0);
-		Drawable markerIcon = getResources().getDrawable(TravelUtil.getForecastImage(arg.getCategoryId()));
-		itemizedOverlay = new CommonItemizedOverlay<CommonOverlayItem>(markerIcon, mapView);
-		for (Place place : placeList)
+		List<Overlay> mapOverlays = mapView.getOverlays();
+		//Place arg = placeList.get(0);
+		GeoPoint geoPoint = null;
+		CommonOverlayItem commonOverlayItem = null;
+		Drawable markerIcon = null;
+		if(isNearbyGoogleMap)
 		{
-			GeoPoint geoPoint = new GeoPoint((int) (place.getLatitude() * 1e6),(int) (place.getLongitude() * 1e6));
-			CommonOverlayItem commonOverlayItem = new CommonOverlayItem(geoPoint,place.getName(), null,place,null);
-			itemizedOverlay.addOverlay(commonOverlayItem);
-		}
+			for (Place place : placeList)
+			{
+				markerIcon = getResources().getDrawable(TravelUtil.getForecastImage(place.getCategoryId()));
+				itemizedOverlay = new CommonItemizedOverlay<CommonOverlayItem>(markerIcon, mapView);
+				geoPoint = new GeoPoint((int) (place.getLatitude() * 1e6),(int) (place.getLongitude() * 1e6));
+				commonOverlayItem = new CommonOverlayItem(geoPoint,place.getName(), null,place,null);
+				itemizedOverlay.addOverlay(commonOverlayItem);
+				mapOverlays.add(itemizedOverlay);
+			}
+		}else
+		{
+			markerIcon = getResources().getDrawable(TravelUtil.getForecastImage(placeList.get(0).getCategoryId()));
+			itemizedOverlay = new CommonItemizedOverlay<CommonOverlayItem>(markerIcon, mapView);
+			for (Place place : placeList)
+			{				
+				geoPoint = new GeoPoint((int) (place.getLatitude() * 1e6),(int) (place.getLongitude() * 1e6));
+				commonOverlayItem = new CommonOverlayItem(geoPoint,place.getName(), null,place,null);
+				itemizedOverlay.addOverlay(commonOverlayItem);
+				mapOverlays.add(itemizedOverlay);
+			}
+		}		
 		if(itemizedOverlay.size()>0)
 		{
 			mapc.setCenter(itemizedOverlay.getCenter());
-		}
-		List<Overlay> mapOverlays = mapView.getOverlays();		
-		mapOverlays.add(itemizedOverlay);
+		}		
+		
 	}
 	
 	
@@ -198,7 +217,7 @@ public class PlaceGoogleMap extends MapActivity {
 	private void getMyLocation()
 	{
 		checkGPSisOpen();	
-		LocationUtil.getLocation(PlaceGoogleMap.this);
+		LocationUtil.getInstance().getLocation(PlaceGoogleMap.this);
 		location = TravelApplication.getInstance().getLocation();
 					
 	}
@@ -244,8 +263,8 @@ public class PlaceGoogleMap extends MapActivity {
 	
 	
 	private boolean checkGPSisOpen() {
-		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
 			return true;
 		}
 			Toast.makeText(this, getString(R.string.open_gps_tips3), Toast.LENGTH_SHORT).show();
@@ -255,11 +274,31 @@ public class PlaceGoogleMap extends MapActivity {
 	
 	
 	private void openGPSSettings() {
-		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
+		LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+		if (locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
 			return;
 		}
 			Toast.makeText(this, getString(R.string.open_gps_tips3), Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public void onNewIntent(Intent newIntent)
+	{
+		super.onNewIntent(newIntent);
+		Log.d(TAG, "onNewIntent");
+		byte[] data = newIntent.getByteArrayExtra(ConstantField.PLACE_GOOGLE_MAP);
+		if(data == null)
+		{
+			data = newIntent.getByteArrayExtra(ConstantField.NEARBY_GOOGLE_MAP);
+			isNearbyGoogleMap = true;
+		}
+		try {
+			placeList = PlaceList.parseFrom(data);
+			Log.d(TAG, "on newIntent place size = "+placeList.getListCount());
+		} catch (InvalidProtocolBufferException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	
