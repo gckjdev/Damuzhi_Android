@@ -160,7 +160,6 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 	private ViewGroup footerViewGroup;
 	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
 	private boolean loadDataFlag = false;
-	//private ImageLoader imageLoader;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -1249,8 +1248,6 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		protected void onDestroy()
 		{	
 			Log.d(TAG, "onDestroy");
-			allPlaceList.clear();
-			//allPlaceList = null;
 			placeListAdapter.recycleBitmap();
 			LocationUtil.stop();
 			if(loadingDialog  != null)
@@ -1264,8 +1261,6 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		
 		@Override
 		protected void onStop() {
-			/*imageLoader.stop();
-			imageLoader.clearMemoryCache();*/
 			super.onStop();
 		}
 

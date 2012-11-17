@@ -116,6 +116,7 @@ public class MyFavoritePlaceActivity extends MenuActivity
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+		adapter.recycleBitmap();
 		ActivityMange.getInstance().finishActivity();
 	}
 

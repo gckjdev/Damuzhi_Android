@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import android.R.integer;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.PendingIntent;
@@ -166,6 +167,10 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		//shareButton.setOnClickListener(shareOnClickListener);		
 		
 		//checkData();
+		
+		
+		
+		
 	}
 
 	
@@ -203,6 +208,18 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		
 		super.onResume();
 		Log.d(TAG, "index activity onResume");
+		float availableMemory  = TravelUtil.getAvailableInternalMemorySize();
+		Log.d(TAG, " available memory = "+availableMemory);
+		ActivityManager activityMange =  (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+		int activityMemory = activityMange.getMemoryClass();
+		Log.d(TAG, "activity large memory "+activityMemory);
+		
+		long runTimeFreeMemory = Runtime.getRuntime().freeMemory();
+		Log.d(TAG, "run time free memory = "+TravelUtil.getDataSize(runTimeFreeMemory));
+		long runTimeTotalMemory = Runtime.getRuntime().totalMemory();
+		Log.d(TAG, "run time total memory = "+TravelUtil.getDataSize(runTimeTotalMemory));
+		long runTimeMaxMemory = Runtime.getRuntime().maxMemory();
+		Log.d(TAG, "run time max menory = "+TravelUtil.getDataSize(runTimeMaxMemory));
 		/*String cityName = AppManager.getInstance().getCurrentCityName();
 		if(cityName == null||cityName.equals(""))
 		{

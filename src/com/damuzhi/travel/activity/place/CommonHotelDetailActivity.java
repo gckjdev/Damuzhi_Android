@@ -29,11 +29,10 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 {
 
 	private static final String TAG = "CommonHotelDetailActivity";
-
+	private Place place = null;
 	@Override
 	public Place getPlaceById()
-	{
-		Place place = null;
+	{	
 		try
 		{
 			place = Place.parseFrom(getIntent().getByteArrayExtra(ConstantField.PLACE_DETAIL));
@@ -124,5 +123,22 @@ public class CommonHotelDetailActivity extends CommonPlaceDetailActivity
 		return false;
 	}
 
+	
+	@Override
+	protected void onDestroy() {
+		// TODO Auto-generated method stub
+		super.onDestroy();
+		Log.d(TAG, "onDestroy");
+		place = null;
+		/*ActivityMange.getInstance().finishActivity();
+		finish();*/
+	}
+
+	/*@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		ActivityMange.getInstance().addActivity(this);
+	}*/
 	
 }

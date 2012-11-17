@@ -204,6 +204,7 @@ public class TravelRoutesActivity extends MenuActivity
 		{
 			loadingDialog.dismiss();
 		}
+		adapter.recycleBitmap();
 		ActivityMange.getInstance().finishActivity();
 	}
 

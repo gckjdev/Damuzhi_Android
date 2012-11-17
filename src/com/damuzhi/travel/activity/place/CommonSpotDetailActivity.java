@@ -9,8 +9,10 @@
 package com.damuzhi.travel.activity.place;
 
 
+import android.os.Bundle;
 import android.util.Log;
 
+import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.mission.place.PlaceMission;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -28,12 +30,10 @@ public class CommonSpotDetailActivity extends CommonPlaceDetailActivity
 {
 
 	private static final String TAG = "CommonSpotDetailActivity";
-
+	private Place place = null;
 	@Override
 	public Place getPlaceById()
 	{
-		//TravelApplication.getInstance().addActivity(this);
-		Place place = null;
 		try
 		{
 			place = Place.parseFrom(getIntent().getByteArrayExtra(ConstantField.PLACE_DETAIL));
@@ -124,4 +124,19 @@ public class CommonSpotDetailActivity extends CommonPlaceDetailActivity
 		return false;
 	}
 
+	/*@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		ActivityMange.getInstance().addActivity(this);
+	}*/
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		place = null;
+		/*ActivityMange.getInstance().finishActivity();
+		finish();*/
+	}
 }

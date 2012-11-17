@@ -14,9 +14,11 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.viewcache.TravelRoutesViewCache;
 import com.damuzhi.travel.activity.adapter.viewcache.TravelTipsViewCache;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
 import com.damuzhi.travel.util.PicUtill;
 import com.damuzhi.travel.util.TravelUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -40,10 +42,11 @@ public class TravelRoutesAdapter extends BaseAdapter
 
 	private List<CommonTravelTip> commonTravelTips;
 	private Context context;
-	private AsyncLoader asyncLoader;
+//	private AsyncLoader asyncLoader;
 	private TextView travelRouteName;
 	private TextView travelRouteIntro;
 	private ImageView travelRouteIcon;
+	private ImageLoader imageLoader;
 	
 	public TravelRoutesAdapter(List<CommonTravelTip> commonTravelTips,
 			Context context)
@@ -52,7 +55,8 @@ public class TravelRoutesAdapter extends BaseAdapter
 		this.commonTravelTips = commonTravelTips;
 		this.context = context;
 		//asyncLoader = AsyncLoader.getInstance();
-		asyncLoader = new AsyncLoader();
+		//asyncLoader = new AsyncLoader();
+		imageLoader = ImageLoader.getInstance();
 	}
 
 	@Override
@@ -96,10 +100,12 @@ public class TravelRoutesAdapter extends BaseAdapter
 		travelRouteIcon = viewCache.getTravelRoutesIcon();		
 		travelRouteName.setText(commonTravelTip.getName());
 		travelRouteIntro.setText(commonTravelTip.getBriefIntro());
-		String iconPath = commonTravelTip.getIcon();
+		//String iconPath = commonTravelTip.getIcon();
 		//Bitmap bitmap = PicUtill.getbitmapByImagePath(iconPath);
 		//travelRouteIcon.setImageBitmap(bitmap);
-		asyncLoader.showimgAnsy(travelRouteIcon, iconPath);
+		//asyncLoader.showimgAnsy(travelRouteIcon, iconPath);
+		String url = TravelUtil.getImageUrl(AppManager.getInstance().getCurrentCityId(), commonTravelTip.getIcon());
+		imageLoader.displayImage(url, travelRouteIcon);
 		return convertView;
 	}
 
@@ -113,4 +119,9 @@ public class TravelRoutesAdapter extends BaseAdapter
 		this.commonTravelTips = commonTravelTips;
 	}
 
+	public void recycleBitmap()
+	{
+		//asyncLoader.recycleBitmap();
+		imageLoader.clearMemoryCache();
+	}
 }

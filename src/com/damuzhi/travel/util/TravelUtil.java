@@ -1,6 +1,6 @@
 package com.damuzhi.travel.util;
 
-import java.sql.Date;
+import java.io.File;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -18,7 +18,8 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.text.format.DateFormat;
+import android.os.Environment;
+import android.os.StatFs;
 import android.util.Log;
 
 import com.damuzhi.travel.R;
@@ -644,6 +645,14 @@ public class TravelUtil
 		String dataSizeStr = decimalFormat.format(size)+"M";
 		return dataSizeStr;
 	}
+	
+	public static CharSequence getDataSize(long dataSize)
+	{
+		float size = dataSize/(1024f*1024f) ;
+		DecimalFormat decimalFormat = new DecimalFormat("0.00");
+		String dataSizeStr = decimalFormat.format(size)+"M";
+		return dataSizeStr;
+	}
 
 	
 	public static boolean checkHelpIsNeedUpdate(String localDataPath, float httpVersion)
@@ -1014,5 +1023,27 @@ public class TravelUtil
 		return "";
 	}
 	
+	
+  public static  float getAvailableInternalMemorySize() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long availableBlocks = stat.getAvailableBlocks();
+        long dataSize = availableBlocks * blockSize;
+        float size = dataSize/(1024f*1024f) ;
+        return size;
+		//DecimalFormat decimalFormat = new DecimalFormat("0.00");
+        //return decimalFormat.format(size);
+    }
+
+//这个是手机内存的总空间大小
+
+  public  static  long getTotalInternalMemorySize() {
+        File path = Environment.getDataDirectory();
+        StatFs stat = new StatFs(path.getPath());
+        long blockSize = stat.getBlockSize();
+        long totalBlocks = stat.getBlockCount();
+        return totalBlocks * blockSize;
+    }
 	
 }

@@ -27,9 +27,12 @@ import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
+import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.TravelTipsProtos.CommonTravelTip;
+import com.damuzhi.travel.util.TravelUtil;
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.damuzhi.travel.R;
 /**  
  * @description   
@@ -55,7 +58,6 @@ public class TravelRoutesDetailActivity extends MenuActivity
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		//TravelApplication.getInstance().addActivity(this);
 		ActivityMange.getInstance().addActivity(this);
 		byte[] travelInfo = getIntent().getByteArrayExtra(ConstantField.TRAVEL_ROUTES_INFO);
 		if(travelInfo.length>0)
@@ -73,13 +75,18 @@ public class TravelRoutesDetailActivity extends MenuActivity
 			List<String> imagePath = commonTravelTip.getImagesList();
 			imageViewlist = new ArrayList<View>();
 			int size=imagePath.size();
+			ImageLoader imageLoader = ImageLoader.getInstance();
+			View view = null;
+			ImageView imageView = null;
+			String url = "";
 			for(int i=0;i<size;i++)
 			{
-				AsyncLoader anseylodar = new AsyncLoader();
-				View view = inflater.inflate(R.layout.place_detail_image, null);
-				ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
-				String url  = imagePath.get(i);
-				anseylodar.showimgAnsy(imageView,url);	
+				//AsyncLoader anseylodar = new AsyncLoader();
+				view = inflater.inflate(R.layout.place_detail_image, null);
+				imageView = (ImageView) view.findViewById(R.id.place_image_item);
+				url  = TravelUtil.getImageUrl(AppManager.getInstance().getCurrentCityId(), imagePath.get(i));
+				//anseylodar.showimgAnsy(imageView,url);
+				imageLoader.displayImage(url, imageView);
 				imageViewlist.add(view);
 			}
 			imageViews = new ImageView[size];

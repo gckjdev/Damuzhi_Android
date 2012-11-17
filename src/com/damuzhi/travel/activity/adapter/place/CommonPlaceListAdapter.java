@@ -53,8 +53,6 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	private List<Place> placeList;
 	private int placeCategoryType;
 	private HashMap<Integer, String> subCatMap;
-	/*private double latitude;
-	private double longitude;*/
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
 	//public AsyncLoader asyncLoader;
@@ -71,9 +69,8 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	private ImageView heart;
 	private TextView placeDistance;
 	private ImageLoader imageLoader;
-	//private int dataFlag;
-	//private ImageLoader imageLoader;
-	//private DisplayImageOptions options;
+	private String url = "";
+	private String distance = "";
 	@Override
 	public int getCount()
 	{
@@ -101,12 +98,6 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		subCatMap = AppManager.getInstance().getPlaceSubCatMap(placeCategoryType);
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(AppManager.getInstance().getCurrentCityId());
 		symbol = AppManager.getInstance().getSymbolMap().get(AppManager.getInstance().getCurrentCityId());
-		//this.imageLoader = imageLoader;
-	/*	options = new DisplayImageOptions.Builder()
-		.showStubImage(R.drawable.default_s)
-		.cacheInMemory()
-		.cacheOnDisc()
-		.build();*/
 	}
 
 	@Override
@@ -169,14 +160,14 @@ public class CommonPlaceListAdapter extends BaseAdapter
 		default:
 			break;
 		}		
-		String url = "";
+		
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
 		url = place.getIcon();	
 		//asyncLoader.showimgAnsy(imageView,url,cityId);	
-		String uri = TravelUtil.getImageUrl(cityId, url);
-		imageLoader.displayImage(uri, imageView);
-		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
+		//String uri = TravelUtil.getImageUrl(cityId, url);
+		imageLoader.displayImage(TravelUtil.getImageUrl(cityId, url), imageView);
+		distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		
 		placeName.setText(place.getName());	
 		placePrice.setText(TravelUtil.getPriceStr(place.getPrice(),symbol));
@@ -204,12 +195,15 @@ public class CommonPlaceListAdapter extends BaseAdapter
 			{
 				serviceGroup.removeAllViews();
 			}
-			
+			ImageView serviceImageView = null;
+			LayoutParams layoutParams = new LayoutParams((int)context.getResources().getDimension(R.dimen.service_icon),LayoutParams.WRAP_CONTENT);
 			for(int id:place.getProvidedServiceIdList())
 			{
-				 ImageView serviceImageView = new ImageView(context);  
-				 serviceImageView.setLayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.service_icon),
-						 LayoutParams.WRAP_CONTENT));   
+				 //ImageView serviceImageView = new ImageView(context);  
+				 serviceImageView = new ImageView(context);  
+				/* serviceImageView.setLayoutParams(new LayoutParams((int)context.getResources().getDimension(R.dimen.service_icon),
+						 LayoutParams.WRAP_CONTENT)); */ 
+				 serviceImageView.setLayoutParams(layoutParams); 
 				 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
 				 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));
 		         serviceGroup.addView(serviceImageView);
@@ -245,6 +239,7 @@ public class CommonPlaceListAdapter extends BaseAdapter
 	public void recycleBitmap()
 	{
 		//asyncLoader.recycleBitmap();
+		imageLoader.clearMemoryCache();
 	}
 
 }

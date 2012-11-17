@@ -33,6 +33,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap.CompressFormat;
@@ -103,14 +104,29 @@ public class TravelApplication extends Application
 
 		
 		File cacheDir = StorageUtils.getOwnCacheDirectory(getApplicationContext(), "damuzhi/cahce");
-
+		int minCacheMemory = 4;
+		int maxCacheMemory = 20;
+		ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
+		int runTimeMaxMemory = activityManager.getMemoryClass();
+		Double cacheMemorySize = new Double( runTimeMaxMemory*0.15);
+		Log.d(TAG, "cahce memory size = "+cacheMemorySize);
+		int cacheSize = cacheMemorySize.intValue();
+		if(cacheSize<minCacheMemory){
+			cacheSize = minCacheMemory;
+		}
+		if(cacheSize>maxCacheMemory){
+			cacheSize = maxCacheMemory;
+		}
+		Log.d(TAG, "image loader memory cache size = "+cacheSize);
+		
+		
 		// Get singletone instance of ImageLoader
 		ImageLoader imageLoader = ImageLoader.getInstance();
 		DisplayImageOptions options = new DisplayImageOptions.Builder()
         .showStubImage(R.drawable.default_s)
         .showImageForEmptyUri(R.drawable.default_s)
-        //.cacheInMemory()
-        .cacheOnDisc()
+        .cacheInMemory()
+        //.cacheOnDisc()
         .imageScaleType(ImageScaleType.IN_SAMPLE_INT)
         .build();
 		
@@ -118,17 +134,17 @@ public class TravelApplication extends Application
 		// Create configuration for ImageLoader (all options are optional, use only those you really want to customize)
 		// DON'T COPY THIS CODE TO YOUR PROJECT! This is just example of using ALL options. Most of them have default values.
 		ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(getApplicationContext())
-		            //.memoryCacheExtraOptions(320, 190) // max width, max height
-		            .discCacheExtraOptions(320, 190, CompressFormat.JPEG, 75) // Can slow ImageLoader, use it carefully (Better don't use it)
-		            .threadPoolSize(3)
-		            .threadPriority(Thread.NORM_PRIORITY - 1)
-		            .denyCacheImageMultipleSizesInMemory()
-		            .offOutOfMemoryHandling()
-		            .memoryCache(new WeakMemoryCache()) // You can pass your own memory cache implementation
-		            .discCache(new UnlimitedDiscCache(cacheDir)) // You can pass your own disc cache implementation
-		            .discCacheFileNameGenerator(new HashCodeFileNameGenerator())
-		            .imageDownloader(new URLConnectionImageDownloader(5 * 1000, 20 * 1000)) // connectTimeout (5 s), readTimeout (20 s)
-		            .tasksProcessingOrder(QueueProcessingType.FIFO)
+		           // .memoryCacheExtraOptions(320, 190) // max width, max height
+		           // .discCacheExtraOptions(320, 190, CompressFormat.JPEG, 75) // Can slow ImageLoader, use it carefully (Better don't use it)
+		           // .threadPoolSize(3)
+		           // .threadPriority(Thread.NORM_PRIORITY - 1)
+		           // .denyCacheImageMultipleSizesInMemory()
+		           // .offOutOfMemoryHandling()
+		            .memoryCache(new UsingFreqLimitedMemoryCache(cacheSize * 1024 * 1024)) // You can pass your own memory cache implementation
+		           // .discCache(new UnlimitedDiscCache(cacheDir)) // You can pass your own disc cache implementation
+		           // .discCacheFileNameGenerator(new HashCodeFileNameGenerator())
+		           //.imageDownloader(new URLConnectionImageDownloader(5 * 1000, 20 * 1000)) // connectTimeout (5 s), readTimeout (20 s)
+		           // .tasksProcessingOrder(QueueProcessingType.FIFO)
 		            .defaultDisplayImageOptions(options)
 		            .enableLogging()
 		            .build();

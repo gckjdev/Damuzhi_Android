@@ -82,7 +82,7 @@ public class CommonLocalTripsDetailActivity extends Activity
 	private WebView routeDetailWebView;
 	private WebView bookingNoticeWebView;
 	//private ImageLoader imageLoader;
-	private AsyncLoader asyncLoader;
+	//private AsyncLoader asyncLoader;
 	private ImageView[] imageViews;
 	private LocalRoute localRoute;
 	private HashMap<Integer, DepartPlace> departPlaceHashMap;
@@ -146,7 +146,8 @@ public class CommonLocalTripsDetailActivity extends Activity
 			LayoutInflater inflater = getLayoutInflater();
 			ArrayList<View> imageViewlist = new ArrayList<View>();	
 			//asyncLoader = AsyncLoader.getInstance();
-			asyncLoader = new AsyncLoader();
+			//asyncLoader = new AsyncLoader();
+			ImageLoader imageLoader = ImageLoader.getInstance();
 			int size=imagePath.size();	
 			View view = null;
 			for(int i=0;i<size;i++)
@@ -229,9 +230,9 @@ public class CommonLocalTripsDetailActivity extends Activity
 			{
 				view = imageViewlist.get(i);
 				imageView2 = (ImageView) view.findViewById(R.id.place_image_item);	
-				//url = TravelUtil.getImageUrl(cityId, imagePath.get(i));
-				//imageLoader.displayImage(url, imageView2);
-				asyncLoader.showimgAnsy(imageView2, imagePath.get(i));
+				url = TravelUtil.getImageUrl(cityId, imagePath.get(i));
+				imageLoader.displayImage(url, imageView2);
+				//asyncLoader.showimgAnsy(imageView2, imagePath.get(i));
 			}
 			loadRouteFeedback();
 		}
@@ -533,11 +534,11 @@ public class CommonLocalTripsDetailActivity extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		if(asyncLoader != null)
+		/*if(asyncLoader != null)
 		{
 			asyncLoader.recycleBitmap();
 		}	
-		asyncLoader = null;
+		asyncLoader = null;*/
 		ActivityMange.getInstance().finishActivity();
 	}
 }

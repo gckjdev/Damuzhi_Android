@@ -8,6 +8,7 @@
  */
 package com.damuzhi.travel.activity.place;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import com.damuzhi.travel.activity.common.ActivityMange;
@@ -28,13 +29,11 @@ public class CommonShoppingDetailActivity extends CommonPlaceDetailActivity
 {
 
 	private static final String TAG = "CommonShoppingDetailActivity";
+	private Place place = null;
 
 	@Override
 	public Place getPlaceById()
 	{
-		//TravelApplication.getInstance().addActivity(this);
-		//ActivityManger.getInstance().addActivity(this);
-		Place place = null;
 		try
 		{
 			place = Place.parseFrom(getIntent().getByteArrayExtra(ConstantField.PLACE_DETAIL));
@@ -126,10 +125,18 @@ public class CommonShoppingDetailActivity extends CommonPlaceDetailActivity
 	}
 	
 	/*@Override
-	protected void onDestroy() {
-		// TODO Auto-generated method stub
-		super.onDestroy();
-		ActivityManger.getInstance().finishActivity();
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		ActivityMange.getInstance().addActivity(this);
 	}*/
 
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		place = null;
+		/*ActivityMange.getInstance().finishActivity();
+		finish();*/
+	}
 }

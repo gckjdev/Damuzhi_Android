@@ -336,4 +336,7 @@
     
     <!-- happy_route -->
     <string name="happy_route">乐游</string>
+    
+    
+    <string name="channel_id">app_channel</string>
 </resources>

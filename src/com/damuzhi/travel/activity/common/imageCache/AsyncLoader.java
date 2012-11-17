@@ -12,7 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.common.imageCache.ImageLoader.ImageCallback;
 import com.damuzhi.travel.activity.common.imageCache.PortraitLodar.PortraitImgCallback;
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
@@ -27,17 +26,17 @@ import android.util.Log;
 import android.widget.ImageView;
 import com.damuzhi.travel.R;
 public class AsyncLoader {
-	
+	/*
 	private static final String TAG = "Anseylodar";
 	private HashMap<String, WeakReference<Bitmap>> localBitmaps = new HashMap<String, WeakReference<Bitmap>>();;
 	//ImageLoader imageLoader = ImageLoader.getInstance();
 	ImageLoader imageLoader = new ImageLoader();
-	/*public AsyncLoader(){
+	public AsyncLoader(){
 		
-	}*/
+	}
 	
 	//private volatile static AsyncLoader instance;
-	/*public static AsyncLoader getInstance() {
+	public static AsyncLoader getInstance() {
 		if (instance == null) {
 				if (instance == null) {
 					instance = new AsyncLoader();
@@ -47,7 +46,7 @@ public class AsyncLoader {
 		AsyncLoader instance = new AsyncLoader();
 		return instance;
 	}
-	*/
+	
 	
 	
 	public  void showimgAnsy(ImageView imageView,String url,int cityId){
@@ -158,7 +157,7 @@ public class AsyncLoader {
 	
 	
 	
-	/*public static PortraitImgCallback getporcallback(final ImageView imageView){
+	public static PortraitImgCallback getporcallback(final ImageView imageView){
 		return new PortraitImgCallback() {
 			
 			@Override
@@ -175,7 +174,7 @@ public class AsyncLoader {
 				}
 			}
 		};
-	};*/
+	};
 	
 	
 	public void recycleBitmap()
@@ -205,6 +204,6 @@ public class AsyncLoader {
 			}
 		}
 		localBitmaps.clear();
-	}
+	}*/
 	
 }

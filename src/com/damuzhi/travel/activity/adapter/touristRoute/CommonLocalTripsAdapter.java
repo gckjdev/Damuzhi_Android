@@ -49,9 +49,7 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 	private ImageView recommendImageView3;
 	private ViewGroup agencyNameViewGroup;
 	private ImageLoader imageLoader;
-	//private AsyncLoader asyncLoader;
 	private Button deleteButton;
-	//private int dataFlag;
 	private LayoutInflater inflater;
 	public CommonLocalTripsAdapter(List<LocalRoute> localRouteList, Context context) {
 		super();
@@ -59,8 +57,6 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 		this.inflater = LayoutInflater.from(context);
 		this.context = context;
 		imageLoader = ImageLoader.getInstance();
-		//asyncLoader = AsyncLoader.getInstance();
-		//asyncLoader = new AsyncLoader();
 	}
 
 	public List<LocalRoute> getLocalRouteList() {
@@ -73,7 +69,6 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		if(localRouteList == null)
 		return 0;
 		return localRouteList.size();
@@ -183,7 +178,7 @@ public class CommonLocalTripsAdapter extends BaseAdapter {
 	
 	public void recycleBitmap()
 	{
-		//asyncLoader.recycleBitmap();
+		imageLoader.clearMemoryCache();
 	}
 
 	public void addPlaceList(List<LocalRoute> list) {

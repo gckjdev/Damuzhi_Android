@@ -307,6 +307,7 @@ public class CommonLocalTripsActivity extends MenuActivity {
 	{
 		super.onDestroy();
 		Log.d(TAG, "onDestroy");
+		adapter.recycleBitmap();
 		ActivityMange.getInstance().finishActivity();
 	}
 

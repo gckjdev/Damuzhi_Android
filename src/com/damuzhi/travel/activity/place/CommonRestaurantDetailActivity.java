@@ -10,6 +10,7 @@ package com.damuzhi.travel.activity.place;
 
 
 
+import android.os.Bundle;
 import android.util.Log;
 
 import com.damuzhi.travel.activity.common.ActivityMange;
@@ -30,11 +31,11 @@ public class CommonRestaurantDetailActivity extends CommonPlaceDetailActivity
 {
 
 	private static final String TAG = "CommonRestaurantDetailActivity";
-
+	private Place place = null;
 	@Override
 	public Place getPlaceById()
 	{
-		Place place = null;
+		
 		try
 		{
 			place = Place.parseFrom(getIntent().getByteArrayExtra(ConstantField.PLACE_DETAIL));
@@ -123,5 +124,23 @@ public class CommonRestaurantDetailActivity extends CommonPlaceDetailActivity
 	{
 		return false;
 	}
+
+	/*@Override
+	protected void onCreate(Bundle savedInstanceState)
+	{
+		super.onCreate(savedInstanceState);
+		//ActivityMange.getInstance().addActivity(this);
+	}*/
+
+	@Override
+	protected void onDestroy()
+	{
+		super.onDestroy();
+		place = null;
+		/*ActivityMange.getInstance().finishActivity();
+		finish();*/
+	}
+	
+	
 
 }

@@ -19,6 +19,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import android.R.integer;
 import android.content.Context;
@@ -47,7 +48,8 @@ public class BrowseHistoryAdapter extends BaseAdapter
 	private HashMap<Integer, String> subCatMap;
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
-	public AsyncLoader anseylodar;
+	//public AsyncLoader anseylodar;
+	private ImageLoader imageLoader;
 	private LayoutInflater inflater;
 	private ImageView imageView;
 	private ViewGroup serviceGroup;
@@ -78,7 +80,8 @@ public class BrowseHistoryAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
-		this.anseylodar = new AsyncLoader();		
+		//this.anseylodar = new AsyncLoader();		
+		this.imageLoader = ImageLoader.getInstance();
 	}
 
 	@Override
@@ -147,9 +150,9 @@ public class BrowseHistoryAdapter extends BaseAdapter
 		String url = "";
 		imageView = viewCache.getImageView();
 		imageView.setTag(position);	
-		url = place.getIcon();
-		anseylodar.showimgAnsy(imageView,url,cityId);		
-		
+		url = TravelUtil.getImageUrl(cityId, place.getIcon());
+		//anseylodar.showimgAnsy(imageView,url,cityId);		
+		imageLoader.displayImage(url, imageView);
 		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		
 		placeName.setText(place.getName());	
@@ -205,6 +208,11 @@ public class BrowseHistoryAdapter extends BaseAdapter
 	public List<Place> getPlaceList()
 	{
 		return placeList;
+	}
+	
+	public void recycleBitmap()
+	{
+		imageLoader.clearMemoryCache();
 	}
 
 }

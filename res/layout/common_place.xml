@@ -100,6 +100,7 @@
     	    android:layout_width="fill_parent"
     	    android:layout_height="fill_parent"
     	    android:divider="@android:color/transparent"
+    	  
     	    android:dividerHeight="0.5dp"
     	    android:clickable="true"
     	    android:focusable="true"
