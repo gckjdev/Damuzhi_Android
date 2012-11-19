@@ -37,6 +37,8 @@ public class TouristRouteMission {
 	//private List<LocalRoute> remotePlaceList;
 	private String resultInfo;
 	private String deviceId = TravelApplication.getInstance().deviceId;
+	private int totalCount = 0;
+	
 	private TouristRouteMission() {
 	}
 	
@@ -62,6 +64,8 @@ public class TouristRouteMission {
 			TravelResponse travelResponse = getTravelResponseByURL(url);
 			if(travelResponse!=null)
 			{
+				totalCount = travelResponse.getTotalCount();
+				Log.d(TAG, "local route total count = "+totalCount);
 				if(travelResponse.getLocalRoutes().getRoutesCount()>0)
 				{
 					localRoutesList.addAll(travelResponse.getLocalRoutes().getRoutesList());
@@ -273,6 +277,16 @@ public class TouristRouteMission {
 	public void setResultInfo(String resultInfo)
 	{
 		this.resultInfo = resultInfo;
+	}
+
+	public int getTotalCount()
+	{
+		return totalCount;
+	}
+
+	public void setTotalCount(int totalCount)
+	{
+		this.totalCount = totalCount;
 	}
 	
 	

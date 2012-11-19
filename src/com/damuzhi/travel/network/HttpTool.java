@@ -18,6 +18,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -44,19 +45,12 @@ public class HttpTool
 	private static final String TAG = "HttpTool";
 	private  HttpURLConnection urlConnection = null;
 	private HttpClient httpClient;
-	//private static AsyncHttpClient client = new AsyncHttpClient();
-	//byte[] data ;
-	//private static AsyncHttpClient client;
-	//private InputStream bufferedInputStream;
 	private static HttpTool instance = null;
 	
 	private HttpTool() {
 	}
-	public static HttpTool getInstance() {
-		//if (instance == null) {
-			instance = new HttpTool();
-			//client = new AsyncHttpClient();
-		//}
+	public static HttpTool getInstance() {		
+			instance = new HttpTool();		
 		return instance;
 	}
 	
@@ -81,6 +75,7 @@ public class HttpTool
 					Log.d(TAG, "sendGetRequest retry times = "+count);
 					continue;
 				}else {
+					httpClient.getConnectionManager().closeExpiredConnections();
 					TravelApplication.getInstance().downloadFailToast();
 					Log.d(TAG, "colud not success with retry...");
 				}
@@ -90,15 +85,21 @@ public class HttpTool
 		return null;
 	}
 	
-	// InputStream bufferedInputStream = null;
 	private InputStream executeHttpClient(String url) throws Exception
 	{
-		
+		BufferedInputStream bufferedInputStream = null;
 		httpClient = TravelApplication.getInstance().getHttpClient();
-		HttpGet request = new HttpGet();
-		request.setURI(URI.create(url));
-		HttpResponse response = httpClient.execute(request);
-		BufferedInputStream bufferedInputStream  = new BufferedInputStream(response.getEntity().getContent());	
+		HttpGet httpGet = new HttpGet();
+		httpGet.setURI(URI.create(url));
+		HttpResponse response = httpClient.execute(httpGet);
+		if(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK)
+		{
+			bufferedInputStream = new BufferedInputStream(response.getEntity().getContent());	
+		}else
+		{
+			TravelApplication.getInstance().downloadFailToast();
+			httpClient.getConnectionManager().closeExpiredConnections();
+		}		 
 		return bufferedInputStream;
 	}
 	
@@ -109,12 +110,13 @@ public class HttpTool
 		 if(connEnable)
 		 {
 			 try{
+				 	
 				 	URL url2 = new URL(url);
 				 	urlConnection = (HttpURLConnection)url2.openConnection();
 					urlConnection.setDoInput(true);
 					urlConnection.setUseCaches(true);
 					urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
-					urlConnection.setRequestProperty("Connection", "Keep-Alive");// 
+					urlConnection.setRequestProperty("Connection", "Keep-Alive");
 					urlConnection.setRequestProperty("Charset", "UTF-8"); 
 					urlConnection.setRequestProperty("Accept-Encoding", "identity");
 			        urlConnection.setConnectTimeout(5000);
@@ -130,6 +132,7 @@ public class HttpTool
 			{	
 				TravelApplication.getInstance().downloadFailToast();
 				Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
+				urlConnection.disconnect();
 				return null;
 			}
 		 }else {
@@ -139,53 +142,16 @@ public class HttpTool
 		 
 	}
 	
-	
-	
-	
-	
-//	
-//	public  HttpURLConnection getConnection(String url) 
-//	{
-//			 try{
-//				 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
-//				 if(connEnable)
-//				 {
-//					 URL connUrl = new URL(url);
-//					 urlConnection = (HttpURLConnection)connUrl.openConnection();
-//					 urlConnection.setConnectTimeout(5*1000);
-//					 urlConnection.setRequestMethod("GET");
-//					 urlConnection.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
-//					 urlConnection.setRequestProperty("Accept-Language", "zh-CN");
-//					 urlConnection.setRequestProperty("Accept-Encoding", "identity");
-//					 urlConnection.setRequestProperty("Referer", url); 
-//					 urlConnection.setRequestProperty("Charset", "UTF-8");
-//					 urlConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
-//					 urlConnection.setRequestProperty("Connection", "Keep-Alive");
-//				 }
-//		         return urlConnection ;
-//			
-//			} catch (Exception e)
-//			{			
-//				Log.e(TAG, "<getConnection> but catch exception = "+e.toString(),e);
-//				return null;
-//			}
-//	}
-//	
-//	
-//	
-//	
-//	
-//	
 	public   void stopConnection()
 	{
 		if(urlConnection != null)
 		{
 			urlConnection.disconnect();
 		}
-		/*if(httpClient != null)
+		if(httpClient != null)
 		{
-			httpClient.getConnectionManager().shutdown();
-		}*/
+			httpClient.getConnectionManager().closeExpiredConnections();
+		}
 	}
 	
 	
@@ -452,4 +418,40 @@ public class HttpTool
 	return filename;
 }
 */
+	
+	
+	
+//	
+//	public  HttpURLConnection getConnection(String url) 
+//	{
+//			 try{
+//				 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
+//				 if(connEnable)
+//				 {
+//					 URL connUrl = new URL(url);
+//					 urlConnection = (HttpURLConnection)connUrl.openConnection();
+//					 urlConnection.setConnectTimeout(5*1000);
+//					 urlConnection.setRequestMethod("GET");
+//					 urlConnection.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
+//					 urlConnection.setRequestProperty("Accept-Language", "zh-CN");
+//					 urlConnection.setRequestProperty("Accept-Encoding", "identity");
+//					 urlConnection.setRequestProperty("Referer", url); 
+//					 urlConnection.setRequestProperty("Charset", "UTF-8");
+//					 urlConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
+//					 urlConnection.setRequestProperty("Connection", "Keep-Alive");
+//				 }
+//		         return urlConnection ;
+//			
+//			} catch (Exception e)
+//			{			
+//				Log.e(TAG, "<getConnection> but catch exception = "+e.toString(),e);
+//				return null;
+//			}
+//	}
+//	
+//	
+//	
+//	
+//	
+//	
 }

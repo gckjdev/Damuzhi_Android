@@ -93,45 +93,29 @@ import dalvik.system.VMRuntime;
 public class IndexActivity extends MenuActivity implements OnClickListener
 {
 	private static final String TAG = "IndexActivity";
-	//private ImageButton moreButton;
 	private ImageButton sceneryButton;
 	private ImageButton hotelButton;
 	private ImageButton restaurantButton;
 	private ImageButton shoppingButton;
 	private ImageButton entertainmentButton;
 	private ImageButton nearbyButton;
-	//private ImageButton helpButton;
 	private ImageButton citybaseButton;
 	private ImageButton travelPreprationButton;
 	private ImageButton travelUtilityButton;
 	private ImageButton travelTransportaionButton;
 	private ImageButton travelTipsButton;
-	//private ImageButton routeTipsButton;
 	private ImageButton favoriteButton;
-	//private ImageButton shareButton;
-	//TextView currentCityName;
-	private PopupWindow shareWindow;
-	private static final String SHARE_CONFIG = "share_config";
-	private static final  int SHARE_2_SINA = 1;
-	private static final  int SHARE_2_QQ = 2;
+
 	private final static int HEAP_SIZE = 8* 1024* 1024 ;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		//TravelApplication.getInstance().addActivity(this);
 		ActivityMange.getInstance().addActivity(this);
-		//requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS); 
-		// requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.index);		
 		MobclickAgent.updateOnlineConfig(this);
 		VMRuntime.getRuntime().setMinimumHeapSize(HEAP_SIZE);
 		
-		//currentCityName = (TextView) findViewById(R.id.current_city_name);
-		//ViewGroup currentCitygGroup = (ViewGroup) findViewById(R.id.current_group);	
-		//currentCityName.setText(AppManager.getInstance().getCurrentCityName());
-		//currentCitygGroup.setOnClickListener(currentGroupOnClickListener);
-		//moreButton = (ImageButton) findViewById(R.id.more);
 		sceneryButton = (ImageButton) findViewById(R.id.scenery);
 		hotelButton = (ImageButton) findViewById(R.id.hotel);		
 		restaurantButton = (ImageButton) findViewById(R.id.restaurant);
@@ -143,11 +127,8 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		travelUtilityButton = (ImageButton) findViewById(R.id.travel_utility);
 		travelTransportaionButton = (ImageButton) findViewById(R.id.travel_transportation);
 		travelTipsButton = (ImageButton) findViewById(R.id.travel_tips);
-		//routeTipsButton = (ImageButton) findViewById(R.id.travel_commend);
 		nearbyButton = (ImageButton) findViewById(R.id.nearby);
-		//helpButton = (ImageButton) findViewById(R.id.help);
 		favoriteButton = (ImageButton) findViewById(R.id.favorite);
-		//shareButton = (ImageButton) findViewById(R.id.share);
 		
 		sceneryButton.setOnClickListener(this);
 		hotelButton.setOnClickListener(this);
@@ -160,13 +141,9 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		travelUtilityButton.setOnClickListener(this);
 		travelTransportaionButton.setOnClickListener(this);
 		travelTipsButton.setOnClickListener(this);
-		//routeTipsButton.setOnClickListener(this);
-		//moreButton.setOnClickListener(this);
-		//helpButton.setOnClickListener(helpOnClickListener);
-		favoriteButton.setOnClickListener(favoriteOnClickListener);
-		//shareButton.setOnClickListener(shareOnClickListener);		
 		
-		//checkData();
+		favoriteButton.setOnClickListener(favoriteOnClickListener);
+		
 		
 		
 		
@@ -174,32 +151,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	}
 
 	
-	/*private void checkDataVersion()
-	{
-		AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this).create();
-		alertDialog.setMessage(IndexActivity.this.getString(R.string.data_has_new_version));
-		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,IndexActivity.this.getString(R.string.update_now),new DialogInterface.OnClickListener()
-		{					
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{	
-				Intent intent = new Intent();
-				intent.putExtra("updateData", 1);
-				intent.setClass(IndexActivity.this, OpenCityActivity.class);
-				startActivity(intent);
-			}	
-		} );
-		alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+IndexActivity.this.getString(R.string.update_later),new DialogInterface.OnClickListener()
-		{
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				dialog.cancel();
-			}
-		} );
-		alertDialog.show();
-	}*/
+	
 	
 	
 	@Override
@@ -207,7 +159,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	{
 		
 		super.onResume();
-		Log.d(TAG, "index activity onResume");
+		/*Log.d(TAG, "index activity onResume");
 		float availableMemory  = TravelUtil.getAvailableInternalMemorySize();
 		Log.d(TAG, " available memory = "+availableMemory);
 		ActivityManager activityMange =  (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
@@ -219,81 +171,11 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		long runTimeTotalMemory = Runtime.getRuntime().totalMemory();
 		Log.d(TAG, "run time total memory = "+TravelUtil.getDataSize(runTimeTotalMemory));
 		long runTimeMaxMemory = Runtime.getRuntime().maxMemory();
-		Log.d(TAG, "run time max menory = "+TravelUtil.getDataSize(runTimeMaxMemory));
-		/*String cityName = AppManager.getInstance().getCurrentCityName();
-		if(cityName == null||cityName.equals(""))
-		{
-			int defaultCityId = AppManager.getInstance().getDefaulCityId();
-			AppManager.getInstance().setCurrentCityId(defaultCityId);
-			cityName = AppManager.getInstance().getCurrentCityName();
-		}*/
-		//currentCityName.setText(cityName);
-		//checkData();
-	}
-	
-	
-	/*private void updateAppVersion()
-	{
-		AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this).create();
-		alertDialog.setMessage(IndexActivity.this.getString(R.string.app_has_new_version));
-		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,IndexActivity.this.getString(R.string.update_now),new DialogInterface.OnClickListener()
-		{					
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{	
-				Uri uri = Uri.parse(MobclickAgent.getConfigParams(IndexActivity.this, ConstantField.U_MENG_DOWNLOAD_CONFIGURE));
-				Log.d(TAG, "<updateAppVersion> uri = "+uri);
-				if(uri!=null&&!uri.equals(""))
-				{
-					Intent intent = new Intent(Intent.ACTION_VIEW, uri);
-					startActivity(intent);
-				}			
-			}	
-		} );
-		alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+IndexActivity.this.getString(R.string.update_later),new DialogInterface.OnClickListener()
-		{
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				dialog.cancel();
-			}
-		} );
-		alertDialog.show();
+		Log.d(TAG, "run time max menory = "+TravelUtil.getDataSize(runTimeMaxMemory));*/
 	}
 	
 	
 	
-	
-	
-	
-	private void installData()
-	{
-		AlertDialog alertDialog = new AlertDialog.Builder(IndexActivity.this).create();
-		alertDialog.setMessage(IndexActivity.this.getString(R.string.install_data_unfinish));
-		alertDialog.setButton(DialogInterface.BUTTON_POSITIVE,IndexActivity.this.getString(R.string.install_now),new DialogInterface.OnClickListener()
-		{					
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{	
-				Intent intent = new Intent();
-				intent.putExtra("updateData", 0);
-				intent.setClass(IndexActivity.this, OpenCityActivity.class);
-				startActivity(intent);
-			}	
-		} );
-		alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+IndexActivity.this.getString(R.string.install_later),new DialogInterface.OnClickListener()
-		{
-			
-			@Override
-			public void onClick(DialogInterface dialog, int which)
-			{
-				dialog.cancel();
-			}
-		} );
-		alertDialog.show();
-	}
-	*/
 	
 	@Override
 	public void onClick(View v)
@@ -302,11 +184,6 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		
 		switch (button.getId())
 		{
-		/*case R.id.more:
-			Intent intent = new Intent();
-			intent.setClass(IndexActivity.this, MoreActivity.class);	
-			startActivity(intent);
-			break;*/
 		case R.id.scenery:	
 			 	Intent sceneryIntent = new Intent();
 				sceneryIntent.setClass(IndexActivity.this, CommonSpotActivity.class);	
@@ -373,12 +250,6 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 			travelTipsIntent.setClass(IndexActivity.this, TravelGuidesActivity.class);		
 			startActivity(travelTipsIntent);
 			break;
-		/*case R.id.travel_commend:	
-			LocationUtil.stop();
-			Intent travelRoutesIntent = new Intent();
-			travelRoutesIntent.setClass(IndexActivity.this, TravelRoutesActivity.class);		
-			startActivity(travelRoutesIntent);
-			break;*/
 		default:
 			break;
 		}
@@ -387,139 +258,7 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	
 	
 	
-/*	private OnClickListener currentGroupOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			LocationUtil.stop();
-			Intent intent = new Intent();
-			intent.setClass(IndexActivity.this, OpenCityActivity.class);
-			startActivity(intent);
-		}
-	};*/
-	
-	/*@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event)
-	{
-		if(keyCode == KeyEvent.KEYCODE_BACK)
-		{
-			AlertDialog leaveAlertDialog = new AlertDialog.Builder(IndexActivity.this).create();
-			leaveAlertDialog.setMessage(getBaseContext().getString(R.string.leave_alert_dilaog));
-			leaveAlertDialog.setButton(DialogInterface.BUTTON_POSITIVE,getBaseContext().getString(R.string.exit),new DialogInterface.OnClickListener()
-			{
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which)
-				{
-					AppMission.getInstance().saveCurrentCityId(IndexActivity.this);
-					//TravelApplication.getInstance().exit();	
-					ActivityManger.getInstance().AppExit(IndexActivity.this);
-				}
-			} );
-			leaveAlertDialog.setButton(DialogInterface.BUTTON_NEGATIVE,""+getBaseContext().getString(R.string.cancel),new DialogInterface.OnClickListener()
-			{
-				
-				@Override
-				public void onClick(DialogInterface dialog, int which)
-				{
-					dialog.cancel();
-					
-				}
-			} );
-			leaveAlertDialog.show();
-		return true;	
-		}else{
-		return super.onKeyDown(keyCode, event);
-		}
-	}*/
 
-
-
-	
-	
-	
-	/*private void checkData()
-	{
-		AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
-		{
-
-			@Override
-			protected Void doInBackground(Void... params)
-			{
-				
-				float remoteVersion = MoreMission.getInstance().getNewVersion();
-				float localVersion = TravelUtil.getVersionName(IndexActivity.this);
-				Log.d(TAG, "app Version = "+localVersion);
-				if(remoteVersion>localVersion)
-				{
-					Looper.prepare();
-					updateAppVersion();
-					Looper.loop();					
-				}	
-				City city = AppManager.getInstance().getCityByCityId(AppManager.getInstance().getCurrentCityId());
-				String downloadURL =null;
-				if(city != null &&city.hasDownloadURL())
-				{	
-					downloadURL = city.getDownloadURL();
-					Map<Integer, Integer> unfinishInstallCity = DownloadPreference.getAllUnfinishInstall(IndexActivity.this);
-					Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(IndexActivity.this);
-					Map<Integer, String> newVersionCityData = TravelApplication.getInstance().getNewVersionCityData();
-					List<Integer> installedCityList = new ArrayList<Integer>();
-					installedCityList.clear();
-					installedCityList.addAll(installCityData.keySet());
-					if(installCityData != null&&installCityData.size()>0)
-					{
-						if(newVersionCityData == null)
-						{
-							newVersionCityData = DownloadMission.getInstance().getNewVersionCityData(installedCityList);
-							TravelApplication.getInstance().setNewVersionCityData(newVersionCityData);
-						}
-						
-					}
-					int currentCityId = AppManager.getInstance().getCurrentCityId();
-					if(downloadURL != null&&!downloadURL.equals(""))
-					{
-						if(newVersionCityData!= null&&newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
-						{
-							Looper.prepare();
-							checkDataVersion();
-							Looper.loop();
-						}
-						if(unfinishInstallCity.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))
-						{
-							Looper.prepare();
-							installData();
-							Looper.loop();
-						}
-					}
-				}
-				return null;
-			}
-
-		
-	
-		};
-		asyncTask.execute();
-	}*/
-	
-
-	
-	/*
-	private OnClickListener helpOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			Intent  intent = new Intent();
-			intent.putExtra(ConstantField.HELP_TITLE, getResources().getString(R.string.help));
-			intent.setClass(IndexActivity.this, HelpActiviy.class);
-			startActivity(intent);
-			
-		}
-	};*/
 	
 	
 	private OnClickListener favoriteOnClickListener = new OnClickListener()
@@ -535,104 +274,6 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		}
 	};
 
-
-	
-/*	private OnClickListener shareOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			shareWindow(v);
-			
-		}
-	};
-	
-	private void shareWindow(View parent)
-	{
-		//LayoutInflater lay = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);  
-		LayoutInflater lay = getLayoutInflater();
-        View v = lay.inflate(R.layout.share_popup, null);        
-        Button shareByMessageButton = (Button) v.findViewById(R.id.share_by_message_btn);
-        Button share2sinaButton = (Button) v.findViewById(R.id.share_2_sina_btn);
-        Button share2qqButton = (Button) v.findViewById(R.id.share_2_qq_btn);
-        Button shareCancelButton = (Button) v.findViewById(R.id.share_cancel);
-        LinearLayout shareGroup = (LinearLayout) v.findViewById(R.id.share_view_group);        
-        shareByMessageButton.setOnClickListener(shareByMessage);
-        share2sinaButton.setOnClickListener(share2sinaWeiboOnClickListener);
-        share2qqButton.setOnClickListener(share2qqWeiboOnClickListener);
-        shareCancelButton.setOnClickListener(shareCancelOnClickListener);
-        shareWindow = new PopupWindow(v, android.view.ViewGroup.LayoutParams.FILL_PARENT,android.view.ViewGroup.LayoutParams.FILL_PARENT);   
-        shareWindow.setFocusable(true);  
-        shareWindow.update();  
-      //  shareWindow.showAtLocation(findViewById(R.id.share), Gravity.CENTER, 0, 0);  
-        shareGroup.setOnKeyListener(new OnKeyListener()
-		{
-					@Override
-					public boolean onKey(View v, int keyCode, KeyEvent event)
-					{
-						if(event.getAction() == KeyEvent.ACTION_DOWN && keyCode == KeyEvent.KEYCODE_BACK)
-							shareWindow.dismiss();
-						return false;
-					}
-        		 
-        		});
-	}
-	
-	
-	private OnClickListener shareByMessage = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-            String messageCont = getString(R.string.share_content);
-            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"));
-            intent.putExtra("sms_body", messageCont);
-            startActivity(intent);
-		}
-	};
-	
-	private OnClickListener share2sinaWeiboOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			Intent intent = new Intent();
-			intent.putExtra(SHARE_CONFIG, SHARE_2_SINA);
-			intent.setClass(IndexActivity.this, Share2Weibo.class);
-			startActivity(intent);
-		}
-	};
-	
-	
-	private OnClickListener share2qqWeiboOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			Intent intent = new Intent();
-			intent.putExtra(SHARE_CONFIG, SHARE_2_QQ);
-			intent.setClass(IndexActivity.this, Share2Weibo.class);
-			startActivity(intent);
-		}
-	};
-	
-	
-	private OnClickListener shareCancelOnClickListener = new OnClickListener()
-	{
-		
-		@Override
-		public void onClick(View v)
-		{
-			if(shareWindow !=null)
-			{
-				shareWindow.dismiss();
-			}
-		}
-	};*/
 
 	
 	private boolean checkGPSisOpen() {

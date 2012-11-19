@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
 import android.R.integer;
 import android.app.Activity;
 import android.app.ActivityGroup;
@@ -201,8 +200,6 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		listViewGroup = (ViewGroup) findViewById(R.id.listview_group);
 		mapViewButton = (ImageView) findViewById(R.id.map_view);
 		listViewButton = (ImageView) findViewById(R.id.list_view);
-		//refreshPlaceListView = (PullToRefreshListView) findViewById(R.id.place_listview);
-		//placeListView = refreshPlaceListView.getRefreshableView();
 		
 		
 		placeListView = (ListView) findViewById(R.id.place_listview);
@@ -212,11 +209,9 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		placeListView.addFooterView(listViewFooter, allPlaceList, false);
 		placeListView.setFooterDividersEnabled(false);
 		footerViewGroup = (ViewGroup) listViewFooter.findViewById(R.id.listView_load_more_footer);
-		footerViewGroup.setVisibility(View.GONE);
+		footerViewGroup.setVisibility(View.INVISIBLE);
 		
-	//	imageLoader = ImageLoader.getInstance();
 		placeListAdapter = new CommonPlaceListAdapter(this, null,getCategoryType());
-		//placeListAdapter = new CommonPlaceListAdapter(this, null,getCategoryType());
 		placeListView.setAdapter(placeListAdapter);
 		placeListView.setOnItemClickListener(listViewOnItemClickListener);
 		
@@ -240,16 +235,23 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		loadPlace();
 	}
 
-	
+	long startTime =0;
+	long endTime =0;
 	private void loadPlace()
 	{
+		
 		AsyncTask<String, Void, List<Place>> task = new AsyncTask<String, Void, List<Place>>()
 		{
 
 			@Override
 			protected List<Place> doInBackground(String... params)
 			{
+				startTime = System.currentTimeMillis();
+				Log.d(TAG, "load place data start time = "+startTime/1000);
 				List<Place> placeList = getAllPlace(CommonPlaceActivity.this);
+				endTime = System.currentTimeMillis();
+				Log.d(TAG, "load place data end time = "+endTime/1000);
+				Log.d(TAG, "load place data from http time spent= "+(endTime - startTime)/1000);
 				//totalCount = getPlaceTotalCount();
 				start = 0;
 				count = 1;
@@ -678,6 +680,23 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState)
 		{
+			
+			//数据为空--不用继续下面代码了
+			if(allPlaceList.size() == 0) return;
+			
+			//判断是否滚动到底部
+			boolean scrollEnd = false;
+			try {
+				if(view.getPositionForView(footerViewGroup) == view.getLastVisiblePosition()){
+					Log.d(TAG, "footerview position = "+view.getPositionForView(footerViewGroup));
+					Log.d(TAG, "visibleLastIndex position = "+visibleLastIndex);
+					scrollEnd = true;
+				}
+			} catch (Exception e) {
+				scrollEnd = false;
+			}
+			
+			
 			if(!loadDataFlag){
 				return ;
 			}
@@ -686,17 +705,14 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 			{
 			   placeListView.removeFooterView(listViewFooter);	
 			}
-			if(visibleLastIndex >0)
-			{	
-				footerViewGroup.setVisibility(View.VISIBLE);
-			  int size = placeListAdapter.getCount();	
-			  if(scrollState ==OnScrollListener.SCROLL_STATE_IDLE &&visibleLastIndex == size)
+			  	
+			  if(loadDataFlag&&scrollEnd)
 			  {
+				  footerViewGroup.setVisibility(View.VISIBLE);
 				  Log.d(TAG, "load more");
 				  Log.d(TAG, "listview visibleLastIndex = "+visibleLastIndex);	  
 				  loadMore();
 			  } 
-			}
 		}
 		
 		@Override
@@ -1130,6 +1146,8 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 				@Override
 				protected List<Place> doInBackground(String... params)
 				{
+					startTime = System.currentTimeMillis();
+					Log.d(TAG, "load place data start time = "+startTime/1000);
 					loadDataFlag = false;
 					List<Place> placeList = null;
 					if(!localDataIsExist)
@@ -1143,7 +1161,9 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 						String sortType = Integer.toString(sortPosition+1);
 						placeList = PlaceMission.getInstance().loadMorePlace(getCategoryType(),CommonPlaceActivity.this,start, subcateType, areaType, serviceType, priceType, sortType);
 					}
-													
+					endTime = System.currentTimeMillis();
+					Log.d(TAG, "load place data end time = "+endTime/1000);
+					Log.d(TAG, "load place data from http user time = "+(endTime - startTime)/1000);								
 					return placeList;
 				}
 				@Override

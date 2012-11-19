@@ -59,7 +59,6 @@ public class TravelRoutesActivity extends MenuActivity
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.travel_route);
-	//	TravelApplication.getInstance().addActivity(this);
 		ActivityMange.getInstance().addActivity(this);
 		listView = (ListView) findViewById(R.id.travel_route_listview);
 		listView.setOnItemClickListener(clickListener);
@@ -172,7 +171,6 @@ public class TravelRoutesActivity extends MenuActivity
 				long arg3)
 		{
 			 CommonTravelTip commonTravelTip = commonTravelTips.get(arg2);
-			 /*application.setCommonTravelTip(commonTravelTip);*/
 			 Intent intent = new Intent();
 			 intent.putExtra(ConstantField.TRAVEL_ROUTES_INFO, commonTravelTip.toByteArray());
 			 intent.setClass(TravelRoutesActivity.this, TravelRoutesDetailActivity.class);

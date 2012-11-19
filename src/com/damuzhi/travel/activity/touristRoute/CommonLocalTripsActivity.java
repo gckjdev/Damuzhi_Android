@@ -60,6 +60,8 @@ public class CommonLocalTripsActivity extends MenuActivity {
 	private CommonLocalTripsAdapter adapter;
 	private int currentCityId = 0;
 	private int lastCityId = -100;
+	private boolean loadDataFlag = false;
+	private int totalCount = 0;
 	
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -93,7 +95,9 @@ public class CommonLocalTripsActivity extends MenuActivity {
 			@Override
 			protected List<LocalRoute> doInBackground(String... params)
 			{
+				loadDataFlag = true;
 				List<LocalRoute> list = TouristRouteMission.getInstance().getLocalRoutes(currentCityId);
+				totalCount = TouristRouteMission.getInstance().getTotalCount();
 				start = 0;
 				count = 1;				
 				return list;
@@ -174,7 +178,7 @@ public class CommonLocalTripsActivity extends MenuActivity {
 		@Override
 		public void onScrollStateChanged(AbsListView view, int scrollState)
 		{
-			 int size = adapter.getCount();
+			/* int size = adapter.getCount();
 			if(size !=0 && visibleLastIndex == size)
 			{
 			   localTripsListView.removeFooterView(listViewFooter);	
@@ -187,7 +191,41 @@ public class CommonLocalTripsActivity extends MenuActivity {
 				  Log.d(TAG, "listview visibleLastIndex = "+visibleLastIndex);	  
 				  loadMore();
 			  } 
+			}*/
+			
+			
+			//数据为空--不用继续下面代码了
+			if(localRouteList.size() == 0) return;
+			
+			//判断是否滚动到底部
+			boolean scrollEnd = false;
+			try {
+				if(view.getPositionForView(footerViewGroup) == view.getLastVisiblePosition()){
+					Log.d(TAG, "footerview position = "+view.getPositionForView(footerViewGroup));
+					Log.d(TAG, "visibleLastIndex position = "+visibleLastIndex);
+					scrollEnd = true;
+				}
+			} catch (Exception e) {
+				scrollEnd = false;
 			}
+			
+			
+			if(!loadDataFlag){
+				return ;
+			}
+			
+			if(totalCount !=0 && visibleLastIndex == totalCount)
+			{
+			   localTripsListView.removeFooterView(listViewFooter);	
+			}
+			  	
+			  if(loadDataFlag&&scrollEnd)
+			  {
+				  footerViewGroup.setVisibility(View.VISIBLE);
+				  Log.d(TAG, "load more");
+				  Log.d(TAG, "listview visibleLastIndex = "+visibleLastIndex);	  
+				  loadMore();
+			  } 
 		}
 		
 		@Override
@@ -208,6 +246,7 @@ public class CommonLocalTripsActivity extends MenuActivity {
 			@Override
 			protected List<LocalRoute> doInBackground(String... params)
 			{
+				loadDataFlag = false;
 				List<LocalRoute> localRouteList = null;				
 				start = count *20;
 				count++;	
@@ -219,6 +258,7 @@ public class CommonLocalTripsActivity extends MenuActivity {
 			{
 				addMoreData(resultList);
 				footerViewGroup.setVisibility(View.GONE);
+				loadDataFlag = true;
 				super.onPostExecute(resultList);
 			}			
 		};

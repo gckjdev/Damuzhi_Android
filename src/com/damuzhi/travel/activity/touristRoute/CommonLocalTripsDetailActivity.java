@@ -50,6 +50,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebSettings.RenderPriority;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -92,6 +93,7 @@ public class CommonLocalTripsDetailActivity extends Activity
 	private TextView noDataTextView;
 	private boolean isFollow = false;
 	private ProgressBar loadingBar;
+	private boolean isBlockNetworkImage = true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
@@ -105,6 +107,8 @@ public class CommonLocalTripsDetailActivity extends Activity
 		
 	}
 	
+	long startTime = 0;
+	long endTime = 0;
 	
 	private void loadData(final int localRouteId)
 	{
@@ -114,12 +118,17 @@ public class CommonLocalTripsDetailActivity extends Activity
 			@Override
 			protected LocalRoute doInBackground(Void... params)
 			{
+				startTime = System.currentTimeMillis();
+				Log.d(TAG, "load localRoute data from http startTime = "+startTime);
 				return TouristRouteMission.getInstance().getLocalRouteDetail(localRouteId);
 			}
 
 			@Override
 			protected void onPostExecute(LocalRoute result)
 			{
+				endTime = System.currentTimeMillis();
+				Log.d(TAG, "load localRoute data from http endTime = "+endTime);
+				Log.d(TAG, "load localRoute data time spent =  "+(endTime-startTime)/1000);
 				localRoute = result;
 				refresh();
 				super.onPostExecute(result);
@@ -220,6 +229,8 @@ public class CommonLocalTripsDetailActivity extends Activity
 			consultButton.setOnClickListener(consultOnClickListener);
 			routeDetailWebView.setWebViewClient(webViewClient);
 			routeDetailWebView.getSettings().setJavaScriptEnabled(true);
+			routeDetailWebView.getSettings().setRenderPriority(RenderPriority.HIGH);
+			routeDetailWebView.getSettings().setBlockNetworkImage(true);
 			routeDetailWebView.loadUrl(localRoute.getDetailUrl());
 			routeDetailWebView.setVisibility(View.GONE);
 			isFollow = checkFavoriteRoute(localRoute.getRouteId());
@@ -437,6 +448,8 @@ public class CommonLocalTripsDetailActivity extends Activity
 		public void onPageStarted(WebView view, String url, Bitmap favicon)
 		{
 			super.onPageStarted(view, url, favicon);
+			startTime = System.currentTimeMillis();
+			Log.d(TAG, "webview load page start time = "+startTime);
 			//Log.d(TAG, "page start url = "+url);
 		}
 
@@ -492,12 +505,19 @@ public class CommonLocalTripsDetailActivity extends Activity
 		public void onPageFinished(WebView view, String url)
 		{
 			super.onPageFinished(view, url);
+			endTime = System.currentTimeMillis();
+			Log.d(TAG, "webview load page end time = "+endTime);
+			Log.d(TAG, "webview load page time spent = "+(endTime-startTime)/1000);
 			loadingBar.setVisibility(View.GONE);
 			routeDetailWebView.setVisibility(View.VISIBLE);
 			if(isFollow)
 			{
 				routeDetailWebView.loadUrl("javascript:toggleFavor(true)");
 				Log.d(TAG, "route has follow");
+			}
+			if(isBlockNetworkImage)
+			{
+				routeDetailWebView.getSettings().setBlockNetworkImage(false);
 			}
 		}
 		
