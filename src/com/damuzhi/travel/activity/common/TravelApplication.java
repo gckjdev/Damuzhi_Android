@@ -37,6 +37,8 @@ import android.app.ActivityManager;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap.CompressFormat;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -199,27 +201,7 @@ public class TravelApplication extends Application
 		}
 	}
 	 
-  /*  public void addActivity(Activity activity){  
-        activityList.add(activity);  
-    } 
-    
-    
-    public void removeActivity(){  
-        int size = activityList.size();
-        activityList.remove(size-1);
-    } 
-    
-        
-    public void exit(){  
-        for(Activity activity:activityList){  
-            activity.finish();  
-        }  
-        if(mLocationClient !=null)
-		{
-        	mLocationClient.stop();
-		}
-        System.exit(0);  
-    } */ 
+ 
 
 	
 	public HashMap<String, Double> getLocation()
@@ -234,10 +216,13 @@ public class TravelApplication extends Application
 	
 	public  boolean checkNetworkConnection()
 	{
-		return HttpTool.checkNetworkConnection(getApplicationContext());
+		//return HttpTool.checkNetworkConnection(getApplicationContext());
+		ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo ni = cm.getActiveNetworkInfo();
+		return ni != null && ni.isConnectedOrConnecting();
 	}
 	
-	public void makeToast()
+	public void noNetworkConnectionToast()
 	{
 		Thread thread = new Thread(new Runnable()
 		{
@@ -326,16 +311,6 @@ public class TravelApplication extends Application
 				return ;
 			bdLocation = location;
 			address = location.getAddrStr();	
-			/*if(address !=null)
-			{
-				getCoordinate(address);
-			}else
-			{
-				Double latitude = location.getLatitude()-0.0060;
-				Double longitude = location.getLongitude()-0.0065;
-				initLocation(latitude, longitude);
-			}
-			*/
 			Double latitude = location.getLatitude()-0.0060;
 			Double longitude = location.getLongitude()-0.0065;
 			initLocation(latitude, longitude);

@@ -96,8 +96,9 @@ public class CommonLocalTripsDetailActivity extends Activity
 	private boolean isBlockNetworkImage = true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
+		startTime = System.currentTimeMillis();
+		Log.d(TAG, "load localRoute data from http startTime = "+startTime);
 		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.common_local_trips_detail);
 		//imageLoader = ImageLoader.getInstance();
@@ -118,8 +119,6 @@ public class CommonLocalTripsDetailActivity extends Activity
 			@Override
 			protected LocalRoute doInBackground(Void... params)
 			{
-				startTime = System.currentTimeMillis();
-				Log.d(TAG, "load localRoute data from http startTime = "+startTime);
 				return TouristRouteMission.getInstance().getLocalRouteDetail(localRouteId);
 			}
 
@@ -154,8 +153,6 @@ public class CommonLocalTripsDetailActivity extends Activity
 			List<String> imagePath = localRoute.getDetailImagesList();
 			LayoutInflater inflater = getLayoutInflater();
 			ArrayList<View> imageViewlist = new ArrayList<View>();	
-			//asyncLoader = AsyncLoader.getInstance();
-			//asyncLoader = new AsyncLoader();
 			ImageLoader imageLoader = ImageLoader.getInstance();
 			int size=imagePath.size();	
 			View view = null;
@@ -205,7 +202,6 @@ public class CommonLocalTripsDetailActivity extends Activity
 			routeIdTextView.setText(num+localRoute.getRouteId());
 			agencyNameTextView.setText(AppManager.getInstance().getAgencyShortNameById(localRoute.getAgencyId()));
 			agencyNameTextView.setSelected(true);
-			//String price = AppManager.getInstance().getSymbolByCityId(cityId)+localRoute.getPrice();
 			
 			routeIntroTextView = (TextView) findViewById(R.id.route_intro_text);
 			bookingNoticeTextView = (TextView) findViewById(R.id.booking_notice_text);
@@ -234,7 +230,6 @@ public class CommonLocalTripsDetailActivity extends Activity
 			routeDetailWebView.loadUrl(localRoute.getDetailUrl());
 			routeDetailWebView.setVisibility(View.GONE);
 			isFollow = checkFavoriteRoute(localRoute.getRouteId());
-			//Log.d(TAG, "route is follow = "+isFollow);
 			String url = "";
 			ImageView imageView2 = null;
 			for(int i=0;i<size;i++)

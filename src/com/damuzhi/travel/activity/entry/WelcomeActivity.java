@@ -48,20 +48,21 @@ import com.damuzhi.travel.R;
 public class WelcomeActivity extends MenuActivity
 {	
 	private static final String TAG = "WelcomeActivity";
-//	private LocationClient mLocClient;
 	private Bundle bundle;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		startTime = System.currentTimeMillis();
+		Log.d(TAG, "app welcome activity  start time = "+startTime);
 		setContentView(R.layout.startup);	
 		bundle = getIntent().getBundleExtra("notify");
 		init();
 	}
 	
-	
-	
+	long startTime = 0;
+	long endTime = 0;
 	
 	private void init()
 	{
@@ -71,6 +72,7 @@ public class WelcomeActivity extends MenuActivity
 			@Override
 			protected Void doInBackground(Void... params)
 			{
+				
 				boolean initFlag = FileUtil.checkFileIsExits(ConstantField.LOCAL_APP_DATA_FILE);
 				if(!initFlag)
 				{
@@ -78,31 +80,12 @@ public class WelcomeActivity extends MenuActivity
 					File file = new File(ConstantField.IMAGE_CACHE_PATH);
 					file.mkdirs();
 				}			
-				AppMission.getInstance().updateAppData(WelcomeActivity.this);
-				HelpMission.getInstance().updateHelpData(WelcomeActivity.this);     
-				String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
-				String channelId="000000";  
-		        try {  
-		               ApplicationInfo  ai = WelcomeActivity.this.getPackageManager().getApplicationInfo(WelcomeActivity.this.getPackageName(), PackageManager.GET_META_DATA);  
-		               Object object = ai.metaData.get("YOUMI_CHANNEL");
-		              // Log.d(TAG, "meta data = "+object);
-		               if (object != null) {  
-		            	   channelId= String.valueOf(object);
-		            	   Log.d(TAG, "channelId = "+channelId);
-		               }  
-		           } catch (Exception e) {  
-		               //  
-		           }  
-				if(userId==null ||userId.equals(""))
-				{
-					Intent intent2 = new Intent();
-					intent2.setAction("com.damuzhi.travel.service.PullNotificationService");
-					startService(intent2);
-				}
-				TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
-				String deviceId = telephonyManager.getDeviceId();
-				CommonMission.getInstance().registerDevice(deviceId,channelId,WelcomeActivity.this);
-				LocationUtil.getInstance().getLocation(WelcomeActivity.this);
+				boolean isNetworkConn = TravelApplication.getInstance().checkNetworkConnection();
+				if(isNetworkConn){
+					initAPPdata();
+				}else {
+					TravelApplication.getInstance().noNetworkConnectionToast();
+				}				
 				return null;
 			}
 
@@ -129,14 +112,35 @@ public class WelcomeActivity extends MenuActivity
 		task.execute();
 	}
 	
-/*	private boolean checkGPSisOpen() {
-		LocationManager alm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-		if (alm.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
-			return true;
+
+	
+	private void initAPPdata()
+	{
+		AppMission.getInstance().updateAppData(WelcomeActivity.this);
+		//HelpMission.getInstance().updateHelpData(WelcomeActivity.this);     
+		String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
+		String channelId="000000";  
+        try {  
+               ApplicationInfo  ai = WelcomeActivity.this.getPackageManager().getApplicationInfo(WelcomeActivity.this.getPackageName(), PackageManager.GET_META_DATA);  
+               Object object = ai.metaData.get("YOUMI_CHANNEL");
+               if (object != null) {  
+            	   channelId= String.valueOf(object);
+            	   Log.d(TAG, "channelId = "+channelId);
+               }  
+           } catch (Exception e) {  
+               //  
+           }  
+		if(userId==null ||userId.equals(""))
+		{
+			Intent intent2 = new Intent();
+			intent2.setAction("com.damuzhi.travel.service.PullNotificationService");
+			startService(intent2);
 		}
-			Toast.makeText(this, getString(R.string.open_gps_tips2), Toast.LENGTH_SHORT).show();
-			return false;
-	}*/
+		TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
+		String deviceId = telephonyManager.getDeviceId();
+		CommonMission.getInstance().registerDevice(deviceId,channelId,WelcomeActivity.this);
+		LocationUtil.getInstance().getLocation(WelcomeActivity.this);
+	}
 	
 	
 	
@@ -145,6 +149,9 @@ public class WelcomeActivity extends MenuActivity
 	protected void onDestroy()
 	{
 		super.onDestroy();
+		endTime = System.currentTimeMillis();
+		Log.d(TAG, "app welcome activity  end time = "+endTime);
+		Log.d(TAG, "app welcome activity time spent = "+(endTime-startTime)/1000);
 		
 	}
 

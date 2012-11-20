@@ -62,14 +62,14 @@ public class HttpTool
 		int retry = 5;
 		int count = 0;
 		while (count<5)
-		{
-			count += 1;
+		{		
 			try
 			{
-				//return executeHttpClient(url);
-				return httpGetRequerst(url);
+				return executeHttpClient(url);
+				//return httpGetRequerst(url);
 			} catch (Exception e)
 			{
+				count += 1;
 				if(count <retry)
 				{
 					Log.d(TAG, "sendGetRequest retry times = "+count);
@@ -136,13 +136,13 @@ public class HttpTool
 				return null;
 			}
 		 }else {
-			 TravelApplication.getInstance().makeToast();
+			 TravelApplication.getInstance().noNetworkConnectionToast();
 			 return null;
 		}
 		 
 	}
 	
-	public   void stopConnection()
+	public void stopConnection()
 	{
 		if(urlConnection != null)
 		{
@@ -155,11 +155,20 @@ public class HttpTool
 	}
 	
 	
+	public void closeConnection()
+	{
+		
+		if(httpClient != null)
+		{
+			httpClient.getConnectionManager().shutdown();
+		}
+	}
 	
 	
 	
 	
-	public static boolean checkNetworkConnection(Context context)
+	
+	/*public static boolean checkNetworkConnection(Context context)
     {
         boolean haveConnectedWifi = false;
         boolean haveConnectedMobile = false;
@@ -185,7 +194,11 @@ public class HttpTool
             }
         }
         return haveConnectedWifi || haveConnectedMobile;
-    }
+    }*/
+	
+	
+	
+	
 	
 	// TODO move all http handling here
 	

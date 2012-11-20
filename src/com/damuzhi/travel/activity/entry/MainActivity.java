@@ -18,10 +18,12 @@ import com.damuzhi.travel.activity.touristRoute.CommonLocalTripsActivity;
 import com.damuzhi.travel.db.DownloadPreference;
 import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
+import com.damuzhi.travel.mission.common.HelpMission;
 import com.damuzhi.travel.mission.more.UpdateMission;
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.util.TravelUtil;
 import com.readystatesoftware.maps.TapControlledMapView;
@@ -322,6 +324,7 @@ public class MainActivity extends TabActivity {
 					AppMission.getInstance().saveCurrentCityId(MainActivity.this);
 					TravelApplication.getInstance().setToken("");
 					TravelApplication.getInstance().setLoginID("");
+					HttpTool.getInstance().closeConnection();
 					ActivityMange.getInstance().AppExit(MainActivity.this);
 				}
 			} );
@@ -344,6 +347,8 @@ public class MainActivity extends TabActivity {
 	
     private void checkData()
 	{
+    	HelpMission.getInstance().updateHelpData(MainActivity.this);  
+    	
 		AsyncTask<Void, Void, Void> asyncTask = new AsyncTask<Void, Void, Void>()
 		{
 
@@ -443,7 +448,6 @@ public class MainActivity extends TabActivity {
 		alertPopupWindow.setBackgroundDrawable(background);
 		alertPopupWindow.setOutsideTouchable(true);
 		alertPopupWindow.update();
-		//alertDialog = new AlertDialog.Builder(MainActivity.this).create();
 		
 		TextView alertTitleTextView = (TextView) alertDialogView.findViewById(R.id.alert_dialog_title);
 		TextView titleTextView = (TextView) alertDialogView.findViewById(R.id.title);
@@ -482,8 +486,6 @@ public class MainActivity extends TabActivity {
 			break;
 		}
 		alertPopupWindow.showAtLocation(getCurrentFocus(), Gravity.CENTER,0, 350);
-		//alertDialog.setView(alertDialogView);
-		//alertDialog.show();
 	}
 	
 	
@@ -504,10 +506,6 @@ public class MainActivity extends TabActivity {
 			{
 				alertPopupWindow.dismiss();
 			}
-		/*	if(alertDialog != null &&alertDialog.isShowing())
-			{
-				alertDialog.cancel();
-			}*/
 		}
 	};
 	
@@ -526,10 +524,6 @@ public class MainActivity extends TabActivity {
 			{
 				alertPopupWindow.dismiss();
 			}
-			/*if(alertDialog != null &&alertDialog.isShowing())
-			{
-				alertDialog.cancel();
-			}*/
 		}
 	};
 	
@@ -539,10 +533,6 @@ public class MainActivity extends TabActivity {
 		@Override
 		public void onClick(View v)
 		{
-			/*if(alertDialog != null &&alertDialog.isShowing())
-			{
-				alertDialog.cancel();
-			}*/
 			if(alertPopupWindow != null)
 			{
 				alertPopupWindow.dismiss();
@@ -560,10 +550,6 @@ public class MainActivity extends TabActivity {
 			intent.putExtra("updateData", 0);
 			intent.setClass(MainActivity.this, OpenCityActivity.class);
 			startActivity(intent);
-			/*if(alertDialog != null &&alertDialog.isShowing())
-			{
-				alertDialog.cancel();
-			}*/
 			if(alertPopupWindow != null)
 			{
 				alertPopupWindow.dismiss();

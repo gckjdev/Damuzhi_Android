@@ -23,6 +23,7 @@
     <string name="message_tips">消息通知</string>
     <string name="chanel_not_open_toast">栏目暂未开放</string>
     <string name="update_city_data_content">有新的城市指南信息升级，是否现在更新？</string>
+    <string name="get_location_ing2">定位中...</string>
     <!-- indexInfo-->
     <string name="index">首页</string>
 	<string name="damuzhi">大拇指旅行 - </string>

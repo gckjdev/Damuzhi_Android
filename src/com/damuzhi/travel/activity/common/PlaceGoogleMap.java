@@ -5,17 +5,26 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
+import com.damuzhi.travel.activity.common.location.LocationMager;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
@@ -48,6 +57,9 @@ public class PlaceGoogleMap extends MapActivity {
 	private PlaceList placeList;
 	private HashMap<String, Double> location;
 	private boolean isNearbyGoogleMap = false;
+	private PopupWindow locationPopupWindow;
+	private View locationDialogView;
+	private LocationMager locationMager;
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
@@ -83,6 +95,8 @@ public class PlaceGoogleMap extends MapActivity {
 		} catch (InvalidProtocolBufferException e) {
 			e.printStackTrace();
 		}
+		
+		locationMager = new LocationMager(this);
 	}
 
 	
@@ -99,8 +113,12 @@ public class PlaceGoogleMap extends MapActivity {
 	@Override
 	protected void onDestroy() {
 		Log.d(TAG, "onDestroy");
+		if(locationPopupWindow!=null&&locationPopupWindow.isShowing())
+		{
+			locationPopupWindow.dismiss();
+		}
 		placeList = null;
-		LocationUtil.stop();
+		//LocationUtil.stop();
 		ActivityMange.getInstance().finishActivity();
 		super.onDestroy();
 	}
@@ -172,7 +190,7 @@ public class PlaceGoogleMap extends MapActivity {
 			return true;
 		}
 	};
-	
+	CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3;
 	private void initMyLocationOverlayView(HashMap<String, Double> location)
 	{
 		if (location != null&&location.size()>0)
@@ -180,7 +198,7 @@ public class PlaceGoogleMap extends MapActivity {
 			GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));
 			Drawable drawable = getResources().getDrawable(R.drawable.my_location);
 			CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null,null);
-			CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
+			itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
 			itemizedOverlay3.addOverlay(overlayItem);
 			itemizedOverlay3.setOnFocusChangeListener(onFocusChangeListener);
 			mapView.getOverlays().add(itemizedOverlay3);
@@ -213,14 +231,49 @@ public class PlaceGoogleMap extends MapActivity {
 	};
 	
 	
-
+	int i = 0;
 	private void getMyLocation()
 	{
 		checkGPSisOpen();	
-		LocationUtil.getInstance().getLocation(PlaceGoogleMap.this);
-		location = TravelApplication.getInstance().getLocation();
-					
+		//LocationUtil.getInstance().getLocation(PlaceGoogleMap.this);
+		//location = TravelApplication.getInstance().getLocation();
+		locationMager.getLocation(handler);			
 	}
+	
+	Handler handler = new Handler()
+	{
+
+		@Override
+		public void handleMessage(Message msg)
+		{
+			super.handleMessage(msg);
+			switch (msg.what)
+			{
+			case 1:
+				if(msg.obj!=null&&isGetMyLocation){
+					location = (HashMap<String, Double>) msg.obj;
+					if(locationPopupWindow!=null&&locationPopupWindow.isShowing())
+					{
+						locationPopupWindow.dismiss();
+					}
+					if (location != null&&location.size()>0)
+					{
+						initMyLocationOverlayView(location);
+					}else
+					{
+						Toast.makeText(PlaceGoogleMap.this, getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
+					}
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+		
+	};
+	
+	boolean isGetMyLocation = false;
 	
 	private OnClickListener myLocateOnClickListener = new OnClickListener()
 	{
@@ -228,20 +281,9 @@ public class PlaceGoogleMap extends MapActivity {
 		@Override
 		public void onClick(View v)
 		{
+			alertWindow(v);
+			isGetMyLocation = true;
 			getMyLocation();		
-			if (location != null&&location.size()>0)
-			{
-				GeoPoint geoPoint = new GeoPoint((int) (location.get(ConstantField.LATITUDE) * 1E6),(int) (location.get(ConstantField.LONGITUDE) * 1E6));	
-				Drawable drawable = getResources().getDrawable(R.drawable.my_location);
-				CommonOverlayItem overlayItem = new CommonOverlayItem(geoPoint, "", "", null,null);
-				CommonItemizedOverlay<CommonOverlayItem> itemizedOverlay3 = new CommonItemizedOverlay<CommonOverlayItem>(drawable, mapView);
-				itemizedOverlay3.addOverlay(overlayItem);
-				mapView.getOverlays().add(itemizedOverlay3);
-				mapc.animateTo(geoPoint);
-			}else
-			{
-				Toast.makeText(PlaceGoogleMap.this, getString(R.string.get_location_fail), Toast.LENGTH_LONG).show();
-			}
 			myLocateButton.setVisibility(View.GONE);
 			canceLocateButton.setVisibility(View.VISIBLE);
 		}
@@ -254,10 +296,13 @@ public class PlaceGoogleMap extends MapActivity {
 		@Override
 		public void onClick(View v)
 		{
+			isGetMyLocation = false;
+			if(itemizedOverlay3!=null&&itemizedOverlay3.size()>0){
+				mapView.getOverlays().remove(itemizedOverlay3);
+			}
 			canceLocateButton.setVisibility(View.GONE);
 			myLocateButton.setVisibility(View.VISIBLE);
-			initMapView();
-			
+			mapc.animateTo(itemizedOverlay.getCenter());			
 		}
 	};
 	
@@ -301,5 +346,17 @@ public class PlaceGoogleMap extends MapActivity {
 		
 	}
 
+	
+	private void alertWindow(View view)
+	{
+		locationDialogView = getLayoutInflater().inflate(R.layout.location_popupwindow, null);
+		locationPopupWindow = new PopupWindow(locationDialogView, 200,100);
+		ColorDrawable background = new ColorDrawable(getResources().getColor(R.color.transparent));
+		locationPopupWindow.setBackgroundDrawable(background);
+		locationPopupWindow.setOutsideTouchable(false);
+		locationPopupWindow.update();		
+		locationPopupWindow.showAtLocation(view, Gravity.CENTER,0, 0);
+	}
+	
 	
 }
