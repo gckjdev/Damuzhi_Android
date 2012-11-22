@@ -30,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.damuzhi.travel.R;
-import com.damuzhi.travel.activity.common.NearbyPlaceMap.MapInitAsynTask;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;

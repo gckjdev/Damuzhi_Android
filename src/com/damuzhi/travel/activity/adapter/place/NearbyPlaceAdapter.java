@@ -52,7 +52,6 @@ public class NearbyPlaceAdapter extends BaseAdapter
 	private HashMap<Integer, String> subCatMap;
 	private String symbol;
 	private HashMap<Integer, String> cityAreaMap;
-	//public AsyncLoader anseylodar;
 	private ImageLoader imageLoader;
 	private LayoutInflater inflater;
 	private ImageView imageView;
@@ -66,7 +65,6 @@ public class NearbyPlaceAdapter extends BaseAdapter
 	private ImageView recommendImageView3;
 	private ImageView heart;
 	private TextView placeDistance;
-	//private int dataFlag;
 	
 
 	@Override
@@ -85,7 +83,6 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		this.context = context;
 		this.placeList = placeList;		
 		this.inflater = LayoutInflater.from(context);
-		//this.anseylodar = new AsyncLoader();
 		this.imageLoader = ImageLoader.getInstance();
 		int cityId = AppManager.getInstance().getCurrentCityId();
 		cityAreaMap = AppManager.getInstance().getCityAreaMap(cityId);
@@ -160,8 +157,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 		imageView.setTag(position);	
 		url = place.getIcon();
 		url = TravelUtil.getImageUrl(cityId, url);
-		imageLoader.displayImage(url, imageView);
-		//anseylodar.showimgAnsy(imageView,url,cityId);		
+		imageLoader.displayImage(url, imageView);	
 		
 		String distance = TravelUtil.getDistance(place.getLongitude(),place.getLatitude());
 		placeDistance.setText(distance);		
@@ -235,7 +231,7 @@ public class NearbyPlaceAdapter extends BaseAdapter
 	
 	public void recycleBitmap()
 	{
-		//anseylodar.recycleBitmap();
+		imageLoader.clearMemoryCache();
 	}
 	
 }

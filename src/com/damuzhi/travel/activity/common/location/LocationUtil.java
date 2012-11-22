@@ -53,7 +53,7 @@ public class LocationUtil
 	
 	private static void baiduLocation()
 	{
-		LocationClientOption option = new LocationClientOption();
+		/*LocationClientOption option = new LocationClientOption();
 		option.setOpenGps(true);	
 		option.setAddrType("detail");
 		option.setCoorType("bd09ll");		
@@ -64,15 +64,15 @@ public class LocationUtil
 		if (mLocClient != null && mLocClient.isStarted())
 			mLocClient.requestLocation();
 		else 
-			Log.d(TAG, " baidu locationSDK locClient is null or not started");
+			Log.d(TAG, " baidu locationSDK locClient is null or not started");*/
 	}
 	
 	public static void stop()
 	{
-		if(TravelApplication.getInstance().mLocationClient != null)
+		/*if(TravelApplication.getInstance().mLocationClient != null)
 		{
 			TravelApplication.getInstance().mLocationClient.stop();
-		}
+		}*/
 	}
 	
 

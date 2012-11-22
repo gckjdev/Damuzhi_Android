@@ -20,13 +20,17 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.graphics.Matrix;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.Html.ImageGetter;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -45,6 +49,7 @@ import android.widget.AbsListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -53,9 +58,10 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.adapter.place.NearbyPlaceAdapter;
 import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
-import com.damuzhi.travel.activity.common.PlaceGoogleMap;
+import com.damuzhi.travel.activity.common.PlaceListGoogleMap;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.common.location.LocationMager;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
@@ -69,16 +75,11 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.TravelUtil.ComparatorDistance;
-import com.google.android.maps.GeoPoint;
-import com.google.android.maps.ItemizedOverlay;
-import com.google.android.maps.ItemizedOverlay.OnFocusChangeListener;
-import com.google.android.maps.MapController;
-import com.google.android.maps.Overlay;
-import com.google.android.maps.OverlayItem;
+
 
 public class CommonNearbyPlaceActivity extends ActivityGroup
 {
-	private static final String TAG = "Nearby";
+	private static final String TAG = "CommonNearbyPlaceActivity";
 	private ImageButton startButton;
 	private ImageButton oneKMbutton;
 	private ImageButton fiveKMButtom;
@@ -86,7 +87,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	private ImageView redStart;
 	private int startPosition = 1;
 	private float offset;
-	private int bmpW;//
 	private int screenW;
 	private TextView allPlace;
 	private TextView spot;
@@ -102,15 +102,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	ArrayList<Place> placeList = new ArrayList<Place>();;
 	private HashMap<String, Double> location;
 	private NearbyPlaceAdapter adapter;
-	//private View popupView;//
 	private ViewGroup mapViewGroup;
-	long lasttime = -1;
   
     private ImageButton modelButton;
     private TextView modelTextView;
     private String currentDistance ="";
     private String currentPlaceCategory = ConstantField.NEARBY_ALL;
-   // private LocationClient mLocClient;
     private int model = 1;//1== map,2= list
     private View listViewFooter;
 	private ViewGroup footerViewGroup;
@@ -119,17 +116,20 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	private int totalCount = 0;
 	private boolean loadDataFlag = false;
 	private boolean addFooterViewFlag = false;
+	private LocationMager locationMager;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
+		Log.d(TAG, "onCreate");
 		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.common_nearby_place);
 		currentDistance = ConstantField.HALF_KILOMETER;
 		currentPlaceCategory = ConstantField.NEARBY_ALL;
-		loadingDialog = new ProgressDialog(this);
-		init();
-		loadPlace();		
+		showRoundProcessDialog();
+		locationMager = new LocationMager(this);
+		init();		
 		
 	}
 	
@@ -182,7 +182,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		footerViewGroup = (ViewGroup) listViewFooter.findViewById(R.id.listView_load_more_footer);
 		footerViewGroup.setVisibility(View.GONE);
 		
-	//	popupView = LayoutInflater.from(this).inflate(R.layout.overlay_popup, null);
 		adapter = new NearbyPlaceAdapter(this, placeList);
 		listView.setAdapter(adapter);
 		listView.setOnScrollListener(listviewOnScrollListener);
@@ -190,7 +189,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
 		screenW = dm.widthPixels;
-		//getMyLocation();
+		location = TravelApplication.getInstance().getLocation();
+		if(location!=null&&location.size()>0){
+			loadPlace();
+		}else{
+			getMyLocation();
+		}
 	}
 
 	
@@ -204,7 +208,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			@Override
 			protected List<Place> doInBackground(String... params)
 			{
-				getMyLocation();
 				List<Place> resultList = PlaceMission.getInstance().getNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
 				return resultList;
 			}
@@ -235,7 +238,8 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			@Override
 			protected void onPreExecute()
 			{
-				showRoundProcessDialog();
+				//showRoundProcessDialog();
+				loadingDialog.show();
 				loadDataFlag = true;
 				super.onPreExecute();
 			}
@@ -257,7 +261,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			{		
 				loadDataFlag = false;
 				start = count *20;
-				//Log.d(TAG, "load more start from = "+start);
 				count++;		
 				return PlaceMission.getInstance().getNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
 			}
@@ -309,9 +312,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			ComparatorDistance comparatorDistance = new ComparatorDistance(location);
 			Collections.sort(placeList, comparatorDistance);
 			if(listView.getVisibility() == View.VISIBLE){
-				//adapter.addPlaceList(list);
-				//Log.d(TAG, "after nearby list add load more data  list size = "+adapter.getCount());
-				//adapter.setList(list);
 				adapter.notifyDataSetChanged();
 			}else {
 				goMapView(placeList);
@@ -347,8 +347,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			{
 			   listView.removeFooterView(listViewFooter);	
 			   addFooterViewFlag = true;
-			   //footerViewGroup.setVisibility(View.INVISIBLE);
-				//loadDataFlag = false;
 			}
 			Log.d(TAG, "visibleLastIndex = "+visibleLastIndex);
 			if(visibleLastIndex >0)
@@ -632,7 +630,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			
 			 	PlaceList.Builder placeList = PlaceList.newBuilder();
 			 	placeList.addAllList(list);
-			 	Intent intent = new Intent(CommonNearbyPlaceActivity.this, PlaceGoogleMap.class);
+			 	Intent intent = new Intent(CommonNearbyPlaceActivity.this, PlaceListGoogleMap.class);
 			 	intent.putExtra(ConstantField.NEARBY_GOOGLE_MAP, placeList.build().toByteArray());
 			 	mapViewGroup.removeAllViews();
 			 	mapViewGroup.addView(getLocalActivityManager().startActivity(ConstantField.NEARBY_GOOGLE_MAP,intent).getDecorView());
@@ -660,22 +658,35 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		}
 	};
 			
+	Handler handler = new Handler()
+	{
+
+		@Override
+		public void handleMessage(Message msg)
+		{
+			super.handleMessage(msg);
+			switch (msg.what)
+			{
+			case 1:
+				if(msg.obj!=null){
+					loadingDialog.dismiss();
+					location = (HashMap<String, Double>) msg.obj;
+					loadPlace();
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+		
+	};
 	
 	private void getMyLocation()
 	{
-		checkGPSisOpen();		
-		int i=0;
-		while (location==null||location.size()==0)
-		{
-			LocationUtil.getInstance().getLocation(CommonNearbyPlaceActivity.this);
-			location = TravelApplication.getInstance().getLocation();
-			
-		}
-		
-		/*if(mLocClient !=null)
-		{
-			mLocClient.stop();
-		}*/				
+		checkGPSisOpen();
+		loadingDialog.show();
+		locationMager.getLocation(handler);		
 	}
 	
 	
@@ -763,7 +774,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	
 	public void showRoundProcessDialog()
 	{
-
+		loadingDialog = new ProgressDialog(CommonNearbyPlaceActivity.this);
 		OnKeyListener keyListener = new OnKeyListener()
 		{
 			@Override
@@ -788,7 +799,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		loadingDialog.setIndeterminate(false);
 		loadingDialog.setCancelable(true);
 		loadingDialog.setOnKeyListener(keyListener);
-		loadingDialog.show();
 	}
 	
 	
@@ -824,8 +834,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		// TODO Auto-generated method stub
-		//TravelApplication.getInstance().addActivity(this);
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -862,7 +870,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			startActivity(intent);
 			break;
 		case R.id.menu_exit:
-			//TravelApplication.getInstance().exit();
 			ActivityMange.getInstance().AppExit(CommonNearbyPlaceActivity.this);
 			break;
 
@@ -871,4 +878,12 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 		}
 		return super.onOptionsItemSelected(item);
 	}
+
+	@Override
+	protected void onResume()
+	{
+		super.onResume();
+		Log.d(TAG, "onResume");
+	}
+	
 }

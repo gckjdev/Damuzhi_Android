@@ -20,6 +20,7 @@ import android.os.Message;
 import android.util.Log;
 
 import com.amap.mapapi.location.LocationManagerProxy;
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.constant.ConstantField;
 
 /**  
@@ -44,24 +45,23 @@ public class LocationMager implements LocationListener
 	public LocationMager(Context context)
 	{
 		locationManager = LocationManagerProxy.getInstance(context);
+		enableMyLocation();
 	}
 
-	/*private static LocationManager instance = null;
 
-
-	public static LocationManager getInstance() {
-		if (instance == null) {
-			instance = new LocationManager();
-		}
-		return instance;
-	}*/
 	
 	
 	public void getLocation(Handler handler)
 	{
 		this.handler = handler;
 		isGetLocation = true;
-		enableMyLocation();
+		//enableMyLocation();
+	}
+	
+	public void getLocation()
+	{
+		isGetLocation = true;
+		
 	}
 	
 	private static void setLocation(Location location)
@@ -82,7 +82,7 @@ public class LocationMager implements LocationListener
 		cri.setBearingRequired(false);
 		cri.setCostAllowed(false);
 		String bestProvider = locationManager.getBestProvider(cri, true);
-		locationManager.requestLocationUpdates(bestProvider, 2000, 10, this);
+		locationManager.requestLocationUpdates(bestProvider, 10000, 20, this);
 		return result;
 	}
 
@@ -91,21 +91,27 @@ public class LocationMager implements LocationListener
 	}
 	
 	
+	public void destroyMyLocation()
+	{
+		if (locationManager != null) {
+			locationManager.removeUpdates(this);
+			locationManager.destory();
+		}
+		locationManager = null;
+	}
+	
+	
 	@Override
 	public void onLocationChanged(Location location) {
-		// TODO Auto-generated method stub
-		if (location != null) {
+		if (location != null) {			
 			setLocation(location);
-			/*Double geoLat = location.getLatitude();
-			Double geoLng = location.getLongitude();
-			String str = ("经纬度:(" + geoLng + "," + geoLat + ")");*/
-			Message message = handler.obtainMessage(1);
-			message.obj = loc;
+			TravelApplication.getInstance().setLocation(loc);		
 			if(handler!=null&&isGetLocation){
+				Message message = handler.obtainMessage(1);
+				message.obj = loc;
 				isGetLocation = false;
 				handler.sendMessage(message);
 			}			
-			//Log.d(TAG, str);
 		}
 	}
 

@@ -7,7 +7,7 @@
           android:id="@+id/place_image_item"
           android:layout_width="fill_parent"  
           android:layout_height="fill_parent"
-          android:src="@drawable/dmzlogo"
+          android:src="@drawable/default_s"
           android:scaleType="fitXY">  
       </ImageView>  
     

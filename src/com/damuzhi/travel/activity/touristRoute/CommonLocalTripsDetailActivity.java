@@ -9,7 +9,7 @@ import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
 import com.damuzhi.travel.activity.adapter.touristRoute.CommonRouteFeedbackAdapter;
 import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.DepartPlaceMap;
-import com.damuzhi.travel.activity.common.NearbyPlaceMap;
+import com.damuzhi.travel.activity.common.PlaceGoogleMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
@@ -50,7 +50,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebSettings;
 import android.webkit.WebSettings.RenderPriority;
+import android.webkit.WebStorage.QuotaUpdater;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
@@ -82,8 +85,6 @@ public class CommonLocalTripsDetailActivity extends Activity
 	private ViewGroup routeIntroViewGroup;
 	private WebView routeDetailWebView;
 	private WebView bookingNoticeWebView;
-	//private ImageLoader imageLoader;
-	//private AsyncLoader asyncLoader;
 	private ImageView[] imageViews;
 	private LocalRoute localRoute;
 	private HashMap<Integer, DepartPlace> departPlaceHashMap;
@@ -94,6 +95,8 @@ public class CommonLocalTripsDetailActivity extends Activity
 	private boolean isFollow = false;
 	private ProgressBar loadingBar;
 	private boolean isBlockNetworkImage = true;
+	private ArrayList<View> imageViewlist = null;
+	private ImageLoader imageLoader;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -101,11 +104,8 @@ public class CommonLocalTripsDetailActivity extends Activity
 		Log.d(TAG, "load localRoute data from http startTime = "+startTime);
 		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.common_local_trips_detail);
-		//imageLoader = ImageLoader.getInstance();
-		int localRouteId = getIntent().getIntExtra("local_route",0);
-		
+		int localRouteId = getIntent().getIntExtra("local_route",0);		
 		loadData(localRouteId);
-		
 	}
 	
 	long startTime = 0;
@@ -152,15 +152,12 @@ public class CommonLocalTripsDetailActivity extends Activity
 			}
 			List<String> imagePath = localRoute.getDetailImagesList();
 			LayoutInflater inflater = getLayoutInflater();
-			ArrayList<View> imageViewlist = new ArrayList<View>();	
-			ImageLoader imageLoader = ImageLoader.getInstance();
+			imageViewlist = new ArrayList<View>();	
 			int size=imagePath.size();	
 			View view = null;
 			for(int i=0;i<size;i++)
 			{
 				view = inflater.inflate(R.layout.place_detail_image, null);
-				/*ImageView imageView = (ImageView) view.findViewById(R.id.place_image_item);
-				asyncLoader.showimgAnsy(imageView, imagePath.get(i));*/
 				imageViewlist.add(view);
 			}
 			imageViews = new ImageView[size];	
@@ -187,7 +184,6 @@ public class CommonLocalTripsDetailActivity extends Activity
 		    routeViewPager.setOnPageChangeListener(routeImageOnPageChangeListener);
 		    
 			setContentView(main);
-			int cityId = AppManager.getInstance().getCurrentCityId();
 			String num = "编号：";
 			routeIntroButton = (ImageButton) findViewById(R.id.route_introduce);
 			bookingNoticeButton = (ImageButton) findViewById(R.id.booking_notice);
@@ -217,33 +213,43 @@ public class CommonLocalTripsDetailActivity extends Activity
 			routeFeedbackGroup = (ViewGroup) findViewById(R.id.route_feedback_group);
 			routeFeedbackListView = (ListView) findViewById(R.id.route_feedback_listview);
 			noDataTextView = (TextView) findViewById(R.id.no_data);
-			bookingNoticeWebView.loadUrl(localRoute.getBookingNotice());
 			routeIntroButton.setOnClickListener(routeIntroOnClickListener);
 			bookingNoticeButton.setOnClickListener(bookingNoticeOnClickListener);
 			routeFeedBackButton.setOnClickListener(routeFeedbackOnClickListener);
 			bookOrderImageView.setOnClickListener(bookOrderOnClickListener);
 			consultButton.setOnClickListener(consultOnClickListener);
 			routeDetailWebView.setWebViewClient(webViewClient);
+			routeDetailWebView.setWebChromeClient(webChromeClient);
+			routeDetailWebView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
+			routeDetailWebView.getSettings().setDomStorageEnabled(true);
 			routeDetailWebView.getSettings().setJavaScriptEnabled(true);
 			routeDetailWebView.getSettings().setRenderPriority(RenderPriority.HIGH);
 			routeDetailWebView.getSettings().setBlockNetworkImage(true);
 			routeDetailWebView.loadUrl(localRoute.getDetailUrl());
 			routeDetailWebView.setVisibility(View.GONE);
 			isFollow = checkFavoriteRoute(localRoute.getRouteId());
-			String url = "";
-			ImageView imageView2 = null;
-			for(int i=0;i<size;i++)
-			{
-				view = imageViewlist.get(i);
-				imageView2 = (ImageView) view.findViewById(R.id.place_image_item);	
-				url = TravelUtil.getImageUrl(cityId, imagePath.get(i));
-				imageLoader.displayImage(url, imageView2);
-				//asyncLoader.showimgAnsy(imageView2, imagePath.get(i));
-			}
 			loadRouteFeedback();
 		}
 				
 		
+	}
+	
+	
+	private void loadImage()
+	{
+		imageLoader = ImageLoader.getInstance();
+		String url = "";
+		ImageView imageView2 = null;
+		int size = localRoute.getDetailImagesCount();
+		View view = null;
+		int cityId = AppManager.getInstance().getCurrentCityId();
+		for(int i=0;i<size;i++)
+		{
+			view = imageViewlist.get(i);
+			imageView2 = (ImageView) view.findViewById(R.id.place_image_item);	
+			url = TravelUtil.getImageUrl(cityId, localRoute.getDetailImages(i));
+			imageLoader.displayImage(url, imageView2);
+		}
 	}
 	
 	
@@ -405,11 +411,9 @@ public class CommonLocalTripsDetailActivity extends Activity
 		TextView messageTextView = (TextView) view.findViewById(R.id.message);
 		messageTextView.setText(phoneNumber);
 		phoneCall.setTitle(getString(R.string.make_phone_call));
-		//phoneCall.setMessage(phoneNumber);
 		phoneCall.setView(view);
 		phoneCall.setButton(DialogInterface.BUTTON_POSITIVE,getResources().getString(R.string.call),new DialogInterface.OnClickListener()
-		{
-			
+		{		
 			@Override
 			public void onClick(DialogInterface dialog, int which)
 			{
@@ -445,7 +449,6 @@ public class CommonLocalTripsDetailActivity extends Activity
 			super.onPageStarted(view, url, favicon);
 			startTime = System.currentTimeMillis();
 			Log.d(TAG, "webview load page start time = "+startTime);
-			//Log.d(TAG, "page start url = "+url);
 		}
 
 		@Override
@@ -479,7 +482,6 @@ public class CommonLocalTripsDetailActivity extends Activity
 				Log.d(TAG, "local route relate placeId = "+placeId);
 				Place place = PlaceMission.getInstance().getPlaceById(placeId);
 				Intent intent = new Intent();
-				//intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
 				intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
 				Class detailPlaceClass = CommonPlaceDetailActivity.getClassByPlaceType(place.getCategoryId());
 				intent.setClass(CommonLocalTripsDetailActivity.this, detailPlaceClass);
@@ -514,8 +516,22 @@ public class CommonLocalTripsDetailActivity extends Activity
 			{
 				routeDetailWebView.getSettings().setBlockNetworkImage(false);
 			}
+			loadImage();
+			bookingNoticeWebView.loadUrl(localRoute.getBookingNotice());
 		}
 		
+	};
+	
+	private WebChromeClient webChromeClient = new WebChromeClient(){
+		
+		@Override
+		public void onReachedMaxAppCacheSize(long spaceNeeded, long totalUsedQuota,
+				QuotaUpdater quotaUpdater)
+		{
+			super.onReachedMaxAppCacheSize(spaceNeeded, totalUsedQuota, quotaUpdater);
+			quotaUpdater.updateQuota(spaceNeeded * 2);
+		}
+	
 	};
 	
 	
@@ -549,11 +565,7 @@ public class CommonLocalTripsDetailActivity extends Activity
 	protected void onDestroy()
 	{
 		super.onDestroy();
-		/*if(asyncLoader != null)
-		{
-			asyncLoader.recycleBitmap();
-		}	
-		asyncLoader = null;*/
+		//imageLoader.clearMemoryCache();
 		ActivityMange.getInstance().finishActivity();
 	}
 }

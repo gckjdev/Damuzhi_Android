@@ -29,6 +29,7 @@ import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
 import com.damuzhi.travel.activity.common.TravelActivity;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.common.location.LocationMager;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
@@ -49,7 +50,7 @@ public class WelcomeActivity extends MenuActivity
 {	
 	private static final String TAG = "WelcomeActivity";
 	private Bundle bundle;
-	
+	private LocationMager locationMager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -58,6 +59,8 @@ public class WelcomeActivity extends MenuActivity
 		Log.d(TAG, "app welcome activity  start time = "+startTime);
 		setContentView(R.layout.startup);	
 		bundle = getIntent().getBundleExtra("notify");
+		locationMager = new LocationMager(WelcomeActivity.this);
+		locationMager.getLocation();
 		init();
 	}
 	
@@ -139,7 +142,7 @@ public class WelcomeActivity extends MenuActivity
 		TelephonyManager telephonyManager = (TelephonyManager) WelcomeActivity.this.getSystemService(Context.TELEPHONY_SERVICE);
 		String deviceId = telephonyManager.getDeviceId();
 		CommonMission.getInstance().registerDevice(deviceId,channelId,WelcomeActivity.this);
-		LocationUtil.getInstance().getLocation(WelcomeActivity.this);
+		//LocationUtil.getInstance().getLocation(WelcomeActivity.this);
 	}
 	
 	
@@ -152,7 +155,7 @@ public class WelcomeActivity extends MenuActivity
 		endTime = System.currentTimeMillis();
 		Log.d(TAG, "app welcome activity  end time = "+endTime);
 		Log.d(TAG, "app welcome activity time spent = "+(endTime-startTime)/1000);
-		
+		locationMager.destroyMyLocation();
 	}
 
 

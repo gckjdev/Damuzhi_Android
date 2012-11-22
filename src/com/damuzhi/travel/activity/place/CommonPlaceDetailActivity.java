@@ -56,7 +56,7 @@ import com.damuzhi.travel.activity.adapter.place.NearbyPlaceListAdapter;
 import com.damuzhi.travel.activity.adapter.place.PlaceImageAdapter;
 import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
-import com.damuzhi.travel.activity.common.NearbyPlaceMap;
+import com.damuzhi.travel.activity.common.PlaceGoogleMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
 import com.damuzhi.travel.activity.entry.IndexActivity;
@@ -106,10 +106,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	String  tipsTitle;
 	private TextView phoneNum,favoriteCount,collect;
 	private ImageView collectBtn;
-	private List<Place> nearbyPlaceList = new ArrayList<Place>();
-	private AsyncTask<Void, Void, List<Place>> nearbyAsyncTask;
+	private List<Place> nearbyPlaceList = null;
 	private ViewGroup nearbyListGroup;
-	//private AsyncLoader asyncLoader;
 	private int currentCityId;
 	private ViewGroup main;
 	private View nearbyListItemView;
@@ -123,6 +121,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	private RelativeLayout row ;
 	private TextView  locationTextView; 
 	private TextView  distanceTextView;
+	private ImageLoader imageLoader ;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
@@ -138,14 +138,14 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	private void init()
 	{
 		 place = getPlaceById();
-		 currentCityId =  place.getCityId();
 		if(place != null)
 		{
+			currentCityId =  place.getCityId();
+			nearbyPlaceList = new ArrayList<Place>();
 			List<String> imagePath = place.getImagesList();
 			LayoutInflater inflater = getLayoutInflater();
 			ArrayList<View> imageViewlist = new ArrayList<View>();	
-			//asyncLoader = new AsyncLoader();
-			ImageLoader imageLoader = ImageLoader.getInstance();
+			imageLoader = ImageLoader.getInstance();
 			int size=imagePath.size();	
 			String url ="";
 			View view = null;
@@ -156,7 +156,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				imageView = (ImageView) view.findViewById(R.id.place_image_item);				
 				url = imagePath.get(i);	
 				url = TravelUtil.getImageUrl(currentCityId, url);
-				//asyncLoader.showimgAnsy(imageView, url);
 				imageLoader.displayImage(url, imageView);
 				imageViewlist.add(view);
 			}
@@ -188,7 +187,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			{
 				
 				 serviceImageView = new ImageView(CommonPlaceDetailActivity.this);  
-				// serviceImageView.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.service_icon2),LayoutParams.WRAP_CONTENT)));    
 				 serviceImageView.setLayoutParams(layoutParams);
 				 serviceImageView.setScaleType(ScaleType.FIT_CENTER);
 				 serviceImageView.setImageResource(TravelUtil.getServiceImage(id));
@@ -210,18 +208,14 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			specialTrans = (ViewGroup) main.findViewById(R.id.special_trans);
 			if(traffic.length >0)
 			{
-				//Log.d(TAG, "traffic length = "+traffic.length);
 				int i= 1;
 				String[] trafficDetail = null;
-				//RelativeLayout.LayoutParams params1 = null;
-				//RelativeLayout.LayoutParams params2 = null;
 				RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams((int)getResources().getDimension(R.dimen.special_traffic_loaction),LayoutParams.WRAP_CONTENT);
 				RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 				LayoutParams params3 = new LayoutParams((int)getResources().getDimension(R.dimen.transport_width),(int)getResources().getDimension(R.dimen.transport_height));
 				for(String trafficInfo:traffic)
 				{
 					row = new RelativeLayout(CommonPlaceDetailActivity.this);
-					//row.setLayoutParams(new LayoutParams((int)getResources().getDimension(R.dimen.transport_width),(int)getResources().getDimension(R.dimen.transport_height)));
 					row.setLayoutParams(params3);
 					if(i==traffic.length)
 					{
@@ -236,8 +230,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 					{
 						locationTextView = new TextView(CommonPlaceDetailActivity.this); 
 						distanceTextView = new TextView(CommonPlaceDetailActivity.this);
-						/*params1 = new RelativeLayout.LayoutParams((int)getResources().getDimension(R.dimen.special_traffic_loaction),LayoutParams.WRAP_CONTENT);
-						params2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);*/
 						params1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, RelativeLayout.TRUE);
 						params1.addRule(RelativeLayout.CENTER_VERTICAL, RelativeLayout.TRUE);
 						params1.setMargins((int)getResources().getDimension(R.dimen.transport_margin_left), 0, 0, 0);
@@ -405,7 +397,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 				{
 					
 					 hotelStartImage = new ImageView(CommonPlaceDetailActivity.this);  
-					 //hotelStartImage.setLayoutParams(new LayoutParams(new LayoutParams((int)this.getResources().getDimension(R.dimen.hotel_start_icon),LayoutParams.WRAP_CONTENT)));  
 					 hotelStartImage.setLayoutParams(layoutParams);
 					 hotelStartImage.setPadding(0, 0, 5, 0);  
 					 hotelStartImage.setScaleType(ScaleType.FIT_CENTER);
@@ -471,7 +462,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		placeDetailTitle.setText(place.getName());
 		placeIntroTitle.setText(getPlaceIntroTitle());
 		String introduction = place.getIntroduction();
-		//introduction = TravelUtil.StringFilter(introduction);
 		introduction = TravelUtil.handlerString(introduction);
 		placeIntro.setText("		"+introduction);
 		
@@ -545,12 +535,10 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			TextView website = (TextView) findViewById(R.id.website);
 			website.setText(place.getWebsite());
 		}
-		//placeDetailGroup = (ViewGroup) findViewById(R.id.place_detail_group);
 		nearbyListGroup = (ViewGroup) findViewById(R.id.nearby_list_group);
 		favoriteCount = (TextView) findViewById(R.id.favorite_count);
 		collect = (TextView) findViewById(R.id.collect);
 		collectBtn = (ImageView) findViewById(R.id.collect_btn);
-		//nearbyPlaceListView = (ListView) findViewById(R.id.nearby_place_listview);
 		collectBtn.setOnClickListener(addFavoriteOnClickListener);
 		ImageButton locationButton = (ImageButton) findViewById(R.id.location_button);
 		Button indexButton = (Button) findViewById(R.id.index_button);
@@ -617,7 +605,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			 	openGPSSettings();
 				Intent intent = new Intent();
 				intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
-				intent.setClass(CommonPlaceDetailActivity.this, NearbyPlaceMap.class);
+				intent.setClass(CommonPlaceDetailActivity.this, PlaceGoogleMap.class);
 				startActivity(intent);
 	        }catch(Exception  e) {
 	            (Toast.makeText(CommonPlaceDetailActivity.this, getString(R.string.google_map_not_found1), Toast.LENGTH_LONG)).show();
@@ -676,8 +664,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 
 	private void getNearbyList()
 	{
-		//AsyncTask<Void, Void, List<Place>> nearbyAsyncTask = new AsyncTask<Void, Void, List<Place>>()
-		nearbyAsyncTask = new AsyncTask<Void, Void, List<Place>>()
+		 AsyncTask<Void, Void, List<Place>> nearbyAsyncTask = new AsyncTask<Void, Void, List<Place>>()
 		{
 
 			@Override
@@ -697,7 +684,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 						nearbyPlaceList.clear();
 					}			
 					nearbyPlaceList.addAll(result);
-					//initNearbyPlaceListView();
 					int size = 0;
 					if(result.size()>10)
 					{
@@ -715,7 +701,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 						nearbyListItemView = LayoutInflater.from(CommonPlaceDetailActivity.this).inflate(R.layout.nearby_list_item, null);
 						nearbyListItemView.setTag(i);
 						nearbyListItemView.setOnClickListener(nearbyListItemOnClickListener);
-						//nearbyListItemView.setLayoutParams(new LayoutParams((int)getResources().getDimension(R.dimen.nearby_list_width), (int)getResources().getDimension(R.dimen.nearby_list_height)));
 						nearbyListItemView.setLayoutParams(layoutParams);
 						if(i == 0)
 						{
@@ -899,7 +884,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			 	openGPSSettings();
 				Intent intent = new Intent();
 				intent.putExtra(ConstantField.PLACE_DETAIL, place.toByteArray());
-				intent.setClass(CommonPlaceDetailActivity.this, NearbyPlaceMap.class);
+				intent.setClass(CommonPlaceDetailActivity.this, PlaceGoogleMap.class);
 				startActivity(intent);
 	        }catch(Exception  e) {
 	            (Toast.makeText(CommonPlaceDetailActivity.this, getString(R.string.google_map_not_found1), Toast.LENGTH_LONG)).show();
@@ -913,8 +898,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
-		// TODO Auto-generated method stub
-		//TravelApplication.getInstance().addActivity(this);
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);
@@ -951,7 +934,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			startActivity(intent);
 			break;
 		case R.id.menu_exit:
-			//TravelApplication.getInstance().exit();
 			ActivityMange.getInstance().AppExit(CommonPlaceDetailActivity.this);
 			break;
 
@@ -995,8 +977,8 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		super.onDestroy();
 		Log.d(TAG, "onDestroy()");
 		recycle();
+//		imageLoader.clearMemoryCache();
 		ActivityMange.getInstance().finishActivity();
-		System.gc();
 		finish();
 	}
 	
@@ -1005,10 +987,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		Log.d(TAG, "recycle");
 		nearbyListGroup.removeAllViews();
 		main.removeAllViews();		
-		//asyncLoader.recycleBitmap();
-		//asyncLoader = null;
 		nearbyPlaceList.clear();
-		//nearbyPlaceList = null;
 		for(ImageView imageView:imageViews)
 		{
 			imageView = null;
@@ -1029,8 +1008,6 @@ public abstract class CommonPlaceDetailActivity extends Activity
 		row = null;
 		locationTextView = null; 
 		distanceTextView = null;
-		//place = null;
-		System.gc();
 	}
 	
 	

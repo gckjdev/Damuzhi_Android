@@ -8,6 +8,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.activity.common.location.LocationMager;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.fly.CommonFlyActivity;
 import com.damuzhi.travel.activity.happyRoute.CommonHappyRouteActivity;
@@ -26,6 +27,7 @@ import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.util.TravelUtil;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.readystatesoftware.maps.TapControlledMapView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -78,6 +80,7 @@ public class MainActivity extends TabActivity {
 	private PopupWindow alertPopupWindow;
 	private View alertDialogView;
 	private int lastNotifyId = -100;
+	LocationMager locationMager;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -97,8 +100,8 @@ public class MainActivity extends TabActivity {
 		mTabHost.setOnTabChangedListener(onTabChangeListener);
 		
 		bundle = getIntent().getBundleExtra("notify");
-		
-		
+		locationMager = new LocationMager(this);
+		locationMager.getLocation();
 		checkData();
 	}
 	
@@ -165,7 +168,7 @@ public class MainActivity extends TabActivity {
 		@Override
 		public void onClick(View v)
 		{
-			LocationUtil.stop();
+			//LocationUtil.stop();
 			flag = true;
 			Intent intent = new Intent();
 			intent.setClass(MainActivity.this, OpenCityActivity.class);
@@ -210,6 +213,11 @@ public class MainActivity extends TabActivity {
 			TravelApplication.getInstance().setCityFlag(false);
 		}
 		
+		if(TravelApplication.getInstance().getLocation()!=null&&TravelApplication.getInstance().getLocation().size()>0)
+		{
+			locationMager.destroyMyLocation();
+		}
+		
 		
 		if(bundle != null)
 		{
@@ -241,6 +249,7 @@ public class MainActivity extends TabActivity {
 		@Override
 		public void onTabChanged(String tabId)
 		{
+			ImageLoader.getInstance().clearMemoryCache();
 			move(tabId);
 			if(tabId.equals("more")||tabId.equals("fly")||tabId.equals("happy") )
 			{

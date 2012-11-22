@@ -65,8 +65,8 @@ public class HttpTool
 		{		
 			try
 			{
-				return executeHttpClient(url);
-				//return httpGetRequerst(url);
+				//return executeHttpClient(url);
+				return httpGetRequerst(url);
 			} catch (Exception e)
 			{
 				count += 1;

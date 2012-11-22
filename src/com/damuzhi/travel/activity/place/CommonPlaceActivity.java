@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-import android.R.integer;
 import android.app.Activity;
 import android.app.ActivityGroup;
 import android.app.ProgressDialog;
@@ -22,8 +21,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -33,7 +30,6 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -57,10 +53,8 @@ import com.damuzhi.travel.activity.adapter.place.CommonPlaceListAdapter;
 import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.HelpActiviy;
 import com.damuzhi.travel.activity.common.MenuActivity;
-import com.damuzhi.travel.activity.common.PlaceGoogleMap;
+import com.damuzhi.travel.activity.common.PlaceListGoogleMap;
 import com.damuzhi.travel.activity.common.TravelApplication;
-import com.damuzhi.travel.activity.common.imageCache.AsyncLoader;
-import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.entry.IndexActivity;
 import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.more.FeedBackActivity;
@@ -231,7 +225,8 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		{
 			placeListView.removeFooterView(listViewFooter);
 		}
-		loadingDialog = new ProgressDialog(this);
+		//loadingDialog = new ProgressDialog(this);
+		showRoundProcessDialog();
 		loadPlace();
 	}
 
@@ -255,11 +250,11 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 				//totalCount = getPlaceTotalCount();
 				start = 0;
 				count = 1;
-				LocationUtil.getInstance().getLocation(CommonPlaceActivity.this);
+				/*LocationUtil.getInstance().getLocation(CommonPlaceActivity.this);
 				if(TravelApplication.getInstance().mLocationClient !=null)
 				{
 					LocationUtil.stop();
-				}
+				}*/
 				return placeList;
 			}
 
@@ -293,7 +288,8 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 			protected void onPreExecute()
 			{
 				// TODO show loading here
-				showRoundProcessDialog();
+				//showRoundProcessDialog();
+				loadingDialog.show();
 				super.onPreExecute();
 			}
 
@@ -640,7 +636,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		 	PlaceList.Builder placeList = PlaceList.newBuilder();
 		 	placeList.addAllList(list);
 		 	Log.d(TAG, "send map view place list size = "+placeList.getListCount());
-		 	Intent intent = new Intent(CommonPlaceActivity.this, PlaceGoogleMap.class);
+		 	Intent intent = new Intent(CommonPlaceActivity.this, PlaceListGoogleMap.class);
 		 	intent.putExtra(ConstantField.PLACE_GOOGLE_MAP, placeList.build().toByteArray());		 	
 	 		mapviewGroup.removeAllViews();
 		 	mapviewGroup.addView(getLocalActivityManager().startActivity(ConstantField.PLACE_GOOGLE_MAP,intent).getDecorView()); 	
@@ -668,7 +664,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 			listViewGroup.setVisibility(View.VISIBLE);
 			sortSpinner.setVisibility(View.VISIBLE);
 			mapViewButton.setVisibility(View.VISIBLE);
-			LocationUtil.stop();
+			//LocationUtil.stop();
 		}
 	};
 	
@@ -935,7 +931,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 
 	public void showRoundProcessDialog()
 	{
-
+		loadingDialog = new ProgressDialog(this);
 		OnKeyListener keyListener = new OnKeyListener()
 		{
 			@Override
@@ -1269,7 +1265,7 @@ public abstract class CommonPlaceActivity extends ActivityGroup
 		{	
 			Log.d(TAG, "onDestroy");
 			placeListAdapter.recycleBitmap();
-			LocationUtil.stop();
+			//LocationUtil.stop();
 			if(loadingDialog  != null)
 			{
 				loadingDialog.dismiss();

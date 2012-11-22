@@ -69,10 +69,10 @@ public class TravelApplication extends Application
 	private HttpClient httpClient;
 	private static HashMap<String, Double> location = new HashMap<String, Double>();	
 	private static TravelApplication travelApplication;
-	public LocationClient mLocationClient = null;
-	public MyLocationListenner myListener = new MyLocationListenner();
+	//public LocationClient mLocationClient = null;
+	//public MyLocationListenner myListener = new MyLocationListenner();
 	public String address = "";
-	public BDLocation bdLocation;
+	//public BDLocation bdLocation;
 	public Map<String, Integer> downloadStatusMap = new HashMap<String, Integer>();
 	public String deviceId;
 	public  Map<Integer, Integer> installCityData;
@@ -98,8 +98,8 @@ public class TravelApplication extends Application
 	{
 		super.onCreate();
 		travelApplication = this;
-		mLocationClient = new LocationClient( this );
-		mLocationClient.registerLocationListener( myListener );
+		/*mLocationClient = new LocationClient( this );
+		mLocationClient.registerLocationListener( myListener );*/
 		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		deviceId = tm.getDeviceId();
 		httpClient = createHttpClient();
@@ -304,7 +304,7 @@ public class TravelApplication extends Application
 	/*baidu location */
 	
 	
-	public class MyLocationListenner implements BDLocationListener {
+	/*public class MyLocationListenner implements BDLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
 			if (location == null)
@@ -318,7 +318,7 @@ public class TravelApplication extends Application
 		
 		public void onReceivePoi(BDLocation poiLocation) {
 		}
-	}
+	}*/
 	
 	
 	

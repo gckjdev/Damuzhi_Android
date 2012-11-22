@@ -163,6 +163,7 @@ public class PlaceMission
 			int cityId = AppManager.getInstance().getCurrentCityId();
 			String url = String.format(ConstantField.NEARBY_LIST, type,cityId,location.get(ConstantField.LATITUDE),location.get(ConstantField.LONGITUDE),
 										distance,TravelApplication.getInstance().getDeviceId(),start,count);
+			Log.d(TAG, "load place nearby url = "+url);
 			TravelResponse travelResponse = getPlaceDataByURL(url);			
 			if(travelResponse != null)
 			{

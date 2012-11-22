@@ -36,10 +36,8 @@ public class MenuActivity extends Activity
 	private ProgressDialog loadingDialog;
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
-	{
-		// TODO Auto-generated method stub
-		//TravelApplication.getInstance().addActivity(this);
-		ActivityMange.getInstance().addActivity(this);
+	{	
+		//ActivityMange.getInstance().addActivity(this);
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);

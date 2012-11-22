@@ -23,8 +23,7 @@ public class TravelActivity extends MapActivity
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
 		// TODO Auto-generated method stub		
-		//TravelApplication.getInstance().addActivity(this);
-		ActivityMange.getInstance().addActivity(this);
+		//ActivityMange.getInstance().addActivity(this);
 		MenuInflater menuInflater = getMenuInflater();
 		menuInflater.inflate(R.menu.menu, menu);
 		return super.onCreateOptionsMenu(menu);
