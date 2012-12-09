@@ -14,6 +14,7 @@ import android.content.Context;
 
 import com.damuzhi.travel.db.DownloadDBHelper;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.model.entity.DownloadInfo;
 import com.damuzhi.travel.util.FileUtil;
 
 
@@ -86,7 +87,7 @@ public class DownloadManager
 
 
 	
-	public DownloadBean getUnfinishDownTask(String downloadURL)
+	public DownloadInfo getUnfinishDownTask(String downloadURL)
 	{
 		return fileDBHelper.getUnfinishDownTask(downloadURL);
 	}
@@ -102,7 +103,7 @@ public class DownloadManager
 
 
 	
-	public Map<String, DownloadBean> getUnfinishDownload()
+	public Map<String, DownloadInfo> getUnfinishDownload()
 	{
 		return fileDBHelper.getUnfinishDownload();
 	}

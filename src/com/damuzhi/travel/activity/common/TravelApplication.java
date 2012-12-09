@@ -48,6 +48,8 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.model.downlaod.DownloadBean;
+import com.damuzhi.travel.model.entity.DownloadInfo;
 import com.damuzhi.travel.model.favorite.FavoriteManager;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.R;
@@ -80,6 +82,7 @@ public class TravelApplication extends Application
 	public String deviceId;
 	public  Map<Integer, Integer> installCityData;
 	public  Map<Integer, String> newVersionCityData;
+	private Map<String, DownloadInfo> unfinishDownload ;
 	private String token ="";
 	private String loginID = "";
 	private boolean cityFlag = false;
@@ -116,7 +119,7 @@ public class TravelApplication extends Application
 		int maxCacheMemory = 20;
 		ActivityManager activityManager = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
 		int runTimeMaxMemory = activityManager.getMemoryClass();
-		Double cacheMemorySize = new Double( runTimeMaxMemory*0.15);
+		Double cacheMemorySize = new Double( runTimeMaxMemory*0.10);
 		Log.d(TAG, "cahce memory size = "+cacheMemorySize);
 		int cacheSize = cacheMemorySize.intValue();
 		if(cacheSize<minCacheMemory){
@@ -448,6 +451,26 @@ public class TravelApplication extends Application
 		return favoritePlaceMap;
 	}
 
+
+
+
+	public Map<String, DownloadInfo> getUnfinishDownload()
+	{
+		return unfinishDownload;
+	}
+
+
+
+
+	public void setUnfinishDownload(Map<String, DownloadInfo> unfinishDownload)
+	{
+		this.unfinishDownload = unfinishDownload;
+	}
+
+
+
+
+	
 
 
 

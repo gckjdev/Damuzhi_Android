@@ -21,7 +21,7 @@ import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.ActivityMange;
 import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.downlaod.DownloadBean;
-import com.damuzhi.travel.model.entity.DownloadInfos;
+import com.damuzhi.travel.model.entity.DownloadInfo;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
 import com.damuzhi.travel.util.ZipUtil;
@@ -34,11 +34,12 @@ public class DownloadService extends Service
 {
 	private static final String TAG = "DownLoadService";
 
-	private static final int PAUSE = 1;
-	private static final int DOWNLOADING = 2;
-	private static final int FAILED = 3;
-	private static final int UPZIPING = 4;
-	private static final int SUCCESS = 5;
+	
+	private static final int DOWNLOADING = 1;
+	private static final int PAUSE = 2;
+	private static final int UPZIPING = 3;
+	private static final int UNZIP_PAUSE = 4;
+	
 	private static final int PROCESS_CHANGED = 1;
 	private static final int UPZIP = 2;
 	private static final int CONNECTION_ERROR = 3;
@@ -101,14 +102,10 @@ public class DownloadService extends Service
 					@Override
 					public void onSuccess(byte[] fileData)
 					{			
-						// TODO post successfully download
-						downloadStstudTask.put(downloadURL, UPZIPING);
+						// TODO post successfully download		
 						cancelHttpDownload(downloadURL);
-						downloadInfoMap.remove(downloadURL);
-						allPauseDownload();
-						
-						
-						
+						downloadInfoMap.remove(downloadURL);		
+						allPauseDownload();			
 						upZipFile(zipFilePath,upZipFilePath,cityId,downloadURL);
 					}
 
@@ -123,7 +120,7 @@ public class DownloadService extends Service
 						{
 							notFinish = false;
 						}
-						 DownloadInfos dl = new DownloadInfos(cityId,downloadURL,fileTotalLength,downloadLength,notFinish,false);  	
+						 DownloadInfo dl = new DownloadInfo(cityId,downloadURL,fileTotalLength,downloadLength,notFinish,false);  	
 						 Message msg = Message.obtain();
 						 msg.what = PROCESS_CHANGED;
 						 msg.obj = dl;
@@ -133,12 +130,11 @@ public class DownloadService extends Service
 					@Override
 					public void onFailure(Throwable e, byte[] arg1)
 					{
-						 DownloadInfos dl = new DownloadInfos(cityId,downloadURL,fileTotalLength,downloadLength,true,false);
+						 DownloadInfo dl = new DownloadInfo(cityId,downloadURL,fileTotalLength,downloadLength,true,false);
 						 Message msg = Message.obtain();
 						 msg.what = CONNECTION_ERROR;
 						 msg.obj = dl;
 					     downloadHandler.sendMessage(msg);
-						 Toast.makeText(getApplicationContext(),R.string.conn_fail_exception, Toast.LENGTH_SHORT).show();
 						 Log.e(TAG, "<onFailure> downloading failure="+e.toString());
 					}
 
@@ -178,10 +174,10 @@ public class DownloadService extends Service
 	
 	public  void pauseDownload(String downloadURL) 
 	{
-		/*if(downloadStstudTask.containsKey(downloadURL))
+		if(downloadStstudTask.containsKey(downloadURL))
 		{
 			downloadStstudTask.put(downloadURL, PAUSE);
-		}*/	
+		}	
 		cancelHttpDownload(downloadURL);
 	}
 	
@@ -189,7 +185,7 @@ public class DownloadService extends Service
 	{
 		if(downloadStstudTask.containsKey(downloadURL))
 		{
-		downloadStstudTask.remove(downloadURL);
+			downloadStstudTask.remove(downloadURL);
 		}
 		cancelHttpDownload(downloadURL);
 	}
@@ -202,7 +198,8 @@ public class DownloadService extends Service
 			downloadHandler = null;
 		}
 		for(String downloadURL:downloadInfoMap.keySet()){
-			downloadStstudTask.put(downloadURL, PAUSE);
+			Log.d(TAG, "pause all download task except unziping task");
+			downloadStstudTask.put(downloadURL, UNZIP_PAUSE);
 		}
 		downloadControlMap.clear();
 	}
@@ -262,6 +259,7 @@ public class DownloadService extends Service
 			public void run()
 			{
 				Log.d(TAG, "unzip file ="+zipFilePath);
+				downloadStstudTask.put(downloadURL, UPZIPING);
 				isUnZiping = true;
 				boolean result = ZipUtil.upZipFile(zipFilePath, upZipFilePath);
 				//ZipUtil2 zipUtil2 = new ZipUtil2();
@@ -277,7 +275,7 @@ public class DownloadService extends Service
 				}
 				Message msg = Message.obtain();
 			    msg.what = UPZIP;
-			    DownloadInfos downloadInfos = new DownloadInfos(cityId, downloadURL, 0, 0, false, result);
+			    DownloadInfo downloadInfos = new DownloadInfo(cityId, downloadURL, 0, 0, false, result);
 			    msg.obj = downloadInfos;
 		        downloadHandler.sendMessage(msg);
 			}

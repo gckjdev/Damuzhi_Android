@@ -1,6 +1,7 @@
 package com.damuzhi.travel.activity.entry;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,9 @@ import com.damuzhi.travel.mission.more.UpdateMission;
 import com.damuzhi.travel.mission.more.MoreMission;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.model.downlaod.DownloadBean;
+import com.damuzhi.travel.model.downlaod.DownloadManager;
+import com.damuzhi.travel.model.entity.DownloadInfo;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.util.TravelUtil;
@@ -369,6 +373,20 @@ public class MainActivity extends TabActivity {
 				
 				float remoteVersion = UpdateMission.getInstance().getNewVersion();
 				float localVersion = TravelUtil.getVersionName(MainActivity.this);
+				Map<Integer, Integer> unfinishInstallCity = DownloadPreference.getAllUnfinishInstall(MainActivity.this);
+				Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(MainActivity.this);
+				Map<Integer, String> newVersionCityData = null;
+				List<Integer> installedCityList = new ArrayList<Integer>();
+				installedCityList.clear();
+				installedCityList.addAll(installCityData.keySet());
+				if(installCityData != null&&installCityData.size()>0)
+				{					
+					newVersionCityData = UpdateMission.getInstance().getNewVersionCityData(installedCityList);
+					TravelApplication.getInstance().setNewVersionCityData(newVersionCityData);			
+				}
+				DownloadManager downloadManager = new DownloadManager(MainActivity.this);
+				Map<String, DownloadInfo> unfinishDownload = downloadManager.getUnfinishDownload();
+				TravelApplication.getInstance().setUnfinishDownload(unfinishDownload);
 				Log.d(TAG, "app Version = "+localVersion);
 				if(remoteVersion>localVersion)
 				{
@@ -378,27 +396,12 @@ public class MainActivity extends TabActivity {
 					updateAppVersion(title,content);
 					Looper.loop();					
 				}	
-				City city = AppManager.getInstance().getCityByCityId(AppManager.getInstance().getCurrentCityId());
+				int currentCityId = AppManager.getInstance().getCurrentCityId();
+				City city = AppManager.getInstance().getCityByCityId(currentCityId);
 				String downloadURL =null;
 				if(city != null &&city.hasDownloadURL())
 				{	
-					downloadURL = city.getDownloadURL();
-					Map<Integer, Integer> unfinishInstallCity = DownloadPreference.getAllUnfinishInstall(MainActivity.this);
-					Map<Integer, Integer> installCityData = DownloadPreference.getAllDownloadInfo(MainActivity.this);
-					Map<Integer, String> newVersionCityData = TravelApplication.getInstance().getNewVersionCityData();
-					List<Integer> installedCityList = new ArrayList<Integer>();
-					installedCityList.clear();
-					installedCityList.addAll(installCityData.keySet());
-					if(installCityData != null&&installCityData.size()>0)
-					{
-						if(newVersionCityData == null)
-						{
-							newVersionCityData = UpdateMission.getInstance().getNewVersionCityData(installedCityList);
-							TravelApplication.getInstance().setNewVersionCityData(newVersionCityData);
-						}
-						
-					}
-					int currentCityId = AppManager.getInstance().getCurrentCityId();
+					downloadURL = city.getDownloadURL();			
 					if(downloadURL != null&&!downloadURL.equals(""))
 					{
 						if(newVersionCityData!= null&&newVersionCityData.containsKey(currentCityId)&&!DownloadService.downloadStstudTask.containsKey(downloadURL))

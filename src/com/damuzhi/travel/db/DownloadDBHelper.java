@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.damuzhi.travel.model.downlaod.DownloadBean;
+import com.damuzhi.travel.model.entity.DownloadInfo;
+
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -55,18 +57,19 @@ public class DownloadDBHelper {
 	}
 	
 	
-	public DownloadBean getUnfinishDownTask(String downloadURL)
+	public DownloadInfo getUnfinishDownTask(String downloadURL)
 	{
-		DownloadBean downloadBean = null;
+		//DownloadBean downloadBean = null;
+		DownloadInfo downloadInfos = null;
 		SQLiteDatabase db = openHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery("select downloadurl, sum(downlength) downloadLength,filelength from FileDownloadLog where downloadurl = ? group by  downloadurl ", new String[]{downloadURL});
 		try
 		{		
 			while(cursor.moveToNext()){	
-				downloadBean = new DownloadBean();
-				downloadBean.setDownloadURL(cursor.getString(0));
-				downloadBean.setDownloadLength(cursor.getInt(1));
-				downloadBean.setFileLength(cursor.getInt(2));
+				downloadInfos = new DownloadInfo();
+				downloadInfos.setDownloadURL(cursor.getString(0));
+				downloadInfos.setDownloadLength(cursor.getInt(1));
+				downloadInfos.setFileLength(cursor.getInt(2));
 			}
 		}
 		finally
@@ -78,7 +81,7 @@ public class DownloadDBHelper {
 			//db.close();
 		}
 		
-		return downloadBean;
+		return downloadInfos;
 	}
 	
 	public void save(int cityid, String downloadURL, String savePath,String tempPath, int status,int filelength,Map<Integer, Integer> map){//int threadid, int position
@@ -243,20 +246,20 @@ public class DownloadDBHelper {
 
 
 	
-	public Map<String, DownloadBean> getUnfinishDownload()
+	public Map<String, DownloadInfo> getUnfinishDownload()
 	{
-		Map<String , DownloadBean> downloadMap = new HashMap<String, DownloadBean>();;
+		Map<String , DownloadInfo> downloadMap = new HashMap<String, DownloadInfo>();;
 		SQLiteDatabase db = openHelper.getReadableDatabase();
 		Cursor cursor = db.rawQuery("select downloadurl, downlength downloadLength,filelength from FileDownloadLog ",null);
 		try
 		{		
 			while(cursor.moveToNext()){	
-				DownloadBean downloadBean = new DownloadBean();
+				DownloadInfo downloadInfo = new DownloadInfo();
 				String downloadURL = cursor.getString(0);
-				downloadBean.setDownloadURL(downloadURL);
-				downloadBean.setDownloadLength(cursor.getInt(1));
-				downloadBean.setFileLength(cursor.getInt(2));
-				downloadMap.put(downloadURL, downloadBean);
+				downloadInfo.setDownloadURL(downloadURL);
+				downloadInfo.setDownloadLength(cursor.getInt(1));
+				downloadInfo.setFileLength(cursor.getInt(2));
+				downloadMap.put(downloadURL, downloadInfo);
 			}
 		}
 		finally

@@ -27,11 +27,14 @@ import org.apache.http.Header;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpResponseException;
+
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.util.FileUtil;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Used to intercept and handle the responses from requests made using
@@ -176,9 +179,9 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
     		return;
     	}
     	
-    	/*if (status.getStatusCode() == 405){   		
+    	if (status.getStatusCode() == 405){   		
     		return;
-    	}*/
+    	}
     	
     	if(status.getStatusCode() >= 300) {
     		sendFailureMessage(new HttpResponseException(status.getStatusCode(), status.getReasonPhrase()), responseBody);
@@ -199,6 +202,7 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         	Log.d(TAG, "AvailableExternalMemorySize = "+sdCardFreeMerroy);
         	if(sdCardFreeMerroy<contentLength)
         	{
+        		TravelApplication.getInstance().notEnoughMemoryToast();      		
         		return;
         	}
         	if (contentLength == 0){

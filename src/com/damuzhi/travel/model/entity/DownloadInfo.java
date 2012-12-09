@@ -1,9 +1,9 @@
 package com.damuzhi.travel.model.entity;
 
-public class DownloadInfos {
+public class DownloadInfo {
 
 	private int cityId;
-	private String url;//
+	private String downloadURL;//
 	private long fileLength;//
 	private long downloadLength;
 	private boolean notFinish;
@@ -17,25 +17,29 @@ public class DownloadInfos {
 	* @param notFinish
 	* @param upzipResult  
 	*/
-	public DownloadInfos(int cityId, String url, long fileLength,
+	public DownloadInfo(int cityId, String url, long fileLength,
 			long downloadLength, boolean notFinish, boolean upzipResult)
 	{
 		super();
 		this.cityId = cityId;
-		this.url = url;
+		this.downloadURL = url;
 		this.fileLength = fileLength;
 		this.downloadLength = downloadLength;
 		this.notFinish = notFinish;
 		this.upzipResult = upzipResult;
 	}
+	/**  
+	* Constructor Method     
+	*/
+	public DownloadInfo()
+	{
+		super();
+	}
 	public int getCityId()
 	{
 		return cityId;
 	}
-	public String getUrl()
-	{
-		return url;
-	}
+	
 	public long getFileLength()
 	{
 		return fileLength;
@@ -56,10 +60,7 @@ public class DownloadInfos {
 	{
 		this.cityId = cityId;
 	}
-	public void setUrl(String url)
-	{
-		this.url = url;
-	}
+	
 	public void setFileLength(long fileLength)
 	{
 		this.fileLength = fileLength;
@@ -75,6 +76,14 @@ public class DownloadInfos {
 	public void setUpzipResult(boolean upzipResult)
 	{
 		this.upzipResult = upzipResult;
+	}
+	public String getDownloadURL()
+	{
+		return downloadURL;
+	}
+	public void setDownloadURL(String downloadURL)
+	{
+		this.downloadURL = downloadURL;
 	}
 	
 	

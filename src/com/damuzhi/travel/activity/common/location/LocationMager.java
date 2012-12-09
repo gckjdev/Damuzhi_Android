@@ -82,7 +82,9 @@ public class LocationMager implements LocationListener
 		cri.setBearingRequired(false);
 		cri.setCostAllowed(false);
 		String bestProvider = locationManager.getBestProvider(cri, true);
-		locationManager.requestLocationUpdates(bestProvider, 10000, 20, this);
+		if(bestProvider!=null&&!bestProvider.equals("")){
+			locationManager.requestLocationUpdates(bestProvider, 10000, 20, this);
+		}	
 		return result;
 	}
 
