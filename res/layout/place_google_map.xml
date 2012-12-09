@@ -9,8 +9,10 @@
          android:layout_width="fill_parent"
          android:layout_height="fill_parent"
          android:clickable="true" 
-         android:apiKey="00drkb-fVMRRqPn4hzYyq8XgYwcJno_fRyM-rqA"
-         />
+         android:apiKey="00drkb-fVMRSpiqI6USMdBfrN6UfkCy6vkMFZjw"
+        
+        />
+    	<!--   android:apiKey="00drkb-fVMRRqPn4hzYyq8XgYwcJno_fRyM-rqA"-->
     	 <ImageView
 		      android:id="@+id/my_locate"
 		      android:layout_width="51dp"

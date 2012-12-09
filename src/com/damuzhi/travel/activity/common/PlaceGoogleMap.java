@@ -19,6 +19,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -41,6 +42,7 @@ import com.damuzhi.travel.util.TravelUtil;
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapActivity;
 import com.google.android.maps.MapController;
+import com.google.android.maps.MapView;
 import com.google.android.maps.Overlay;
 import com.readystatesoftware.maps.TapControlledMapView;
 
@@ -83,6 +85,12 @@ public class PlaceGoogleMap extends MapActivity
 		TextView titleTextView = (TextView) findViewById(R.id.place_title);
 		titleTextView.setText(targetPlace.getName());
 		mapView = (TapControlledMapView) findViewById(R.id.commendPlaceMap);
+		mapView.setReticleDrawMode(MapView.ReticleDrawMode.DRAW_RETICLE_OVER);
+		mapView.setBuiltInZoomControls(true);
+		mapView.setSelected(true);
+		mapView.preLoad();
+		mapc = mapView.getController();
+		mapc.setZoom(17);
 		mapc = mapView.getController();			
 		mapView.setStreetView(true);
 		mapc.setZoom(16);		
@@ -271,6 +279,8 @@ public class PlaceGoogleMap extends MapActivity
 			mapc.setCenter(itemizedOverlay.getCenter());
 		}		
 		mapOverlays.add(itemizedOverlay);
+		MotionEvent motionEvent = MotionEvent.obtain(3000,1000,MotionEvent.ACTION_DOWN,200,200,0);
+		mapView.onTouchEvent(motionEvent);
 	}
 	
 	

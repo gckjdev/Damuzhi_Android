@@ -11,22 +11,22 @@ import android.util.Log;
 
 
 
-public class FileDBHelper {
+public class DownloadDBHelper {
 	private static final String TAG = "FileDBHelper";
-	private DBOpenHelper openHelper;
-	private static FileDBHelper instance;
+	private DBHelper openHelper;
+	private static DownloadDBHelper instance;
 
-    public static  FileDBHelper getFileDBHelper(Context context)
+    public static  DownloadDBHelper getFileDBHelper(Context context)
     {
         if (instance == null){
-            instance = new FileDBHelper(context);
+            instance = new DownloadDBHelper(context);
         }
         return instance;
     }
 	
 	
-	public FileDBHelper(Context context) {
-		openHelper = DBOpenHelper.getHelper(context);
+	public DownloadDBHelper(Context context) {
+		openHelper = DBHelper.getHelper(context);
 		//openHelper = new DBOpenHelper(context);
 	}
 	

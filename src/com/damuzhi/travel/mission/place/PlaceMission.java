@@ -57,10 +57,8 @@ public class PlaceMission
 	private PlaceStatistics placeStatistics = null;
 	private boolean hasLocalData = false;
 	private int totalCount = 0;
-	//List<Place> placeList = null;
 	private int lastCityId = -100;
 	private int lastCategoryId = -100;
-	//private static AsyncHttpClient client = new AsyncHttpClient();
 	private PlaceMission() {
 	}
 	

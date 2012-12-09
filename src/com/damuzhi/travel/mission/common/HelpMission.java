@@ -304,7 +304,8 @@ public class HelpMission
 						if(result)
 						{
 							String zipfilename = ConstantField.HELP_PATH+ConstantField.HELP_ZIP_FILE;
-							ZipUtil2.unZipToFolder(zipfilename, ConstantField.HELP_PATH);
+							ZipUtil2 util2 = new ZipUtil2();
+							util2.unZipToFolder(zipfilename, ConstantField.HELP_PATH);
 							
 						}
 						

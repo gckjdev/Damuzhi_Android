@@ -2,6 +2,8 @@ package com.damuzhi.travel.network;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -38,6 +40,7 @@ import com.damuzhi.travel.mission.common.HelpMission;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.BinaryHttpResponseHandler;
 
 public class HttpTool
 {
@@ -66,7 +69,9 @@ public class HttpTool
 			try
 			{
 				//return executeHttpClient(url);
+				
 				return httpGetRequerst(url);
+				//return getInputStreamByAsycnClient(url);
 			} catch (Exception e)
 			{
 				count += 1;
@@ -88,7 +93,7 @@ public class HttpTool
 	private InputStream executeHttpClient(String url) throws Exception
 	{
 		BufferedInputStream bufferedInputStream = null;
-		httpClient = TravelApplication.getInstance().getHttpClient();
+		//httpClient = TravelApplication.getInstance().getHttpClient();
 		HttpGet httpGet = new HttpGet();
 		httpGet.setURI(URI.create(url));
 		HttpResponse response = httpClient.execute(httpGet);
@@ -142,6 +147,45 @@ public class HttpTool
 		 
 	}
 	
+	/*InputStream inputStream = null;
+	public InputStream getInputStreamByAsycnClient(String url)
+	{
+		
+		AsyncHttpClient client = TravelApplication.getInstance().getAsyncHttpClient();
+		client.get(url, new HttpInputStreamHandel(){
+
+			@Override
+			public void onSuccess(byte[] binaryData)
+			{
+				// TODO Auto-generated method stub
+				super.onSuccess(binaryData);
+			}
+
+			@Override
+			public void onFailure(Throwable error, byte[] binaryData)
+			{
+				// TODO Auto-generated method stub
+				super.onFailure(error, binaryData);
+				inputStream = null;
+				throw new RuntimeException();
+			}
+
+			@Override
+			protected void inputStreamReceived(InputStream arg0)
+			{
+				inputStream = arg0;
+				if(arg0 == null){
+					throw new RuntimeException();
+				}
+				super.inputStreamReceived(arg0);
+			}
+			
+		});
+		return inputStream;
+	}*/
+	
+	
+	
 	public void stopConnection()
 	{
 		if(urlConnection != null)
@@ -165,306 +209,6 @@ public class HttpTool
 	}
 	
 	
-	
-	
-	
-	/*public static boolean checkNetworkConnection(Context context)
-    {
-        boolean haveConnectedWifi = false;
-        boolean haveConnectedMobile = false;
-        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo[] netInfo = cm.getAllNetworkInfo();
-        for (NetworkInfo ni : netInfo)
-        {
-            if (ni.getTypeName().equalsIgnoreCase("WIFI"))
-            {
-                if (ni.isConnected())
-                {
-                    haveConnectedWifi = true;
-                   // Log.i(TAG,"<haveNetworkConnection> WIFI CONNECTION ----> AVAILABLE");
-                } 
-            }
-            if (ni.getTypeName().equalsIgnoreCase("MOBILE"))
-            {
-                if (ni.isConnected())
-                {
-                    haveConnectedMobile = true;
-                   // Log.i(TAG,"<haveNetworkConnection> MOBILE INTERNET CONNECTION ----> AVAILABLE");
-                } 
-            }
-        }
-        return haveConnectedWifi || haveConnectedMobile;
-    }*/
-	
-	
-	
-	
-	
-	// TODO move all http handling here
-	
-		/*public  InputStream sendGetRequest(String url) 
-		{
-			client.get(url, new HttpInputStreamHandel()
-			{
-				@Override
-				public void onSuccess(String arg0)
-				{
-					super.onSuccess(arg0);
-				}
-				
-				@Override
-				protected void inputStreamReceived(InputStream arg0)
-				{
-					inputStream = arg0;
-				}
-				
-				@Override
-				public void onFailure(Throwable arg0, String arg1)
-				{
-					super.onFailure(arg0, arg1);
-				}
-				
-				
-			});
-			return inputStream;
-			 
-		}*/
-		
-		
-		
-		
-		/*public  byte[] sendGetRequestGetData(String url) 
-		{
-			 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
-			 if(connEnable)
-			 {
-				 try{
-					 	URL url2 = new URL(url);
-					 	urlConnection = (HttpURLConnection)url2.openConnection();
-						urlConnection.setDoInput(true);
-						urlConnection.setUseCaches(true);
-						urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
-						urlConnection.setRequestProperty("Connection", "Keep-Alive");// 
-						urlConnection.setRequestProperty("Charset", "UTF-8"); 
-						urlConnection.setRequestProperty("Accept-Encoding", "identity");
-				        urlConnection.setConnectTimeout(5000);
-				        urlConnection.setRequestMethod("GET");
-				        if(urlConnection !=null&&urlConnection.getDoInput())
-				        {		          
-				        	InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
-				        	if(inputStream != null)
-				        	{
-				        		int length = urlConnection.getContentLength();
-				        		Log.d(TAG, "data length="+length);
-				        		data = new byte[length];
-				        		inputStream.read(data);
-				        		inputStream.close();
-				        	}
-				        	return data;
-				        }else {
-							return null;
-						}	
-				} catch (Exception e)
-				{	
-					TravelApplication.getInstance().downloadFailToast();
-					Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
-					return null;
-				}
-			 }else {
-				 TravelApplication.getInstance().makeToast();
-				 return null;
-			}
-			 
-		}*/
-		
-		
-		
-		
-		
-		
-		/*public  InputStream sendGetRequest(String url) 
-		{
-			 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
-			 if(connEnable)
-			 {
-				 try{
-					 	URL url2 = new URL(url);
-					 	urlConnection = (HttpURLConnection)url2.openConnection();
-						urlConnection.setDoInput(true);
-						urlConnection.setUseCaches(true);
-						urlConnection.setRequestProperty("Content-Type", "application/octet-stream");
-						urlConnection.setRequestProperty("Connection", "Keep-Alive");// 
-						urlConnection.setRequestProperty("Charset", "UTF-8"); 
-						urlConnection.setRequestProperty("Accept-Encoding", "identity");
-				        urlConnection.setConnectTimeout(5000);
-				        urlConnection.setRequestMethod("GET");
-				        if(urlConnection !=null&&urlConnection.getDoInput())
-				        {		          
-				        	InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
-					        return inputStream;
-				        }else {
-							return null;
-						}	
-				} catch (Exception e)
-				{	
-					TravelApplication.getInstance().downloadFailToast();
-					Log.e(TAG, "<sendGetRequest> but catch exception = "+e.toString(),e);
-					return null;
-				}
-			 }else {
-				 TravelApplication.getInstance().makeToast();
-				 return null;
-			}
-			 
-		}*/
-	
-	
-	/*public static String getFileName(String downloadURL) {
-	String filename = downloadURL.substring(downloadURL.lastIndexOf('/') + 1);
-	if(filename==null || "".equals(filename.trim())){
-		for (int i = 0;; i++) {
-			String mine = conn.getHeaderField(i);
-			if (mine == null) break;
-			if("content-disposition".equals(conn.getHeaderFieldKey(i).toLowerCase())){
-				Matcher m = Pattern.compile(".*filename=(.*)").matcher(mine.toLowerCase());
-				if(m.find()) 
-				return m.group(1);
-			}
-		}
-		filename = UUID.randomUUID()+ ".tmp";
-	}
-	return filename;
-}*/
-	
-	
-	/*public static String getTempFileName(HttpURLConnection conn,String downloadURL) {
-	String filename = downloadURL.substring(downloadURL.lastIndexOf('/') + 1);
-	if(filename==null || "".equals(filename.trim())){
-		for (int i = 0;; i++) {
-			String mine = conn.getHeaderField(i);
-			if (mine == null) break;
-			if("content-disposition".equals(conn.getHeaderFieldKey(i).toLowerCase())){
-				Matcher m = Pattern.compile(".*filename=(.*)").matcher(mine.toLowerCase());
-				if(m.find()) 
-				return m.group(1);
-			}
-		}
-		filename = UUID.randomUUID()+".temp";
-		return filename;
-	}
-	filename =  filename+".temp";
-	return filename;
-}*/
-
-/*public static String getFileName(HttpURLConnection conn,String downloadURL) {
-	String filename = downloadURL.substring(downloadURL.lastIndexOf('/') + 1);
-	if(filename==null || "".equals(filename.trim())){
-		for (int i = 0;; i++) {
-			String mine = conn.getHeaderField(i);
-			if (mine == null) break;
-			if("content-disposition".equals(conn.getHeaderFieldKey(i).toLowerCase())){
-				Matcher m = Pattern.compile(".*filename=(.*)").matcher(mine.toLowerCase());
-				if(m.find()) 
-				return m.group(1);
-			}
-		}
-		filename = UUID.randomUUID()+ ".temp";
-	}
-	return filename;
-}*/
-	/*public  InputStream getDownloadInputStream(URL url,int startPos,int endPos) 
-	{
-			 try{
-				 urlConnection = (HttpURLConnection) url.openConnection();
-				 urlConnection.setConnectTimeout(5 * 1000);
-				 urlConnection.setRequestMethod("GET");
-				 urlConnection.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, *");
-				 urlConnection.setRequestProperty("Accept-Language", "zh-CN");
-				 urlConnection.setRequestProperty("Referer", url.toString()); 
-				 urlConnection.setRequestProperty("Charset", "UTF-8");
-				 urlConnection.setRequestProperty("Accept-Encoding", "identity");
-				 urlConnection.setRequestProperty("Range", "bytes=" + startPos + "-"+ endPos);
-				 urlConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
-				 urlConnection.setRequestProperty("Connection", "Keep-Alive");
-				 InputStream inputStream = new BufferedInputStream(urlConnection.getInputStream());
-				 return inputStream;
-										
-			} catch (Exception e)
-			{			
-				Log.e(TAG, "<getDownloadInputStream> but catch exception = "+e.toString(),e);
-				throw new RuntimeException("get downloadURL inputStream fail,conn error",e);
-			}
-	}
-	*/
-	
-	
-	/*public static Map<String, String> getHttpResponseHeader(HttpURLConnection http) {
-	Map<String, String> header = new LinkedHashMap<String, String>();
-	for (int i = 0;; i++) {
-		String mine = http.getHeaderField(i);
-		if (mine == null) break;
-		header.put(http.getHeaderFieldKey(i), mine);
-	}
-	return header;
-	}*/
 
 
-
-
-
-/*public static String getFileName(String downloadURL) {
-	HttpTool httpTool = new HttpTool();
-	URLConnection conn = httpTool.getConnection(downloadURL);
-	String filename = downloadURL.substring(downloadURL.lastIndexOf('/') + 1);
-	if(filename==null || "".equals(filename.trim())){
-		for (int i = 0;; i++) {
-			String mine = conn.getHeaderField(i);
-			if (mine == null) break;
-			if("content-disposition".equals(conn.getHeaderFieldKey(i).toLowerCase())){
-				Matcher m = Pattern.compile(".*filename=(.*)").matcher(mine.toLowerCase());
-				if(m.find()) 
-				return m.group(1);
-			}
-		}
-		filename = UUID.randomUUID()+ ".temp";
-	}
-	return filename;
-}
-*/
-	
-	
-	
-//	
-//	public  HttpURLConnection getConnection(String url) 
-//	{
-//			 try{
-//				 boolean connEnable = TravelApplication.getInstance().checkNetworkConnection();
-//				 if(connEnable)
-//				 {
-//					 URL connUrl = new URL(url);
-//					 urlConnection = (HttpURLConnection)connUrl.openConnection();
-//					 urlConnection.setConnectTimeout(5*1000);
-//					 urlConnection.setRequestMethod("GET");
-//					 urlConnection.setRequestProperty("Accept", "image/gif, image/jpeg, image/pjpeg, image/pjpeg, application/x-shockwave-flash, application/xaml+xml, application/vnd.ms-xpsdocument, application/x-ms-xbap, application/x-ms-application, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/msword, */*");
-//					 urlConnection.setRequestProperty("Accept-Language", "zh-CN");
-//					 urlConnection.setRequestProperty("Accept-Encoding", "identity");
-//					 urlConnection.setRequestProperty("Referer", url); 
-//					 urlConnection.setRequestProperty("Charset", "UTF-8");
-//					 urlConnection.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.2; Trident/4.0; .NET CLR 1.1.4322; .NET CLR 2.0.50727; .NET CLR 3.0.04506.30; .NET CLR 3.0.4506.2152; .NET CLR 3.5.30729)");
-//					 urlConnection.setRequestProperty("Connection", "Keep-Alive");
-//				 }
-//		         return urlConnection ;
-//			
-//			} catch (Exception e)
-//			{			
-//				Log.e(TAG, "<getConnection> but catch exception = "+e.toString(),e);
-//				return null;
-//			}
-//	}
-//	
-//	
-//	
-//	
-//	
-//	
 }

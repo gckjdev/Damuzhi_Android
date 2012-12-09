@@ -677,7 +677,7 @@ public abstract class CommonPlaceDetailActivity extends Activity
 			protected void onPostExecute(List<Place> result)
 			{
 				super.onPostExecute(result);
-				if(nearbyPlaceList != null)
+				if(nearbyPlaceList != null&&result!=null)
 				{
 					if(nearbyPlaceList.size()>0)
 					{

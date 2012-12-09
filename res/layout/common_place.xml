@@ -99,12 +99,10 @@
     	    android:id="@+id/place_listview"
     	    android:layout_width="fill_parent"
     	    android:layout_height="fill_parent"
-    	    android:divider="@android:color/transparent"
-    	  
+    	    android:divider="@android:color/transparent"   	  
     	    android:dividerHeight="0.5dp"
     	    android:clickable="true"
     	    android:focusable="true"
-    	    android:scrollbars="none"
     	    android:cacheColorHint="@color/listview_bg"
     	    android:background="@color/white"/>
     </LinearLayout> 

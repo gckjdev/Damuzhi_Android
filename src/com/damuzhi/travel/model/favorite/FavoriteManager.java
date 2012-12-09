@@ -12,12 +12,16 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.CollationElementIterator;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.util.Log;
 
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.protos.PlaceListProtos.PlaceList;
@@ -52,6 +56,8 @@ public class FavoriteManager
 		{
 			if (place != null){
 				//File favoriteFile = new File(ConstantField.FAVORITE_FILE_PATH);
+				Map<Integer, Integer> favoritePlaceMap = TravelApplication.getInstance().getFavoritePlaceMap();
+				favoritePlaceMap.put(place.getPlaceId(), place.getCityId());
 				output = new FileOutputStream(ConstantField.FAVORITE_PLACE_FILE_PATH,true);
 				PlaceList.Builder placeBuilder = PlaceList.newBuilder();
 				placeBuilder.addList(place);
@@ -74,7 +80,7 @@ public class FavoriteManager
 	}
 
 	
-	public boolean checkPlaceIsCollected(int placeId)
+	/*public boolean checkPlaceIsCollected(int placeId)
 	{
 		if(!FileUtil.checkFileIsExits(ConstantField.FAVORITE_PLACE_FILE_PATH))
 		{
@@ -112,9 +118,47 @@ public class FavoriteManager
 			{
 			}
 		}
+	}*/
+
+
+	
+	public Map<Integer, Integer> getFavoritePlace()
+	{
+		if(!FileUtil.checkFileIsExits(ConstantField.FAVORITE_PLACE_FILE_PATH))
+		{
+			Log.d(TAG, "load favorite place data from file = " + ConstantField.FAVORITE_PLACE_FILE_PATH+ " but file not found");
+			return Collections.emptyMap();
+			
+		}
+		File favoriteFile = new File(ConstantField.FAVORITE_PLACE_FILE_PATH);
+		FileInputStream inputStream = null;
+		Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+		try
+		{
+			inputStream = new FileInputStream(favoriteFile);
+			//Log.i(TAG, "load favorite data from file = " + ConstantField.FAVORITE_FILE_PATH);
+			PlaceList favoritePlaceList = PlaceList.parseFrom(inputStream);
+			for(Place place:favoritePlaceList.getListList())
+			{	
+				map.put(place.getPlaceId(), place.getCityId());
+			}
+			return map;
+		} catch (Exception e)
+		{
+			Log.e(TAG, "load favorite place data from file = " + ConstantField.FAVORITE_PLACE_FILE_PATH
+				+ " but catch exception = " + e.toString(), e);
+			return Collections.emptyMap();
+		}
+		finally
+		{
+			try
+			{
+				inputStream.close();
+			} catch (Exception e)
+			{
+			}
+		}
 	}
-
-
 	
 	public List<Place> getMyFavoritePlace(int cityId)
 	{

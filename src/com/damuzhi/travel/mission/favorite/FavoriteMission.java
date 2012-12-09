@@ -14,11 +14,13 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.json.JSONObject;
 
 import android.util.Log;
 
+import com.damuzhi.travel.activity.common.TravelApplication;
 import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.model.favorite.FavoriteManager;
@@ -199,7 +201,13 @@ public class FavoriteMission
 	public boolean checkPlaceIsCollected(int placeId)
 	{
 		boolean isCollected = false;
-		isCollected = favoriteManger.checkPlaceIsCollected(placeId);
+		Map<Integer, Integer> favoritePlaceMap = TravelApplication.getInstance().getFavoritePlaceMap();
+		if(favoritePlaceMap==null||favoritePlaceMap.size()==0){
+			return false;
+		}
+		if(favoritePlaceMap.containsKey(placeId)){
+			isCollected = true;
+		}
 		return isCollected;
 	}
 

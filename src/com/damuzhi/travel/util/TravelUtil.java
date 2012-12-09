@@ -576,6 +576,23 @@ public class TravelUtil
 	}
 	
 	
+	
+	public static int getIntDistance(double longitude, double latitude)
+	{
+		int distance = 0;
+		double locationLonggitude = 0;
+		double locationLatitude = 0;
+		HashMap<String, Double> location = TravelApplication.getInstance().getLocation();	
+		if(location!=null&&location.size() >0)
+		{					
+			locationLonggitude = location.get(ConstantField.LONGITUDE);
+			locationLatitude = location.get(ConstantField.LATITUDE);
+			distance = (int) TravelUtil.GetDistance(longitude, latitude,locationLonggitude, locationLatitude);
+			distance = distance / 1000;
+		}
+		return distance;
+	}
+	
 	public static String getDistance(double targetLongitude, double targetLatitude,double longitude, double latitude)
 	{
 		String distanceStr = "";		
@@ -662,7 +679,10 @@ public class TravelUtil
 		if(localDataPath!= null&&FileUtil.checkFileIsExits(localDataPath))
 		{
 			String localVersionStr = AppManager.getInstance().getLocalHelpVersion();
-			localVersion = Float.valueOf(localVersionStr);
+			if(localVersionStr!=null&&!localVersionStr.equals(""))
+			{
+				localVersion = Float.valueOf(localVersionStr);
+			}	
 		}	
 		if(localVersion<httpVersion)
 		{

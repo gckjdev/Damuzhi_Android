@@ -4037,6 +4037,16 @@ public final class PackageProtos {
     boolean hasCityImageList();
     com.damuzhi.travel.protos.CityOverviewProtos.CityImageList getCityImageList();
     com.damuzhi.travel.protos.CityOverviewProtos.CityImageListOrBuilder getCityImageListOrBuilder();
+    
+    // optional .damuzhi.FlightList flightList = 50;
+    boolean hasFlightList();
+    com.damuzhi.travel.protos.AirHotelProtos.FlightList getFlightList();
+    com.damuzhi.travel.protos.AirHotelProtos.FlightListOrBuilder getFlightListOrBuilder();
+    
+    // optional .damuzhi.AirHotelOrderList airHotelOrderList = 55;
+    boolean hasAirHotelOrderList();
+    com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList getAirHotelOrderList();
+    com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderListOrBuilder getAirHotelOrderListOrBuilder();
   }
   public static final class TravelResponse extends
       com.google.protobuf.GeneratedMessage
@@ -4353,6 +4363,32 @@ public final class PackageProtos {
       return cityImageList_;
     }
     
+    // optional .damuzhi.FlightList flightList = 50;
+    public static final int FLIGHTLIST_FIELD_NUMBER = 50;
+    private com.damuzhi.travel.protos.AirHotelProtos.FlightList flightList_;
+    public boolean hasFlightList() {
+      return ((bitField0_ & 0x00200000) == 0x00200000);
+    }
+    public com.damuzhi.travel.protos.AirHotelProtos.FlightList getFlightList() {
+      return flightList_;
+    }
+    public com.damuzhi.travel.protos.AirHotelProtos.FlightListOrBuilder getFlightListOrBuilder() {
+      return flightList_;
+    }
+    
+    // optional .damuzhi.AirHotelOrderList airHotelOrderList = 55;
+    public static final int AIRHOTELORDERLIST_FIELD_NUMBER = 55;
+    private com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList airHotelOrderList_;
+    public boolean hasAirHotelOrderList() {
+      return ((bitField0_ & 0x00400000) == 0x00400000);
+    }
+    public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList getAirHotelOrderList() {
+      return airHotelOrderList_;
+    }
+    public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderListOrBuilder getAirHotelOrderListOrBuilder() {
+      return airHotelOrderList_;
+    }
+    
     private void initFields() {
       resultCode_ = 0;
       resultInfo_ = "";
@@ -4375,6 +4411,8 @@ public final class PackageProtos {
       routeFeekbackList_ = com.damuzhi.travel.protos.PackageProtos.RouteFeekbackList.getDefaultInstance();
       orderList_ = com.damuzhi.travel.protos.TouristRouteProtos.OrderList.getDefaultInstance();
       cityImageList_ = com.damuzhi.travel.protos.CityOverviewProtos.CityImageList.getDefaultInstance();
+      flightList_ = com.damuzhi.travel.protos.AirHotelProtos.FlightList.getDefaultInstance();
+      airHotelOrderList_ = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.getDefaultInstance();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -4487,6 +4525,18 @@ public final class PackageProtos {
           return false;
         }
       }
+      if (hasFlightList()) {
+        if (!getFlightList().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      if (hasAirHotelOrderList()) {
+        if (!getAirHotelOrderList().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -4556,6 +4606,12 @@ public final class PackageProtos {
       }
       if (((bitField0_ & 0x00100000) == 0x00100000)) {
         output.writeMessage(40, cityImageList_);
+      }
+      if (((bitField0_ & 0x00200000) == 0x00200000)) {
+        output.writeMessage(50, flightList_);
+      }
+      if (((bitField0_ & 0x00400000) == 0x00400000)) {
+        output.writeMessage(55, airHotelOrderList_);
       }
       getUnknownFields().writeTo(output);
     }
@@ -4649,6 +4705,14 @@ public final class PackageProtos {
       if (((bitField0_ & 0x00100000) == 0x00100000)) {
         size += com.google.protobuf.CodedOutputStream
           .computeMessageSize(40, cityImageList_);
+      }
+      if (((bitField0_ & 0x00200000) == 0x00200000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(50, flightList_);
+      }
+      if (((bitField0_ & 0x00400000) == 0x00400000)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(55, airHotelOrderList_);
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -4784,6 +4848,8 @@ public final class PackageProtos {
           getRouteFeekbackListFieldBuilder();
           getOrderListFieldBuilder();
           getCityImageListFieldBuilder();
+          getFlightListFieldBuilder();
+          getAirHotelOrderListFieldBuilder();
         }
       }
       private static Builder create() {
@@ -4906,6 +4972,18 @@ public final class PackageProtos {
           cityImageListBuilder_.clear();
         }
         bitField0_ = (bitField0_ & ~0x00100000);
+        if (flightListBuilder_ == null) {
+          flightList_ = com.damuzhi.travel.protos.AirHotelProtos.FlightList.getDefaultInstance();
+        } else {
+          flightListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00200000);
+        if (airHotelOrderListBuilder_ == null) {
+          airHotelOrderList_ = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.getDefaultInstance();
+        } else {
+          airHotelOrderListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00400000);
         return this;
       }
       
@@ -5100,6 +5178,22 @@ public final class PackageProtos {
         } else {
           result.cityImageList_ = cityImageListBuilder_.build();
         }
+        if (((from_bitField0_ & 0x00200000) == 0x00200000)) {
+          to_bitField0_ |= 0x00200000;
+        }
+        if (flightListBuilder_ == null) {
+          result.flightList_ = flightList_;
+        } else {
+          result.flightList_ = flightListBuilder_.build();
+        }
+        if (((from_bitField0_ & 0x00400000) == 0x00400000)) {
+          to_bitField0_ |= 0x00400000;
+        }
+        if (airHotelOrderListBuilder_ == null) {
+          result.airHotelOrderList_ = airHotelOrderList_;
+        } else {
+          result.airHotelOrderList_ = airHotelOrderListBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -5178,6 +5272,12 @@ public final class PackageProtos {
         }
         if (other.hasCityImageList()) {
           mergeCityImageList(other.getCityImageList());
+        }
+        if (other.hasFlightList()) {
+          mergeFlightList(other.getFlightList());
+        }
+        if (other.hasAirHotelOrderList()) {
+          mergeAirHotelOrderList(other.getAirHotelOrderList());
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -5286,6 +5386,18 @@ public final class PackageProtos {
         }
         if (hasCityImageList()) {
           if (!getCityImageList().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasFlightList()) {
+          if (!getFlightList().isInitialized()) {
+            
+            return false;
+          }
+        }
+        if (hasAirHotelOrderList()) {
+          if (!getAirHotelOrderList().isInitialized()) {
             
             return false;
           }
@@ -5491,6 +5603,24 @@ public final class PackageProtos {
               }
               input.readMessage(subBuilder, extensionRegistry);
               setCityImageList(subBuilder.buildPartial());
+              break;
+            }
+            case 402: {
+              com.damuzhi.travel.protos.AirHotelProtos.FlightList.Builder subBuilder = com.damuzhi.travel.protos.AirHotelProtos.FlightList.newBuilder();
+              if (hasFlightList()) {
+                subBuilder.mergeFrom(getFlightList());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setFlightList(subBuilder.buildPartial());
+              break;
+            }
+            case 442: {
+              com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.Builder subBuilder = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.newBuilder();
+              if (hasAirHotelOrderList()) {
+                subBuilder.mergeFrom(getAirHotelOrderList());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setAirHotelOrderList(subBuilder.buildPartial());
               break;
             }
           }
@@ -7197,6 +7327,186 @@ public final class PackageProtos {
         return cityImageListBuilder_;
       }
       
+      // optional .damuzhi.FlightList flightList = 50;
+      private com.damuzhi.travel.protos.AirHotelProtos.FlightList flightList_ = com.damuzhi.travel.protos.AirHotelProtos.FlightList.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.AirHotelProtos.FlightList, com.damuzhi.travel.protos.AirHotelProtos.FlightList.Builder, com.damuzhi.travel.protos.AirHotelProtos.FlightListOrBuilder> flightListBuilder_;
+      public boolean hasFlightList() {
+        return ((bitField0_ & 0x00200000) == 0x00200000);
+      }
+      public com.damuzhi.travel.protos.AirHotelProtos.FlightList getFlightList() {
+        if (flightListBuilder_ == null) {
+          return flightList_;
+        } else {
+          return flightListBuilder_.getMessage();
+        }
+      }
+      public Builder setFlightList(com.damuzhi.travel.protos.AirHotelProtos.FlightList value) {
+        if (flightListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          flightList_ = value;
+          onChanged();
+        } else {
+          flightListBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00200000;
+        return this;
+      }
+      public Builder setFlightList(
+          com.damuzhi.travel.protos.AirHotelProtos.FlightList.Builder builderForValue) {
+        if (flightListBuilder_ == null) {
+          flightList_ = builderForValue.build();
+          onChanged();
+        } else {
+          flightListBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00200000;
+        return this;
+      }
+      public Builder mergeFlightList(com.damuzhi.travel.protos.AirHotelProtos.FlightList value) {
+        if (flightListBuilder_ == null) {
+          if (((bitField0_ & 0x00200000) == 0x00200000) &&
+              flightList_ != com.damuzhi.travel.protos.AirHotelProtos.FlightList.getDefaultInstance()) {
+            flightList_ =
+              com.damuzhi.travel.protos.AirHotelProtos.FlightList.newBuilder(flightList_).mergeFrom(value).buildPartial();
+          } else {
+            flightList_ = value;
+          }
+          onChanged();
+        } else {
+          flightListBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00200000;
+        return this;
+      }
+      public Builder clearFlightList() {
+        if (flightListBuilder_ == null) {
+          flightList_ = com.damuzhi.travel.protos.AirHotelProtos.FlightList.getDefaultInstance();
+          onChanged();
+        } else {
+          flightListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00200000);
+        return this;
+      }
+      public com.damuzhi.travel.protos.AirHotelProtos.FlightList.Builder getFlightListBuilder() {
+        bitField0_ |= 0x00200000;
+        onChanged();
+        return getFlightListFieldBuilder().getBuilder();
+      }
+      public com.damuzhi.travel.protos.AirHotelProtos.FlightListOrBuilder getFlightListOrBuilder() {
+        if (flightListBuilder_ != null) {
+          return flightListBuilder_.getMessageOrBuilder();
+        } else {
+          return flightList_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.AirHotelProtos.FlightList, com.damuzhi.travel.protos.AirHotelProtos.FlightList.Builder, com.damuzhi.travel.protos.AirHotelProtos.FlightListOrBuilder> 
+          getFlightListFieldBuilder() {
+        if (flightListBuilder_ == null) {
+          flightListBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.damuzhi.travel.protos.AirHotelProtos.FlightList, com.damuzhi.travel.protos.AirHotelProtos.FlightList.Builder, com.damuzhi.travel.protos.AirHotelProtos.FlightListOrBuilder>(
+                  flightList_,
+                  getParentForChildren(),
+                  isClean());
+          flightList_ = null;
+        }
+        return flightListBuilder_;
+      }
+      
+      // optional .damuzhi.AirHotelOrderList airHotelOrderList = 55;
+      private com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList airHotelOrderList_ = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.Builder, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderListOrBuilder> airHotelOrderListBuilder_;
+      public boolean hasAirHotelOrderList() {
+        return ((bitField0_ & 0x00400000) == 0x00400000);
+      }
+      public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList getAirHotelOrderList() {
+        if (airHotelOrderListBuilder_ == null) {
+          return airHotelOrderList_;
+        } else {
+          return airHotelOrderListBuilder_.getMessage();
+        }
+      }
+      public Builder setAirHotelOrderList(com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList value) {
+        if (airHotelOrderListBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          airHotelOrderList_ = value;
+          onChanged();
+        } else {
+          airHotelOrderListBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00400000;
+        return this;
+      }
+      public Builder setAirHotelOrderList(
+          com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.Builder builderForValue) {
+        if (airHotelOrderListBuilder_ == null) {
+          airHotelOrderList_ = builderForValue.build();
+          onChanged();
+        } else {
+          airHotelOrderListBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00400000;
+        return this;
+      }
+      public Builder mergeAirHotelOrderList(com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList value) {
+        if (airHotelOrderListBuilder_ == null) {
+          if (((bitField0_ & 0x00400000) == 0x00400000) &&
+              airHotelOrderList_ != com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.getDefaultInstance()) {
+            airHotelOrderList_ =
+              com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.newBuilder(airHotelOrderList_).mergeFrom(value).buildPartial();
+          } else {
+            airHotelOrderList_ = value;
+          }
+          onChanged();
+        } else {
+          airHotelOrderListBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00400000;
+        return this;
+      }
+      public Builder clearAirHotelOrderList() {
+        if (airHotelOrderListBuilder_ == null) {
+          airHotelOrderList_ = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.getDefaultInstance();
+          onChanged();
+        } else {
+          airHotelOrderListBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00400000);
+        return this;
+      }
+      public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.Builder getAirHotelOrderListBuilder() {
+        bitField0_ |= 0x00400000;
+        onChanged();
+        return getAirHotelOrderListFieldBuilder().getBuilder();
+      }
+      public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderListOrBuilder getAirHotelOrderListOrBuilder() {
+        if (airHotelOrderListBuilder_ != null) {
+          return airHotelOrderListBuilder_.getMessageOrBuilder();
+        } else {
+          return airHotelOrderList_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.Builder, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderListOrBuilder> 
+          getAirHotelOrderListFieldBuilder() {
+        if (airHotelOrderListBuilder_ == null) {
+          airHotelOrderListBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderList.Builder, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderListOrBuilder>(
+                  airHotelOrderList_,
+                  getParentForChildren(),
+                  isClean());
+          airHotelOrderList_ = null;
+        }
+        return airHotelOrderListBuilder_;
+      }
+      
       // @@protoc_insertion_point(builder_scope:damuzhi.TravelResponse)
     }
     
@@ -7206,6 +7516,442 @@ public final class PackageProtos {
     }
     
     // @@protoc_insertion_point(class_scope:damuzhi.TravelResponse)
+  }
+  
+  public interface TravelRequestOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // optional .damuzhi.AirHotelOrder airHotelOrder = 10;
+    boolean hasAirHotelOrder();
+    com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder getAirHotelOrder();
+    com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderOrBuilder getAirHotelOrderOrBuilder();
+  }
+  public static final class TravelRequest extends
+      com.google.protobuf.GeneratedMessage
+      implements TravelRequestOrBuilder {
+    // Use TravelRequest.newBuilder() to construct.
+    private TravelRequest(Builder builder) {
+      super(builder);
+    }
+    private TravelRequest(boolean noInit) {}
+    
+    private static final TravelRequest defaultInstance;
+    public static TravelRequest getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public TravelRequest getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_TravelRequest_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_TravelRequest_fieldAccessorTable;
+    }
+    
+    private int bitField0_;
+    // optional .damuzhi.AirHotelOrder airHotelOrder = 10;
+    public static final int AIRHOTELORDER_FIELD_NUMBER = 10;
+    private com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder airHotelOrder_;
+    public boolean hasAirHotelOrder() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder getAirHotelOrder() {
+      return airHotelOrder_;
+    }
+    public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderOrBuilder getAirHotelOrderOrBuilder() {
+      return airHotelOrder_;
+    }
+    
+    private void initFields() {
+      airHotelOrder_ = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.getDefaultInstance();
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (hasAirHotelOrder()) {
+        if (!getAirHotelOrder().isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeMessage(10, airHotelOrder_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(10, airHotelOrder_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PackageProtos.TravelRequest parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.damuzhi.travel.protos.PackageProtos.TravelRequest prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.damuzhi.travel.protos.PackageProtos.TravelRequestOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_TravelRequest_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.damuzhi.travel.protos.PackageProtos.internal_static_damuzhi_TravelRequest_fieldAccessorTable;
+      }
+      
+      // Construct using com.damuzhi.travel.protos.PackageProtos.TravelRequest.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getAirHotelOrderFieldBuilder();
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        if (airHotelOrderBuilder_ == null) {
+          airHotelOrder_ = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.getDefaultInstance();
+        } else {
+          airHotelOrderBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.damuzhi.travel.protos.PackageProtos.TravelRequest.getDescriptor();
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.TravelRequest getDefaultInstanceForType() {
+        return com.damuzhi.travel.protos.PackageProtos.TravelRequest.getDefaultInstance();
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.TravelRequest build() {
+        com.damuzhi.travel.protos.PackageProtos.TravelRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.damuzhi.travel.protos.PackageProtos.TravelRequest buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.damuzhi.travel.protos.PackageProtos.TravelRequest result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.damuzhi.travel.protos.PackageProtos.TravelRequest buildPartial() {
+        com.damuzhi.travel.protos.PackageProtos.TravelRequest result = new com.damuzhi.travel.protos.PackageProtos.TravelRequest(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        if (airHotelOrderBuilder_ == null) {
+          result.airHotelOrder_ = airHotelOrder_;
+        } else {
+          result.airHotelOrder_ = airHotelOrderBuilder_.build();
+        }
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.damuzhi.travel.protos.PackageProtos.TravelRequest) {
+          return mergeFrom((com.damuzhi.travel.protos.PackageProtos.TravelRequest)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.damuzhi.travel.protos.PackageProtos.TravelRequest other) {
+        if (other == com.damuzhi.travel.protos.PackageProtos.TravelRequest.getDefaultInstance()) return this;
+        if (other.hasAirHotelOrder()) {
+          mergeAirHotelOrder(other.getAirHotelOrder());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (hasAirHotelOrder()) {
+          if (!getAirHotelOrder().isInitialized()) {
+            
+            return false;
+          }
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 82: {
+              com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.Builder subBuilder = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.newBuilder();
+              if (hasAirHotelOrder()) {
+                subBuilder.mergeFrom(getAirHotelOrder());
+              }
+              input.readMessage(subBuilder, extensionRegistry);
+              setAirHotelOrder(subBuilder.buildPartial());
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // optional .damuzhi.AirHotelOrder airHotelOrder = 10;
+      private com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder airHotelOrder_ = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.getDefaultInstance();
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.Builder, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderOrBuilder> airHotelOrderBuilder_;
+      public boolean hasAirHotelOrder() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder getAirHotelOrder() {
+        if (airHotelOrderBuilder_ == null) {
+          return airHotelOrder_;
+        } else {
+          return airHotelOrderBuilder_.getMessage();
+        }
+      }
+      public Builder setAirHotelOrder(com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder value) {
+        if (airHotelOrderBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          airHotelOrder_ = value;
+          onChanged();
+        } else {
+          airHotelOrderBuilder_.setMessage(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      public Builder setAirHotelOrder(
+          com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.Builder builderForValue) {
+        if (airHotelOrderBuilder_ == null) {
+          airHotelOrder_ = builderForValue.build();
+          onChanged();
+        } else {
+          airHotelOrderBuilder_.setMessage(builderForValue.build());
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      public Builder mergeAirHotelOrder(com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder value) {
+        if (airHotelOrderBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001) &&
+              airHotelOrder_ != com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.getDefaultInstance()) {
+            airHotelOrder_ =
+              com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.newBuilder(airHotelOrder_).mergeFrom(value).buildPartial();
+          } else {
+            airHotelOrder_ = value;
+          }
+          onChanged();
+        } else {
+          airHotelOrderBuilder_.mergeFrom(value);
+        }
+        bitField0_ |= 0x00000001;
+        return this;
+      }
+      public Builder clearAirHotelOrder() {
+        if (airHotelOrderBuilder_ == null) {
+          airHotelOrder_ = com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.getDefaultInstance();
+          onChanged();
+        } else {
+          airHotelOrderBuilder_.clear();
+        }
+        bitField0_ = (bitField0_ & ~0x00000001);
+        return this;
+      }
+      public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.Builder getAirHotelOrderBuilder() {
+        bitField0_ |= 0x00000001;
+        onChanged();
+        return getAirHotelOrderFieldBuilder().getBuilder();
+      }
+      public com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderOrBuilder getAirHotelOrderOrBuilder() {
+        if (airHotelOrderBuilder_ != null) {
+          return airHotelOrderBuilder_.getMessageOrBuilder();
+        } else {
+          return airHotelOrder_;
+        }
+      }
+      private com.google.protobuf.SingleFieldBuilder<
+          com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.Builder, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderOrBuilder> 
+          getAirHotelOrderFieldBuilder() {
+        if (airHotelOrderBuilder_ == null) {
+          airHotelOrderBuilder_ = new com.google.protobuf.SingleFieldBuilder<
+              com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrder.Builder, com.damuzhi.travel.protos.AirHotelProtos.AirHotelOrderOrBuilder>(
+                  airHotelOrder_,
+                  getParentForChildren(),
+                  isClean());
+          airHotelOrder_ = null;
+        }
+        return airHotelOrderBuilder_;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:damuzhi.TravelRequest)
+    }
+    
+    static {
+      defaultInstance = new TravelRequest(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:damuzhi.TravelRequest)
   }
   
   private static com.google.protobuf.Descriptors.Descriptor
@@ -7238,6 +7984,11 @@ public final class PackageProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_damuzhi_TravelResponse_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_damuzhi_TravelRequest_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_damuzhi_TravelRequest_fieldAccessorTable;
   
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -7249,46 +8000,50 @@ public final class PackageProtos {
     java.lang.String[] descriptorData = {
       "\n\rPackage.proto\022\007damuzhi\032\013Place.proto\032\022C" +
       "ityOverview.proto\032\020TravelTips.proto\032\tApp" +
-      ".proto\032\022TouristRoute.proto\"n\n\007Package\022\017\n" +
-      "\007version\030\001 \002(\t\022\016\n\006cityId\030\002 \002(\005\022\020\n\010cityNa" +
-      "me\030\003 \002(\t\0220\n\010language\030\004 \002(\0162\025.damuzhi.Lan" +
-      "guageType:\007ZH_HANS\"\225\001\n\010UserInfo\022\017\n\007login" +
-      "Id\030\001 \002(\t\022\021\n\tloginType\030\002 \002(\005\022\020\n\010nickName\030" +
-      "\005 \001(\t\022\020\n\010fullName\030\n \001(\t\022\021\n\ttelephone\030\017 \001" +
-      "(\t\022\r\n\005email\030\020 \001(\t\022\017\n\007address\030\024 \001(\t\022\016\n\006ge" +
-      "nder\030\036 \001(\005\"C\n\021RouteFeekbackList\022.\n\016route",
-      "Feekbacks\030\001 \003(\0132\026.damuzhi.RouteFeekback\"" +
-      "p\n\rRouteFeekback\022\017\n\007routeId\030\001 \002(\005\022\017\n\007log" +
-      "inId\030\002 \002(\t\022\020\n\010nickName\030\003 \002(\t\022\014\n\004date\030\004 \002" +
-      "(\005\022\014\n\004rank\030\005 \002(\005\022\017\n\007content\030\006 \001(\t\"s\n\017Rou" +
-      "teStatistics\0221\n\024departCityStatistics\030\001 \003" +
-      "(\0132\023.damuzhi.Statistics\022-\n\020agencyStatist" +
-      "ics\030\002 \003(\0132\023.damuzhi.Statistics\"\316\006\n\016Trave" +
-      "lResponse\022\025\n\nresultCode\030\001 \002(\005:\0010\022\022\n\nresu" +
-      "ltInfo\030\002 \001(\t\022\035\n\005place\030\003 \001(\0132\016.damuzhi.Pl" +
-      "ace\022)\n\010overview\030\004 \001(\0132\027.damuzhi.CommonOv",
-      "erview\022+\n\ttravelTip\030\005 \001(\0132\030.damuzhi.Comm" +
-      "onTravelTip\022#\n\010helpInfo\030\006 \001(\0132\021.damuzhi." +
-      "HelpInfo\022%\n\tplaceList\030\007 \001(\0132\022.damuzhi.Pl" +
-      "aceList\022#\n\010cityList\030\010 \001(\0132\021.damuzhi.City" +
-      "List\022\035\n\007appInfo\030\t \001(\0132\014.damuzhi.App\0223\n\rt" +
-      "ravelTipList\030\n \001(\0132\034.damuzhi.CommonTrave" +
-      "lTipList\0221\n\017placeStatistics\030\014 \001(\0132\030.damu" +
-      "zhi.PlaceStatistics\022\022\n\ntotalCount\030\r \001(\005\022" +
-      "#\n\010userInfo\030\017 \001(\0132\021.damuzhi.UserInfo\022$\n\005" +
-      "route\030\024 \001(\0132\025.damuzhi.TouristRoute\022,\n\tro",
-      "uteList\030\025 \001(\0132\031.damuzhi.TouristRouteList" +
-      "\022\'\n\nlocalRoute\030\026 \001(\0132\023.damuzhi.LocalRout" +
-      "e\022,\n\013localRoutes\030\027 \001(\0132\027.damuzhi.LocalRo" +
-      "uteList\0221\n\017routeStatistics\030\031 \001(\0132\030.damuz" +
-      "hi.RouteStatistics\0225\n\021routeFeekbackList\030" +
-      "\036 \001(\0132\032.damuzhi.RouteFeekbackList\022%\n\tord" +
-      "erList\030# \001(\0132\022.damuzhi.OrderList\022-\n\rcity" +
-      "ImageList\030( \001(\0132\026.damuzhi.CityImageList*" +
-      "0\n\014LanguageType\022\013\n\007ZH_HANS\020\001\022\013\n\007ZH_HANT\020" +
-      "\002\022\006\n\002EN\020\003*%\n\tLoginType\022\r\n\tTELEPHONE\020\001\022\t\n",
-      "\005EMAIL\020\002B*\n\031com.damuzhi.travel.protosB\rP" +
-      "ackageProtos"
+      ".proto\032\022TouristRoute.proto\032\016AirHotel.pro" +
+      "to\"n\n\007Package\022\017\n\007version\030\001 \002(\t\022\016\n\006cityId" +
+      "\030\002 \002(\005\022\020\n\010cityName\030\003 \002(\t\0220\n\010language\030\004 \002" +
+      "(\0162\025.damuzhi.LanguageType:\007ZH_HANS\"\225\001\n\010U" +
+      "serInfo\022\017\n\007loginId\030\001 \002(\t\022\021\n\tloginType\030\002 " +
+      "\002(\005\022\020\n\010nickName\030\005 \001(\t\022\020\n\010fullName\030\n \001(\t\022" +
+      "\021\n\ttelephone\030\017 \001(\t\022\r\n\005email\030\020 \001(\t\022\017\n\007add" +
+      "ress\030\024 \001(\t\022\016\n\006gender\030\036 \001(\005\"C\n\021RouteFeekb",
+      "ackList\022.\n\016routeFeekbacks\030\001 \003(\0132\026.damuzh" +
+      "i.RouteFeekback\"p\n\rRouteFeekback\022\017\n\007rout" +
+      "eId\030\001 \002(\005\022\017\n\007loginId\030\002 \002(\t\022\020\n\010nickName\030\003" +
+      " \002(\t\022\014\n\004date\030\004 \002(\005\022\014\n\004rank\030\005 \002(\005\022\017\n\007cont" +
+      "ent\030\006 \001(\t\"s\n\017RouteStatistics\0221\n\024departCi" +
+      "tyStatistics\030\001 \003(\0132\023.damuzhi.Statistics\022" +
+      "-\n\020agencyStatistics\030\002 \003(\0132\023.damuzhi.Stat" +
+      "istics\"\256\007\n\016TravelResponse\022\025\n\nresultCode\030" +
+      "\001 \002(\005:\0010\022\022\n\nresultInfo\030\002 \001(\t\022\035\n\005place\030\003 " +
+      "\001(\0132\016.damuzhi.Place\022)\n\010overview\030\004 \001(\0132\027.",
+      "damuzhi.CommonOverview\022+\n\ttravelTip\030\005 \001(" +
+      "\0132\030.damuzhi.CommonTravelTip\022#\n\010helpInfo\030" +
+      "\006 \001(\0132\021.damuzhi.HelpInfo\022%\n\tplaceList\030\007 " +
+      "\001(\0132\022.damuzhi.PlaceList\022#\n\010cityList\030\010 \001(" +
+      "\0132\021.damuzhi.CityList\022\035\n\007appInfo\030\t \001(\0132\014." +
+      "damuzhi.App\0223\n\rtravelTipList\030\n \001(\0132\034.dam" +
+      "uzhi.CommonTravelTipList\0221\n\017placeStatist" +
+      "ics\030\014 \001(\0132\030.damuzhi.PlaceStatistics\022\022\n\nt" +
+      "otalCount\030\r \001(\005\022#\n\010userInfo\030\017 \001(\0132\021.damu" +
+      "zhi.UserInfo\022$\n\005route\030\024 \001(\0132\025.damuzhi.To",
+      "uristRoute\022,\n\trouteList\030\025 \001(\0132\031.damuzhi." +
+      "TouristRouteList\022\'\n\nlocalRoute\030\026 \001(\0132\023.d" +
+      "amuzhi.LocalRoute\022,\n\013localRoutes\030\027 \001(\0132\027" +
+      ".damuzhi.LocalRouteList\0221\n\017routeStatisti" +
+      "cs\030\031 \001(\0132\030.damuzhi.RouteStatistics\0225\n\021ro" +
+      "uteFeekbackList\030\036 \001(\0132\032.damuzhi.RouteFee" +
+      "kbackList\022%\n\torderList\030# \001(\0132\022.damuzhi.O" +
+      "rderList\022-\n\rcityImageList\030( \001(\0132\026.damuzh" +
+      "i.CityImageList\022\'\n\nflightList\0302 \001(\0132\023.da" +
+      "muzhi.FlightList\0225\n\021airHotelOrderList\0307 ",
+      "\001(\0132\032.damuzhi.AirHotelOrderList\">\n\rTrave" +
+      "lRequest\022-\n\rairHotelOrder\030\n \001(\0132\026.damuzh" +
+      "i.AirHotelOrder*0\n\014LanguageType\022\013\n\007ZH_HA" +
+      "NS\020\001\022\013\n\007ZH_HANT\020\002\022\006\n\002EN\020\003*%\n\tLoginType\022\r" +
+      "\n\tTELEPHONE\020\001\022\t\n\005EMAIL\020\002B#\n\022com.damuzhi." +
+      "travelB\rPackageProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -7340,9 +8095,17 @@ public final class PackageProtos {
           internal_static_damuzhi_TravelResponse_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_TravelResponse_descriptor,
-              new java.lang.String[] { "ResultCode", "ResultInfo", "Place", "Overview", "TravelTip", "HelpInfo", "PlaceList", "CityList", "AppInfo", "TravelTipList", "PlaceStatistics", "TotalCount", "UserInfo", "Route", "RouteList", "LocalRoute", "LocalRoutes", "RouteStatistics", "RouteFeekbackList", "OrderList", "CityImageList", },
+              new java.lang.String[] { "ResultCode", "ResultInfo", "Place", "Overview", "TravelTip", "HelpInfo", "PlaceList", "CityList", "AppInfo", "TravelTipList", "PlaceStatistics", "TotalCount", "UserInfo", "Route", "RouteList", "LocalRoute", "LocalRoutes", "RouteStatistics", "RouteFeekbackList", "OrderList", "CityImageList", "FlightList", "AirHotelOrderList", },
               com.damuzhi.travel.protos.PackageProtos.TravelResponse.class,
               com.damuzhi.travel.protos.PackageProtos.TravelResponse.Builder.class);
+          internal_static_damuzhi_TravelRequest_descriptor =
+            getDescriptor().getMessageTypes().get(6);
+          internal_static_damuzhi_TravelRequest_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_damuzhi_TravelRequest_descriptor,
+              new java.lang.String[] { "AirHotelOrder", },
+              com.damuzhi.travel.protos.PackageProtos.TravelRequest.class,
+              com.damuzhi.travel.protos.PackageProtos.TravelRequest.Builder.class);
           return null;
         }
       };
@@ -7354,6 +8117,7 @@ public final class PackageProtos {
           com.damuzhi.travel.protos.TravelTipsProtos.getDescriptor(),
           com.damuzhi.travel.protos.AppProtos.getDescriptor(),
           com.damuzhi.travel.protos.TouristRouteProtos.getDescriptor(),
+          com.damuzhi.travel.protos.AirHotelProtos.getDescriptor(),
         }, assigner);
   }
   

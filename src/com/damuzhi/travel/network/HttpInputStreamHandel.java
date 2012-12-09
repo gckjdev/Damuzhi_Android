@@ -16,21 +16,31 @@
     limitations under the License.
 */
 
-package com.damuzhi.travel.download;
+package com.damuzhi.travel.network;
 
 import java.io.BufferedInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
+
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpResponseException;
-import com.damuzhi.travel.util.FileUtil;
+import org.apache.http.client.protocol.RequestAddCookies;
+import org.apache.http.entity.BufferedHttpEntity;
+import org.apache.http.util.EntityUtils;
+
+
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import android.os.Handler;
 import android.os.Message;
+import android.os.Looper;
 import android.util.Log;
 
 /**
@@ -57,14 +67,10 @@ import android.util.Log;
  * });
  * </pre>
  */
-public class DownloadHandler extends AsyncHttpResponseHandler {
+public class HttpInputStreamHandel extends AsyncHttpResponseHandler {
 	
-	private static final String TAG = "DownloadHandler";
-	final String saveFilePath;
-	final String tempFilePath;
-	long fileTotalLength = 0;
-	long downloadLength = 0;
-	volatile boolean isStop = false;
+	private static final String TAG = "HttpInputStreamHandel";
+	InputStream httpInputStream = null;
 	
     // Allow images by default
     private static String[] mAllowedContentTypes = new String[] {
@@ -72,15 +78,7 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         "image/png"
     };
 
-    /**
-     * Creates a new BinaryHttpResponseHandler
-     */
-    public DownloadHandler(String saveFilePath, String tempFilePath) {
-        super();
-        this.saveFilePath = saveFilePath;
-        this.tempFilePath = tempFilePath;
-    }
-
+  
     /**
      * Creates a new BinaryHttpResponseHandler, and overrides the default allowed
      * content types with passed String array (hopefully) of content types.
@@ -120,8 +118,7 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         sendMessage(obtainMessage(SUCCESS_MESSAGE, responseBody));
     }
 
-    @Override
-	protected void sendFailureMessage(Throwable e, byte[] responseBody) {
+    protected void sendFailureMessage(Throwable e, byte[] responseBody) {
         sendMessage(obtainMessage(FAILURE_MESSAGE, new Object[]{e, responseBody}));
     }
 
@@ -138,8 +135,7 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
     }
 
     // Methods which emulate android's Handler and Message methods
-    @Override
-	protected void handleMessage(Message msg) {
+    protected void handleMessage(Message msg) {
         switch(msg.what) {
             case SUCCESS_MESSAGE:
                 handleSuccessMessage((byte[])msg.obj);
@@ -154,126 +150,43 @@ public class DownloadHandler extends AsyncHttpResponseHandler {
         }
     }
     
-    protected void bytesReceived(long fileTotalLength, long downloadLength, int addedLength){
+    protected void inputStreamReceived(InputStream arg0){
     	
     }
 
     // Interface to AsyncHttpRequest
     void sendResponseMessage(HttpResponse response) {
-    	
-    	fileTotalLength = 0;
-    	downloadLength = 0;
-    	
     	StatusLine status = response.getStatusLine();
     	Log.i(TAG, "<download file> http status code="+status.getStatusCode());
     	byte[] responseBody = null;
-    	
-    	if (status.getStatusCode() == 416){
-    		downloadLength = FileUtil.getFileSize(tempFilePath);
-    		fileTotalLength = downloadLength;          
-    		FileUtil.fileMove(tempFilePath, saveFilePath);
-    		sendSuccessMessage(responseBody);    		
-    		return;
-    	}
-    	
-    	/*if (status.getStatusCode() == 405){   		
-    		return;
-    	}*/
     	
     	if(status.getStatusCode() >= 300) {
     		sendFailureMessage(new HttpResponseException(status.getStatusCode(), status.getReasonPhrase()), responseBody);
     		return;
         }    	        
-                
+             
+    	if(httpInputStream != null)
+    	{
+    		sendSuccessMessage(responseBody);
+    	}
+    	
         try
 		{
         	Header[] contentLengthHeaders = response.getHeaders("Content-Length");
         	if (contentLengthHeaders.length < 0){
         		return;
-        	}
-        	
-        	//long lastTime = 0;
-        	
-        	long contentLength = Integer.parseInt(contentLengthHeaders[0].getValue());
-        	long sdCardFreeMerroy = FileUtil.getAvailableExternalMemorySize();
-        	Log.d(TAG, "AvailableExternalMemorySize = "+sdCardFreeMerroy);
-        	if(sdCardFreeMerroy<contentLength)
-        	{
-        		return;
-        	}
-        	if (contentLength == 0){
-        		// no more data
-        		// if complete, copy file to save file path     
-        		FileUtil.fileMove(tempFilePath, saveFilePath);
-        		sendSuccessMessage(responseBody);
-        		return;
-        	}
-        	
-        	// read file total length        	
-        	downloadLength = FileUtil.getFileSize(tempFilePath);
-        	fileTotalLength = contentLength + downloadLength;
-        	if (downloadLength == fileTotalLength){
-            	
-        		// if complete, copy file to save file path
-            	FileUtil.fileMove(tempFilePath, saveFilePath);
-        		sendSuccessMessage(responseBody);
-        		return;
-        	}
-        	
-        	
-        	FileOutputStream output = new FileOutputStream(tempFilePath, true);        	
-        	InputStream inputStream = new BufferedInputStream(response.getEntity().getContent());
-        	int offset = -1;
-        	byte[] buffer = new byte[10240];
-        	while ((offset = inputStream.read(buffer, 0, 10240)) != -1) {        		        		
-        		output.write(buffer, 0, offset);
-        		output.flush();
-        		downloadLength += offset;
-        		
-        		bytesReceived(fileTotalLength, downloadLength, offset);		
-        		
-        	//	lastTime = System.currentTimeMillis();
-        		
-        		if (isStop){
-        			Log.d(TAG, "detect stop flag, stop download");
-        			break;
-        		}
-			}
-        	
-        	output.close();
-           	inputStream.close();
-           	
-           	if (isStop){
-           		//sendFailureMessage(new HttpResponseException(status.getStatusCode(), "DownloadStop!"), responseBody);
-           		return;
-           	}
-           	
-        	// if complete, copy file to save file path
-           	boolean moveFileFlag = FileUtil.fileMove(tempFilePath, saveFilePath);
-           	Log.d(TAG, "move file flag = "+moveFileFlag);
- 	
-        } catch (FileNotFoundException e1)
-		{
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			sendFailureMessage(new HttpResponseException(status.getStatusCode(), "FileNotFound!"), responseBody);
-			return;
-		} catch(IOException e) {			
+        	}        	
+        	httpInputStream = response.getEntity().getContent();
+        	inputStreamReceived(httpInputStream);
+        } catch(IOException e) {			
             sendFailureMessage(e, (byte[]) null);
             return;
         } catch(Exception e){
         	sendFailureMessage(e, (byte[]) null);
         	return;
-        }
+        }  
+        sendSuccessMessage(responseBody);
+    }
 
         
-        sendSuccessMessage(responseBody);
-
-    }
-
-    public void cancelDownload(){
-    	Log.d(TAG, "can download, set stop flag");
-    	isStop = true;
-    }
-    
 }

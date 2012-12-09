@@ -104,6 +104,7 @@
             android:cacheColorHint="@android:color/transparent"
             android:divider="@android:color/transparent"
             android:fadingEdge="none"
+            android:scrollingCache="false"
             android:footerDividersEnabled="false"
             android:scrollbars="none" />
 

@@ -12,9 +12,12 @@ public class PinyinComparator implements Comparator{
 		 City city2 = (City) o2;
 		 String countryName1 = city1.getCountryName();
 		 String countryName2 = city2.getCountryName();
-		 String str1 = PingYinUtil.getPingYin(countryName1);
-	     String str2 = PingYinUtil.getPingYin(countryName2);
+		 PingYinUtil pingYinUtil = new PingYinUtil();
+		 String str1 = pingYinUtil.getPingYin(countryName1);
+	     String str2 = pingYinUtil.getPingYin(countryName2);
 	     return str1.compareTo(str2);
 	}
+	
+	
 
 }

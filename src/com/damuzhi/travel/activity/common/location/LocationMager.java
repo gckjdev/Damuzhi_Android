@@ -106,12 +106,13 @@ public class LocationMager implements LocationListener
 		if (location != null) {			
 			setLocation(location);
 			TravelApplication.getInstance().setLocation(loc);		
+			//LocationUtil.getInstance().getLocationCityName(loc);
 			if(handler!=null&&isGetLocation){
 				Message message = handler.obtainMessage(1);
 				message.obj = loc;
 				isGetLocation = false;
 				handler.sendMessage(message);
-			}			
+			}		
 		}
 	}
 

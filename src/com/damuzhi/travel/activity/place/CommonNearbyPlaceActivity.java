@@ -208,6 +208,7 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 			@Override
 			protected List<Place> doInBackground(String... params)
 			{
+				start = 0;
 				List<Place> resultList = PlaceMission.getInstance().getNearbyInDistance(location, currentDistance,start,currentPlaceCategory);
 				return resultList;
 			}
@@ -255,7 +256,6 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	{
 		AsyncTask<String, Void, List<Place>> task = new AsyncTask<String, Void, List<Place>>()
 		{
-
 			@Override
 			protected List<Place> doInBackground(String... params)
 			{		
@@ -822,7 +822,8 @@ public class CommonNearbyPlaceActivity extends ActivityGroup
 	{
 		super.onDestroy();
 		adapter.recycleBitmap();
-		LocationUtil.stop();
+		//LocationUtil.stop();
+		locationMager.destroyMyLocation();
 		if(loadingDialog  != null)
 		{
 			loadingDialog.dismiss();

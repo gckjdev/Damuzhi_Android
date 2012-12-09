@@ -53,7 +53,7 @@ public class ZipUtil
 		zipout.close();
 	}
 
-	@Deprecated
+	/*@Deprecated
 	public static void upZipFile(InputStream zipFile, String folderPath)
 			throws ZipException, IOException
 	{
@@ -98,12 +98,12 @@ public class ZipUtil
 				}
 			}
 			zis.close();
-		} catch (Exception cwj)
+		} catch (Exception e)
 		{
-			cwj.printStackTrace();
+			e.printStackTrace();
 		}
 
-	}
+	}*/
 
 	public static boolean upZipFile(String zipFilePath, String folderPath)
 	{
@@ -124,18 +124,20 @@ public class ZipUtil
 				if (fis != null)
 				{
 					bis = new BufferedInputStream(fis);
-					zis = new ZipInputStream(bis);
-					
-					
+					zis = new ZipInputStream(bis);					
 				}
-				ZipEntry entry;
-
+				ZipEntry entry = null;
+				File entryFile = null;
+				String str = "";
+				FileOutputStream fos = null;
 				while ((entry = zis.getNextEntry()) != null)
 				{
 					strEntry = entry.getName();
 					//Log.d(TAG, "unzip file name= "+strEntry);
-					String str = folderPath + File.separator + strEntry;
-					File entryFile = new File(new String(str.getBytes("8859_1"),"GB2312"));
+					//String str = folderPath + File.separator + strEntry;
+//					File entryFile = new File(new String(str.getBytes("8859_1"),"GB2312"));
+					str = folderPath + File.separator + strEntry;
+					entryFile = new File(new String(str.getBytes("8859_1"),"GB2312"));
 					if (entry.isDirectory())
 					{
 						if (!entryFile.exists())
@@ -147,8 +149,8 @@ public class ZipUtil
 							entryFile.getParentFile().mkdirs();
 						}
 						int count ;
-						FileOutputStream fos = new FileOutputStream(new File(folderPath + File.separator + strEntry));
-						
+						//FileOutputStream fos = new FileOutputStream(new File(folderPath + File.separator + strEntry));
+						fos = new FileOutputStream(new File(folderPath + File.separator + strEntry));
 						dest = new BufferedOutputStream(fos);
 						while ((count = zis.read(data)) != -1)
 						{
@@ -170,7 +172,7 @@ public class ZipUtil
 		} catch (Exception e)
 		{
 			Log.e(TAG, "<upZipFile> but catch exception :" + e.toString(), e);
-			FileUtil.deleteFolder(folderPath);
+			//FileUtil.deleteFolder(folderPath);
 			return false;
 		}
 		return zipSuccess;

@@ -2,9 +2,11 @@ package com.damuzhi.travel.download;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 
 import android.app.Service;
 import android.content.Intent;
@@ -17,6 +19,8 @@ import android.widget.Toast;
 
 import com.damuzhi.travel.R;
 import com.damuzhi.travel.activity.common.ActivityMange;
+import com.damuzhi.travel.activity.common.TravelApplication;
+import com.damuzhi.travel.model.downlaod.DownloadBean;
 import com.damuzhi.travel.model.entity.DownloadInfos;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.TravelUtil;
@@ -39,15 +43,19 @@ public class DownloadService extends Service
 	private static final int UPZIP = 2;
 	private static final int CONNECTION_ERROR = 3;
 	public static Map<String, Integer> downloadStstudTask = new HashMap<String, Integer>();
-	private  Map<String, AsyncHttpClient> downloadClientMap = new HashMap<String, AsyncHttpClient>();
 	private  Map<String, DownloadHandler> downloadControlMap = new HashMap<String, DownloadHandler>();
+	private  Map<String, DownloadBean> downloadInfoMap = new HashMap<String, DownloadBean>();
 	public static  Handler downloadHandler;
-	//private final static float TARGET_HEAP_UTILIZATION = 0.75f;
+	private boolean isLowMemory = false;
+	private final static float TARGET_HEAP_UTILIZATION = 0.75f;
+	private AsyncHttpClient client;
+	private boolean isUnZiping = false;
 
 	@Override
 	public int onStartCommand(Intent intent, int flags, int startId)
 	{
-		//Log.d(TAG, "service onStartCommand");
+		Log.d(TAG, "service onStartCommand");
+		Log.d(TAG, "is low memory = "+isLowMemory);
 		return super.onStartCommand(intent, flags, startId);
 	}
 
@@ -55,101 +63,106 @@ public class DownloadService extends Service
 	public void onCreate()
 	{
 		super.onCreate();
-		//VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
-		//Log.d(TAG, "service onCreate");
+		VMRuntime.getRuntime().setTargetHeapUtilization(TARGET_HEAP_UTILIZATION);
+		client = TravelApplication.getInstance().getAsyncHttpClient();
+		Log.d(TAG, "service onCreate");
 	}
 
 	
 	
+	static ExecutorService downloadExecutorService = Executors.newSingleThreadExecutor();
 	
-	//private static AsyncHttpClient client = new AsyncHttpClient();
-	private  void download(final int cityId, final String downloadURL,  String savePath,  String tempPath,final String upZipFilePath)
+	public  void download(final int cityId, final String downloadURL,  final String savePath,  final String tempPath,final String upZipFilePath)
 	{
-		AsyncHttpClient client = new AsyncHttpClient();
-		downloadClientMap.put(downloadURL, client);
-
-		File fileSaveDir = new File(savePath);
-		if (!fileSaveDir.exists())
-			fileSaveDir.mkdirs();
-
-		File tempPathDir = new File(tempPath);
-		if (!tempPathDir.exists())
-			tempPathDir.mkdirs();
-		String fileName = TravelUtil.getDownloadFileName(downloadURL);
-		tempPath = tempPath+fileName;
-		//savePath = savePath+fileName;
-		final String zipFilePath = savePath+fileName;
-		Log.d(TAG, "download file, temp=" + tempPath + ", save=" + savePath);
-
-		long startDownloadLength = FileUtil.getFileSize(tempPath);
-		client.addHeader("Range", "bytes=" + startDownloadLength + "-");
-		
-		DownloadHandler cityHandler = new DownloadHandler(savePath, tempPath)
+		downloadExecutorService.execute(new Runnable()
 		{
 			@Override
-			public void onSuccess(byte[] fileData)
-			{			
-				// TODO post successfully download
-				downloadStstudTask.put(downloadURL, UPZIPING);
-				upZipFile(zipFilePath,upZipFilePath,cityId,downloadURL);
-			}
-
-			@Override
-			protected void bytesReceived(long fileTotalLength, long downloadLength, int addedLength)
+			public void run()
 			{
-				//Log.i(TAG, "<bytesReceived> download = "+downloadLength + ", total = "+fileTotalLength);
+				File fileSaveDir = new File(savePath);
+				if (!fileSaveDir.exists())
+					fileSaveDir.mkdirs();
+
+				File tempPathDir = new File(tempPath);
+				if (!tempPathDir.exists())
+					tempPathDir.mkdirs();
+				String fileName = TravelUtil.getDownloadFileName(downloadURL);
+				//tempPath = tempPath+fileName;
+				String saveTempPath = tempPath+fileName;
+				//savePath = savePath+fileName;
+				final String zipFilePath = savePath+fileName;
+				Log.d(TAG, "download file, temp=" + saveTempPath + ", save=" + savePath);
+
+				long startDownloadLength = FileUtil.getFileSize(saveTempPath);
+				client.addHeader("Range", "bytes=" + startDownloadLength + "-");
 				
-				//TODO notify UI to update progress
-				boolean notFinish = true;
-				if(downloadLength == fileTotalLength)
+				DownloadHandler cityHandler = new DownloadHandler(savePath, saveTempPath)
 				{
-					notFinish = false;
-				}
-				 final  DownloadInfos dl = new DownloadInfos(cityId,downloadURL,fileTotalLength,downloadLength,notFinish,false);  	
-				 Message msg = Message.obtain();
-				 msg.what = PROCESS_CHANGED;
-				 msg.obj = dl;
-			     downloadHandler.sendMessage(msg);
-			}
+					@Override
+					public void onSuccess(byte[] fileData)
+					{			
+						// TODO post successfully download
+						downloadStstudTask.put(downloadURL, UPZIPING);
+						cancelHttpDownload(downloadURL);
+						downloadInfoMap.remove(downloadURL);
+						allPauseDownload();
+						
+						
+						
+						upZipFile(zipFilePath,upZipFilePath,cityId,downloadURL);
+					}
 
-			@Override
-			public void onFailure(Throwable e, byte[] arg1)
-			{
-				 final  DownloadInfos dl = new DownloadInfos(cityId,downloadURL,fileTotalLength,downloadLength,true,false);
-				 Message msg = Message.obtain();
-				 msg.what = CONNECTION_ERROR;
-				 msg.obj = dl;
-			     downloadHandler.sendMessage(msg);
-				Toast.makeText(getApplicationContext(),getApplicationContext().getString(R.string.conn_fail_exception), Toast.LENGTH_SHORT).show();
-				Log.e(TAG, "<onFailure> downloading failure="+e.toString());
-			}
+					@Override
+					protected void bytesReceived(long fileTotalLength, long downloadLength, int addedLength)
+					{
+						//Log.i(TAG, "<bytesReceived> download = "+downloadLength + ", total = "+fileTotalLength);
+						
+						//TODO notify UI to update progress
+						boolean notFinish = true;
+						if(downloadLength == fileTotalLength)
+						{
+							notFinish = false;
+						}
+						 DownloadInfos dl = new DownloadInfos(cityId,downloadURL,fileTotalLength,downloadLength,notFinish,false);  	
+						 Message msg = Message.obtain();
+						 msg.what = PROCESS_CHANGED;
+						 msg.obj = dl;
+					     downloadHandler.sendMessage(msg);
+					}
 
-		};
-		
-		downloadControlMap.put(downloadURL, cityHandler);
-		
-		//client.get(null, downloadURL, headers, null, new DownloadHandler(savePath, tempPath)
-		client.get(getApplicationContext(),downloadURL, cityHandler);
+					@Override
+					public void onFailure(Throwable e, byte[] arg1)
+					{
+						 DownloadInfos dl = new DownloadInfos(cityId,downloadURL,fileTotalLength,downloadLength,true,false);
+						 Message msg = Message.obtain();
+						 msg.what = CONNECTION_ERROR;
+						 msg.obj = dl;
+					     downloadHandler.sendMessage(msg);
+						 Toast.makeText(getApplicationContext(),R.string.conn_fail_exception, Toast.LENGTH_SHORT).show();
+						 Log.e(TAG, "<onFailure> downloading failure="+e.toString());
+					}
+
+				};
+				
+				downloadControlMap.put(downloadURL, cityHandler);
+				client.get(getApplicationContext(),downloadURL, cityHandler);
+				
+			}
+		});
 	}
 	
-	private   void cancelHttpDownload(String downloadURL)
+	private  void cancelHttpDownload(String downloadURL)
 	{
-		
-		if(downloadClientMap.containsKey(downloadURL))
-		{
-			AsyncHttpClient client = downloadClientMap.get(downloadURL);
-			client.cancelRequests(getApplicationContext(), true);
-			client = null;
-		}
-		downloadClientMap.remove(downloadURL);
 		if (downloadControlMap.containsKey(downloadURL)){
-			Log.i(TAG, "cancelHttpDownload... cancel download for"+getApplicationContext());
-			//downloadControlMap.get(downloadURL).cancelDownload();
+			Log.d(TAG, "cancle download url = "+downloadURL);
 			DownloadHandler downloadHandler = downloadControlMap.get(downloadURL);
 			downloadHandler.cancelDownload();
+			client.delete(getApplicationContext(),downloadURL, downloadHandler);
 			downloadHandler = null;
+			downloadControlMap.remove(downloadURL);
 		}
-		downloadControlMap.remove(downloadURL);
+		
+		
 	}
 
 	public  Handler getDownloadHandler()
@@ -165,10 +178,10 @@ public class DownloadService extends Service
 	
 	public  void pauseDownload(String downloadURL) 
 	{
-		if(downloadStstudTask.containsKey(downloadURL))
+		/*if(downloadStstudTask.containsKey(downloadURL))
 		{
 			downloadStstudTask.put(downloadURL, PAUSE);
-		}	
+		}*/	
 		cancelHttpDownload(downloadURL);
 	}
 	
@@ -181,18 +194,44 @@ public class DownloadService extends Service
 		cancelHttpDownload(downloadURL);
 	}
 
-	public  boolean startDownload(int cityId, String downloadURL,
-			String downloadSavePath, String tempPath,String upZipFilePath)
+	private void allPauseDownload()
 	{
+		Log.d(TAG, "pause all downloading city data ");
+		for(DownloadHandler downloadHandler:downloadControlMap.values()){
+			downloadHandler.cancelDownload();
+			downloadHandler = null;
+		}
+		for(String downloadURL:downloadInfoMap.keySet()){
+			downloadStstudTask.put(downloadURL, PAUSE);
+		}
+		downloadControlMap.clear();
+	}
+	
+	
+	private void allStartDownload(){
+		isUnZiping = false;
+		Log.d(TAG, "start all pasue download city data");
+		for(DownloadBean downloadBean:downloadInfoMap.values()){
+			startDownload(downloadBean.getCityId(), downloadBean.getDownloadURL(),downloadBean.getSavePath(),downloadBean.getTempPath(),downloadBean.getUpZipFilePath());
+		}
+	}
+	
+	
+	
+	
+	public  void startDownload(int cityId, String downloadURL,String downloadSavePath, String tempPath,String upZipFilePath)
+	{
+		DownloadBean downloadBean = new DownloadBean(cityId, downloadURL, downloadSavePath, tempPath,upZipFilePath, 0, 0);
 		downloadStstudTask.put(downloadURL, DOWNLOADING);
+		downloadInfoMap.put(downloadURL, downloadBean);
 		download(cityId, downloadURL, downloadSavePath, tempPath,upZipFilePath);
-		return true;
+		Log.d(TAG, "isUnZiping = "+isUnZiping);
+		if(isUnZiping){
+			allPauseDownload();
+		}
 	}
 
-	public void restartDownload(String downloadURL) 
-	{
-		//restartDownloadTask(downloadURL);
-	}
+	
 
 	@Override
 	public IBinder onBind(Intent arg0)
@@ -223,8 +262,11 @@ public class DownloadService extends Service
 			public void run()
 			{
 				Log.d(TAG, "unzip file ="+zipFilePath);
-				//boolean result = ZipUtil.upZipFile(zipFilePath, upZipFilePath);
-				boolean result = ZipUtil2.unZipToFolder(zipFilePath, upZipFilePath);
+				isUnZiping = true;
+				boolean result = ZipUtil.upZipFile(zipFilePath, upZipFilePath);
+				//ZipUtil2 zipUtil2 = new ZipUtil2();
+				//boolean result = zipUtil2.unZipToFolder(zipFilePath, upZipFilePath);
+				allStartDownload();
 				if(result)
 				{
 					FileUtil.deleteFile(zipFilePath);
@@ -240,7 +282,7 @@ public class DownloadService extends Service
 		        downloadHandler.sendMessage(msg);
 			}
 		});		
-			}
+	}
 
 	public  Map<String, Integer> getDownloadStstudTask()
 	{
@@ -264,6 +306,14 @@ public class DownloadService extends Service
 	{
 		super.onStart(intent, startId);
 		Log.d(TAG, "service onStart");
+	}
+
+	@Override
+	public void onLowMemory()
+	{
+		super.onLowMemory();
+		Log.d(TAG, "service on low menory ");
+		allPauseDownload();
 	}
 	
 }

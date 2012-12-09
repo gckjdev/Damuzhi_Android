@@ -62,7 +62,7 @@
         <activity android:name=".activity.place.CommonEntertainmentDetailActivity" android:screenOrientation="portrait" android:launchMode="standard"/> 
         <activity android:name=".activity.place.CommonNearbyPlaceActivity" android:screenOrientation="portrait" android:launchMode="standard"/>       
         <activity android:name=".activity.common.HelpActiviy" android:screenOrientation="portrait" android:launchMode="singleTask"/>
-        <activity android:name=".activity.common.PlaceListGoogleMap" android:screenOrientation="portrait" android:launchMode="singleTop"/>
+        <activity android:name=".activity.common.PlaceListGoogleMap" android:screenOrientation="portrait" android:launchMode="singleTask"/>
         <activity android:name=".activity.common.DepartPlaceMap" android:screenOrientation="portrait" android:launchMode="standard"/>
         <activity android:name=".activity.overview.CommonOverViewActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>     
         <activity android:name=".activity.overview.CommonTravelPreprationActivity" android:screenOrientation="portrait" android:launchMode="singleTask"/>  

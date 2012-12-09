@@ -83,6 +83,7 @@ import com.damuzhi.travel.model.app.AppManager;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.City;
+import com.damuzhi.travel.protos.AppProtos.CityLocationInfo;
 import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.TravelUtil;
 import com.google.android.maps.MapView.LayoutParams;
@@ -113,7 +114,9 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		super.onCreate(savedInstanceState);
 		ActivityMange.getInstance().addActivity(this);
 		setContentView(R.layout.index);		
-		MobclickAgent.updateOnlineConfig(this);
+		/*MobclickAgent.updateOnlineConfig(this);
+		String IS_CHECK_LOCATION_IN_CHINA = MobclickAgent.getConfigParams(IndexActivity.this, "is_check_location_in_china");
+		String IS_CHECK_LOCATION_IN_FOREIGN = MobclickAgent.getConfigParams(IndexActivity.this, "is_check_location_in_foreign");*/
 		VMRuntime.getRuntime().setMinimumHeapSize(HEAP_SIZE);
 		
 		sceneryButton = (ImageButton) findViewById(R.id.scenery);
@@ -159,19 +162,6 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 	{
 		
 		super.onResume();
-		/*Log.d(TAG, "index activity onResume");
-		float availableMemory  = TravelUtil.getAvailableInternalMemorySize();
-		Log.d(TAG, " available memory = "+availableMemory);
-		ActivityManager activityMange =  (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
-		int activityMemory = activityMange.getMemoryClass();
-		Log.d(TAG, "activity large memory "+activityMemory);
-		
-		long runTimeFreeMemory = Runtime.getRuntime().freeMemory();
-		Log.d(TAG, "run time free memory = "+TravelUtil.getDataSize(runTimeFreeMemory));
-		long runTimeTotalMemory = Runtime.getRuntime().totalMemory();
-		Log.d(TAG, "run time total memory = "+TravelUtil.getDataSize(runTimeTotalMemory));
-		long runTimeMaxMemory = Runtime.getRuntime().maxMemory();
-		Log.d(TAG, "run time max menory = "+TravelUtil.getDataSize(runTimeMaxMemory));*/
 	}
 	
 	
@@ -213,6 +203,11 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 				boolean gpsEnable = checkGPSisOpen();
 				if(gpsEnable)
 				{
+					/*boolean isLocationCity = checkIsLocationCity();
+					if(!isLocationCity){
+						Toast.makeText(IndexActivity.this, "你所处的位置不在"+AppManager.getInstance().getCurrentCityName()+"，无法使用附近功能", Toast.LENGTH_SHORT).show();
+						return ;
+					}*/
 					Intent nearbyIntent = new Intent();
 					nearbyIntent.setClass(IndexActivity.this, CommonNearbyPlaceActivity.class);		
 					startActivity(nearbyIntent);
@@ -221,31 +216,26 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 				}
 			break;
 		case R.id.city_base:
-			LocationUtil.stop();
 			Intent cityBaseIntent = new Intent();
 			cityBaseIntent.setClass(IndexActivity.this, CommonCtiyBaseActivity.class);		
 			startActivity(cityBaseIntent);
 			break;
 		case R.id.travel_prepration:	
-			LocationUtil.stop();
 			Intent travelPreprationIntent = new Intent();
 			travelPreprationIntent.setClass(IndexActivity.this, CommonTravelPreprationActivity.class);		
 			startActivity(travelPreprationIntent);
 			break;
 		case R.id.travel_utility:	
-			LocationUtil.stop();
 			Intent travelUtilityIntent = new Intent();
 			travelUtilityIntent.setClass(IndexActivity.this, CommonTravelUtilityActivity.class);		
 			startActivity(travelUtilityIntent);
 			break;
 		case R.id.travel_transportation:	
-			LocationUtil.stop();
 			Intent travelTransportationIntent = new Intent();
 			travelTransportationIntent.setClass(IndexActivity.this, CommonTravelTransportationActivity.class);		
 			startActivity(travelTransportationIntent);
 			break;
 		case R.id.travel_tips:	
-			LocationUtil.stop();
 			Intent travelTipsIntent = new Intent();
 			travelTipsIntent.setClass(IndexActivity.this, TravelGuidesActivity.class);		
 			startActivity(travelTipsIntent);
@@ -256,7 +246,42 @@ public class IndexActivity extends MenuActivity implements OnClickListener
 		
 	}
 	
+	private int distanceLimit = 10;//KM
 	
+	private boolean checkIsLocationCity(){
+		int cityId = AppManager.getInstance().getCurrentCityId();
+		List<CityLocationInfo> cityLocationInfos = AppManager.getInstance().getCityLocationInfoById(cityId);
+		if(cityLocationInfos == null||cityLocationInfos.size()==0){
+			Log.d(TAG, "cityLocationInfo is empty ");
+			return false;
+		}else{
+			for(CityLocationInfo cityLocationInfo:cityLocationInfos){
+				double latitude = cityLocationInfo.getLatitude();
+				double longitude = cityLocationInfo.getLongitude();
+				String cityName = cityLocationInfo.getCityName();
+				Log.d(TAG, "cityLocationInfo city latitude = "+latitude);
+				Log.d(TAG, "cityLocationInfo city longitude = "+longitude);
+				Log.d(TAG, "cityLocationInfo cityName = "+cityName);
+				if(cityName==null||cityName.equals("")){
+					return false;
+				}		
+				HashMap<String, Double> location = TravelApplication.getInstance().getLocation();
+				if(location ==null||location.size()==0){
+					return false;
+				}
+				int distance = TravelUtil.getIntDistance(longitude, latitude);
+				Log.d(TAG, "location distance = "+distance);
+				if(distance<distanceLimit){
+					return true;
+				}
+				String cityNameForLocation = LocationUtil.getInstance().getLocationCityName(location);
+				Toast.makeText(IndexActivity.this, "currency city name "+cityNameForLocation, Toast.LENGTH_SHORT).show();
+				return cityName.equals(cityNameForLocation);
+			}	
+			return false;
+		}		
+		
+	}
 	
 
 	

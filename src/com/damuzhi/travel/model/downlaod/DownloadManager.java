@@ -12,7 +12,7 @@ import java.util.Map;
 
 import android.content.Context;
 
-import com.damuzhi.travel.db.FileDBHelper;
+import com.damuzhi.travel.db.DownloadDBHelper;
 import com.damuzhi.travel.model.constant.ConstantField;
 import com.damuzhi.travel.util.FileUtil;
 
@@ -21,7 +21,7 @@ import com.damuzhi.travel.util.FileUtil;
 public class DownloadManager
 {
 	private Context context;
-	private FileDBHelper fileDBHelper;
+	private DownloadDBHelper fileDBHelper;
 	
 	private static DownloadManager instance;
 
@@ -38,23 +38,12 @@ public class DownloadManager
 	{
 		super();
 		this.context = context;
-		fileDBHelper = FileDBHelper.getFileDBHelper(this.context);
-		//fileDBHelper = new FileDBHelper(this.context);
+		fileDBHelper = DownloadDBHelper.getFileDBHelper(this.context);
 	}
 
 
 
-	/*public void saveDownloadInfo(int cityId, String downloadURL,String savePath, String tempPath, int i, int fileSize,Map<Integer, Integer> data)
-	{
-		if(!fileDBHelper.check(downloadURL))
-		{
-			fileDBHelper.save(cityId,downloadURL,savePath,tempPath,1,fileSize, data);
-		}else
-		{
-			fileDBHelper.update(downloadURL, data);
-		}
-		fileDBHelper.save(cityId,downloadURL,savePath,tempPath,1,fileSize, data);
-	}*/
+	
 
 	
 	public void saveDownloadInfo(int cityId, String downloadURL,String savePath, String tempPath, int i, int fileSize,int downloadLength)

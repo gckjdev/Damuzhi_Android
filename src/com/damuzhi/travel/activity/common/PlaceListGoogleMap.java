@@ -3,16 +3,21 @@ package com.damuzhi.travel.activity.common;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.DialogInterface.OnKeyListener;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,6 +33,7 @@ import com.damuzhi.travel.activity.common.location.LocationMager;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.common.mapview.CommonItemizedOverlay;
 import com.damuzhi.travel.activity.common.mapview.CommonOverlayItem;
+import com.damuzhi.travel.activity.entry.MainActivity;
 import com.damuzhi.travel.activity.place.CommonNearbyPlaceActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
 import com.damuzhi.travel.model.constant.ConstantField;
@@ -61,6 +67,8 @@ public class PlaceListGoogleMap extends MapActivity {
 	private View locationDialogView;
 	private LocationMager locationMager;
 	private boolean isGetMyLocation = false;
+	private ProgressDialog loadingDialog ;
+	
 	@Override
 	protected boolean isRouteDisplayed() {
 		return false;
@@ -69,37 +77,106 @@ public class PlaceListGoogleMap extends MapActivity {
 	@Override
 	protected void onCreate(Bundle icicle) {
 		super.onCreate(icicle);
+		Log.d(TAG, "google mapview creat ing... ");
 		setContentView(R.layout.place_google_map);
 		ActivityMange.getInstance().addActivity(this);
 		mapView = (TapControlledMapView) findViewById(R.id.common_place_mapview);
+		mapView.setReticleDrawMode(MapView.ReticleDrawMode.DRAW_RETICLE_OVER);
+		mapView.setBuiltInZoomControls(true);
+		mapView.setSelected(true);
+		mapView.preLoad();
 		mapc = mapView.getController();
-		mapc.setZoom(14);
+		mapc.setZoom(17);
 		mapView.setStreetView(true);
 		mapView.setOnSingleTapListener(onSingleTapListener);
 		myLocateButton = (ImageView) findViewById(R.id.my_locate);
 		canceLocateButton = (ImageView)findViewById(R.id.cancel_locate);
 		myLocateButton.setOnClickListener(myLocateOnClickListener);
 		canceLocateButton.setOnClickListener(cancelLocateOnClickListener);
-		
-		
-		byte[] data = getIntent().getByteArrayExtra(ConstantField.PLACE_GOOGLE_MAP);
-		if(data == null)
-		{
-			data = getIntent().getByteArrayExtra(ConstantField.NEARBY_GOOGLE_MAP);
-			isNearbyGoogleMap = true;
-		}
-		try {
-			placeList = PlaceList.parseFrom(data);
-			Log.d(TAG, "place size = "+placeList.getListCount());
-		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
-		}
+		showRoundProcessDialog();
 		location = TravelApplication.getInstance().getLocation();
 		locationMager = new LocationMager(this);
-		initMapView();
+		loadData(getIntent());
 	}
 
+	private void loadData(Intent intent)
+	{
+		final Intent dataIntent = intent;
+		AsyncTask<Void, Void, PlaceList> asyncTask = new AsyncTask<Void, Void, PlaceList>(){
+
+			@Override
+			protected PlaceList doInBackground(Void... params)
+			{
+				PlaceList list = null;
+				byte[] data = dataIntent.getByteArrayExtra(ConstantField.PLACE_GOOGLE_MAP);
+				if(data == null)
+				{
+					data = dataIntent.getByteArrayExtra(ConstantField.NEARBY_GOOGLE_MAP);
+					isNearbyGoogleMap = true;
+				}
+				try {
+					list = PlaceList.parseFrom(data);
+				} catch (InvalidProtocolBufferException e) {
+					e.printStackTrace();
+				}
+				
+				return list;
+			}
+
+			@Override
+			protected void onPostExecute(PlaceList result)
+			{
+				super.onPostExecute(result);
+				placeList = result;
+				Log.d(TAG, "place data  size = "+placeList.getListCount());
+				initMapView();
+				loadingDialog.dismiss();			
+			}
+
+			@Override
+			protected void onPreExecute()
+			{
+				super.onPreExecute();
+				loadingDialog.show();
+				
+			}
+			
+		};
+		asyncTask.execute();
+	}
 	
+	
+
+	
+	public void showRoundProcessDialog()
+	{
+		loadingDialog = new ProgressDialog(this);
+		OnKeyListener keyListener = new OnKeyListener()
+		{
+			@Override
+			public boolean onKey(DialogInterface dialog, int keyCode,
+					KeyEvent event)
+			{
+				if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0)
+				{
+					loadingDialog.dismiss();
+					Intent intent = new Intent(PlaceListGoogleMap.this,MainActivity.class);
+					intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+					startActivity(intent);
+					return true;
+				} else
+				{
+					return false;
+				}
+			}
+		};
+
+		loadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		loadingDialog.setMessage(getResources().getString(R.string.loading));
+		loadingDialog.setIndeterminate(false);
+		loadingDialog.setCancelable(false);
+		loadingDialog.setOnKeyListener(keyListener);
+	}
 	
 	
 	@Override
@@ -125,6 +202,7 @@ public class PlaceListGoogleMap extends MapActivity {
 	
 	private void initMapView()
 	{
+		Log.d(TAG, "google mapview init ing....");
 		openGPSSettings();	
 		mapView.getOverlays().clear();
 		mapView.removeAllViews();
@@ -134,10 +212,11 @@ public class PlaceListGoogleMap extends MapActivity {
 		}
 		if(isNearbyGoogleMap)
 		{
-			//getMyLocation();
 			initMyLocationOverlayView(location);
 		}
-		
+		Log.d(TAG, "google mapview init finish");
+		MotionEvent motionEvent = MotionEvent.obtain(3000,1000,MotionEvent.ACTION_DOWN,200,200,0);
+		mapView.onTouchEvent(motionEvent);
 	}	
 	
 	
@@ -152,6 +231,7 @@ public class PlaceListGoogleMap extends MapActivity {
 		Drawable markerIcon = null;
 		if(isNearbyGoogleMap)
 		{
+			Log.d(TAG, "init nearby place google map ");
 			for (Place place : placeList)
 			{
 				markerIcon = getResources().getDrawable(TravelUtil.getForecastImage(place.getCategoryId()));
@@ -163,6 +243,7 @@ public class PlaceListGoogleMap extends MapActivity {
 			}
 		}else
 		{
+			Log.d(TAG, "init place list google map");
 			markerIcon = getResources().getDrawable(TravelUtil.getForecastImage(placeList.get(0).getCategoryId()));
 			itemizedOverlay = new CommonItemizedOverlay<CommonOverlayItem>(markerIcon, mapView);
 			for (Place place : placeList)
@@ -172,11 +253,11 @@ public class PlaceListGoogleMap extends MapActivity {
 				itemizedOverlay.addOverlay(commonOverlayItem);
 				mapOverlays.add(itemizedOverlay);
 			}
-		}		
-		if(itemizedOverlay.size()>0)
-		{
-			mapc.setCenter(itemizedOverlay.getCenter());
-		}		
+			if(itemizedOverlay.size()>0)
+			{
+				mapc.setCenter(itemizedOverlay.getCenter());
+			}	
+		}			
 		
 	}
 	
@@ -339,21 +420,12 @@ public class PlaceListGoogleMap extends MapActivity {
 	{
 		super.onNewIntent(newIntent);
 		Log.d(TAG, "onNewIntent");
-		byte[] data = newIntent.getByteArrayExtra(ConstantField.PLACE_GOOGLE_MAP);
-		if(data == null)
-		{
-			data = newIntent.getByteArrayExtra(ConstantField.NEARBY_GOOGLE_MAP);
-			isNearbyGoogleMap = true;
-		}
-		try {
-			placeList = PlaceList.parseFrom(data);
-			Log.d(TAG, "on newIntent place size = "+placeList.getListCount());
-		} catch (InvalidProtocolBufferException e) {
-			e.printStackTrace();
-		}
-		initMapView();
+		loadData(newIntent);
 	}
 
+	
+	
+	
 	
 	private void alertWindow(View view)
 	{
@@ -366,6 +438,9 @@ public class PlaceListGoogleMap extends MapActivity {
 		locationPopupWindow.showAtLocation(view, Gravity.CENTER,0, 0);
 	}
 
+	
+	
+	
 	@Override
 	protected void onPause()
 	{

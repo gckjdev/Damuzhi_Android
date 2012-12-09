@@ -2106,6 +2106,495 @@ public final class AppProtos {
     // @@protoc_insertion_point(class_scope:damuzhi.CityArea)
   }
   
+  public interface CityLocationInfoOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // optional string cityName = 1;
+    boolean hasCityName();
+    String getCityName();
+    
+    // optional double longitude = 2;
+    boolean hasLongitude();
+    double getLongitude();
+    
+    // optional double latitude = 3;
+    boolean hasLatitude();
+    double getLatitude();
+  }
+  public static final class CityLocationInfo extends
+      com.google.protobuf.GeneratedMessage
+      implements CityLocationInfoOrBuilder {
+    // Use CityLocationInfo.newBuilder() to construct.
+    private CityLocationInfo(Builder builder) {
+      super(builder);
+    }
+    private CityLocationInfo(boolean noInit) {}
+    
+    private static final CityLocationInfo defaultInstance;
+    public static CityLocationInfo getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public CityLocationInfo getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.AppProtos.internal_static_damuzhi_CityLocationInfo_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.damuzhi.travel.protos.AppProtos.internal_static_damuzhi_CityLocationInfo_fieldAccessorTable;
+    }
+    
+    private int bitField0_;
+    // optional string cityName = 1;
+    public static final int CITYNAME_FIELD_NUMBER = 1;
+    private java.lang.Object cityName_;
+    public boolean hasCityName() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public String getCityName() {
+      java.lang.Object ref = cityName_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          cityName_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getCityNameBytes() {
+      java.lang.Object ref = cityName_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        cityName_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional double longitude = 2;
+    public static final int LONGITUDE_FIELD_NUMBER = 2;
+    private double longitude_;
+    public boolean hasLongitude() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public double getLongitude() {
+      return longitude_;
+    }
+    
+    // optional double latitude = 3;
+    public static final int LATITUDE_FIELD_NUMBER = 3;
+    private double latitude_;
+    public boolean hasLatitude() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    public double getLatitude() {
+      return latitude_;
+    }
+    
+    private void initFields() {
+      cityName_ = "";
+      longitude_ = 0D;
+      latitude_ = 0D;
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeBytes(1, getCityNameBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeDouble(2, longitude_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeDouble(3, latitude_);
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(1, getCityNameBytes());
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(2, longitude_);
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeDoubleSize(3, latitude_);
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.AppProtos.CityLocationInfo parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.damuzhi.travel.protos.AppProtos.CityLocationInfo prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.damuzhi.travel.protos.AppProtos.internal_static_damuzhi_CityLocationInfo_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.damuzhi.travel.protos.AppProtos.internal_static_damuzhi_CityLocationInfo_fieldAccessorTable;
+      }
+      
+      // Construct using com.damuzhi.travel.protos.AppProtos.CityLocationInfo.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        cityName_ = "";
+        bitField0_ = (bitField0_ & ~0x00000001);
+        longitude_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000002);
+        latitude_ = 0D;
+        bitField0_ = (bitField0_ & ~0x00000004);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.damuzhi.travel.protos.AppProtos.CityLocationInfo.getDescriptor();
+      }
+      
+      public com.damuzhi.travel.protos.AppProtos.CityLocationInfo getDefaultInstanceForType() {
+        return com.damuzhi.travel.protos.AppProtos.CityLocationInfo.getDefaultInstance();
+      }
+      
+      public com.damuzhi.travel.protos.AppProtos.CityLocationInfo build() {
+        com.damuzhi.travel.protos.AppProtos.CityLocationInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.damuzhi.travel.protos.AppProtos.CityLocationInfo buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.damuzhi.travel.protos.AppProtos.CityLocationInfo result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.damuzhi.travel.protos.AppProtos.CityLocationInfo buildPartial() {
+        com.damuzhi.travel.protos.AppProtos.CityLocationInfo result = new com.damuzhi.travel.protos.AppProtos.CityLocationInfo(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.cityName_ = cityName_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.longitude_ = longitude_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.latitude_ = latitude_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.damuzhi.travel.protos.AppProtos.CityLocationInfo) {
+          return mergeFrom((com.damuzhi.travel.protos.AppProtos.CityLocationInfo)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.damuzhi.travel.protos.AppProtos.CityLocationInfo other) {
+        if (other == com.damuzhi.travel.protos.AppProtos.CityLocationInfo.getDefaultInstance()) return this;
+        if (other.hasCityName()) {
+          setCityName(other.getCityName());
+        }
+        if (other.hasLongitude()) {
+          setLongitude(other.getLongitude());
+        }
+        if (other.hasLatitude()) {
+          setLatitude(other.getLatitude());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 10: {
+              bitField0_ |= 0x00000001;
+              cityName_ = input.readBytes();
+              break;
+            }
+            case 17: {
+              bitField0_ |= 0x00000002;
+              longitude_ = input.readDouble();
+              break;
+            }
+            case 25: {
+              bitField0_ |= 0x00000004;
+              latitude_ = input.readDouble();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // optional string cityName = 1;
+      private java.lang.Object cityName_ = "";
+      public boolean hasCityName() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public String getCityName() {
+        java.lang.Object ref = cityName_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          cityName_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setCityName(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000001;
+        cityName_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearCityName() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        cityName_ = getDefaultInstance().getCityName();
+        onChanged();
+        return this;
+      }
+      void setCityName(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000001;
+        cityName_ = value;
+        onChanged();
+      }
+      
+      // optional double longitude = 2;
+      private double longitude_ ;
+      public boolean hasLongitude() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public double getLongitude() {
+        return longitude_;
+      }
+      public Builder setLongitude(double value) {
+        bitField0_ |= 0x00000002;
+        longitude_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearLongitude() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        longitude_ = 0D;
+        onChanged();
+        return this;
+      }
+      
+      // optional double latitude = 3;
+      private double latitude_ ;
+      public boolean hasLatitude() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public double getLatitude() {
+        return latitude_;
+      }
+      public Builder setLatitude(double value) {
+        bitField0_ |= 0x00000004;
+        latitude_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearLatitude() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        latitude_ = 0D;
+        onChanged();
+        return this;
+      }
+      
+      // @@protoc_insertion_point(builder_scope:damuzhi.CityLocationInfo)
+    }
+    
+    static {
+      defaultInstance = new CityLocationInfo(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:damuzhi.CityLocationInfo)
+  }
+  
   public interface CityOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
@@ -2166,6 +2655,16 @@ public final class AppProtos {
     // optional bool hotCity = 51 [default = false];
     boolean hasHotCity();
     boolean getHotCity();
+    
+    // repeated .damuzhi.CityLocationInfo locationInfo = 55;
+    java.util.List<com.damuzhi.travel.protos.AppProtos.CityLocationInfo> 
+        getLocationInfoList();
+    com.damuzhi.travel.protos.AppProtos.CityLocationInfo getLocationInfo(int index);
+    int getLocationInfoCount();
+    java.util.List<? extends com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder> 
+        getLocationInfoOrBuilderList();
+    com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder getLocationInfoOrBuilder(
+        int index);
   }
   public static final class City extends
       com.google.protobuf.GeneratedMessage
@@ -2491,6 +2990,27 @@ public final class AppProtos {
       return hotCity_;
     }
     
+    // repeated .damuzhi.CityLocationInfo locationInfo = 55;
+    public static final int LOCATIONINFO_FIELD_NUMBER = 55;
+    private java.util.List<com.damuzhi.travel.protos.AppProtos.CityLocationInfo> locationInfo_;
+    public java.util.List<com.damuzhi.travel.protos.AppProtos.CityLocationInfo> getLocationInfoList() {
+      return locationInfo_;
+    }
+    public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder> 
+        getLocationInfoOrBuilderList() {
+      return locationInfo_;
+    }
+    public int getLocationInfoCount() {
+      return locationInfo_.size();
+    }
+    public com.damuzhi.travel.protos.AppProtos.CityLocationInfo getLocationInfo(int index) {
+      return locationInfo_.get(index);
+    }
+    public com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder getLocationInfoOrBuilder(
+        int index) {
+      return locationInfo_.get(index);
+    }
+    
     private void initFields() {
       cityId_ = 0;
       cityName_ = "";
@@ -2505,6 +3025,7 @@ public final class AppProtos {
       priceRank_ = 3;
       groupId_ = 0;
       hotCity_ = false;
+      locationInfo_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -2583,6 +3104,9 @@ public final class AppProtos {
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         output.writeBool(51, hotCity_);
       }
+      for (int i = 0; i < locationInfo_.size(); i++) {
+        output.writeMessage(55, locationInfo_.get(i));
+      }
       getUnknownFields().writeTo(output);
     }
     
@@ -2643,6 +3167,10 @@ public final class AppProtos {
       if (((bitField0_ & 0x00000800) == 0x00000800)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBoolSize(51, hotCity_);
+      }
+      for (int i = 0; i < locationInfo_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(55, locationInfo_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -2761,6 +3289,7 @@ public final class AppProtos {
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
           getAreaListFieldBuilder();
+          getLocationInfoFieldBuilder();
         }
       }
       private static Builder create() {
@@ -2799,6 +3328,12 @@ public final class AppProtos {
         bitField0_ = (bitField0_ & ~0x00000800);
         hotCity_ = false;
         bitField0_ = (bitField0_ & ~0x00001000);
+        if (locationInfoBuilder_ == null) {
+          locationInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00002000);
+        } else {
+          locationInfoBuilder_.clear();
+        }
         return this;
       }
       
@@ -2894,6 +3429,15 @@ public final class AppProtos {
           to_bitField0_ |= 0x00000800;
         }
         result.hotCity_ = hotCity_;
+        if (locationInfoBuilder_ == null) {
+          if (((bitField0_ & 0x00002000) == 0x00002000)) {
+            locationInfo_ = java.util.Collections.unmodifiableList(locationInfo_);
+            bitField0_ = (bitField0_ & ~0x00002000);
+          }
+          result.locationInfo_ = locationInfo_;
+        } else {
+          result.locationInfo_ = locationInfoBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -2971,6 +3515,32 @@ public final class AppProtos {
         }
         if (other.hasHotCity()) {
           setHotCity(other.getHotCity());
+        }
+        if (locationInfoBuilder_ == null) {
+          if (!other.locationInfo_.isEmpty()) {
+            if (locationInfo_.isEmpty()) {
+              locationInfo_ = other.locationInfo_;
+              bitField0_ = (bitField0_ & ~0x00002000);
+            } else {
+              ensureLocationInfoIsMutable();
+              locationInfo_.addAll(other.locationInfo_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.locationInfo_.isEmpty()) {
+            if (locationInfoBuilder_.isEmpty()) {
+              locationInfoBuilder_.dispose();
+              locationInfoBuilder_ = null;
+              locationInfo_ = other.locationInfo_;
+              bitField0_ = (bitField0_ & ~0x00002000);
+              locationInfoBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getLocationInfoFieldBuilder() : null;
+            } else {
+              locationInfoBuilder_.addAllMessages(other.locationInfo_);
+            }
+          }
         }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
@@ -3093,6 +3663,12 @@ public final class AppProtos {
             case 408: {
               bitField0_ |= 0x00001000;
               hotCity_ = input.readBool();
+              break;
+            }
+            case 442: {
+              com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder subBuilder = com.damuzhi.travel.protos.AppProtos.CityLocationInfo.newBuilder();
+              input.readMessage(subBuilder, extensionRegistry);
+              addLocationInfo(subBuilder.buildPartial());
               break;
             }
           }
@@ -3642,6 +4218,192 @@ public final class AppProtos {
         hotCity_ = false;
         onChanged();
         return this;
+      }
+      
+      // repeated .damuzhi.CityLocationInfo locationInfo = 55;
+      private java.util.List<com.damuzhi.travel.protos.AppProtos.CityLocationInfo> locationInfo_ =
+        java.util.Collections.emptyList();
+      private void ensureLocationInfoIsMutable() {
+        if (!((bitField0_ & 0x00002000) == 0x00002000)) {
+          locationInfo_ = new java.util.ArrayList<com.damuzhi.travel.protos.AppProtos.CityLocationInfo>(locationInfo_);
+          bitField0_ |= 0x00002000;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.CityLocationInfo, com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder, com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder> locationInfoBuilder_;
+      
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.CityLocationInfo> getLocationInfoList() {
+        if (locationInfoBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(locationInfo_);
+        } else {
+          return locationInfoBuilder_.getMessageList();
+        }
+      }
+      public int getLocationInfoCount() {
+        if (locationInfoBuilder_ == null) {
+          return locationInfo_.size();
+        } else {
+          return locationInfoBuilder_.getCount();
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.CityLocationInfo getLocationInfo(int index) {
+        if (locationInfoBuilder_ == null) {
+          return locationInfo_.get(index);
+        } else {
+          return locationInfoBuilder_.getMessage(index);
+        }
+      }
+      public Builder setLocationInfo(
+          int index, com.damuzhi.travel.protos.AppProtos.CityLocationInfo value) {
+        if (locationInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLocationInfoIsMutable();
+          locationInfo_.set(index, value);
+          onChanged();
+        } else {
+          locationInfoBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      public Builder setLocationInfo(
+          int index, com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder builderForValue) {
+        if (locationInfoBuilder_ == null) {
+          ensureLocationInfoIsMutable();
+          locationInfo_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          locationInfoBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addLocationInfo(com.damuzhi.travel.protos.AppProtos.CityLocationInfo value) {
+        if (locationInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLocationInfoIsMutable();
+          locationInfo_.add(value);
+          onChanged();
+        } else {
+          locationInfoBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      public Builder addLocationInfo(
+          int index, com.damuzhi.travel.protos.AppProtos.CityLocationInfo value) {
+        if (locationInfoBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureLocationInfoIsMutable();
+          locationInfo_.add(index, value);
+          onChanged();
+        } else {
+          locationInfoBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      public Builder addLocationInfo(
+          com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder builderForValue) {
+        if (locationInfoBuilder_ == null) {
+          ensureLocationInfoIsMutable();
+          locationInfo_.add(builderForValue.build());
+          onChanged();
+        } else {
+          locationInfoBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addLocationInfo(
+          int index, com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder builderForValue) {
+        if (locationInfoBuilder_ == null) {
+          ensureLocationInfoIsMutable();
+          locationInfo_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          locationInfoBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAllLocationInfo(
+          java.lang.Iterable<? extends com.damuzhi.travel.protos.AppProtos.CityLocationInfo> values) {
+        if (locationInfoBuilder_ == null) {
+          ensureLocationInfoIsMutable();
+          super.addAll(values, locationInfo_);
+          onChanged();
+        } else {
+          locationInfoBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      public Builder clearLocationInfo() {
+        if (locationInfoBuilder_ == null) {
+          locationInfo_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00002000);
+          onChanged();
+        } else {
+          locationInfoBuilder_.clear();
+        }
+        return this;
+      }
+      public Builder removeLocationInfo(int index) {
+        if (locationInfoBuilder_ == null) {
+          ensureLocationInfoIsMutable();
+          locationInfo_.remove(index);
+          onChanged();
+        } else {
+          locationInfoBuilder_.remove(index);
+        }
+        return this;
+      }
+      public com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder getLocationInfoBuilder(
+          int index) {
+        return getLocationInfoFieldBuilder().getBuilder(index);
+      }
+      public com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder getLocationInfoOrBuilder(
+          int index) {
+        if (locationInfoBuilder_ == null) {
+          return locationInfo_.get(index);  } else {
+          return locationInfoBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder> 
+           getLocationInfoOrBuilderList() {
+        if (locationInfoBuilder_ != null) {
+          return locationInfoBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(locationInfo_);
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder addLocationInfoBuilder() {
+        return getLocationInfoFieldBuilder().addBuilder(
+            com.damuzhi.travel.protos.AppProtos.CityLocationInfo.getDefaultInstance());
+      }
+      public com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder addLocationInfoBuilder(
+          int index) {
+        return getLocationInfoFieldBuilder().addBuilder(
+            index, com.damuzhi.travel.protos.AppProtos.CityLocationInfo.getDefaultInstance());
+      }
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder> 
+           getLocationInfoBuilderList() {
+        return getLocationInfoFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.CityLocationInfo, com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder, com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder> 
+          getLocationInfoFieldBuilder() {
+        if (locationInfoBuilder_ == null) {
+          locationInfoBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.damuzhi.travel.protos.AppProtos.CityLocationInfo, com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder, com.damuzhi.travel.protos.AppProtos.CityLocationInfoOrBuilder>(
+                  locationInfo_,
+                  ((bitField0_ & 0x00002000) == 0x00002000),
+                  getParentForChildren(),
+                  isClean());
+          locationInfo_ = null;
+        }
+        return locationInfoBuilder_;
       }
       
       // @@protoc_insertion_point(builder_scope:damuzhi.City)
@@ -7770,6 +8532,46 @@ public final class AppProtos {
         getCityGroupsOrBuilderList();
     com.damuzhi.travel.protos.AppProtos.CityGroupOrBuilder getCityGroupsOrBuilder(
         int index);
+    
+    // repeated .damuzhi.NameIdPair airlines = 110;
+    java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> 
+        getAirlinesList();
+    com.damuzhi.travel.protos.AppProtos.NameIdPair getAirlines(int index);
+    int getAirlinesCount();
+    java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+        getAirlinesOrBuilderList();
+    com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getAirlinesOrBuilder(
+        int index);
+    
+    // repeated .damuzhi.NameIdPair nationalitys = 112;
+    java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> 
+        getNationalitysList();
+    com.damuzhi.travel.protos.AppProtos.NameIdPair getNationalitys(int index);
+    int getNationalitysCount();
+    java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+        getNationalitysOrBuilderList();
+    com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getNationalitysOrBuilder(
+        int index);
+    
+    // repeated .damuzhi.NameIdPair cards = 113;
+    java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> 
+        getCardsList();
+    com.damuzhi.travel.protos.AppProtos.NameIdPair getCards(int index);
+    int getCardsCount();
+    java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+        getCardsOrBuilderList();
+    com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getCardsOrBuilder(
+        int index);
+    
+    // repeated .damuzhi.NameIdPair banks = 114;
+    java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> 
+        getBanksList();
+    com.damuzhi.travel.protos.AppProtos.NameIdPair getBanks(int index);
+    int getBanksCount();
+    java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+        getBanksOrBuilderList();
+    com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getBanksOrBuilder(
+        int index);
   }
   public static final class App extends
       com.google.protobuf.GeneratedMessage
@@ -8095,6 +8897,90 @@ public final class AppProtos {
       return cityGroups_.get(index);
     }
     
+    // repeated .damuzhi.NameIdPair airlines = 110;
+    public static final int AIRLINES_FIELD_NUMBER = 110;
+    private java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> airlines_;
+    public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> getAirlinesList() {
+      return airlines_;
+    }
+    public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+        getAirlinesOrBuilderList() {
+      return airlines_;
+    }
+    public int getAirlinesCount() {
+      return airlines_.size();
+    }
+    public com.damuzhi.travel.protos.AppProtos.NameIdPair getAirlines(int index) {
+      return airlines_.get(index);
+    }
+    public com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getAirlinesOrBuilder(
+        int index) {
+      return airlines_.get(index);
+    }
+    
+    // repeated .damuzhi.NameIdPair nationalitys = 112;
+    public static final int NATIONALITYS_FIELD_NUMBER = 112;
+    private java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> nationalitys_;
+    public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> getNationalitysList() {
+      return nationalitys_;
+    }
+    public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+        getNationalitysOrBuilderList() {
+      return nationalitys_;
+    }
+    public int getNationalitysCount() {
+      return nationalitys_.size();
+    }
+    public com.damuzhi.travel.protos.AppProtos.NameIdPair getNationalitys(int index) {
+      return nationalitys_.get(index);
+    }
+    public com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getNationalitysOrBuilder(
+        int index) {
+      return nationalitys_.get(index);
+    }
+    
+    // repeated .damuzhi.NameIdPair cards = 113;
+    public static final int CARDS_FIELD_NUMBER = 113;
+    private java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> cards_;
+    public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> getCardsList() {
+      return cards_;
+    }
+    public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+        getCardsOrBuilderList() {
+      return cards_;
+    }
+    public int getCardsCount() {
+      return cards_.size();
+    }
+    public com.damuzhi.travel.protos.AppProtos.NameIdPair getCards(int index) {
+      return cards_.get(index);
+    }
+    public com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getCardsOrBuilder(
+        int index) {
+      return cards_.get(index);
+    }
+    
+    // repeated .damuzhi.NameIdPair banks = 114;
+    public static final int BANKS_FIELD_NUMBER = 114;
+    private java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> banks_;
+    public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> getBanksList() {
+      return banks_;
+    }
+    public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+        getBanksOrBuilderList() {
+      return banks_;
+    }
+    public int getBanksCount() {
+      return banks_.size();
+    }
+    public com.damuzhi.travel.protos.AppProtos.NameIdPair getBanks(int index) {
+      return banks_.get(index);
+    }
+    public com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getBanksOrBuilder(
+        int index) {
+      return banks_.get(index);
+    }
+    
     private void initFields() {
       dataVersion_ = "";
       cities_ = java.util.Collections.emptyList();
@@ -8109,6 +8995,10 @@ public final class AppProtos {
       agencies_ = java.util.Collections.emptyList();
       serviceTelephone_ = "";
       cityGroups_ = java.util.Collections.emptyList();
+      airlines_ = java.util.Collections.emptyList();
+      nationalitys_ = java.util.Collections.emptyList();
+      cards_ = java.util.Collections.emptyList();
+      banks_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -8185,6 +9075,30 @@ public final class AppProtos {
           return false;
         }
       }
+      for (int i = 0; i < getAirlinesCount(); i++) {
+        if (!getAirlines(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getNationalitysCount(); i++) {
+        if (!getNationalitys(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getCardsCount(); i++) {
+        if (!getCards(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
+      for (int i = 0; i < getBanksCount(); i++) {
+        if (!getBanks(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -8230,6 +9144,18 @@ public final class AppProtos {
       }
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         output.writeBytes(100, getServiceTelephoneBytes());
+      }
+      for (int i = 0; i < airlines_.size(); i++) {
+        output.writeMessage(110, airlines_.get(i));
+      }
+      for (int i = 0; i < nationalitys_.size(); i++) {
+        output.writeMessage(112, nationalitys_.get(i));
+      }
+      for (int i = 0; i < cards_.size(); i++) {
+        output.writeMessage(113, cards_.get(i));
+      }
+      for (int i = 0; i < banks_.size(); i++) {
+        output.writeMessage(114, banks_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -8291,6 +9217,22 @@ public final class AppProtos {
       if (((bitField0_ & 0x00000002) == 0x00000002)) {
         size += com.google.protobuf.CodedOutputStream
           .computeBytesSize(100, getServiceTelephoneBytes());
+      }
+      for (int i = 0; i < airlines_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(110, airlines_.get(i));
+      }
+      for (int i = 0; i < nationalitys_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(112, nationalitys_.get(i));
+      }
+      for (int i = 0; i < cards_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(113, cards_.get(i));
+      }
+      for (int i = 0; i < banks_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(114, banks_.get(i));
       }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
@@ -8419,6 +9361,10 @@ public final class AppProtos {
           getRouteCategorysFieldBuilder();
           getAgenciesFieldBuilder();
           getCityGroupsFieldBuilder();
+          getAirlinesFieldBuilder();
+          getNationalitysFieldBuilder();
+          getCardsFieldBuilder();
+          getBanksFieldBuilder();
         }
       }
       private static Builder create() {
@@ -8496,6 +9442,30 @@ public final class AppProtos {
           bitField0_ = (bitField0_ & ~0x00001000);
         } else {
           cityGroupsBuilder_.clear();
+        }
+        if (airlinesBuilder_ == null) {
+          airlines_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00002000);
+        } else {
+          airlinesBuilder_.clear();
+        }
+        if (nationalitysBuilder_ == null) {
+          nationalitys_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00004000);
+        } else {
+          nationalitysBuilder_.clear();
+        }
+        if (cardsBuilder_ == null) {
+          cards_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00008000);
+        } else {
+          cardsBuilder_.clear();
+        }
+        if (banksBuilder_ == null) {
+          banks_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00010000);
+        } else {
+          banksBuilder_.clear();
         }
         return this;
       }
@@ -8641,6 +9611,42 @@ public final class AppProtos {
           result.cityGroups_ = cityGroups_;
         } else {
           result.cityGroups_ = cityGroupsBuilder_.build();
+        }
+        if (airlinesBuilder_ == null) {
+          if (((bitField0_ & 0x00002000) == 0x00002000)) {
+            airlines_ = java.util.Collections.unmodifiableList(airlines_);
+            bitField0_ = (bitField0_ & ~0x00002000);
+          }
+          result.airlines_ = airlines_;
+        } else {
+          result.airlines_ = airlinesBuilder_.build();
+        }
+        if (nationalitysBuilder_ == null) {
+          if (((bitField0_ & 0x00004000) == 0x00004000)) {
+            nationalitys_ = java.util.Collections.unmodifiableList(nationalitys_);
+            bitField0_ = (bitField0_ & ~0x00004000);
+          }
+          result.nationalitys_ = nationalitys_;
+        } else {
+          result.nationalitys_ = nationalitysBuilder_.build();
+        }
+        if (cardsBuilder_ == null) {
+          if (((bitField0_ & 0x00008000) == 0x00008000)) {
+            cards_ = java.util.Collections.unmodifiableList(cards_);
+            bitField0_ = (bitField0_ & ~0x00008000);
+          }
+          result.cards_ = cards_;
+        } else {
+          result.cards_ = cardsBuilder_.build();
+        }
+        if (banksBuilder_ == null) {
+          if (((bitField0_ & 0x00010000) == 0x00010000)) {
+            banks_ = java.util.Collections.unmodifiableList(banks_);
+            bitField0_ = (bitField0_ & ~0x00010000);
+          }
+          result.banks_ = banks_;
+        } else {
+          result.banks_ = banksBuilder_.build();
         }
         result.bitField0_ = to_bitField0_;
         onBuilt();
@@ -8950,6 +9956,110 @@ public final class AppProtos {
             }
           }
         }
+        if (airlinesBuilder_ == null) {
+          if (!other.airlines_.isEmpty()) {
+            if (airlines_.isEmpty()) {
+              airlines_ = other.airlines_;
+              bitField0_ = (bitField0_ & ~0x00002000);
+            } else {
+              ensureAirlinesIsMutable();
+              airlines_.addAll(other.airlines_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.airlines_.isEmpty()) {
+            if (airlinesBuilder_.isEmpty()) {
+              airlinesBuilder_.dispose();
+              airlinesBuilder_ = null;
+              airlines_ = other.airlines_;
+              bitField0_ = (bitField0_ & ~0x00002000);
+              airlinesBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getAirlinesFieldBuilder() : null;
+            } else {
+              airlinesBuilder_.addAllMessages(other.airlines_);
+            }
+          }
+        }
+        if (nationalitysBuilder_ == null) {
+          if (!other.nationalitys_.isEmpty()) {
+            if (nationalitys_.isEmpty()) {
+              nationalitys_ = other.nationalitys_;
+              bitField0_ = (bitField0_ & ~0x00004000);
+            } else {
+              ensureNationalitysIsMutable();
+              nationalitys_.addAll(other.nationalitys_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.nationalitys_.isEmpty()) {
+            if (nationalitysBuilder_.isEmpty()) {
+              nationalitysBuilder_.dispose();
+              nationalitysBuilder_ = null;
+              nationalitys_ = other.nationalitys_;
+              bitField0_ = (bitField0_ & ~0x00004000);
+              nationalitysBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getNationalitysFieldBuilder() : null;
+            } else {
+              nationalitysBuilder_.addAllMessages(other.nationalitys_);
+            }
+          }
+        }
+        if (cardsBuilder_ == null) {
+          if (!other.cards_.isEmpty()) {
+            if (cards_.isEmpty()) {
+              cards_ = other.cards_;
+              bitField0_ = (bitField0_ & ~0x00008000);
+            } else {
+              ensureCardsIsMutable();
+              cards_.addAll(other.cards_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.cards_.isEmpty()) {
+            if (cardsBuilder_.isEmpty()) {
+              cardsBuilder_.dispose();
+              cardsBuilder_ = null;
+              cards_ = other.cards_;
+              bitField0_ = (bitField0_ & ~0x00008000);
+              cardsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getCardsFieldBuilder() : null;
+            } else {
+              cardsBuilder_.addAllMessages(other.cards_);
+            }
+          }
+        }
+        if (banksBuilder_ == null) {
+          if (!other.banks_.isEmpty()) {
+            if (banks_.isEmpty()) {
+              banks_ = other.banks_;
+              bitField0_ = (bitField0_ & ~0x00010000);
+            } else {
+              ensureBanksIsMutable();
+              banks_.addAll(other.banks_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.banks_.isEmpty()) {
+            if (banksBuilder_.isEmpty()) {
+              banksBuilder_.dispose();
+              banksBuilder_ = null;
+              banks_ = other.banks_;
+              bitField0_ = (bitField0_ & ~0x00010000);
+              banksBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getBanksFieldBuilder() : null;
+            } else {
+              banksBuilder_.addAllMessages(other.banks_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -9021,6 +10131,30 @@ public final class AppProtos {
         }
         for (int i = 0; i < getCityGroupsCount(); i++) {
           if (!getCityGroups(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getAirlinesCount(); i++) {
+          if (!getAirlines(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getNationalitysCount(); i++) {
+          if (!getNationalitys(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getCardsCount(); i++) {
+          if (!getCards(i).isInitialized()) {
+            
+            return false;
+          }
+        }
+        for (int i = 0; i < getBanksCount(); i++) {
+          if (!getBanks(i).isInitialized()) {
             
             return false;
           }
@@ -9125,6 +10259,30 @@ public final class AppProtos {
             case 802: {
               bitField0_ |= 0x00000800;
               serviceTelephone_ = input.readBytes();
+              break;
+            }
+            case 882: {
+              com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder subBuilder = com.damuzhi.travel.protos.AppProtos.NameIdPair.newBuilder();
+              input.readMessage(subBuilder, extensionRegistry);
+              addAirlines(subBuilder.buildPartial());
+              break;
+            }
+            case 898: {
+              com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder subBuilder = com.damuzhi.travel.protos.AppProtos.NameIdPair.newBuilder();
+              input.readMessage(subBuilder, extensionRegistry);
+              addNationalitys(subBuilder.buildPartial());
+              break;
+            }
+            case 906: {
+              com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder subBuilder = com.damuzhi.travel.protos.AppProtos.NameIdPair.newBuilder();
+              input.readMessage(subBuilder, extensionRegistry);
+              addCards(subBuilder.buildPartial());
+              break;
+            }
+            case 914: {
+              com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder subBuilder = com.damuzhi.travel.protos.AppProtos.NameIdPair.newBuilder();
+              input.readMessage(subBuilder, extensionRegistry);
+              addBanks(subBuilder.buildPartial());
               break;
             }
           }
@@ -11251,6 +12409,750 @@ public final class AppProtos {
         return cityGroupsBuilder_;
       }
       
+      // repeated .damuzhi.NameIdPair airlines = 110;
+      private java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> airlines_ =
+        java.util.Collections.emptyList();
+      private void ensureAirlinesIsMutable() {
+        if (!((bitField0_ & 0x00002000) == 0x00002000)) {
+          airlines_ = new java.util.ArrayList<com.damuzhi.travel.protos.AppProtos.NameIdPair>(airlines_);
+          bitField0_ |= 0x00002000;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> airlinesBuilder_;
+      
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> getAirlinesList() {
+        if (airlinesBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(airlines_);
+        } else {
+          return airlinesBuilder_.getMessageList();
+        }
+      }
+      public int getAirlinesCount() {
+        if (airlinesBuilder_ == null) {
+          return airlines_.size();
+        } else {
+          return airlinesBuilder_.getCount();
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair getAirlines(int index) {
+        if (airlinesBuilder_ == null) {
+          return airlines_.get(index);
+        } else {
+          return airlinesBuilder_.getMessage(index);
+        }
+      }
+      public Builder setAirlines(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (airlinesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAirlinesIsMutable();
+          airlines_.set(index, value);
+          onChanged();
+        } else {
+          airlinesBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      public Builder setAirlines(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (airlinesBuilder_ == null) {
+          ensureAirlinesIsMutable();
+          airlines_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          airlinesBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAirlines(com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (airlinesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAirlinesIsMutable();
+          airlines_.add(value);
+          onChanged();
+        } else {
+          airlinesBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      public Builder addAirlines(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (airlinesBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureAirlinesIsMutable();
+          airlines_.add(index, value);
+          onChanged();
+        } else {
+          airlinesBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      public Builder addAirlines(
+          com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (airlinesBuilder_ == null) {
+          ensureAirlinesIsMutable();
+          airlines_.add(builderForValue.build());
+          onChanged();
+        } else {
+          airlinesBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAirlines(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (airlinesBuilder_ == null) {
+          ensureAirlinesIsMutable();
+          airlines_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          airlinesBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAllAirlines(
+          java.lang.Iterable<? extends com.damuzhi.travel.protos.AppProtos.NameIdPair> values) {
+        if (airlinesBuilder_ == null) {
+          ensureAirlinesIsMutable();
+          super.addAll(values, airlines_);
+          onChanged();
+        } else {
+          airlinesBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      public Builder clearAirlines() {
+        if (airlinesBuilder_ == null) {
+          airlines_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00002000);
+          onChanged();
+        } else {
+          airlinesBuilder_.clear();
+        }
+        return this;
+      }
+      public Builder removeAirlines(int index) {
+        if (airlinesBuilder_ == null) {
+          ensureAirlinesIsMutable();
+          airlines_.remove(index);
+          onChanged();
+        } else {
+          airlinesBuilder_.remove(index);
+        }
+        return this;
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder getAirlinesBuilder(
+          int index) {
+        return getAirlinesFieldBuilder().getBuilder(index);
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getAirlinesOrBuilder(
+          int index) {
+        if (airlinesBuilder_ == null) {
+          return airlines_.get(index);  } else {
+          return airlinesBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+           getAirlinesOrBuilderList() {
+        if (airlinesBuilder_ != null) {
+          return airlinesBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(airlines_);
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder addAirlinesBuilder() {
+        return getAirlinesFieldBuilder().addBuilder(
+            com.damuzhi.travel.protos.AppProtos.NameIdPair.getDefaultInstance());
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder addAirlinesBuilder(
+          int index) {
+        return getAirlinesFieldBuilder().addBuilder(
+            index, com.damuzhi.travel.protos.AppProtos.NameIdPair.getDefaultInstance());
+      }
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder> 
+           getAirlinesBuilderList() {
+        return getAirlinesFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+          getAirlinesFieldBuilder() {
+        if (airlinesBuilder_ == null) {
+          airlinesBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder>(
+                  airlines_,
+                  ((bitField0_ & 0x00002000) == 0x00002000),
+                  getParentForChildren(),
+                  isClean());
+          airlines_ = null;
+        }
+        return airlinesBuilder_;
+      }
+      
+      // repeated .damuzhi.NameIdPair nationalitys = 112;
+      private java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> nationalitys_ =
+        java.util.Collections.emptyList();
+      private void ensureNationalitysIsMutable() {
+        if (!((bitField0_ & 0x00004000) == 0x00004000)) {
+          nationalitys_ = new java.util.ArrayList<com.damuzhi.travel.protos.AppProtos.NameIdPair>(nationalitys_);
+          bitField0_ |= 0x00004000;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> nationalitysBuilder_;
+      
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> getNationalitysList() {
+        if (nationalitysBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(nationalitys_);
+        } else {
+          return nationalitysBuilder_.getMessageList();
+        }
+      }
+      public int getNationalitysCount() {
+        if (nationalitysBuilder_ == null) {
+          return nationalitys_.size();
+        } else {
+          return nationalitysBuilder_.getCount();
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair getNationalitys(int index) {
+        if (nationalitysBuilder_ == null) {
+          return nationalitys_.get(index);
+        } else {
+          return nationalitysBuilder_.getMessage(index);
+        }
+      }
+      public Builder setNationalitys(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (nationalitysBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNationalitysIsMutable();
+          nationalitys_.set(index, value);
+          onChanged();
+        } else {
+          nationalitysBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      public Builder setNationalitys(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (nationalitysBuilder_ == null) {
+          ensureNationalitysIsMutable();
+          nationalitys_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          nationalitysBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addNationalitys(com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (nationalitysBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNationalitysIsMutable();
+          nationalitys_.add(value);
+          onChanged();
+        } else {
+          nationalitysBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      public Builder addNationalitys(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (nationalitysBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureNationalitysIsMutable();
+          nationalitys_.add(index, value);
+          onChanged();
+        } else {
+          nationalitysBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      public Builder addNationalitys(
+          com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (nationalitysBuilder_ == null) {
+          ensureNationalitysIsMutable();
+          nationalitys_.add(builderForValue.build());
+          onChanged();
+        } else {
+          nationalitysBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addNationalitys(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (nationalitysBuilder_ == null) {
+          ensureNationalitysIsMutable();
+          nationalitys_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          nationalitysBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAllNationalitys(
+          java.lang.Iterable<? extends com.damuzhi.travel.protos.AppProtos.NameIdPair> values) {
+        if (nationalitysBuilder_ == null) {
+          ensureNationalitysIsMutable();
+          super.addAll(values, nationalitys_);
+          onChanged();
+        } else {
+          nationalitysBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      public Builder clearNationalitys() {
+        if (nationalitysBuilder_ == null) {
+          nationalitys_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00004000);
+          onChanged();
+        } else {
+          nationalitysBuilder_.clear();
+        }
+        return this;
+      }
+      public Builder removeNationalitys(int index) {
+        if (nationalitysBuilder_ == null) {
+          ensureNationalitysIsMutable();
+          nationalitys_.remove(index);
+          onChanged();
+        } else {
+          nationalitysBuilder_.remove(index);
+        }
+        return this;
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder getNationalitysBuilder(
+          int index) {
+        return getNationalitysFieldBuilder().getBuilder(index);
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getNationalitysOrBuilder(
+          int index) {
+        if (nationalitysBuilder_ == null) {
+          return nationalitys_.get(index);  } else {
+          return nationalitysBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+           getNationalitysOrBuilderList() {
+        if (nationalitysBuilder_ != null) {
+          return nationalitysBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(nationalitys_);
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder addNationalitysBuilder() {
+        return getNationalitysFieldBuilder().addBuilder(
+            com.damuzhi.travel.protos.AppProtos.NameIdPair.getDefaultInstance());
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder addNationalitysBuilder(
+          int index) {
+        return getNationalitysFieldBuilder().addBuilder(
+            index, com.damuzhi.travel.protos.AppProtos.NameIdPair.getDefaultInstance());
+      }
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder> 
+           getNationalitysBuilderList() {
+        return getNationalitysFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+          getNationalitysFieldBuilder() {
+        if (nationalitysBuilder_ == null) {
+          nationalitysBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder>(
+                  nationalitys_,
+                  ((bitField0_ & 0x00004000) == 0x00004000),
+                  getParentForChildren(),
+                  isClean());
+          nationalitys_ = null;
+        }
+        return nationalitysBuilder_;
+      }
+      
+      // repeated .damuzhi.NameIdPair cards = 113;
+      private java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> cards_ =
+        java.util.Collections.emptyList();
+      private void ensureCardsIsMutable() {
+        if (!((bitField0_ & 0x00008000) == 0x00008000)) {
+          cards_ = new java.util.ArrayList<com.damuzhi.travel.protos.AppProtos.NameIdPair>(cards_);
+          bitField0_ |= 0x00008000;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> cardsBuilder_;
+      
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> getCardsList() {
+        if (cardsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(cards_);
+        } else {
+          return cardsBuilder_.getMessageList();
+        }
+      }
+      public int getCardsCount() {
+        if (cardsBuilder_ == null) {
+          return cards_.size();
+        } else {
+          return cardsBuilder_.getCount();
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair getCards(int index) {
+        if (cardsBuilder_ == null) {
+          return cards_.get(index);
+        } else {
+          return cardsBuilder_.getMessage(index);
+        }
+      }
+      public Builder setCards(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (cardsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCardsIsMutable();
+          cards_.set(index, value);
+          onChanged();
+        } else {
+          cardsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      public Builder setCards(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (cardsBuilder_ == null) {
+          ensureCardsIsMutable();
+          cards_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          cardsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addCards(com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (cardsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCardsIsMutable();
+          cards_.add(value);
+          onChanged();
+        } else {
+          cardsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      public Builder addCards(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (cardsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCardsIsMutable();
+          cards_.add(index, value);
+          onChanged();
+        } else {
+          cardsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      public Builder addCards(
+          com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (cardsBuilder_ == null) {
+          ensureCardsIsMutable();
+          cards_.add(builderForValue.build());
+          onChanged();
+        } else {
+          cardsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addCards(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (cardsBuilder_ == null) {
+          ensureCardsIsMutable();
+          cards_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          cardsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAllCards(
+          java.lang.Iterable<? extends com.damuzhi.travel.protos.AppProtos.NameIdPair> values) {
+        if (cardsBuilder_ == null) {
+          ensureCardsIsMutable();
+          super.addAll(values, cards_);
+          onChanged();
+        } else {
+          cardsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      public Builder clearCards() {
+        if (cardsBuilder_ == null) {
+          cards_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00008000);
+          onChanged();
+        } else {
+          cardsBuilder_.clear();
+        }
+        return this;
+      }
+      public Builder removeCards(int index) {
+        if (cardsBuilder_ == null) {
+          ensureCardsIsMutable();
+          cards_.remove(index);
+          onChanged();
+        } else {
+          cardsBuilder_.remove(index);
+        }
+        return this;
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder getCardsBuilder(
+          int index) {
+        return getCardsFieldBuilder().getBuilder(index);
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getCardsOrBuilder(
+          int index) {
+        if (cardsBuilder_ == null) {
+          return cards_.get(index);  } else {
+          return cardsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+           getCardsOrBuilderList() {
+        if (cardsBuilder_ != null) {
+          return cardsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(cards_);
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder addCardsBuilder() {
+        return getCardsFieldBuilder().addBuilder(
+            com.damuzhi.travel.protos.AppProtos.NameIdPair.getDefaultInstance());
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder addCardsBuilder(
+          int index) {
+        return getCardsFieldBuilder().addBuilder(
+            index, com.damuzhi.travel.protos.AppProtos.NameIdPair.getDefaultInstance());
+      }
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder> 
+           getCardsBuilderList() {
+        return getCardsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+          getCardsFieldBuilder() {
+        if (cardsBuilder_ == null) {
+          cardsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder>(
+                  cards_,
+                  ((bitField0_ & 0x00008000) == 0x00008000),
+                  getParentForChildren(),
+                  isClean());
+          cards_ = null;
+        }
+        return cardsBuilder_;
+      }
+      
+      // repeated .damuzhi.NameIdPair banks = 114;
+      private java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> banks_ =
+        java.util.Collections.emptyList();
+      private void ensureBanksIsMutable() {
+        if (!((bitField0_ & 0x00010000) == 0x00010000)) {
+          banks_ = new java.util.ArrayList<com.damuzhi.travel.protos.AppProtos.NameIdPair>(banks_);
+          bitField0_ |= 0x00010000;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> banksBuilder_;
+      
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair> getBanksList() {
+        if (banksBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(banks_);
+        } else {
+          return banksBuilder_.getMessageList();
+        }
+      }
+      public int getBanksCount() {
+        if (banksBuilder_ == null) {
+          return banks_.size();
+        } else {
+          return banksBuilder_.getCount();
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair getBanks(int index) {
+        if (banksBuilder_ == null) {
+          return banks_.get(index);
+        } else {
+          return banksBuilder_.getMessage(index);
+        }
+      }
+      public Builder setBanks(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (banksBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBanksIsMutable();
+          banks_.set(index, value);
+          onChanged();
+        } else {
+          banksBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      public Builder setBanks(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (banksBuilder_ == null) {
+          ensureBanksIsMutable();
+          banks_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          banksBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addBanks(com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (banksBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBanksIsMutable();
+          banks_.add(value);
+          onChanged();
+        } else {
+          banksBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      public Builder addBanks(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair value) {
+        if (banksBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureBanksIsMutable();
+          banks_.add(index, value);
+          onChanged();
+        } else {
+          banksBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      public Builder addBanks(
+          com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (banksBuilder_ == null) {
+          ensureBanksIsMutable();
+          banks_.add(builderForValue.build());
+          onChanged();
+        } else {
+          banksBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addBanks(
+          int index, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder builderForValue) {
+        if (banksBuilder_ == null) {
+          ensureBanksIsMutable();
+          banks_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          banksBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAllBanks(
+          java.lang.Iterable<? extends com.damuzhi.travel.protos.AppProtos.NameIdPair> values) {
+        if (banksBuilder_ == null) {
+          ensureBanksIsMutable();
+          super.addAll(values, banks_);
+          onChanged();
+        } else {
+          banksBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      public Builder clearBanks() {
+        if (banksBuilder_ == null) {
+          banks_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00010000);
+          onChanged();
+        } else {
+          banksBuilder_.clear();
+        }
+        return this;
+      }
+      public Builder removeBanks(int index) {
+        if (banksBuilder_ == null) {
+          ensureBanksIsMutable();
+          banks_.remove(index);
+          onChanged();
+        } else {
+          banksBuilder_.remove(index);
+        }
+        return this;
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder getBanksBuilder(
+          int index) {
+        return getBanksFieldBuilder().getBuilder(index);
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder getBanksOrBuilder(
+          int index) {
+        if (banksBuilder_ == null) {
+          return banks_.get(index);  } else {
+          return banksBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+           getBanksOrBuilderList() {
+        if (banksBuilder_ != null) {
+          return banksBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(banks_);
+        }
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder addBanksBuilder() {
+        return getBanksFieldBuilder().addBuilder(
+            com.damuzhi.travel.protos.AppProtos.NameIdPair.getDefaultInstance());
+      }
+      public com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder addBanksBuilder(
+          int index) {
+        return getBanksFieldBuilder().addBuilder(
+            index, com.damuzhi.travel.protos.AppProtos.NameIdPair.getDefaultInstance());
+      }
+      public java.util.List<com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder> 
+           getBanksBuilderList() {
+        return getBanksFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder> 
+          getBanksFieldBuilder() {
+        if (banksBuilder_ == null) {
+          banksBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.damuzhi.travel.protos.AppProtos.NameIdPair, com.damuzhi.travel.protos.AppProtos.NameIdPair.Builder, com.damuzhi.travel.protos.AppProtos.NameIdPairOrBuilder>(
+                  banks_,
+                  ((bitField0_ & 0x00010000) == 0x00010000),
+                  getParentForChildren(),
+                  isClean());
+          banks_ = null;
+        }
+        return banksBuilder_;
+      }
+      
       // @@protoc_insertion_point(builder_scope:damuzhi.App)
     }
     
@@ -11277,6 +13179,11 @@ public final class AppProtos {
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
       internal_static_damuzhi_CityArea_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_damuzhi_CityLocationInfo_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_damuzhi_CityLocationInfo_fieldAccessorTable;
   private static com.google.protobuf.Descriptors.Descriptor
     internal_static_damuzhi_City_descriptor;
   private static
@@ -11338,43 +13245,50 @@ public final class AppProtos {
       "\004name\030\002 \002(\t\022,\n\017subCategoryList\030\003 \003(\0132\023.d" +
       "amuzhi.NameIdPair\0220\n\023providedServiceList" +
       "\030\004 \003(\0132\023.damuzhi.NameIdPair\",\n\010CityArea\022" +
-      "\016\n\006areaId\030\001 \002(\005\022\020\n\010areaName\030\002 \002(\t\"\241\002\n\004Ci" +
-      "ty\022\016\n\006cityId\030\001 \002(\005\022\020\n\010cityName\030\002 \002(\t\022\025\n\r" +
-      "latestVersion\030\003 \001(\t\022\023\n\013countryName\030\004 \001(\t",
-      "\022\020\n\010dataSize\030\005 \001(\005\022\023\n\013downloadURL\030\006 \001(\t\022" +
-      "#\n\010areaList\030\n \003(\0132\021.damuzhi.CityArea\022\026\n\016" +
-      "currencySymbol\030\013 \002(\t\022\022\n\ncurrencyId\030\014 \002(\t" +
-      "\022\024\n\014currencyName\030\r \002(\t\022\024\n\tpriceRank\030\024 \001(" +
-      "\005:\0013\022\017\n\007groupId\0302 \001(\005\022\026\n\007hotCity\0303 \001(\010:\005" +
-      "false\")\n\010CityList\022\035\n\006cities\030\001 \003(\0132\r.damu" +
-      "zhi.City\"-\n\010HelpInfo\022\017\n\007version\030\001 \001(\t\022\020\n" +
-      "\010helpHtml\030\013 \001(\t\"i\n\016RecommendedApp\022\014\n\004nam" +
-      "e\030\001 \002(\t\022\n\n\002id\030\002 \002(\005\022\r\n\005appId\030\003 \001(\t\022\023\n\013de" +
-      "scription\030\004 \001(\t\022\014\n\004icon\030\005 \001(\t\022\013\n\003url\030\006 \001",
-      "(\t\"H\n\006Agency\022\020\n\010agencyId\030\001 \002(\005\022\014\n\004name\030\002" +
-      " \002(\t\022\021\n\tshortName\030\005 \001(\t\022\013\n\003url\030\006 \001(\t\"Y\n\t" +
-      "RouteCity\022\023\n\013routeCityId\030\001 \002(\005\022\020\n\010cityNa" +
-      "me\030\002 \002(\t\022\023\n\013countryName\030\003 \002(\t\022\020\n\010regionI" +
-      "d\030\010 \001(\005\".\n\006Region\022\020\n\010regionId\030\001 \002(\005\022\022\n\nr" +
-      "egionName\030\002 \002(\t\"*\n\tCityGroup\022\017\n\007groupId\030" +
-      "\001 \002(\005\022\014\n\004name\030\002 \002(\t\"\364\003\n\003App\022\023\n\013dataVersi" +
-      "on\030\001 \002(\t\022\035\n\006cities\030\002 \003(\0132\r.damuzhi.City\022" +
-      "!\n\ntestCities\030\003 \003(\0132\r.damuzhi.City\022-\n\021pl" +
-      "aceMetaDataList\030\005 \003(\0132\022.damuzhi.PlaceMet",
-      "a\0220\n\017recommendedApps\030\n \003(\0132\027.damuzhi.Rec" +
-      "ommendedApp\022 \n\007regions\030\017 \003(\0132\017.damuzhi.R" +
-      "egion\022(\n\014departCities\030\024 \003(\0132\022.damuzhi.Ro" +
-      "uteCity\022-\n\021destinationCities\030\025 \003(\0132\022.dam" +
-      "uzhi.RouteCity\022(\n\013routeThemes\030\031 \003(\0132\023.da" +
-      "muzhi.NameIdPair\022+\n\016routeCategorys\030\032 \003(\013" +
-      "2\023.damuzhi.NameIdPair\022!\n\010agencies\030\036 \003(\0132" +
-      "\017.damuzhi.Agency\022\030\n\020serviceTelephone\030d \001" +
-      "(\t\022&\n\ncityGroups\030P \003(\0132\022.damuzhi.CityGro" +
-      "up*\210\001\n\021PlaceCategoryType\022\016\n\tPLACE_ALL\020\217N",
-      "\022\016\n\nPLACE_SPOT\020\001\022\017\n\013PLACE_HOTEL\020\002\022\025\n\021PLA" +
-      "CE_RESTRAURANT\020\003\022\022\n\016PLACE_SHOPPING\020\004\022\027\n\023" +
-      "PLACE_ENTERTAINMENT\020\005B&\n\031com.damuzhi.tra" +
-      "vel.protosB\tAppProtos"
+      "\016\n\006areaId\030\001 \002(\005\022\020\n\010areaName\030\002 \002(\t\"I\n\020Cit" +
+      "yLocationInfo\022\020\n\010cityName\030\001 \001(\t\022\021\n\tlongi" +
+      "tude\030\002 \001(\001\022\020\n\010latitude\030\003 \001(\001\"\322\002\n\004City\022\016\n",
+      "\006cityId\030\001 \002(\005\022\020\n\010cityName\030\002 \002(\t\022\025\n\rlates" +
+      "tVersion\030\003 \001(\t\022\023\n\013countryName\030\004 \001(\t\022\020\n\010d" +
+      "ataSize\030\005 \001(\005\022\023\n\013downloadURL\030\006 \001(\t\022#\n\010ar" +
+      "eaList\030\n \003(\0132\021.damuzhi.CityArea\022\026\n\016curre" +
+      "ncySymbol\030\013 \002(\t\022\022\n\ncurrencyId\030\014 \002(\t\022\024\n\014c" +
+      "urrencyName\030\r \002(\t\022\024\n\tpriceRank\030\024 \001(\005:\0013\022" +
+      "\017\n\007groupId\0302 \001(\005\022\026\n\007hotCity\0303 \001(\010:\005false" +
+      "\022/\n\014locationInfo\0307 \003(\0132\031.damuzhi.CityLoc" +
+      "ationInfo\")\n\010CityList\022\035\n\006cities\030\001 \003(\0132\r." +
+      "damuzhi.City\"-\n\010HelpInfo\022\017\n\007version\030\001 \001(",
+      "\t\022\020\n\010helpHtml\030\013 \001(\t\"i\n\016RecommendedApp\022\014\n" +
+      "\004name\030\001 \002(\t\022\n\n\002id\030\002 \002(\005\022\r\n\005appId\030\003 \001(\t\022\023" +
+      "\n\013description\030\004 \001(\t\022\014\n\004icon\030\005 \001(\t\022\013\n\003url" +
+      "\030\006 \001(\t\"H\n\006Agency\022\020\n\010agencyId\030\001 \002(\005\022\014\n\004na" +
+      "me\030\002 \002(\t\022\021\n\tshortName\030\005 \001(\t\022\013\n\003url\030\006 \001(\t" +
+      "\"Y\n\tRouteCity\022\023\n\013routeCityId\030\001 \002(\005\022\020\n\010ci" +
+      "tyName\030\002 \002(\t\022\023\n\013countryName\030\003 \002(\t\022\020\n\010reg" +
+      "ionId\030\010 \001(\005\".\n\006Region\022\020\n\010regionId\030\001 \002(\005\022" +
+      "\022\n\nregionName\030\002 \002(\t\"*\n\tCityGroup\022\017\n\007grou" +
+      "pId\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\"\216\005\n\003App\022\023\n\013dataV",
+      "ersion\030\001 \002(\t\022\035\n\006cities\030\002 \003(\0132\r.damuzhi.C" +
+      "ity\022!\n\ntestCities\030\003 \003(\0132\r.damuzhi.City\022-" +
+      "\n\021placeMetaDataList\030\005 \003(\0132\022.damuzhi.Plac" +
+      "eMeta\0220\n\017recommendedApps\030\n \003(\0132\027.damuzhi" +
+      ".RecommendedApp\022 \n\007regions\030\017 \003(\0132\017.damuz" +
+      "hi.Region\022(\n\014departCities\030\024 \003(\0132\022.damuzh" +
+      "i.RouteCity\022-\n\021destinationCities\030\025 \003(\0132\022" +
+      ".damuzhi.RouteCity\022(\n\013routeThemes\030\031 \003(\0132" +
+      "\023.damuzhi.NameIdPair\022+\n\016routeCategorys\030\032" +
+      " \003(\0132\023.damuzhi.NameIdPair\022!\n\010agencies\030\036 ",
+      "\003(\0132\017.damuzhi.Agency\022\030\n\020serviceTelephone" +
+      "\030d \001(\t\022&\n\ncityGroups\030P \003(\0132\022.damuzhi.Cit" +
+      "yGroup\022%\n\010airlines\030n \003(\0132\023.damuzhi.NameI" +
+      "dPair\022)\n\014nationalitys\030p \003(\0132\023.damuzhi.Na" +
+      "meIdPair\022\"\n\005cards\030q \003(\0132\023.damuzhi.NameId" +
+      "Pair\022\"\n\005banks\030r \003(\0132\023.damuzhi.NameIdPair" +
+      "*\210\001\n\021PlaceCategoryType\022\016\n\tPLACE_ALL\020\217N\022\016" +
+      "\n\nPLACE_SPOT\020\001\022\017\n\013PLACE_HOTEL\020\002\022\025\n\021PLACE" +
+      "_RESTRAURANT\020\003\022\022\n\016PLACE_SHOPPING\020\004\022\027\n\023PL" +
+      "ACE_ENTERTAINMENT\020\005B\037\n\022com.damuzhi.trave",
+      "lB\tAppProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
@@ -11405,16 +13319,24 @@ public final class AppProtos {
               new java.lang.String[] { "AreaId", "AreaName", },
               com.damuzhi.travel.protos.AppProtos.CityArea.class,
               com.damuzhi.travel.protos.AppProtos.CityArea.Builder.class);
-          internal_static_damuzhi_City_descriptor =
+          internal_static_damuzhi_CityLocationInfo_descriptor =
             getDescriptor().getMessageTypes().get(3);
+          internal_static_damuzhi_CityLocationInfo_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_damuzhi_CityLocationInfo_descriptor,
+              new java.lang.String[] { "CityName", "Longitude", "Latitude", },
+              com.damuzhi.travel.protos.AppProtos.CityLocationInfo.class,
+              com.damuzhi.travel.protos.AppProtos.CityLocationInfo.Builder.class);
+          internal_static_damuzhi_City_descriptor =
+            getDescriptor().getMessageTypes().get(4);
           internal_static_damuzhi_City_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_City_descriptor,
-              new java.lang.String[] { "CityId", "CityName", "LatestVersion", "CountryName", "DataSize", "DownloadURL", "AreaList", "CurrencySymbol", "CurrencyId", "CurrencyName", "PriceRank", "GroupId", "HotCity", },
+              new java.lang.String[] { "CityId", "CityName", "LatestVersion", "CountryName", "DataSize", "DownloadURL", "AreaList", "CurrencySymbol", "CurrencyId", "CurrencyName", "PriceRank", "GroupId", "HotCity", "LocationInfo", },
               com.damuzhi.travel.protos.AppProtos.City.class,
               com.damuzhi.travel.protos.AppProtos.City.Builder.class);
           internal_static_damuzhi_CityList_descriptor =
-            getDescriptor().getMessageTypes().get(4);
+            getDescriptor().getMessageTypes().get(5);
           internal_static_damuzhi_CityList_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_CityList_descriptor,
@@ -11422,7 +13344,7 @@ public final class AppProtos {
               com.damuzhi.travel.protos.AppProtos.CityList.class,
               com.damuzhi.travel.protos.AppProtos.CityList.Builder.class);
           internal_static_damuzhi_HelpInfo_descriptor =
-            getDescriptor().getMessageTypes().get(5);
+            getDescriptor().getMessageTypes().get(6);
           internal_static_damuzhi_HelpInfo_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_HelpInfo_descriptor,
@@ -11430,7 +13352,7 @@ public final class AppProtos {
               com.damuzhi.travel.protos.AppProtos.HelpInfo.class,
               com.damuzhi.travel.protos.AppProtos.HelpInfo.Builder.class);
           internal_static_damuzhi_RecommendedApp_descriptor =
-            getDescriptor().getMessageTypes().get(6);
+            getDescriptor().getMessageTypes().get(7);
           internal_static_damuzhi_RecommendedApp_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_RecommendedApp_descriptor,
@@ -11438,7 +13360,7 @@ public final class AppProtos {
               com.damuzhi.travel.protos.AppProtos.RecommendedApp.class,
               com.damuzhi.travel.protos.AppProtos.RecommendedApp.Builder.class);
           internal_static_damuzhi_Agency_descriptor =
-            getDescriptor().getMessageTypes().get(7);
+            getDescriptor().getMessageTypes().get(8);
           internal_static_damuzhi_Agency_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_Agency_descriptor,
@@ -11446,7 +13368,7 @@ public final class AppProtos {
               com.damuzhi.travel.protos.AppProtos.Agency.class,
               com.damuzhi.travel.protos.AppProtos.Agency.Builder.class);
           internal_static_damuzhi_RouteCity_descriptor =
-            getDescriptor().getMessageTypes().get(8);
+            getDescriptor().getMessageTypes().get(9);
           internal_static_damuzhi_RouteCity_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_RouteCity_descriptor,
@@ -11454,7 +13376,7 @@ public final class AppProtos {
               com.damuzhi.travel.protos.AppProtos.RouteCity.class,
               com.damuzhi.travel.protos.AppProtos.RouteCity.Builder.class);
           internal_static_damuzhi_Region_descriptor =
-            getDescriptor().getMessageTypes().get(9);
+            getDescriptor().getMessageTypes().get(10);
           internal_static_damuzhi_Region_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_Region_descriptor,
@@ -11462,7 +13384,7 @@ public final class AppProtos {
               com.damuzhi.travel.protos.AppProtos.Region.class,
               com.damuzhi.travel.protos.AppProtos.Region.Builder.class);
           internal_static_damuzhi_CityGroup_descriptor =
-            getDescriptor().getMessageTypes().get(10);
+            getDescriptor().getMessageTypes().get(11);
           internal_static_damuzhi_CityGroup_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_CityGroup_descriptor,
@@ -11470,11 +13392,11 @@ public final class AppProtos {
               com.damuzhi.travel.protos.AppProtos.CityGroup.class,
               com.damuzhi.travel.protos.AppProtos.CityGroup.Builder.class);
           internal_static_damuzhi_App_descriptor =
-            getDescriptor().getMessageTypes().get(11);
+            getDescriptor().getMessageTypes().get(12);
           internal_static_damuzhi_App_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_App_descriptor,
-              new java.lang.String[] { "DataVersion", "Cities", "TestCities", "PlaceMetaDataList", "RecommendedApps", "Regions", "DepartCities", "DestinationCities", "RouteThemes", "RouteCategorys", "Agencies", "ServiceTelephone", "CityGroups", },
+              new java.lang.String[] { "DataVersion", "Cities", "TestCities", "PlaceMetaDataList", "RecommendedApps", "Regions", "DepartCities", "DestinationCities", "RouteThemes", "RouteCategorys", "Agencies", "ServiceTelephone", "CityGroups", "Airlines", "Nationalitys", "Cards", "Banks", },
               com.damuzhi.travel.protos.AppProtos.App.class,
               com.damuzhi.travel.protos.AppProtos.App.Builder.class);
           return null;

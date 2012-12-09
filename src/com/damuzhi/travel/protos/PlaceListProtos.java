@@ -8,6 +8,642 @@ public final class PlaceListProtos {
   public static void registerAllExtensions(
       com.google.protobuf.ExtensionRegistry registry) {
   }
+  public interface HotelRoomOrBuilder
+      extends com.google.protobuf.MessageOrBuilder {
+    
+    // required int32 roomId = 1;
+    boolean hasRoomId();
+    int getRoomId();
+    
+    // required string name = 2;
+    boolean hasName();
+    String getName();
+    
+    // optional string breakfast = 3;
+    boolean hasBreakfast();
+    String getBreakfast();
+    
+    // optional string price = 4;
+    boolean hasPrice();
+    String getPrice();
+  }
+  public static final class HotelRoom extends
+      com.google.protobuf.GeneratedMessage
+      implements HotelRoomOrBuilder {
+    // Use HotelRoom.newBuilder() to construct.
+    private HotelRoom(Builder builder) {
+      super(builder);
+    }
+    private HotelRoom(boolean noInit) {}
+    
+    private static final HotelRoom defaultInstance;
+    public static HotelRoom getDefaultInstance() {
+      return defaultInstance;
+    }
+    
+    public HotelRoom getDefaultInstanceForType() {
+      return defaultInstance;
+    }
+    
+    public static final com.google.protobuf.Descriptors.Descriptor
+        getDescriptor() {
+      return com.damuzhi.travel.protos.PlaceListProtos.internal_static_damuzhi_HotelRoom_descriptor;
+    }
+    
+    protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+        internalGetFieldAccessorTable() {
+      return com.damuzhi.travel.protos.PlaceListProtos.internal_static_damuzhi_HotelRoom_fieldAccessorTable;
+    }
+    
+    private int bitField0_;
+    // required int32 roomId = 1;
+    public static final int ROOMID_FIELD_NUMBER = 1;
+    private int roomId_;
+    public boolean hasRoomId() {
+      return ((bitField0_ & 0x00000001) == 0x00000001);
+    }
+    public int getRoomId() {
+      return roomId_;
+    }
+    
+    // required string name = 2;
+    public static final int NAME_FIELD_NUMBER = 2;
+    private java.lang.Object name_;
+    public boolean hasName() {
+      return ((bitField0_ & 0x00000002) == 0x00000002);
+    }
+    public String getName() {
+      java.lang.Object ref = name_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          name_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getNameBytes() {
+      java.lang.Object ref = name_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        name_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string breakfast = 3;
+    public static final int BREAKFAST_FIELD_NUMBER = 3;
+    private java.lang.Object breakfast_;
+    public boolean hasBreakfast() {
+      return ((bitField0_ & 0x00000004) == 0x00000004);
+    }
+    public String getBreakfast() {
+      java.lang.Object ref = breakfast_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          breakfast_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getBreakfastBytes() {
+      java.lang.Object ref = breakfast_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        breakfast_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    // optional string price = 4;
+    public static final int PRICE_FIELD_NUMBER = 4;
+    private java.lang.Object price_;
+    public boolean hasPrice() {
+      return ((bitField0_ & 0x00000008) == 0x00000008);
+    }
+    public String getPrice() {
+      java.lang.Object ref = price_;
+      if (ref instanceof String) {
+        return (String) ref;
+      } else {
+        com.google.protobuf.ByteString bs = 
+            (com.google.protobuf.ByteString) ref;
+        String s = bs.toStringUtf8();
+        if (com.google.protobuf.Internal.isValidUtf8(bs)) {
+          price_ = s;
+        }
+        return s;
+      }
+    }
+    private com.google.protobuf.ByteString getPriceBytes() {
+      java.lang.Object ref = price_;
+      if (ref instanceof String) {
+        com.google.protobuf.ByteString b = 
+            com.google.protobuf.ByteString.copyFromUtf8((String) ref);
+        price_ = b;
+        return b;
+      } else {
+        return (com.google.protobuf.ByteString) ref;
+      }
+    }
+    
+    private void initFields() {
+      roomId_ = 0;
+      name_ = "";
+      breakfast_ = "";
+      price_ = "";
+    }
+    private byte memoizedIsInitialized = -1;
+    public final boolean isInitialized() {
+      byte isInitialized = memoizedIsInitialized;
+      if (isInitialized != -1) return isInitialized == 1;
+      
+      if (!hasRoomId()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      if (!hasName()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
+      memoizedIsInitialized = 1;
+      return true;
+    }
+    
+    public void writeTo(com.google.protobuf.CodedOutputStream output)
+                        throws java.io.IOException {
+      getSerializedSize();
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        output.writeInt32(1, roomId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        output.writeBytes(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        output.writeBytes(3, getBreakfastBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        output.writeBytes(4, getPriceBytes());
+      }
+      getUnknownFields().writeTo(output);
+    }
+    
+    private int memoizedSerializedSize = -1;
+    public int getSerializedSize() {
+      int size = memoizedSerializedSize;
+      if (size != -1) return size;
+    
+      size = 0;
+      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeInt32Size(1, roomId_);
+      }
+      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(2, getNameBytes());
+      }
+      if (((bitField0_ & 0x00000004) == 0x00000004)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(3, getBreakfastBytes());
+      }
+      if (((bitField0_ & 0x00000008) == 0x00000008)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeBytesSize(4, getPriceBytes());
+      }
+      size += getUnknownFields().getSerializedSize();
+      memoizedSerializedSize = size;
+      return size;
+    }
+    
+    private static final long serialVersionUID = 0L;
+    @java.lang.Override
+    protected java.lang.Object writeReplace()
+        throws java.io.ObjectStreamException {
+      return super.writeReplace();
+    }
+    
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseFrom(
+        com.google.protobuf.ByteString data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseFrom(
+        com.google.protobuf.ByteString data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseFrom(byte[] data)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseFrom(
+        byte[] data,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws com.google.protobuf.InvalidProtocolBufferException {
+      return newBuilder().mergeFrom(data, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseDelimitedFrom(java.io.InputStream input)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseDelimitedFrom(
+        java.io.InputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      Builder builder = newBuilder();
+      if (builder.mergeDelimitedFrom(input, extensionRegistry)) {
+        return builder.buildParsed();
+      } else {
+        return null;
+      }
+    }
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseFrom(
+        com.google.protobuf.CodedInputStream input)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input).buildParsed();
+    }
+    public static com.damuzhi.travel.protos.PlaceListProtos.HotelRoom parseFrom(
+        com.google.protobuf.CodedInputStream input,
+        com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+        throws java.io.IOException {
+      return newBuilder().mergeFrom(input, extensionRegistry)
+               .buildParsed();
+    }
+    
+    public static Builder newBuilder() { return Builder.create(); }
+    public Builder newBuilderForType() { return newBuilder(); }
+    public static Builder newBuilder(com.damuzhi.travel.protos.PlaceListProtos.HotelRoom prototype) {
+      return newBuilder().mergeFrom(prototype);
+    }
+    public Builder toBuilder() { return newBuilder(this); }
+    
+    @java.lang.Override
+    protected Builder newBuilderForType(
+        com.google.protobuf.GeneratedMessage.BuilderParent parent) {
+      Builder builder = new Builder(parent);
+      return builder;
+    }
+    public static final class Builder extends
+        com.google.protobuf.GeneratedMessage.Builder<Builder>
+       implements com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder {
+      public static final com.google.protobuf.Descriptors.Descriptor
+          getDescriptor() {
+        return com.damuzhi.travel.protos.PlaceListProtos.internal_static_damuzhi_HotelRoom_descriptor;
+      }
+      
+      protected com.google.protobuf.GeneratedMessage.FieldAccessorTable
+          internalGetFieldAccessorTable() {
+        return com.damuzhi.travel.protos.PlaceListProtos.internal_static_damuzhi_HotelRoom_fieldAccessorTable;
+      }
+      
+      // Construct using com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.newBuilder()
+      private Builder() {
+        maybeForceBuilderInitialization();
+      }
+      
+      private Builder(BuilderParent parent) {
+        super(parent);
+        maybeForceBuilderInitialization();
+      }
+      private void maybeForceBuilderInitialization() {
+        if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+        }
+      }
+      private static Builder create() {
+        return new Builder();
+      }
+      
+      public Builder clear() {
+        super.clear();
+        roomId_ = 0;
+        bitField0_ = (bitField0_ & ~0x00000001);
+        name_ = "";
+        bitField0_ = (bitField0_ & ~0x00000002);
+        breakfast_ = "";
+        bitField0_ = (bitField0_ & ~0x00000004);
+        price_ = "";
+        bitField0_ = (bitField0_ & ~0x00000008);
+        return this;
+      }
+      
+      public Builder clone() {
+        return create().mergeFrom(buildPartial());
+      }
+      
+      public com.google.protobuf.Descriptors.Descriptor
+          getDescriptorForType() {
+        return com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.getDescriptor();
+      }
+      
+      public com.damuzhi.travel.protos.PlaceListProtos.HotelRoom getDefaultInstanceForType() {
+        return com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.getDefaultInstance();
+      }
+      
+      public com.damuzhi.travel.protos.PlaceListProtos.HotelRoom build() {
+        com.damuzhi.travel.protos.PlaceListProtos.HotelRoom result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(result);
+        }
+        return result;
+      }
+      
+      private com.damuzhi.travel.protos.PlaceListProtos.HotelRoom buildParsed()
+          throws com.google.protobuf.InvalidProtocolBufferException {
+        com.damuzhi.travel.protos.PlaceListProtos.HotelRoom result = buildPartial();
+        if (!result.isInitialized()) {
+          throw newUninitializedMessageException(
+            result).asInvalidProtocolBufferException();
+        }
+        return result;
+      }
+      
+      public com.damuzhi.travel.protos.PlaceListProtos.HotelRoom buildPartial() {
+        com.damuzhi.travel.protos.PlaceListProtos.HotelRoom result = new com.damuzhi.travel.protos.PlaceListProtos.HotelRoom(this);
+        int from_bitField0_ = bitField0_;
+        int to_bitField0_ = 0;
+        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
+          to_bitField0_ |= 0x00000001;
+        }
+        result.roomId_ = roomId_;
+        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
+          to_bitField0_ |= 0x00000002;
+        }
+        result.name_ = name_;
+        if (((from_bitField0_ & 0x00000004) == 0x00000004)) {
+          to_bitField0_ |= 0x00000004;
+        }
+        result.breakfast_ = breakfast_;
+        if (((from_bitField0_ & 0x00000008) == 0x00000008)) {
+          to_bitField0_ |= 0x00000008;
+        }
+        result.price_ = price_;
+        result.bitField0_ = to_bitField0_;
+        onBuilt();
+        return result;
+      }
+      
+      public Builder mergeFrom(com.google.protobuf.Message other) {
+        if (other instanceof com.damuzhi.travel.protos.PlaceListProtos.HotelRoom) {
+          return mergeFrom((com.damuzhi.travel.protos.PlaceListProtos.HotelRoom)other);
+        } else {
+          super.mergeFrom(other);
+          return this;
+        }
+      }
+      
+      public Builder mergeFrom(com.damuzhi.travel.protos.PlaceListProtos.HotelRoom other) {
+        if (other == com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.getDefaultInstance()) return this;
+        if (other.hasRoomId()) {
+          setRoomId(other.getRoomId());
+        }
+        if (other.hasName()) {
+          setName(other.getName());
+        }
+        if (other.hasBreakfast()) {
+          setBreakfast(other.getBreakfast());
+        }
+        if (other.hasPrice()) {
+          setPrice(other.getPrice());
+        }
+        this.mergeUnknownFields(other.getUnknownFields());
+        return this;
+      }
+      
+      public final boolean isInitialized() {
+        if (!hasRoomId()) {
+          
+          return false;
+        }
+        if (!hasName()) {
+          
+          return false;
+        }
+        return true;
+      }
+      
+      public Builder mergeFrom(
+          com.google.protobuf.CodedInputStream input,
+          com.google.protobuf.ExtensionRegistryLite extensionRegistry)
+          throws java.io.IOException {
+        com.google.protobuf.UnknownFieldSet.Builder unknownFields =
+          com.google.protobuf.UnknownFieldSet.newBuilder(
+            this.getUnknownFields());
+        while (true) {
+          int tag = input.readTag();
+          switch (tag) {
+            case 0:
+              this.setUnknownFields(unknownFields.build());
+              onChanged();
+              return this;
+            default: {
+              if (!parseUnknownField(input, unknownFields,
+                                     extensionRegistry, tag)) {
+                this.setUnknownFields(unknownFields.build());
+                onChanged();
+                return this;
+              }
+              break;
+            }
+            case 8: {
+              bitField0_ |= 0x00000001;
+              roomId_ = input.readInt32();
+              break;
+            }
+            case 18: {
+              bitField0_ |= 0x00000002;
+              name_ = input.readBytes();
+              break;
+            }
+            case 26: {
+              bitField0_ |= 0x00000004;
+              breakfast_ = input.readBytes();
+              break;
+            }
+            case 34: {
+              bitField0_ |= 0x00000008;
+              price_ = input.readBytes();
+              break;
+            }
+          }
+        }
+      }
+      
+      private int bitField0_;
+      
+      // required int32 roomId = 1;
+      private int roomId_ ;
+      public boolean hasRoomId() {
+        return ((bitField0_ & 0x00000001) == 0x00000001);
+      }
+      public int getRoomId() {
+        return roomId_;
+      }
+      public Builder setRoomId(int value) {
+        bitField0_ |= 0x00000001;
+        roomId_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearRoomId() {
+        bitField0_ = (bitField0_ & ~0x00000001);
+        roomId_ = 0;
+        onChanged();
+        return this;
+      }
+      
+      // required string name = 2;
+      private java.lang.Object name_ = "";
+      public boolean hasName() {
+        return ((bitField0_ & 0x00000002) == 0x00000002);
+      }
+      public String getName() {
+        java.lang.Object ref = name_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          name_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setName(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearName() {
+        bitField0_ = (bitField0_ & ~0x00000002);
+        name_ = getDefaultInstance().getName();
+        onChanged();
+        return this;
+      }
+      void setName(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000002;
+        name_ = value;
+        onChanged();
+      }
+      
+      // optional string breakfast = 3;
+      private java.lang.Object breakfast_ = "";
+      public boolean hasBreakfast() {
+        return ((bitField0_ & 0x00000004) == 0x00000004);
+      }
+      public String getBreakfast() {
+        java.lang.Object ref = breakfast_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          breakfast_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setBreakfast(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000004;
+        breakfast_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearBreakfast() {
+        bitField0_ = (bitField0_ & ~0x00000004);
+        breakfast_ = getDefaultInstance().getBreakfast();
+        onChanged();
+        return this;
+      }
+      void setBreakfast(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000004;
+        breakfast_ = value;
+        onChanged();
+      }
+      
+      // optional string price = 4;
+      private java.lang.Object price_ = "";
+      public boolean hasPrice() {
+        return ((bitField0_ & 0x00000008) == 0x00000008);
+      }
+      public String getPrice() {
+        java.lang.Object ref = price_;
+        if (!(ref instanceof String)) {
+          String s = ((com.google.protobuf.ByteString) ref).toStringUtf8();
+          price_ = s;
+          return s;
+        } else {
+          return (String) ref;
+        }
+      }
+      public Builder setPrice(String value) {
+        if (value == null) {
+    throw new NullPointerException();
+  }
+  bitField0_ |= 0x00000008;
+        price_ = value;
+        onChanged();
+        return this;
+      }
+      public Builder clearPrice() {
+        bitField0_ = (bitField0_ & ~0x00000008);
+        price_ = getDefaultInstance().getPrice();
+        onChanged();
+        return this;
+      }
+      void setPrice(com.google.protobuf.ByteString value) {
+        bitField0_ |= 0x00000008;
+        price_ = value;
+        onChanged();
+      }
+      
+      // @@protoc_insertion_point(builder_scope:damuzhi.HotelRoom)
+    }
+    
+    static {
+      defaultInstance = new HotelRoom(true);
+      defaultInstance.initFields();
+    }
+    
+    // @@protoc_insertion_point(class_scope:damuzhi.HotelRoom)
+  }
+  
   public interface PlaceOrBuilder
       extends com.google.protobuf.MessageOrBuilder {
     
@@ -132,6 +768,16 @@ public final class PlaceListProtos {
     // optional int32 hasDiscount = 61;
     boolean hasHasDiscount();
     int getHasDiscount();
+    
+    // repeated .damuzhi.HotelRoom rooms = 70;
+    java.util.List<com.damuzhi.travel.protos.PlaceListProtos.HotelRoom> 
+        getRoomsList();
+    com.damuzhi.travel.protos.PlaceListProtos.HotelRoom getRooms(int index);
+    int getRoomsCount();
+    java.util.List<? extends com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder> 
+        getRoomsOrBuilderList();
+    com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder getRoomsOrBuilder(
+        int index);
   }
   public static final class Place extends
       com.google.protobuf.GeneratedMessage
@@ -718,6 +1364,27 @@ public final class PlaceListProtos {
       return hasDiscount_;
     }
     
+    // repeated .damuzhi.HotelRoom rooms = 70;
+    public static final int ROOMS_FIELD_NUMBER = 70;
+    private java.util.List<com.damuzhi.travel.protos.PlaceListProtos.HotelRoom> rooms_;
+    public java.util.List<com.damuzhi.travel.protos.PlaceListProtos.HotelRoom> getRoomsList() {
+      return rooms_;
+    }
+    public java.util.List<? extends com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder> 
+        getRoomsOrBuilderList() {
+      return rooms_;
+    }
+    public int getRoomsCount() {
+      return rooms_.size();
+    }
+    public com.damuzhi.travel.protos.PlaceListProtos.HotelRoom getRooms(int index) {
+      return rooms_.get(index);
+    }
+    public com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder getRoomsOrBuilder(
+        int index) {
+      return rooms_.get(index);
+    }
+    
     private void initFields() {
       placeId_ = 0;
       cityId_ = 0;
@@ -748,6 +1415,7 @@ public final class PlaceListProtos {
       parkingGuide_ = "";
       placeFavoriteCount_ = 0;
       hasDiscount_ = 0;
+      rooms_ = java.util.Collections.emptyList();
     }
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
@@ -789,6 +1457,12 @@ public final class PlaceListProtos {
       if (!hasIntroduction()) {
         memoizedIsInitialized = 0;
         return false;
+      }
+      for (int i = 0; i < getRoomsCount(); i++) {
+        if (!getRooms(i).isInitialized()) {
+          memoizedIsInitialized = 0;
+          return false;
+        }
       }
       memoizedIsInitialized = 1;
       return true;
@@ -883,6 +1557,9 @@ public final class PlaceListProtos {
       }
       if (((bitField0_ & 0x00400000) == 0x00400000)) {
         output.writeInt32(61, hasDiscount_);
+      }
+      for (int i = 0; i < rooms_.size(); i++) {
+        output.writeMessage(70, rooms_.get(i));
       }
       getUnknownFields().writeTo(output);
     }
@@ -1039,6 +1716,10 @@ public final class PlaceListProtos {
         size += com.google.protobuf.CodedOutputStream
           .computeInt32Size(61, hasDiscount_);
       }
+      for (int i = 0; i < rooms_.size(); i++) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeMessageSize(70, rooms_.get(i));
+      }
       size += getUnknownFields().getSerializedSize();
       memoizedSerializedSize = size;
       return size;
@@ -1155,6 +1836,7 @@ public final class PlaceListProtos {
       }
       private void maybeForceBuilderInitialization() {
         if (com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders) {
+          getRoomsFieldBuilder();
         }
       }
       private static Builder create() {
@@ -1221,6 +1903,12 @@ public final class PlaceListProtos {
         bitField0_ = (bitField0_ & ~0x08000000);
         hasDiscount_ = 0;
         bitField0_ = (bitField0_ & ~0x10000000);
+        if (roomsBuilder_ == null) {
+          rooms_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x20000000);
+        } else {
+          roomsBuilder_.clear();
+        }
         return this;
       }
       
@@ -1386,6 +2074,15 @@ public final class PlaceListProtos {
           to_bitField0_ |= 0x00400000;
         }
         result.hasDiscount_ = hasDiscount_;
+        if (roomsBuilder_ == null) {
+          if (((bitField0_ & 0x20000000) == 0x20000000)) {
+            rooms_ = java.util.Collections.unmodifiableList(rooms_);
+            bitField0_ = (bitField0_ & ~0x20000000);
+          }
+          result.rooms_ = rooms_;
+        } else {
+          result.rooms_ = roomsBuilder_.build();
+        }
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -1531,6 +2228,32 @@ public final class PlaceListProtos {
         if (other.hasHasDiscount()) {
           setHasDiscount(other.getHasDiscount());
         }
+        if (roomsBuilder_ == null) {
+          if (!other.rooms_.isEmpty()) {
+            if (rooms_.isEmpty()) {
+              rooms_ = other.rooms_;
+              bitField0_ = (bitField0_ & ~0x20000000);
+            } else {
+              ensureRoomsIsMutable();
+              rooms_.addAll(other.rooms_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.rooms_.isEmpty()) {
+            if (roomsBuilder_.isEmpty()) {
+              roomsBuilder_.dispose();
+              roomsBuilder_ = null;
+              rooms_ = other.rooms_;
+              bitField0_ = (bitField0_ & ~0x20000000);
+              roomsBuilder_ = 
+                com.google.protobuf.GeneratedMessage.alwaysUseFieldBuilders ?
+                   getRoomsFieldBuilder() : null;
+            } else {
+              roomsBuilder_.addAllMessages(other.rooms_);
+            }
+          }
+        }
         this.mergeUnknownFields(other.getUnknownFields());
         return this;
       }
@@ -1571,6 +2294,12 @@ public final class PlaceListProtos {
         if (!hasIntroduction()) {
           
           return false;
+        }
+        for (int i = 0; i < getRoomsCount(); i++) {
+          if (!getRooms(i).isInitialized()) {
+            
+            return false;
+          }
         }
         return true;
       }
@@ -1750,6 +2479,12 @@ public final class PlaceListProtos {
             case 488: {
               bitField0_ |= 0x10000000;
               hasDiscount_ = input.readInt32();
+              break;
+            }
+            case 562: {
+              com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder subBuilder = com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.newBuilder();
+              input.readMessage(subBuilder, extensionRegistry);
+              addRooms(subBuilder.buildPartial());
               break;
             }
           }
@@ -2729,6 +3464,192 @@ public final class PlaceListProtos {
         hasDiscount_ = 0;
         onChanged();
         return this;
+      }
+      
+      // repeated .damuzhi.HotelRoom rooms = 70;
+      private java.util.List<com.damuzhi.travel.protos.PlaceListProtos.HotelRoom> rooms_ =
+        java.util.Collections.emptyList();
+      private void ensureRoomsIsMutable() {
+        if (!((bitField0_ & 0x20000000) == 0x20000000)) {
+          rooms_ = new java.util.ArrayList<com.damuzhi.travel.protos.PlaceListProtos.HotelRoom>(rooms_);
+          bitField0_ |= 0x20000000;
+         }
+      }
+      
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.PlaceListProtos.HotelRoom, com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder, com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder> roomsBuilder_;
+      
+      public java.util.List<com.damuzhi.travel.protos.PlaceListProtos.HotelRoom> getRoomsList() {
+        if (roomsBuilder_ == null) {
+          return java.util.Collections.unmodifiableList(rooms_);
+        } else {
+          return roomsBuilder_.getMessageList();
+        }
+      }
+      public int getRoomsCount() {
+        if (roomsBuilder_ == null) {
+          return rooms_.size();
+        } else {
+          return roomsBuilder_.getCount();
+        }
+      }
+      public com.damuzhi.travel.protos.PlaceListProtos.HotelRoom getRooms(int index) {
+        if (roomsBuilder_ == null) {
+          return rooms_.get(index);
+        } else {
+          return roomsBuilder_.getMessage(index);
+        }
+      }
+      public Builder setRooms(
+          int index, com.damuzhi.travel.protos.PlaceListProtos.HotelRoom value) {
+        if (roomsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRoomsIsMutable();
+          rooms_.set(index, value);
+          onChanged();
+        } else {
+          roomsBuilder_.setMessage(index, value);
+        }
+        return this;
+      }
+      public Builder setRooms(
+          int index, com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder builderForValue) {
+        if (roomsBuilder_ == null) {
+          ensureRoomsIsMutable();
+          rooms_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          roomsBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addRooms(com.damuzhi.travel.protos.PlaceListProtos.HotelRoom value) {
+        if (roomsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRoomsIsMutable();
+          rooms_.add(value);
+          onChanged();
+        } else {
+          roomsBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      public Builder addRooms(
+          int index, com.damuzhi.travel.protos.PlaceListProtos.HotelRoom value) {
+        if (roomsBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureRoomsIsMutable();
+          rooms_.add(index, value);
+          onChanged();
+        } else {
+          roomsBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      public Builder addRooms(
+          com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder builderForValue) {
+        if (roomsBuilder_ == null) {
+          ensureRoomsIsMutable();
+          rooms_.add(builderForValue.build());
+          onChanged();
+        } else {
+          roomsBuilder_.addMessage(builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addRooms(
+          int index, com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder builderForValue) {
+        if (roomsBuilder_ == null) {
+          ensureRoomsIsMutable();
+          rooms_.add(index, builderForValue.build());
+          onChanged();
+        } else {
+          roomsBuilder_.addMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      public Builder addAllRooms(
+          java.lang.Iterable<? extends com.damuzhi.travel.protos.PlaceListProtos.HotelRoom> values) {
+        if (roomsBuilder_ == null) {
+          ensureRoomsIsMutable();
+          super.addAll(values, rooms_);
+          onChanged();
+        } else {
+          roomsBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      public Builder clearRooms() {
+        if (roomsBuilder_ == null) {
+          rooms_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x20000000);
+          onChanged();
+        } else {
+          roomsBuilder_.clear();
+        }
+        return this;
+      }
+      public Builder removeRooms(int index) {
+        if (roomsBuilder_ == null) {
+          ensureRoomsIsMutable();
+          rooms_.remove(index);
+          onChanged();
+        } else {
+          roomsBuilder_.remove(index);
+        }
+        return this;
+      }
+      public com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder getRoomsBuilder(
+          int index) {
+        return getRoomsFieldBuilder().getBuilder(index);
+      }
+      public com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder getRoomsOrBuilder(
+          int index) {
+        if (roomsBuilder_ == null) {
+          return rooms_.get(index);  } else {
+          return roomsBuilder_.getMessageOrBuilder(index);
+        }
+      }
+      public java.util.List<? extends com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder> 
+           getRoomsOrBuilderList() {
+        if (roomsBuilder_ != null) {
+          return roomsBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(rooms_);
+        }
+      }
+      public com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder addRoomsBuilder() {
+        return getRoomsFieldBuilder().addBuilder(
+            com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.getDefaultInstance());
+      }
+      public com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder addRoomsBuilder(
+          int index) {
+        return getRoomsFieldBuilder().addBuilder(
+            index, com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.getDefaultInstance());
+      }
+      public java.util.List<com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder> 
+           getRoomsBuilderList() {
+        return getRoomsFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilder<
+          com.damuzhi.travel.protos.PlaceListProtos.HotelRoom, com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder, com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder> 
+          getRoomsFieldBuilder() {
+        if (roomsBuilder_ == null) {
+          roomsBuilder_ = new com.google.protobuf.RepeatedFieldBuilder<
+              com.damuzhi.travel.protos.PlaceListProtos.HotelRoom, com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder, com.damuzhi.travel.protos.PlaceListProtos.HotelRoomOrBuilder>(
+                  rooms_,
+                  ((bitField0_ & 0x20000000) == 0x20000000),
+                  getParentForChildren(),
+                  isClean());
+          rooms_ = null;
+        }
+        return roomsBuilder_;
       }
       
       // @@protoc_insertion_point(builder_scope:damuzhi.Place)
@@ -5012,6 +5933,11 @@ public final class PlaceListProtos {
   }
   
   private static com.google.protobuf.Descriptors.Descriptor
+    internal_static_damuzhi_HotelRoom_descriptor;
+  private static
+    com.google.protobuf.GeneratedMessage.FieldAccessorTable
+      internal_static_damuzhi_HotelRoom_fieldAccessorTable;
+  private static com.google.protobuf.Descriptors.Descriptor
     internal_static_damuzhi_Place_descriptor;
   private static
     com.google.protobuf.GeneratedMessage.FieldAccessorTable
@@ -5040,45 +5966,56 @@ public final class PlaceListProtos {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\013Place.proto\022\007damuzhi\"\261\004\n\005Place\022\017\n\007plac" +
-      "eId\030\001 \002(\005\022\016\n\006cityId\030\002 \001(\005\022\022\n\ncategoryId\030" +
-      "\003 \002(\005\022\025\n\rsubCategoryId\030\004 \002(\005\022\014\n\004name\030\005 \002" +
-      "(\t\022\014\n\004rank\030\006 \002(\005\022\031\n\021providedServiceId\030\007 " +
-      "\003(\005\022\021\n\tlongitude\030\013 \002(\001\022\020\n\010latitude\030\014 \002(\001" +
-      "\022\016\n\006areaId\030\r \001(\005\022\r\n\005price\030\025 \001(\t\022\020\n\010avgPr" +
-      "ice\030\026 \001(\t\022\021\n\tpriceRank\030\027 \001(\005\022\014\n\004icon\030\037 \002" +
-      "(\t\022\016\n\006images\030  \003(\t\022\024\n\014introduction\030! \002(\t" +
-      "\022\026\n\016transportation\030\" \001(\t\022\021\n\ttelephone\030# " +
-      "\003(\t\022\017\n\007address\030$ \003(\t\022\017\n\007website\030% \001(\t\022\030\n",
-      "\020priceDescription\030& \001(\t\022\020\n\010openTime\030\' \001(" +
-      "\t\022\014\n\004tips\030( \001(\t\022\020\n\010keywords\030) \003(\t\022\025\n\rtyp" +
-      "icalDishes\030* \003(\t\022\021\n\thotelStar\030+ \001(\005\022\024\n\014p" +
-      "arkingGuide\030, \001(\t\022\032\n\022placeFavoriteCount\030" +
-      "< \001(\005\022\023\n\013hasDiscount\030= \001(\005\"9\n\tPlaceList\022" +
-      "\034\n\004list\030\001 \003(\0132\016.damuzhi.Place\022\016\n\006cityId\030" +
-      "\002 \001(\005\"5\n\nStatistics\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030" +
-      "\002 \002(\t\022\r\n\005count\030\003 \002(\005\"\231\001\n\017PlaceStatistics" +
-      "\022/\n\022subCategoryStatics\030\001 \003(\0132\023.damuzhi.S" +
-      "tatistics\022(\n\013areaStatics\030\002 \003(\0132\023.damuzhi",
-      ".Statistics\022+\n\016serviceStatics\030\003 \003(\0132\023.da" +
-      "muzhi.StatisticsB,\n\031com.damuzhi.travel.p" +
-      "rotosB\017PlaceListProtos"
+      "\n\013Place.proto\022\007damuzhi\"K\n\tHotelRoom\022\016\n\006r" +
+      "oomId\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\022\021\n\tbreakfast\030\003" +
+      " \001(\t\022\r\n\005price\030\004 \001(\t\"\324\004\n\005Place\022\017\n\007placeId" +
+      "\030\001 \002(\005\022\016\n\006cityId\030\002 \001(\005\022\022\n\ncategoryId\030\003 \002" +
+      "(\005\022\025\n\rsubCategoryId\030\004 \002(\005\022\014\n\004name\030\005 \002(\t\022" +
+      "\014\n\004rank\030\006 \002(\005\022\031\n\021providedServiceId\030\007 \003(\005" +
+      "\022\021\n\tlongitude\030\013 \002(\001\022\020\n\010latitude\030\014 \002(\001\022\016\n" +
+      "\006areaId\030\r \001(\005\022\r\n\005price\030\025 \001(\t\022\020\n\010avgPrice" +
+      "\030\026 \001(\t\022\021\n\tpriceRank\030\027 \001(\005\022\014\n\004icon\030\037 \002(\t\022" +
+      "\016\n\006images\030  \003(\t\022\024\n\014introduction\030! \002(\t\022\026\n",
+      "\016transportation\030\" \001(\t\022\021\n\ttelephone\030# \003(\t" +
+      "\022\017\n\007address\030$ \003(\t\022\017\n\007website\030% \001(\t\022\030\n\020pr" +
+      "iceDescription\030& \001(\t\022\020\n\010openTime\030\' \001(\t\022\014" +
+      "\n\004tips\030( \001(\t\022\020\n\010keywords\030) \003(\t\022\025\n\rtypica" +
+      "lDishes\030* \003(\t\022\021\n\thotelStar\030+ \001(\005\022\024\n\014park" +
+      "ingGuide\030, \001(\t\022\032\n\022placeFavoriteCount\030< \001" +
+      "(\005\022\023\n\013hasDiscount\030= \001(\005\022!\n\005rooms\030F \003(\0132\022" +
+      ".damuzhi.HotelRoom\"9\n\tPlaceList\022\034\n\004list\030" +
+      "\001 \003(\0132\016.damuzhi.Place\022\016\n\006cityId\030\002 \001(\005\"5\n" +
+      "\nStatistics\022\n\n\002id\030\001 \002(\005\022\014\n\004name\030\002 \002(\t\022\r\n",
+      "\005count\030\003 \002(\005\"\231\001\n\017PlaceStatistics\022/\n\022subC" +
+      "ategoryStatics\030\001 \003(\0132\023.damuzhi.Statistic" +
+      "s\022(\n\013areaStatics\030\002 \003(\0132\023.damuzhi.Statist" +
+      "ics\022+\n\016serviceStatics\030\003 \003(\0132\023.damuzhi.St" +
+      "atisticsB%\n\022com.damuzhi.travel.protosB\017PlaceLis" +
+      "tProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
         public com.google.protobuf.ExtensionRegistry assignDescriptors(
             com.google.protobuf.Descriptors.FileDescriptor root) {
           descriptor = root;
-          internal_static_damuzhi_Place_descriptor =
+          internal_static_damuzhi_HotelRoom_descriptor =
             getDescriptor().getMessageTypes().get(0);
+          internal_static_damuzhi_HotelRoom_fieldAccessorTable = new
+            com.google.protobuf.GeneratedMessage.FieldAccessorTable(
+              internal_static_damuzhi_HotelRoom_descriptor,
+              new java.lang.String[] { "RoomId", "Name", "Breakfast", "Price", },
+              com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.class,
+              com.damuzhi.travel.protos.PlaceListProtos.HotelRoom.Builder.class);
+          internal_static_damuzhi_Place_descriptor =
+            getDescriptor().getMessageTypes().get(1);
           internal_static_damuzhi_Place_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_Place_descriptor,
-              new java.lang.String[] { "PlaceId", "CityId", "CategoryId", "SubCategoryId", "Name", "Rank", "ProvidedServiceId", "Longitude", "Latitude", "AreaId", "Price", "AvgPrice", "PriceRank", "Icon", "Images", "Introduction", "Transportation", "Telephone", "Address", "Website", "PriceDescription", "OpenTime", "Tips", "Keywords", "TypicalDishes", "HotelStar", "ParkingGuide", "PlaceFavoriteCount", "HasDiscount", },
+              new java.lang.String[] { "PlaceId", "CityId", "CategoryId", "SubCategoryId", "Name", "Rank", "ProvidedServiceId", "Longitude", "Latitude", "AreaId", "Price", "AvgPrice", "PriceRank", "Icon", "Images", "Introduction", "Transportation", "Telephone", "Address", "Website", "PriceDescription", "OpenTime", "Tips", "Keywords", "TypicalDishes", "HotelStar", "ParkingGuide", "PlaceFavoriteCount", "HasDiscount", "Rooms", },
               com.damuzhi.travel.protos.PlaceListProtos.Place.class,
               com.damuzhi.travel.protos.PlaceListProtos.Place.Builder.class);
           internal_static_damuzhi_PlaceList_descriptor =
-            getDescriptor().getMessageTypes().get(1);
+            getDescriptor().getMessageTypes().get(2);
           internal_static_damuzhi_PlaceList_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_PlaceList_descriptor,
@@ -5086,7 +6023,7 @@ public final class PlaceListProtos {
               com.damuzhi.travel.protos.PlaceListProtos.PlaceList.class,
               com.damuzhi.travel.protos.PlaceListProtos.PlaceList.Builder.class);
           internal_static_damuzhi_Statistics_descriptor =
-            getDescriptor().getMessageTypes().get(2);
+            getDescriptor().getMessageTypes().get(3);
           internal_static_damuzhi_Statistics_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_Statistics_descriptor,
@@ -5094,7 +6031,7 @@ public final class PlaceListProtos {
               com.damuzhi.travel.protos.PlaceListProtos.Statistics.class,
               com.damuzhi.travel.protos.PlaceListProtos.Statistics.Builder.class);
           internal_static_damuzhi_PlaceStatistics_descriptor =
-            getDescriptor().getMessageTypes().get(3);
+            getDescriptor().getMessageTypes().get(4);
           internal_static_damuzhi_PlaceStatistics_fieldAccessorTable = new
             com.google.protobuf.GeneratedMessage.FieldAccessorTable(
               internal_static_damuzhi_PlaceStatistics_descriptor,

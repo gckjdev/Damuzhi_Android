@@ -24,6 +24,7 @@ import com.damuzhi.travel.protos.AppProtos.Agency;
 import com.damuzhi.travel.protos.AppProtos.App;
 import com.damuzhi.travel.protos.AppProtos.City;
 import com.damuzhi.travel.protos.AppProtos.CityArea;
+import com.damuzhi.travel.protos.AppProtos.CityLocationInfo;
 import com.damuzhi.travel.protos.AppProtos.HelpInfo;
 import com.damuzhi.travel.protos.AppProtos.NameIdPair;
 import com.damuzhi.travel.protos.AppProtos.PlaceCategoryType;
@@ -963,6 +964,27 @@ public class AppManager
 			}
 		}
 		return countryName;
+	}
+	
+	
+	public List<CityLocationInfo> getCityLocationInfoById(int cityId)
+	{
+		/*CityLocationInfo.Builder builder = CityLocationInfo.newBuilder();
+		builder.setCityName("Guangzhou");
+		builder.setLatitude(23.7726);
+		builder.setLongitude(113.5576);
+		List<CityLocationInfo> cityLocationInfo = new ArrayList<CityLocationInfo>();
+		cityLocationInfo.add(builder.build());*/
+		List<CityLocationInfo> cityLocationInfo = null;
+		if(app!=null)
+		{
+			City city = getCityByCityId(cityId);
+			if(city!=null){
+				cityLocationInfo = city.getLocationInfoList();
+			}
+		}
+		
+		return cityLocationInfo;
 	}
 	
 }

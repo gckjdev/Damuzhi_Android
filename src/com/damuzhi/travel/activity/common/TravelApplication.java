@@ -48,8 +48,10 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.damuzhi.travel.model.constant.ConstantField;
+import com.damuzhi.travel.model.favorite.FavoriteManager;
 import com.damuzhi.travel.network.HttpTool;
 import com.damuzhi.travel.R;
+import com.loopj.android.http.AsyncHttpClient;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.cache.memory.impl.UsingFreqLimitedMemoryCache;
@@ -66,7 +68,7 @@ import com.nostra13.universalimageloader.utils.StorageUtils;
 public class TravelApplication extends Application
 {
 	private static final String TAG = "TravelApplication";
-	private HttpClient httpClient;
+	//private HttpClient httpClient;
 	private static HashMap<String, Double> location = new HashMap<String, Double>();	
 	private static TravelApplication travelApplication;
 	//public LocationClient mLocationClient = null;
@@ -74,6 +76,7 @@ public class TravelApplication extends Application
 	public String address = "";
 	//public BDLocation bdLocation;
 	public Map<String, Integer> downloadStatusMap = new HashMap<String, Integer>();
+	private Map<Integer, Integer> favoritePlaceMap = new HashMap<Integer, Integer>();
 	public String deviceId;
 	public  Map<Integer, Integer> installCityData;
 	public  Map<Integer, String> newVersionCityData;
@@ -81,6 +84,7 @@ public class TravelApplication extends Application
 	private String loginID = "";
 	private boolean cityFlag = false;
 	private static TravelApplication instance;
+	private AsyncHttpClient asyncHttpClient;
 	public static TravelApplication getInstance()
 	{
 		if(instance == null)
@@ -102,8 +106,10 @@ public class TravelApplication extends Application
 		mLocationClient.registerLocationListener( myListener );*/
 		TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
 		deviceId = tm.getDeviceId();
-		httpClient = createHttpClient();
-
+		//httpClient = createHttpClient();
+		asyncHttpClient = new AsyncHttpClient();
+		FavoriteManager favoriteManager = new FavoriteManager();
+		favoritePlaceMap = favoriteManager.getFavoritePlace();
 		
 		File cacheDir = StorageUtils.getOwnCacheDirectory(getApplicationContext(), "damuzhi/cahce");
 		int minCacheMemory = 4;
@@ -148,7 +154,7 @@ public class TravelApplication extends Application
 		           //.imageDownloader(new URLConnectionImageDownloader(5 * 1000, 20 * 1000)) // connectTimeout (5 s), readTimeout (20 s)
 		           // .tasksProcessingOrder(QueueProcessingType.FIFO)
 		            .defaultDisplayImageOptions(options)
-		            .enableLogging()
+		            //.enableLogging()
 		            .build();
 		// Initialize ImageLoader with created configuration. Do it once on Application start.
 		imageLoader.init(config);
@@ -170,11 +176,11 @@ public class TravelApplication extends Application
 		shutdownHttpClient();
 	}
 	
-	public HttpClient getHttpClient()
+	/*public HttpClient getHttpClient()
 	{
 		return httpClient;
 	}
-	
+*/	
 	private HttpClient createHttpClient()
 	{
 		Log.d(TAG, "createHttpClient()......");
@@ -195,10 +201,10 @@ public class TravelApplication extends Application
 	
 	private void shutdownHttpClient()
 	{
-		if(httpClient !=null && httpClient.getConnectionManager() !=null)
+		/*if(httpClient !=null && httpClient.getConnectionManager() !=null)
 		{
 			httpClient.getConnectionManager().shutdown();
-		}
+		}*/
 	}
 	 
  
@@ -331,69 +337,7 @@ public class TravelApplication extends Application
 		 return location;
 	}
 		
-/*	private String getLocationAddress(double latitude,double longitude) {
-		String resultString = "";
-		String urlString = String.format("http://maps.google.cn/maps/geo?key=abcdefg&q=%s,%s", latitude, longitude);
-		Log.i("URL", urlString);
-		HttpClient client = new DefaultHttpClient();
-		HttpGet get = new HttpGet(urlString);
-		try {
-		HttpResponse response = client.execute(get);
-		HttpEntity entity = response.getEntity();
-		BufferedReader buffReader = new BufferedReader(new InputStreamReader(entity.getContent()));
-		StringBuffer strBuff = new StringBuffer();
-		String result = null;
-		while ((result = buffReader.readLine()) != null) {
-			strBuff.append(result);
-		}
-		resultString = strBuff.toString();
-		Log.d(TAG, "google address = "+resultString);
-		if (resultString != null && resultString.length() > 0) {
-			JSONObject jsonobject = new JSONObject(resultString);
-			JSONArray jsonArray = new JSONArray(jsonobject.get("Placemark").toString());
-			resultString = "";
-			for (int i = 0; i < jsonArray.length(); i++) {
-				resultString = jsonArray.getJSONObject(i).getString("address");
-			}
-		}
-		} catch (Exception e) {
-		} finally {
-		get.abort();
-		client = null;
-		}
-		
-		return resultString;
-		}
-	
-	
-	 public  void getCoordinate(String addr)  
-	 {  
-	     String address = null;  
-	     try{
-			address = java.net.URLEncoder.encode(addr,"UTF-8");  
-	        String output = "csv";  
-	        String key = "abc";  
-	        String url = String.format("http://maps.google.com/maps/geo?q=%s&output=%s&key=%s", address, output, key);  
-	        URL myURL = null;  
-	        URLConnection httpsConn = null;  
-	        myURL = new URL(url);  
-	        httpsConn = myURL.openConnection();  
-	        if (httpsConn != null) {  
-	        	InputStreamReader insr = new InputStreamReader(httpsConn.getInputStream(), "UTF-8");  
-	        	BufferedReader br = new BufferedReader(insr);  
-	        	String data = null;  
-	        	if ((data = br.readLine()) != null) {   
-	        		String[] retList = data.split(",");  	      
-	        		double latitude = Double.parseDouble(retList[2]); 
-	        		double longitude = Double.parseDouble(retList[3]); 
-	        		initLocation(latitude, longitude);
-	        		}  
-	        	insr.close();  
-	        	}  
-	     	} catch (Exception e) {  
-	     		Log.e(TAG, "<getCoordinate> but catch exception = "+e.toString(),e);
-	     	}        
-	 }  */
+
 	 
 	 
 	 public String getDeviceId()
@@ -479,6 +423,29 @@ public class TravelApplication extends Application
 	public void setCityFlag(boolean cityFlag)
 	{
 		this.cityFlag = cityFlag;
+	}
+
+
+
+
+	/**  
+	        * @return  
+	        * @description   
+	        * @version 1.0  
+	        * @author liuxiaokun  
+	        * @update 2012-12-6 下午1:56:50  
+	*/
+	public AsyncHttpClient getAsyncHttpClient()
+	{
+		return asyncHttpClient;
+	}
+
+
+
+
+	public Map<Integer, Integer> getFavoritePlaceMap()
+	{
+		return favoritePlaceMap;
 	}
 
 

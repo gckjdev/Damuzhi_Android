@@ -89,13 +89,14 @@ public class ConstantField
 	
 	
 	
+	//public static final String APP = TEST_HTTP_URL+"service/queryList.aspx?type=10&lang=%s&os=2";
 	/*public static final String QUERY_OBJECT = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACE_INFO = TEST_HTTP_URL+"service/queryPlace.aspx?userId=%s&placeId=%s";
 	public static final String FEED_BACK = TEST_HTTP_URL+"service/feedback.aspx?userId=%s&contact=%s&content=%s";
 	public static final String OVERVIEW = TEST_HTTP_URL+"service/queryObject.aspx?type=%s&id=%s&lang=%s";
 	public static final String PLACElIST = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&lang=%s";
 	public static final String PLACE_LIST_NEARBY = TEST_HTTP_URL+"service/queryList.aspx?type=%s&cityId=%s&placeId=%s&latitude=%s&longitude=%s&num=%s&distance=%s&lang=%s&os=%s";
-	public static final String APP = TEST_HTTP_URL+"service/queryList.aspx?type=10&lang=%s&os=2";
+	
 	public static final String HELP = TEST_HTTP_URL+"service/queryObject.aspx?type=8&lang=%s";
 	public static final String ANDROID_VERSION = TEST_HTTP_URL+"service/androidVersion.txt";
 	public static final String NEARBY_LIST = TEST_HTTP_URL+"service/nearby.aspx?type=%s&cityId=%s&latitude=%s&longitude=%s&distance=%s&deviceId=%s&start=%s&count=%s";

@@ -33,6 +33,7 @@ import com.damuzhi.travel.activity.common.location.LocationMager;
 import com.damuzhi.travel.activity.common.location.LocationUtil;
 import com.damuzhi.travel.activity.more.OpenCityActivity;
 import com.damuzhi.travel.activity.place.CommonPlaceActivity;
+import com.damuzhi.travel.db.AppPreference;
 import com.damuzhi.travel.download.DownloadService;
 import com.damuzhi.travel.mission.app.AppMission;
 import com.damuzhi.travel.mission.common.HelpMission;
@@ -46,6 +47,7 @@ import com.damuzhi.travel.protos.PlaceListProtos.Place;
 import com.damuzhi.travel.util.FileUtil;
 import com.damuzhi.travel.util.ZipUtil;
 import com.damuzhi.travel.R;
+import com.umeng.analytics.MobclickAgent;
 public class WelcomeActivity extends MenuActivity
 {	
 	private static final String TAG = "WelcomeActivity";
@@ -61,6 +63,8 @@ public class WelcomeActivity extends MenuActivity
 		bundle = getIntent().getBundleExtra("notify");
 		locationMager = new LocationMager(WelcomeActivity.this);
 		locationMager.getLocation();
+		Intent intent = new Intent(WelcomeActivity.this, DownloadService.class);
+		startService(intent);
 		init();
 	}
 	
@@ -119,7 +123,15 @@ public class WelcomeActivity extends MenuActivity
 	
 	private void initAPPdata()
 	{
-		AppMission.getInstance().updateAppData(WelcomeActivity.this);
+		AppPreference appPreference = new AppPreference();
+		long updateTime = appPreference.getLastUpdateTime(WelcomeActivity.this);
+		long currentTime = System.currentTimeMillis();
+		long timeLimit = (currentTime-updateTime)/(3600*24);
+		if(timeLimit>12){
+			Log.d(TAG, "update app proto");
+			AppMission.getInstance().updateAppData(WelcomeActivity.this);
+		}
+		
 		//HelpMission.getInstance().updateHelpData(WelcomeActivity.this);     
 		String userId = UserManager.getInstance().getUserId(WelcomeActivity.this);		
 		String channelId="000000";  
@@ -165,6 +177,7 @@ public class WelcomeActivity extends MenuActivity
 	protected void onResume()
 	{
 		super.onResume();
+		MobclickAgent.onResume(this);
 	}
 
 
@@ -176,6 +189,15 @@ public class WelcomeActivity extends MenuActivity
 		// TODO Auto-generated method stub
 		super.onNewIntent(intent);
 		bundle = intent.getBundleExtra("notify");
+	}
+
+
+
+	@Override
+	protected void onPause()
+	{
+		super.onPause();
+		MobclickAgent.onPause(this);
 	}
 	
 	

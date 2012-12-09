@@ -188,6 +188,7 @@ public class MainActivity extends TabActivity {
 	protected void onPause()
 	{	
 		super.onPause();
+		MobclickAgent.onPause(this);
 		Log.d(TAG, "onPause");
 	}
 
@@ -197,6 +198,7 @@ public class MainActivity extends TabActivity {
 	{
 		super.onResume();
 		Log.d(TAG, "main avtivity onResume");
+		MobclickAgent.onResume(this);
 		String cityName = AppManager.getInstance().getCurrentCityName();
 		if(cityName == null||cityName.equals(""))
 		{
@@ -329,7 +331,7 @@ public class MainActivity extends TabActivity {
 				@Override
 				public void onClick(DialogInterface dialog, int which)
 				{
-					TravelApplication.getInstance().getHttpClient().getConnectionManager().shutdown();
+					//TravelApplication.getInstance().getHttpClient().getConnectionManager().shutdown();
 					AppMission.getInstance().saveCurrentCityId(MainActivity.this);
 					TravelApplication.getInstance().setToken("");
 					TravelApplication.getInstance().setLoginID("");

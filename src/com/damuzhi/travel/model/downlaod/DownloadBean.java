@@ -16,11 +16,12 @@ public class DownloadBean
 	private String downloadURL;
 	private String savePath;
 	private String tempPath;
+	private String upZipFilePath;
 	private int fileLength;
 	private int downloadLength;
-	private int threadId;
+	/*private int threadId;
 	private int status;//status 1.downloading 2. done 3.unzip 4.zipsuccess 5.success
-	
+	*/
 	
 	
 	
@@ -37,19 +38,18 @@ public class DownloadBean
 	* @param threadId
 	* @param status  
 	*/
-	public DownloadBean(int cityId, String downloadURL, String savePath,
-			String tempPath, int fileLength, int downloadLength, int threadId,
-			int status)
+	public DownloadBean(int cityId, String downloadURL, String savePath,String tempPath, String upZipFilePath,int fileLength, int downloadLength)
 	{
 		super();
 		this.cityId = cityId;
 		this.downloadURL = downloadURL;
 		this.savePath = savePath;
 		this.tempPath = tempPath;
+		this.upZipFilePath = upZipFilePath;
 		this.fileLength = fileLength;
 		this.downloadLength = downloadLength;
-		this.threadId = threadId;
-		this.status = status;
+		/*this.threadId = threadId;
+		this.status = status;*/
 	}
 	/**  
 	* Constructor Method     
@@ -84,14 +84,14 @@ public class DownloadBean
 	{
 		return downloadLength;
 	}
-	public int getThreadId()
+	/*public int getThreadId()
 	{
 		return threadId;
 	}
 	public int getStatus()
 	{
 		return status;
-	}
+	}*/
 	public void setCityId(int cityId)
 	{
 		this.cityId = cityId;
@@ -116,13 +116,21 @@ public class DownloadBean
 	{
 		this.downloadLength = downloadLength;
 	}
-	public void setThreadId(int threadId)
+	/*public void setThreadId(int threadId)
 	{
 		this.threadId = threadId;
 	}
 	public void setStatus(int status)
 	{
 		this.status = status;
+	}*/
+	public String getUpZipFilePath()
+	{
+		return upZipFilePath;
+	}
+	public void setUpZipFilePath(String upZipFilePath)
+	{
+		this.upZipFilePath = upZipFilePath;
 	}
 	
 	

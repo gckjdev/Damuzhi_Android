@@ -123,7 +123,6 @@ public class HttpInputStreamAsyncHandel extends AsyncHttpResponseHandler
 
 	   
 
-
 	    // Interface to AsyncHttpRequest
 	    void sendResponseMessage(HttpResponse response) {
 	        StatusLine status = response.getStatusLine();

@@ -1279,8 +1279,8 @@ public final class CityImageProtos {
       "\023\n\013cityImageId\030\001 \002(\005\022\013\n\003url\030\002 \001(\t\022\021\n\tint" +
       "roduce\030\003 \001(\t\022\022\n\npriceCount\030\007 \001(\005\022\016\n\006deta" +
       "il\030\n \001(\t\"7\n\rCityImageList\022&\n\ncityImages\030" +
-      "\001 \003(\0132\022.damuzhi.CityImageB,\n\031com.damuzhi" +
-      ".travel.protosB\017CityImageProtos"
+      "\001 \003(\0132\022.damuzhi.CityImageB%\n\022com.damuzhi" +
+      ".travelB\017CityImageProtos"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
       new com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner() {
